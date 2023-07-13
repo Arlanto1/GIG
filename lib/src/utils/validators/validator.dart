@@ -1,0 +1,62 @@
+import 'package:db_atom/src/routing/router.dart';
+import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+class Validator {
+  static bool emailValidation(String email) {
+    return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email);
+  }
+
+  static bool passwordValidation(String? password) {
+    return password!.length > 5;
+  }
+
+  static logoutAction(BuildContext context) {
+    // SharedData.setLoggedIn(false);
+    // SharedData.setUserId('');
+    // SharedData.setIdentifyUserId('');
+    // SharedData.setUsername('');
+    // SharedData.setManager(false);
+    // prefs.remove(Constants.isLoggedInKey);
+
+    Navigator.of(context).pushNamedAndRemoveUntil(loginScreenRoute, (route) => false);
+  }
+
+  static bool isValidEmail(String? value) {
+    if (value == null) {
+      return false;
+    }
+    const Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    final regex = RegExp(pattern as String);
+    return (!regex.hasMatch(value)) ? false : true;
+  }
+
+  static bool isValidPassword(String? password) {
+    return password != null && password.trim().isNotEmpty;
+  }
+
+  static bool isValidUserName(String? userName) {
+    return userName != null && userName.trim().isNotEmpty;
+  }
+
+ 
+//   String formatTimestamp(Timestamp timestamp) {
+//   DateTime dateTime = timestamp.toDate();
+//   String formattedTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
+//   return formattedTime;
+// }
+
+  void showToast(BuildContext context, String message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.red,
+        content: Text(message),
+        action: SnackBarAction(label: 'Ok', onPressed: scaffold.hideCurrentSnackBar, textColor: AppColors.navigationSkybluecolor,),
+      ),
+    );
+  }
+}

@@ -1,0 +1,64 @@
+import 'package:db_atom/app.dart';
+import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
+import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
+import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
+
+import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
+import 'package:db_atom/src/features/createfound/views/create_found.dart';
+import 'package:db_atom/src/features/article_found_register_module/foundlist/views/found_list_page.dart';
+import 'package:db_atom/src/features/createfound/views/create_found_attachment.dart';
+import 'package:db_atom/src/features/dashboard/views/charts/pie_chart.dart';
+import 'package:db_atom/src/features/dashboard/views/my_home_page.dart';
+import 'package:db_atom/src/features/login/views/login_view.dart';
+import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
+import 'package:db_atom/src/routing/router.dart';
+
+class RouteGenerator {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    // final args = settings.arguments;
+    // ignore: non_constant_identifier_names
+    switch (settings.name) {
+      case appRoute:
+        return MaterialPageRoute(builder: (context) => App());
+      case homePageRoute:
+        return MaterialPageRoute(builder: (context) => MyHomePage());
+      case splashScreenRoute:
+        return MaterialPageRoute(builder: (context) => SplashScreen());
+      case loginScreenRoute:
+        return MaterialPageRoute(builder: (context) => LoginView());
+
+      case createfoundScreenRoute:
+        if (settings.arguments != null) {
+          final listroutes = settings.arguments as Map<String, dynamic>;
+          if (listroutes != null) {
+             FoundListArticleDetails? listuser = listroutes["UserElement"];
+            return MaterialPageRoute(
+                builder: (context) => Createfound(listuser: listuser));
+          }
+          return MaterialPageRoute(builder: (context) => Createfound());
+        } else {
+          return MaterialPageRoute(builder: (context) => Createfound());
+        }
+
+      case addemployeedepartmentRoute:
+        return MaterialPageRoute(
+            builder: (context) => AddEmployeeDepartment(
+                  title: Constants.addemployeedepartment,
+                ));
+
+      case articleFoundListRoute:
+        return MaterialPageRoute(builder: (context) => FoundList());
+      case createFoundAttachmentRoute:
+        return MaterialPageRoute(builder: (context) => CreateFoundAttachment());
+      case piechartRoute:
+        return MaterialPageRoute(builder: (context) => PieChartApp());
+      case customexpansionlisttextsRoute:
+        return MaterialPageRoute(
+            builder: (context) => CustomExpansionListTexts());
+
+      default:
+        return MaterialPageRoute(builder: (context) => App());
+    }
+  }
+}
