@@ -314,6 +314,7 @@ class navigationDrawer1 extends StatelessWidget {
   }
 
   _onExpansionSelectItem(int index, BuildContext context) async {
+     _menuscaffoldKey.currentState!.closeDrawer();
     _opearationslastSelectedItem = index;
     print('_opearationslastSelectedItem index = $index');
     print('2 index = $_opearationslastSelectedItem');
@@ -323,12 +324,14 @@ class navigationDrawer1 extends StatelessWidget {
     if (index == 0) {
       Navigator.pushNamed(context, articleFoundListRoute);
     } else if (index == 1) {
+      Navigator.pushNamed(context, lawEnforcementListRoute);
     } else if (index == 2) {
     } else if (index == 3) {
     } else if (index == 4) {
     } else if (index == 5) {}
   }
   _onSecurityExpansionSelectItem(int index, BuildContext context) async {
+     _menuscaffoldKey.currentState!.closeDrawer();
     _securityfunfunctionslastSelectedItem = index;
     print('_securityfunfunctionslastSelectedItem index = $index');
     print('2 index = $_securityfunfunctionslastSelectedItem');
@@ -338,6 +341,7 @@ class navigationDrawer1 extends StatelessWidget {
     if (index == 0) {
       Navigator.pushNamed(context, articleFoundListRoute);
     } else if (index == 1) {
+      Navigator.pushNamed(context, lawEnforcementListRoute);
     } else if (index == 2) {
     } else if (index == 3) {
     } else if (index == 4) {
@@ -345,6 +349,11 @@ class navigationDrawer1 extends StatelessWidget {
   }
 
   _onSelectItem(int index, BuildContext context, DrawerState state) async {
+    //Navigator.pop(context)
+    if (index != 4)
+    {
+     _menuscaffoldKey.currentState!.closeDrawer();
+    }
     _lastSelectedItem = index;
     var lastindex = await SharedPrefs.setIdentifymenuindex(index);
 
@@ -352,6 +361,7 @@ class navigationDrawer1 extends StatelessWidget {
     print('2 index = $_lastSelectedItem');
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
+    
     context.read<DrawerCubit>().getindexChange(index);
     if (index != 2) {
       _opearationslastSelectedItem = 10;

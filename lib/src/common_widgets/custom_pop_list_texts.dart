@@ -10,6 +10,10 @@ import 'package:db_atom/src/features/createfound/models/create_found_request.dar
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
+import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
+import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
+import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
+import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -19,19 +23,27 @@ class CustomListTexts extends StatefulWidget {
   CustomListTexts(
       {super.key,
       this.imagename,
-      this.employeeDepartments,
-      this.articleList,
+      this.duplicateemployeeDepartments,
+      this.duplicatearticleList,
       this.onTap,
-      this.depostorList,
+      this.duplicatedepostorList,
       this.onLeftButtonTap,
-      this.leftimagename});
+      this.leftimagename,
+      this.duplicateentityList,
+      this.duplicateleodepartments,
+      this.duplicateleopurposevisits,
+      this.duplicateloadGroups});
   final String? imagename;
-  List<EmployeeDepartment>? employeeDepartments;
-  List<ArticleList>? articleList;
-  List<AtomStaticUser>? depostorList;
+  List<EmployeeDepartment>? duplicateemployeeDepartments;
+  List<ArticleList>? duplicatearticleList;
+  List<AtomEntity>? duplicateentityList;
+  List<AtomStaticUser>? duplicatedepostorList;
+  List<AtomLeoDepartment>? duplicateleodepartments;
+  List<AtomLeoPurposeVisit>? duplicateleopurposevisits;
   final Function? onTap;
   final Function? onLeftButtonTap;
   final String? leftimagename;
+  List<DistributionGroup>? duplicateloadGroups;
   @override
   State<CustomListTexts> createState() => CustomListTextsState();
 }
@@ -40,6 +52,25 @@ class CustomListTextsState extends State<CustomListTexts> {
   final _formKey = GlobalKey<FormState>();
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
+  List<EmployeeDepartment> employeeDepartments = [];
+  List<ArticleList> articleList = [];
+  List<AtomEntity> entityList = [];
+  List<AtomStaticUser> depostorList = [];
+  List<AtomLeoDepartment> leodepartments = [];
+  List<AtomLeoPurposeVisit> leopurposevisits = [];
+  List<DistributionGroup> loadGroups = [];
+
+  // List<ArticleList>? articleList;
+  // List<AtomEntity>? entityList;
+  // List<AtomStaticUser>? depostorList;
+  // List<AtomLeoDepartment>? leodepartments;
+  // List<AtomLeoPurposeVisit>? leopurposevisits;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // employeeDepartments = widget.duplicateemployeeDepartments ?? [];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,18 +119,21 @@ class CustomListTextsState extends State<CustomListTexts> {
         return Container(
           height: height,
           width: width - 40,
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // (widget.articleList != null && widget.articleList!.isNotEmpty) ||
-              //         (widget.employeeDepartments != null &&
-              //             widget.employeeDepartments!.isNotEmpty) ||
-              //         (widget.depostorList != null &&
-              //             widget.depostorList!.isNotEmpty)
-              //     ? searchWidget()
-              //     : Container(),
-              setupAlertDialoadContainer(height, width),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // (widget.articleList != null && widget.articleList!.isNotEmpty) ||
+                //         (widget.duplicateemployeeDepartments != null &&
+                //             widget.duplicateemployeeDepartments!.isNotEmpty) ||
+                //         (widget.depostorList != null &&
+                //             widget.depostorList!.isNotEmpty)
+                //  ?
+                searchWidget(),
+                //  : Container(),
+                setupAlertDialoadContainer(height, width),
+              ],
+            ),
           ),
         );
       }),
@@ -115,6 +149,10 @@ class CustomListTextsState extends State<CustomListTexts> {
       leadingIcon: AppIcon.searchIcon,
       border: borderColor,
       isEnabled: false,
+     // suffixIcon: _searchCtrl.text.length >  0 ? Conatiner()  :SizedBox(width: 0,),
+      onChange: (String txt) {
+        filterText(txt);
+      },
       focusChange: (bool focus) {
         if (focus) {
           borderColor = AppColors.navigationSkybluecolor;
@@ -124,26 +162,153 @@ class CustomListTextsState extends State<CustomListTexts> {
         setState(() {});
       },
       onSubmit: (String txt) {
-        if (txt.trim().length >= 15) {
-        } else {
-          //Show error message for validations
-        }
-        _searchCtrl.text = txt;
+        filterText(txt);
       },
     );
   }
 
+  filterText(String txt) {
+    //  if (txt.trim().length >= 15) {
+    //     } else {
+    //       //Show error message for validations
+    //     }
+    //_searchCtrl.text = txt;
+    onSearchTextChanged(txt);
+  }
+
+  
+  onSearchTextChanged(String text) async {
+    if (widget.duplicateemployeeDepartments != null) {
+      employeeDepartments.clear();
+      if (text.isEmpty) {
+        setState(() {});
+        return;
+      }
+
+      widget.duplicateemployeeDepartments!.forEach((userDetail) {
+        if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
+          employeeDepartments.add(userDetail);
+        }
+      });
+    } else if (widget.duplicatearticleList != null) {
+      articleList.clear();
+      if (text.isEmpty) {
+        setState(() {});
+        return;
+      }
+
+      widget.duplicatearticleList!.forEach((userDetail) {
+        if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
+          articleList.add(userDetail);
+        }
+      });
+    } else if (widget.duplicatedepostorList != null) {
+      depostorList.clear();
+      if (text.isEmpty) {
+        setState(() {});
+        return;
+      }
+
+      widget.duplicatedepostorList!.forEach((userDetail) {
+        if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
+          depostorList.add(userDetail);
+        }
+      });
+    } else if (widget.duplicateentityList != null) {
+      entityList.clear();
+      if (text.isEmpty) {
+        setState(() {});
+        return;
+      }
+
+      widget.duplicateentityList!.forEach((userDetail) {
+        if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
+          entityList.add(userDetail);
+        }
+      });
+    } else if (widget.duplicateleodepartments != null) {
+      leodepartments.clear();
+      if (text.isEmpty) {
+        setState(() {});
+        return;
+      }
+
+      widget.duplicateleodepartments!.forEach((userDetail) {
+        if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
+          leodepartments.add(userDetail);
+        }
+      });
+    } else if (widget.duplicateleopurposevisits != null) {
+      leopurposevisits.clear();
+      if (text.isEmpty) {
+        setState(() {});
+        return;
+      }
+
+      widget.duplicateleopurposevisits!.forEach((userDetail) {
+        if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
+          leopurposevisits.add(userDetail);
+        }
+      });
+    }
+
+    else if (widget.duplicateloadGroups != null) {
+      loadGroups.clear();
+      if (text.isEmpty) {
+        setState(() {});
+        return;
+      }
+
+      widget.duplicateloadGroups!.forEach((userDetail) {
+        if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
+          loadGroups.add(userDetail);
+        }
+      });
+    }
+
+    setState(() {});
+  }
+
   Widget setupAlertDialoadContainer(double height, double width) {
-    if ((widget.articleList != null && widget.articleList!.isEmpty) ||
-        (widget.employeeDepartments != null &&
-            widget.employeeDepartments!.isEmpty) ||
-        (widget.depostorList != null && widget.depostorList!.isEmpty)) {
-      return const Expanded(
-        child: Center(
-          child: Text(
-            Constants.nodata,
-            style: Styles.textStyleRegularGrey16,
-          ),
+    if (((widget.duplicatearticleList != null &&
+                widget.duplicatearticleList!.isEmpty) ||
+            (widget.duplicatearticleList != null &&
+                _searchCtrl.text.length > 0 &&
+                articleList.isEmpty)) ||
+        ((widget.duplicateemployeeDepartments != null &&
+                widget.duplicateemployeeDepartments!.isEmpty) ||
+            (widget.duplicateemployeeDepartments != null &&
+                _searchCtrl.text.length > 0 &&
+                employeeDepartments.isEmpty)) ||
+        ((widget.duplicatedepostorList != null &&
+                widget.duplicatedepostorList!.isEmpty) ||
+            (widget.duplicatedepostorList != null &&
+                _searchCtrl.text.length > 0 &&
+                depostorList.isEmpty)) ||
+        ((widget.duplicateentityList != null &&
+                widget.duplicateentityList!.isEmpty) ||
+            (widget.duplicateentityList != null &&
+                _searchCtrl.text.length > 0 &&
+                entityList.isEmpty)) ||
+        ((widget.duplicateleodepartments != null &&
+                widget.duplicateleodepartments!.isEmpty) ||
+            (widget.duplicateleodepartments != null &&
+                _searchCtrl.text.length > 0 &&
+                leodepartments.isEmpty)) ||
+        ((widget.duplicateleopurposevisits != null &&
+                widget.duplicateleopurposevisits!.isEmpty) ||
+            (widget.duplicateleopurposevisits != null &&
+                _searchCtrl.text.length > 0 &&
+                leopurposevisits.isEmpty) || (widget.duplicateloadGroups != null &&
+                _searchCtrl.text.length > 0 &&
+                loadGroups.isEmpty))) {
+      return //const Expanded(
+          // child:
+          Center(
+        child: Text(
+          Constants.nodata,
+          style: Styles.textStyleRegularGrey16,
+          // ),
         ),
       );
     } else {
@@ -154,15 +319,46 @@ class CustomListTextsState extends State<CustomListTexts> {
         width: double.maxFinite,
         child: ListView.builder(
           shrinkWrap: true,
-          itemCount: widget.employeeDepartments != null
-              ? widget.employeeDepartments?.length
-              : (widget.articleList != null
-                  ? widget.articleList?.length
-                  : widget.depostorList?.length),
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: widget.duplicateemployeeDepartments != null
+              ? (_searchCtrl.text.length > 0 && employeeDepartments.isNotEmpty)
+                  ? employeeDepartments.length
+                  : widget.duplicateemployeeDepartments?.length
+              : (widget.duplicatearticleList != null
+                  ? (_searchCtrl.text.length > 0 && articleList.isNotEmpty)
+                      ? articleList.length
+                      : widget.duplicatearticleList?.length
+                  : widget.duplicatedepostorList != null
+                      ? (_searchCtrl.text.length > 0 && depostorList.isNotEmpty)
+                          ? depostorList.length
+                          : widget.duplicatedepostorList?.length
+                      : widget.duplicateentityList != null
+                          ? (_searchCtrl.text.length > 0 &&
+                                  entityList.isNotEmpty)
+                              ? entityList.length
+                              : widget.duplicateentityList?.length
+                          : widget.duplicateleodepartments != null
+                              ? (_searchCtrl.text.length > 0 &&
+                                      leodepartments.isNotEmpty)
+                                  ? leodepartments.length
+                                  : widget.duplicateleodepartments?.length
+                              :  widget.duplicateleopurposevisits != null ? (_searchCtrl.text.length > 0 &&
+                                      leopurposevisits.isNotEmpty)
+                                  ? leopurposevisits.length
+                                  : widget.duplicateleopurposevisits?.length :(_searchCtrl.text.length > 0 &&
+                                      loadGroups.isNotEmpty)
+                                  ? loadGroups.length
+                                  : widget.duplicateloadGroups?.length ),
           itemBuilder: (BuildContext context, int index) {
-            if (widget.employeeDepartments != null) {
-              EmployeeDepartment? drawerItem =
-                  widget.employeeDepartments?[index];
+            if (widget.duplicateemployeeDepartments != null) {
+              EmployeeDepartment? drawerItem;
+              if ((_searchCtrl.text.length > 0 &&
+                  employeeDepartments.isNotEmpty)) {
+                drawerItem = employeeDepartments[index];
+              } else {
+                drawerItem = widget.duplicateemployeeDepartments?[index];
+              }
+
               return ListTile(
                   onTap: () {
                     widget.onTap!(drawerItem);
@@ -194,8 +390,13 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            } else if (widget.articleList != null) {
-              ArticleList? articleItem = widget.articleList?[index];
+            } else if (widget.duplicatearticleList != null) {
+              ArticleList? articleItem;
+              if ((_searchCtrl.text.length > 0 && articleList.isNotEmpty)) {
+                articleItem = articleList[index];
+              } else {
+                articleItem = widget.duplicatearticleList?[index];
+              }
               return ListTile(
                   onTap: () {
                     widget.onTap!(articleItem);
@@ -227,8 +428,13 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            } else {
-              AtomStaticUser? articleItem = widget.depostorList?[index];
+            } else if (widget.duplicatedepostorList != null) {
+              AtomStaticUser? articleItem;
+              if ((_searchCtrl.text.length > 0 && depostorList.isNotEmpty)) {
+                articleItem = depostorList[index];
+              } else {
+                articleItem = widget.duplicatedepostorList?[index];
+              }
               return ListTile(
                   onTap: () {
                     widget.onTap!(articleItem);
@@ -260,6 +466,160 @@ class CustomListTextsState extends State<CustomListTexts> {
                           '(' +
                           (articleItem?.email ?? '') +
                           ')'),
+                      style: Styles.textStyleRegularGrey16,
+                      textAlign: TextAlign.left,
+                    ),
+                  ));
+            } else if (widget.duplicateentityList != null) {
+              AtomEntity? articleItem;
+              if ((_searchCtrl.text.length > 0 && entityList.isNotEmpty)) {
+                articleItem = entityList[index];
+              } else {
+                articleItem = widget.duplicateentityList?[index];
+              }
+              return ListTile(
+                  onTap: () {
+                    widget.onTap!(articleItem);
+                    Navigator.of(context).pop();
+                  },
+                  contentPadding: EdgeInsets.zero,
+                  minLeadingWidth: 5,
+                  horizontalTitleGap:
+                      (widget.imagename != null && widget.imagename != '')
+                          ? 20
+                          : 0,
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  leading: (widget.imagename != null && widget.imagename != '')
+                      ? SvgPicture.asset(
+                          //AppIcon.dropdownicon,
+                          AppIcon.apple,
+                          //fit: BoxFit.,
+                          //color: AppColors.textColor,
+                          width: 20,
+                          height: 20,
+                        )
+                      : const SizedBox.shrink(),
+                  title: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      articleItem?.name ?? '',
+                      style: Styles.textStyleRegularGrey16,
+                      textAlign: TextAlign.left,
+                    ),
+                  ));
+            } else if (widget.duplicateleopurposevisits != null) {
+              AtomLeoPurposeVisit? articleItem;
+              if ((_searchCtrl.text.length > 0 &&
+                  leopurposevisits.isNotEmpty)) {
+                articleItem = leopurposevisits[index];
+              } else {
+                articleItem = widget.duplicateleopurposevisits?[index];
+              }
+              return ListTile(
+                  onTap: () {
+                    widget.onTap!(articleItem);
+                    Navigator.of(context).pop();
+                  },
+                  contentPadding: EdgeInsets.zero,
+                  minLeadingWidth: 5,
+                  horizontalTitleGap:
+                      (widget.imagename != null && widget.imagename != '')
+                          ? 20
+                          : 0,
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  leading: (widget.imagename != null && widget.imagename != '')
+                      ? SvgPicture.asset(
+                          //AppIcon.dropdownicon,
+                          AppIcon.apple,
+                          //fit: BoxFit.,
+                          //color: AppColors.textColor,
+                          width: 20,
+                          height: 20,
+                        )
+                      : const SizedBox.shrink(),
+                  title: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      articleItem?.name ?? '',
+                      style: Styles.textStyleRegularGrey16,
+                      textAlign: TextAlign.left,
+                    ),
+                  ));
+            } else if (widget.duplicateleodepartments != null) {
+              AtomLeoDepartment? articleItem;
+              if ((_searchCtrl.text.length > 0 && leodepartments.isNotEmpty)) {
+                articleItem = leodepartments[index];
+              } else {
+                articleItem = widget.duplicateleodepartments?[index];
+              }
+              return ListTile(
+                  onTap: () {
+                    widget.onTap!(articleItem);
+                    Navigator.of(context).pop();
+                  },
+                  contentPadding: EdgeInsets.zero,
+                  minLeadingWidth: 5,
+                  horizontalTitleGap:
+                      (widget.imagename != null && widget.imagename != '')
+                          ? 20
+                          : 0,
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  leading: (widget.imagename != null && widget.imagename != '')
+                      ? SvgPicture.asset(
+                          //AppIcon.dropdownicon,
+                          AppIcon.apple,
+                          //fit: BoxFit.,
+                          //color: AppColors.textColor,
+                          width: 20,
+                          height: 20,
+                        )
+                      : const SizedBox.shrink(),
+                  title: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      articleItem?.name ?? '',
+                      style: Styles.textStyleRegularGrey16,
+                      textAlign: TextAlign.left,
+                    ),
+                  ));
+            }
+            else if (widget.duplicateloadGroups != null) {
+              DistributionGroup? articleItem;
+              if ((_searchCtrl.text.length > 0 && loadGroups.isNotEmpty)) {
+                articleItem = loadGroups[index];
+              } else {
+                articleItem = widget.duplicateloadGroups?[index];
+              }
+              return ListTile(
+                  onTap: () {
+                    widget.onTap!(articleItem);
+                    Navigator.of(context).pop();
+                  },
+                  contentPadding: EdgeInsets.zero,
+                  minLeadingWidth: 5,
+                  horizontalTitleGap:
+                      (widget.imagename != null && widget.imagename != '')
+                          ? 20
+                          : 0,
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  leading: (widget.imagename != null && widget.imagename != '')
+                      ? SvgPicture.asset(
+                          //AppIcon.dropdownicon,
+                          AppIcon.apple,
+                          //fit: BoxFit.,
+                          //color: AppColors.textColor,
+                          width: 20,
+                          height: 20,
+                        )
+                      : const SizedBox.shrink(),
+                  title: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      articleItem?.name ?? '',
                       style: Styles.textStyleRegularGrey16,
                       textAlign: TextAlign.left,
                     ),

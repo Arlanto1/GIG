@@ -125,26 +125,29 @@ class MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
         color: AppColors.navigationSkybluecolor,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(20.0),
-                decoration: const ShapeDecoration(
-                    color: AppColors.backgroundWhitecolor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20.0)),
-                    )),
-                child: Column(
-                  children: [
-                    PieChartApp(),
-                    CommonWidgets.verticalSpacerWidget(height * 0.03),
-                    BarChartApp(),
-                  ],
+        child: Padding(
+          padding: const EdgeInsets.only(top:10.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(20.0),
+                  decoration: const ShapeDecoration(
+                      color: AppColors.backgroundWhitecolor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(20.0)),
+                      )),
+                  child: Column(
+                    children: [
+                      PieChartApp(),
+                      CommonWidgets.verticalSpacerWidget(height * 0.03),
+                      BarChartApp(),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

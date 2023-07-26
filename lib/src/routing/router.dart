@@ -10,4 +10,8 @@ const String articleFoundListRoute = '/articlefoundlistpage';
 const String createFoundAttachmentRoute = '/createfoundattachmentRoutepage';
 const String piechartRoute = '/piechartRoutepage';
 const String customexpansionlisttextsRoute = '/customexpansionlisttextsRoute';
+const String lawEnforcementListRoute = '/lawenforcementlist';
+
+
+const String lawenforcementScreenRoute = '/lawenforcementscreenroute';
 

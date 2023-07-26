@@ -60,4 +60,18 @@ class SharedPrefs {
     print(value);
     return value; //Future<bool>.value(isLoggedIn);
   }
+
+  static Future<void> setFoundId(int value) async {
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    instance.setInt(Constants.isFoundIdKey, value);
+  }
+
+  static Future<int> getFoundId() async {
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    int? isFoundId = instance.getInt(Constants.isFoundIdKey) ?? 0;
+    print(isFoundId);
+    return isFoundId; //Future<bool>.value(isLoggedIn);
+  }
 }

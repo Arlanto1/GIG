@@ -61,88 +61,90 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
         return Container(
-          height: height / 2,
+          height: height / 1.8,
           width: width - 50,
           child: Scaffold(
-            body: Stack(
-              clipBehavior: Clip.none,
-              children: <Widget>[
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Container(
-                        alignment: Alignment.topCenter,
-                        child: const Text(
-                          Constants.newuserdesc,
-                          style: Styles.textStyleRegularGrey16,
-                          textAlign: TextAlign.center,
+            body: SingleChildScrollView(
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: <Widget>[
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Container(
+                          alignment: Alignment.topCenter,
+                          child: const Text(
+                            Constants.newuserdesc,
+                            style: Styles.textStyleRegularGrey16,
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: const Text(
-                          Constants.firstname,
-                          style: Styles.textStyleRegularGrey16,
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: const Text(
+                            Constants.firstname,
+                            style: Styles.textStyleRegularGrey16,
+                          ),
                         ),
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      FlutterInputField(
-                        textFieldController: firstnameTextController,
-                        textFormKey: Keys.firstnameTextController,
-                        hintText: '',
-                        onChange: (String username) {
-                          //this.username = username;
-                          setState(() {});
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: const Text(
-                          Constants.lastname,
-                          style: Styles.textStyleRegularGrey16,
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        FlutterInputField(
+                          textFieldController: firstnameTextController,
+                          textFormKey: Keys.firstnameTextController,
+                          hintText: '',
+                          onChange: (String username) {
+                            //this.username = username;
+                            setState(() {});
+                          },
+                          validateTextField: (String? user) {},
                         ),
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      FlutterInputField(
-                        textFieldController: lastnameTextController,
-                        textFormKey: Keys.lastnameTextController,
-                        hintText: '',
-                        onChange: (String username) {
-                          //this.username = username;
-                          setState(() {});
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: const Text(
-                          Constants.email,
-                          style: Styles.textStyleRegularGrey16,
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: const Text(
+                            Constants.lastname,
+                            style: Styles.textStyleRegularGrey16,
+                          ),
                         ),
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      FlutterInputField(
-                        textFieldController: emailTextController,
-                        textFormKey: Keys.emailTextController,
-                        hintText: '',
-                        onChange: (String username) {
-                          //this.username = username;
-                          setState(() {});
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.03),
-                      buttonViews(context, width),
-                    ],
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        FlutterInputField(
+                          textFieldController: lastnameTextController,
+                          textFormKey: Keys.lastnameTextController,
+                          hintText: '',
+                          onChange: (String username) {
+                            //this.username = username;
+                            setState(() {});
+                          },
+                          validateTextField: (String? user) {},
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: const Text(
+                            Constants.email,
+                            style: Styles.textStyleRegularGrey16,
+                          ),
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        FlutterInputField(
+                          textFieldController: emailTextController,
+                          textFormKey: Keys.emailTextController,
+                          hintText: '',
+                          onChange: (String username) {
+                            //this.username = username;
+                            setState(() {});
+                          },
+                          validateTextField: (String? user) {},
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.03),
+                        buttonViews(context, width),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

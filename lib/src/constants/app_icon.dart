@@ -44,5 +44,7 @@ class AppIcon {
   static const String closeicon = 'assets/images/closeicon.svg';
   static const String questionmark = 'assets/images/questionmark.svg';
   static const String download = 'assets/images/download.svg';
+  static const String pluscircle = 'assets/images/pluscircle.svg';
+  
   
 }

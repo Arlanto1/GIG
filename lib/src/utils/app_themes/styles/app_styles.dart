@@ -26,6 +26,13 @@ class Styles {
     fontSize: 14,
     fontFamily: Constants.customFontSemiBoldFamily,
     fontWeight: FontWeight.w600,
+    color: AppColors.black,
+  );
+
+  static const TextStyle textStyleDarkGrey16 = TextStyle(
+    fontSize: 15,
+    fontFamily: Constants.customFontSemiBoldFamily,
+    fontWeight: FontWeight.w600,
     color: AppColors.textgreyThemecolor,
   );
 

@@ -23,6 +23,7 @@ class FoundListServices {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
+      print(response.body);
       if (response.statusCode == 200) {
         try {
         return FoundListModel.fromJson(json.decode(response.body));
@@ -43,7 +44,7 @@ class FoundListServices {
   Future<FoundListArticleDetails> getArticleById(int articleId) async {
     await Future.delayed(Duration(seconds: 3));
 
-    final endpoint = ProdConfig().apiHost;
+    final endpoint = Environment().config.apiHost;
     final url = Uri.parse('$endpoint/getFoundById/$articleId');
     try {
       final response = await http.get(

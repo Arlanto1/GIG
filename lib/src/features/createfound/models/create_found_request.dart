@@ -1,349 +1,144 @@
-// // To parse this JSON data, do
-// //
-// //     final createFoundRequestBody = createFoundRequestBodyFromJson(jsonString);
-
-// import 'dart:convert';
-
-// CreateFoundRequestBody createFoundRequestBodyFromJson(String str) =>
-//     CreateFoundRequestBody.fromJson(json.decode(str));
-
-// String createFoundRequestBodyToJson(CreateFoundRequestBody data) => json.encode(data.toJson());
-
-// class CreateFoundRequestBody {
-//   Found? found;
-
-//   CreateFoundRequestBody({
-//     this.found,
-//   });
-
-//   factory CreateFoundRequestBody.fromJson(Map<String, dynamic> json) => CreateFoundRequestBody(
-//         found: json["found"] == null ? null : Found.fromJson(json["found"]),
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "found": found?.toJson(),
-//       };
-// }
-
-// class Found {
-//   int? id;
-//   int? typeOfAsset;
-//   Location? typeOfArticle;
-//   String? foundLocation;
-//   String? additionalInformation;
-//   int? quantity;
-//   String? color;
-//   bool? depositorDbEmp;
-//   DateTime? inputDate;
-//   DateTime? foundDate;
-//   Depositor? entrySecurity;
-//   Location? location;
-//   Depositor? depositor;
-//   int? status;
-
-//   Found({
-//     this.id,
-//     this.typeOfAsset,
-//     this.typeOfArticle,
-//     this.foundLocation,
-//     this.additionalInformation,
-//     this.quantity,
-//     this.color,
-//     this.depositorDbEmp,
-//     this.inputDate,
-//     this.foundDate,
-//     this.entrySecurity,
-//     this.location,
-//     this.depositor,
-//     this.status,
-//   });
-
-//   factory Found.fromJson(Map<String, dynamic> json) => Found(
-//         id: json["id"],
-//         typeOfAsset: json["typeOfAsset"],
-//         typeOfArticle:
-//             json["typeOfArticle"] == null ? null : Location.fromJson(json["typeOfArticle"]),
-//         foundLocation: json["foundLocation"],
-//         additionalInformation: json["additionalInformation"],
-//         quantity: json["quantity"],
-//         color: json["color"],
-//         depositorDbEmp: json["depositorDbEmp"],
-//         inputDate: json["inputDate"] == null ? null : DateTime.parse(json["inputDate"]),
-//         foundDate: json["foundDate"] == null ? null : DateTime.parse(json["foundDate"]),
-//         entrySecurity:
-//             json["entrySecurity"] == null ? null : Depositor.fromJson(json["entrySecurity"]),
-//         location: json["location"] == null ? null : Location.fromJson(json["location"]),
-//         depositor: json["depositor"] == null ? null : Depositor.fromJson(json["depositor"]),
-//         status: json["status"],
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "id": id,
-//         "typeOfAsset": typeOfAsset,
-//         "typeOfArticle": typeOfArticle?.toJson(),
-//         "foundLocation": foundLocation,
-//         "additionalInformation": additionalInformation,
-//         "quantity": quantity,
-//         "color": color,
-//         "depositorDbEmp": depositorDbEmp,
-//         "inputDate": inputDate?.toIso8601String(),
-//         "foundDate": foundDate?.toIso8601String(),
-//         "entrySecurity": entrySecurity?.toJson(),
-//         "location": location?.toJson(),
-//         "depositor": depositor?.toJson(),
-//         "status": status,
-//       };
-// }
-
-// class Depositor {
-//   int? userId;
-
-//   Depositor({
-//     this.userId,
-//   });
-
-//   factory Depositor.fromJson(Map<String, dynamic> json) => Depositor(
-//         userId: json["userId"],
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "userId": userId,
-//       };
-// }
-
-// class Location {
-//   int? id;
-
-//   Location({
-//     this.id,
-//   });
-
-//   factory Location.fromJson(Map<String, dynamic> json) => Location(
-//         id: json["id"],
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "id": id,
-//       };
-// }
 // To parse this JSON data, do
 //
-//     final createFoundRequestBody = createFoundRequestBodyFromJson(jsonString);
-
-// import 'dart:convert';
-
-// CreateFoundRequestBody createFoundRequestBodyFromJson(String str) => CreateFoundRequestBody.fromJson(json.decode(str));
-
-// String createFoundRequestBodyToJson(CreateFoundRequestBody data) => json.encode(data.toJson());
-
-// class CreateFoundRequestBody {
-//     Found? found;
-
-//     CreateFoundRequestBody({
-//         this.found,
-//     });
-
-//     factory CreateFoundRequestBody.fromJson(Map<String, dynamic> json) => CreateFoundRequestBody(
-//         found: json["found"] == null ? null : Found.fromJson(json["found"]),
-//     );
-
-//     Map<String, dynamic> toJson() => {
-//         "found": found?.toJson(),
-//     };
-// }
-
-// class Found {
-//     String? slNo;
-//     int? typeOfAsset;
-//     Location? typeOfArticle;
-//     String? foundLocation;
-//     String? additionalInformation;
-//     int? quantity;
-//     String? color;
-//     bool? depositorDbEmp;
-//    // DateTime? inputDate;
-//    // DateTime? foundDate;
-//     String? inputDate;
-//     String? foundDate;
-//     Depositor? entrySecurity;
-//     Location? location;
-//     Depositor? depositor;
-//     int? status;
-
-//     Found({
-//         this.slNo,
-//         this.typeOfAsset,
-//         this.typeOfArticle,
-//         this.foundLocation,
-//         this.additionalInformation,
-//         this.quantity,
-//         this.color,
-//         this.depositorDbEmp,
-//         this.inputDate,
-//         this.foundDate,
-//         this.entrySecurity,
-//         this.location,
-//         this.depositor,
-//         this.status,
-//     });
-
-//     factory Found.fromJson(Map<String, dynamic> json) => Found(
-//         slNo: json["slNo"],
-//         typeOfAsset: json["typeOfAsset"],
-//         typeOfArticle: json["typeOfArticle"] == null ? null : Location.fromJson(json["typeOfArticle"]),
-//         foundLocation: json["foundLocation"],
-//         additionalInformation: json["additionalInformation"],
-//         quantity: json["quantity"],
-//         color: json["color"],
-//         depositorDbEmp: json["depositorDbEmp"],
-//         inputDate: json["inputDate"],//json["inputDate"] == null ? null : DateTime.parse(json["inputDate"]),
-//         foundDate:json["foundDate"], //json["foundDate"] == null ? null : DateTime.parse(json["foundDate"]),
-//         entrySecurity: json["entrySecurity"] == null ? null : Depositor.fromJson(json["entrySecurity"]),
-//         location: json["location"] == null ? null : Location.fromJson(json["location"]),
-//         depositor: json["depositor"] == null ? null : Depositor.fromJson(json["depositor"]),
-//         status: json["status"],
-//     );
-
-//     Map<String, dynamic> toJson() => {
-//         "slNo": slNo,
-//         "typeOfAsset": typeOfAsset,
-//         "typeOfArticle": typeOfArticle?.toJson(),
-//         "foundLocation": foundLocation,
-//         "additionalInformation": additionalInformation,
-//         "quantity": quantity,
-//         "color": color,
-//         "depositorDbEmp": depositorDbEmp,
-//         "inputDate": inputDate,//inputDate?.toIso8601String(),
-//         "foundDate": foundDate,//foundDate?.toIso8601String(),
-//         "entrySecurity": entrySecurity?.toJson(),
-//         "location": location?.toJson(),
-//         "depositor": depositor?.toJson(),
-//         "status": status,
-//     };
-// }
-
-// class Depositor {
-//     int? userId;
-
-//     Depositor({
-//         this.userId,
-//     });
-
-//     factory Depositor.fromJson(Map<String, dynamic> json) => Depositor(
-//         userId: json["userId"],
-//     );
-
-//     Map<String, dynamic> toJson() => {
-//         "userId": userId,
-//     };
-// }
-
-// class Location {
-//     int? id;
-
-//     Location({
-//         this.id,
-//     });
-
-//     factory Location.fromJson(Map<String, dynamic> json) => Location(
-//         id: json["id"],
-//     );
-
-//     Map<String, dynamic> toJson() => {
-//         "id": id,
-//     };
-// }
-
-// To parse this JSON data, do
-//
-//     final serialNumberModel = serialNumberModelFromJson(jsonString);
+//     final foundListArticleDetails = foundListArticleDetailsFromJson(jsonString);
 
 import 'dart:convert';
 
- CreateFoundRequestBody createFoundRequestBodyFromJson(String str) => CreateFoundRequestBody.fromJson(json.decode(str));
+CreateFoundRequestBody foundListArticleDetailsFromJson(String str) =>
+    CreateFoundRequestBody.fromJson(json.decode(str));
 
- String createFoundRequestBodyToJson(CreateFoundRequestBody data) => json.encode(data.toJson());
-
+String foundListArticleDetailsToJson(CreateFoundRequestBody data) =>
+    json.encode(data.toJson());
 
 class CreateFoundRequestBody {
-    Found? found;
+  Found? found;
 
-    CreateFoundRequestBody({
-        this.found,
-    });
+  CreateFoundRequestBody({
+    this.found,
+  });
 
-    factory CreateFoundRequestBody.fromJson(Map<String, dynamic> json) => CreateFoundRequestBody(
+  factory CreateFoundRequestBody.fromJson(Map<String, dynamic> json) =>
+      CreateFoundRequestBody(
         found: json["found"] == null ? null : Found.fromJson(json["found"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "found": found?.toJson(),
-    };
+      };
 }
 
 class Found {
-    String? slNo;
-    int? typeOfAsset;
-    TypeOfArticle? typeOfArticle;
-    String? foundLocation;
-    String? additionalInformation;
-    int? quantity;
-    String? color;
-    bool? depositorDbEmp;
-    //DateTime? inputDate;
-   // DateTime? foundDate;
-    String? inputDate;
-    String? foundDate;
-    EntrySecurity? entrySecurity;
-    CreateLocation? location;
-    String? depositorName;
-    Depositor? depositor;
-    String? employeeId;
-    DepositorDepartment? depositorDepartment;
-    int? status;
+  String? slNo;
+  int? typeOfAsset;
+  int? id;
+  TypeOfArticle? typeOfArticle;
+  String? foundLocation;
+  String? additionalInformation;
+  int? quantity;
+  String? color;
+  bool? depositorDbEmp;
+  int? inputDate;
+  int? foundDate;
+  int? handoverDate;
+  EntrySecurity? entrySecurity;
+  CreateLocation? location;
+  Depositor? depositor;
+  DepositorDepartment? depositorDepartment;
+  List<CreateImage>? images;
+  String? depositorName;
+  int? status;
+  String? employeeId;
+  CreateClaimant? claimant;
+  CreateClaimantDepartment? claimantDepartment;
+  CreateHandoverSecurity? handoverSecurity;
+  bool? claimantDbEmp;
+  bool? claimantNoSign;
+  bool? claimantConfirmByEmail;
+  int? claimantEmployeeId;
+ 
 
-    Found({
-        this.slNo,
-        this.typeOfAsset,
-        this.typeOfArticle,
-        this.foundLocation,
-        this.additionalInformation,
-        this.quantity,
-        this.color,
-        this.depositorDbEmp,
-        this.inputDate,
-        this.foundDate,
-        this.entrySecurity,
-        this.location,
-        this.depositorName,
-        this.depositor,
-        this.employeeId,
-        this.depositorDepartment,
-        this.status,
-    });
+  Found({
+    this.slNo,
+    this.id,
+    this.typeOfAsset,
+    this.typeOfArticle,
+    this.foundLocation,
+    this.additionalInformation,
+    this.quantity,
+    this.claimantEmployeeId,
+    this.color,
+    this.depositorDbEmp,
+    this.inputDate,
+    this.foundDate,
+    this.entrySecurity,
+    this.location,
+    this.depositor,
+    this.images,
+    this.status,
+    this.depositorDepartment,
+    this.depositorName,
+    this.employeeId,
+    this.claimant,
+    this.claimantDepartment,
+    this.handoverSecurity,
+    this.claimantDbEmp,
+    this.claimantNoSign,
+    this.handoverDate,
+    this.claimantConfirmByEmail
+  });
 
-    factory Found.fromJson(Map<String, dynamic> json) => Found(
+  factory Found.fromJson(Map<String, dynamic> json) => Found(
         slNo: json["slNo"],
+         id: json["id"],
         typeOfAsset: json["typeOfAsset"],
-        typeOfArticle: json["typeOfArticle"] == null ? null : TypeOfArticle.fromJson(json["typeOfArticle"]),
+        typeOfArticle: json["typeOfArticle"] == null
+            ? null
+            : TypeOfArticle.fromJson(json["typeOfArticle"]),
         foundLocation: json["foundLocation"],
         additionalInformation: json["additionalInformation"],
         quantity: json["quantity"],
+        claimantEmployeeId: json["claimantEmployeeId"],
         color: json["color"],
         depositorDbEmp: json["depositorDbEmp"],
-        inputDate: json["inputDate"],//json["inputDate"] == null ? null : DateTime.parse(json["inputDate"]),
-        foundDate: json["foundDate"],//json["foundDate"] == null ? null : DateTime.parse(json["foundDate"]),
-        entrySecurity: json["entrySecurity"] == null ? null : EntrySecurity.fromJson(json["entrySecurity"]),
-        location: json["location"] == null ? null : CreateLocation.fromJson(json["location"]),
-        depositorName: json["depositorName"],
-        depositor: json["depositor"] == null ? null : Depositor.fromJson(json["depositor"]),
-        employeeId: json["employeeId"],
-        depositorDepartment: json["depositorDepartment"] == null ? null : DepositorDepartment.fromJson(json["depositorDepartment"]),
+        claimantConfirmByEmail: json["claimantConfirmByEmail"],
+        claimantDbEmp: json["claimantDbEmp"],
+        claimantNoSign: json["claimantNoSign"],
+        inputDate: json["inputDate"],
+        foundDate: json["handoverDate"],
+        handoverDate: json["handoverDate"],
+        entrySecurity: json["entrySecurity"] == null
+            ? null
+            : EntrySecurity.fromJson(json["entrySecurity"]),
+        location: json["location"] == null
+            ? null
+            : CreateLocation.fromJson(json["location"]),
+        depositor: json["depositor"] == null
+            ? null
+            : Depositor.fromJson(json["depositor"]),
+        images: json["images"] == null
+            ? []
+            : List<CreateImage>.from(
+                json["images"]!.map((x) => CreateImage.fromJson(x))),
+        depositorDepartment: json["depositorDepartment"] == null
+            ? null
+            : DepositorDepartment.fromJson(json["depositorDepartment"]),
         status: json["status"],
-    );
+        depositorName: json["depositorName"],
+        employeeId: json["employeeId"],
+        claimant: json["claimant"] == null
+            ? null
+            : CreateClaimant.fromJson(json["claimant"]),
+        claimantDepartment: json["claimantDepartment"] == null
+            ? null
+            : CreateClaimantDepartment.fromJson(json["claimantDepartment"]),
+        handoverSecurity: json["handoverSecurity"] == null
+            ? null
+            : CreateHandoverSecurity.fromJson(json["handoverSecurity"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "slNo": slNo,
+        "id":id,
         "typeOfAsset": typeOfAsset,
         "typeOfArticle": typeOfArticle?.toJson(),
         "foundLocation": foundLocation,
@@ -351,92 +146,228 @@ class Found {
         "quantity": quantity,
         "color": color,
         "depositorDbEmp": depositorDbEmp,
-        "inputDate": inputDate,//inputDate?.toIso8601String(),
-        "foundDate": foundDate,//foundDate?.toIso8601String(),
+        "claimantDbEmp": claimantDbEmp,
+        "claimantNoSign": claimantNoSign,
+        "claimantEmployeeId": claimantEmployeeId,
+        "inputDate": inputDate,
+        "foundDate": foundDate,
+        "handoverDate": handoverDate,
         "entrySecurity": entrySecurity?.toJson(),
         "location": location?.toJson(),
-        "depositorName": depositorName,
         "depositor": depositor?.toJson(),
-        "employeeId": employeeId,
+        "images": images == null
+            ? []
+            : List<dynamic>.from(images!.map((x) => x.toJson())),
         "depositorDepartment": depositorDepartment?.toJson(),
         "status": status,
-    };
+        "depositorName": depositorName,
+        "employeeId": employeeId,
+        "claimant": claimant?.toJson(),
+        "claimantDepartment": claimantDepartment?.toJson(),
+        "handoverSecurity": handoverSecurity?.toJson(),
+        "claimantConfirmByEmail":claimantConfirmByEmail
+      };
 }
 
-class Depositor {
-    int? userId;
+class CreateHandoverSecurity {
+  int? userId;
 
-    Depositor({
-        this.userId,
-    });
+  CreateHandoverSecurity({
+    this.userId,
+  });
 
-    factory Depositor.fromJson(Map<String, dynamic> json) => Depositor(
+  factory CreateHandoverSecurity.fromJson(Map<String, dynamic> json) =>
+      CreateHandoverSecurity(
         userId: json["userId"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "userId": userId,
-    };
+      };
 }
-class EntrySecurity {
-    int? userId;
 
-    EntrySecurity({
-        this.userId,
-    });
+class CreateClaimantDepartment {
+  int? id;
+  String? name;
 
-    factory EntrySecurity.fromJson(Map<String, dynamic> json) => EntrySecurity(
+  CreateClaimantDepartment({
+    this.id,
+    this.name,
+  });
+
+  factory CreateClaimantDepartment.fromJson(Map<String, dynamic> json) =>
+      CreateClaimantDepartment(
+        id: json["id"],
+        name: json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+      };
+}
+
+class CreateClaimant {
+  int? userId;
+  String? userName;
+  String? email;
+  String? firstName;
+  String? lastName;
+
+  CreateClaimant({
+    this.userId,
+    this.userName,
+    this.email,
+    this.firstName,
+    this.lastName,
+  });
+
+  factory CreateClaimant.fromJson(Map<String, dynamic> json) => CreateClaimant(
         userId: json["userId"],
-    );
+        userName: json["userName"],
+        email: json["email"],
+        firstName: json["firstName"],
+        lastName: json["lastName"],
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "userId": userId,
-    };
+        "userName": userName,
+        "email": email,
+        "firstName": firstName,
+        "lastName": lastName,
+      };
 }
 
 class DepositorDepartment {
-    int? id;
+  int? id;
 
-    DepositorDepartment({
-        this.id,
-    });
+  DepositorDepartment({
+    this.id,
+  });
 
-    factory DepositorDepartment.fromJson(Map<String, dynamic> json) => DepositorDepartment(
+  factory DepositorDepartment.fromJson(Map<String, dynamic> json) =>
+      DepositorDepartment(
         id: json["id"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
-    };
+      };
 }
+
+class Depositor {
+  int? userId;
+  String? userName;
+  String? email;
+  String? firstName;
+  String? lastName;
+
+  Depositor({
+    this.userId,
+    this.userName,
+    this.email,
+    this.firstName,
+    this.lastName,
+  });
+
+  factory Depositor.fromJson(Map<String, dynamic> json) => Depositor(
+        userId: json["userId"],
+        userName: json["userName"],
+        email: json["email"],
+        firstName: json["firstName"],
+        lastName: json["lastName"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "userId": userId,
+        "userName": userName,
+        "email": email,
+        "firstName": firstName,
+        "lastName": lastName,
+      };
+}
+
+class EntrySecurity {
+  int? userId;
+
+  EntrySecurity({
+    this.userId,
+  });
+
+  factory EntrySecurity.fromJson(Map<String, dynamic> json) => EntrySecurity(
+        userId: json["userId"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "userId": userId,
+      };
+}
+
+class CreateImage {
+  String? ownerName;
+  String? contentType;
+  String? title;
+  int? fileSize;
+  String? imageContent;
+
+  CreateImage({
+    this.ownerName,
+    this.contentType,
+    this.title,
+    this.fileSize,
+    this.imageContent,
+  });
+
+  factory CreateImage.fromJson(Map<String, dynamic> json) => CreateImage(
+        ownerName: json["ownerName"],
+        contentType: json["contentType"],
+        title: json["title"],
+        fileSize: json["fileSize"],
+        imageContent: json["imageContent"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "ownerName": ownerName,
+        "contentType": contentType,
+        "title": title,
+        "fileSize": fileSize,
+        "imageContent": imageContent,
+      };
+}
+
 class CreateLocation {
-    int? id;
+  int? id;
+  String? name;
 
-    CreateLocation({
-        this.id,
-    });
+  CreateLocation({
+    this.id,
+    this.name,
+  });
 
-    factory CreateLocation.fromJson(Map<String, dynamic> json) => CreateLocation(
+  factory CreateLocation.fromJson(Map<String, dynamic> json) => CreateLocation(
         id: json["id"],
-    );
+        name: json["name"],
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
-    };
+        "name": name,
+      };
 }
+
 class TypeOfArticle {
-    int? id;
+  int? id;
 
-    TypeOfArticle({
-        this.id,
-    });
+  TypeOfArticle({
+    this.id,
+  });
 
-    factory TypeOfArticle.fromJson(Map<String, dynamic> json) => TypeOfArticle(
+  factory TypeOfArticle.fromJson(Map<String, dynamic> json) => TypeOfArticle(
         id: json["id"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
-    };
+      };
 }
-

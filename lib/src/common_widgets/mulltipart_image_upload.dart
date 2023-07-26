@@ -1,12 +1,13 @@
 
+import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 class ImagesMultiPart {
   multipartProdecudre(String url,String imagepath) async {
    
-
+   final endpoint = Environment().config.apiHost;
     //for multipartrequest
-    var request = http.MultipartRequest('POST', Uri.parse(url));
+    var request = http.MultipartRequest('POST', Uri.parse(endpoint + url));
 
     //for token
     //request.headers.addAll({"Authorization": "Bearer token"});
@@ -33,7 +34,8 @@ class ImagesMultiPart {
   }
 
 Future<String> uploadImage(url,filepath) async {
-  var request = http.MultipartRequest('POST', Uri.parse(url));
+   final endpoint = Environment().config.apiHost;
+  var request = http.MultipartRequest('POST', Uri.parse(endpoint + url));
   request.files.add(await http.MultipartFile.fromPath('images', filepath));
   var res = await request.send();
   return res.statusCode.toString();

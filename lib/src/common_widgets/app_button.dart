@@ -26,7 +26,7 @@ class AppButton extends StatelessWidget {
     ScreenSizeConfig.init(context);
     final screenWidth = ScreenSizeConfig.screenWidth;
     return SizedBox(
-      width: width ?? (screenWidth! * 0.9),
+      width: width ?? (screenWidth! * 1.0),
       height: height ?? 50.00,
       child: TextButton(
         key: Key(buttonKey ?? ''),

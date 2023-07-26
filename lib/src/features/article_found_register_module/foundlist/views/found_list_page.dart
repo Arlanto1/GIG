@@ -8,6 +8,7 @@ import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/custom_list_pop_up.dart';
 import 'package:db_atom/src/common_widgets/custom_pop_menu.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
+import 'package:db_atom/src/common_widgets/image_download.dart';
 import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
@@ -24,6 +25,7 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/customalert.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
+import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -51,29 +53,10 @@ class _FoundListState extends State<FoundList> {
   }
 
   _loadMore() {
-    // scrollController?.addListener(() {
-    //   if (scrollController?.position.maxScrollExtent ==
-    //       scrollController?.position.pixels) {
-    //     if (!isLoading) {
-    //       isLoading = !isLoading;
-    //       pageNumber = pageNumber ++;
-    //       // Perform event when user reach at the end of list (e.g. do Api call)
-    //        _getFoundArticleList();
-    //     }
-    //   }
-    // });
-    // scrollController.addListener(() {
-// nextPageTrigger will have a value equivalent to 80% of the list size.
-    // var nextPageTrigger = 0.8 * scrollController.position.maxScrollExtent;
-
-// _scrollController fetches the next paginated data when the current postion of the user on the screen has surpassed
-    // if (scrollController.position.pixels > nextPageTrigger) {
-    //if (!isLoading) {
+    
     if (scrollController.position.maxScrollExtent ==
         scrollController.position.pixels) {
-      // if ( scrollController.position.extentAfter < 300)
-      // {
-      //isLoading = !isLoading;
+     
       if ((localfoundlist?.length ?? 0) > 0)
       {
          pageNumber =  ((localfoundlist?.length ?? 0));
@@ -92,7 +75,8 @@ class _FoundListState extends State<FoundList> {
   }
 
   void _getFoundArticleList() async {
-    await foundListArticleCubit.getFoundList(pageNumber.toString(), '20', '77',context);
+     String userid = await SharedPrefs.getUserId();
+    await foundListArticleCubit.getFoundList(pageNumber.toString(), '20', userid,context);
   }
    getFoundArticleListId(int articleid) async {
       showLoadingDialog(context);
@@ -143,22 +127,30 @@ class _FoundListState extends State<FoundList> {
               color: AppColors.backgroundWhitecolor),
         ),
         action: [
-          // IconButton(
-          //   onPressed: () {
-          //     //do action on more
-          //   },
-          //   icon: SvgPicture.asset(AppIcon.notifications),
-          // ),
+         
           CustomPopmenu(
             //itemList :[],
             itemList: const [
               PopMenuItems("Export Excel", AppIcon.exportexcel),
               PopMenuItems("Export PDF", AppIcon.exportpdf),
-              PopMenuItems("Export XML", AppIcon.exportxml),
+              //PopMenuItems("Export XML", AppIcon.exportxml),
               PopMenuItems("Close", AppIcon.close),
             ],
-            itemTap: (value) {
+            itemTap: (value) async {
+               String userid = await SharedPrefs.getUserId();
               print(value);
+              if (value == 0)
+              {
+                
+                  DownloadImage().exportExcel(
+                        context,int.parse(userid), 'export.xslx',0,pageNumber);
+              }
+             else if (value == 1)
+              {
+                DownloadImage().exportPdf(
+                        context,int.parse(userid), 'export.pdf',0,pageNumber);
+              }
+              
             },
             popupimagename: AppIcon.morewhiteicon,
           ),

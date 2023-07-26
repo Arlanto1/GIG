@@ -21,6 +21,7 @@ class Constants {
   static const String isLoggedInKey = 'isLoggedIn';
   static const String isUserNameKey = 'isUserName';
   static const String isUserIdKey = 'isUserId';
+  static const String isFoundIdKey = 'isFoundId';
   static const String isMenuIndexIdentifyKey = 'isMenuIndexIdentify';
 
   // Images
@@ -43,6 +44,7 @@ class Constants {
   static const String forgotpassowrd = 'Forgot Password?';
   static const String supporttext = "Support: +49 6150 961 6244";
   static const String copyrighttext = "Copyright Â© 2023 RimaOne.";
+  static const String submit = "Submit";
 
   //Dashboard
   static const String home = 'Home';
@@ -65,23 +67,30 @@ class Constants {
 
   // Create Found
   static const String createfound = 'Create Found';
+  static const String editfound = 'Edit Found';
   static const String generalinformation = 'General Information';
   static const String assettype = 'Asset Type';
   static const String foundlocation = 'Found Location';
   static const String quantity = 'Quantity';
   static const String colour = 'Colour';
   static const String depositoremployeeid = 'Depositor Employee Id';
+  static const String claimantemployeeid = 'Claimant Employee Id';
+  static const String claimant = 'Claimant';
   static const String status = 'Status';
   static const String dateofcreation = 'Date of Creation';
   static const String assetype = 'Asset Type';
   static const String founddate = 'Found Date';
+  static const String handedoverdate = 'Handed over Date';
   static const String isdepositordbemployee = 'Is Depositor DBEmployee';
   static const String createdby = 'Created By';
+  static const String itemhandoverby = 'Item Handover By';
   static const String slno = 'Sl No.';
   static const String articletype = 'Article Type';
   static const String depositor = 'Depositor';
   static const String employeedepartment = 'Employee Department';
+  static const String claimantdepartment = 'Claimant Department';
   static const String additionalinformation = 'Additional Information';
+  static const String claimantsignature = 'Claimant Signature';
   static const String informationhere = 'Information here';
   static const String location = 'Location';
   static const String addemployeedepartment = 'Add Employee Department';
@@ -100,6 +109,34 @@ class Constants {
   static const String internationalization = 'Internationalization';
   static const String nodata = 'No Data Found';
   static const String ok = 'Ok';
+  static const String isclaimantdbemployee = 'Is Claimant DB Employee';
+  static const String isclaimantacceptedtosign = 'Claimant accepted to sign';
+  static const String isclaimantacceptedbyemail = 'Claimant accepted by email';
+
+
+  // Law enforcement
+  static const String createlawenforcement = 'Create LawEnforcement Official Visit';
+  static const String editlawenforcement = 'Edit LawEnforcement Official Visit';
+  //static const String editlawenforcement = 'Edit Found';
+  static const String entity = 'Entity';
+  static const String actualtimeofvisit = 'Actual Time of Visit';
+  static const String purposeofvsit = 'Purpose of visit';
+  static const String dbofficialwanttomeet = 'DB official want to meet';
+  static const String dbofficialdepartment = 'DB official department';
+  static const String dbofficialemailidaccompaniedleoofficial = 'DB Official email ID Accompanied LEO official';
+  static const String officialsidcardverified = 'Officials Id Card Verified?';
+  static const String documentifanytoconfirmpurpose = 'Document if any to confirm purpose';
+  static const String incaseofpolicewasofficialinuniform = 'In case of Police, was official in uniform?';
+  static const String designation = 'Designation';
+  static const String officeaddress = 'Office Address';
+  static const String emailid = 'Email Id';
+  static const String contactno = 'Contact No';
+  static const String department = 'Department';
+  static const String distributiongroups = 'Distribution Groups';
+  static const String upload = 'Upload';
+  static const String addanothervisitingofficialdetails = "Add Another Visiting Official Details";
+  static const String visitingofficialdetails = "Visiting Official Details";
+  
 
   //List page - Found Article
   static const String searchHintText = 'Search....';
@@ -122,6 +159,6 @@ class Constants {
 
 
   // Date formats
-static const String dateFormat = 'yyyy-MM-dd';
+static const String dateFormat = 'dd/MM/yyyy';
 static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';
 }

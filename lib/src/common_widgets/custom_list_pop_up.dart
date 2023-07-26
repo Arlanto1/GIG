@@ -2,6 +2,7 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
+import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -115,8 +116,9 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
             children: [
               textHandling(
                   'Found Date : ',
+                  widget.userItem?.foundDate != null ?
                   Utils.timestamptoDateConversion(
-                      widget.userItem?.foundDate, Constants.dateFormat)),
+                     int.parse(widget.userItem?.foundDate ?? '0'), Constants.dateFormat) : ''),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
@@ -124,8 +126,9 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
             children: [
               textHandling(
                   'Created By : ',
+                  widget.userItem?.inputDate != null ?
                   Utils.timestamptoDateConversion(
-                      widget.userItem?.inputDate,Constants.dateFormat)),
+                      int.parse(widget.userItem?.inputDate ?? '0'),Constants.dateFormat): ''),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
@@ -175,8 +178,9 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
             children: [
               textHandling(
                   'Handed Over Date : ',
+                  widget.userItem?.handoverDate != null ?
                   Utils.timestamptoDateConversion(
-                      widget.userItem?.handoverDate,Constants.dateFormat)),
+                    int.parse(widget.userItem?.handoverDate ?? '0'),Constants.dateFormat): ''),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),

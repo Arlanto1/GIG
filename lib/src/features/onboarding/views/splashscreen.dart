@@ -4,6 +4,7 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

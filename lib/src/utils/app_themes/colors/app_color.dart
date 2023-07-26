@@ -20,6 +20,9 @@ class AppColors {
   static const Color ligtblackBackground = Color(0xFF444347);
   static const Color boldgreyBackground = Color(0xFF969090);
   static const Color gerylightBackground = Color(0xFFCACACA);
+  static const Color enabletextfieldBackground = Color(0xFFFAFAFB);
+  static const Color disabletextfieldBackground = Color(0xFFE6E6E9);
+  
 
 
 

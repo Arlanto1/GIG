@@ -15,6 +15,7 @@ class InitializeProviders extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => foundListArticleCubit),
         BlocProvider(create: (context) => createFoundArticleCubit),
+        BlocProvider(create: (context) => lawenforcementCubit),
       ],
       child: child,
     );

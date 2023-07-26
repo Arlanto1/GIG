@@ -2,14 +2,15 @@ import 'package:db_atom/app.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
-
+import 'package:db_atom/src/features/article_found_register_module/foundlist/views/found_list_page.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/create_found.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/views/found_list_page.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_attachment.dart';
 import 'package:db_atom/src/features/dashboard/views/charts/pie_chart.dart';
 import 'package:db_atom/src/features/dashboard/views/my_home_page.dart';
+import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
+import 'package:db_atom/src/features/law_enforcement_list/views/ln_list_page.dart';
+import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.dart';
 import 'package:db_atom/src/features/login/views/login_view.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/routing/router.dart';
@@ -32,7 +33,7 @@ class RouteGenerator {
         if (settings.arguments != null) {
           final listroutes = settings.arguments as Map<String, dynamic>;
           if (listroutes != null) {
-             FoundListArticleDetails? listuser = listroutes["UserElement"];
+            FoundListArticleDetails? listuser = listroutes["UserElement"];
             return MaterialPageRoute(
                 builder: (context) => Createfound(listuser: listuser));
           }
@@ -40,7 +41,19 @@ class RouteGenerator {
         } else {
           return MaterialPageRoute(builder: (context) => Createfound());
         }
-
+      case lawenforcementScreenRoute:
+       // return MaterialPageRoute(builder: (context) => CreateLawenforcement());
+       if (settings.arguments != null) {
+          final listroutes = settings.arguments as Map<String, dynamic>;
+          if (listroutes != null) {
+            LawEnforcementDetails? listuser = listroutes["UserElement"];
+            return MaterialPageRoute(
+                builder: (context) => CreateLawenforcement(listuser: listuser));
+          }
+          return MaterialPageRoute(builder: (context) => CreateLawenforcement());
+        } else {
+          return MaterialPageRoute(builder: (context) => CreateLawenforcement());
+        }
       case addemployeedepartmentRoute:
         return MaterialPageRoute(
             builder: (context) => AddEmployeeDepartment(
@@ -56,6 +69,8 @@ class RouteGenerator {
       case customexpansionlisttextsRoute:
         return MaterialPageRoute(
             builder: (context) => CustomExpansionListTexts());
+      case lawEnforcementListRoute:
+        return MaterialPageRoute(builder: (context) => const LnListPageList());
 
       default:
         return MaterialPageRoute(builder: (context) => App());

@@ -10,7 +10,8 @@ class TextfieldAddButton extends StatelessWidget {
   final Function? onTap;
   final String? title;
   final double? height;
-  const TextfieldAddButton({Key? key, this.onTap, this.title,this.height
+  final bool? isDisableColor;
+  const TextfieldAddButton({Key? key, this.onTap, this.title,this.height,this.isDisableColor
 
       // required this.textfield,
       })
@@ -26,9 +27,9 @@ class TextfieldAddButton extends StatelessWidget {
           height: 60,
           width: 50,
           decoration: BoxDecoration(
-              color: AppColors.navigationSkybluecolor,
+              color:(isDisableColor ?? false) ? AppColors.disabletextfieldBackground:AppColors.navigationSkybluecolor, 
               border: Border.all(
-                color: AppColors.navigationSkybluecolor,
+                color: (isDisableColor ?? false) ? AppColors.disabletextfieldBackground:AppColors.navigationSkybluecolor,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(8))),
           child:
@@ -75,6 +76,7 @@ class TextfieldAddButton extends StatelessWidget {
               )), //
           height: height,
           decoration: BoxDecoration(
+            color: (isDisableColor ?? false) ? AppColors.disabletextfieldBackground:AppColors.enabletextfieldBackground,
               border: Border.all(
                 color: Color(0xFFCACACA),
                 width: 1.0,

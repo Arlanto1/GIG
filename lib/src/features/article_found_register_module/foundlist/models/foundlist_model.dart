@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
+
 FoundListModel foundListModelFromJson(String str) => FoundListModel.fromJson(json.decode(str));
 
 String foundListModelToJson(FoundListModel data) => json.encode(data.toJson());
@@ -42,9 +44,9 @@ class ListElement {
   String? foundId;
   int? id;
   String? slNo;
-  int? inputDate;
+  String? inputDate;
   int? typeOfAsset;
-  int? foundDate;
+  String? foundDate;
   String? foundLocation;
   String? additionalInformation;
   int? quantity;
@@ -59,11 +61,11 @@ class ListElement {
   bool? claimantNoSign;
   dynamic claimantSign;
   String? claimantEmployeeId;
-  int? handoverDate;
+  String? handoverDate;
   Claimant? entrySecurity;
   Claimant? handoverSecurity;
   int? status;
-  int? modifiedDate;
+  String? modifiedDate;
   String? modifiedBy;
   dynamic eventProtection;
   String? depositorName;

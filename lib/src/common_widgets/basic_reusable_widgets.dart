@@ -2,6 +2,7 @@ import 'package:db_atom/src/common_widgets/screen_size_config.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
+import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -85,6 +86,41 @@ class CommonWidgets {
         ),
       ),
       child: child,
+    );
+  }
+ static Widget textDisplay(String name, TextStyle? style) {
+    return Container(
+      alignment: Alignment.topLeft,
+      child: Text(
+        name,
+        style: style,
+      ),
+    );
+  }
+
+  static Widget horizentaltextHandling(String title, String desc) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          alignment: Alignment.topLeft,
+          child: Text(
+            title,
+            style: Styles.textStyleBlack14,
+          ),
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Expanded(
+          child: Container(
+              alignment: Alignment.topLeft,
+              child: Text(
+                desc,
+                style: Styles.textStyleBoldGreydark14,
+              )),
+        ),
+      ],
     );
   }
 }

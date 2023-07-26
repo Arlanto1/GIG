@@ -1,3 +1,4 @@
+import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 
 class FlutterInputField extends StatelessWidget {
@@ -15,6 +16,7 @@ class FlutterInputField extends StatelessWidget {
   final double hintFontSize;
   final bool? autoFocus;
   final bool? isEnable;
+  final bool? isDisableColor;
   final String textFormKey;
   final TextInputType keyboardType;
 
@@ -36,6 +38,7 @@ class FlutterInputField extends StatelessWidget {
     required this.textFormKey,
     this.keyboardType = TextInputType.text,
     this.onTap,
+    this.isDisableColor
   }) : super(key: key);
 
   @override
@@ -49,6 +52,8 @@ class FlutterInputField extends StatelessWidget {
       autofocus: autoFocus!,
       keyboardType: keyboardType,
       decoration: InputDecoration(
+        fillColor: (isDisableColor ?? false) ? AppColors.disabletextfieldBackground:AppColors.enabletextfieldBackground,
+        filled: true,
         border: OutlineInputBorder(),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xFFCACACA), width: 1.0),

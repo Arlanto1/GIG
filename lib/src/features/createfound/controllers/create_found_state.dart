@@ -1,5 +1,6 @@
 // Created by Ramesh
 import 'package:db_atom/src/features/createfound/models/attachment_model.dart';
+import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_submit_model.dart';
 import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
@@ -11,12 +12,7 @@ import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:equatable/equatable.dart';
 
-enum CreateFoundStateType {
-  initial,
-  loading,
-  success,
-  failure,
-}
+enum CreateFoundStateType { initial, loading, success, failure, addattachment }
 
 class CreateFoundState extends Equatable {
   GetDepositor? getDepositorResponse;
@@ -31,7 +27,8 @@ class CreateFoundState extends Equatable {
   SerialNumberModel? getSerialnumberResponse;
   final String? errorMessage;
   final CreateFoundStateType stateType;
-  final List<AttachmentModel>? loadAttachments;
+  List<CreateImage>? loadAttachments = [];
+   final int? eventId;
 
   CreateFoundState({
     this.getDepositorResponse,
@@ -47,6 +44,7 @@ class CreateFoundState extends Equatable {
     required this.stateType,
     this.errorMessage,
     this.loadAttachments,
+    this.eventId
   });
 
   CreateFoundState copyWith({
@@ -62,25 +60,30 @@ class CreateFoundState extends Equatable {
     SerialNumberModel? getSerialnumberResponse,
     String? errorMessage,
     CreateFoundStateType? stateType,
-    List<AttachmentModel>? loadAttachments,
-
+    List<CreateImage>? loadAttachments,
+    final int? eventId,
   }) {
     return CreateFoundState(
-      getDepositorResponse: getDepositorResponse ?? this.getDepositorResponse,
-      getLocationsResponse: getLocationsResponse ?? this.getLocationsResponse,
-      getEmployeeDepartmentsResponse:
-          getEmployeeDepartmentsResponse ?? this.getEmployeeDepartmentsResponse,
-      getArticleTypeResponse: getArticleTypeResponse ?? this.getArticleTypeResponse,
-      createOrganisationResponse: createOrganisationResponse ?? this.createOrganisationResponse,
-      createEmployeeDepartments: createEmployeeDepartments ?? this.createEmployeeDepartments,
-      createUserResponse: createUserResponse ?? this.createUserResponse,
-      getUserDetailsResponse: getUserDetailsResponse ?? this.getUserDetailsResponse,
-      createFoundResponse: createFoundResponse ?? this.createFoundResponse,
-      getSerialnumberResponse: getSerialnumberResponse ?? this.getSerialnumberResponse,
-      errorMessage: errorMessage ?? this.errorMessage,
-      stateType: stateType ?? this.stateType,
-      loadAttachments: loadAttachments ?? this.loadAttachments
-    );
+        getDepositorResponse: getDepositorResponse ?? this.getDepositorResponse,
+        getLocationsResponse: getLocationsResponse ?? this.getLocationsResponse,
+        getEmployeeDepartmentsResponse: getEmployeeDepartmentsResponse ??
+            this.getEmployeeDepartmentsResponse,
+        getArticleTypeResponse:
+            getArticleTypeResponse ?? this.getArticleTypeResponse,
+        createOrganisationResponse:
+            createOrganisationResponse ?? this.createOrganisationResponse,
+        createEmployeeDepartments:
+            createEmployeeDepartments ?? this.createEmployeeDepartments,
+        createUserResponse: createUserResponse ?? this.createUserResponse,
+        getUserDetailsResponse:
+            getUserDetailsResponse ?? this.getUserDetailsResponse,
+        createFoundResponse: createFoundResponse ?? this.createFoundResponse,
+        getSerialnumberResponse:
+            getSerialnumberResponse ?? this.getSerialnumberResponse,
+        errorMessage: errorMessage ?? this.errorMessage,
+        stateType: stateType ?? this.stateType,
+        loadAttachments: loadAttachments ?? this.loadAttachments,
+        eventId :   eventId ?? this.eventId);
   }
 
   @override
@@ -98,5 +101,6 @@ class CreateFoundState extends Equatable {
         errorMessage,
         stateType,
         loadAttachments,
+        eventId
       ];
 }

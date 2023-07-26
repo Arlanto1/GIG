@@ -1,4 +1,5 @@
 import 'package:db_atom/main_DEV.dart';
+import 'dart:math';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -22,7 +23,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   final CreateFoundServices createFoundServices;
-  final List<AttachmentModel>? loadAttachments;
+  List<CreateImage>? loadAttachments;
 
   CreateFoundArticleCubit({
     required this.createFoundServices,
@@ -35,22 +36,24 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         );
 
   // Create new Found Article successfully API call
-  Future<void> createNewFoundArticle(
-      CreateFoundRequestBody bodyRequest, bool isSubmit, BuildContext context, String username) async {
+  Future<void> createNewFoundArticle(CreateFoundRequestBody bodyRequest,
+      bool isSubmit, BuildContext context, String username, String title) async {
     try {
-      SubmitCreateFoundModel createFoundResponse = await createFoundServices.createFoundArticle(
-          bodyRequest, isSubmit,username); //replace empty model with bodyRequest
+      SubmitCreateFoundModel createFoundResponse =
+          await createFoundServices.createFoundArticle(bodyRequest, isSubmit,
+              username); //replace empty model with bodyRequest
       emit(
         state.copyWith(
           createFoundResponse: createFoundResponse,
           stateType: CreateFoundStateType.success,
         ),
       );
-     
+
       if (createFoundResponse.message != null) {
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-           dismissLoadingDialog(context);
-           Utils.dynamicAlert(context, createFoundResponse.message ?? '', 'Create Found','');
+          dismissLoadingDialog(context);
+          Utils.dynamicAlert(
+              context, createFoundResponse.message ?? '',title , '');
         });
       }
     } catch (e) {
@@ -60,36 +63,73 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
           stateType: CreateFoundStateType.failure,
         ),
       );
-    
+
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          dismissLoadingDialog(context);
-        Utils.dynamicAlert(context, Constants.errorText, 'Create Found',Constants.errorText);
+        dismissLoadingDialog(context);
+        Utils.dynamicAlert(
+            context, Constants.errorText, title, Constants.errorText);
       });
     }
   }
 
+  // Create new Found Article successfully API call
+  Future<void> createFoundArticleHandle(Map<String, dynamic> bodyRequest,
+      bool isSubmit, BuildContext context, String username, String title) async {
+    try {
+      SubmitCreateFoundModel createFoundResponse =
+          await createFoundServices.createFoundArticleHandle(bodyRequest, isSubmit,
+              username); //replace empty model with bodyRequest
+      emit(
+        state.copyWith(
+          createFoundResponse: createFoundResponse,
+          stateType: CreateFoundStateType.success,
+        ),
+      );
+
+      if (createFoundResponse.message != null) {
+        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+          dismissLoadingDialog(context);
+          Utils.dynamicAlert(
+              context, createFoundResponse.message ?? '', title, '');
+        });
+      }
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreateFoundStateType.failure,
+        ),
+      );
+
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        dismissLoadingDialog(context);
+        Utils.dynamicAlert(
+            context, Constants.errorText, title, Constants.errorText);
+      });
+    }
+  }
+
+
+  Future<void> addAttchment(List<CreateImage>? data) async {
+    // List<CreateImage> value = createFoundArticleCubit.loadAttachments ?? [];
+    // loadAttachments ??= [];
+    // loadAttachments?.add(data);
+    // print(loadAttachments);
+    int eventIds = Random.secure().nextInt(5);
+    
+    emit(state.copyWith(
+      eventId:eventIds ,
+        loadAttachments: data,
+        stateType: CreateFoundStateType.addattachment));
+  }
+
   
-
-  addAttchment(AttachmentModel data) {
-    List<AttachmentModel> value = createFoundArticleCubit.loadAttachments ?? [];
-    value.add(data);
-    emit(state.copyWith(
-      loadAttachments: value,
-    ));
-  }
-
-  setAttchment(AttachmentModel data) {
-    List<AttachmentModel> value = createFoundArticleCubit.loadAttachments ?? [];
-    value.add(data);
-    emit(state.copyWith(
-      loadAttachments: value,
-    ));
-  }
 
   // get depositor user by role API call
   Future<void> getUserByRoleDepositor(String userRole) async {
     try {
-      GetDepositor getDepositorData = await createFoundServices.getUserByRoleDepositor(userRole);
+      GetDepositor getDepositorData =
+          await createFoundServices.getUserByRoleDepositor(userRole);
       emit(
         state.copyWith(
           getDepositorResponse: getDepositorData,
@@ -109,7 +149,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   // Get locations api call
   Future<void> getLocations(String locationsStr) async {
     try {
-      GetLocations getLocationsData = await createFoundServices.getLocations(locationsStr);
+      GetLocations getLocationsData =
+          await createFoundServices.getLocations(locationsStr);
       emit(
         state.copyWith(
           getLocationsResponse: getLocationsData,
@@ -150,7 +191,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   // Get Article type employee Api call
   Future<void> getArticleType(String articleTypeStr) async {
     try {
-      GetArticleType getArticleTypeData = await createFoundServices.getArticleType(articleTypeStr);
+      GetArticleType getArticleTypeData =
+          await createFoundServices.getArticleType(articleTypeStr);
       emit(
         state.copyWith(
           getArticleTypeResponse: getArticleTypeData,
@@ -168,7 +210,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   }
 
   // Create organisation call
-  Future<void> createOrganisation(String name, String orgName, BuildContext context) async {
+  Future<void> createOrganisation(
+      String name, String orgName, BuildContext context) async {
     try {
       CreateOrganisation createOrganisationData =
           await createFoundServices.createOrganisation(name, orgName);
@@ -179,7 +222,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         ),
       );
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-         Utils.dynamicAlert(context, 'Added sucessfully', Constants.addarticletype,'');
+        Utils.dynamicAlert(
+            context, 'Added sucessfully', Constants.addarticletype, '');
       });
     } catch (e) {
       emit(
@@ -189,13 +233,15 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         ),
       );
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-         Utils.dynamicAlert(context, Constants.errorText, Constants.addarticletype,Constants.errorText);
+        Utils.dynamicAlert(context, Constants.errorText,
+            Constants.addarticletype, Constants.errorText);
       });
     }
   }
 
   // Create organisation call
-  Future<void> createEmplyeeDepartments(String name, String orgName, BuildContext context) async {
+  Future<void> createEmplyeeDepartments(
+      String name, String orgName, BuildContext context) async {
     try {
       CreateOrganisation createEmployeeDeptData =
           await createFoundServices.createOrganisation(name, orgName);
@@ -206,7 +252,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         ),
       );
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-         Utils.dynamicAlert(context, 'Added sucessfully', Constants.addarticletype,'');
+        Utils.dynamicAlert(
+            context, 'Added sucessfully', Constants.addarticletype, '');
       });
     } catch (e) {
       emit(
@@ -216,17 +263,18 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         ),
       );
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-         Utils.dynamicAlert(context, Constants.errorText, Constants.addarticletype,Constants.errorText);
+        Utils.dynamicAlert(context, Constants.errorText,
+            Constants.addarticletype, Constants.errorText);
       });
     }
   }
 
   // Create user call
-  Future<void> createUser(
-      String firstName, String lastName, String email, String role, BuildContext context) async {
+  Future<void> createUser(String firstName, String lastName, String email,
+      String role, BuildContext context) async {
     try {
-      CreateUserModel createUserData =
-          await createFoundServices.createUser(firstName, lastName, email, role);
+      CreateUserModel createUserData = await createFoundServices.createUser(
+          firstName, lastName, email, role);
       emit(
         state.copyWith(
           createUserResponse: createUserData,
@@ -234,7 +282,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         ),
       );
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-         Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser,'');
+        Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser, '');
       });
     } catch (e) {
       emit(
@@ -244,7 +292,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         ),
       );
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-         Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser,Constants.errorText);
+        Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser,
+            Constants.errorText);
       });
     }
   }
@@ -252,7 +301,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   // Get user details call
   Future<void> getUserDetails(String userId) async {
     try {
-      GetUserDetails getUserData = await createFoundServices.getUserDetails(userId);
+      GetUserDetails getUserData =
+          await createFoundServices.getUserDetails(userId);
       emit(
         state.copyWith(
           getUserDetailsResponse: getUserData,
@@ -270,10 +320,11 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   }
 
   // Serialnumber api  call
-  Future<void> getSerialnumberDetails(String locationid, String modulecode) async {
+  Future<void> getSerialnumberDetails(
+      String locationid, String modulecode) async {
     try {
-      SerialNumberModel getserialnumberResponse =
-          await createFoundServices.getSerialnumberDetails(locationid, modulecode);
+      SerialNumberModel getserialnumberResponse = await createFoundServices
+          .getSerialnumberDetails(locationid, modulecode);
       emit(
         state.copyWith(
           getSerialnumberResponse: getserialnumberResponse,

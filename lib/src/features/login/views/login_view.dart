@@ -34,6 +34,7 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     super.initState();
     userNameTextController.text = 'user2@user2.com';
+    username = 'user2@user2.com';
   }
 
   @override
@@ -153,6 +154,7 @@ class _LoginViewState extends State<LoginView> {
                                   //      ValidLoginDetails(userName: username, password: password);
                                   //  widget.onValidLogin(validLoginDetails);
                                   await SharedPrefs.setUsername(username);
+                                  await SharedPrefs.setUserId('14');
                                  await SharedPrefs.setIdentifymenuindex(0);
                                 Navigator.pushNamed(context, homePageRoute);
                                   //_loginSuccess(context);
