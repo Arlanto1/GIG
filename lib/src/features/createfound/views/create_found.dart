@@ -598,10 +598,12 @@ class _CreatefoundState extends State<Createfound> {
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
+                barrierDismissible: false,
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return const AddEmployeeDepartment(
+                    return  AddEmployeeDepartment(
                       title: Constants.addarticletype,
+                      createoundstate:  state,
                     );
                   });
             },
@@ -665,6 +667,7 @@ class _CreatefoundState extends State<Createfound> {
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
+                barrierDismissible: false,
                   context: context,
                   builder: (BuildContext dialogContext) {
                     return const CreateFoundNewUser();
@@ -694,10 +697,12 @@ class _CreatefoundState extends State<Createfound> {
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
+                barrierDismissible: false,
                   context: context,
                   builder: (BuildContext dialogContext) {
                     return AddEmployeeDepartment(
-                      title: name,
+                      title:Constants.addemployeedepartment,
+                      createoundstate: state,
                     );
                   });
             },

@@ -1178,10 +1178,12 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
+                barrierDismissible: false,
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return const AddEmployeeDepartment(
-                      title: Constants.addarticletype,
+                    return  AddEmployeeDepartment(
+                      title: Constants.addemployeedepartment,
+                      lawstate: state,
                     );
                   });
             },
@@ -1303,7 +1305,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
               (state.getuserResponse?.email ?? '') +
               ')')
           : '',
-      height: 60,
+      height: 70,
       isDisableColor: widget.listuser == null ||
               (state.getuserResponse != null &&
                   ((state.getuserResponse?.name ?? '').isEmpty))

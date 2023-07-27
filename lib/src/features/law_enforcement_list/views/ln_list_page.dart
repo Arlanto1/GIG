@@ -27,7 +27,7 @@ class LnListPageList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<LawEnforcementBloc>(
       create: (_) => LawEnforcementBloc()
-        ..add(const LawEnforcementFetch(startPos: 0, maxPos: 10)),
+        ..add(const LawEnforcementFetch(startPos: 0, maxPos: 20)),
       child: const LnPage(),
     );
   }
@@ -42,7 +42,7 @@ class LnPage extends StatefulWidget {
 
 class _LnPageState extends State<LnPage> {
   late final ScrollController _scrollController;
-  int pageNumber = 1;
+  int pageNumber = 0;
 
   @override
   void initState() {

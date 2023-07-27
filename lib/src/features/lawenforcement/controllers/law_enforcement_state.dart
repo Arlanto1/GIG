@@ -1,4 +1,5 @@
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
+import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -46,6 +47,8 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
   List<DistributionGroup>? loadGroups = [];
    DistributionGroupModel? groups;
    DistributionGroup? listIndividualdept;
+   CreateOrganisation? createOrganisationResponse;
+  CreateOrganisation? createEmployeeDepartments;
   
 
   LawEnforcementState({
@@ -78,6 +81,8 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
     this.loadGroups,
     this.groups,
     this.listIndividualdept,
+    this.createEmployeeDepartments,
+    this.createOrganisationResponse
     
   });
   LawEnforcementState copyWith({
@@ -110,6 +115,8 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
   List<DistributionGroup>? loadGroups, 
   DistributionGroupModel? groups,
   DistributionGroup? listIndividualdept,
+  CreateOrganisation? createOrganisationResponse,
+  CreateOrganisation? createEmployeeDepartments,
 
 
   
@@ -144,7 +151,9 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
       lawcreateFoundresponse: lawcreateFoundresponse ?? this.lawcreateFoundresponse,
       loadGroups: loadGroups ?? this.loadGroups,
       groups: groups ?? this.groups,
-      listIndividualdept: listIndividualdept ?? this.listIndividualdept
+      listIndividualdept: listIndividualdept ?? this.listIndividualdept,
+      createEmployeeDepartments: createEmployeeDepartments ?? this.createEmployeeDepartments,
+      createOrganisationResponse: createOrganisationResponse ?? this.createOrganisationResponse
     );
   }
 
@@ -178,7 +187,9 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
         lawcreateFoundresponse,
         loadGroups,
         groups,
-        listIndividualdept
+        listIndividualdept,
+        createEmployeeDepartments,
+        createOrganisationResponse
       ];
 
 }

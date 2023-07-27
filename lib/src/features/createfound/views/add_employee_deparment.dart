@@ -2,16 +2,23 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/pop_button.dart';
+import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 
+import '../../lawenforcement/controllers/law_enforcement_state.dart';
+
 class AddEmployeeDepartment extends StatefulWidget {
-  const AddEmployeeDepartment({super.key, required this.title});
+  AddEmployeeDepartment(
+      {super.key, required this.title, this.lawstate, this.createoundstate});
   final String title;
+  LawEnforcementState? lawstate;
+  CreateFoundState? createoundstate;
 
   @override
   State<AddEmployeeDepartment> createState() => AddEmployeeDepartmentState();
@@ -29,11 +36,25 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
   }
 
   void _addArticle(String name, String key) async {
-    await createFoundArticleCubit.createOrganisation(name, 'ARTICLE_LIST', context);
+    showLoadingDialog(context);
+    if (widget.lawstate != null) {
+      await lawenforcementCubit.createOrganisation(
+          name, 'ARTICLE_LIST', context);
+    } else if (widget.createoundstate != null) {
+      await createFoundArticleCubit.createOrganisation(
+          name, 'ARTICLE_LIST', context);
+    }
   }
 
   void _createEmployeeDepartment(String name, String key) async {
-    await createFoundArticleCubit.createEmplyeeDepartments(name, 'EMPLOYEE_DEPARTMENTS', context);
+    showLoadingDialog(context);
+    if (widget.lawstate != null) {
+      await lawenforcementCubit.createEmplyeeDepartments(
+          name, 'EMPLOYEE_DEPARTMENTS', context);
+    } else if (widget.createoundstate != null) {
+      await createFoundArticleCubit.createEmplyeeDepartments(
+          name, 'EMPLOYEE_DEPARTMENTS', context);
+    }
   }
 
   @override
@@ -46,8 +67,8 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
         alignment: Alignment.center,
         child: Text(
           widget.title,
-          style: Styles.textFontSet(18, AppColors.textgreyThemecolor, FontWeight.normal,
-              Constants.customFontSemiBoldFamily),
+          style: Styles.textFontSet(18, AppColors.textgreyThemecolor,
+              FontWeight.normal, Constants.customFontSemiBoldFamily),
         ),
       ),
       backgroundColor: AppColors.backgroundWhitecolor,
@@ -177,7 +198,8 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
             if (Constants.addarticletype == widget.title) {
               _addArticle(nameTextController.text, keyTextController.text);
             } else if (Constants.addemployeedepartment == widget.title) {
-              _createEmployeeDepartment(nameTextController.text, keyTextController.text);
+              _createEmployeeDepartment(
+                  nameTextController.text, keyTextController.text);
             }
           } catch (e) {
             // present userwith error message

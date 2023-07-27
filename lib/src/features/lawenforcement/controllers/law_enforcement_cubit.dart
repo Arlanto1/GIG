@@ -4,6 +4,7 @@ import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
+import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -36,7 +37,73 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
           ),
         );
 
+// 
+//law organisation call
+  Future<void> createOrganisation(
+      String name, String orgName, BuildContext context) async {
+    try {
+      CreateOrganisation createOrganisationData =
+          await lawenforcementServices.createOrganisation(name, orgName);
+      emit(
+        state.copyWith(
+          createOrganisationResponse: createOrganisationData,
+          stateType: LawEnforcementStateType.success,
+        ),
+      );
+      dismissLoadingDialog(context);
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Utils.dynamicAlert(
+            context, 'Added sucessfully', Constants.addarticletype, '');
+      });
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: LawEnforcementStateType.failure,
+        ),
+      );
+      dismissLoadingDialog(context);
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Utils.dynamicAlert(context, Constants.errorText,
+            Constants.addarticletype, Constants.errorText);
+      });
+    }
+  }
 
+  // law organisation call
+  Future<void> createEmplyeeDepartments(
+      String name, String orgName, BuildContext context) async {
+        
+        
+    try {
+      CreateOrganisation createEmployeeDeptData =
+          await lawenforcementServices.createOrganisation(name, orgName);
+      emit(
+        state.copyWith(
+          createEmployeeDepartments: createEmployeeDeptData,
+          stateType: LawEnforcementStateType.success,
+        ),
+      );
+      dismissLoadingDialog(context);
+      await lawenforcementCubit.getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Utils.dynamicAlert(
+            context, 'Added sucessfully', Constants.addemployeedepartment, '');
+      });
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: LawEnforcementStateType.failure,
+        ),
+      );
+      dismissLoadingDialog(context);
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Utils.dynamicAlert(context, Constants.errorText,
+            Constants.addemployeedepartment, Constants.errorText);
+      });
+    }
+  }
 
   // Create new Found Article successfully API call
   Future<void> lawcreateNewFoundArticle(LawEnforcementRequestBody bodyRequest,

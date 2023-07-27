@@ -116,22 +116,25 @@ class CustomMultipleSelectionListTextsState
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
         return Container(
-          height: height,
+          height: height/2,
           width: width - 40,
           child: SingleChildScrollView(
-            child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // (widget.articleList != null && widget.articleList!.isNotEmpty) ||
-                //         (widget.duplicateemployeeDepartments != null &&
-                //             widget.duplicateemployeeDepartments!.isNotEmpty) ||
-                //         (widget.depostorList != null &&
-                //             widget.depostorList!.isNotEmpty)
-                //  ?
-                searchWidget(),
-                //  : Container(),
-                setupAlertDialoadContainer(height, width),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // (widget.articleList != null && widget.articleList!.isNotEmpty) ||
+                  //         (widget.duplicateemployeeDepartments != null &&
+                  //             widget.duplicateemployeeDepartments!.isNotEmpty) ||
+                  //         (widget.depostorList != null &&
+                  //             widget.depostorList!.isNotEmpty)
+                  //  ?
+                  searchWidget(),
+                  //  : Container(),
+                  setupAlertDialoadContainer(height, width),
+                ],
+              ),
             ),
           ),
         );

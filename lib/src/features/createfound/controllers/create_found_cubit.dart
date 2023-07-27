@@ -221,6 +221,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
           stateType: CreateFoundStateType.success,
         ),
       );
+       await createFoundArticleCubit.getArticleType('ARTICLE_LIST');
+      dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
             context, 'Added sucessfully', Constants.addarticletype, '');
@@ -232,6 +234,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
           stateType: CreateFoundStateType.failure,
         ),
       );
+      dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, Constants.errorText,
             Constants.addarticletype, Constants.errorText);
@@ -242,6 +245,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   // Create organisation call
   Future<void> createEmplyeeDepartments(
       String name, String orgName, BuildContext context) async {
+        
+        
     try {
       CreateOrganisation createEmployeeDeptData =
           await createFoundServices.createOrganisation(name, orgName);
@@ -251,6 +256,9 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
           stateType: CreateFoundStateType.success,
         ),
       );
+      await createFoundArticleCubit
+        .getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
+      dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
             context, 'Added sucessfully', Constants.addarticletype, '');
@@ -262,9 +270,10 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
           stateType: CreateFoundStateType.failure,
         ),
       );
+      dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, Constants.errorText,
-            Constants.addarticletype, Constants.errorText);
+            Constants.addemployeedepartment, Constants.errorText);
       });
     }
   }
