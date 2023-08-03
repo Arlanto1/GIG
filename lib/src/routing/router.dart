@@ -14,4 +14,5 @@ const String lawEnforcementListRoute = '/lawenforcementlist';
 
 
 const String lawenforcementScreenRoute = '/lawenforcementscreenroute';
+const String materialMovementInward = '/materialMovementInward';
 
