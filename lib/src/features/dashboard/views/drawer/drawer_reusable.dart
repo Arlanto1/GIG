@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/dashboard/controllers/cubit/drawer_cubit.dart';
@@ -57,6 +59,7 @@ class navigationDrawer1 extends StatelessWidget {
               } else if (state is GetDrawerItemChange) {
                 _lastSelectedItem = state.index;
               } else if (state is OperationsGetDrawerItemChange) {
+                log('drawer operation ');
                 _opearationslastSelectedItem = state.index;
               }
               else if (state is SecurityFunctionsGetDrawerItemChange) {
@@ -146,6 +149,7 @@ class navigationDrawer1 extends StatelessWidget {
   List<Widget> _buildDrawerChildren(BuildContext context, DrawerState state) {
     List<Widget> children = [];
 
+    log('build drawer children');
     for (int i = 0; i < drawerItems.length; i++) {
       DrawerItem1 drawerItem = drawerItems[i];
       children.add(
@@ -327,6 +331,8 @@ class navigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, lawEnforcementListRoute);
     } else if (index == 2) {
     } else if (index == 3) {
+      Navigator.pushNamed(context, materialMovementInward);
+
     } else if (index == 4) {
     } else if (index == 5) {}
   }
