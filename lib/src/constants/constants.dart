@@ -60,6 +60,16 @@ class Constants {
   static const String materialmovement = 'Material Movement';
   static const String passmanagement = 'Pass Management';
   static const String logout = 'Logout';
+
+  static const String daypassmgmt = 'Day Pass Management';
+  static const String daypassregister = 'Day Pass Register';
+  static const String visitorpassmgmt = 'Visitor Pass Management';
+  static const String visitorpassregister = 'Visitor Pass Register';
+  static const String vendorpassmgmt = 'Vendor Pass Management';
+  static const String vendorpassregister = 'Vendor Pass Register';
+  static const String sezpassmgmt = 'SEZ Pass Management';
+  static const String sezpassregister = 'SEZ Pass Register';
+  
   static const String yes = 'Yes';
   static const String no = 'No';
   static const String name = 'Name';

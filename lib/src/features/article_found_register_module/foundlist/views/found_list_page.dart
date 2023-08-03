@@ -143,12 +143,12 @@ class _FoundListState extends State<FoundList> {
               {
                 
                   DownloadImage().exportExcel(
-                        context,int.parse(userid), 'export.xslx',0,pageNumber);
+                        context,int.parse(userid), 'export.xslx',0,pageNumber, '/exportFoundExcel');
               }
              else if (value == 1)
               {
                 DownloadImage().exportPdf(
-                        context,int.parse(userid), 'export.pdf',0,pageNumber);
+                        context,int.parse(userid), 'export.pdf',0,pageNumber, '/exportFoundPDF');
               }
               
             },

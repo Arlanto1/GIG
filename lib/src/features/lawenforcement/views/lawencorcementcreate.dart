@@ -1613,11 +1613,13 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
             context,
             "Please enter visting offical details",
           );
+          break;
         } else if (!Validator.isValidEmail(model.email)) {
           Validator().showToast(
             context,
             "Please enter visting offical  details valid email",
           );
+          break;
         } else {
           if (widget.listuser != null &&
               distributiongroupsTextController.text.isEmpty) {
@@ -1625,8 +1627,10 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
               context,
               "Please enter distribution groups",
             );
+            break;
           } else {
             createLawEnforcement(true, widget.listuser?.id ?? 0, globalState);
+            break;
           }
         }
       }

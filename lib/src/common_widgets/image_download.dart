@@ -17,22 +17,23 @@ class DownloadImage {
   downloadData(context,name,url);
   
 }
- Future<void>exportPdf(BuildContext context,int id, String name,int start, int max  ) async {
+ Future<void>exportPdf(BuildContext context,int id, String name,int start, int max , String path ) async {
  
  final endpoint = Environment().config.apiHost;
-  final url = Uri.parse('$endpoint/exportFoundPDF?startPos=$start&maxResults=$max&userId=$id');
+  final url = Uri.parse('$endpoint$path?startPos=$start&maxResults=$max&userId=$id');
   print(url);
   downloadData(context,name,url);
   
 }
- Future<void>exportExcel(BuildContext context,int id, String name,int start, int max  ) async {
+ Future<void>exportExcel(BuildContext context,int id, String name,int start, int max , String path) async {
  
  final endpoint = Environment().config.apiHost;
-  final url = Uri.parse('$endpoint/exportFoundExcel?startPos=$start&maxResults=$max&userId=$id');
+  final url = Uri.parse('$endpoint$path?startPos=$start&maxResults=$max&userId=$id');
   print(url);
   downloadData(context,name,url);
   
 }
+
 downloadData(BuildContext context, String name,Uri url)
 async {
    String? message;

@@ -19,6 +19,12 @@ void getSecurityindexChange(int index) {
     emit(SecurityFunctionsSetDrawerItemChange(index));
     emit(SecurityFunctionsGetDrawerItemChange(index));
   }
+
+
+  void getPassmgmtindexChange(int index) {
+    emit(PassmgmtSetDrawerItemChange(index));
+    emit(PassmgmtGetDrawerItemChange(index));
+  }
   
 
  
