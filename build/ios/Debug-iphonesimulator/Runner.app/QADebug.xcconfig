@@ -1,0 +1,6 @@
+#include "Generated.xcconfig"
+
+FLUTTER_TARGET=lib/main_QA.dart
+ASSET_PREFIX=QA
+BUNDLE_NAME=QA
+BUNDLE_DISPLAY_NAME=QA
