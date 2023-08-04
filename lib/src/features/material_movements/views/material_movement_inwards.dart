@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -16,7 +14,6 @@ import '../../../routing/router.dart';
 import '../../law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import '../../law_enforcement_list/models/law_enforcement_details.dart';
 import '../bloc/inward_bloc.dart';
-import '../models/material_movements_model.dart';
 
 class MaterialMovementInwards extends StatefulWidget {
   const MaterialMovementInwards({super.key});
@@ -84,20 +81,16 @@ class _MaterialMovementInwardsState extends State<MaterialMovementInwards> {
                   ? state.items.length
                   : state.items.length + 1,
               itemBuilder: (context, index) {
-                // buildTodo(context, state, index);
-
-                log('-----state.items--------${state.items}-------');
-                MaterialMovementModel item = state.items[index];
                 return index >= state.items.length
                     ? const Center(
                         child: CustomCircularProgressIndicator(),
                       )
                     : BaseListTileItem(
-                        id: item.id,
-                        inputDate: item.inputDate,
-                        location: item.location,
-                        locationRegion: item.locationRegion,
-                        status: item.status,
+                        id: state.items[index].id,
+                        inputDate: state.items[index].inputDate,
+                        location: state.items[index].location,
+                        locationRegion: state.items[index].locationRegion,
+                        status: state.items[index].status,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,

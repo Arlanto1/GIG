@@ -4,19 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="wip: material movements api base setup done">
-      <change afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_pop_up_items.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/src/features/material_movements/models/material_movements_model.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/src/features/material_movements/views/material_movement_inwards.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="done: material movements inward scroll issue fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_list_tile_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_list_tile_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/configurations/base_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/base_api_service.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/material_movements/bloc/inward_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movements/bloc/inward_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movements/bloc/inward_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movements/bloc/inward_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movements/services/material_movement_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movements/services/material_movement_services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movements/views/material_movement_inward.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movements/views/material_movement_inward.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movements/views/material_movement_inwards.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movements/views/material_movement_inwards.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +97,14 @@
       <option name="project" value="LOCAL" />
       <updated>1691125566509</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="done: material movements inward api calling">
+      <created>1691130050570</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1691130050570</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -124,6 +122,8 @@
     <MESSAGE value="modified API calling" />
     <MESSAGE value="modified API callings" />
     <MESSAGE value="wip: material movements api base setup done" />
-    <option name="LAST_COMMIT_MESSAGE" value="wip: material movements api base setup done" />
+    <MESSAGE value="done: material movements inward api calling" />
+    <MESSAGE value="done: material movements inward scroll issue fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="done: material movements inward scroll issue fixed" />
   </component>
 </project>
