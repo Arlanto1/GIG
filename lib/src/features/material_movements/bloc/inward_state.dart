@@ -3,18 +3,18 @@ part of 'inward_bloc.dart';
 @immutable
  class InwardState extends Equatable {
 
-  final List<LawEnforcementListElement> items;
+  final List<MaterialMovementModel> items;
   final bool hasReachedMax;
   final LawEnforcementListStateType status;
 
   const InwardState(
-      {this.items = const <LawEnforcementListElement>[],
+      {this.items = const <MaterialMovementModel>[],
         this.hasReachedMax = false,
         this.status = LawEnforcementListStateType.initial});
 
 
   InwardState copyWith({
-    List<LawEnforcementListElement>? items,
+    List<MaterialMovementModel>? items,
     bool? hasReachedMax,
     LawEnforcementListStateType? status,
   }) {

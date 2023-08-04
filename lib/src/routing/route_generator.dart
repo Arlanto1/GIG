@@ -17,7 +17,7 @@ import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../features/material_movements/bloc/inward_bloc.dart';
-import '../features/material_movements/views/material_movement_inward.dart';
+import '../features/material_movements/views/material_movement_inwards.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -80,7 +80,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => BlocProvider<InwardBloc>(
           create: (_) => InwardBloc()
             ..add( const InwardFetch(startPos: 0, maxPos: 20)),
-          child: const MaterialMovementInward(),
+          child: const MaterialMovementInwards(),
         ));
 
       default:

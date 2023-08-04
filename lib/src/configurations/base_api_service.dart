@@ -14,6 +14,7 @@ class BaseApiService {
         Uri.parse(url),
         headers: headers,
       );
+      log('response.statusCode----${response.statusCode}');
       if (response.statusCode == HttpStatus.ok) {
         var responseBody = json.decode(response.body);
         // log('responseBody----$responseBody');

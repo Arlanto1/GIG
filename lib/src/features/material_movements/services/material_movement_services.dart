@@ -1,7 +1,8 @@
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
-import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
+
+import '../models/material_movements_model.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -15,7 +16,7 @@ class Apis {
 
 class MaterialMovementServices {
 
-  Future<LawEnforcementListResponse> getMaterialMovements(
+  Future<MaterialMovementsModel> getMaterialMovements(
       {required String startPosition,
       required String maximumRecords,
       required String userId,
@@ -25,7 +26,7 @@ class MaterialMovementServices {
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return LawEnforcementListResponse.fromJson(response);
+    return MaterialMovementsModel.fromJson(response);
   }
 
   Future<LawEnforcementDetails> getMaterialMovement(int id) async {
