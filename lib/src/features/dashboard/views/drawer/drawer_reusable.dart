@@ -331,7 +331,7 @@ class navigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, lawEnforcementListRoute);
     } else if (index == 2) {
     } else if (index == 3) {
-      Navigator.pushNamed(context, materialMovementInward);
+      Navigator.pushNamed(context, materialMovementInwards);
 
     } else if (index == 4) {
     } else if (index == 5) {}

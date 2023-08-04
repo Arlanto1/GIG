@@ -12,12 +12,14 @@ import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement
 import 'package:db_atom/src/features/law_enforcement_list/views/ln_list_page.dart';
 import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.dart';
 import 'package:db_atom/src/features/login/views/login_view.dart';
+import 'package:db_atom/src/features/material_movement/material_movements/bloc/inward_bloc.dart';
+import 'package:db_atom/src/features/material_movement/material_movements/models/material_movements_model.dart';
+import 'package:db_atom/src/features/material_movement/material_movement_details/views/material_movement_inward.dart';
+import 'package:db_atom/src/features/material_movement/material_movements/views/material_movement_inwards.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../features/material_movements/bloc/inward_bloc.dart';
-import '../features/material_movements/views/material_movement_inwards.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -27,11 +29,11 @@ class RouteGenerator {
       case appRoute:
         return MaterialPageRoute(builder: (context) => App());
       case homePageRoute:
-        return MaterialPageRoute(builder: (context) => MyHomePage());
+        return MaterialPageRoute(builder: (context) => const MyHomePage());
       case splashScreenRoute:
-        return MaterialPageRoute(builder: (context) => SplashScreen());
+        return MaterialPageRoute(builder: (context) => const SplashScreen());
       case loginScreenRoute:
-        return MaterialPageRoute(builder: (context) => LoginView());
+        return MaterialPageRoute(builder: (context) => const LoginView());
 
       case createfoundScreenRoute:
         if (settings.arguments != null) {
@@ -65,9 +67,9 @@ class RouteGenerator {
                 ));
 
       case articleFoundListRoute:
-        return MaterialPageRoute(builder: (context) => FoundList());
+        return MaterialPageRoute(builder: (context) => const FoundList());
       case createFoundAttachmentRoute:
-        return MaterialPageRoute(builder: (context) => CreateFoundAttachment());
+        return MaterialPageRoute(builder: (context) => const CreateFoundAttachment());
       case piechartRoute:
         return MaterialPageRoute(builder: (context) => PieChartApp());
       case customexpansionlisttextsRoute:
@@ -76,12 +78,25 @@ class RouteGenerator {
       case lawEnforcementListRoute:
         return MaterialPageRoute(builder: (context) => const LnListPageList());
 
-      case materialMovementInward:
+      case materialMovementInwards:
         return MaterialPageRoute(builder: (context) => BlocProvider<InwardBloc>(
           create: (_) => InwardBloc()
             ..add( const InwardFetch(startPos: 0, maxPos: 20)),
           child: const MaterialMovementInwards(),
         ));
+
+      case materialMovementInward:
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
+          if (arguments.isNotEmpty) {
+            MaterialMovementModel? materialMovement = arguments["MaterialMovementModel"];
+            return MaterialPageRoute(
+                builder: (context) => MaterialMovementInward(materialMovement: materialMovement));
+          }
+          return MaterialPageRoute(builder: (context) => const MaterialMovementInward());
+        } else {
+          return MaterialPageRoute(builder: (context) => const MaterialMovementInward());
+        }
 
       default:
         return MaterialPageRoute(builder: (context) => App());

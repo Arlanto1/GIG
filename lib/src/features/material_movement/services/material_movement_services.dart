@@ -1,8 +1,7 @@
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
-import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
+import 'package:db_atom/src/features/material_movement/material_movements/models/material_movements_model.dart';
 
-import '../models/material_movements_model.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -29,11 +28,11 @@ class MaterialMovementServices {
     return MaterialMovementsModel.fromJson(response);
   }
 
-  Future<LawEnforcementDetails> getMaterialMovement(int id) async {
+  Future<MaterialMovementModel> getMaterialMovement(int id) async {
     final String url = '${Apis._getMaterialMovement}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return LawEnforcementDetails.fromJson(response);
+    return MaterialMovementModel.fromJson(response);
   }
 }

@@ -8,28 +8,51 @@ import '../app_bar.dart';
 import '../custom_pop_menu.dart';
 
 class BaseAppBar {
-  AppHeader buildAppHeader() {
+  AppHeader buildAppHeader({
+    required BuildContext context,
+    required String title,
+    required bool showPopUp,
+    required bool showSaveButton,
+    Function? onTapSave,
+  }) {
     return AppHeader(
       isTitleCenter: false,
-      title: 'Inward Material Movement List',
+      title: title,
       backBtn: IconButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pop(context);
+        },
         icon: SvgPicture.asset(AppIcon.backIcon,
             color: AppColors.backgroundWhitecolor),
       ),
       action: [
-        CustomPopmenu(
-          itemList: const[
-            PopMenuItems("Export Excel", AppIcon.exportexcel),
-            PopMenuItems("Export PDF", AppIcon.exportpdf),
-            PopMenuItems("Export XML", AppIcon.exportxml),
-            PopMenuItems("Close", AppIcon.close),
-          ],
-          itemTap: (value) async {
-            String userid = await SharedPrefs.getUserId();
-          },
-          popupimagename: AppIcon.morewhiteicon,
-        ),
+        if (showPopUp) ...[
+          CustomPopmenu(
+            itemList: const [
+              PopMenuItems("Export Excel", AppIcon.exportexcel),
+              PopMenuItems("Export PDF", AppIcon.exportpdf),
+              PopMenuItems("Export XML", AppIcon.exportxml),
+              PopMenuItems("Close", AppIcon.close),
+            ],
+            itemTap: (value) async {
+              String userid = await SharedPrefs.getUserId();
+            },
+            popupimagename: AppIcon.morewhiteicon,
+          ),
+        ],
+        if(showSaveButton)...[
+          GestureDetector(
+            onTap: () {
+              onTapSave!();
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: SvgPicture.asset(
+                AppIcon.createfoundsaveicon,
+              ),
+            ),
+          )
+        ]
       ],
     );
   }

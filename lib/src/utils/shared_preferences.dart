@@ -1,4 +1,4 @@
-import 'dart:ffi';
+import 'dart:developer';
 
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -73,5 +73,15 @@ class SharedPrefs {
     int? isFoundId = instance.getInt(Constants.isFoundIdKey) ?? 0;
     print(isFoundId);
     return isFoundId; //Future<bool>.value(isLoggedIn);
+  }
+
+  static Future<void> setMaterialMovementId(int value) async {
+    instance.setInt(Constants.isMaterialMovementIdKey, value);
+  }
+
+  static Future<int> getMaterialMovementId() async {
+    int? id = instance.getInt(Constants.isMaterialMovementIdKey) ?? 0;
+    log('$id');
+    return id;
   }
 }

@@ -1,6 +1,5 @@
 part of 'inward_bloc.dart';
 
-@immutable
  class InwardState extends Equatable {
 
   final List<MaterialMovementModel> items;

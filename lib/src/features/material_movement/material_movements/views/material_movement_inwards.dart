@@ -1,25 +1,27 @@
+import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
+import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
+import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
+import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/constants/ui_geometry_constants.dart';
+import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
+import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
+import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../main_DEV.dart';
-import '../../../common_widgets/base_widget/base_app_bar.dart';
-import '../../../common_widgets/base_widget/base_list_tile_item.dart';
-import '../../../common_widgets/cubits.dart';
-import '../../../common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
-import '../../../common_widgets/spinnerdialog.dart';
-import '../../../constants/ui_geometry_constants.dart';
-import '../../../routing/router.dart';
-import '../../law_enforcement_list/controllers/law_enforcement_list_state.dart';
-import '../../law_enforcement_list/models/law_enforcement_details.dart';
 import '../bloc/inward_bloc.dart';
+import '../models/material_movements_model.dart';
 
 class MaterialMovementInwards extends StatefulWidget {
   const MaterialMovementInwards({super.key});
 
   @override
-  State<MaterialMovementInwards> createState() => _MaterialMovementInwardsState();
+  State<MaterialMovementInwards> createState() =>
+      _MaterialMovementInwardsState();
 }
 
 class _MaterialMovementInwardsState extends State<MaterialMovementInwards> {
@@ -60,7 +62,12 @@ class _MaterialMovementInwardsState extends State<MaterialMovementInwards> {
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
         ),
-        appBar: BaseAppBar().buildAppHeader(),
+        appBar: BaseAppBar().buildAppHeader(
+          context: context,
+          title: Constants.materialMovementsInwardTitle,
+          showPopUp: true,
+          showSaveButton: false,
+        ),
         body: BlocBuilder<InwardBloc, InwardState>(builder: (context, state) {
           if (state.status == LawEnforcementListStateType.initial) {
             return const Center(
@@ -95,22 +102,19 @@ class _MaterialMovementInwardsState extends State<MaterialMovementInwards> {
                           showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                  state.items[index]);
+                              return BasePopUpItems(state.items[index]);
                             },
                           );
                           //do the detail edit of user found
                         },
                         onEditTap: (selectedIndex) {
-                          getLawEnforcementId(
-                              state.items[index].id ?? 0);
+                          getLawEnforcementId(state.items[index].id ?? 0);
                         },
                         onViewTap: (selectedIndex) {
                           showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                  state.items[selectedIndex]);
+                              return BasePopUpItems(state.items[selectedIndex]);
                             },
                           );
                         },
@@ -122,20 +126,22 @@ class _MaterialMovementInwardsState extends State<MaterialMovementInwards> {
         }));
   }
 
-  getLawEnforcementId(int lawEnforcementId) async {
+  // TODO: Need to discuss
+  // TODO: whether to use bloc or cubits
+  getLawEnforcementId(int id) async {
     showLoadingDialog(context);
-    LawEnforcementDetails? foundArticleDetailsResponse =
-        await lawEnforcementListCubit.getLawEnforcementById(
-            lawEnforcementId, context);
 
-    editDataLoading(foundArticleDetailsResponse);
+    MaterialMovementModel materialMovementModel =
+        await MaterialMovementServices().getMaterialMovement(id);
+
+    editDataLoading(materialMovementModel);
   }
 
-  void editDataLoading(LawEnforcementDetails? foundArticleDetailsResponse) {
+  void editDataLoading(MaterialMovementModel? materialMovementModel) {
     dismissLoadingDialog(context);
-    if (foundArticleDetailsResponse != null) {
-      Navigator.pushNamed(context, lawenforcementScreenRoute,
-          arguments: {"UserElement": foundArticleDetailsResponse});
+    if (materialMovementModel != null) {
+      Navigator.pushNamed(context, materialMovementInward,
+          arguments: {"MaterialMovementModel": materialMovementModel});
     }
   }
 }

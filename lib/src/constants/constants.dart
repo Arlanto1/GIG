@@ -23,6 +23,7 @@ class Constants {
   static const String isUserIdKey = 'isUserId';
   static const String isFoundIdKey = 'isFoundId';
   static const String isMenuIndexIdentifyKey = 'isMenuIndexIdentify';
+  static const String isMaterialMovementIdKey = 'isMaterialMovementId';
 
   // Images
   static const String bg = 'assets/images/bg.png';
@@ -161,4 +162,9 @@ class Constants {
   // Date formats
 static const String dateFormat = 'dd/MM/yyyy';
 static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';
+
+
+
+  static const String materialMovementsInwardTitle = 'Inward Material Movement List';
+  static const String createMaterialMovementInwardTitle = 'Create Inward Material Movement';
 }
