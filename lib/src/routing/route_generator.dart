@@ -12,12 +12,12 @@ import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement
 import 'package:db_atom/src/features/law_enforcement_list/views/ln_list_page.dart';
 import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.dart';
 import 'package:db_atom/src/features/login/views/login_view.dart';
-import 'package:db_atom/src/features/material_movement_list/bloc/inward_bloc.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../features/material_movement_list/views/material_movement_inward.dart';
+import '../features/material_movements/bloc/inward_bloc.dart';
+import '../features/material_movements/views/material_movement_inward.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

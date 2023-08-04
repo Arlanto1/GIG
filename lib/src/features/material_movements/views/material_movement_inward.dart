@@ -1,5 +1,4 @@
 import 'package:db_atom/src/common_widgets/floating_button.dart';
-import 'package:db_atom/src/features/material_movement_list/bloc/inward_bloc.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,8 +12,8 @@ import '../../../constants/ui_geometry_constants.dart';
 import '../../../routing/router.dart';
 import '../../law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import '../../law_enforcement_list/models/law_enforcement_details.dart';
-import '../../law_enforcement_list/views/law_enforcement_list_item.dart';
 import '../../law_enforcement_list/views/le_custom_list_pop_up.dart';
+import '../bloc/inward_bloc.dart';
 
 class MaterialMovementInward extends StatefulWidget {
   const MaterialMovementInward({super.key});
@@ -79,37 +78,37 @@ class _MaterialMovementInwardState extends State<MaterialMovementInward> {
             child: ListView.builder(
               controller: _scrollController,
               itemCount: state.hasReachedMax
-                  ? state.lawEnforceItems.length
-                  : state.lawEnforceItems.length + 1,
+                  ? state.items.length
+                  : state.items.length + 1,
               itemBuilder: (context, index) {
                 // buildTodo(context, state, index);
 
-                return index >= state.lawEnforceItems.length
+                return index >= state.items.length
                     ? const Center(
                         child: CustomCircularProgressIndicator(),
                       )
                     : BaseListTileItem(
-                        userItem: state.lawEnforceItems[index],
+                        userItem: state.items[index],
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
                               return LawEnforcementCustomPopUpList(
-                                  state.lawEnforceItems[index]);
+                                  state.items[index]);
                             },
                           );
                           //do the detail edit of user found
                         },
                         onEditTap: (selectedIndex) {
                           getLawEnforcementId(
-                              state.lawEnforceItems[index].id ?? 0);
+                              state.items[index].id ?? 0);
                         },
                         onViewTap: (selectedIndex) {
                           showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
                               return LawEnforcementCustomPopUpList(
-                                  state.lawEnforceItems[selectedIndex]);
+                                  state.items[selectedIndex]);
                             },
                           );
                         },
