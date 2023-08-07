@@ -40,6 +40,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../createfound/controllers/create_found_state.dart';
+import '../../../createfound/views/create_found_newuser.dart';
 import '../../material_movements/models/material_movements_model.dart';
 
 class MaterialMovementInwardDetails extends StatefulWidget {
@@ -53,9 +55,19 @@ class MaterialMovementInwardDetails extends StatefulWidget {
 
 class _MaterialMovementInwardDetailsState extends State<MaterialMovementInwardDetails> {
   final GlobalKey<FormState> lawenforcementFormKey = GlobalKey<FormState>();
+  int isClaimantDBEmployeeSelected = 1;
+  String claimant = '';
+  TextEditingController receivedForTextController = TextEditingController();
 
   TextEditingController typeTextController = TextEditingController();
-
+  TextEditingController challanTextController = TextEditingController();
+  TextEditingController poNumberTextController = TextEditingController();
+  TextEditingController materialBriefDescriptionTextController =
+  TextEditingController();
+  TextEditingController quantityTextController = TextEditingController();
+  TextEditingController sendersNameTextController = TextEditingController();
+  TextEditingController materialComingFromAddressTextController =
+  TextEditingController();
   TextEditingController statusTextController = TextEditingController();
   TextEditingController actualdateTextController = TextEditingController();
   TextEditingController dbofficailwanttimeetTextController =
@@ -195,16 +207,49 @@ class _MaterialMovementInwardDetailsState extends State<MaterialMovementInwardDe
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    //created by
+                                    /// Status
+                                    CommonWidgets.textDisplay(
+                                        Constants.status, Styles.textStyleBlack14),
+                                    CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                    FlutterInputField(
+                                      isEnable: false,
+                                      isDisableColor: true,
+                                      textFieldController: statusTextController,
+                                      textFormKey: Keys.statusTextController,
+                                      hintText: '',
+                                      onChange: (String username) {
+                                        //this.username = username;
+                                        setState(() {});
+                                      },
+                                      validateTextField: (String? user) {},
+                                      suffixWidget: GestureDetector(
+                                        onTap: () {},
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: SvgPicture.asset(
+                                            //AppIcon.dropdownicon,
+                                            AppIcon.dropdownicon,
+                                            //fit: BoxFit.,
+                                            color: AppColors.textgreyThemecolor,
+                                            width: 10,
+                                            height: 10,
+                                            key: const Key(Keys.userIcon),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                                    CommonWidgets.horizentaltextHandling(
-                                        Constants.createdby,
+                                    /// Created By
+
+                                    CommonWidgets.verticalTextHandling(
+                                        Constants.entryBy,
                                         state.getUserDetailsResponse
                                                 ?.lastName ??
                                             ''),
+                                    CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                                    // ),
-                                    // Location
+                                    /// Location
                                     CommonWidgets.textDisplay(
                                         Constants.location,
                                         Styles.textStyleBlack14),
@@ -225,12 +270,329 @@ class _MaterialMovementInwardDetailsState extends State<MaterialMovementInwardDe
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    // slno
+                                    /// Sl No.
 
                                     CommonWidgets.horizentaltextHandling(
                                         Constants.slno, serialnumber ?? ''),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
+
+                                    /// Challan/ Invoice Nos/ Gate Pass
+                                    CommonWidgets.textDisplay(
+                                        Constants.challan, Styles.textStyleBlack14),
+                                    CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                    FlutterInputField(
+                                      keyboardType: TextInputType.number,
+                                      textFieldController: challanTextController,
+                                      textFormKey: Keys.generateUniqueKey(),
+                                      hintText: '',
+                                      isEnable: widget.materialMovement == null
+                                          ? true
+                                          : (widget.materialMovement != null &&
+                                          (widget.materialMovement?.challanNo == null))
+                                          ? false
+                                          : true,
+                                      isDisableColor: (widget.materialMovement != null &&
+                                          (widget.materialMovement?.challanNo != null))
+                                          ? true
+                                          : false,
+                                      onChange: (String username) {
+                                        //this.username = username;
+                                        setState(() {});
+                                      },
+                                      validateTextField: (String? user) {},
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                    /// PO Number
+                                    CommonWidgets.textDisplay(
+                                        Constants.poNumber, Styles.textStyleBlack14),
+                                    CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                    FlutterInputField(
+                                      keyboardType: TextInputType.number,
+                                      textFieldController: poNumberTextController,
+                                      textFormKey: Keys.generateUniqueKey(),
+                                      hintText: '',
+                                      isEnable: widget.materialMovement == null
+                                          ? true
+                                          : (widget.materialMovement != null &&
+                                          (widget.materialMovement?.poNumber == null))
+                                          ? false
+                                          : true,
+                                      isDisableColor: (widget.materialMovement != null &&
+                                          (widget.materialMovement?.poNumber != null))
+                                          ? true
+                                          : false,
+                                      onChange: (String username) {
+                                        //this.username = username;
+                                        setState(() {});
+                                      },
+                                      validateTextField: (String? user) {},
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+
+                                    /// Material Brief Description
+                                    CommonWidgets.textDisplay(
+                                        Constants.materialBriefDescription,
+                                        Styles.textStyleBlack14),
+                                    CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                    FlutterInputField(
+                                      lineHeight: 6,
+                                      textFieldController:
+                                      materialBriefDescriptionTextController,
+                                      textFormKey: Keys.generateUniqueKey(),
+                                      hintText: Constants.informationhere,
+                                      isEnable: widget.materialMovement == null
+                                          ? true
+                                          : (widget.materialMovement != null &&
+                                          (widget.materialMovement
+                                              ?.materialDescription ??
+                                              '')
+                                              .isEmpty)
+                                          ? true
+                                          : false,
+                                      isDisableColor: (widget.materialMovement != null &&
+                                          (widget.materialMovement
+                                              ?.materialDescription ??
+                                              '')
+                                              .isEmpty) ||
+                                          widget.materialMovement == null
+                                          ? false
+                                          : true,
+                                      onChange: (String username) {
+                                        //this.username = username;
+                                        setState(() {});
+                                      },
+                                      validateTextField: (String? user) {},
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+
+                                    /// Quantity
+                                    CommonWidgets.textDisplay(
+                                        Constants.quantity, Styles.textStyleBlack14),
+                                    CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                    FlutterInputField(
+                                      keyboardType: TextInputType.number,
+                                      textFieldController: quantityTextController,
+                                      textFormKey: Keys.generateUniqueKey(),
+                                      hintText: '',
+                                      isEnable: widget.materialMovement == null
+                                          ? true
+                                          : (widget.materialMovement != null &&
+                                          (widget.materialMovement?.quantity == null))
+                                          ? false
+                                          : true,
+                                      isDisableColor: (widget.materialMovement != null &&
+                                          (widget.materialMovement?.quantity != null))
+                                          ? true
+                                          : false,
+                                      onChange: (String username) {
+                                        //this.username = username;
+                                        setState(() {});
+                                      },
+                                      validateTextField: (String? user) {},
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                    // article type
+                                    CommonWidgets.textDisplay(Constants.entity,
+                                        Styles.textStyleBlack14),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                    // articleaddButtonwidgetLoading(state),
+                                    entityaddButtonwidgetLoading(state),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+
+
+                                    /// Senders Name
+                                    CommonWidgets.textDisplay(
+                                        Constants.sendersName, Styles.textStyleBlack14),
+                                    CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                    FlutterInputField(
+                                      keyboardType: TextInputType.name,
+                                      textFieldController: sendersNameTextController,
+                                      textFormKey: Keys.generateUniqueKey(),
+                                      hintText: '',
+                                      isEnable: widget.materialMovement == null
+                                          ? true
+                                          : (widget.materialMovement != null &&
+                                          (widget.materialMovement?.materialComingFrom == null))
+                                          ? false
+                                          : true,
+                                      isDisableColor: (widget.materialMovement != null &&
+                                          (widget.materialMovement?.materialComingFrom != null))
+                                          ? true
+                                          : false,
+                                      onChange: (String username) {
+                                        //this.username = username;
+                                        setState(() {});
+                                      },
+                                      validateTextField: (String? user) {},
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                    /// Material Coming From Address
+                                    CommonWidgets.textDisplay(
+                                        Constants.materialBriefDescription,
+                                        Styles.textStyleBlack14),
+                                    CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                    FlutterInputField(
+                                      lineHeight: 6,
+                                      textFieldController:
+                                      materialComingFromAddressTextController,
+                                      textFormKey: Keys.generateUniqueKey(),
+                                      hintText: Constants.informationhere,
+                                      isEnable: widget.materialMovement == null
+                                          ? true
+                                          : (widget.materialMovement != null &&
+                                          (widget.materialMovement
+                                              ?.materialFromAddress ??
+                                              '')
+                                              .isEmpty)
+                                          ? true
+                                          : false,
+                                      isDisableColor: (widget.materialMovement != null &&
+                                          (widget.materialMovement
+                                              ?.materialFromAddress ??
+                                              '')
+                                              .isEmpty) ||
+                                          widget.materialMovement == null
+                                          ? false
+                                          : true,
+                                      onChange: (String username) {
+                                        //this.username = username;
+                                        setState(() {});
+                                      },
+                                      validateTextField: (String? user) {},
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                    /// Officials ID Card Verified?
+                                    CommonWidgets.textDisplay(
+                                        Constants.isOriginalReceiverReceiving,
+                                        Styles.textStyleBlack14),
+                                    radioButtonHandling(
+                                        state.isOfficialIdcardSelected ?? 1,
+                                        Constants.officialsidcardverified),
+
+                                    /// Received For
+                                    widget.materialMovement != null
+                                        ? CommonWidgets.textDisplay(
+                                      Constants.receivedFor,
+                                      Styles.textStyleBlack14,
+                                    )
+                                        : Container(),
+                                    widget.materialMovement != null &&
+                                        isClaimantDBEmployeeSelected == 0
+                                        ? FlutterInputField(
+                                      textFieldController: receivedForTextController,
+                                      textFormKey: Keys.claimantTextController,
+                                      hintText: claimant,
+                                      isEnable: widget.materialMovement == null
+                                          ? true
+                                          : (widget.materialMovement != null &&
+                                          (widget.materialMovement?.otherReceiverName ??
+                                              '')
+                                              .isEmpty)
+                                          ? true
+                                          : false,
+                                      isDisableColor: (widget.materialMovement != null &&
+                                          (widget.materialMovement?.otherReceiverName
+                                               ??
+                                              '')
+                                              .isEmpty)
+                                          ? false
+                                          : true,
+                                      onChange: (String username) {
+                                        //this.username = username;
+                                        claimant = username;
+                                        setState(() {});
+                                      },
+                                      validateTextField: (String? user) {},
+                                    )
+                                        : widget.materialMovement != null
+                                        ? TextfieldAddButton(
+                                      title: claimant,
+                                      height: 60,
+                                      isDisableColor:
+                                      widget.materialMovement == null ||
+                                          claimant.isEmpty
+                                          ? false
+                                          : true,
+                                      onTap: () {
+                                        if (widget.materialMovement == null ||
+                                            claimant.isEmpty) {
+                                          // depositorDialog(
+                                          //     state, Constants.claimant);
+                                        }
+                                      },
+                                    )
+                                        : Container(),
+                                    isClaimantDBEmployeeSelected == 1
+                                        ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                        : Container(),
+
+                                    widget.materialMovement != null
+                                        ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01)
+                                        : Container(),
+
+                                    // Claimant employee id
+
+                                    widget.materialMovement != null &&
+                                        isClaimantDBEmployeeSelected == 1
+                                        ? CommonWidgets.textDisplay(
+                                        Constants.claimantemployeeid,
+                                        Styles.textStyleBlack14)
+                                        : Container(),
+                                    widget.materialMovement != null &&
+                                        isClaimantDBEmployeeSelected == 1
+                                        ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                        : Container(),
+
+                                    widget.materialMovement != null &&
+                                        isClaimantDBEmployeeSelected == 1
+                                        ? FlutterInputField(
+                                      textFieldController:
+                                      receivedForTextController,
+                                      textFormKey:
+                                      Keys.claimantEmpIdTextController,
+                                      isEnable: widget.materialMovement == null
+                                          ? true
+                                          : (widget.materialMovement != null &&
+                                          (widget.materialMovement
+                                              ?.otherReceiverName ??
+                                              '')
+                                              .isEmpty)
+                                          ? true
+                                          : false,
+                                      isDisableColor: (widget.materialMovement != null &&
+                                          (widget.materialMovement
+                                              ?.otherReceiverName ??
+                                              '')
+                                              .isEmpty)
+                                          ? false
+                                          : true,
+                                      hintText: '',
+                                      onChange: (String username) {
+                                        //this.username = username;
+                                        setState(() {});
+                                      },
+                                      validateTextField: (String? user) {},
+                                    )
+                                        : Container(),
+
+                                    widget.materialMovement != null &&
+                                        isClaimantDBEmployeeSelected == 1
+                                        ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01)
+                                        : Container(),
+
 
                                     // article type
                                     CommonWidgets.textDisplay(Constants.entity,
@@ -253,13 +615,7 @@ class _MaterialMovementInwardDetailsState extends State<MaterialMovementInwardDe
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    // Officials ID Card Verified?
-                                    CommonWidgets.textDisplay(
-                                        Constants.officialsidcardverified,
-                                        Styles.textStyleBlack14),
-                                    radioButtonHandling(
-                                        state.isOfficialIdcardSelected ?? 1,
-                                        Constants.officialsidcardverified),
+
 
                                     // Purpose of visit
                                     CommonWidgets.textDisplay(
@@ -637,6 +993,14 @@ class _MaterialMovementInwardDetailsState extends State<MaterialMovementInwardDe
 
     await lawenforcementCubit.getSerialnumberDetails(
         (widget.materialMovement?.location?.id ?? 0).toString(), 'AF');
+
+    challanTextController.text =  widget.materialMovement?.challanNo != null ? widget.materialMovement?.challanNo.toString() ?? "" : '';
+
+    poNumberTextController.text =  widget.materialMovement?.poNumber != null ? widget.materialMovement?.poNumber.toString() ?? "" : '';
+    materialBriefDescriptionTextController.text =  widget.materialMovement?.materialDescription != null ? widget.materialMovement?.materialDescription.toString() ?? "" : '';
+    materialComingFromAddressTextController.text =  widget.materialMovement?.materialFromAddress != null ? widget.materialMovement?.materialFromAddress.toString() ?? "" : '';
+    quantityTextController.text =  widget.materialMovement?.quantity != null ? widget.materialMovement?.quantity.toString() ?? "" : '';
+    sendersNameTextController.text =  widget.materialMovement?.materialComingFrom != null ? widget.materialMovement?.materialComingFrom.toString() ?? "" : '';
 
     lawenforcementCubit.getlocationsResponseData(mumbai);
 
@@ -1735,5 +2099,34 @@ class _MaterialMovementInwardDetailsState extends State<MaterialMovementInwardDe
       // )
       //)
     );
+  }
+
+  depositorDialog(CreateFoundState state, String name) {
+    showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return CustomListTexts(
+            duplicatedepostorList: state.getDepositorResponse?.atomStaticUser ?? [],
+            leftimagename: AppIcon.addicon,
+            onLeftButtonTap: () {
+              Navigator.pop(context);
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return const CreateFoundNewUser();
+                  });
+            },
+            onTap: (AtomStaticUser list) {
+              print(list.name);
+              // if (name.toLowerCase() == 'depositor') {
+              //   selecteddepositorList = list;
+              // } else {
+              //   selectedClaimList = list;
+              // }
+              setState(() {});
+            },
+          );
+        });
   }
 }

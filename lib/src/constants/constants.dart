@@ -208,4 +208,12 @@ class Constants {
 
   static const String materialMovementsInwardTitle = 'Inward Material Movement List';
   static const String createMaterialMovementInwardTitle = 'Create Inward Material Movement';
+  static const String entryBy = 'Entry By';
+  static const String challan = 'Challan/ Invoice Nos/ Gate Pass';
+  static const String poNumber = 'PO Number';
+  static const String materialBriefDescription = 'Material Brief Description';
+  static const String sendersName = 'Senders Name';
+  static const String isOriginalReceiverReceiving = 'Is original receiver receiving';
+  static const String receivedFor = 'Received For';
+
 }

@@ -123,4 +123,27 @@ class CommonWidgets {
       ],
     );
   }
+  static Widget verticalTextHandling(String title, String desc) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          alignment: Alignment.topLeft,
+          child: Text(
+            title,
+            style: Styles.textStyleBlack14,
+          ),
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Container(
+            alignment: Alignment.topLeft,
+            child: Text(
+              desc,
+              style: Styles.textStyleBoldGreydark14,
+            )),
+      ],
+    );
+  }
 }

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Keys {
   static const String userTextField = 'external_login_username_textfield';
   static const String passwordTextField = 'external_login_password_textfield';
@@ -41,5 +43,13 @@ class Keys {
 
   //list page
   static const String searchInputField = 'search_input_field';
+
+
+  static String generateUniqueKey() {
+    final uniqueKey = UniqueKey();
+    return uniqueKey.toString();
+  }
+  /// Material Movement
+
 
 }
