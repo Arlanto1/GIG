@@ -1,6 +1,0 @@
-#include "Generated.xcconfig"
-
-FLUTTER_TARGET=lib/main_UAT.dart
-ASSET_PREFIX=UAT
-BUNDLE_NAME=UAT
-BUNDLE_DISPLAY_NAME=UAT

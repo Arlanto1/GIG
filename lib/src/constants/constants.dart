@@ -203,8 +203,6 @@ class Constants {
   static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';
 // static const String dateFormat = 'yyyy-MM-dd';
 // static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';
-static const String dateFormat = 'dd/MM/yyyy';
-static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';
 
 
 

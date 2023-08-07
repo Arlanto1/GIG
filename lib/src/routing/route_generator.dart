@@ -19,8 +19,10 @@ import 'package:db_atom/src/features/material_movement/material_movement_details
 import 'package:db_atom/src/features/material_movement/material_movements/views/material_movement_inwards.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list_page.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pass_list_page.dart';
 import 'package:db_atom/src/routing/router.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 

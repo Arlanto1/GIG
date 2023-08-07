@@ -1,4 +1,0 @@
-#Mon Aug 07 08:19:58 IST 2023
-base.0=/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/app/intermediates/dex/PRODRelease/mergeDexPRODRelease/classes.dex
-renamed.0=classes.dex
-path.0=classes.dex
