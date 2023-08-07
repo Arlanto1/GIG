@@ -14,7 +14,7 @@ import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.d
 import 'package:db_atom/src/features/login/views/login_view.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/bloc/inward_bloc.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/models/material_movements_model.dart';
-import 'package:db_atom/src/features/material_movement/material_movement_details/views/material_movement_inward.dart';
+import 'package:db_atom/src/features/material_movement/material_movement_details/views/material_movement_inward_details.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/views/material_movement_inwards.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/routing/router.dart';
@@ -91,11 +91,11 @@ class RouteGenerator {
           if (arguments.isNotEmpty) {
             MaterialMovementModel? materialMovement = arguments["MaterialMovementModel"];
             return MaterialPageRoute(
-                builder: (context) => MaterialMovementInward(materialMovement: materialMovement));
+                builder: (context) => MaterialMovementInwardDetails(materialMovement: materialMovement));
           }
-          return MaterialPageRoute(builder: (context) => const MaterialMovementInward());
+          return MaterialPageRoute(builder: (context) => const MaterialMovementInwardDetails());
         } else {
-          return MaterialPageRoute(builder: (context) => const MaterialMovementInward());
+          return MaterialPageRoute(builder: (context) => const MaterialMovementInwardDetails());
         }
 
       default:

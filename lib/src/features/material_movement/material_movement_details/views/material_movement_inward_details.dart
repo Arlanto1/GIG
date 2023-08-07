@@ -42,16 +42,16 @@ import 'package:intl/intl.dart';
 
 import '../../material_movements/models/material_movements_model.dart';
 
-class MaterialMovementInward extends StatefulWidget {
+class MaterialMovementInwardDetails extends StatefulWidget {
   final MaterialMovementModel? materialMovement;
 
-  const MaterialMovementInward({super.key, this.materialMovement});
+  const MaterialMovementInwardDetails({super.key, this.materialMovement});
 
   @override
-  State<MaterialMovementInward> createState() => _MaterialMovementInwardState();
+  State<MaterialMovementInwardDetails> createState() => _MaterialMovementInwardDetailsState();
 }
 
-class _MaterialMovementInwardState extends State<MaterialMovementInward> {
+class _MaterialMovementInwardDetailsState extends State<MaterialMovementInwardDetails> {
   final GlobalKey<FormState> lawenforcementFormKey = GlobalKey<FormState>();
 
   TextEditingController typeTextController = TextEditingController();
@@ -168,7 +168,7 @@ class _MaterialMovementInwardState extends State<MaterialMovementInward> {
 
                                     FlutterInputField(
                                       isEnable: false,
-                                      isDisableColor: false,
+                                      isDisableColor: true,
                                       textFieldController: statusTextController,
                                       textFormKey: Keys.statusTextController,
                                       hintText: '',
@@ -612,10 +612,10 @@ class _MaterialMovementInwardState extends State<MaterialMovementInward> {
     // List<VisitingOfficial>? visitingOfficials = widget.listuser?.visitingOfficials != null ? widget.listuser?.visitingOfficials ?? [] : [];
 
     typeTextController.text =
-    widget.materialMovement?.status == 0 ? "Inward" : "Outward";
+    widget.materialMovement?.status == 1 ? "Inward" : "Outward";
 
     statusTextController.text =
-        widget.materialMovement?.status == 0 ? "Inward" : "Outward";
+        widget.materialMovement?.status == 1? "Non Returnable" : "Returnable";
 
     log('statusTextController.text--------------${statusTextController.text}');
     //state.serialnumberResponse?.serialNo
