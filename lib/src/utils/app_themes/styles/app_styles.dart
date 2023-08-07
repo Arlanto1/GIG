@@ -107,6 +107,13 @@ static const TextStyle textStyleSemiBoldheighGrey14 = TextStyle(
     color: AppColors.white,
   );
 
+  static const TextStyle textStyleNavigator16 = TextStyle(
+    fontSize: 16,
+    fontFamily: Constants.customFontSemiBoldFamily,
+    fontWeight: FontWeight.w600,
+    color: AppColors.navigationSkybluecolor,
+  );
+
   static textFontSet(double fontsize, Color color, FontWeight? fontWeight, String fontfamily) {
     return TextStyle(
         fontFamily: fontfamily, fontSize: fontsize, fontWeight: fontWeight, color: color);

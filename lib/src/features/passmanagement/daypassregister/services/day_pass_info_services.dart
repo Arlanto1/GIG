@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:db_atom/src/configurations/environment_config.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/models/day_passlist_item_model.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/models/day_passlist_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/models/day_pass_info_model.dart';
 import 'package:http/http.dart' as http;
+
+import '../../daypassmgmt/passmgmtlist/models/day_passlist_item_model.dart';
 
 class DayPassInfoServices {
   Future<DayPassInfoResponse> getpassinfoFoundArticleList(String startPosition, String maximumRecords,String userId, String passtype) async {

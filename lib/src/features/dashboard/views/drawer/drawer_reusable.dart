@@ -1,6 +1,7 @@
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/dashboard/controllers/cubit/drawer_cubit.dart';
+import 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pass_list_page.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class navigationDrawer1 extends StatelessWidget {
   navigationDrawer1(this._menuscaffoldKey);
+
   final GlobalKey<ScaffoldState> _menuscaffoldKey;
   final drawerItems = [
     const DrawerItem1(Constants.dashboard, AppIcon.dashboardselect, 0),
@@ -50,6 +52,7 @@ class navigationDrawer1 extends StatelessWidget {
   late int _opearationslastSelectedItem = 10;
   late int _passlastSelectedItem = 10;
   late int _securityfunfunctionslastSelectedItem = 10;
+
   Future<void> getIndeifydrawerIndex() async {
     _lastSelectedItem = await SharedPrefs.getIdentifymenuindex();
   }
@@ -206,8 +209,8 @@ class navigationDrawer1 extends StatelessWidget {
                               color: (i == _opearationslastSelectedItem)
                                   ? AppColors.navigationSkybluecolor
                                   : const Color.fromRGBO(90, 88, 93, 1))),
-                      childrenPadding:
-                          const EdgeInsets.only(left: 20), //children padding
+                      childrenPadding: const EdgeInsets.only(left: 20),
+                      //children padding
                       children: _passmgmtbuildDrawerChildren(context, state)),
                 ),
               ),
@@ -339,8 +342,8 @@ class navigationDrawer1 extends StatelessWidget {
                               color: (i == _lastSelectedItem)
                                   ? AppColors.navigationSkybluecolor
                                   : AppColors.textgreyThemecolor)),
-                      childrenPadding:
-                          const EdgeInsets.only(left: 20), //children padding
+                      childrenPadding: const EdgeInsets.only(left: 20),
+                      //children padding
                       children: _buildOperationsFromSecurity(context, state)),
                 ),
               ),
@@ -434,8 +437,8 @@ class navigationDrawer1 extends StatelessWidget {
                                   (i == _securityfunfunctionslastSelectedItem)
                                       ? AppColors.navigationSkybluecolor
                                       : AppColors.textgreyThemecolor)),
-                      childrenPadding:
-                          const EdgeInsets.only(left: 20), //children padding
+                      childrenPadding: const EdgeInsets.only(left: 20),
+                      //children padding
                       children: _expansionbuildDrawerChildren(context, state)),
                 ),
               ),
@@ -460,7 +463,7 @@ class navigationDrawer1 extends StatelessWidget {
     } else if (index == 2) {
     } else if (index == 3) {
     } else if (index == 4) {
-     // 
+      //
     } else if (index == 5) {}
   }
 
@@ -473,14 +476,23 @@ class navigationDrawer1 extends StatelessWidget {
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassmgmtindexChange(index);
     if (index == 0) {
-       Navigator.pushNamed(context, daypassmanagementListRoute);
+      print('pass mangement index1');
+      Navigator.pushNamed(context, daypassmanagementListRoute);
     } else if (index == 1) {
-       Navigator.pushNamed(context, daypassregistertListRoute);
+      Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
+        "passMngDetails": PassMngArguments('1', 'Day Pass Register')
+      });
     } else if (index == 2) {
-     
+      Navigator.pushNamed(context, daypassregistertListRoute,arguments: {
+        "passMngDetails": PassMngArguments('2', 'Visitor Pass Register')
+      });
     } else if (index == 3) {
+      Navigator.pushNamed(context, daypassregistertListRoute);
     } else if (index == 4) {
-    } else if (index == 5) {}
+      Navigator.pushNamed(context, daypassregistertListRoute);
+    } else if (index == 5) {
+      Navigator.pushNamed(context, daypassregistertListRoute);
+    }
   }
 
   _onSecurityExpansionSelectItem(int index, BuildContext context) async {

@@ -1,0 +1,212 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.arlanto.atomedge"
+4    android:versionCode="1"
+5    android:versionName="1.0.1" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+8-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="33" />
+9-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:2:1-62
+11-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:2:18-60
+12    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+12-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:3:1-77
+12-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:3:18-74
+13    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+13-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:4:1-76
+13-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:4:18-73
+14    <uses-permission android:name="android.permission.CAMERA" />
+14-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:5:1-61
+14-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:5:18-58
+15
+16    <uses-feature android:name="android.hardware.camera" />
+16-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:6:1-56
+16-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:6:15-53
+17    <uses-feature android:name="android.hardware.camera.autofocus" />
+17-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:7:1-66
+17-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:7:15-63
+18
+19    <queries>
+19-->[:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:11:5-17:15
+20        <intent>
+20-->[:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:12:9-16:18
+21            <action android:name="android.intent.action.GET_CONTENT" />
+21-->[:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:13:13-72
+21-->[:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:13:21-69
+22
+23            <data android:mimeType="*/*" />
+23-->[:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:15:13-44
+23-->[:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:15:19-41
+24        </intent>
+25    </queries>
+26
+27    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+27-->[:connectivity] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/connectivity/intermediates/merged_manifest/release/AndroidManifest.xml:9:5-79
+27-->[:connectivity] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/connectivity/intermediates/merged_manifest/release/AndroidManifest.xml:9:22-76
+28
+29    <permission
+29-->[androidx.core:core:1.9.0] /Users/narendra/.gradle/caches/transforms-3/5f80b20db3afa86c72a9766b008d752d/transformed/core-1.9.0/AndroidManifest.xml:22:5-24:47
+30        android:name="com.arlanto.atomedge.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+30-->[androidx.core:core:1.9.0] /Users/narendra/.gradle/caches/transforms-3/5f80b20db3afa86c72a9766b008d752d/transformed/core-1.9.0/AndroidManifest.xml:23:9-81
+31        android:protectionLevel="signature" />
+31-->[androidx.core:core:1.9.0] /Users/narendra/.gradle/caches/transforms-3/5f80b20db3afa86c72a9766b008d752d/transformed/core-1.9.0/AndroidManifest.xml:24:9-44
+32
+33    <uses-permission android:name="com.arlanto.atomedge.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+33-->[androidx.core:core:1.9.0] /Users/narendra/.gradle/caches/transforms-3/5f80b20db3afa86c72a9766b008d752d/transformed/core-1.9.0/AndroidManifest.xml:26:5-97
+33-->[androidx.core:core:1.9.0] /Users/narendra/.gradle/caches/transforms-3/5f80b20db3afa86c72a9766b008d752d/transformed/core-1.9.0/AndroidManifest.xml:26:22-94
+34
+35    <application
+36        android:name="android.app.Application"
+36-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:11:7-40
+37        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+37-->[androidx.core:core:1.9.0] /Users/narendra/.gradle/caches/transforms-3/5f80b20db3afa86c72a9766b008d752d/transformed/core-1.9.0/AndroidManifest.xml:28:18-86
+38        android:extractNativeLibs="false"
+39        android:icon="@mipmap/ic_launcher"
+39-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:12:7-41
+40        android:label="@string/app_name"
+40-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:10:7-39
+41        android:requestLegacyExternalStorage="true" >
+41-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:9:7-50
+42        <activity
+42-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:13:5-33:16
+43            android:name="com.arlanto.atomedge.MainActivity"
+43-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:14:9-37
+44            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+44-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:18:9-159
+45            android:exported="true"
+45-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:15:9-32
+46            android:hardwareAccelerated="true"
+46-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:19:9-43
+47            android:launchMode="singleTop"
+47-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:16:9-39
+48            android:theme="@style/LaunchTheme"
+48-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:17:9-43
+49            android:windowSoftInputMode="adjustResize" >
+49-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:20:9-51
+50
+51            <!--
+52           Specifies an Android theme to apply to this Activity as soon as
+53                 the Android process has started. This theme is visible to the user
+54                 while the Flutter UI initializes. After that, this theme continues
+55                 to determine the Window background behind the Flutter UI.
+56            -->
+57            <meta-data
+57-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:25:7-113
+58                android:name="io.flutter.embedding.android.NormalTheme"
+58-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:25:18-73
+59                android:resource="@style/NormalTheme" />
+59-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:25:74-111
+60
+61            <intent-filter>
+61-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:29:7-32:23
+62                <action android:name="android.intent.action.MAIN" />
+62-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:30:9-60
+62-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:30:17-58
+63
+64                <category android:name="android.intent.category.LAUNCHER" />
+64-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:31:9-68
+64-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:31:19-66
+65            </intent-filter>
+66        </activity>
+67        <!--
+68         Don't delete the meta-data below.
+69             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+70        -->
+71        <meta-data
+71-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:36:5-67
+72            android:name="flutterEmbedding"
+72-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:36:16-47
+73            android:value="2" />
+73-->/Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:36:48-65
+74
+75        <provider
+75-->[:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:10:9-18:20
+76            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+76-->[:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:11:13-82
+77            android:authorities="com.arlanto.atomedge.flutter.image_provider"
+77-->[:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:12:13-74
+78            android:exported="false"
+78-->[:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:13:13-37
+79            android:grantUriPermissions="true" >
+79-->[:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:14:13-47
+80            <meta-data
+80-->[:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:15:13-17:75
+81                android:name="android.support.FILE_PROVIDER_PATHS"
+81-->[:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:16:17-67
+82                android:resource="@xml/flutter_image_picker_file_paths" />
+82-->[:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:17:17-72
+83        </provider>
+84
+85        <uses-library
+85-->[androidx.window:window:1.0.0-beta04] /Users/narendra/.gradle/caches/transforms-3/dee59bb480020f42d53c2ea15e4501f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
+86            android:name="androidx.window.extensions"
+86-->[androidx.window:window:1.0.0-beta04] /Users/narendra/.gradle/caches/transforms-3/dee59bb480020f42d53c2ea15e4501f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:26:13-54
+87            android:required="false" />
+87-->[androidx.window:window:1.0.0-beta04] /Users/narendra/.gradle/caches/transforms-3/dee59bb480020f42d53c2ea15e4501f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:27:13-37
+88        <uses-library
+88-->[androidx.window:window:1.0.0-beta04] /Users/narendra/.gradle/caches/transforms-3/dee59bb480020f42d53c2ea15e4501f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:28:9-30:40
+89            android:name="androidx.window.sidecar"
+89-->[androidx.window:window:1.0.0-beta04] /Users/narendra/.gradle/caches/transforms-3/dee59bb480020f42d53c2ea15e4501f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:29:13-51
+90            android:required="false" />
+90-->[androidx.window:window:1.0.0-beta04] /Users/narendra/.gradle/caches/transforms-3/dee59bb480020f42d53c2ea15e4501f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:30:13-37
+91
+92        <provider
+92-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:24:9-32:20
+93            android:name="androidx.startup.InitializationProvider"
+93-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:25:13-67
+94            android:authorities="com.arlanto.atomedge.androidx-startup"
+94-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:26:13-68
+95            android:exported="false" >
+95-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:27:13-37
+96            <meta-data
+96-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:29:13-31:52
+97                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+97-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:30:17-85
+98                android:value="androidx.startup" />
+98-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:31:17-49
+99        </provider>
+100
+101        <receiver
+101-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:34:9-52:20
+102            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+102-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:35:13-76
+103            android:directBootAware="false"
+103-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:36:13-44
+104            android:enabled="true"
+104-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:37:13-35
+105            android:exported="true"
+105-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:38:13-36
+106            android:permission="android.permission.DUMP" >
+106-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:39:13-57
+107            <intent-filter>
+107-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:40:13-42:29
+108                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+108-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:41:17-91
+108-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:41:25-88
+109            </intent-filter>
+110            <intent-filter>
+110-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:43:13-45:29
+111                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+111-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:44:17-85
+111-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:44:25-82
+112            </intent-filter>
+113            <intent-filter>
+113-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:46:13-48:29
+114                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+114-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:47:17-88
+114-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:47:25-85
+115            </intent-filter>
+116            <intent-filter>
+116-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:49:13-51:29
+117                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+117-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:50:17-95
+117-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:50:25-92
+118            </intent-filter>
+119        </receiver>
+120    </application>
+121
+122</manifest>

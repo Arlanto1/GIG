@@ -1,7 +1,5 @@
 // Created by Ramesh
 
-
-
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
@@ -13,15 +11,12 @@ import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/controllers/day_passlist_state.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/models/day_passlist_item_model.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/views/day_pass_list_detail_popup.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_item_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/controllers/day_pass_info_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/controllers/day_pass_info_state.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/models/day_pass_info_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pass_info_detail_popup.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pass_list.dart';
-import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -30,7 +25,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DayPassregisterList extends StatefulWidget {
-  const DayPassregisterList({Key? key}) : super(key: key);
+  String passId = '0';
+  String title;
+
+  DayPassregisterList({Key? key, this.passId = '0', this.title = ''})
+      : super(key: key);
 
   @override
   State<DayPassregisterList> createState() => _DayPassregisterListState();
@@ -43,6 +42,7 @@ class _DayPassregisterListState extends State<DayPassregisterList> {
   List<DaypassInfoListElement>? localfoundlist;
   late ScrollController scrollController;
   bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -53,19 +53,14 @@ class _DayPassregisterListState extends State<DayPassregisterList> {
   }
 
   _loadMore() {
-    
     if (scrollController.position.maxScrollExtent ==
         scrollController.position.pixels) {
-     
-      if ((localfoundlist?.length ?? 0) > 0)
-      {
-         pageNumber =  ((localfoundlist?.length ?? 0));
+      if ((localfoundlist?.length ?? 0) > 0) {
+        pageNumber = ((localfoundlist?.length ?? 0));
+      } else {
+        pageNumber = pageNumber + 20;
       }
-      else
-      {
-      pageNumber = pageNumber + 20;
-      }
-       showLoadingDialog(context);
+      showLoadingDialog(context);
       print(pageNumber);
       // Perform event when user reach at the end of list (e.g. do Api call)
       _getpassFoundArticleList();
@@ -75,23 +70,23 @@ class _DayPassregisterListState extends State<DayPassregisterList> {
   }
 
   void _getpassFoundArticleList() async {
-     String userid = await SharedPrefs.getUserId();
-    await daypassinfoCubit.getFoundList(pageNumber.toString(), '20', userid, "3", context);
+    String userid = await SharedPrefs.getUserId();
+    await daypassinfoCubit.getPassMngtList(
+        pageNumber.toString(), '20', userid, widget.passId, context);
   }
-   getpassFoundArticleListId(int articleid) async {
-      showLoadingDialog(context);
+
+  getpassFoundArticleListId(int articleid) async {
+    showLoadingDialog(context);
     // DayPassListItemResponse? foundArticleDetailsResponse = await daypassListCubit.getpassArticleById(articleid,context);
-     
+
     //    editDataLoading(foundArticleDetailsResponse);
-     
   }
-  void editDataLoading( DayPassListItemResponse? foundArticleDetailsResponse)
-  {
+
+  void editDataLoading(DayPassListItemResponse? foundArticleDetailsResponse) {
     dismissLoadingDialog(context);
-    if (foundArticleDetailsResponse != null)
-     {
-   // Navigator.pushNamed(context, createfoundScreenRoute,arguments:{"UserElement" : foundArticleDetailsResponse}  );
-     }
+    if (foundArticleDetailsResponse != null) {
+      // Navigator.pushNamed(context, createfoundScreenRoute,arguments:{"UserElement" : foundArticleDetailsResponse}  );
+    }
   }
 
   @override
@@ -112,13 +107,11 @@ class _DayPassregisterListState extends State<DayPassregisterList> {
       floatingActionButton: Flutterfloatingbutton(
         backgroundColor: AppColors.navigationSkybluecolor,
         foregroundColor: AppColors.backgroundWhitecolor,
-        onPressed: () {
-         
-        },
+        onPressed: () {},
       ),
       appBar: AppHeader(
         isTitleCenter: false,
-        title: 'Day Pass Info List',
+        title: widget.title,
         backBtn: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -127,7 +120,6 @@ class _DayPassregisterListState extends State<DayPassregisterList> {
               color: AppColors.backgroundWhitecolor),
         ),
         action: [
-         
           CustomPopmenu(
             //itemList :[],
             itemList: const [
@@ -137,20 +129,15 @@ class _DayPassregisterListState extends State<DayPassregisterList> {
               PopMenuItems("Close", AppIcon.close),
             ],
             itemTap: (value) async {
-               String userid = await SharedPrefs.getUserId();
+              String userid = await SharedPrefs.getUserId();
               print(value);
-              if (value == 0)
-              {
-                
-                  DownloadImage().exportExcel(
-                        context,int.parse(userid), 'export.xslx',0,pageNumber, '/exportPassInfoExcel');
+              if (value == 0) {
+                DownloadImage().exportExcel(context, int.parse(userid),
+                    'export.xslx', 0, pageNumber, '/exportPassInfoExcel');
+              } else if (value == 1) {
+                DownloadImage().exportPdf(context, int.parse(userid),
+                    'export.pdf', 0, pageNumber, '/exportPassInfoPDF');
               }
-             else if (value == 1)
-              {
-                DownloadImage().exportPdf(
-                        context,int.parse(userid), 'export.pdf',0,pageNumber, '/exportPassInfoPDF');
-              }
-              
             },
             popupimagename: AppIcon.morewhiteicon,
           ),
@@ -208,8 +195,11 @@ class _DayPassregisterListState extends State<DayPassregisterList> {
     );
   }
 
-  Widget listWidgetLoading(double height, DayPassInfoState state,
-      ScrollController? scrollController, List<DaypassInfoListElement>? foundList) {
+  Widget listWidgetLoading(
+      double height,
+      DayPassInfoState state,
+      ScrollController? scrollController,
+      List<DaypassInfoListElement>? foundList) {
     return Container(
         color: AppColors.navigationSkybluecolor,
         child: SingleChildScrollView(
@@ -272,8 +262,8 @@ class _DayPassregisterListState extends State<DayPassregisterList> {
   }
 
   // List view builder
-  Widget _userFoundListWidget(List<DaypassInfoListElement>? userList, BuildContext cont,
-      ScrollController? scrollController) {
+  Widget _userFoundListWidget(List<DaypassInfoListElement>? userList,
+      BuildContext cont, ScrollController? scrollController) {
     return Container(
       padding: allMargin16,
       child: Visibility(
@@ -289,13 +279,13 @@ class _DayPassregisterListState extends State<DayPassregisterList> {
             return DayPassregisterListItem(
               userItem: user,
               onTap: (selectedIndex) {
-              showDialog(
-                context: context,
-                builder: (BuildContext dialogContext) {
-                  return DayPassInfoCustomPopUpList(userList[selectedIndex]);
-                },
-              );
-              //do the detail edit of user found
+                showDialog(
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return DayPassInfoCustomPopUpList(userList[selectedIndex]);
+                  },
+                );
+                //do the detail edit of user found
               },
               oneditTap: (selectedIndex) {
                 getpassFoundArticleListId(userList[selectedIndex].id ?? 0);
@@ -315,4 +305,11 @@ class _DayPassregisterListState extends State<DayPassregisterList> {
       ),
     );
   }
+}
+
+class PassMngArguments {
+  final String passType;
+  final String title;
+
+  PassMngArguments(this.passType, this.title);
 }

@@ -21,4 +21,9 @@ const String daypassregistertListRoute = '/daypassregistertlist';
 
 const String lawenforcementScreenRoute = '/lawenforcementscreenroute';
 const String lawEnforcementListRoute = '/lawenforcementlist';
+const String createpassmgmtRoute = '/createpassmgmt';
+
+
+const String otpVerificationRoute = '/otpverification';
+
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/routing/router.dart';
+import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,8 +37,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   initRouting() async {
     // When there is no session saved, it goes to landing screen
-    Timer(Duration(milliseconds: 1500), () {
-      Navigator.pushNamed(context, loginScreenRoute);
+    Timer(Duration(milliseconds: 1500), () async {
+      String userName = await SharedPrefs.getUserId();
+      if(userName.isNotEmpty) {
+        Navigator.pushNamed(context, homePageRoute);
+      }else{
+        Navigator.pushNamed(context, loginScreenRoute);
+
+      }
     });
   }
 }
