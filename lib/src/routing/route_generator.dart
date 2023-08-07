@@ -11,12 +11,15 @@ import 'package:db_atom/src/features/dashboard/views/my_home_page.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/law_enforcement_list/views/ln_list_page.dart';
 import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.dart';
-import 'package:db_atom/src/features/login/views/login_view.dart';
+import 'package:db_atom/src/features/login/views/login_screen.dart';
+import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/bloc/inward_bloc.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/views/material_movement_inward_details.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/views/material_movement_inwards.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
+import 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pass_list_page.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,7 +36,21 @@ class RouteGenerator {
       case splashScreenRoute:
         return MaterialPageRoute(builder: (context) => const SplashScreen());
       case loginScreenRoute:
-        return MaterialPageRoute(builder: (context) => const LoginView());
+        return MaterialPageRoute(builder: (context) => LoginScreen());
+      case otpVerificationRoute:
+        if (settings.arguments != null) {
+          final userRoutes = settings.arguments as Map<String, dynamic>;
+          if (userRoutes != null) {
+            VerifyOTPArguments? userDetails = userRoutes["userDetails"];
+            return MaterialPageRoute(
+                builder: (context) => OtpVerifyScreen(
+                      userName: userDetails?.name ?? '',
+                      password: userDetails?.pwd ?? '',
+                    ));
+          }
+          return MaterialPageRoute(builder: (context) => OtpVerifyScreen());
+        }
+        return MaterialPageRoute(builder: (context) => OtpVerifyScreen());
 
       case createfoundScreenRoute:
         if (settings.arguments != null) {
@@ -48,17 +65,19 @@ class RouteGenerator {
           return MaterialPageRoute(builder: (context) => Createfound());
         }
       case lawenforcementScreenRoute:
-       // return MaterialPageRoute(builder: (context) => CreateLawenforcement());
-       if (settings.arguments != null) {
+        // return MaterialPageRoute(builder: (context) => CreateLawenforcement());
+        if (settings.arguments != null) {
           final listroutes = settings.arguments as Map<String, dynamic>;
           if (listroutes != null) {
             LawEnforcementDetails? listuser = listroutes["UserElement"];
             return MaterialPageRoute(
                 builder: (context) => CreateLawenforcement(listuser: listuser));
           }
-          return MaterialPageRoute(builder: (context) => CreateLawenforcement());
+          return MaterialPageRoute(
+              builder: (context) => CreateLawenforcement());
         } else {
-          return MaterialPageRoute(builder: (context) => CreateLawenforcement());
+          return MaterialPageRoute(
+              builder: (context) => CreateLawenforcement());
         }
       case addemployeedepartmentRoute:
         return MaterialPageRoute(
@@ -77,6 +96,26 @@ class RouteGenerator {
             builder: (context) => CustomExpansionListTexts());
       case lawEnforcementListRoute:
         return MaterialPageRoute(builder: (context) => const LnListPageList());
+      case daypassmanagementListRoute:
+        return MaterialPageRoute(
+            builder: (context) => const DayPassManagementList());
+      case daypassregistertListRoute:
+        if (settings.arguments != null) {
+          final passRoutes = settings.arguments as Map<String, dynamic>;
+          if (passRoutes != null) {
+            PassMngArguments? passMngArguments = passRoutes["passMngDetails"];
+            return MaterialPageRoute(
+                builder: (context) => DayPassregisterList(
+                  passId:passMngArguments?.passType ?? '',
+                  title: passMngArguments?.title ?? '',
+                ));
+          }
+          return MaterialPageRoute(builder: (context) => DayPassregisterList());
+        }
+        return MaterialPageRoute(
+            builder: (context) =>  DayPassregisterList());
+      case createpassmgmtRoute:
+        return MaterialPageRoute(builder: (context) => CreatePassManagement());
 
       case materialMovementInwards:
         return MaterialPageRoute(builder: (context) => BlocProvider<InwardBloc>(

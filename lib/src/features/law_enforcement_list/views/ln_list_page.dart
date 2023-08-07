@@ -105,10 +105,10 @@ class _LnPageState extends State<LnPage> {
               print(value);
               if (value == 0) {
                 DownloadImage().exportExcel(
-                    context, int.parse(userid), 'export.xslx', 0, 20);
+                    context, int.parse(userid), 'export.xslx', 0, 20,'/exportLEOExcel');
               } else if (value == 1) {
                 DownloadImage()
-                    .exportPdf(context, int.parse(userid), 'export.pdf', 0, 20);
+                    .exportPdf(context, int.parse(userid), 'export.pdf', 0, 20, '/exportLEOPDF');
               }
             },
             popupimagename: AppIcon.morewhiteicon,

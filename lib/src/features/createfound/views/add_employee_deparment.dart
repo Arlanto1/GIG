@@ -5,6 +5,7 @@ import 'package:db_atom/src/common_widgets/pop_button.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -15,10 +16,11 @@ import '../../lawenforcement/controllers/law_enforcement_state.dart';
 
 class AddEmployeeDepartment extends StatefulWidget {
   AddEmployeeDepartment(
-      {super.key, required this.title, this.lawstate, this.createoundstate});
+      {super.key, required this.title, this.lawstate, this.createoundstate,this.createpassmgmtstate});
   final String title;
   LawEnforcementState? lawstate;
   CreateFoundState? createoundstate;
+  CreatePassMgmtState? createpassmgmtstate;
 
   @override
   State<AddEmployeeDepartment> createState() => AddEmployeeDepartmentState();
@@ -52,6 +54,10 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
       await lawenforcementCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     } else if (widget.createoundstate != null) {
+      await createFoundArticleCubit.createEmplyeeDepartments(
+          name, 'EMPLOYEE_DEPARTMENTS', context);
+    }
+    else if (widget.createpassmgmtstate != null) {
       await createFoundArticleCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     }

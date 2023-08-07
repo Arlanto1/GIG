@@ -29,6 +29,10 @@ android {
     signingConfigs {
         debug {
             storeFile file('/home/anuragdhunna/AndroidStudioProjects/Arlanto-App-Codebase/android/Atomedgekeystore/atomedge')
+//            C:\Users\Ashok\AndroidStudioProjects\db_atom\android\Atomedgekeystore
+            ///Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/Atomedgekeystore/atomedge
+           // storeFile file('C:\\Users\\Ashok\\AndroidStudioProjects\\db_atom\\android\\Atomedgekeystore\\atomedge')
+//            storeFile file('Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/Atomedgekeystore/atomedge')
             storePassword 'Bnaren@513'
             keyAlias 'AtomEdge'
             keyPassword 'Bvineela@513'
@@ -132,6 +136,7 @@ buildTypes {
         shrinkResources false
         // proguardFile 'proguard-project.txt'
         debuggable false
+        signingConfig signingConfigs.debug
     }
     debug {
         multiDexEnabled true

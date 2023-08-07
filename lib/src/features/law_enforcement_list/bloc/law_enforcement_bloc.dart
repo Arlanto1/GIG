@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import 'package:db_atom/src/features/law_enforcement_list/services/law_enforcement_list_services.dart';
+import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -33,12 +34,14 @@ class LawEnforcementBloc
 
   FutureOr<void> _onTodoFetch(
       LawEnforcementFetch event, Emitter<LawEnforcementState> emit) async {
+         String userid = await SharedPrefs.getUserId();
     try {
       if (state.hasReachedMax) return;
       if (state.status == LawEnforcementListStateType.initial) {
+        
         LawEnforcementListResponse lawEnforcementList =
             await _todoService.getLawEnforcementList(
-                '${event.startPos}', '${event.maxPos}', '77');
+                '${event.startPos}', '${event.maxPos}', userid);
         return emit(
           state.copyWith(
             todos: lawEnforcementList.list,
@@ -49,7 +52,7 @@ class LawEnforcementBloc
       }
 
       LawEnforcementListResponse lawEnforcementList = await _todoService
-          .getLawEnforcementList('${event.startPos}', '${event.maxPos}', '77');
+          .getLawEnforcementList('${event.startPos}', '${event.maxPos}', userid);
       if (lawEnforcementList.list?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));
       } else {

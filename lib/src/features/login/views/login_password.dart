@@ -26,7 +26,7 @@ TextEditingController passwordTextController = TextEditingController();
   void initState() {
     // TODO: implement initState
     super.initState();
-    passwordTextController.text = "123456";
+   // passwordTextController.text = "123456";
   }
   @override
   Widget build(BuildContext context) {

@@ -264,6 +264,27 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
+  // Get compant types departments
+  Future<void> getCompanytypes(String departmentStr) async {
+    try {
+      EmployeeDepartments getEmployeeDepartments =
+          await lawenforcementServices.getEmployeeDepartments(departmentStr);
+      emit(
+        state.copyWith(
+          employeeDepartment: getEmployeeDepartments,
+          stateType: LawEnforcementStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: LawEnforcementStateType.failure,
+        ),
+      );
+    }
+  }
+
 
 // Get entities api call
   Future<void> getEntities(String name) async {

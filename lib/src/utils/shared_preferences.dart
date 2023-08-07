@@ -6,7 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPrefs {
   static late final SharedPreferences instance;
 
-  static Future<SharedPreferences> init() async => instance = await SharedPreferences.getInstance();
+  static Future<SharedPreferences> init() async =>
+      instance = await SharedPreferences.getInstance();
 
   static Future<void> setLoggedIn(bool value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -47,6 +48,7 @@ class SharedPrefs {
     print(isUserId);
     return isUserId; //Future<bool>.value(isLoggedIn);
   }
+
   static Future<void> setIdentifymenuindex(int value) async {
     // final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -73,6 +75,15 @@ class SharedPrefs {
     int? isFoundId = instance.getInt(Constants.isFoundIdKey) ?? 0;
     print(isFoundId);
     return isFoundId; //Future<bool>.value(isLoggedIn);
+  }
+
+  static Future<void> setToken(String token) async {
+    instance.setString(Constants.isAccessToken, token);
+  }
+
+  static Future<String> getToken() async {
+    String token = instance.getString(Constants.isAccessToken) ?? '';
+    return token;
   }
 
   static Future<void> setMaterialMovementId(int value) async {
