@@ -13,10 +13,10 @@ import 'package:db_atom/src/features/law_enforcement_list/views/ln_list_page.dar
 import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.dart';
 import 'package:db_atom/src/features/login/views/login_screen.dart';
 import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
-import 'package:db_atom/src/features/material_movement/material_movements/bloc/inward_bloc.dart';
+import 'package:db_atom/src/features/material_movement/material_movements/bloc/inward_outward_bloc.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/views/material_movement_inward_details.dart';
-import 'package:db_atom/src/features/material_movement/material_movements/views/material_movement_inwards.dart';
+import 'package:db_atom/src/features/material_movement/material_movements/views/material_movement_inwards_outwards.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list_page.dart';
@@ -119,14 +119,26 @@ class RouteGenerator {
       case createpassmgmtRoute:
         return MaterialPageRoute(builder: (context) => CreatePassManagement());
 
-      case materialMovementInwards:
-        return MaterialPageRoute(builder: (context) => BlocProvider<InwardBloc>(
-          create: (_) => InwardBloc()
-            ..add( const InwardFetch(startPos: 0, maxPos: 20)),
-          child: const MaterialMovementInwards(),
-        ));
+      case materialMovementInwardsOutwardsRoute:
+        bool isInward = true;
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments = settings.arguments as Map<
+              String,
+              dynamic>;
+          if(arguments.isNotEmpty) {
+            isInward = arguments['isInward'];
+          }
+        }
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<InwardOutwardBloc>(
+                  create: (_) => InwardOutwardBloc(isInward: isInward)
+                    ..add(const InwardFetch(startPos: 0, maxPos: 20)),
+                  child:  MaterialMovementInwardsOutwards(
+                    isInward: isInward,
+                  ),
+                ));
 
-      case materialMovementInward:
+      case materialMovementInwardDetailsRoute:
         if (settings.arguments != null) {
           Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
           if (arguments.isNotEmpty) {

@@ -4,17 +4,15 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment=".gitignore file added">
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="wip: material inward movement details ui">
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/app_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/app_button.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/constants/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_inward_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_inward_details.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/views/drawer/drawer_reusable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/views/drawer/drawer_reusable.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/bloc/inward_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/bloc/inward_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/views/material_movement_inwards.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/views/material_movement_inwards_outwards.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/routing/router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/routing/router.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +57,7 @@
     "dart.analysis.tool.window.visible": "false",
     "io.flutter.reload.alreadyRun": "true",
     "last_opened_file_path": "/home/anuragdhunna/AndroidStudioProjects/Arlanto-App-Codebase/lib/src/common_widgets/base_widget",
-    "settings.editor.selected.configurable": "preferences.keymap",
+    "settings.editor.selected.configurable": "flutter.settings",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
@@ -137,7 +135,14 @@
       <option name="project" value="LOCAL" />
       <updated>1691390990731</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="wip: material inward movement details ui">
+      <created>1691476434504</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1691476434504</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -171,6 +176,7 @@
     <MESSAGE value="done: material movements inward scroll issue fixed" />
     <MESSAGE value="wip: material inward details" />
     <MESSAGE value="update gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="update gitignore" />
+    <MESSAGE value="wip: material inward movement details ui" />
+    <option name="LAST_COMMIT_MESSAGE" value="wip: material inward movement details ui" />
   </component>
 </project>

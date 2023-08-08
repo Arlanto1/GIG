@@ -35,8 +35,13 @@ class navigationDrawer1 extends StatelessWidget {
     const DrawerItem1(
         Constants.lawenforcementvisitslist, AppIcon.lawenforcement, 0),
     const DrawerItem1(Constants.eventprotectionlist, AppIcon.tasklist, 0),
-    const DrawerItem1(Constants.materialmovement, AppIcon.materialmovement, 0),
+    const DrawerItem1(Constants.materialMovement, AppIcon.materialmovement, 1),
     const DrawerItem1(Constants.passmanagement, AppIcon.passmanagement, 1),
+  ];
+
+  final materialMovementDrawerItems = [
+    const DrawerItem1(Constants.materialMovementInward, AppIcon.settings, 0),
+    const DrawerItem1(Constants.materialMovementOutward, AppIcon.settings, 0),
   ];
 
   final passtiledrawerItems = [
@@ -139,7 +144,6 @@ class navigationDrawer1 extends StatelessWidget {
         drawerItem.numberofchilderns == 0
             ? Container(
                 decoration: const BoxDecoration(
-                  //                    <-- BoxDecoration
                   border: Border(
                       bottom: BorderSide(color: AppColors.dividelineGreycolor)),
                 ),
@@ -170,7 +174,6 @@ class navigationDrawer1 extends StatelessWidget {
                     .copyWith(dividerColor: Colors.transparent),
                 child: Container(
                   decoration: const BoxDecoration(
-                    //                    <-- BoxDecoration
                     border: Border(
                         bottom:
                             BorderSide(color: AppColors.dividelineGreycolor)),
@@ -194,7 +197,7 @@ class navigationDrawer1 extends StatelessWidget {
                       },
                       trailing: const SizedBox.shrink(),
                       title: Text(
-                        Constants.passmanagement,
+                        drawerItem.title,
                         style: TextStyle(
                             fontSize: 16,
                             fontFamily: Constants.customFontSemiBoldFamily,
@@ -214,13 +217,72 @@ class navigationDrawer1 extends StatelessWidget {
                                   : const Color.fromRGBO(90, 88, 93, 1))),
                       childrenPadding: const EdgeInsets.only(left: 20),
                       //children padding
-                      children: _passmgmtbuildDrawerChildren(context, state)),
+                      children: drawerItem.title == Constants.materialMovement
+                          ? _materialMovementBuildDrawerChildren(context, state)
+                          : _passmgmtbuildDrawerChildren(context, state),
+                  ),
                 ),
               ),
       );
     }
 
     return children;
+  }
+
+  List<Widget> _materialMovementBuildDrawerChildren(
+      BuildContext context, DrawerState state) {
+    List<Widget> children = [];
+
+    for (int i = 0; i < materialMovementDrawerItems.length; i++) {
+      DrawerItem1 drawerItem = materialMovementDrawerItems[i];
+      children.add(Container(
+        decoration: const BoxDecoration(
+          border:
+              Border(bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+        ),
+        child: ListTile(
+          leading: SizedBox(
+              width: 20,
+              height: 20,
+              child: Image.asset(drawerItem.imageName,
+                  fit: BoxFit.cover,
+                  color: (i == _passlastSelectedItem)
+                      ? AppColors.navigationSkybluecolor
+                      : AppColors.textgreyThemecolor)),
+          title: Text(drawerItem.title,
+              //style: Styles.textStyleBlack16,
+              style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: Constants.customFontSemiBoldFamily,
+                  fontWeight: FontWeight.w600,
+                  color: (i == _passlastSelectedItem)
+                      ? AppColors.navigationSkybluecolor
+                      : AppColors.textgreyThemecolor)),
+          // selected: i == _lastSelectedItem,
+          onTap: () => _onMaterialMovementItemSelected(i, context),
+        ),
+      ));
+    }
+
+    return children;
+  }
+
+  _onMaterialMovementItemSelected(int index, BuildContext context) async {
+    _menuscaffoldKey.currentState!.closeDrawer();
+    _passlastSelectedItem = index;
+    print('_passlastSelectedItem index = $index');
+    print('2 index = $_passlastSelectedItem');
+    //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
+    //state = const DrawerInitial();
+    context.read<DrawerCubit>().getPassmgmtindexChange(index);
+    if (index == 0) {
+      print('pass mangement index1');
+      Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
+          arguments: {"isInward": true});
+    } else if (index == 1) {
+      Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
+          arguments: {"isInward": false});
+    }
   }
 
   List<Widget> _passmgmtbuildDrawerChildren(
@@ -466,8 +528,6 @@ class navigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, lawEnforcementListRoute);
     } else if (index == 2) {
     } else if (index == 3) {
-      Navigator.pushNamed(context, materialMovementInwards);
-
     } else if (index == 4) {
       //
     } else if (index == 5) {}
@@ -489,7 +549,7 @@ class navigationDrawer1 extends StatelessWidget {
         "passMngDetails": PassMngArguments('1', 'Day Pass Register')
       });
     } else if (index == 2) {
-      Navigator.pushNamed(context, daypassregistertListRoute,arguments: {
+      Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
         "passMngDetails": PassMngArguments('2', 'Visitor Pass Register')
       });
     } else if (index == 3) {

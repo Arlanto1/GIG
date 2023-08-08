@@ -68,9 +68,12 @@ class Constants {
   static const String articlefoundregister = 'Article Found Register';
   static const String lawenforcementvisitslist = 'Law Enforcement Visits List';
   static const String eventprotectionlist = 'Event Protection List';
-  static const String materialmovement = 'Material Movement';
+  static const String materialMovement = 'Material Movement';
   static const String passmanagement = 'Pass Management';
   static const String logout = 'Logout';
+
+  static const String materialMovementInward = 'Material Movement Inward';
+  static const String materialMovementOutward = 'Material Movement Outward';
 
   static const String daypassmgmt = 'Day Pass Management';
   static const String daypassregister = 'Day Pass Register';
@@ -207,6 +210,7 @@ class Constants {
 
 
   static const String materialMovementsInwardTitle = 'Inward Material Movement List';
+  static const String materialMovementsOutwardTitle = 'Outward Material Movement List';
   static const String createMaterialMovementInwardTitle = 'Create Inward Material Movement';
   static const String entryBy = 'Entry By';
   static const String challan = 'Challan/ Invoice Nos/ Gate Pass';

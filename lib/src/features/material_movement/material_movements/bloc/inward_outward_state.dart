@@ -1,23 +1,21 @@
-part of 'inward_bloc.dart';
+part of 'inward_outward_bloc.dart';
 
- class InwardState extends Equatable {
-
+class InwardOutwardState extends Equatable {
   final List<MaterialMovementModel> items;
   final bool hasReachedMax;
   final LawEnforcementListStateType status;
 
-  const InwardState(
+  const InwardOutwardState(
       {this.items = const <MaterialMovementModel>[],
-        this.hasReachedMax = false,
-        this.status = LawEnforcementListStateType.initial});
+      this.hasReachedMax = false,
+      this.status = LawEnforcementListStateType.initial});
 
-
-  InwardState copyWith({
+  InwardOutwardState copyWith({
     List<MaterialMovementModel>? items,
     bool? hasReachedMax,
     LawEnforcementListStateType? status,
   }) {
-    return InwardState(
+    return InwardOutwardState(
       items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,

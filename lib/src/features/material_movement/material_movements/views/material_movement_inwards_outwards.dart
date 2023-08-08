@@ -13,18 +13,20 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/inward_bloc.dart';
+import '../bloc/inward_outward_bloc.dart';
 import '../models/material_movements_model.dart';
 
-class MaterialMovementInwards extends StatefulWidget {
-  const MaterialMovementInwards({super.key});
+class MaterialMovementInwardsOutwards extends StatefulWidget {
+  const MaterialMovementInwardsOutwards({super.key, required this.isInward});
+
+  final bool isInward;
 
   @override
-  State<MaterialMovementInwards> createState() =>
-      _MaterialMovementInwardsState();
+  State<MaterialMovementInwardsOutwards> createState() =>
+      _MaterialMovementInwardsOutwardsState();
 }
 
-class _MaterialMovementInwardsState extends State<MaterialMovementInwards> {
+class _MaterialMovementInwardsOutwardsState extends State<MaterialMovementInwardsOutwards> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
 
@@ -49,7 +51,7 @@ class _MaterialMovementInwardsState extends State<MaterialMovementInwards> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context
-          .read<InwardBloc>()
+          .read<InwardOutwardBloc>()
           .add(InwardFetch(startPos: pageNumber, maxPos: 20));
     }
   }
@@ -64,11 +66,11 @@ class _MaterialMovementInwardsState extends State<MaterialMovementInwards> {
         ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.materialMovementsInwardTitle,
+          title: widget.isInward? Constants.materialMovementsInwardTitle: Constants.materialMovementsOutwardTitle,
           showPopUp: true,
           showSaveButton: false,
         ),
-        body: BlocBuilder<InwardBloc, InwardState>(builder: (context, state) {
+        body: BlocBuilder<InwardOutwardBloc, InwardOutwardState>(builder: (context, state) {
           if (state.status == LawEnforcementListStateType.initial) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -140,7 +142,7 @@ class _MaterialMovementInwardsState extends State<MaterialMovementInwards> {
   void editDataLoading(MaterialMovementModel? materialMovementModel) {
     dismissLoadingDialog(context);
     if (materialMovementModel != null) {
-      Navigator.pushNamed(context, materialMovementInward,
+      Navigator.pushNamed(context, materialMovementInwardDetailsRoute,
           arguments: {"MaterialMovementModel": materialMovementModel});
     }
   }

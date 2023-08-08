@@ -26,6 +26,9 @@ const String createpassmgmtRoute = '/createpassmgmt';
 
 const String otpVerificationRoute = '/otpverification';
 
-const String materialMovementInwards = '/materialMovementInwards';
-const String materialMovementInward = '/materialMovementInward';
+const String materialMovementInwardsOutwardsRoute = '/materialMovementInwards';
+const String materialMovementInwardDetailsRoute = '/materialMovementInwardDetailsRoute';
+
+const String materialMovementOutwardsRoute = '/materialMovementOutwardsRoute';
+const String materialMovementOutwardDetailsRoute = '/materialMovementOutwardDetailsRoute';
 

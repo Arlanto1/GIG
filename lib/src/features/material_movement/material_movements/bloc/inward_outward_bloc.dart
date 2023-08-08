@@ -8,11 +8,15 @@ import 'package:equatable/equatable.dart';
 
 import '../models/material_movements_model.dart';
 
-part 'inward_event.dart';
-part 'inward_state.dart';
+part 'inward_outward_event.dart';
 
-class InwardBloc extends Bloc<InwardEvent, InwardState> {
-  InwardBloc() : super(const InwardState()) {
+part 'inward_outward_state.dart';
+
+class InwardOutwardBloc extends Bloc<InwardOutwardEvent, InwardOutwardState> {
+  final bool isInward;
+
+  InwardOutwardBloc({required this.isInward})
+      : super(const InwardOutwardState()) {
     on<InwardFetch>(
       _fetchMaterialMovements,
       transformer: droppable(),
@@ -23,7 +27,7 @@ class InwardBloc extends Bloc<InwardEvent, InwardState> {
       MaterialMovementServices();
 
   FutureOr<void> _fetchMaterialMovements(
-      InwardFetch event, Emitter<InwardState> emit) async {
+      InwardFetch event, Emitter<InwardOutwardState> emit) async {
     try {
       if (state.hasReachedMax) return;
 
@@ -33,7 +37,7 @@ class InwardBloc extends Bloc<InwardEvent, InwardState> {
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '77',
-          mmType: 0,
+          mmType: isInward ? 1 : 0,
         );
 
         return emit(
@@ -49,8 +53,8 @@ class InwardBloc extends Bloc<InwardEvent, InwardState> {
           await _materialMovementServices.getMaterialMovements(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '77',
-        mmType: 0,
+        userId: '77',   //TODO: make it dynamic
+        mmType: isInward ? 1 : 0,
       );
 
       if (getMaterialMovements.items?.isEmpty == true) {
@@ -63,7 +67,6 @@ class InwardBloc extends Bloc<InwardEvent, InwardState> {
         ),
       );
     } catch (e) {
-      //debugPrint("[HATA] [TodoBloc] [_onTodoFetch] --> $e");
       return emit(state.copyWith(status: LawEnforcementListStateType.failure));
     }
   }
