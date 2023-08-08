@@ -212,8 +212,15 @@ class Constants {
   static const String challan = 'Challan/ Invoice Nos/ Gate Pass';
   static const String poNumber = 'PO Number';
   static const String materialBriefDescription = 'Material Brief Description';
+  static const String materialComingFromBriefDescription = 'Material coming from (Brief Description)';
   static const String sendersName = 'Senders Name';
   static const String isOriginalReceiverReceiving = 'Is original receiver receiving';
   static const String receivedFor = 'Received For';
+  static const String receiverEmployeeId = 'Receiver Employee Id';
+  static const String receiverDepartment = 'Receiver Department';
+  static const String receivedBy = 'Received By';
+  static const String receivedForEmployeeId = 'Received for Employee Id';
+  static const String receiverSignature = 'Receiver Signature';
+  static const String securitySignature = 'Security Signature';
 
 }

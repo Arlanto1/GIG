@@ -10,6 +10,7 @@ class AppButton extends StatelessWidget {
   final String? buttonTextKey;
   final double? width;
   final double? height;
+  final Color? backgroundColor;
 
   const AppButton({
     Key? key,
@@ -19,27 +20,39 @@ class AppButton extends StatelessWidget {
     this.buttonTextKey,
     this.width,
     this.height,
+    this.backgroundColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     ScreenSizeConfig.init(context);
     final screenWidth = ScreenSizeConfig.screenWidth;
+    Color background = backgroundColor ?? AppColors.navigationSkybluecolor;
+    Color foreground = Colors.white;
+    Color border = Colors.transparent;
+
+    // For Cancel Button
+    if (background != AppColors.navigationSkybluecolor) {
+      border = Colors.grey;
+      foreground = Colors.black;
+    }
+
     return SizedBox(
       width: width ?? (screenWidth! * 1.0),
       height: height ?? 50.00,
       child: TextButton(
         key: Key(buttonKey ?? ''),
-        child: Text(buttonText ?? '', key: Key(buttonTextKey ?? '')),
         onPressed: () {
           onTap!();
         },
         style: TextButton.styleFrom(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: Colors.white,
+          backgroundColor: background,
+          foregroundColor: foreground,
           textStyle: Styles.textStyleSemiBold16White,
           shape: const StadiumBorder(),
+          side: BorderSide(color: border), // Add a border color if needed
         ),
+        child: Text(buttonText ?? '', key: Key(buttonTextKey ?? '')),
       ),
     );
   }
