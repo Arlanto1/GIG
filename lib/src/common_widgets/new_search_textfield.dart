@@ -19,6 +19,7 @@ class FlutterInputField extends StatelessWidget {
   final bool? isDisableColor;
   final String textFormKey;
   final TextInputType keyboardType;
+  final String? initialValue;
 
   const FlutterInputField({
     Key? key,
@@ -38,7 +39,8 @@ class FlutterInputField extends StatelessWidget {
     required this.textFormKey,
     this.keyboardType = TextInputType.text,
     this.onTap,
-    this.isDisableColor
+    this.isDisableColor,
+    this.initialValue,
   }) : super(key: key);
 
   @override
@@ -47,6 +49,7 @@ class FlutterInputField extends StatelessWidget {
       key: Key(textFormKey),
       controller: textFieldController,
       obscureText: isSecure,
+      initialValue: initialValue,
       enabled: isEnable,
       maxLines: lineHeight,
       autofocus: autoFocus!,

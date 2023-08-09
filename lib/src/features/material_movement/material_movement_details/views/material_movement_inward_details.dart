@@ -22,7 +22,6 @@ import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
-import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_cubit.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
@@ -30,6 +29,7 @@ import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart'
 import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
+import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -106,7 +106,6 @@ class _MaterialMovementInwardDetailsState
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    final width = size.width;
     return Scaffold(
         appBar: BaseAppBar().buildAppHeader(
           context: context,
@@ -116,15 +115,8 @@ class _MaterialMovementInwardDetailsState
           onTapSave: null,
         ),
         backgroundColor: AppColors.backgroundWhitecolor,
-        body: BlocBuilder<LawEnforcementCubit, LawEnforcementState>(
+        body: BlocBuilder<InwardCubit, InwardState>(
           builder: (context, state) {
-            if (state.getSerialnumberResponse != null) {
-              serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
-            }
-            globalState = state;
-            if (state.stateType == LawEnforcementStateType.addattachment) {
-              getFiles = state.loadAttachments ?? [];
-            }
             return Container(
                 color: AppColors.navigationSkybluecolor,
                 child: SingleChildScrollView(
@@ -250,9 +242,9 @@ class _MaterialMovementInwardDetailsState
 
                                     CommonWidgets.verticalTextHandling(
                                         Constants.entryBy,
-                                        state.getUserDetailsResponse
-                                                ?.lastName ??
-                                            ''),
+                                        state.materialMovement
+                                                .entrySecurityName ??
+                                            'Dhunna'),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
@@ -290,10 +282,13 @@ class _MaterialMovementInwardDetailsState
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
                                     FlutterInputField(
-                                      keyboardType: TextInputType.number,
-                                      textFieldController:
-                                          challanTextController,
-                                      textFormKey: Keys.generateUniqueKey(),
+                                      keyboardType: TextInputType.name,
+                                      // textFieldController:
+                                      //     challanTextController,
+                                      textFormKey: Keys.challanKey,
+
+                                      initialValue:
+                                          state.materialMovement.challanNo,
                                       hintText: '',
                                       isEnable: widget.materialMovement == null
                                           ? true
@@ -310,9 +305,14 @@ class _MaterialMovementInwardDetailsState
                                                       null))
                                               ? true
                                               : false,
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                        setState(() {});
+                                      onChange: (String value) {
+                                        state.materialMovement.challanNo =
+                                            value;
+                                        context
+                                            .read<InwardCubit>()
+                                            .onModelValueChange(
+                                                state.materialMovement);
+                                        log('value-challan---$value');
                                       },
                                       validateTextField: (String? user) {},
                                     ),
@@ -327,8 +327,8 @@ class _MaterialMovementInwardDetailsState
                                         height * 0.001),
                                     FlutterInputField(
                                       keyboardType: TextInputType.number,
-                                      textFieldController:
-                                          poNumberTextController,
+                                      initialValue:
+                                          state.materialMovement.poNumber,
                                       textFormKey: Keys.generateUniqueKey(),
                                       hintText: '',
                                       isEnable: widget.materialMovement == null
@@ -346,9 +346,12 @@ class _MaterialMovementInwardDetailsState
                                                       null))
                                               ? true
                                               : false,
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                        setState(() {});
+                                      onChange: (String value) {
+                                        state.materialMovement.poNumber = value;
+                                        context
+                                            .read<InwardCubit>()
+                                            .onModelValueChange(
+                                                state.materialMovement);
                                       },
                                       validateTextField: (String? user) {},
                                     ),
@@ -363,8 +366,8 @@ class _MaterialMovementInwardDetailsState
                                         height * 0.001),
                                     FlutterInputField(
                                       lineHeight: 6,
-                                      textFieldController:
-                                          materialBriefDescriptionTextController,
+                                      initialValue: state
+                                          .materialMovement.materialDescription,
                                       textFormKey: Keys.generateUniqueKey(),
                                       hintText: Constants.informationhere,
                                       isEnable: widget.materialMovement == null
@@ -386,9 +389,13 @@ class _MaterialMovementInwardDetailsState
                                               widget.materialMovement == null
                                           ? false
                                           : true,
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                        setState(() {});
+                                      onChange: (String value) {
+                                        state.materialMovement
+                                            .materialDescription = value;
+                                        context
+                                            .read<InwardCubit>()
+                                            .onModelValueChange(
+                                                state.materialMovement);
                                       },
                                       validateTextField: (String? user) {},
                                     ),
@@ -403,8 +410,9 @@ class _MaterialMovementInwardDetailsState
                                         height * 0.001),
                                     FlutterInputField(
                                       keyboardType: TextInputType.number,
-                                      textFieldController:
-                                          quantityTextController,
+                                      initialValue: state
+                                          .materialMovement.quantity
+                                          .toString(),
                                       textFormKey: Keys.generateUniqueKey(),
                                       hintText: '',
                                       isEnable: widget.materialMovement == null
@@ -422,22 +430,16 @@ class _MaterialMovementInwardDetailsState
                                                       null))
                                               ? true
                                               : false,
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                        setState(() {});
+                                      onChange: (String value) {
+                                        state.materialMovement.quantity =
+                                            int.tryParse(value);
+                                        context
+                                            .read<InwardCubit>()
+                                            .onModelValueChange(
+                                                state.materialMovement);
                                       },
                                       validateTextField: (String? user) {},
                                     ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                                    // article type
-                                    CommonWidgets.textDisplay(Constants.entity,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    // articleaddButtonwidgetLoading(state),
-                                    entityaddButtonwidgetLoading(state),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
@@ -449,8 +451,8 @@ class _MaterialMovementInwardDetailsState
                                         height * 0.001),
                                     FlutterInputField(
                                       keyboardType: TextInputType.name,
-                                      textFieldController:
-                                          sendersNameTextController,
+                                      initialValue: state
+                                          .materialMovement.materialComingFrom,
                                       textFormKey: Keys.generateUniqueKey(),
                                       hintText: '',
                                       isEnable: widget.materialMovement == null
@@ -469,9 +471,13 @@ class _MaterialMovementInwardDetailsState
                                                   null))
                                           ? true
                                           : false,
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                        setState(() {});
+                                      onChange: (String value) {
+                                        state.materialMovement
+                                            .materialComingFrom = value;
+                                        context
+                                            .read<InwardCubit>()
+                                            .onModelValueChange(
+                                                state.materialMovement);
                                       },
                                       validateTextField: (String? user) {},
                                     ),
@@ -487,8 +493,8 @@ class _MaterialMovementInwardDetailsState
                                         height * 0.001),
                                     FlutterInputField(
                                       lineHeight: 6,
-                                      textFieldController:
-                                          materialComingFromAddressTextController,
+                                      initialValue: state
+                                          .materialMovement.materialFromAddress,
                                       textFormKey: Keys.generateUniqueKey(),
                                       hintText: Constants.informationhere,
                                       isEnable: widget.materialMovement == null
@@ -510,9 +516,13 @@ class _MaterialMovementInwardDetailsState
                                               widget.materialMovement == null
                                           ? false
                                           : true,
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                        setState(() {});
+                                      onChange: (String value) {
+                                        state.materialMovement
+                                            .materialFromAddress = value;
+                                        context
+                                            .read<InwardCubit>()
+                                            .onModelValueChange(
+                                                state.materialMovement);
                                       },
                                       validateTextField: (String? user) {},
                                     ),
@@ -524,10 +534,15 @@ class _MaterialMovementInwardDetailsState
                                         Constants.isOriginalReceiverReceiving,
                                         Styles.textStyleBlack14),
                                     radioButtonHandling(
-                                        state.isOfficialIdcardSelected ?? 1,
-                                        Constants.officialsidcardverified),
+                                        widget.materialMovement != null &&
+                                                widget.materialMovement!
+                                                    .originalReceiver!
+                                            ? 0
+                                            : 1,
+                                        ''),
 
                                     /// Received For
+                                    // TODO: Need to make it a dropdown
                                     widget.materialMovement != null
                                         ? CommonWidgets.textDisplay(
                                             Constants.receivedFor,
@@ -537,8 +552,8 @@ class _MaterialMovementInwardDetailsState
                                     widget.materialMovement != null &&
                                             isClaimantDBEmployeeSelected == 0
                                         ? FlutterInputField(
-                                            textFieldController:
-                                                receivedForTextController,
+                                            initialValue: state.materialMovement
+                                                .otherReceiverName,
                                             textFormKey:
                                                 Keys.claimantTextController,
                                             hintText: claimant,
@@ -562,10 +577,13 @@ class _MaterialMovementInwardDetailsState
                                                         .isEmpty)
                                                 ? false
                                                 : true,
-                                            onChange: (String username) {
-                                              //this.username = username;
-                                              claimant = username;
-                                              setState(() {});
+                                            onChange: (String value) {
+                                              state.materialMovement
+                                                  .otherReceiverName = value;
+                                              context
+                                                  .read<InwardCubit>()
+                                                  .onModelValueChange(
+                                                      state.materialMovement);
                                             },
                                             validateTextField:
                                                 (String? user) {},
@@ -590,65 +608,48 @@ class _MaterialMovementInwardDetailsState
                                                 },
                                               )
                                             : Container(),
-                                    isClaimantDBEmployeeSelected == 1
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
-
-                                    widget.materialMovement != null
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
 
                                     /// Receiver Employee Id
-                                    widget.materialMovement != null &&
-                                            isClaimantDBEmployeeSelected == 1
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.receiverEmployeeId,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    widget.materialMovement != null &&
-                                            isClaimantDBEmployeeSelected == 1
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
+                                    CommonWidgets.textDisplay(
+                                        Constants.receiverEmployeeId,
+                                        Styles.textStyleBlack14),
 
-                                    widget.materialMovement != null &&
-                                            isClaimantDBEmployeeSelected == 1
-                                        ? FlutterInputField(
-                                            textFieldController:
-                                                receivedForTextController,
-                                            textFormKey: Keys
-                                                .claimantEmpIdTextController,
-                                            isEnable: widget.materialMovement ==
-                                                    null
-                                                ? true
-                                                : (widget.materialMovement !=
-                                                            null &&
-                                                        (widget.materialMovement
-                                                                    ?.otherReceiverName ??
-                                                                '')
-                                                            .isEmpty)
-                                                    ? true
-                                                    : false,
-                                            isDisableColor: (widget
-                                                            .materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                                ?.otherReceiverName ??
-                                                            '')
-                                                        .isEmpty)
-                                                ? false
-                                                : true,
-                                            hintText: '',
-                                            onChange: (String username) {
-                                              //this.username = username;
-                                              setState(() {});
-                                            },
-                                            validateTextField:
-                                                (String? user) {},
-                                          )
-                                        : Container(),
+                                    FlutterInputField(
+                                      initialValue: state.materialMovement
+                                          .otherReceiverEmployeeId,
+                                      textFormKey:
+                                          Keys.claimantEmpIdTextController,
+                                      isEnable: widget.materialMovement == null
+                                          ? true
+                                          : (widget.materialMovement != null &&
+                                                  (widget.materialMovement
+                                                              ?.otherReceiverName ??
+                                                          '')
+                                                      .isEmpty)
+                                              ? true
+                                              : false,
+                                      isDisableColor: (widget
+                                                      .materialMovement !=
+                                                  null &&
+                                              (widget.materialMovement
+                                                          ?.otherReceiverName ??
+                                                      '')
+                                                  .isEmpty)
+                                          ? false
+                                          : true,
+                                      hintText: '',
+                                      onChange: (String value) {
+                                        state.materialMovement
+                                            .otherReceiverEmployeeId = value;
+                                        context
+                                            .read<InwardCubit>()
+                                            .onModelValueChange(
+                                                state.materialMovement);
+                                      },
+                                      validateTextField: (String? user) {},
+                                    ),
 
                                     widget.materialMovement != null &&
                                             isClaimantDBEmployeeSelected == 1
@@ -666,8 +667,8 @@ class _MaterialMovementInwardDetailsState
                                     widget.materialMovement != null &&
                                             isClaimantDBEmployeeSelected == 0
                                         ? FlutterInputField(
-                                            textFieldController:
-                                                receivedForTextController,
+                                            initialValue: state.materialMovement
+                                                .receiverDepartmenttName,
                                             textFormKey:
                                                 Keys.claimantTextController,
                                             hintText: receiverDepartmentName,
@@ -691,10 +692,14 @@ class _MaterialMovementInwardDetailsState
                                                         .isEmpty)
                                                 ? false
                                                 : true,
-                                            onChange: (String username) {
-                                              //this.username = username;
-                                              receiverDepartmentName = username;
-                                              setState(() {});
+                                            onChange: (String value) {
+                                              state.materialMovement
+                                                      .receiverDepartmenttName =
+                                                  value;
+                                              context
+                                                  .read<InwardCubit>()
+                                                  .onModelValueChange(
+                                                      state.materialMovement);
                                             },
                                             validateTextField:
                                                 (String? user) {},
@@ -721,65 +726,49 @@ class _MaterialMovementInwardDetailsState
                                                 },
                                               )
                                             : Container(),
-                                    isClaimantDBEmployeeSelected == 1
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
 
-                                    widget.materialMovement != null
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
 
                                     /// Received By
-                                    widget.materialMovement != null &&
-                                            isClaimantDBEmployeeSelected == 1
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.receiverEmployeeId,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    widget.materialMovement != null &&
-                                            isClaimantDBEmployeeSelected == 1
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
+                                    CommonWidgets.textDisplay(
+                                        Constants.receivedBy,
+                                        Styles.textStyleBlack14),
 
-                                    widget.materialMovement != null &&
-                                            isClaimantDBEmployeeSelected == 1
-                                        ? FlutterInputField(
-                                            textFieldController:
-                                                receivedForTextController,
-                                            textFormKey: Keys
-                                                .claimantEmpIdTextController,
-                                            isEnable: widget.materialMovement ==
-                                                    null
-                                                ? true
-                                                : (widget.materialMovement !=
-                                                            null &&
-                                                        (widget.materialMovement
-                                                                    ?.otherReceiverName ??
-                                                                '')
-                                                            .isEmpty)
-                                                    ? true
-                                                    : false,
-                                            isDisableColor: (widget
-                                                            .materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                                ?.otherReceiverName ??
-                                                            '')
-                                                        .isEmpty)
-                                                ? false
-                                                : true,
-                                            hintText: '',
-                                            onChange: (String username) {
-                                              //this.username = username;
-                                              setState(() {});
-                                            },
-                                            validateTextField:
-                                                (String? user) {},
-                                          )
-                                        : Container(),
+                                    FlutterInputField(
+                                      initialValue: state
+                                          .materialMovement.otherReceiverName,
+                                      textFormKey:
+                                          Keys.claimantEmpIdTextController,
+                                      isEnable: widget.materialMovement == null
+                                          ? true
+                                          : (widget.materialMovement != null &&
+                                                  (widget.materialMovement
+                                                              ?.otherReceiverName ??
+                                                          '')
+                                                      .isEmpty)
+                                              ? true
+                                              : false,
+                                      isDisableColor: (widget
+                                                      .materialMovement !=
+                                                  null &&
+                                              (widget.materialMovement
+                                                          ?.otherReceiverName ??
+                                                      '')
+                                                  .isEmpty)
+                                          ? false
+                                          : true,
+                                      hintText: '',
+                                      onChange: (String value) {
+                                        state.materialMovement
+                                            .otherReceiverName = value;
+                                        context
+                                            .read<InwardCubit>()
+                                            .onModelValueChange(
+                                                state.materialMovement);
+                                      },
+                                      validateTextField: (String? user) {},
+                                    ),
 
                                     widget.materialMovement != null &&
                                             isClaimantDBEmployeeSelected == 1
@@ -788,60 +777,49 @@ class _MaterialMovementInwardDetailsState
                                         : Container(),
 
                                     /// Received for Employee Id
-                                    widget.materialMovement != null &&
-                                            isClaimantDBEmployeeSelected == 1
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.receivedForEmployeeId,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    widget.materialMovement != null &&
-                                            isClaimantDBEmployeeSelected == 1
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
+                                    CommonWidgets.textDisplay(
+                                        Constants.receivedForEmployeeId,
+                                        Styles.textStyleBlack14),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
 
-                                    widget.materialMovement != null &&
-                                            isClaimantDBEmployeeSelected == 1
-                                        ? FlutterInputField(
-                                            textFieldController:
-                                                receivedForTextController,
-                                            textFormKey: Keys
-                                                .claimantEmpIdTextController,
-                                            isEnable: widget.materialMovement ==
-                                                    null
-                                                ? true
-                                                : (widget.materialMovement !=
-                                                            null &&
-                                                        (widget.materialMovement
-                                                                    ?.receiverEmployeeId ??
-                                                                '')
-                                                            .isEmpty)
-                                                    ? true
-                                                    : false,
-                                            isDisableColor: (widget
-                                                            .materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                                ?.receiverEmployeeId ??
-                                                            '')
-                                                        .isEmpty)
-                                                ? false
-                                                : true,
-                                            hintText: '',
-                                            onChange: (String username) {
-                                              //this.username = username;
-                                              setState(() {});
-                                            },
-                                            validateTextField:
-                                                (String? user) {},
-                                          )
-                                        : Container(),
+                                    FlutterInputField(
+                                      initialValue: state
+                                          .materialMovement.receiverEmployeeId,
+                                      textFormKey:
+                                          Keys.claimantEmpIdTextController,
+                                      isEnable: widget.materialMovement == null
+                                          ? true
+                                          : (widget.materialMovement != null &&
+                                                  (widget.materialMovement
+                                                              ?.receiverEmployeeId ??
+                                                          '')
+                                                      .isEmpty)
+                                              ? true
+                                              : false,
+                                      isDisableColor: (widget
+                                                      .materialMovement !=
+                                                  null &&
+                                              (widget.materialMovement
+                                                          ?.receiverEmployeeId ??
+                                                      '')
+                                                  .isEmpty)
+                                          ? false
+                                          : true,
+                                      hintText: '',
+                                      onChange: (String value) {
+                                        state.materialMovement
+                                            .receiverEmployeeId = value;
+                                        context
+                                            .read<InwardCubit>()
+                                            .onModelValueChange(
+                                                state.materialMovement);
+                                      },
+                                      validateTextField: (String? user) {},
+                                    ),
 
-                                    widget.materialMovement != null &&
-                                            isClaimantDBEmployeeSelected == 1
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
 
                                     /// Receiver Signature
                                     CommonWidgets.textDisplay(
@@ -851,8 +829,7 @@ class _MaterialMovementInwardDetailsState
                                         height * 0.001),
                                     FlutterInputField(
                                       lineHeight: 6,
-                                      textFieldController:
-                                          materialBriefDescriptionTextController,
+                                      initialValue: state.materialMovement.receiverEmail,
                                       textFormKey: Keys.generateUniqueKey(),
                                       hintText: Constants.informationhere,
                                       isEnable: widget.materialMovement == null
@@ -874,9 +851,13 @@ class _MaterialMovementInwardDetailsState
                                               widget.materialMovement == null
                                           ? false
                                           : true,
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                        setState(() {});
+                                      onChange: (String value) {
+                                        state.materialMovement
+                                            .entrySecurityName = value;
+                                        context
+                                            .read<InwardCubit>()
+                                            .onModelValueChange(
+                                            state.materialMovement);
                                       },
                                       validateTextField: (String? user) {},
                                     ),
@@ -914,9 +895,13 @@ class _MaterialMovementInwardDetailsState
                                               widget.materialMovement == null
                                           ? false
                                           : true,
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                        setState(() {});
+                                      onChange: (String value) {
+                                        state.materialMovement
+                                            .entrySecurityName = value;
+                                        context
+                                            .read<InwardCubit>()
+                                            .onModelValueChange(
+                                            state.materialMovement);
                                       },
                                       validateTextField: (String? user) {},
                                     ),
@@ -1158,6 +1143,7 @@ class _MaterialMovementInwardDetailsState
       lawenforcementCubit.initalization();
     }
 
+    BlocProvider.of<InwardCubit>(context).getLocations();
     getLawenforcementList();
     _getCurrentDate();
   }
@@ -1279,6 +1265,7 @@ class _MaterialMovementInwardDetailsState
       },
     );
   }
+
   Widget submitButtonDisplay() {
     return // Login button
         AppButton(
@@ -1300,6 +1287,7 @@ class _MaterialMovementInwardDetailsState
     );
   }
 
+  // TODO: Need to use this as common widget
   Widget radioButtonHandling(int selectedValue, String name) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -1771,17 +1759,17 @@ class _MaterialMovementInwardDetailsState
     );
   }
 
-  Widget locationWidgetdislay(LawEnforcementState state) {
+  Widget locationWidgetdislay(InwardState state) {
     return GestureDetector(
       onTap: () {
         if (widget.materialMovement == null ||
-            (state.locationSelectedlist?.name ?? '').isEmpty) {
+            (state.materialMovement.location?.name ?? '').isEmpty) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
               // print(state.getLocationsResponse);
               return CustomExpansionListTexts(
-                getLocationsresponse: state.getLocationsResponse,
+                getLocationsresponse: state.locations,
                 //GetLocations(),
                 onTap: (Mumbai? list) async {
                   print(list?.name);
@@ -1804,7 +1792,7 @@ class _MaterialMovementInwardDetailsState
                 width: 1.0,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(8))),
-          child: (state.locationSelectedlist?.name ?? '').isEmpty
+          child: (state.materialMovement.location?.name ?? '').isEmpty
               ? Container()
               : Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   SizedBox(
@@ -1819,7 +1807,7 @@ class _MaterialMovementInwardDetailsState
                         ),
                         onPressed: () {},
                         child: Text(
-                          state.locationSelectedlist?.name ?? '',
+                          state.materialMovement.location?.name ?? '',
                           style: Styles.textStyleBlack14,
                         ),
                       ),

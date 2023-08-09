@@ -1,8 +1,8 @@
 class MaterialMovementsModel {
-  final List<MaterialMovementModel>? items;
-  final int? totalCount;
-  final int? currentPageNo;
-  final int? totalPageCount;
+  List<MaterialMovementModel>? items;
+  int? totalCount;
+  int? currentPageNo;
+  int? totalPageCount;
 
   MaterialMovementsModel({
     this.items,
@@ -26,54 +26,54 @@ class MaterialMovementsModel {
 }
 
 class MaterialMovementModel {
-  final int? id;
-  final String? slNo;
-  final String? inputDate;
-  final Location? location;
-  final LocationRegion? locationRegion;
-  final List<dynamic>? entities;
-  final bool? inwardMovement;
-  final bool? returnable;
-  final String? challanNo;
-  final String? materialComingFrom;
-  final String? materialFromAddress;
-  final String? materialDescription;
-  final int? quantity;
-  final List<dynamic>? images;
-  final String? receiverEmail;
-  final String? receiverEmployeeId;
-  final EntrySecurity? entrySecurity;
-  final int? status;
-  final String? modifiedDate;
-  final String? modifiedBy;
-  final List<History>? history;
-  final String? requestorEmail;
-  final String? requestorEmployeeId;
-  final RequestorDepartment? requestorDepartment;
-  final String? sentTo;
-  final String? address;
-  final String? purpose;
-  final String? modelInfo;
-  final Unit? unit;
-  final String? preparedBy;
-  final PreparedByDepartment? preparedByDepartment;
-  final String? approver1Email;
-  final Approver1Department? approver1Department;
-  final String? approver2Email;
-  final Approver2Department? approver2Department;
-  final String? takenOutEmail;
-  final String? takenOutContactNo;
-  final String? materialReturnedChallanNo;
-  final String? returnReceiverMailId;
-  final String? poNumber;
-  final bool? originalReceiver;
-  final String? otherReceiverName;
-  final String? otherReceiverEmployeeId;
-  final bool? materialPhysicallyChecked;
-  final String? materialNotCheckedComment;
-  final String? takenOutAddress;
-  final String? entrySecurityName;
-  final String? receiverDepartmenttName;
+  int? id;
+  String? slNo;
+  String? inputDate;
+  Location? location;
+  LocationRegion? locationRegion;
+  List<dynamic>? entities;
+  bool? inwardMovement;
+  bool? returnable;
+  String? challanNo;
+  String? materialComingFrom;
+  String? materialFromAddress;
+  String? materialDescription;
+  int? quantity;
+  List<dynamic>? images;
+  String? receiverEmail;
+  String? receiverEmployeeId;
+  EntrySecurity? entrySecurity;
+  int? status;
+  String? modifiedDate;
+  String? modifiedBy;
+  List<History>? history;
+  String? requestorEmail;
+  String? requestorEmployeeId;
+  RequestorDepartment? requestorDepartment;
+  String? sentTo;
+  String? address;
+  String? purpose;
+  String? modelInfo;
+  Unit? unit;
+  String? preparedBy;
+  PreparedByDepartment? preparedByDepartment;
+  String? approver1Email;
+  Approver1Department? approver1Department;
+  String? approver2Email;
+  Approver2Department? approver2Department;
+  String? takenOutEmail;
+  String? takenOutContactNo;
+  String? materialReturnedChallanNo;
+  String? returnReceiverMailId;
+   String? poNumber;
+  bool? originalReceiver;
+  String? otherReceiverName;
+  String? otherReceiverEmployeeId;
+  bool? materialPhysicallyChecked;
+  String? materialNotCheckedComment;
+  String? takenOutAddress;
+  String? entrySecurityName;
+  String? receiverDepartmenttName;
 
   MaterialMovementModel({
     this.id,
@@ -229,8 +229,8 @@ class MaterialMovementModel {
 }
 
 class Location {
-  final int? id;
-  final String? name;
+  int? id;
+  String? name;
 
   Location({
     this.id,
@@ -248,8 +248,8 @@ class Location {
 }
 
 class LocationRegion {
-  final int? id;
-  final String? name;
+  int? id;
+  String? name;
 
   LocationRegion({
     this.id,
@@ -267,18 +267,18 @@ class LocationRegion {
 }
 
 class EntrySecurity {
-  final int? userId;
-  final String? userName;
-  final String? email;
-  final String? firstName;
-  final String? lastName;
-  final String? phone;
-  final List<Roles>? roles;
-  final List<RoleExtensions>? roleExtensions;
-  final List<dynamic>? notApprovedRoles;
-  final List<dynamic>? notApprovedRoleExtensions;
-  final String? name;
-  final String? userStatus;
+  int? userId;
+  String? userName;
+  String? email;
+  String? firstName;
+  String? lastName;
+  String? phone;
+  List<Roles>? roles;
+  List<RoleExtensions>? roleExtensions;
+  List<dynamic>? notApprovedRoles;
+  List<dynamic>? notApprovedRoleExtensions;
+  String? name;
+  String? userStatus;
 
   EntrySecurity({
     this.userId,
@@ -326,11 +326,11 @@ class EntrySecurity {
 }
 
 class Roles {
-  final int? roleId;
-  final String? application;
-  final String? roleName;
-  final List<RoleExtensions>? roleExtensions;
-  final String? name;
+  int? roleId;
+  String? application;
+  String? roleName;
+  List<RoleExtensions>? roleExtensions;
+  String? name;
 
   Roles({
     this.roleId,
@@ -357,14 +357,14 @@ class Roles {
 }
 
 class RoleExtensions {
-  final int? roleExtensionId;
-  final int? roleId;
-  final String? displayName;
-  final String? area;
-  final String? filter;
-  final dynamic rootNodeId;
-  final dynamic nodeId;
-  final dynamic accessRight;
+  int? roleExtensionId;
+  int? roleId;
+  String? displayName;
+  String? area;
+  String? filter;
+  dynamic rootNodeId;
+  dynamic nodeId;
+  dynamic accessRight;
 
   RoleExtensions({
     this.roleExtensionId,
@@ -401,12 +401,12 @@ class RoleExtensions {
 
 
 class History {
-  final int? id;
-  final int? state;
-  final int? action;
-  final String? email;
-  final int? actiontime;
-  final String? parameters;
+  int? id;
+  int? state;
+  int? action;
+  String? email;
+  int? actiontime;
+  String? parameters;
 
   History({
     this.id,
@@ -436,8 +436,8 @@ class History {
 }
 
 class RequestorDepartment {
-  final int? id;
-  final String? name;
+  int? id;
+  String? name;
 
   RequestorDepartment({
     this.id,
@@ -455,8 +455,8 @@ class RequestorDepartment {
 }
 
 class Unit {
-  final int? id;
-  final String? name;
+  int? id;
+  String? name;
 
   Unit({
     this.id,
@@ -474,8 +474,8 @@ class Unit {
 }
 
 class PreparedByDepartment {
-  final int? id;
-  final String? name;
+  int? id;
+  String? name;
 
   PreparedByDepartment({
     this.id,
@@ -493,8 +493,8 @@ class PreparedByDepartment {
 }
 
 class Approver1Department {
-  final int? id;
-  final String? name;
+  int? id;
+  String? name;
 
   Approver1Department({
     this.id,
@@ -512,8 +512,8 @@ class Approver1Department {
 }
 
 class Approver2Department {
-  final int? id;
-  final String? name;
+  int? id;
+  String? name;
 
   Approver2Department({
     this.id,

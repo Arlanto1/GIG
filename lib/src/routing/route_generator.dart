@@ -13,18 +13,20 @@ import 'package:db_atom/src/features/law_enforcement_list/views/ln_list_page.dar
 import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.dart';
 import 'package:db_atom/src/features/login/views/login_screen.dart';
 import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
+import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/bloc/inward_outward_bloc.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/views/material_movement_inward_details.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/views/material_movement_inwards_outwards.dart';
+import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list_page.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pass_list_page.dart';
 import 'package:db_atom/src/routing/router.dart';
+import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -90,7 +92,8 @@ class RouteGenerator {
       case articleFoundListRoute:
         return MaterialPageRoute(builder: (context) => const FoundList());
       case createFoundAttachmentRoute:
-        return MaterialPageRoute(builder: (context) => const CreateFoundAttachment());
+        return MaterialPageRoute(
+            builder: (context) => const CreateFoundAttachment());
       case piechartRoute:
         return MaterialPageRoute(builder: (context) => PieChartApp());
       case customexpansionlisttextsRoute:
@@ -108,24 +111,22 @@ class RouteGenerator {
             PassMngArguments? passMngArguments = passRoutes["passMngDetails"];
             return MaterialPageRoute(
                 builder: (context) => DayPassregisterList(
-                  passId:passMngArguments?.passType ?? '',
-                  title: passMngArguments?.title ?? '',
-                ));
+                      passId: passMngArguments?.passType ?? '',
+                      title: passMngArguments?.title ?? '',
+                    ));
           }
           return MaterialPageRoute(builder: (context) => DayPassregisterList());
         }
-        return MaterialPageRoute(
-            builder: (context) =>  DayPassregisterList());
+        return MaterialPageRoute(builder: (context) => DayPassregisterList());
       case createpassmgmtRoute:
         return MaterialPageRoute(builder: (context) => CreatePassManagement());
 
       case materialMovementInwardsOutwardsRoute:
         bool isInward = true;
         if (settings.arguments != null) {
-          Map<String, dynamic> arguments = settings.arguments as Map<
-              String,
-              dynamic>;
-          if(arguments.isNotEmpty) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          if (arguments.isNotEmpty) {
             isInward = arguments['isInward'];
           }
         }
@@ -133,22 +134,42 @@ class RouteGenerator {
             builder: (context) => BlocProvider<InwardOutwardBloc>(
                   create: (_) => InwardOutwardBloc(isInward: isInward)
                     ..add(const InwardFetch(startPos: 0, maxPos: 20)),
-                  child:  MaterialMovementInwardsOutwards(
+                  child: MaterialMovementInwardsOutwards(
                     isInward: isInward,
                   ),
                 ));
 
       case materialMovementInwardDetailsRoute:
         if (settings.arguments != null) {
-          Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
           if (arguments.isNotEmpty) {
-            MaterialMovementModel? materialMovement = arguments["MaterialMovementModel"];
+            MaterialMovementModel? materialMovement =
+                arguments["MaterialMovementModel"];
+
+            MaterialMovementServices services = MaterialMovementServices();
+            CommonServices commonServices = CommonServices();
             return MaterialPageRoute(
-                builder: (context) => MaterialMovementInwardDetails(materialMovement: materialMovement));
+                builder: (context) => BlocProvider<InwardCubit>(
+                      create: (_) => InwardCubit(
+                        materialMovementServices: services,
+                        commonServices: commonServices,
+                        model: materialMovement,
+                      ),
+                      child: MaterialMovementInwardDetails(
+                        materialMovement: materialMovement,
+                      ),
+                    ));
+
+            return MaterialPageRoute(
+                builder: (context) => MaterialMovementInwardDetails(
+                    materialMovement: materialMovement));
           }
-          return MaterialPageRoute(builder: (context) => const MaterialMovementInwardDetails());
+          return MaterialPageRoute(
+              builder: (context) => const MaterialMovementInwardDetails());
         } else {
-          return MaterialPageRoute(builder: (context) => const MaterialMovementInwardDetails());
+          return MaterialPageRoute(
+              builder: (context) => const MaterialMovementInwardDetails());
         }
 
       default:

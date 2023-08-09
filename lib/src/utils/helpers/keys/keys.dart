@@ -40,6 +40,7 @@ class Keys {
   static const String claimantTextController = 'createfound_claimant_textfield';
   static const String actualdateTextController = 'external_lawenforcement_actualdate_textfield';
 
+  static const String challanKey = 'material_inward_challan_key';
 
   //list page
   static const String searchInputField = 'search_input_field';

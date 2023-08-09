@@ -11,6 +11,9 @@ class Apis {
 
   static final String _getMaterialMovement =
       '$baseUrl/getMMById';
+
+  static final String _createMaterialMovement =
+      '$baseUrl/createMtrlMvmt?userEmail=7&isSubmit=false';   // TODO: Need to discuss it to add it in body
 }
 
 class MaterialMovementServices {
@@ -35,4 +38,19 @@ class MaterialMovementServices {
     );
     return MaterialMovementModel.fromJson(response);
   }
+
+  /// Create Services
+
+  Future<MaterialMovementModel> createMaterialMovement( MaterialMovementModel body) async {
+    final String url = '${Apis._createMaterialMovement}/$body';
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return MaterialMovementModel.fromJson(response);
+  }
+
+
+
+
 }

@@ -22,8 +22,7 @@ CreateFoundArticleCubit createFoundArticleCubit =
 
 // LoginCubit loginCubit = LoginCubit(loginService: LoginService());
 
-
- LawEnforcementCubit lawenforcementCubit =
+LawEnforcementCubit lawenforcementCubit =
     LawEnforcementCubit(lawenforcementServices: LawEnforcementService());
 
 LawEnforcementListCubit lawEnforcementListCubit = LawEnforcementListCubit(
