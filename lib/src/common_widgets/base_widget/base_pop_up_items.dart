@@ -1,28 +1,44 @@
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/features/material_movement/material_movements/models/material_movements_model.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 
-
 class BasePopUpItems extends StatefulWidget {
-  final dynamic userItem;
+  final String? id;
+  final String? slNo;
+  final Location? location;
+  final LocationRegion?  locationRegion;
+  final String? status;
+  final String? inputDate;
+  final String? securityName;
+  final String?  entrySecurityName;
+  final String?  modifiedDate;
+  final String?  dbOfficialEmail;
 
-  const BasePopUpItems(this.userItem, {Key? key}) : super(key: key);
+
 
   @override
-  State<BasePopUpItems> createState() =>
-      _BasePopUpItemsState();
+  State<BasePopUpItems> createState() => _BasePopUpItemsState();
+
+  const BasePopUpItems({super.key,
+    required this.id,
+    this.slNo,
+    this.location,
+    this.locationRegion,
+    this.status,
+    this.inputDate,
+    this.securityName,
+    this.entrySecurityName,
+    this.modifiedDate,
+    this.dbOfficialEmail,
+  });
 }
 
-class _BasePopUpItemsState
-    extends State<BasePopUpItems> {
-  //var firstStyle = Styles.textStyleSemiBoldGrey14;
-//var secondStyle = Styles.textStyleSemiBoldheighGrey14;
-
-//var mergedStyle = firstStyle.merge(secondStyle);
+class _BasePopUpItemsState extends State<BasePopUpItems> {
   Widget textHandling(String title, String desc) {
     return Expanded(
       child: RichText(
@@ -62,14 +78,6 @@ class _BasePopUpItemsState
             // Row(
             //  children: [
             SingleChildScrollView(
-                // child: Card(
-                //         elevation: 5,
-                //         shape: RoundedRectangleBorder(
-                // side: const BorderSide(color: AppColors.searchBarBorder, width: 1),
-                // borderRadius: circularBorderRadius10,
-                //         ),
-                //         child: Padding(
-                //   padding: EdgeInsets.all(20),
                 child: Column(children: [
           Align(
               alignment: Alignment.topRight,
@@ -83,28 +91,28 @@ class _BasePopUpItemsState
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              textHandling('ID : ', widget.userItem?.id.toString() ?? " "),
+              textHandling('ID : ', widget.id.toString() ?? " "),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              textHandling('Sl No : ', widget.userItem?.slNo.toString() ?? " "),
+              textHandling('Sl No : ', widget.slNo.toString() ?? " "),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
               textHandling(
-                  'Region : ', widget.userItem?.locationRegion?.name ?? " "),
+                  'Region : ', widget.locationRegion?.name ?? " "),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
               textHandling(
-                  'Location : ', widget.userItem?.location?.name ?? " "),
+                  'Location : ', widget.location?.name ?? " "),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
@@ -112,9 +120,9 @@ class _BasePopUpItemsState
             children: [
               textHandling(
                   'TimeOfVisit : ',
-                  widget.userItem?.timeOfVisit != null
+                  widget.status != null
                       ? Utils.timestamptoDateConversion(
-                          int.parse(widget.userItem?.timeOfVisit ?? '0'),
+                          int.parse(widget.status ?? '0'),
                           Constants.dateFormat)
                       : ''),
             ],
@@ -124,53 +132,25 @@ class _BasePopUpItemsState
             children: [
               textHandling(
                   'Created By : ',
-                  widget.userItem?.inputDate != null
+                  widget.inputDate != null
                       ? Utils.timestamptoDateConversion(
-                          int.parse(widget.userItem?.inputDate ?? '0'),
+                          int.parse(widget.inputDate ?? '0'),
                           Constants.dateFormat)
                       : ''),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
-          /* Row(
-            children: [
-              textHandling('Asset Type : ',
-                  widget.userItem?.typeOfAsset.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),*/
-          /* Row(
-            children: [
-              textHandling('Article Type : ',
-                  widget.userItem?.typeOfAsset.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),*/
-          /*Row(
-            children: [
-              textHandling(
-                  'Quantity : ', widget.userItem?.quantity.toString() ?? " "),
-            ],
-          ),
-         CommonWidgets.verticalSpacerWidget(8),*/
-          /*Row(
-            children: [
-              textHandling(
-                  'Color : ', widget.userItem?.color.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),*/
           Row(
             children: [
               textHandling('EntrySecurityName : ',
-                  widget.userItem?.entrySecurityName.toString() ?? " "),
+                  widget.entrySecurityName.toString() ?? " "),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
               textHandling('DBOfficialName : ',
-                  widget.userItem?.dbOfficialEmail.toString() ?? " "),
+                  widget.dbOfficialEmail.toString() ?? " "),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
@@ -178,9 +158,9 @@ class _BasePopUpItemsState
             children: [
               textHandling(
                   'Modified Date : ',
-                  widget.userItem?.modifiedDate != null
+                  widget.modifiedDate != null
                       ? Utils.timestamptoDateConversion(
-                          int.parse(widget.userItem?.modifiedDate ?? '0'),
+                          int.parse(widget.modifiedDate ?? '0'),
                           Constants.dateFormat)
                       : ''),
             ],
@@ -189,14 +169,14 @@ class _BasePopUpItemsState
           Row(
             children: [
               textHandling('item Hand Over By : ',
-                  widget.userItem?.entrySecurityName.toString() ?? " "),
+                  widget.entrySecurityName.toString() ?? " "),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
               textHandling(
-                  'Status : ', widget.userItem?.status.toString() ?? " "),
+                  'Status : ', widget.status.toString() ?? " "),
             ],
           ),
         ])
@@ -209,61 +189,3 @@ class _BasePopUpItemsState
     );
   }
 }
-// Widget build(BuildContext context) {
-//   final size = MediaQuery.of(context).size;
-//   final height = size.height;
-//   final width = size.width;
-//   return AlertDialog(
-//     icon: Align(
-//         alignment: Alignment.topRight,
-//         child: GestureDetector(
-//             onTap: () {
-//               Navigator.of(context).pop();
-//             },
-//             child: SvgPicture.asset(AppIcon.closeicon) //Icon(Icons.cancel)
-//             )),
-//     backgroundColor: AppColors.backgroundWhitecolor,
-//     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-//     content: Builder(builder: (context) {
-//       // Get available height and width of the build area of this widget. Make a choice depending on the size.
-//       var height = MediaQuery.of(context).size.height;
-//       var width = MediaQuery.of(context).size.width;
-//       return
-//       Container(
-//         height: height,
-//         width: width - 30,
-//         child: Column(
-//           // mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             setupAlertDialoadContainer(height, width),
-//           ],
-//         ),
-//       );
-//     }),
-//   );
-// }
-
-// Widget setupAlertDialoadContainer(double height, double width) {
-//   return Container(
-//     //padding: const EdgeInsets.all(20),
-//     height: height / 1.4, // Change as per your requirement
-//     // width: width- 50, // Change as per your requirement
-//     width: double.maxFinite,
-//     child: ListView.builder(
-//       shrinkWrap: true,
-//       itemCount: 15,
-//       itemBuilder: (BuildContext context, int index) {
-//         return ListTile(
-//           dense: true,
-//           visualDensity: VisualDensity(vertical: -4),
-//           title: Row(
-//             children: [
-//               textHandling(
-//                   'Status : ', widget.userItem?.status.toString() ?? " "),
-//             ],
-//           ),
-//         );
-//       },
-//     ),
-//   );
-// }

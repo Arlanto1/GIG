@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
@@ -113,10 +115,9 @@ class _MaterialMovementInwardsOutwardsState
                           showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(state.items[index]);
+                              return BasePopUpItems(id: state.items[selectedIndex].id.toString()??'',);
                             },
                           );
-                          //do the detail edit of user found
                         },
                         onEditTap: (selectedIndex) {
                           getLawEnforcementId(state.items[index].id ?? 0);
@@ -125,7 +126,16 @@ class _MaterialMovementInwardsOutwardsState
                           showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(state.items[selectedIndex]);
+                              return BasePopUpItems(
+                                id: state.items[selectedIndex].id.toString()??'',
+                                inputDate: state.items[selectedIndex].inputDate.toString(),
+                                location: state.items[selectedIndex].location,
+                                locationRegion: state.items[selectedIndex].locationRegion,
+                                securityName: state.items[selectedIndex].entrySecurityName,
+                                slNo: state.items[selectedIndex].slNo,
+                                status: state.items[selectedIndex].status.toString(),
+                                entrySecurityName: state.items[selectedIndex].entrySecurityName,
+                              );
                             },
                           );
                         },
@@ -137,8 +147,6 @@ class _MaterialMovementInwardsOutwardsState
         }));
   }
 
-  // TODO: Need to discuss
-  // TODO: whether to use bloc or cubits
   getLawEnforcementId(int id) async {
     showLoadingDialog(context);
 
