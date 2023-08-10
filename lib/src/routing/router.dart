@@ -1,17 +1,29 @@
 const String appRoute = '/approute';
-const String homePageRoute = '/homepageroute';
+
 const String splashScreenRoute = '/splashscreenRoute';
+
 const String loginScreenRoute = '/loginscreenRoute';
 
 const String createfoundScreenRoute = '/createfoundscreenRoute';
-const String addemployeedepartmentRoute = '/addemployeedepartment';
 const String articleFoundListRoute = '/articlefoundlistpage';
 
-const String createFoundAttachmentRoute = '/createfoundattachmentRoutepage';
-const String piechartRoute = '/piechartRoutepage';
-const String customexpansionlisttextsRoute = '/customexpansionlisttextsRoute';
-const String lawEnforcementListRoute = '/lawenforcementlist';
+const String homePageRoute = '/homepageroute';
 
+const String piechartRoute = '/piechartRoutepage';
+
+const String customexpansionlisttextsRoute = '/customexpansionlisttextsRoute';
+const String createFoundAttachmentRoute = '/createfoundattachmentRoutepage';
+const String addemployeedepartmentRoute = '/addemployeedepartment';
+
+
+const String daypassmanagementListRoute = '/daypassmanagementlist';
+const String daypassregistertListRoute = '/daypassregistertlist';
 
 const String lawenforcementScreenRoute = '/lawenforcementscreenroute';
+const String lawEnforcementListRoute = '/lawenforcementlist';
+const String createpassmgmtRoute = '/createpassmgmt';
+
+
+const String otpVerificationRoute = '/otpverification';
+
 

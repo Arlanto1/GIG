@@ -47,6 +47,17 @@ class SecurityFunctionsGetDrawerItemChange extends DrawerState{
 
 }
 
+class PassmgmtSetDrawerItemChange extends DrawerState{
+   PassmgmtSetDrawerItemChange(this.index) : super(index);
+   
+  @override
+  final int index;
+}
+class PassmgmtGetDrawerItemChange extends DrawerState{
+  PassmgmtGetDrawerItemChange(super.index);
+
+}
+
 
 
 

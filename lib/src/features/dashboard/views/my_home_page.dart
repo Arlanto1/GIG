@@ -60,54 +60,54 @@ class MyHomePageState extends State<MyHomePage> {
         title: Constants.dashboard,
 
         action: [
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext dialogContext) {
-                  return const CustomInternationalization(
-                    title: Constants.internationalization,
-                  );
-                },
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: SvgPicture.asset(
-                AppIcon.vectoridentify,
-                color: AppColors.backgroundWhitecolor,
-                width: 20,
-                //key: const Key(Keys.userIcon),
-              ),
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: () {
+          //     showDialog(
+          //       context: context,
+          //       builder: (BuildContext dialogContext) {
+          //         return const CustomInternationalization(
+          //           title: Constants.internationalization,
+          //         );
+          //       },
+          //     );
+          //   },
+          //   child: Padding(
+          //     padding: const EdgeInsets.all(10.0),
+          //     child: SvgPicture.asset(
+          //       AppIcon.vectoridentify,
+          //       color: AppColors.backgroundWhitecolor,
+          //       width: 20,
+          //       //key: const Key(Keys.userIcon),
+          //     ),
+          //   ),
+          // ),
 
           // Icon(Icons.add),
 
-          GestureDetector(
-            onTap: () {
-              var dialog = CustomAlertImageDialog(
-                  title: Constants.unsaveddata,
-                  message: Constants.unsaveddatadesc,
-                  image: AppIcon.questionmark,
-                  onPostivePressed: () {
-                    // Validator.logoutAction(context);
-                  },
-                  positiveBtnText: Constants.yes,
-                  negativeBtnText: Constants.no);
-              showDialog(
-                  context: context, builder: (BuildContext context) => dialog);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: SvgPicture.asset(
-                AppIcon.notifications,
-                color: AppColors.backgroundWhitecolor,
-                width: 20,
-                //key: const Key(Keys.userIcon),
-              ),
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: () {
+          //     var dialog = CustomAlertImageDialog(
+          //         title: Constants.unsaveddata,
+          //         message: Constants.unsaveddatadesc,
+          //         image: AppIcon.questionmark,
+          //         onPostivePressed: () {
+          //           // Validator.logoutAction(context);
+          //         },
+          //         positiveBtnText: Constants.yes,
+          //         negativeBtnText: Constants.no);
+          //     showDialog(
+          //         context: context, builder: (BuildContext context) => dialog);
+          //   },
+          //   child: Padding(
+          //     padding: const EdgeInsets.all(10.0),
+          //     child: SvgPicture.asset(
+          //       AppIcon.notifications,
+          //       color: AppColors.backgroundWhitecolor,
+          //       width: 20,
+          //       //key: const Key(Keys.userIcon),
+          //     ),
+          //   ),
+          // ),
         ],
         // backgroundColor: AppColors.navigationSkybluecolor,
         backBtn: IconButton(

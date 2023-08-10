@@ -14,6 +14,10 @@ import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -32,7 +36,11 @@ class CustomListTexts extends StatefulWidget {
       this.duplicateentityList,
       this.duplicateleodepartments,
       this.duplicateleopurposevisits,
-      this.duplicateloadGroups});
+      this.duplicateloadGroups,
+      this.duplicateatomCompanyTypes,
+      this.duplicatedayPassReason,
+      this.duplicatet1Analyst,
+      this.duplicateactivePassInfoList});
   final String? imagename;
   List<EmployeeDepartment>? duplicateemployeeDepartments;
   List<ArticleList>? duplicatearticleList;
@@ -44,6 +52,10 @@ class CustomListTexts extends StatefulWidget {
   final Function? onLeftButtonTap;
   final String? leftimagename;
   List<DistributionGroup>? duplicateloadGroups;
+  List<AtomCompanyType>? duplicateatomCompanyTypes;
+  List<DayPassReasonElement>? duplicatedayPassReason;
+  List<T1Analyst>? duplicatet1Analyst;
+  List<ActivePassInfoList>? duplicateactivePassInfoList;
   @override
   State<CustomListTexts> createState() => CustomListTextsState();
 }
@@ -59,6 +71,10 @@ class CustomListTextsState extends State<CustomListTexts> {
   List<AtomLeoDepartment> leodepartments = [];
   List<AtomLeoPurposeVisit> leopurposevisits = [];
   List<DistributionGroup> loadGroups = [];
+  List<AtomCompanyType> companyTypes = [];
+  List<DayPassReasonElement> dayPassReason = [];
+  List<T1Analyst> t1analysts = [];
+  List<ActivePassInfoList> activePassInfoList = [];
 
   // List<ArticleList>? articleList;
   // List<AtomEntity>? entityList;
@@ -269,6 +285,60 @@ class CustomListTextsState extends State<CustomListTexts> {
       });
     }
 
+     else if (widget.duplicateatomCompanyTypes != null) {
+      companyTypes.clear();
+      if (text.isEmpty) {
+        setState(() {});
+        return;
+      }
+
+      widget.duplicateatomCompanyTypes!.forEach((userDetail) {
+        if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
+          companyTypes.add(userDetail);
+        }
+      });
+    }
+    else if (widget.duplicatedayPassReason != null) {
+      dayPassReason.clear();
+      if (text.isEmpty) {
+        setState(() {});
+        return;
+      }
+
+      widget.duplicatedayPassReason!.forEach((userDetail) {
+        if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
+          dayPassReason.add(userDetail);
+        }
+      });
+    }
+    else if (widget.duplicatet1Analyst != null) {
+      t1analysts.clear();
+      if (text.isEmpty) {
+        setState(() {});
+        return;
+      }
+
+      widget.duplicatet1Analyst!.forEach((userDetail) {
+        if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
+          t1analysts.add(userDetail);
+        }
+      });
+    }
+
+    else if (widget.duplicateactivePassInfoList != null) {
+      activePassInfoList.clear();
+      if (text.isEmpty) {
+        setState(() {});
+        return;
+      }
+
+      widget.duplicateactivePassInfoList!.forEach((userDetail) {
+        if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
+          activePassInfoList.add(userDetail);
+        }
+      });
+    }
+
     setState(() {});
   }
 
@@ -304,7 +374,15 @@ class CustomListTextsState extends State<CustomListTexts> {
                 _searchCtrl.text.length > 0 &&
                 leopurposevisits.isEmpty) || (widget.duplicateloadGroups != null &&
                 _searchCtrl.text.length > 0 &&
-                loadGroups.isEmpty))) {
+                loadGroups.isEmpty) || (widget.duplicateatomCompanyTypes != null &&
+                _searchCtrl.text.length > 0 &&
+                companyTypes.isEmpty) || (widget.duplicatedayPassReason != null &&
+                _searchCtrl.text.length > 0 &&
+                dayPassReason.isEmpty) || (widget.duplicatet1Analyst != null &&
+                _searchCtrl.text.length > 0 &&
+                t1analysts.isEmpty) || (widget.duplicateactivePassInfoList != null &&
+                _searchCtrl.text.length > 0 &&
+                activePassInfoList.isEmpty))) {
       return //const Expanded(
           // child:
           Center(
@@ -327,7 +405,24 @@ class CustomListTextsState extends State<CustomListTexts> {
               ? (_searchCtrl.text.length > 0 && employeeDepartments.isNotEmpty)
                   ? employeeDepartments.length
                   : widget.duplicateemployeeDepartments?.length
-              : (widget.duplicatearticleList != null
+              : (
+                widget.duplicateactivePassInfoList != null
+                  ? (_searchCtrl.text.length > 0 && activePassInfoList.isNotEmpty)
+                      ? activePassInfoList.length
+                      : widget.duplicateactivePassInfoList?.length
+                : widget.duplicatet1Analyst != null
+                  ? (_searchCtrl.text.length > 0 && t1analysts.isNotEmpty)
+                      ? t1analysts.length
+                      : widget.duplicatet1Analyst?.length
+                : widget.duplicatedayPassReason != null
+                  ? (_searchCtrl.text.length > 0 && dayPassReason.isNotEmpty)
+                      ? dayPassReason.length
+                      : widget.duplicatedayPassReason?.length :
+              widget.duplicateatomCompanyTypes != null
+                  ? (_searchCtrl.text.length > 0 && companyTypes.isNotEmpty)
+                      ? companyTypes.length
+                      : widget.duplicateatomCompanyTypes?.length
+              : widget.duplicatearticleList != null
                   ? (_searchCtrl.text.length > 0 && articleList.isNotEmpty)
                       ? articleList.length
                       : widget.duplicatearticleList?.length
@@ -628,6 +723,164 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             }
+            else if (widget.duplicateatomCompanyTypes != null) {
+              AtomCompanyType? articleItem;
+              if ((_searchCtrl.text.length > 0 && companyTypes.isNotEmpty)) {
+                articleItem = companyTypes[index];
+              } else {
+                articleItem = widget.duplicateatomCompanyTypes?[index];
+              }
+              return ListTile(
+                  onTap: () {
+                    widget.onTap!(articleItem);
+                    Navigator.of(context).pop();
+                  },
+                  contentPadding: EdgeInsets.zero,
+                  minLeadingWidth: 5,
+                  horizontalTitleGap:
+                      (widget.imagename != null && widget.imagename != '')
+                          ? 20
+                          : 0,
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  leading: (widget.imagename != null && widget.imagename != '')
+                      ? SvgPicture.asset(
+                          //AppIcon.dropdownicon,
+                          AppIcon.apple,
+                          //fit: BoxFit.,
+                          //color: AppColors.textColor,
+                          width: 20,
+                          height: 20,
+                        )
+                      : const SizedBox.shrink(),
+                  title: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      articleItem?.name ?? '',
+                      style: Styles.textStyleRegularGrey16,
+                      textAlign: TextAlign.left,
+                    ),
+                  ));
+            }
+            else if (widget.duplicatedayPassReason != null) {
+              DayPassReasonElement? articleItem;
+              if ((_searchCtrl.text.length > 0 && companyTypes.isNotEmpty)) {
+                articleItem = dayPassReason[index];
+              } else {
+                articleItem = widget.duplicatedayPassReason?[index];
+              }
+              return ListTile(
+                  onTap: () {
+                    widget.onTap!(articleItem);
+                    Navigator.of(context).pop();
+                  },
+                  contentPadding: EdgeInsets.zero,
+                  minLeadingWidth: 5,
+                  horizontalTitleGap:
+                      (widget.imagename != null && widget.imagename != '')
+                          ? 20
+                          : 0,
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  leading: (widget.imagename != null && widget.imagename != '')
+                      ? SvgPicture.asset(
+                          //AppIcon.dropdownicon,
+                          AppIcon.apple,
+                          //fit: BoxFit.,
+                          //color: AppColors.textColor,
+                          width: 20,
+                          height: 20,
+                        )
+                      : const SizedBox.shrink(),
+                  title: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      articleItem?.name ?? '',
+                      style: Styles.textStyleRegularGrey16,
+                      textAlign: TextAlign.left,
+                    ),
+                  ));
+            }
+             else if (widget.duplicatet1Analyst != null) {
+              T1Analyst? articleItem;
+              if ((_searchCtrl.text.length > 0 && companyTypes.isNotEmpty)) {
+                articleItem = t1analysts[index];
+              } else {
+                articleItem = widget.duplicatet1Analyst?[index];
+              }
+              return ListTile(
+                  onTap: () {
+                    widget.onTap!(articleItem);
+                    Navigator.of(context).pop();
+                  },
+                  contentPadding: EdgeInsets.zero,
+                  minLeadingWidth: 5,
+                  horizontalTitleGap:
+                      (widget.imagename != null && widget.imagename != '')
+                          ? 20
+                          : 0,
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  leading: (widget.imagename != null && widget.imagename != '')
+                      ? SvgPicture.asset(
+                          //AppIcon.dropdownicon,
+                          AppIcon.apple,
+                          //fit: BoxFit.,
+                          //color: AppColors.textColor,
+                          width: 20,
+                          height: 20,
+                        )
+                      : const SizedBox.shrink(),
+                  title: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      articleItem?.name ?? '',
+                      style: Styles.textStyleRegularGrey16,
+                      textAlign: TextAlign.left,
+                    ),
+                  ));
+            }
+
+            else if (widget.duplicateactivePassInfoList != null) {
+              ActivePassInfoList? articleItem;
+              if ((_searchCtrl.text.length > 0 && activePassInfoList.isNotEmpty)) {
+                articleItem = activePassInfoList[index];
+              } else {
+                articleItem = widget.duplicateactivePassInfoList?[index];
+              }
+              return ListTile(
+                  onTap: () {
+                    widget.onTap!(articleItem);
+                    Navigator.of(context).pop();
+                  },
+                  contentPadding: EdgeInsets.zero,
+                  minLeadingWidth: 5,
+                  horizontalTitleGap:
+                      (widget.imagename != null && widget.imagename != '')
+                          ? 20
+                          : 0,
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  leading: (widget.imagename != null && widget.imagename != '')
+                      ? SvgPicture.asset(
+                          //AppIcon.dropdownicon,
+                          AppIcon.apple,
+                          //fit: BoxFit.,
+                          //color: AppColors.textColor,
+                          width: 20,
+                          height: 20,
+                        )
+                      : const SizedBox.shrink(),
+                  title: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      articleItem?.name ?? '',
+                      style: Styles.textStyleRegularGrey16,
+                      textAlign: TextAlign.left,
+                    ),
+                  ));
+            }
+            
           },
         ),
       );

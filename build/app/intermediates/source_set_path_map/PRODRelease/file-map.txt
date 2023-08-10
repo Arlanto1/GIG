@@ -1,0 +1,35 @@
+com.arlanto.atomedge.app-jetified-window-java-1.0.0-beta04-0 /Users/narendra/.gradle/caches/transforms-3/006d93cd422dbc43e89591147c2de572/transformed/jetified-window-java-1.0.0-beta04/res
+com.arlanto.atomedge.app-jetified-profileinstaller-1.3.0-1 /Users/narendra/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/res
+com.arlanto.atomedge.app-jetified-core-ktx-1.9.0-2 /Users/narendra/.gradle/caches/transforms-3/3e6c979ab8eca9aa1eeca6cb7cd9f261/transformed/jetified-core-ktx-1.9.0/res
+com.arlanto.atomedge.app-lifecycle-viewmodel-2.6.1-3 /Users/narendra/.gradle/caches/transforms-3/4817204ab7acc54a5f2c041737b3ebbd/transformed/lifecycle-viewmodel-2.6.1/res
+com.arlanto.atomedge.app-core-1.9.0-4 /Users/narendra/.gradle/caches/transforms-3/5f80b20db3afa86c72a9766b008d752d/transformed/core-1.9.0/res
+com.arlanto.atomedge.app-core-runtime-2.2.0-5 /Users/narendra/.gradle/caches/transforms-3/6c57506ff263c94b62c27d843887c28b/transformed/core-runtime-2.2.0/res
+com.arlanto.atomedge.app-jetified-lifecycle-viewmodel-savedstate-2.6.1-6 /Users/narendra/.gradle/caches/transforms-3/7c1fedf36a262d80afd033982dc78c54/transformed/jetified-lifecycle-viewmodel-savedstate-2.6.1/res
+com.arlanto.atomedge.app-jetified-activity-1.7.0-7 /Users/narendra/.gradle/caches/transforms-3/a2a101baaed768f358d4d8f74655776a/transformed/jetified-activity-1.7.0/res
+com.arlanto.atomedge.app-jetified-savedstate-1.2.1-8 /Users/narendra/.gradle/caches/transforms-3/acc0a4ed60db051ae6d4cb2c458aa935/transformed/jetified-savedstate-1.2.1/res
+com.arlanto.atomedge.app-lifecycle-runtime-2.6.1-9 /Users/narendra/.gradle/caches/transforms-3/ad9f1a2743e3eaf4aa449a5b2d8828b3/transformed/lifecycle-runtime-2.6.1/res
+com.arlanto.atomedge.app-lifecycle-livedata-2.6.1-10 /Users/narendra/.gradle/caches/transforms-3/b365cbbdc580e3f264ee929243b93252/transformed/lifecycle-livedata-2.6.1/res
+com.arlanto.atomedge.app-jetified-window-1.0.0-beta04-11 /Users/narendra/.gradle/caches/transforms-3/dee59bb480020f42d53c2ea15e4501f7/transformed/jetified-window-1.0.0-beta04/res
+com.arlanto.atomedge.app-jetified-annotation-experimental-1.3.0-12 /Users/narendra/.gradle/caches/transforms-3/ec10578641139d45a328c567f48881a1/transformed/jetified-annotation-experimental-1.3.0/res
+com.arlanto.atomedge.app-lifecycle-livedata-core-2.6.1-13 /Users/narendra/.gradle/caches/transforms-3/fb13d994a9c57675c3797fdb5edd3dc7/transformed/lifecycle-livedata-core-2.6.1/res
+com.arlanto.atomedge.app-jetified-startup-runtime-1.1.1-14 /Users/narendra/.gradle/caches/transforms-3/ff5f5b0a71e9b3e49766bc82725fe9a1/transformed/jetified-startup-runtime-1.1.1/res
+com.arlanto.atomedge.app-PROD-15 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/PROD/res
+com.arlanto.atomedge.app-PRODRelease-16 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/PRODRelease/res
+com.arlanto.atomedge.app-main-17 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/res
+com.arlanto.atomedge.app-release-18 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/release/res
+com.arlanto.atomedge.app-PROD-19 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app/generated/res/pngs/PROD/release
+com.arlanto.atomedge.app-PROD-20 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app/generated/res/resValues/PROD/release
+com.arlanto.atomedge.app-PROD-21 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app/generated/res/rs/PROD/release
+com.arlanto.atomedge.app-mergePRODReleaseResources-22 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app/intermediates/incremental/PRODRelease/mergePRODReleaseResources/merged.dir
+com.arlanto.atomedge.app-mergePRODReleaseResources-23 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app/intermediates/incremental/PRODRelease/mergePRODReleaseResources/stripped.dir
+com.arlanto.atomedge.app-merged_res-24 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app/intermediates/merged_res/PRODRelease
+com.arlanto.atomedge.app-packaged_res-25 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app_settings/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-26 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/connectivity/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-27 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/file_picker/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-28 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/flutter_file_dialog/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-29 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/flutter_keyboard_visibility/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-30 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/flutter_plugin_android_lifecycle/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-31 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/image_picker_android/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-32 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/path_provider_android/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-33 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/permission_handler_android/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-34 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/shared_preferences_android/intermediates/packaged_res/release

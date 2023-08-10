@@ -1,0 +1,586 @@
+import 'dart:math';
+
+import 'package:db_atom/src/common_widgets/cubits.dart';
+import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
+import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
+import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
+import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
+import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
+import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
+import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
+import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
+import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
+import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
+import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
+import 'package:db_atom/src/features/lawenforcement/services/lawenforcementservice.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_request_body.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_response.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgmt_services.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
+import 'package:db_atom/src/utils/util.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
+  CreatePassMgmtService createpassmgmtServices;
+  List<CreateImage>? loadAttachments;
+
+  CreatePassMgmtCubit(
+      {required this.createpassmgmtServices, this.loadAttachments})
+      : super(
+          CreatePassMgmtState(
+            //lawenforcementServices: SubmitCreateFoundModel(),
+            stateType: CreatePassMgmtStateType.initial,
+          ),
+        );
+
+//
+//law organisation call
+  Future<void> createOrganisation(
+      String name, String orgName, BuildContext context) async {
+    try {
+      CreateOrganisation createOrganisationData =
+          await createpassmgmtServices.createOrganisation(name, orgName);
+      emit(
+        state.copyWith(
+          createOrganisationResponse: createOrganisationData,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+      dismissLoadingDialog(context);
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Utils.dynamicAlert(
+            context, 'Added sucessfully', Constants.addarticletype, '');
+      });
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+      dismissLoadingDialog(context);
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Utils.dynamicAlert(context, Constants.errorText,
+            Constants.addarticletype, Constants.errorText);
+      });
+    }
+  }
+
+  // law organisation call
+  Future<void> createEmplyeeDepartments(
+      String name, String orgName, BuildContext context) async {
+    try {
+      CreateOrganisation createEmployeeDeptData =
+          await createpassmgmtServices.createOrganisation(name, orgName);
+      emit(
+        state.copyWith(
+          createEmployeeDepartments: createEmployeeDeptData,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+      dismissLoadingDialog(context);
+      await lawenforcementCubit.getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Utils.dynamicAlert(
+            context, 'Added sucessfully', Constants.addemployeedepartment, '');
+      });
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+      dismissLoadingDialog(context);
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Utils.dynamicAlert(context, Constants.errorText,
+            Constants.addemployeedepartment, Constants.errorText);
+      });
+    }
+  }
+
+  // Get locations api call
+  Future<void> getLocations(String locationsStr) async {
+    try {
+      GetLocations getLocationsData =
+          await createpassmgmtServices.getLocations(locationsStr);
+      emit(
+        state.copyWith(
+          getLocationsResponse: getLocationsData,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  // Serialnumber api  call
+  Future<void> getSerialnumberDetails(
+      String locationid, String modulecode) async {
+    try {
+      SerialNumberModel getserialnumberResponse = await createpassmgmtServices
+          .getSerialnumberDetails(locationid, modulecode);
+      emit(
+        state.copyWith(
+          getSerialnumberResponse: getserialnumberResponse,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  // Get employee departments
+  Future<void> getEmployeeDepartments(String departmentStr) async {
+    try {
+      EmployeeDepartments getEmployeeDepartments =
+          await createpassmgmtServices.getEmployeeDepartments(departmentStr);
+      emit(
+        state.copyWith(
+          employeeDepartment: getEmployeeDepartments,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  // Get pass number call
+Future<void> getPassnumber(String passtype, String locationid) async {
+    try {
+      DayPassNumberLists companyTypes =
+          await createpassmgmtServices.getPassno(passtype,locationid);
+      emit(
+        state.copyWith(
+          passnumbelistresponse: companyTypes,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  getpassListResponseData(
+      ActivePassInfoList? companytypeResponse) async {
+    try {
+      emit(
+        state.copyWith(
+          activePassInfoList: companytypeResponse,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+   // Get employee departments
+  Future<void> getCompanytypes(String companyStr) async {
+    try {
+      CompanyTypes companyTypes =
+          await createpassmgmtServices.getCompanyTypes(companyStr);
+      emit(
+        state.copyWith(
+          companyTypes: companyTypes,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  getatomCompanyTypeResponseData(
+      AtomCompanyType? companytypeResponse) async {
+    try {
+      emit(
+        state.copyWith(
+          atomCompanyType: companytypeResponse,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  // Get day pass reasons
+  Future<void> getDayPassreasons(String companyStr) async {
+    try {
+      DayPassReason companyTypes =
+          await createpassmgmtServices.getDayPassreason(companyStr);
+      emit(
+        state.copyWith(
+          dayPassReason: companyTypes,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  getdaypassreasonResponseData(
+      DayPassReasonElement? companytypeResponse) async {
+    try {
+      emit(
+        state.copyWith(
+          dayPasselementReason: companytypeResponse,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  // Get analysts response
+  Future<void> getAnalysts(String companyStr) async {
+    try {
+      Analyst companyTypes =
+          await createpassmgmtServices.getAnalyst(companyStr);
+      emit(
+        state.copyWith(
+          analyst: companyTypes,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  getnameanalystsResponseData(
+      T1Analyst? companytypeResponse) async {
+    try {
+      emit(
+        state.copyWith(
+          t1nameanalyst: companytypeResponse,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  gethostanalystsResponseData(
+      T1Analyst? companytypeResponse) async {
+    try {
+      emit(
+        state.copyWith(
+          t1hostanalyst: companytypeResponse,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+  getdbsponsoranalystsResponseData(
+      T1Analyst? companytypeResponse) async {
+    try {
+      emit(
+        state.copyWith(
+          t1dbsponsoranalyst: companytypeResponse,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+
+// Get entities api call
+  Future<void> getEntities(String name) async {
+    try {
+      AddEntities entities = await createpassmgmtServices.getEntities(name);
+      emit(
+        state.copyWith(
+          getEntitiesResponse: entities,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  Future<void> addAttchment(List<CreateImage>? data) async {
+    int eventIds = Random.secure().nextInt(5);
+
+    emit(state.copyWith(
+        eventId: eventIds,
+        loadAttachments: data,
+        stateType: CreatePassMgmtStateType.addattachment));
+  }
+
+  // Get user details call
+  Future<void> getUserDetails(String userId) async {
+    try {
+      GetUserDetails getUserData =
+          await createpassmgmtServices.getUserDetails(userId);
+      emit(
+        state.copyWith(
+          getUserDetailsResponse: getUserData,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  initalization() {
+    state.selectedemployeeDepartmentResponse = EmployeeDepartment();
+    state.loadAttachments = [];
+    state.atomCompanyType =  AtomCompanyType();
+    state.listOfEntities = [];
+    state.locationSelectedlist = Mumbai();
+    state.loadAttachments = [];
+    state.getuserResponse = AtomStaticUser();
+    state.serialnumberResponse?.serialNo = '';
+    state.getSerialnumberResponse = SerialNumberModel();
+    state.t1hostanalyst = T1Analyst();
+    state.t1nameanalyst = T1Analyst();
+    state.getUserDetailsResponse = GetUserDetails();
+    state.dayPasselementReason = DayPassReasonElement();
+  }
+
+  getEntityData(List<AtomEntity> listOfEntities) async {
+    try {
+      emit(
+        state.copyWith(
+          listOfEntities: listOfEntities,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  getemployeeDepartmentsResponseData(
+      EmployeeDepartment employeedepartment) async {
+    try {
+      emit(
+        state.copyWith(
+          selectedemployeeDepartmentResponse: employeedepartment,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+  
+
+  getlocationsResponseData(Mumbai? locationSelectedlist) async {
+    try {
+      emit(
+        state.copyWith(
+          locationSelectedlist: locationSelectedlist,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  getSerialnumberResponse(SerialNumberModel? serialnumberResponse) async {
+    try {
+      emit(
+        state.copyWith(
+          serialnumberResponse: serialnumberResponse,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  // Create new Found Article successfully API call
+  Future<void> creatpasseNewFoundArticle(CreatePassMgmtBody bodyRequest,
+      bool isSubmit, BuildContext context, String username, String title) async {
+    try {
+      CreatePassMgmtResponse? createpassFoundresponse  =
+          await createpassmgmtServices.createLawFoundArticle(bodyRequest, isSubmit,
+              username); //replace empty model with bodyRequest
+      emit(
+        state.copyWith(
+          createpassFoundresponse: createpassFoundresponse,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+
+      if (createpassFoundresponse.message != null) {
+        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+          dismissLoadingDialog(context);
+          Utils.dynamicAlert(
+              context, createpassFoundresponse.message ?? '',title , '');
+        });
+      }
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        dismissLoadingDialog(context);
+        Utils.dynamicAlert(
+            context, Constants.errorText, title, Constants.errorText);
+      });
+    }
+  }
+
+  // Create new Found Article successfully API call
+  Future<void> lawcreateFoundArticleHandle(Map<String, dynamic> bodyRequest,
+      bool isSubmit, BuildContext context, String username, String title) async {
+    try {
+     CreatePassMgmtResponse? createpassFoundresponse  =
+          await createpassmgmtServices.createLawFoundArticleHandle(bodyRequest, isSubmit,
+              username); //replace empty model with bodyRequest
+      emit(
+        state.copyWith(
+          createpassFoundresponse: createpassFoundresponse,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+
+      if (createpassFoundresponse.message != null) {
+        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+          dismissLoadingDialog(context);
+          Utils.dynamicAlert(
+              context, createpassFoundresponse.message ?? '', title, '');
+        });
+      }
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        dismissLoadingDialog(context);
+        Utils.dynamicAlert(
+            context, Constants.errorText, title, Constants.errorText);
+      });
+    }
+  }      
+
+}

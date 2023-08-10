@@ -20,8 +20,20 @@ class Utils {
     // int timestampcon = int.parse(timestamp ?? '') ?? 0;
    // var dt = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000 ?? 0);
     //var dt = DateTime.fromMillisecondsSinceEpoch(timestamp ?? 0 * 1000);
-    final DateTime dt = DateTime.fromMillisecondsSinceEpoch((timestamp ?? 0) * 1000);
+    int length = timestamp.toString().length; // 7
+    final DateTime dt;
+    if (length > 10)
+    {
+      dt = DateTime.fromMillisecondsSinceEpoch((timestamp ?? 0));
   print(dt);
+    }
+    else
+    {
+      dt = DateTime.fromMillisecondsSinceEpoch((timestamp ?? 0) * 1000);
+  print(dt);
+
+    }
+     
     // 12 Hour format:
     //var d12 = DateFormat('MM/dd/yyyy, hh:mm a').format(dt); // 12/31/2000, 10:00 PM
 
