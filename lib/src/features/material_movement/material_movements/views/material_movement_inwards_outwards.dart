@@ -26,7 +26,8 @@ class MaterialMovementInwardsOutwards extends StatefulWidget {
       _MaterialMovementInwardsOutwardsState();
 }
 
-class _MaterialMovementInwardsOutwardsState extends State<MaterialMovementInwardsOutwards> {
+class _MaterialMovementInwardsOutwardsState
+    extends State<MaterialMovementInwardsOutwards> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
 
@@ -60,17 +61,26 @@ class _MaterialMovementInwardsOutwardsState extends State<MaterialMovementInward
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: const Flutterfloatingbutton(
+        floatingActionButton: Flutterfloatingbutton(
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
+          onPressed: () => {
+            Navigator.pushNamed(
+              context,
+              materialMovementInwardDetailsRoute,
+            )
+          },
         ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: widget.isInward? Constants.materialMovementsInwardTitle: Constants.materialMovementsOutwardTitle,
+          title: widget.isInward
+              ? Constants.materialMovementsInwardTitle
+              : Constants.materialMovementsOutwardTitle,
           showPopUp: true,
           showSaveButton: false,
         ),
-        body: BlocBuilder<InwardOutwardBloc, InwardOutwardState>(builder: (context, state) {
+        body: BlocBuilder<InwardOutwardBloc, InwardOutwardState>(
+            builder: (context, state) {
           if (state.status == LawEnforcementListStateType.initial) {
             return const Center(
               child: CircularProgressIndicator(),

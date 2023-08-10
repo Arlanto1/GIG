@@ -140,6 +140,8 @@ class RouteGenerator {
                 ));
 
       case materialMovementInwardDetailsRoute:
+        MaterialMovementServices services = MaterialMovementServices();
+        CommonServices commonServices = CommonServices();
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -147,8 +149,7 @@ class RouteGenerator {
             MaterialMovementModel? materialMovement =
                 arguments["MaterialMovementModel"];
 
-            MaterialMovementServices services = MaterialMovementServices();
-            CommonServices commonServices = CommonServices();
+
             return MaterialPageRoute(
                 builder: (context) => BlocProvider<InwardCubit>(
                       create: (_) => InwardCubit(
@@ -160,17 +161,18 @@ class RouteGenerator {
                         materialMovement: materialMovement,
                       ),
                     ));
-
-            return MaterialPageRoute(
-                builder: (context) => MaterialMovementInwardDetails(
-                    materialMovement: materialMovement));
           }
-          return MaterialPageRoute(
-              builder: (context) => const MaterialMovementInwardDetails());
-        } else {
-          return MaterialPageRoute(
-              builder: (context) => const MaterialMovementInwardDetails());
         }
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<InwardCubit>(
+              create: (_) => InwardCubit(
+                materialMovementServices: services,
+                commonServices: commonServices,
+                model: MaterialMovementModel(),
+              ),
+              child: const MaterialMovementInwardDetails(
+              ),
+            ));
 
       default:
         return MaterialPageRoute(builder: (context) => App());
