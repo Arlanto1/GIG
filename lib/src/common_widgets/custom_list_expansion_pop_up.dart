@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
@@ -262,6 +263,9 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
 
   _onExpansionSelectItem(
       int index, BuildContext context, List<Mumbai>? items) async {
+
+    log('---ONNN TAPOPP----------');
+
     selectedindex = index;
     print('_opearationslastSelectedItem index = $index');
     print('2 index = $selectedindex');

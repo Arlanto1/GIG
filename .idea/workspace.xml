@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="wip: create material movement inward API call">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="wip: material movement list on View Detail pop up done">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_pop_up_items.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_pop_up_items.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/views/material_movement_inwards_outwards.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/views/material_movement_inwards_outwards.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/custom_list_expansion_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/custom_list_expansion_pop_up.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_inward_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_inward_details.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,7 +165,14 @@
       <option name="project" value="LOCAL" />
       <updated>1691667840659</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="wip: material movement list on View Detail pop up done">
+      <created>1691669500636</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1691669500636</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -203,6 +210,7 @@
     <MESSAGE value="material outward movement list ui done" />
     <MESSAGE value="WIP: material inward detail page" />
     <MESSAGE value="wip: create material movement inward API call" />
-    <option name="LAST_COMMIT_MESSAGE" value="wip: create material movement inward API call" />
+    <MESSAGE value="wip: material movement list on View Detail pop up done" />
+    <option name="LAST_COMMIT_MESSAGE" value="wip: material movement list on View Detail pop up done" />
   </component>
 </project>

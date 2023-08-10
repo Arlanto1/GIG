@@ -125,7 +125,7 @@ class _MaterialMovementInwardDetailsState
         ),
         backgroundColor: AppColors.backgroundWhitecolor,
         body: BlocConsumer<InwardCubit, InwardState>(
-          listener: (context, state){
+          listener: (context, state) {
             if (state.status == FormStatus.success) {
               Utils.dynamicAlert(
                   context, state.message ?? '', 'Material Movement', '');
@@ -1750,14 +1750,29 @@ class _MaterialMovementInwardDetailsState
               // print(state.getLocationsResponse);
               return CustomExpansionListTexts(
                 getLocationsresponse: state.locations,
-                //GetLocations(),
                 onTap: (Mumbai? list) async {
-                  print(list?.name);
-                  await lawenforcementCubit.getSerialnumberDetails(
-                      list?.id.toString() ?? '', 'AF');
-                  // locationselectedText = list?.name ?? '';
-                  // locationSelectedlist = list;
-                  lawenforcementCubit.getlocationsResponseData(list);
+                  log('list?.name-----${list?.name}');
+
+                  Location location = Location();
+                  location.id = list?.id;
+                  location.name = list?.name;
+                  state.materialMovement.location = location;
+                  log('--state.materialMovement.location---11--${state.materialMovement.location?.name}---');
+
+                  state.copyWith(
+                    materialMovement: state.materialMovement,
+                  );
+                  log('--state.materialMovement.location-----${state.materialMovement.location?.name}---');
+
+                  // TODO: Need to check this setState
+                  // May be calling SlNo. API and then setting the state
+                  setState(() {});
+
+                  // await lawenforcementCubit.getSerialnumberDetails(
+                  //     list?.id.toString() ?? '', 'AF');
+                  // // locationselectedText = list?.name ?? '';
+                  // // locationSelectedlist = list;
+                  // lawenforcementCubit.getlocationsResponseData(list);
                 },
               );
             },
