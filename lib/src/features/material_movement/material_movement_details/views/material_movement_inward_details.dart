@@ -30,6 +30,7 @@ import 'package:db_atom/src/features/lawenforcement/models/law_enforement_reques
 import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart';
+import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -43,6 +44,8 @@ import 'package:intl/intl.dart';
 import '../../../createfound/controllers/create_found_state.dart';
 import '../../../createfound/views/create_found_newuser.dart';
 import '../../material_movements/models/material_movements_model.dart';
+import '../cubits/inward_cubit.dart';
+import '../cubits/inward_cubit.dart';
 
 class MaterialMovementInwardDetails extends StatefulWidget {
   final MaterialMovementModel? materialMovement;
@@ -103,6 +106,12 @@ class _MaterialMovementInwardDetailsState
   String? serialnumber;
 
   @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<InwardCubit>(context).initializeValues();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
@@ -115,8 +124,17 @@ class _MaterialMovementInwardDetailsState
           onTapSave: null,
         ),
         backgroundColor: AppColors.backgroundWhitecolor,
-        body: BlocBuilder<InwardCubit, InwardState>(
+        body: BlocConsumer<InwardCubit, InwardState>(
+          listener: (context, state){
+            if (state.status == FormStatus.success) {
+              Utils.dynamicAlert(
+                  context, state.message ?? '', 'Material Movement', '');
+            }
+          },
           builder: (context, state) {
+            if (state.status == FormStatus.loading) {
+              return const Center(child: CircularProgressIndicator());
+            }
             return Container(
                 color: AppColors.navigationSkybluecolor,
                 child: SingleChildScrollView(
@@ -153,7 +171,7 @@ class _MaterialMovementInwardDetailsState
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    /// Movement Type
+                                    /// Material Movement Type
                                     CommonWidgets.textDisplay(
                                         'Material Movement Type',
                                         Styles.textStyleBlack14),
@@ -163,42 +181,32 @@ class _MaterialMovementInwardDetailsState
                                     FlutterInputField(
                                       isEnable: false,
                                       isDisableColor: true,
-                                      textFieldController: typeTextController,
                                       textFormKey: Keys.statusTextController,
                                       hintText: '',
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                      },
+                                      initialValue: state.materialMovement
+                                                  .inwardMovement ==
+                                              true
+                                          ? 'Inward'
+                                          : 'Outward',
+                                      onChange: (String value) {},
                                       validateTextField: (String? user) {},
                                     ),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
+                                    /// Non Returnable
                                     FlutterInputField(
                                       isEnable: false,
                                       isDisableColor: true,
-                                      textFieldController: statusTextController,
+                                      initialValue:
+                                          state.materialMovement.returnable ==
+                                                  true
+                                              ? 'Returnable'
+                                              : ' Non Returnable',
                                       textFormKey: Keys.statusTextController,
                                       hintText: '',
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                      },
+                                      onChange: (String value) {},
                                       validateTextField: (String? user) {},
-                                      suffixWidget: GestureDetector(
-                                        onTap: () {},
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: SvgPicture.asset(
-                                            //AppIcon.dropdownicon,
-                                            AppIcon.dropdownicon,
-                                            //fit: BoxFit.,
-                                            color: AppColors.textgreyThemecolor,
-                                            width: 10,
-                                            height: 10,
-                                            key: const Key(Keys.userIcon),
-                                          ),
-                                        ),
-                                      ),
                                     ),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
@@ -211,40 +219,20 @@ class _MaterialMovementInwardDetailsState
                                     FlutterInputField(
                                       isEnable: false,
                                       isDisableColor: true,
-                                      textFieldController: statusTextController,
                                       textFormKey: Keys.statusTextController,
                                       hintText: '',
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                        setState(() {});
-                                      },
+                                      initialValue: getStatusString(
+                                          state.materialMovement.status ?? 0),
+                                      onChange: (String value) {},
                                       validateTextField: (String? user) {},
-                                      suffixWidget: GestureDetector(
-                                        onTap: () {},
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: SvgPicture.asset(
-                                            //AppIcon.dropdownicon,
-                                            AppIcon.dropdownicon,
-                                            //fit: BoxFit.,
-                                            color: AppColors.textgreyThemecolor,
-                                            width: 10,
-                                            height: 10,
-                                            key: const Key(Keys.userIcon),
-                                          ),
-                                        ),
-                                      ),
                                     ),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
                                     /// Created By
-
                                     CommonWidgets.verticalTextHandling(
-                                        Constants.entryBy,
-                                        state.materialMovement
-                                                .entrySecurityName ??
-                                            'Dhunna'),
+                                        Constants.createdby,
+                                        state.loggedInUserDetails?.name ?? ''),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
@@ -259,20 +247,20 @@ class _MaterialMovementInwardDetailsState
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    // date of creation
+                                    /// Date of creation
                                     CommonWidgets.textDisplay(
                                         Constants.dateofcreation,
                                         Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
-                                    datecreateWidgetdisplay(),
+                                    datecreateWidgetdisplay(state),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
                                     /// Sl No.
-
                                     CommonWidgets.horizentaltextHandling(
-                                        Constants.slno, serialnumber ?? ''),
+                                        Constants.slno,
+                                        state.materialMovement.slNo ?? ''),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
@@ -611,7 +599,7 @@ class _MaterialMovementInwardDetailsState
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    /// Receiver Employee Id
+                                    /// Received by Employee Id
                                     CommonWidgets.textDisplay(
                                         Constants.receiverEmployeeId,
                                         Styles.textStyleBlack14),
@@ -829,7 +817,8 @@ class _MaterialMovementInwardDetailsState
                                         height * 0.001),
                                     FlutterInputField(
                                       lineHeight: 6,
-                                      initialValue: state.materialMovement.receiverEmail,
+                                      initialValue:
+                                          state.materialMovement.receiverEmail,
                                       textFormKey: Keys.generateUniqueKey(),
                                       hintText: Constants.informationhere,
                                       isEnable: widget.materialMovement == null
@@ -857,7 +846,7 @@ class _MaterialMovementInwardDetailsState
                                         context
                                             .read<InwardCubit>()
                                             .onModelValueChange(
-                                            state.materialMovement);
+                                                state.materialMovement);
                                       },
                                       validateTextField: (String? user) {},
                                     ),
@@ -901,7 +890,7 @@ class _MaterialMovementInwardDetailsState
                                         context
                                             .read<InwardCubit>()
                                             .onModelValueChange(
-                                            state.materialMovement);
+                                                state.materialMovement);
                                       },
                                       validateTextField: (String? user) {},
                                     ),
@@ -914,7 +903,8 @@ class _MaterialMovementInwardDetailsState
                                             height: 60,
                                             decoration: BoxDecoration(
                                                 border: Border.all(
-                                                  color: Color(0xFFCACACA),
+                                                  color:
+                                                      const Color(0xFFCACACA),
                                                   width: 1.0,
                                                 ),
                                                 borderRadius:
@@ -1008,7 +998,7 @@ class _MaterialMovementInwardDetailsState
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       cancelButtonDisplay(),
-                                      submitButtonDisplay(),
+                                      submitButtonDisplay()
                                     ]),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.04),
@@ -1016,6 +1006,29 @@ class _MaterialMovementInwardDetailsState
                 ])));
           },
         )); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
+  }
+
+  String getStatusString(int status) {
+    switch (status) {
+      case 0:
+        return 'Draft';
+      case 1:
+        return 'Submitted';
+      case 2:
+        return 'Approved';
+      case 3:
+        return 'Rejected';
+      case 4:
+        return 'Outward Waiting';
+      case 5:
+        return 'Inward Waiting';
+      case 6:
+        return 'Closed';
+      case 7:
+        return 'Cancelled';
+      default:
+        return 'Unknown Status';
+    }
   }
 
   Widget listVisitingOfficialDetails(
@@ -1131,21 +1144,6 @@ class _MaterialMovementInwardDetailsState
           state),
       CommonWidgets.verticalSpacerWidget(height * 0.02),
     ]);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.materialMovement != null) {
-      populateFields();
-      lawenforcementCubit.getDistributionGroupsDetails();
-    } else {
-      lawenforcementCubit.initalization();
-    }
-
-    BlocProvider.of<InwardCubit>(context).getLocations();
-    getLawenforcementList();
-    _getCurrentDate();
   }
 
   populateFields() async {
@@ -1267,22 +1265,14 @@ class _MaterialMovementInwardDetailsState
   }
 
   Widget submitButtonDisplay() {
-    return // Login button
-        AppButton(
-      //height: 50,
+    return AppButton(
       width: 150,
       key: const Key(Keys.submitButton),
       buttonText: Constants.submit,
       buttonTextKey: Keys.submitButton,
       onTap: () async {
-        //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
-        try {
-          createLawEnforcement(
-              true, widget.materialMovement?.id ?? 0, globalState);
-        } catch (e) {
-          // present userwith error message
-        }
+        BlocProvider.of<InwardCubit>(context).submitForm();
       },
     );
   }
@@ -1439,16 +1429,6 @@ class _MaterialMovementInwardDetailsState
     // setState(() {
     //   // dateinput.text = formattedDate; //set output date to TextField value.
     // });
-  }
-
-  void _getCurrentDate() {
-    String formattedDate =
-        DateFormat(Constants.fulldateFormat).format(DateTime.now());
-    print(formattedDate);
-    dateofcreationTextController.text = formattedDate;
-    if (widget.materialMovement == null) {
-      statusTextController.text = 'Inward';
-    }
   }
 
   Widget uploadWidget(LawEnforcementState state) {
@@ -2083,17 +2063,14 @@ class _MaterialMovementInwardDetailsState
     }
   }
 
-  Widget datecreateWidgetdisplay() {
+  Widget datecreateWidgetdisplay(InwardState state) {
     return FlutterInputField(
-      textFieldController: dateofcreationTextController,
       textFormKey: Keys.dateofcreationTextController,
+      initialValue: state.materialMovement.inputDate,
       hintText: '',
       isEnable: false,
       isDisableColor: true,
-      onChange: (String username) {
-        //this.username = username;
-        // setState(() {});
-      },
+      onChange: (String value) {},
       validateTextField: (String? user) {},
     );
   }

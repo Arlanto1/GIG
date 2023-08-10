@@ -44,7 +44,6 @@ class MaterialMovementModel {
   String? receiverEmployeeId;
   EntrySecurity? entrySecurity;
   int? status;
-  String? modifiedDate;
   String? modifiedBy;
   List<History>? history;
   String? requestorEmail;
@@ -94,7 +93,6 @@ class MaterialMovementModel {
     this.receiverEmployeeId,
     this.entrySecurity,
     this.status,
-    this.modifiedDate,
     this.modifiedBy,
     this.history,
     this.requestorEmail,
@@ -145,7 +143,6 @@ class MaterialMovementModel {
         receiverEmployeeId = json['receiverEmployeeId'] as String?,
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? EntrySecurity.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         status = json['status'] as int?,
-        modifiedDate = json['modifiedDate'] as String?,
         modifiedBy = json['modifiedBy'] as String?,
         history = (json['history'] as List?)?.map((dynamic e) => History.fromJson(e as Map<String,dynamic>)).toList(),
         requestorEmail = json['requestorEmail'] as String?,
@@ -195,7 +192,6 @@ class MaterialMovementModel {
     'receiverEmployeeId' : receiverEmployeeId,
     'entrySecurity' : entrySecurity?.toJson(),
     'status' : status,
-    'modifiedDate' : modifiedDate,
     'modifiedBy' : modifiedBy,
     'history' : history?.map((e) => e.toJson()).toList(),
     'requestorEmail' : requestorEmail,

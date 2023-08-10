@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/models/material_movements_model.dart';
+import 'package:db_atom/src/features/material_movement/material_movements/models/requestModels/material_movement_request.dart';
+import 'package:db_atom/src/features/material_movement/material_movements/models/responseModels/material_movement_response.dart';
 
 
 class Apis {
@@ -13,7 +17,7 @@ class Apis {
       '$baseUrl/getMMById';
 
   static final String _createMaterialMovement =
-      '$baseUrl/createMtrlMvmt?userEmail=7&isSubmit=false';   // TODO: Need to discuss it to add it in body
+      '$baseUrl/createMtrlMvmt';
 }
 
 class MaterialMovementServices {
@@ -41,16 +45,14 @@ class MaterialMovementServices {
 
   /// Create Services
 
-  Future<MaterialMovementModel> createMaterialMovement( MaterialMovementModel body) async {
-    final String url = '${Apis._createMaterialMovement}/$body';
+  Future<MaterialMovementResponse> createMaterialMovement( MaterialMovementRequest body) async {
+    final String url = Apis._createMaterialMovement;
+    log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),
     );
-    return MaterialMovementModel.fromJson(response);
+    return MaterialMovementResponse.fromJson(response);
   }
-
-
-
 
 }

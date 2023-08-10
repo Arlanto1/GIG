@@ -59,7 +59,7 @@ class BaseApiService {
         body: json.encode(requestedData),
       );
       log("API URL: $url");
-      // log("HTTP Status Code: ${response.statusCode}");
+      log("HTTP Status Code: ${response.statusCode}");
       log("Response: ${response.body}");
 
       var _response = json.decode(response.body);

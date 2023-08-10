@@ -220,7 +220,7 @@ class Constants {
   static const String sendersName = 'Senders Name';
   static const String isOriginalReceiverReceiving = 'Is original receiver receiving';
   static const String receivedFor = 'Received For';
-  static const String receiverEmployeeId = 'Receiver Employee Id';
+  static const String receiverEmployeeId = 'Received by Employee Id';
   static const String receiverDepartment = 'Receiver Department';
   static const String receivedBy = 'Received By';
   static const String receivedForEmployeeId = 'Received for Employee Id';

@@ -44,6 +44,7 @@ class Keys {
 
   //list page
   static const String searchInputField = 'search_input_field';
+  static const String returnableField = 'returnableField';
 
 
   static String generateUniqueKey() {

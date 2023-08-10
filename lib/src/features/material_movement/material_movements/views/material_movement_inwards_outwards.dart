@@ -69,8 +69,7 @@ class _MaterialMovementInwardsOutwardsState
               context,
               materialMovementInwardDetailsRoute,
             )
-          },
-        ),
+          },        ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: widget.isInward

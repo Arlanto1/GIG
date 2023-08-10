@@ -1,21 +1,27 @@
 part of 'inward_cubit.dart';
 
-enum FormStatus { initial, submitting, success, error }
+enum FormStatus { loading, initial, submitting, success, error }
 
 class InwardState extends Equatable {
   final FormStatus status;
 
   final MaterialMovementModel materialMovement;
   final GetLocations? locations;
-  final String? errorMessage;
+  final GetUserDetails? loggedInUserDetails;
+  final String? message;
 
-  factory InwardState.initial(
-      {required MaterialMovementModel model, required GetLocations locations, required String errorMessage}) {
+  factory InwardState.initial({
+    required MaterialMovementModel model,
+    required GetLocations locations,
+    required GetUserDetails loggedInUserDetails,
+    required String errorMessage,
+  }) {
     return InwardState(
-        status: FormStatus.initial,
-        materialMovement: model,
-        locations: locations,
-      errorMessage: errorMessage,
+      status: FormStatus.initial,
+      materialMovement: model,
+      locations: locations,
+      loggedInUserDetails: loggedInUserDetails,
+      message: errorMessage,
     );
   }
 
@@ -27,22 +33,25 @@ class InwardState extends Equatable {
   const InwardState({
     required this.status,
     required this.materialMovement,
-    required this.locations,
-  required this.errorMessage
+    this.locations,
+    this.loggedInUserDetails,
+    this.message,
   });
 
   InwardState copyWith({
     FormStatus? status,
     MaterialMovementModel? materialMovement,
     GetLocations? locations,
-    String? errorMessage,
+    GetUserDetails? loggedInUserDetails,
+    String? message,
   }) {
     return InwardState(
       status: status ?? this.status,
       materialMovement: materialMovement ?? this.materialMovement,
       locations: locations ?? this.locations,
-      errorMessage: errorMessage ?? this.errorMessage,
+      loggedInUserDetails:
+      loggedInUserDetails ?? this.loggedInUserDetails,
+      message: message ?? this.message,
     );
   }
-
 }
