@@ -63,6 +63,9 @@ class PassManagement {
     String? handOverSecurityName;
     String? mifareNo;
     List<CreateImage>? images;
+    PassDept? department;
+    PassHost? host;
+    
 
     PassManagement({
         this.id,
@@ -101,11 +104,14 @@ class PassManagement {
         this.handOverSecurityName,
         this.mifareNo,
         this.images,
+        this.department,
+        this.host,
     });
 
     factory PassManagement.fromJson(Map<String, dynamic> json) => PassManagement(
         id: json["id"],
         slNo: json["slNo"],
+        host: json["host"] == null ? null : PassHost.fromJson(json["host"]),
         inputDate: json["inputDate"],
         location: json["location"] == null ? null : PassMgmtLocation.fromJson(json["location"]),
         locationRegion: json["locationRegion"] == null ? null : PassMgmtLocationregion.fromJson(json["locationRegion"]),
@@ -139,15 +145,17 @@ class PassManagement {
         passNo: json["passNo"],
         handOverSecurityName: json["handOverSecurityName"],
         mifareNo: json["mifareNo"],
-         images: json["images"] == null
+        images: json["images"] == null
             ? []
             : List<CreateImage>.from(
                 json["images"]!.map((x) => CreateImage.fromJson(x))),
+         department: json["department"] == null ? null : PassDept.fromJson(json["department"]),        
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "slNo": slNo,
+        "host": host?.toJson(),
         "inputDate": inputDate,
         "location": location?.toJson(),
         "locationRegion": locationRegion?.toJson(),
@@ -181,11 +189,48 @@ class PassManagement {
         "passNo": passNo,
         "handOverSecurityName": handOverSecurityName,
         "mifareNo": mifareNo,
-         "images": images == null
+        "images": images == null
             ? []
             : List<dynamic>.from(images!.map((x) => x.toJson())),
+        "department": department?.toJson(),
     };
 }
+
+class PassHost {
+    int? id;
+    String? name;
+    String? email;
+    String? firstName;
+    String? lastName;
+   
+
+    PassHost({
+        this.id,
+        this.email,
+        this.firstName,
+        this.lastName,
+        this.name,
+    });
+
+    factory PassHost.fromJson(Map<String, dynamic> json) => PassHost(
+        id: json["id"],
+        email: json["email"],
+        firstName: json["firstName"],
+        lastName: json["lastName"],
+        name: json["name"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "email": email,
+        "firstName": firstName,
+        "lastName": lastName,
+        "name": name,
+    };
+}
+
+
+
 
 class PassCompanyType {
     int? id;
@@ -254,6 +299,26 @@ class PassMgmtTypEntity {
     });
 
     factory PassMgmtTypEntity.fromJson(Map<String, dynamic> json) => PassMgmtTypEntity(
+        id: json["id"],
+        name: json["name"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+    };
+}
+
+class PassDept {
+    int? id;
+    String? name;
+
+    PassDept({
+        this.id,
+        this.name,
+    });
+
+    factory PassDept.fromJson(Map<String, dynamic> json) => PassDept(
         id: json["id"],
         name: json["name"],
     );

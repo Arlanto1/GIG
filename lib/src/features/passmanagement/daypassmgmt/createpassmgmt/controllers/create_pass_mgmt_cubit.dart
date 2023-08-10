@@ -19,8 +19,10 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_request_body.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_response.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgmt_services.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -156,6 +158,46 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           employeeDepartment: getEmployeeDepartments,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  // Get pass number call
+Future<void> getPassnumber(String passtype, String locationid) async {
+    try {
+      DayPassNumberLists companyTypes =
+          await createpassmgmtServices.getPassno(passtype,locationid);
+      emit(
+        state.copyWith(
+          passnumbelistresponse: companyTypes,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  getpassListResponseData(
+      ActivePassInfoList? companytypeResponse) async {
+    try {
+      emit(
+        state.copyWith(
+          activePassInfoList: companytypeResponse,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -307,6 +349,24 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       );
     }
   }
+  getdbsponsoranalystsResponseData(
+      T1Analyst? companytypeResponse) async {
+    try {
+      emit(
+        state.copyWith(
+          t1dbsponsoranalyst: companytypeResponse,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
 
 
 // Get entities api call
@@ -360,16 +420,19 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   initalization() {
-    lawenforcementCubit.state.getVisits = [];
     state.selectedemployeeDepartmentResponse = EmployeeDepartment();
     state.loadAttachments = [];
-    //state.getUserDetailsResponse =  GetUserDetails();
+    state.atomCompanyType =  AtomCompanyType();
     state.listOfEntities = [];
     state.locationSelectedlist = Mumbai();
     state.loadAttachments = [];
     state.getuserResponse = AtomStaticUser();
     state.serialnumberResponse?.serialNo = '';
     state.getSerialnumberResponse = SerialNumberModel();
+    state.t1hostanalyst = T1Analyst();
+    state.t1nameanalyst = T1Analyst();
+    state.getUserDetailsResponse = GetUserDetails();
+    state.dayPasselementReason = DayPassReasonElement();
   }
 
   getEntityData(List<AtomEntity> listOfEntities) async {

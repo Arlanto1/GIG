@@ -110,13 +110,13 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
           ),
          
           CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling('Entity : ',
-                  (widget.userItem?.entities!.length  ?? 0 ) > 0 ? (widget.userItem?.entities?[0].name.toString() ?? " " ) : ""),
-            ],
-          ),
-           CommonWidgets.verticalSpacerWidget(8),
+          // Row(
+          //   children: [
+          //     textHandling('Entity : ',
+          //        widget.userItem?.entities != null ? (widget.userItem?.entities?.length  ?? 0 ) > 0 ? (widget.userItem?.entities?[0].name.toString() ?? " " ) : "" : ""),
+          //   ],
+          // ),
+          //  CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
               textHandling(
@@ -130,21 +130,21 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
           Row(
             children: [
               textHandling('Created By : ',
-                  widget.userItem?.hostName.toString() ?? " "),
+                  widget.userItem?.entrySecurity?.userName.toString() ?? " "),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
               textHandling(
-                  'Name : ', widget.userItem?.employeeName.toString() ?? " "),
+                  'Name : ',  widget.userItem?.entrySecurity !=null ? widget.userItem?.entrySecurity?.name.toString() ?? " " : widget.userItem?.employeeName.toString() ?? ''),
             ],
           ),
            CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
               textHandling(
-                  'Day Pass No : ', widget.userItem?.passNo?.toString() ?? " "
+                  'Day Pass No : ', widget.userItem?.passInfo?.passNo?.toString() ?? " "
                  ),
             ],
           ),
@@ -193,14 +193,17 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
             children: [
                   textHandling(
                   'Pass Collected By : ',
-                  widget.userItem?.entrySecurityName.toString() ?? " "),
+                  widget.userItem?.handoverSecurity?.userName.toString() ?? " "),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
               textHandling('Pass Returened on: ',
-                  widget.userItem?.handOverSecurityName.toString() ?? " "),
+                   widget.userItem?.returnedTime != null ?
+                  Utils.timestamptoDateConversion(
+                       int.parse(widget.userItem?.returnedTime ?? '0'),Constants.dateFormat): ''),
+                  
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),

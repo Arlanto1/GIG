@@ -106,14 +106,14 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                       Row(
                         children: [
                           textHandling('Region : ',
-                              widget.userItem.locationRegion!.name.toString()),
+                             (widget.userItem.locationRegion?.name ?? '').toString()),
                         ],
                       ),
                        CommonWidgets.verticalSpacerWidget(5),
                       Row(
                         children: [
                           textHandling('Location : ',
-                              widget.userItem.location!.name.toString()),
+                              (widget.userItem.location?.name ?? '').toString()),
                         ],
                       ),
                        CommonWidgets.verticalSpacerWidget(5),

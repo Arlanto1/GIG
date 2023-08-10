@@ -18,6 +18,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_request_body.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_response.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -254,6 +255,28 @@ class CreatePassMgmtService
       );
       if (response.statusCode == 200) {
         return Analyst.fromJson(json.decode(response.body));
+      } else {
+        throw json.decode(response.body);
+      }
+    } on SocketException {
+      throw json.decode('{"errorMessage":"Network Lost"}');
+    }
+  }
+
+  //
+  //  get pass api call
+  Future<DayPassNumberLists> getPassno(String passtype, String locatonid) async {
+    
+    final url = Uri.parse('$endpoint/getActivePassInfo?passType=$passtype&locationId=$locatonid');
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode == 200) {
+        return DayPassNumberLists.fromJson(json.decode(response.body));
       } else {
         throw json.decode(response.body);
       }

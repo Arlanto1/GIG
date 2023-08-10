@@ -76,14 +76,14 @@ class DayPassListCubit extends Cubit<DayPassListState> {
       );
       return foundArticleDetailsResponse;
     } catch (e) {
-      // emit(
-      //   state.copyWith(
-      //     errorMessage: Constants.errorText,
-      //     stateType: FoundListStateType.failure,
-      //   ),
-      // );
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: DayPassListStateType.failure,
+        ),
+      );
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-         Utils.dynamicAlert(context, Constants.errorText, Constants.addarticletype,Constants.errorText);
+         Utils.dynamicAlert(context, Constants.errorText, 'Edit Pass Management',Constants.errorText);
       });
     }
     return null;

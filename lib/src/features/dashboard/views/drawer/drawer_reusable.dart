@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/dashboard/controllers/cubit/drawer_cubit.dart';
-import 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pass_list_page.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -13,6 +12,8 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../passmanagement/daypassregister/views/day_pass_info_list_page.dart';
 
 class navigationDrawer1 extends StatelessWidget {
   navigationDrawer1(this._menuscaffoldKey);
@@ -542,22 +543,59 @@ class navigationDrawer1 extends StatelessWidget {
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassmgmtindexChange(index);
     if (index == 0) {
-      print('pass mangement index1');
-      Navigator.pushNamed(context, daypassmanagementListRoute);
+      //day pass mng = 0
+      print('day pass mangement index0');
+      Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+        "passMngDetails": PassMngArguments('0', 'Day Pass Management', false)
+      });
     } else if (index == 1) {
+      print('day pass registry index1');
+      //day pass mng = 0
       Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
-        "passMngDetails": PassMngArguments('1', 'Day Pass Register')
+        "passMngRegisterDetails":
+            PassMngArguments('0', 'Day Pass Register', true)
       });
     } else if (index == 2) {
-      Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
-        "passMngDetails": PassMngArguments('2', 'Visitor Pass Register')
+      //visitor pass mng = 1
+
+      print('visitor pass mangement index2');
+      Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+        "passMngDetails":
+            PassMngArguments('1', 'Visitor Pass Management', false)
       });
     } else if (index == 3) {
-      Navigator.pushNamed(context, daypassregistertListRoute);
+      //visitor pass mng = 1
+      print('visitor pass registory index3');
+      Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
+        "passMngRegisterDetails":
+            PassMngArguments('1', 'Visitor Pass Register', true)
+      });
     } else if (index == 4) {
-      Navigator.pushNamed(context, daypassregistertListRoute);
+      print('vendor pass management index4');
+      Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+        "passMngDetails": PassMngArguments('2', 'Vendor Pass Management', false)
+      });
     } else if (index == 5) {
-      Navigator.pushNamed(context, daypassregistertListRoute);
+      //vendor pass mng = 2
+
+      print('vendor pass registory index5');
+      Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
+        "passMngRegisterDetails":
+            PassMngArguments('2', 'Vendor Pass Register', true)
+      });
+    } else if (index == 6) {
+      //vendor pass mng = 3
+
+      print('Sez pass Management index6');
+      Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+        "passMngDetails": PassMngArguments('3', 'Sez Pass Management', false)
+      });
+    } else if (index == 7) {
+      print('Sez pass registory index7');
+      Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
+        "passMngRegisterDetails":
+            PassMngArguments('3', 'Sez Pass Register', true)
+      });
     }
   }
 
