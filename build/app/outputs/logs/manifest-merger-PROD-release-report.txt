@@ -1,8 +1,8 @@
 -- Merging decision tree log ---
 application
-INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:8:3-37:17
-MERGED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:9:5-19:19
-MERGED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:9:5-19:19
+INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:8:3-37:17
+MERGED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:9:5-19:19
+MERGED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:9:5-19:19
 MERGED from [androidx.window:window:1.0.0-beta04] /Users/narendra/.gradle/caches/transforms-3/dee59bb480020f42d53c2ea15e4501f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:24:5-31:19
 MERGED from [androidx.window:window:1.0.0-beta04] /Users/narendra/.gradle/caches/transforms-3/dee59bb480020f42d53c2ea15e4501f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:24:5-31:19
 MERGED from [androidx.core:core:1.9.0] /Users/narendra/.gradle/caches/transforms-3/5f80b20db3afa86c72a9766b008d752d/transformed/core-1.9.0/AndroidManifest.xml:28:5-89
@@ -14,31 +14,31 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/narendra/.gradle/cac
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/narendra/.gradle/caches/transforms-3/5abdc06e026f2f7b9b89c25dcd7a6d7e/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/narendra/.gradle/caches/transforms-3/5abdc06e026f2f7b9b89c25dcd7a6d7e/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
 	android:requestLegacyExternalStorage
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:9:7-50
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:9:7-50
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.9.0] /Users/narendra/.gradle/caches/transforms-3/5f80b20db3afa86c72a9766b008d752d/transformed/core-1.9.0/AndroidManifest.xml:28:18-86
 	android:label
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:10:7-39
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:10:7-39
 	android:icon
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:12:7-41
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:12:7-41
 	android:name
-		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:11:7-40
+		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:11:7-40
 manifest
-ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:1:1-38:12
-INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:1:1-38:12
-INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:1:1-38:12
-INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:1:1-38:12
-MERGED from [:shared_preferences_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/shared_preferences_android/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
-MERGED from [:flutter_file_dialog] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/flutter_file_dialog/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
-MERGED from [:permission_handler_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/permission_handler_android/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
-MERGED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-19:12
-MERGED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-21:12
-MERGED from [:flutter_plugin_android_lifecycle] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
-MERGED from [:connectivity] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/connectivity/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-11:12
-MERGED from [:app_settings] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/app_settings/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
-MERGED from [:flutter_keyboard_visibility] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/flutter_keyboard_visibility/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
-MERGED from [:path_provider_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/path_provider_android/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
+ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:1:1-38:12
+INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:1:1-38:12
+INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:1:1-38:12
+INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:1:1-38:12
+MERGED from [:shared_preferences_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/shared_preferences_android/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
+MERGED from [:flutter_file_dialog] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/flutter_file_dialog/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
+MERGED from [:permission_handler_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/permission_handler_android/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
+MERGED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-19:12
+MERGED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-21:12
+MERGED from [:flutter_plugin_android_lifecycle] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
+MERGED from [:connectivity] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/connectivity/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-11:12
+MERGED from [:app_settings] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app_settings/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
+MERGED from [:flutter_keyboard_visibility] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/flutter_keyboard_visibility/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
+MERGED from [:path_provider_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/path_provider_android/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.fragment:fragment:1.1.0] /Users/narendra/.gradle/caches/transforms-3/9354257804af8250f2ffb7c22e2892d5/transformed/fragment-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity:1.7.0] /Users/narendra/.gradle/caches/transforms-3/a2a101baaed768f358d4d8f74655776a/transformed/jetified-activity-1.7.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.window:window-java:1.0.0-beta04] /Users/narendra/.gradle/caches/transforms-3/006d93cd422dbc43e89591147c2de572/transformed/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:17:1-23:12
@@ -62,73 +62,73 @@ MERGED from [androidx.tracing:tracing:1.0.0] /Users/narendra/.gradle/caches/tran
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/narendra/.gradle/caches/transforms-3/5abdc06e026f2f7b9b89c25dcd7a6d7e/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/narendra/.gradle/caches/transforms-3/6c57506ff263c94b62c27d843887c28b/transformed/core-runtime-2.2.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/narendra/.gradle/caches/transforms-3/ec10578641139d45a328c567f48881a1/transformed/jetified-annotation-experimental-1.3.0/AndroidManifest.xml:17:1-22:12
-INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:1:1-38:12
-INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:1:1-38:12
-INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:1:1-38:12
+INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:1:1-38:12
+INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:1:1-38:12
+INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:1:1-38:12
 	package
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:1:70-100
-		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:1:70-100
+		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:1:1-38:12
-		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:1:1-38:12
+		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:1:1-38:12
-		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:1:1-38:12
+		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:1:11-69
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:1:11-69
 uses-permission#android.permission.INTERNET
-ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:2:1-62
+ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:2:1-62
 	android:name
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:2:18-60
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:2:18-60
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:3:1-77
+ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:3:1-77
 	android:name
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:3:18-74
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:3:18-74
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:4:1-76
-MERGED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:9:5-80
-MERGED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:9:5-80
+ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:4:1-76
+MERGED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:9:5-80
+MERGED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:9:5-80
 	android:name
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:4:18-73
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:4:18-73
 uses-permission#android.permission.CAMERA
-ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:5:1-61
+ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:5:1-61
 	android:name
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:5:18-58
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:5:18-58
 uses-feature#android.hardware.camera
-ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:6:1-56
+ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:6:1-56
 	android:name
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:6:15-53
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:6:15-53
 uses-feature#android.hardware.camera.autofocus
-ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:7:1-66
+ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:7:1-66
 	android:name
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:7:15-63
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:7:15-63
 uses-sdk
-INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
-INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
-MERGED from [:shared_preferences_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/shared_preferences_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:shared_preferences_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/shared_preferences_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_file_dialog] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/flutter_file_dialog/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_file_dialog] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/flutter_file_dialog/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:permission_handler_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/permission_handler_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:permission_handler_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/permission_handler_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_plugin_android_lifecycle] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_plugin_android_lifecycle] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:connectivity] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/connectivity/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:connectivity] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/connectivity/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:app_settings] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/app_settings/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:app_settings] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/app_settings/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_keyboard_visibility] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/flutter_keyboard_visibility/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_keyboard_visibility] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/flutter_keyboard_visibility/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:path_provider_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/path_provider_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
-MERGED from [:path_provider_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/path_provider_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
+INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
+MERGED from [:shared_preferences_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/shared_preferences_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:shared_preferences_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/shared_preferences_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_file_dialog] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/flutter_file_dialog/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_file_dialog] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/flutter_file_dialog/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:permission_handler_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/permission_handler_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:permission_handler_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/permission_handler_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_plugin_android_lifecycle] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_plugin_android_lifecycle] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:connectivity] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/connectivity/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:connectivity] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/connectivity/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:app_settings] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app_settings/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:app_settings] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app_settings/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_keyboard_visibility] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/flutter_keyboard_visibility/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_keyboard_visibility] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/flutter_keyboard_visibility/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:path_provider_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/path_provider_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:path_provider_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/path_provider_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.fragment:fragment:1.1.0] /Users/narendra/.gradle/caches/transforms-3/9354257804af8250f2ffb7c22e2892d5/transformed/fragment-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment:1.1.0] /Users/narendra/.gradle/caches/transforms-3/9354257804af8250f2ffb7c22e2892d5/transformed/fragment-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.activity:activity:1.7.0] /Users/narendra/.gradle/caches/transforms-3/a2a101baaed768f358d4d8f74655776a/transformed/jetified-activity-1.7.0/AndroidManifest.xml:20:5-44
@@ -175,86 +175,86 @@ MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/narendra/.gradle/cach
 MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/narendra/.gradle/caches/transforms-3/6c57506ff263c94b62c27d843887c28b/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/narendra/.gradle/caches/transforms-3/ec10578641139d45a328c567f48881a1/transformed/jetified-annotation-experimental-1.3.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/narendra/.gradle/caches/transforms-3/ec10578641139d45a328c567f48881a1/transformed/jetified-annotation-experimental-1.3.0/AndroidManifest.xml:20:5-44
-INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
-INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
+INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
+INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml
 activity#com.arlanto.atomedge.MainActivity
-ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:13:5-33:16
+ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:13:5-33:16
 	android:launchMode
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:16:9-39
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:16:9-39
 	android:hardwareAccelerated
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:19:9-43
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:19:9-43
 	android:windowSoftInputMode
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:20:9-51
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:20:9-51
 	android:exported
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:15:9-32
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:15:9-32
 	android:configChanges
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:18:9-159
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:18:9-159
 	android:theme
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:17:9-43
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:17:9-43
 	android:name
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:14:9-37
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:14:9-37
 meta-data#io.flutter.embedding.android.NormalTheme
-ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:25:7-113
+ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:25:7-113
 	android:resource
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:25:74-111
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:25:74-111
 	android:name
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:25:18-73
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:25:18-73
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:29:7-32:23
+ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:29:7-32:23
 action#android.intent.action.MAIN
-ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:30:9-60
+ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:30:9-60
 	android:name
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:30:17-58
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:30:17-58
 category#android.intent.category.LAUNCHER
-ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:31:9-68
+ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:31:9-68
 	android:name
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:31:19-66
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:31:19-66
 meta-data#flutterEmbedding
-ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:36:5-67
+ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:36:5-67
 	android:value
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:36:48-65
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:36:48-65
 	android:name
-		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/AndroidManifest.xml:36:16-47
+		ADDED from /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/AndroidManifest.xml:36:16-47
 queries
-ADDED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:11:5-17:15
+ADDED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:11:5-17:15
 intent#action:name:android.intent.action.GET_CONTENT+data:mimeType:*/*
-ADDED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:12:9-16:18
+ADDED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:12:9-16:18
 action#android.intent.action.GET_CONTENT
-ADDED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:13:13-72
+ADDED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:13:13-72
 	android:name
-		ADDED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:13:21-69
+		ADDED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:13:21-69
 data
-ADDED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:15:13-44
+ADDED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:15:13-44
 	android:mimeType
-		ADDED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:15:19-41
+		ADDED from [:file_picker] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml:15:19-41
 provider#io.flutter.plugins.imagepicker.ImagePickerFileProvider
-ADDED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:10:9-18:20
+ADDED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:10:9-18:20
 	android:grantUriPermissions
-		ADDED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:14:13-47
+		ADDED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:14:13-47
 	android:authorities
-		ADDED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:12:13-74
+		ADDED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:12:13-74
 	android:exported
-		ADDED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:13:13-37
+		ADDED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:13:13-37
 	android:name
-		ADDED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:11:13-82
+		ADDED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:11:13-82
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:15:13-17:75
+ADDED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:15:13-17:75
 	android:resource
-		ADDED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:17:17-72
+		ADDED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:17:17-72
 	android:name
-		ADDED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:16:17-67
+		ADDED from [:image_picker_android] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/image_picker_android/intermediates/merged_manifest/release/AndroidManifest.xml:16:17-67
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from [:connectivity] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/connectivity/intermediates/merged_manifest/release/AndroidManifest.xml:9:5-79
+ADDED from [:connectivity] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/connectivity/intermediates/merged_manifest/release/AndroidManifest.xml:9:5-79
 	android:name
-		ADDED from [:connectivity] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/connectivity/intermediates/merged_manifest/release/AndroidManifest.xml:9:22-76
+		ADDED from [:connectivity] /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/connectivity/intermediates/merged_manifest/release/AndroidManifest.xml:9:22-76
 uses-library#androidx.window.extensions
 ADDED from [androidx.window:window:1.0.0-beta04] /Users/narendra/.gradle/caches/transforms-3/dee59bb480020f42d53c2ea15e4501f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
 	android:required

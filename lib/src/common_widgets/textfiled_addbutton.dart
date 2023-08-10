@@ -22,40 +22,46 @@ class TextfieldAddButton extends StatelessWidget {
     return Row(
       textDirection: TextDirection.rtl,
       children: <Widget>[
-        Container(
-          //color: AppColors.navigationSkybluecolor,
-          height: 60,
-          width: 50,
-          decoration: BoxDecoration(
-              color:(isDisableColor ?? false) ? AppColors.disabletextfieldBackground:AppColors.navigationSkybluecolor, 
-              border: Border.all(
-                color: (isDisableColor ?? false) ? AppColors.disabletextfieldBackground:AppColors.navigationSkybluecolor,
-              ),
-              borderRadius: const BorderRadius.all(Radius.circular(8))),
-          child:
-              // IconButton(
-              //icon: const Icon(Icons.add,color: AppColors.backgroundWhitecolor,),
-              // iconSize: 40,
-              // onPressed: ()
-              // {
-
-              // },
-              Center(
-            child: GestureDetector(
-              onTap: () {
-                //  datePickerselection(context);
-                onTap!();
-              },
-              child: SvgPicture.asset(
-                //AppIcon.dropdownicon,
-                AppIcon.addicon,
-                //fit: BoxFit.,
-                //color: AppColors.textColor,
-                width: 20,
-                height: 20,
-                key: const Key(Keys.userIcon),
-              ), //Icon(Icons.add,color: AppColors.backgroundWhitecolor,size: 60,)
-              //onPressed: onPressed!(),
+        GestureDetector(
+          onTap: () {
+                  //  datePickerselection(context);
+                  onTap!();
+                },
+          child: Container(
+            //color: AppColors.navigationSkybluecolor,
+            height: 60,
+            width: 50,
+            decoration: BoxDecoration(
+                color:(isDisableColor ?? false) ? AppColors.disabletextfieldBackground:AppColors.navigationSkybluecolor, 
+                border: Border.all(
+                  color: (isDisableColor ?? false) ? AppColors.disabletextfieldBackground:AppColors.navigationSkybluecolor,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(8))),
+            child:
+                // IconButton(
+                //icon: const Icon(Icons.add,color: AppColors.backgroundWhitecolor,),
+                // iconSize: 40,
+                // onPressed: ()
+                // {
+        
+                // },
+                Center(
+              // child: GestureDetector(
+              //   onTap: () {
+              //     //  datePickerselection(context);
+              //     onTap!();
+              //   },
+                child: SvgPicture.asset(
+                  //AppIcon.dropdownicon,
+                  AppIcon.addicon,
+                  //fit: BoxFit.,
+                  //color: AppColors.textColor,
+                  width: 20,
+                  height: 20,
+                  key: const Key(Keys.userIcon),
+                ), //Icon(Icons.add,color: AppColors.backgroundWhitecolor,size: 60,)
+                //onPressed: onPressed!(),
+             // ),
             ),
           ),
         ),

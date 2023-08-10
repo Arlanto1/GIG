@@ -15,11 +15,12 @@ import 'package:db_atom/src/features/login/views/login_screen.dart';
 import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
-import 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pass_list_page.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_item_model.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 
 import '../features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list_page.dart';
+import '../features/passmanagement/daypassregister/views/day_pass_info_list_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -94,26 +95,51 @@ class RouteGenerator {
       case lawEnforcementListRoute:
         return MaterialPageRoute(builder: (context) => const LnListPageList());
       case daypassmanagementListRoute:
-        return MaterialPageRoute(
-            builder: (context) => const DayPassManagementList());
-      case daypassregistertListRoute:
-        if (settings.arguments != null) {
+        if(settings.arguments!=null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
           if (passRoutes != null) {
             PassMngArguments? passMngArguments = passRoutes["passMngDetails"];
             return MaterialPageRoute(
-                builder: (context) => DayPassregisterList(
+                builder: (context) => DayPassManagementList(
                   passId:passMngArguments?.passType ?? '',
                   title: passMngArguments?.title ?? '',
                 ));
           }
-          return MaterialPageRoute(builder: (context) => DayPassregisterList());
+          return MaterialPageRoute(
+              builder: (context) =>  DayPassManagementList());
         }
         return MaterialPageRoute(
-            builder: (context) =>  DayPassregisterList());
+            builder: (context) =>  DayPassManagementList());
+      case daypassregistertListRoute:
+        if (settings.arguments != null) {
+          final passRoutes = settings.arguments as Map<String, dynamic>;
+          if (passRoutes != null) {
+            PassMngArguments? passMngArguments = passRoutes["passMngRegisterDetails"];
+            return MaterialPageRoute(
+                builder: (context) => DayPassInfoListPage(
+                  passId:passMngArguments?.passType ?? '',
+                  title: passMngArguments?.title ?? '',
+                ));
+          }
+          return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
+        }
+        return MaterialPageRoute(
+            builder: (context) =>  DayPassInfoListPage());
       case createpassmgmtRoute:
-        return MaterialPageRoute(builder: (context) => CreatePassManagement());
-
+       // return MaterialPageRoute(builder: (context) => CreatePassManagement());
+if (settings.arguments != null) {
+          final listroutes = settings.arguments as Map<String, dynamic>;
+          if (listroutes != null) {
+            DayPassListItemResponse? listuser = listroutes["UserElement"];
+            return MaterialPageRoute(
+                builder: (context) => CreatePassManagement(listuser: listuser));
+          }
+          return MaterialPageRoute(
+              builder: (context) => CreatePassManagement());
+        } else {
+          return MaterialPageRoute(
+              builder: (context) => CreatePassManagement());
+        }
       default:
         return MaterialPageRoute(builder: (context) => App());
     }

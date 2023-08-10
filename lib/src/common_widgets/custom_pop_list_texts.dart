@@ -16,6 +16,7 @@ import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -38,7 +39,8 @@ class CustomListTexts extends StatefulWidget {
       this.duplicateloadGroups,
       this.duplicateatomCompanyTypes,
       this.duplicatedayPassReason,
-      this.duplicatet1Analyst});
+      this.duplicatet1Analyst,
+      this.duplicateactivePassInfoList});
   final String? imagename;
   List<EmployeeDepartment>? duplicateemployeeDepartments;
   List<ArticleList>? duplicatearticleList;
@@ -53,6 +55,7 @@ class CustomListTexts extends StatefulWidget {
   List<AtomCompanyType>? duplicateatomCompanyTypes;
   List<DayPassReasonElement>? duplicatedayPassReason;
   List<T1Analyst>? duplicatet1Analyst;
+  List<ActivePassInfoList>? duplicateactivePassInfoList;
   @override
   State<CustomListTexts> createState() => CustomListTextsState();
 }
@@ -71,6 +74,7 @@ class CustomListTextsState extends State<CustomListTexts> {
   List<AtomCompanyType> companyTypes = [];
   List<DayPassReasonElement> dayPassReason = [];
   List<T1Analyst> t1analysts = [];
+  List<ActivePassInfoList> activePassInfoList = [];
 
   // List<ArticleList>? articleList;
   // List<AtomEntity>? entityList;
@@ -321,6 +325,20 @@ class CustomListTextsState extends State<CustomListTexts> {
       });
     }
 
+    else if (widget.duplicateactivePassInfoList != null) {
+      activePassInfoList.clear();
+      if (text.isEmpty) {
+        setState(() {});
+        return;
+      }
+
+      widget.duplicateactivePassInfoList!.forEach((userDetail) {
+        if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
+          activePassInfoList.add(userDetail);
+        }
+      });
+    }
+
     setState(() {});
   }
 
@@ -362,7 +380,9 @@ class CustomListTextsState extends State<CustomListTexts> {
                 _searchCtrl.text.length > 0 &&
                 dayPassReason.isEmpty) || (widget.duplicatet1Analyst != null &&
                 _searchCtrl.text.length > 0 &&
-                t1analysts.isEmpty))) {
+                t1analysts.isEmpty) || (widget.duplicateactivePassInfoList != null &&
+                _searchCtrl.text.length > 0 &&
+                activePassInfoList.isEmpty))) {
       return //const Expanded(
           // child:
           Center(
@@ -386,7 +406,11 @@ class CustomListTextsState extends State<CustomListTexts> {
                   ? employeeDepartments.length
                   : widget.duplicateemployeeDepartments?.length
               : (
-                widget.duplicatet1Analyst != null
+                widget.duplicateactivePassInfoList != null
+                  ? (_searchCtrl.text.length > 0 && activePassInfoList.isNotEmpty)
+                      ? activePassInfoList.length
+                      : widget.duplicateactivePassInfoList?.length
+                : widget.duplicatet1Analyst != null
                   ? (_searchCtrl.text.length > 0 && t1analysts.isNotEmpty)
                       ? t1analysts.length
                       : widget.duplicatet1Analyst?.length
@@ -783,6 +807,46 @@ class CustomListTextsState extends State<CustomListTexts> {
                 articleItem = t1analysts[index];
               } else {
                 articleItem = widget.duplicatet1Analyst?[index];
+              }
+              return ListTile(
+                  onTap: () {
+                    widget.onTap!(articleItem);
+                    Navigator.of(context).pop();
+                  },
+                  contentPadding: EdgeInsets.zero,
+                  minLeadingWidth: 5,
+                  horizontalTitleGap:
+                      (widget.imagename != null && widget.imagename != '')
+                          ? 20
+                          : 0,
+                  dense: true,
+                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  leading: (widget.imagename != null && widget.imagename != '')
+                      ? SvgPicture.asset(
+                          //AppIcon.dropdownicon,
+                          AppIcon.apple,
+                          //fit: BoxFit.,
+                          //color: AppColors.textColor,
+                          width: 20,
+                          height: 20,
+                        )
+                      : const SizedBox.shrink(),
+                  title: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      articleItem?.name ?? '',
+                      style: Styles.textStyleRegularGrey16,
+                      textAlign: TextAlign.left,
+                    ),
+                  ));
+            }
+
+            else if (widget.duplicateactivePassInfoList != null) {
+              ActivePassInfoList? articleItem;
+              if ((_searchCtrl.text.length > 0 && activePassInfoList.isNotEmpty)) {
+                articleItem = activePassInfoList[index];
+              } else {
+                articleItem = widget.duplicateactivePassInfoList?[index];
               }
               return ListTile(
                   onTap: () {

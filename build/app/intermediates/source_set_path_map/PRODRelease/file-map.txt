@@ -13,23 +13,23 @@ com.arlanto.atomedge.app-jetified-window-1.0.0-beta04-11 /Users/narendra/.gradle
 com.arlanto.atomedge.app-jetified-annotation-experimental-1.3.0-12 /Users/narendra/.gradle/caches/transforms-3/ec10578641139d45a328c567f48881a1/transformed/jetified-annotation-experimental-1.3.0/res
 com.arlanto.atomedge.app-lifecycle-livedata-core-2.6.1-13 /Users/narendra/.gradle/caches/transforms-3/fb13d994a9c57675c3797fdb5edd3dc7/transformed/lifecycle-livedata-core-2.6.1/res
 com.arlanto.atomedge.app-jetified-startup-runtime-1.1.1-14 /Users/narendra/.gradle/caches/transforms-3/ff5f5b0a71e9b3e49766bc82725fe9a1/transformed/jetified-startup-runtime-1.1.1/res
-com.arlanto.atomedge.app-PROD-15 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/PROD/res
-com.arlanto.atomedge.app-PRODRelease-16 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/PRODRelease/res
-com.arlanto.atomedge.app-main-17 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/main/res
-com.arlanto.atomedge.app-release-18 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/app/src/release/res
-com.arlanto.atomedge.app-PROD-19 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/app/generated/res/pngs/PROD/release
-com.arlanto.atomedge.app-PROD-20 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/app/generated/res/resValues/PROD/release
-com.arlanto.atomedge.app-PROD-21 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/app/generated/res/rs/PROD/release
-com.arlanto.atomedge.app-mergePRODReleaseResources-22 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/app/intermediates/incremental/PRODRelease/mergePRODReleaseResources/merged.dir
-com.arlanto.atomedge.app-mergePRODReleaseResources-23 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/app/intermediates/incremental/PRODRelease/mergePRODReleaseResources/stripped.dir
-com.arlanto.atomedge.app-merged_res-24 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/app/intermediates/merged_res/PRODRelease
-com.arlanto.atomedge.app-packaged_res-25 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/app_settings/intermediates/packaged_res/release
-com.arlanto.atomedge.app-packaged_res-26 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/connectivity/intermediates/packaged_res/release
-com.arlanto.atomedge.app-packaged_res-27 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/file_picker/intermediates/packaged_res/release
-com.arlanto.atomedge.app-packaged_res-28 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/flutter_file_dialog/intermediates/packaged_res/release
-com.arlanto.atomedge.app-packaged_res-29 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/flutter_keyboard_visibility/intermediates/packaged_res/release
-com.arlanto.atomedge.app-packaged_res-30 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/flutter_plugin_android_lifecycle/intermediates/packaged_res/release
-com.arlanto.atomedge.app-packaged_res-31 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/image_picker_android/intermediates/packaged_res/release
-com.arlanto.atomedge.app-packaged_res-32 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/path_provider_android/intermediates/packaged_res/release
-com.arlanto.atomedge.app-packaged_res-33 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/permission_handler_android/intermediates/packaged_res/release
-com.arlanto.atomedge.app-packaged_res-34 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/build/shared_preferences_android/intermediates/packaged_res/release
+com.arlanto.atomedge.app-PROD-15 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/PROD/res
+com.arlanto.atomedge.app-PRODRelease-16 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/PRODRelease/res
+com.arlanto.atomedge.app-main-17 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/main/res
+com.arlanto.atomedge.app-release-18 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/android/app/src/release/res
+com.arlanto.atomedge.app-PROD-19 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app/generated/res/pngs/PROD/release
+com.arlanto.atomedge.app-PROD-20 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app/generated/res/resValues/PROD/release
+com.arlanto.atomedge.app-PROD-21 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app/generated/res/rs/PROD/release
+com.arlanto.atomedge.app-mergePRODReleaseResources-22 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app/intermediates/incremental/PRODRelease/mergePRODReleaseResources/merged.dir
+com.arlanto.atomedge.app-mergePRODReleaseResources-23 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app/intermediates/incremental/PRODRelease/mergePRODReleaseResources/stripped.dir
+com.arlanto.atomedge.app-merged_res-24 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app/intermediates/merged_res/PRODRelease
+com.arlanto.atomedge.app-packaged_res-25 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/app_settings/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-26 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/connectivity/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-27 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/file_picker/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-28 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/flutter_file_dialog/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-29 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/flutter_keyboard_visibility/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-30 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/flutter_plugin_android_lifecycle/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-31 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/image_picker_android/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-32 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/path_provider_android/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-33 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/permission_handler_android/intermediates/packaged_res/release
+com.arlanto.atomedge.app-packaged_res-34 /Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom 2/build/shared_preferences_android/intermediates/packaged_res/release

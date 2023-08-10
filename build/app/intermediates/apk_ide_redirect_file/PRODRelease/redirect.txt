@@ -1,2 +1,2 @@
 #- File Locator -
-listingFile=../../../../../android/app/PROD/release/output-metadata.json
+listingFile=../../../../../../db_atom/android/app/PROD/release/output-metadata.json

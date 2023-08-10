@@ -15,6 +15,7 @@ import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcemen
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_response.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,7 +49,9 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   T1Analyst? t1nameanalyst;
   Analyst? analyst;
   T1Analyst? t1hostanalyst;
-  
+  T1Analyst? t1dbsponsoranalyst;
+  ActivePassInfoList? activePassInfoList;
+  DayPassNumberLists? passnumbelistresponse;
 
   CreatePassMgmtState({
     this.getEntitiesResponse,
@@ -77,6 +80,9 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
     this.t1nameanalyst,
     this.analyst,
     this.t1hostanalyst,
+    this.t1dbsponsoranalyst,
+    this.activePassInfoList,
+    this.passnumbelistresponse,
     
   });
   CreatePassMgmtState copyWith({
@@ -106,6 +112,9 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   T1Analyst? t1nameanalyst,
   Analyst? analyst,
   T1Analyst? t1hostanalyst,
+  T1Analyst? t1dbsponsoranalyst,
+  ActivePassInfoList? activePassInfoList,
+  DayPassNumberLists? passnumbelistresponse,
 
 
   
@@ -138,6 +147,9 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
       t1nameanalyst: t1nameanalyst ?? this.t1nameanalyst,
       t1hostanalyst: t1hostanalyst ?? this.t1hostanalyst,
       analyst: analyst ?? this.analyst,
+      t1dbsponsoranalyst: t1dbsponsoranalyst ?? this.t1dbsponsoranalyst,
+      activePassInfoList: activePassInfoList ?? this.activePassInfoList,
+      passnumbelistresponse: passnumbelistresponse ?? this.passnumbelistresponse,
     );
   }
 
@@ -168,7 +180,11 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
         dayPasselementReason,
         t1nameanalyst,
         t1hostanalyst,
-        analyst
+        analyst,
+        t1dbsponsoranalyst,
+        activePassInfoList,
+        passnumbelistresponse,
+
       ];
 
 }
