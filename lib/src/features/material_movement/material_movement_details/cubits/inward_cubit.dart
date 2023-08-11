@@ -1,8 +1,10 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
+import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/models/requestModels/material_movement_request.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/models/responseModels/material_movement_response.dart';
@@ -15,6 +17,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../constants/constants.dart';
+import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 part 'inward_state.dart';
 
@@ -32,6 +35,7 @@ class InwardCubit extends Cubit<InwardState> {
               model: model ?? MaterialMovementModel(),
               locations: GetLocations(),
               loggedInUserDetails: GetUserDetails(),
+              atomStaticUser: const [],
               errorMessage: ''),
         );
 
@@ -59,6 +63,7 @@ class InwardCubit extends Cubit<InwardState> {
       GetUserDetails loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
 
+      Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
       // Get Date of Creation
       state.materialMovement.inputDate = _getCurrentDate();
 
@@ -69,9 +74,9 @@ class InwardCubit extends Cubit<InwardState> {
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           materialMovement: state.materialMovement,
+          users: users.t1Analyst
         ),
       );
-
     } catch (e) {
       emit(
         state.copyWith(
@@ -81,6 +86,33 @@ class InwardCubit extends Cubit<InwardState> {
         ),
       );
     }
+  }
+
+  Future<void> updateLocation({Location? location, T1Analyst? user} ) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    log('---status-----${state.status}---');
+    //Get Sl No from API
+    if(location != null) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: location.id.toString(),
+        moduleCode: Constants.materialMovementInwardNonReturnableModule,
+      );
+
+      state.materialMovement.location = location;
+      state.materialMovement.slNo = slNo.serialNo;
+    }
+    if(user != null) {
+      state.materialMovement.otherReceiverName = user.name;
+    }
+    log('----state.materialMovement.otherReceiverName-----${state.materialMovement.otherReceiverName}---');
+
+    emit(state.copyWith(
+        materialMovement: state.materialMovement, status: FormStatus.initial,));
+    log('---status-----${state.status}---');
   }
 
   Future<void> submitForm() async {
@@ -93,14 +125,14 @@ class InwardCubit extends Cubit<InwardState> {
     // TODO: Need to change inward type from String to int
     // For Inward the type value should be 1
 
-
     // TODO: Validating Fields
 
-
     // Create/Update API Call
-    MaterialMovementRequest request = MaterialMovementRequest(materialMovement: state.materialMovement);
+    MaterialMovementRequest request =
+        MaterialMovementRequest(materialMovement: state.materialMovement);
     try {
-      MaterialMovementResponse response = await materialMovementServices.createMaterialMovement(request);
+      MaterialMovementResponse response =
+          await materialMovementServices.createMaterialMovement(request);
       emit(
         state.copyWith(
           message: response.message,
@@ -119,9 +151,6 @@ class InwardCubit extends Cubit<InwardState> {
           status: FormStatus.error,
         ),
       );
-
     }
-
-
   }
 }

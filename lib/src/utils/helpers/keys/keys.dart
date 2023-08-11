@@ -41,6 +41,7 @@ class Keys {
   static const String actualdateTextController = 'external_lawenforcement_actualdate_textfield';
 
   static const String challanKey = 'material_inward_challan_key';
+  static const String quantityKey = 'material_inward_quantity_key';
 
   //list page
   static const String searchInputField = 'search_input_field';

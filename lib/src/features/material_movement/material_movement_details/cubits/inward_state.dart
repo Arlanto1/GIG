@@ -8,12 +8,15 @@ class InwardState extends Equatable {
   final MaterialMovementModel materialMovement;
   final GetLocations? locations;
   final GetUserDetails? loggedInUserDetails;
+  final List<T1Analyst>? users;
+
   final String? message;
 
   factory InwardState.initial({
     required MaterialMovementModel model,
     required GetLocations locations,
     required GetUserDetails loggedInUserDetails,
+    required List<T1Analyst>? atomStaticUser,
     required String errorMessage,
   }) {
     return InwardState(
@@ -21,6 +24,7 @@ class InwardState extends Equatable {
       materialMovement: model,
       locations: locations,
       loggedInUserDetails: loggedInUserDetails,
+      users: atomStaticUser,
       message: errorMessage,
     );
   }
@@ -35,6 +39,7 @@ class InwardState extends Equatable {
     required this.materialMovement,
     this.locations,
     this.loggedInUserDetails,
+    this.users,
     this.message,
   });
 
@@ -43,14 +48,15 @@ class InwardState extends Equatable {
     MaterialMovementModel? materialMovement,
     GetLocations? locations,
     GetUserDetails? loggedInUserDetails,
+    List<T1Analyst>? users,
     String? message,
   }) {
     return InwardState(
       status: status ?? this.status,
       materialMovement: materialMovement ?? this.materialMovement,
       locations: locations ?? this.locations,
-      loggedInUserDetails:
-      loggedInUserDetails ?? this.loggedInUserDetails,
+      loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
+      users: users ?? this.users,
       message: message ?? this.message,
     );
   }

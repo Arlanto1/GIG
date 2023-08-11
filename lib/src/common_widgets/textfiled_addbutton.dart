@@ -70,6 +70,14 @@ class TextfieldAddButton extends StatelessWidget {
         ),
         Expanded(
             child: Container(
+          height: height,
+          decoration: BoxDecoration(
+            color: (isDisableColor ?? false) ? AppColors.disabletextfieldBackground:AppColors.enabletextfieldBackground,
+              border: Border.all(
+                color: const Color(0xFFCACACA),
+                width: 1.0,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(8))),
           child: Align(
               alignment: Alignment.centerLeft,
               child: Padding(
@@ -79,15 +87,7 @@ class TextfieldAddButton extends StatelessWidget {
                   style: Styles.textStyleRegularGrey16,
                   textAlign: TextAlign.left, //Icon(Icons.cancel)
                 ),
-              )), //
-          height: height,
-          decoration: BoxDecoration(
-            color: (isDisableColor ?? false) ? AppColors.disabletextfieldBackground:AppColors.enabletextfieldBackground,
-              border: Border.all(
-                color: Color(0xFFCACACA),
-                width: 1.0,
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(8))),
+              )),
         )),
       ],
     );

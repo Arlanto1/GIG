@@ -31,6 +31,7 @@ import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -396,12 +397,32 @@ class _MaterialMovementInwardDetailsState
                                         Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
+
+                                    // TextfieldAddButton(
+                                    //   title: 'aaaa',
+                                    //   height: 60,
+                                    //   isDisableColor: widget.materialMovement == null ||
+                                    //       (((state.materialMovement?.quantity ?? '') == null))
+                                    //       ? false
+                                    //       : true,
+                                    //   onTap: () {
+                                    //     if (widget.materialMovement == null ||
+                                    //         (state.materialMovement != null &&
+                                    //             ((state.materialMovement?.quantity ?? '') == null))) {
+                                    //       leopurposeDialog(state);
+                                    //     }
+                                    //   },
+                                    // ),
+
                                     FlutterInputField(
                                       keyboardType: TextInputType.number,
-                                      initialValue: state
-                                          .materialMovement.quantity
-                                          .toString(),
-                                      textFormKey: Keys.generateUniqueKey(),
+                                      initialValue:
+                                          state.materialMovement.quantity !=
+                                                  null
+                                              ? state.materialMovement.quantity
+                                                  .toString()
+                                              : '',
+                                      textFormKey: Keys.quantityKey,
                                       hintText: '',
                                       isEnable: widget.materialMovement == null
                                           ? true
@@ -530,21 +551,32 @@ class _MaterialMovementInwardDetailsState
                                         ''),
 
                                     /// Received For
-                                    // TODO: Need to make it a dropdown
-                                    widget.materialMovement != null
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.receivedFor,
-                                            Styles.textStyleBlack14,
-                                          )
-                                        : Container(),
-                                    widget.materialMovement != null &&
-                                            isClaimantDBEmployeeSelected == 0
-                                        ? FlutterInputField(
+                                    CommonWidgets.textDisplay(
+                                      Constants.receivedFor,
+                                      Styles.textStyleBlack14,
+                                    ),
+                                    widget.materialMovement == null
+                                        ? TextfieldAddButton(
+                                            title: state.materialMovement
+                                                .otherReceiverName,
+                                            height: 70,
+                                            isDisableColor:
+                                                widget.materialMovement == null
+                                                    ? false
+                                                    : true,
+                                            onTap: () {
+                                              if (widget.materialMovement ==
+                                                  null) {
+                                                depositorDialog(
+                                                    state, Constants.depositor);
+                                              }
+                                            })
+                                        : FlutterInputField(
                                             initialValue: state.materialMovement
                                                 .otherReceiverName,
                                             textFormKey:
-                                                Keys.claimantTextController,
-                                            hintText: claimant,
+                                                Keys.depositorTextController,
+                                            hintText: '',
                                             isEnable: widget.materialMovement ==
                                                     null
                                                 ? true
@@ -556,46 +588,16 @@ class _MaterialMovementInwardDetailsState
                                                             .isEmpty)
                                                     ? true
                                                     : false,
-                                            isDisableColor: (widget
-                                                            .materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                                ?.otherReceiverName ??
-                                                            '')
-                                                        .isEmpty)
-                                                ? false
-                                                : true,
-                                            onChange: (String value) {
-                                              state.materialMovement
-                                                  .otherReceiverName = value;
-                                              context
-                                                  .read<InwardCubit>()
-                                                  .onModelValueChange(
-                                                      state.materialMovement);
-                                            },
+                                            isDisableColor:
+                                                (widget.materialMovement !=
+                                                        null)
+                                                    ? false
+                                                    : true,
+                                            onChange: (String username) {},
                                             validateTextField:
                                                 (String? user) {},
-                                          )
-                                        : widget.materialMovement != null
-                                            ? TextfieldAddButton(
-                                                title: claimant,
-                                                height: 60,
-                                                isDisableColor:
-                                                    widget.materialMovement ==
-                                                                null ||
-                                                            claimant.isEmpty
-                                                        ? false
-                                                        : true,
-                                                onTap: () {
-                                                  if (widget.materialMovement ==
-                                                          null ||
-                                                      claimant.isEmpty) {
-                                                    // depositorDialog(
-                                                    //     state, Constants.claimant);
-                                                  }
-                                                },
-                                              )
-                                            : Container(),
+                                          ),
+
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
@@ -646,14 +648,11 @@ class _MaterialMovementInwardDetailsState
                                         : Container(),
 
                                     /// Receiver Department
+                                    CommonWidgets.textDisplay(
+                                      Constants.receiverDepartment,
+                                      Styles.textStyleBlack14,
+                                    ),
                                     widget.materialMovement != null
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.receiverDepartment,
-                                            Styles.textStyleBlack14,
-                                          )
-                                        : Container(),
-                                    widget.materialMovement != null &&
-                                            isClaimantDBEmployeeSelected == 0
                                         ? FlutterInputField(
                                             initialValue: state.materialMovement
                                                 .receiverDepartmenttName,
@@ -692,28 +691,26 @@ class _MaterialMovementInwardDetailsState
                                             validateTextField:
                                                 (String? user) {},
                                           )
-                                        : widget.materialMovement != null
-                                            ? TextfieldAddButton(
-                                                title: receiverDepartmentName,
-                                                height: 60,
-                                                isDisableColor:
-                                                    widget.materialMovement ==
-                                                                null ||
-                                                            receiverDepartmentName
-                                                                .isEmpty
-                                                        ? false
-                                                        : true,
-                                                onTap: () {
-                                                  if (widget.materialMovement ==
-                                                          null ||
-                                                      receiverDepartmentName
-                                                          .isEmpty) {
-                                                    // depositorDialog(
-                                                    //     state, Constants.claimant);
-                                                  }
-                                                },
-                                              )
-                                            : Container(),
+                                        : TextfieldAddButton(
+                                            title: receiverDepartmentName,
+                                            height: 60,
+                                            isDisableColor:
+                                                widget.materialMovement ==
+                                                            null ||
+                                                        receiverDepartmentName
+                                                            .isEmpty
+                                                    ? false
+                                                    : true,
+                                            onTap: () {
+                                              if (widget.materialMovement ==
+                                                      null ||
+                                                  receiverDepartmentName
+                                                      .isEmpty) {
+                                                // depositorDialog(
+                                                //     state, Constants.claimant);
+                                              }
+                                            },
+                                          ),
 
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
@@ -1029,6 +1026,39 @@ class _MaterialMovementInwardDetailsState
       default:
         return 'Unknown Status';
     }
+  }
+
+  depositorDialog(InwardState state, String name) {
+    showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return CustomListTexts(
+            duplicatet1Analyst: state.users,
+            leftimagename: AppIcon.addicon,
+            onLeftButtonTap: () {
+              Navigator.pop(context);
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return const CreateFoundNewUser();
+                  });
+            },
+            onTap: (T1Analyst user) {
+              log('----user-----${user.name}---');
+
+              BlocProvider.of<InwardCubit>(context).updateLocation(user: user);
+
+              // print(list.name);
+              // if (name.toLowerCase() == 'depositor') {
+              //   selecteddepositorList = list;
+              // } else {
+              //   selectedClaimList = list;
+              // }
+              // setState(() {});
+            },
+          );
+        });
   }
 
   Widget listVisitingOfficialDetails(
@@ -1757,16 +1787,18 @@ class _MaterialMovementInwardDetailsState
                   location.id = list?.id;
                   location.name = list?.name;
                   state.materialMovement.location = location;
-                  log('--state.materialMovement.location---11--${state.materialMovement.location?.name}---');
 
-                  state.copyWith(
-                    materialMovement: state.materialMovement,
-                  );
-                  log('--state.materialMovement.location-----${state.materialMovement.location?.name}---');
+                  BlocProvider.of<InwardCubit>(context)
+                      .updateLocation(location: location);
+
+                  // state.copyWith(
+                  //   materialMovement: state.materialMovement,
+                  // );
+                  // log('--state.materialMovement.location-----${state.materialMovement.location?.name}---');
 
                   // TODO: Need to check this setState
                   // May be calling SlNo. API and then setting the state
-                  setState(() {});
+                  // setState(() {});
 
                   // await lawenforcementCubit.getSerialnumberDetails(
                   //     list?.id.toString() ?? '', 'AF');
@@ -1784,7 +1816,6 @@ class _MaterialMovementInwardDetailsState
           decoration: BoxDecoration(
               border: Border.all(
                 color: const Color(0xFFCACACA),
-                width: 1.0,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(8))),
           child: (state.materialMovement.location?.name ?? '').isEmpty
@@ -2317,33 +2348,33 @@ class _MaterialMovementInwardDetailsState
     );
   }
 
-  depositorDialog(CreateFoundState state, String name) {
-    showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomListTexts(
-            duplicatedepostorList:
-                state.getDepositorResponse?.atomStaticUser ?? [],
-            leftimagename: AppIcon.addicon,
-            onLeftButtonTap: () {
-              Navigator.pop(context);
-              showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return const CreateFoundNewUser();
-                  });
-            },
-            onTap: (AtomStaticUser list) {
-              print(list.name);
-              // if (name.toLowerCase() == 'depositor') {
-              //   selecteddepositorList = list;
-              // } else {
-              //   selectedClaimList = list;
-              // }
-              setState(() {});
-            },
-          );
-        });
-  }
+// depositorDialog(CreateFoundState state, String name) {
+//   showDialog(
+//       context: context,
+//       builder: (BuildContext dialogContext) {
+//         return CustomListTexts(
+//           duplicatedepostorList:
+//               state.getDepositorResponse?.atomStaticUser ?? [],
+//           leftimagename: AppIcon.addicon,
+//           onLeftButtonTap: () {
+//             Navigator.pop(context);
+//             showDialog(
+//                 barrierDismissible: false,
+//                 context: context,
+//                 builder: (BuildContext dialogContext) {
+//                   return const CreateFoundNewUser();
+//                 });
+//           },
+//           onTap: (AtomStaticUser list) {
+//             print(list.name);
+//             // if (name.toLowerCase() == 'depositor') {
+//             //   selecteddepositorList = list;
+//             // } else {
+//             //   selectedClaimList = list;
+//             // }
+//             setState(() {});
+//           },
+//         );
+//       });
+// }
 }
