@@ -16,6 +16,7 @@ import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
+import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
@@ -400,6 +401,7 @@ class _MaterialMovementInwardDetailsState
                                         Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
+                                    articleaddButtonwidgetLoading(state),
 
                                     // TextfieldAddButton(
                                     //   title: 'aaaa',
@@ -545,11 +547,6 @@ class _MaterialMovementInwardDetailsState
                                     CommonWidgets.textDisplay(
                                         Constants.isOriginalReceiverReceiving,
                                         Styles.textStyleBlack14),
-                                    // radioButtonHandling(
-                                    //     state.materialMovement.originalReceiver!
-                                    //         ? 1
-                                    //         : 0,
-                                    //     ''),
                                     radioButtonHandling(
                                       state.materialMovement.originalReceiver!
                                           ? 1
@@ -1115,6 +1112,49 @@ class _MaterialMovementInwardDetailsState
         });
   }
 
+  Widget articleaddButtonwidgetLoading(InwardState state) {
+    return TextfieldAddButton(
+      title: state.materialMovement?.otherReceiverName ?? '',
+      height: 60,
+      isDisableColor: state.materialMovement.quantity != null ? false : true,
+      onTap: () {
+        if (state.materialMovement.quantity != null) {
+          articleTypeDialog(state);
+        }
+      },
+    );
+  }
+
+  articleTypeDialog(InwardState state) {
+    showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return CustomListTexts(
+            // duplicatearticleList: state.getArticleTypeResponse?.articleList ?? [],
+            leftimagename: AppIcon.addicon,
+            onLeftButtonTap: () {
+              Navigator.pop(context);
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return AddEmployeeDepartment(
+                      title: Constants.addarticletype,
+                      // createoundstate:  state,
+                    );
+                  });
+            },
+            onTap: (ArticleList list) {
+              // print(list.name);
+              // selectedArtclelist = list;
+              // setState(() {});
+            },
+          );
+        });
+  }
+
+  ///////////
+
   Widget listVisitingOfficialDetails(
       double height,
       double width,
@@ -1368,31 +1408,35 @@ class _MaterialMovementInwardDetailsState
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
-          activeColor: widget.materialMovement != null
-              ? AppColors.disabletextfieldBackground
-              : AppColors.navigationSkybluecolor,
-          focusColor: AppColors.navigationSkybluecolor,
+          // activeColor: widget.materialMovement != null
+          //     ? AppColors.disabletextfieldBackground
+          //     : AppColors.navigationSkybluecolor,
+          // focusColor: AppColors.navigationSkybluecolor,
           value: 1,
           groupValue: selectedValue,
-          onChanged: (val) {
-            BlocProvider.of<InwardCubit>(context).showFields(
-                isOriginalReceiverReceiving: true,
-                materialMovement: materialMovement);
-          },
+          onChanged: materialMovement.status == 6
+              ? null
+              : (val) {
+                  BlocProvider.of<InwardCubit>(context).showFields(
+                      isOriginalReceiverReceiving: true,
+                      materialMovement: materialMovement);
+                },
         ),
         const Text(Constants.yes),
         Radio(
-          activeColor: widget.materialMovement != null
-              ? AppColors.disabletextfieldBackground
-              : AppColors.navigationSkybluecolor,
-          focusColor: AppColors.navigationSkybluecolor,
+          // activeColor: widget.materialMovement != null
+          //     ? AppColors.disabletextfieldBackground
+          //     : AppColors.navigationSkybluecolor,
+          // focusColor: AppColors.navigationSkybluecolor,
           value: 0,
           groupValue: selectedValue,
-          onChanged: (val) {
-            BlocProvider.of<InwardCubit>(context).showFields(
-                isOriginalReceiverReceiving: false,
-                materialMovement: materialMovement);
-          },
+          onChanged: materialMovement.status == 6
+              ? null
+              : (val) {
+                  BlocProvider.of<InwardCubit>(context).showFields(
+                      isOriginalReceiverReceiving: false,
+                      materialMovement: materialMovement);
+                },
         ),
         const Text(Constants.no),
       ],

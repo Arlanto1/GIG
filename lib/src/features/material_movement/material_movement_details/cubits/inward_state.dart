@@ -46,6 +46,13 @@ class InwardState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Quantity');
     }
 
+    if (materialMovement.materialDescription == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Material Description');
+    }
+
+    if (materialMovement.materialComingFrom == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Material Coming From');
+    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
@@ -53,7 +60,7 @@ class InwardState extends Equatable {
   @override
   List<Object?> get props => [materialMovement, status];
 
-  InwardState({
+  const InwardState({
     required this.status,
     required this.materialMovement,
     this.locations,
