@@ -278,9 +278,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         //         .text.isEmpty) {
                                         //   //passTypeDialog();
                                         // }
-                                        if (widget.passId == "1") {
+                                        //if (widget.passId == "1") {
                                           passTypeDialog();
-                                        }
+                                       // }
                                       },
                                       child: FlutterInputField(
                                           isEnable: false,
@@ -350,7 +350,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     CommonWidgets.textDisplay(
                                         widget.passId == "0"
                                             ? Constants.companyname
-                                            : Constants.name,
+                                            :  widget.passId == "2"  ? "Vendor Name" :Constants.name,
                                         Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
@@ -651,26 +651,26 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     // Host
                                     ((state.atomCompanyType?.name ?? '')
                                                 .toLowerCase() ==
-                                            'exceptions' &&  widget.passId == "0") ||  widget.passId == "1"
+                                            'exceptions' &&  widget.passId == "0") ||  widget.passId == "1" ||   widget.passId == "2"
                                         ? CommonWidgets.textDisplay(
                                             Constants.host,
                                             Styles.textStyleBlack14)
                                         : Container(),
                                     ((state.atomCompanyType?.name ?? '')
                                                 .toLowerCase() ==
-                                            'exceptions' &&  widget.passId == "0") ||  widget.passId == "1"
+                                            'exceptions' &&  widget.passId == "0") ||  widget.passId == "1" ||   widget.passId == "2"
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
                                         : Container(),
                                     // articleaddButtonwidgetLoading(state),
                                     ((state.atomCompanyType?.name ?? '')
                                                 .toLowerCase() ==
-                                            'exceptions' &&  widget.passId == "0") ||  widget.passId == "1"
+                                            'exceptions' &&  widget.passId == "0") ||  widget.passId == "1" ||   widget.passId == "2"
                                         ? hostaddButtonwidgetLoading(state)
                                         : Container(),
                                     ((state.atomCompanyType?.name ?? '')
                                                 .toLowerCase() ==
-                                            'exceptions' &&  widget.passId == "0") ||  widget.passId == "1"
+                                            'exceptions' &&  widget.passId == "0") ||  widget.passId == "1" ||   widget.passId == "2"
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.01)
                                         : Container(),
@@ -678,20 +678,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     // Host Employee Id
                                     ((state.atomCompanyType?.name ?? '')
                                                 .toLowerCase() ==
-                                            'exceptions' &&  widget.passId == "0") ||  widget.passId == "1"
+                                            'exceptions' &&  widget.passId == "0") ||  widget.passId == "1" ||   widget.passId == "2"
                                         ? CommonWidgets.textDisplay(
                                             Constants.hostemployeeid,
                                             Styles.textStyleBlack14)
                                         : Container(),
                                     ((state.atomCompanyType?.name ?? '')
                                                 .toLowerCase() ==
-                                            'exceptions' &&  widget.passId == "0") ||  widget.passId == "1"
+                                            'exceptions' &&  widget.passId == "0") ||  widget.passId == "1" ||   widget.passId == "2"
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
                                         : Container(),
                                     ((state.atomCompanyType?.name ?? '')
                                                 .toLowerCase() ==
-                                            'exceptions' &&  widget.passId == "0") ||  widget.passId == "1"
+                                            'exceptions' &&  widget.passId == "0") ||  widget.passId == "1" ||   widget.passId == "2"
                                         ? textfieldWidgetLoad(
                                             hostemployeeidTextController,
                                             0,
@@ -702,7 +702,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     // department
                                     CommonWidgets.textDisplay(
-                                       widget.passId == '1' ? "Visiting Department" : Constants.department,
+                                       widget.passId == '1' ||  widget.passId == '2' ? "Visiting Department" : Constants.department,
                                         Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
@@ -713,7 +713,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     // Reason for day pass
                                     CommonWidgets.textDisplay(
-                                        widget.passId == "1" ? "Visitor Pass No" : Constants.reasonfordaypass,
+                                        widget.passId == "1" ? "Reason for Visitor Pass"  : widget.passId == "2"  ? "Reason for Vendor Pass" : Constants.reasonfordaypass,
                                         Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
@@ -725,7 +725,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     // Day  pass no
                                     CommonWidgets.textDisplay(
-                                        Constants.daypassno,
+                                         widget.passId == "1" ? "Visitor Pass No"  : widget.passId == "2"  ? "Vendor Pass No" : Constants.daypassno,
                                         Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
@@ -805,47 +805,47 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
 
                                     // Escorted by Host
-                                    CommonWidgets.textDisplay(
+                                    widget.passId == '1' ? CommonWidgets.textDisplay(
                                         'Escorted by Host',
-                                        Styles.textStyleBlack14),
-                                    radioButtonHandling(
+                                        Styles.textStyleBlack14) : Container(),
+                                    widget.passId == '1' ? radioButtonHandling(
                                         state.escortedbyhost ?? 1,
-                                        'Escorted by Host'),     
+                                        'Escorted by Host') : Container(),     
 
                                     // Escorted By
-                                  widget.passId == '0' || (widget.passId == '1' && (state.escortedbyhost ?? 0) == 0) ? CommonWidgets.textDisplay(
+                                  widget.passId == '0' || widget.passId == '2'|| (widget.passId == '1' && (state.escortedbyhost ?? 0) == 0) ? CommonWidgets.textDisplay(
                                         Constants.escortedby,
                                         Styles.textStyleBlack14) : Container(),
-                                    widget.passId == '0' || (widget.passId == '1' && (state.escortedbyhost ?? 0) == 0) ?CommonWidgets.verticalSpacerWidget(
+                                    widget.passId == '0'  || widget.passId == '2'|| (widget.passId == '1' && (state.escortedbyhost ?? 0) == 0) ?CommonWidgets.verticalSpacerWidget(
                                         height * 0.001) : Container(),
-                                    widget.passId == '0' || (widget.passId == '1' && (state.escortedbyhost ?? 0) == 0) ?textfieldWidgetLoad(
+                                    widget.passId == '0' || widget.passId == '2' || (widget.passId == '1' && (state.escortedbyhost ?? 0) == 0) ?textfieldWidgetLoad(
                                         escortedbyTextController, 0, state) : Container(),
-                                    widget.passId == '0' || (widget.passId == '1' && (state.escortedbyhost ?? 0) == 0) ?CommonWidgets.verticalSpacerWidget(
+                                    widget.passId == '0'  || widget.passId == '2' || (widget.passId == '1' && (state.escortedbyhost ?? 0) == 0) ?CommonWidgets.verticalSpacerWidget(
                                         height * 0.01) : Container(),
 
                                     // Escorted By
-                                    widget.passId == '0' || (widget.passId == '1' && (state.escortedbyhost ?? 0) == 0)? CommonWidgets.textDisplay(
+                                    widget.passId == '0' || widget.passId == '2' || (widget.passId == '1' && (state.escortedbyhost ?? 0) == 0)? CommonWidgets.textDisplay(
                                         Constants.escortedbyemployeeid,
                                         Styles.textStyleBlack14) : Container(),
-                                    widget.passId == '0' || (widget.passId == '1' && (state.escortedbyhost ?? 0) == 0) ? CommonWidgets.verticalSpacerWidget(
+                                    widget.passId == '0' || widget.passId == '2' || (widget.passId == '1' && (state.escortedbyhost ?? 0) == 0) ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001) : Container(),
-                                   widget.passId == '0' || (widget.passId == '1' && (state.escortedbyhost ?? 0) == 0) ?  textfieldWidgetLoad(
+                                   widget.passId == '0' || widget.passId == '2'  || (widget.passId == '1' && (state.escortedbyhost ?? 0) == 0) ?  textfieldWidgetLoad(
                                         escortedemployeedidbyTextController,
                                         0,
                                         state) : Container(),
-                                    widget.passId == '0' || (widget.passId == '1' && (state.escortedbyhost ?? 0) == 0) ? CommonWidgets.verticalSpacerWidget(
+                                    widget.passId == '0' || widget.passId == '2' || (widget.passId == '1' && (state.escortedbyhost ?? 0) == 0) ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.01) : Container(),
 
-                                     widget.listuser == null || widget.passId == '1'
+                                      widget.passId == '1'
                                         ? CommonWidgets.textDisplay(
                                             'Photo of Visitor',
                                             Styles.textStyleBlack14)
                                         : Container(),
-                                    widget.listuser == null || widget.passId == '1'
+                                    widget.passId == '1'
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
                                         : Container(),
-                                    widget.listuser == null || widget.passId == '1'
+                                    widget.passId == '1'
                                         ? uploadWidget(state)
                                         : Container(),    
                                
@@ -1147,7 +1147,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           return CustomSimpleListTexts(
             texts: widget.passId == "1"
                 ? ["VISITOR_PASS", "DWS_VISITOR_PASS"]
-                : widget.passId == "3"
+                : widget.passId == "2"
                     ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
                     : [],
             onTap: (String value) {
