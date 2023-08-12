@@ -127,19 +127,38 @@ class RouteGenerator {
             builder: (context) =>  DayPassInfoListPage());
       case createpassmgmtRoute:
        // return MaterialPageRoute(builder: (context) => CreatePassManagement());
-if (settings.arguments != null) {
-          final listroutes = settings.arguments as Map<String, dynamic>;
-          if (listroutes != null) {
-            DayPassListItemResponse? listuser = listroutes["UserElement"];
+      // if (settings.arguments != null) {
+      //     final listroutes = settings.arguments as Map<String, dynamic>;
+        
+      //     if (listroutes != null) {
+      //      // DayPassListItemResponse? listuser = listroutes["UserElement"];
+      //       PassMngArguments? passMngArguments = listroutes["passMngRegisterDetails"];
+      //       return MaterialPageRoute(
+      //           builder: (context) => CreatePassManagement(listuser: listuser));
+      //     }
+          
+      //     return MaterialPageRoute(
+      //         builder: (context) => CreatePassManagement());
+      //   } else {
+      //     return MaterialPageRoute(
+      //         builder: (context) => CreatePassManagement());
+      //   }
+
+      if (settings.arguments != null) {
+          final passRoutes = settings.arguments as Map<String, dynamic>;
+          if (passRoutes != null) {
+            CreatePassMngArguments? passMngArguments = passRoutes["passMngCreateDetails"];
             return MaterialPageRoute(
-                builder: (context) => CreatePassManagement(listuser: listuser));
+                builder: (context) => CreatePassManagement(
+                  passId:passMngArguments?.passType ?? '',
+                  title: passMngArguments?.title ?? '',
+                  listuser: passMngArguments?.listuser,
+                ));
           }
-          return MaterialPageRoute(
-              builder: (context) => CreatePassManagement());
-        } else {
-          return MaterialPageRoute(
-              builder: (context) => CreatePassManagement());
+          return MaterialPageRoute(builder: (context) => CreatePassManagement());
         }
+        return MaterialPageRoute(
+            builder: (context) =>  CreatePassManagement());
       default:
         return MaterialPageRoute(builder: (context) => App());
     }

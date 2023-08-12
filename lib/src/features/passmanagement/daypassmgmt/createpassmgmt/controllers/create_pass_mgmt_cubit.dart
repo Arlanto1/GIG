@@ -581,6 +581,27 @@ Future<void> getPassnumber(String passtype, String locationid) async {
             context, Constants.errorText, title, Constants.errorText);
       });
     }
-  }      
+  } 
+
+  getRadioButtonSelected(String name, int value, String radio) async {
+    try {
+     
+        emit(
+          state.copyWith(
+            escortedbyhost: value,
+            radioButtonItem: radio,
+            stateType: CreatePassMgmtStateType.success,
+          ),
+        );
+      
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }     
 
 }
