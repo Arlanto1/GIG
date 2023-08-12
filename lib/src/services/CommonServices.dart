@@ -1,5 +1,6 @@
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
+import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
@@ -16,13 +17,23 @@ class Apis {
 
 class CommonServices {
   Future<GetLocations> getLocations({
-    required String locationName,
+    required String name,
   }) async {
-    String url = '${Apis._getLocations}$locationName';
+    String url = '${Apis._getLocations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
     return GetLocations.fromJson(response);
+  }
+
+  Future<EmployeeDepartments> getDepartments({
+    required String name,
+  }) async {
+    String url = '${Apis._getLocations}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return EmployeeDepartments.fromJson(response);
   }
 
   Future<GetUserDetails> getUserDetails({

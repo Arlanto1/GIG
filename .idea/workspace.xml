@@ -5,352 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="wip: material movement inward details location">
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/08cc42a12d40126f9972e2438221aca3.cache.dill.track.dill" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/6abc02e96bd06651be74ad02f8f53e82/_composite.stamp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/6abc02e96bd06651be74ad02f8f53e82/gen_dart_plugin_registrant.stamp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/6abc02e96bd06651be74ad02f8f53e82/gen_localizations.stamp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/apk_ide_redirect_file/PRODRelease/redirect.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/desugar_graph/PRODRelease/out/currentProject/jar_87444f0b180e7626147ae78414b98a50a9cbcce5de3b931d9170f2da22606f20_bucket_0/graph.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/desugar_graph/PRODRelease/out/currentProject/jar_87444f0b180e7626147ae78414b98a50a9cbcce5de3b931d9170f2da22606f20_bucket_1/graph.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/desugar_graph/PRODRelease/out/currentProject/jar_87444f0b180e7626147ae78414b98a50a9cbcce5de3b931d9170f2da22606f20_bucket_2/graph.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/desugar_graph/PRODRelease/out/currentProject/jar_87444f0b180e7626147ae78414b98a50a9cbcce5de3b931d9170f2da22606f20_bucket_3/graph.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/dex_archive_input_jar_hashes/PRODRelease/out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/flutter/PRODRelease/.last_build_id" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/flutter/PRODRelease/arm64-v8a/app.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/flutter/PRODRelease/armeabi-v7a/app.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/flutter/PRODRelease/flutter_build.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/flutter/PRODRelease/libs.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/flutter/PRODRelease/x86_64/app.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/incremental/PRODRelease-mergeJavaRes/merge-state" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/incremental/PRODRelease-mergeJavaRes/zip-cache/E+bH7tRw4RTPzdgNFNxi6+vfs8U=" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/incremental/PRODRelease-mergeJavaRes/zip-cache/S3g7+f1rtEBiMezbBAEs+vnRZC0=" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/incremental/PRODRelease-mergeJavaRes/zip-cache/aL2p+5mtHB9lvfjA9n6x16WePtQ=" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/incremental/PRODRelease-mergeJavaRes/zip-cache/gWFzE9cVzFX1jvsY8pZHkOw3Clg=" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/incremental/PRODRelease/mergePRODReleaseResources/compile-file-map.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/incremental/PRODRelease/mergePRODReleaseResources/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/incremental/mergePRODReleaseAssets/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/incremental/mergePRODReleaseJniLibFolders/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/incremental/mergePRODReleaseShaders/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/incremental/packagePRODRelease/tmp/PRODRelease/dex-renamer-state.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/manifest_merge_blame_file/PRODRelease/manifest-merger-blame-PROD-release-report.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/merged_native_libs/PRODRelease/out/lib/arm64-v8a/libapp.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/merged_native_libs/PRODRelease/out/lib/armeabi-v7a/libapp.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/merged_native_libs/PRODRelease/out/lib/x86_64/libapp.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/merged_res_blame_folder/PRODRelease/out/multi-v2/PRODRelease.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/merged_res_blame_folder/PRODRelease/out/multi-v2/values-night-v8.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/merged_res_blame_folder/PRODRelease/out/multi-v2/values.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/metadata_library_dependencies_report/PRODRelease/dependencies.pb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/sdk_dependency_data/PRODRelease/sdkDependencyData.pb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/source_set_path_map/PRODRelease/file-map.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/stripped_native_libs/PRODRelease/out/lib/arm64-v8a/libapp.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/stripped_native_libs/PRODRelease/out/lib/armeabi-v7a/libapp.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/stripped_native_libs/PRODRelease/out/lib/x86_64/libapp.so" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/kotlin/compilePRODReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.values.at" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/kotlin/compilePRODReleaseKotlin/cacheable/last-build.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/kotlin/compilePRODReleaseKotlin/local-state/build-history.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-prod-release.apk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/outputs/logs/manifest-merger-PROD-release-report.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/outputs/sdk-dependencies/PRODRelease/sdkDependencies.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/tmp/compilePRODReleaseJavaWithJavac/previous-compilation-data.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app_settings/.transforms/9dab10f29c60c9714386315a54eb40d0/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app_settings/.transforms/c226fc9f7e330c58a4ad58bc98e39994/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app_settings/.transforms/c226fc9f7e330c58a4ad58bc98e39994/transformed/desugar_graph.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app_settings/.transforms/c226fc9f7e330c58a4ad58bc98e39994/transformed/release/com/example/appsettings/AppSettingsPlugin$Companion.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app_settings/.transforms/c226fc9f7e330c58a4ad58bc98e39994/transformed/release/com/example/appsettings/AppSettingsPlugin.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app_settings/.transforms/c226fc9f7e330c58a4ad58bc98e39994/transformed/release/com/example/appsettings/BuildConfig.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app_settings/intermediates/incremental/packageReleaseAssets/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app_settings/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app_settings/intermediates/incremental/release/packageReleaseResources/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app_settings/kotlin/compileReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.values.at" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app_settings/kotlin/compileReleaseKotlin/cacheable/last-build.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app_settings/kotlin/compileReleaseKotlin/local-state/build-history.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/connectivity/.transforms/7bb764cb4e3ff4ec07739092177028ca/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/connectivity/.transforms/7bb764cb4e3ff4ec07739092177028ca/transformed/desugar_graph.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/connectivity/.transforms/7bb764cb4e3ff4ec07739092177028ca/transformed/release/io/flutter/plugins/connectivity/BuildConfig.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/connectivity/.transforms/7bb764cb4e3ff4ec07739092177028ca/transformed/release/io/flutter/plugins/connectivity/Connectivity.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/connectivity/.transforms/7bb764cb4e3ff4ec07739092177028ca/transformed/release/io/flutter/plugins/connectivity/ConnectivityBroadcastReceiver$1.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/connectivity/.transforms/7bb764cb4e3ff4ec07739092177028ca/transformed/release/io/flutter/plugins/connectivity/ConnectivityBroadcastReceiver$2.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/connectivity/.transforms/7bb764cb4e3ff4ec07739092177028ca/transformed/release/io/flutter/plugins/connectivity/ConnectivityBroadcastReceiver.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/connectivity/.transforms/7bb764cb4e3ff4ec07739092177028ca/transformed/release/io/flutter/plugins/connectivity/ConnectivityMethodChannelHandler.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/connectivity/.transforms/7bb764cb4e3ff4ec07739092177028ca/transformed/release/io/flutter/plugins/connectivity/ConnectivityPlugin.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/connectivity/.transforms/b0c2df9a42a279a64cf3e8650a0cac39/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/connectivity/intermediates/incremental/packageReleaseAssets/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/connectivity/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/connectivity/intermediates/incremental/release/packageReleaseResources/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/26905292edc782708814183f7f355f8e/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/desugar_graph.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/release/com/mr/flutter/plugin/filepicker/BuildConfig.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/release/com/mr/flutter/plugin/filepicker/FileInfo$Builder.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/release/com/mr/flutter/plugin/filepicker/FileInfo.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/release/com/mr/flutter/plugin/filepicker/FilePickerDelegate$1.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/release/com/mr/flutter/plugin/filepicker/FilePickerDelegate$2.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/release/com/mr/flutter/plugin/filepicker/FilePickerDelegate$3.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/release/com/mr/flutter/plugin/filepicker/FilePickerDelegate$PermissionManager.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/release/com/mr/flutter/plugin/filepicker/FilePickerDelegate.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/release/com/mr/flutter/plugin/filepicker/FilePickerPlugin$1.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/release/com/mr/flutter/plugin/filepicker/FilePickerPlugin$LifeCycleObserver.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/release/com/mr/flutter/plugin/filepicker/FilePickerPlugin$MethodResultWrapper$1.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/release/com/mr/flutter/plugin/filepicker/FilePickerPlugin$MethodResultWrapper$2.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/release/com/mr/flutter/plugin/filepicker/FilePickerPlugin$MethodResultWrapper$3.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/release/com/mr/flutter/plugin/filepicker/FilePickerPlugin$MethodResultWrapper.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/release/com/mr/flutter/plugin/filepicker/FilePickerPlugin.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/.transforms/5cb6890b37daf2e4a65ea8997a026521/transformed/release/com/mr/flutter/plugin/filepicker/FileUtils.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/intermediates/incremental/packageReleaseAssets/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/file_picker/intermediates/incremental/release/packageReleaseResources/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/.transforms/97b9d2798f24d7b10393e59c242f3626/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/.transforms/c9c74ec579ebfb0bbed1a22e1e10cfc4/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/.transforms/c9c74ec579ebfb0bbed1a22e1e10cfc4/transformed/desugar_graph.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/.transforms/c9c74ec579ebfb0bbed1a22e1e10cfc4/transformed/release/com/kineapps/flutter_file_dialog/BuildConfig.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/.transforms/c9c74ec579ebfb0bbed1a22e1e10cfc4/transformed/release/com/kineapps/flutter_file_dialog/FileDialog$copyFileToCacheDirOnBackground$1$filePath$1.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/.transforms/c9c74ec579ebfb0bbed1a22e1e10cfc4/transformed/release/com/kineapps/flutter_file_dialog/FileDialog$copyFileToCacheDirOnBackground$1.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/.transforms/c9c74ec579ebfb0bbed1a22e1e10cfc4/transformed/release/com/kineapps/flutter_file_dialog/FileDialog$saveFileOnBackground$1$filePath$1.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/.transforms/c9c74ec579ebfb0bbed1a22e1e10cfc4/transformed/release/com/kineapps/flutter_file_dialog/FileDialog$saveFileOnBackground$1.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/.transforms/c9c74ec579ebfb0bbed1a22e1e10cfc4/transformed/release/com/kineapps/flutter_file_dialog/FileDialog.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/.transforms/c9c74ec579ebfb0bbed1a22e1e10cfc4/transformed/release/com/kineapps/flutter_file_dialog/FileDialogKt.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/.transforms/c9c74ec579ebfb0bbed1a22e1e10cfc4/transformed/release/com/kineapps/flutter_file_dialog/FlutterFileDialogPlugin$Companion.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/.transforms/c9c74ec579ebfb0bbed1a22e1e10cfc4/transformed/release/com/kineapps/flutter_file_dialog/FlutterFileDialogPlugin.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/intermediates/incremental/packageReleaseAssets/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/intermediates/incremental/release/packageReleaseResources/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/kotlin/compileReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/kotlin/compileReleaseKotlin/cacheable/caches-jvm/inputs/source-to-output.tab.values.at" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/kotlin/compileReleaseKotlin/cacheable/last-build.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_file_dialog/kotlin/compileReleaseKotlin/local-state/build-history.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_keyboard_visibility/.transforms/31eb4eefafad740477918ff8c12a8da9/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_keyboard_visibility/.transforms/e3f17fa1aa97ace174d3f5917bcfe1d1/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_keyboard_visibility/.transforms/e3f17fa1aa97ace174d3f5917bcfe1d1/transformed/desugar_graph.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_keyboard_visibility/.transforms/e3f17fa1aa97ace174d3f5917bcfe1d1/transformed/release/com/jrai/flutter_keyboard_visibility/BuildConfig.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_keyboard_visibility/.transforms/e3f17fa1aa97ace174d3f5917bcfe1d1/transformed/release/com/jrai/flutter_keyboard_visibility/FlutterKeyboardVisibilityPlugin.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_keyboard_visibility/intermediates/incremental/packageReleaseAssets/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_keyboard_visibility/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_keyboard_visibility/intermediates/incremental/release/packageReleaseResources/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_plugin_android_lifecycle/.transforms/1400b19b941282754970d4ea101918b4/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_plugin_android_lifecycle/.transforms/1400b19b941282754970d4ea101918b4/transformed/desugar_graph.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_plugin_android_lifecycle/.transforms/1400b19b941282754970d4ea101918b4/transformed/release/io/flutter/embedding/engine/plugins/lifecycle/FlutterLifecycleAdapter.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_plugin_android_lifecycle/.transforms/1400b19b941282754970d4ea101918b4/transformed/release/io/flutter/plugins/flutter_plugin_android_lifecycle/BuildConfig.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_plugin_android_lifecycle/.transforms/1400b19b941282754970d4ea101918b4/transformed/release/io/flutter/plugins/flutter_plugin_android_lifecycle/FlutterAndroidLifecyclePlugin.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_plugin_android_lifecycle/.transforms/fc7287e99ef46a247c1df24358caafd4/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_plugin_android_lifecycle/intermediates/incremental/packageReleaseAssets/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_plugin_android_lifecycle/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_plugin_android_lifecycle/intermediates/incremental/release/packageReleaseResources/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/2d80e38e6a4ed86c1a1481c329bd694a/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/desugar_graph.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/BuildConfig.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ExifDataCopier.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/FileUtils.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerCache$1.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerCache$CacheType.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerCache.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerDelegate$1.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerDelegate$2.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerDelegate$CameraDevice.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerDelegate$FileUriResolver.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerDelegate$OnPathReadyListener.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerDelegate$PendingCallState.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerDelegate$PermissionManager.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerDelegate.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerFileProvider.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerPlugin$1.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerPlugin$ActivityState.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerPlugin$LifeCycleObserver.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerPlugin.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImagePickerUtils.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/ImageResizer.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$CacheRetrievalError$Builder.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$CacheRetrievalError.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$CacheRetrievalResult$Builder.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$CacheRetrievalResult.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$CacheRetrievalType.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$FlutterError.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$ImagePickerApi$1.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$ImagePickerApi$2.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$ImagePickerApi.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$ImagePickerApiCodec.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$ImageSelectionOptions$Builder.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$ImageSelectionOptions.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$Result.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$SourceCamera.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$SourceSpecification$Builder.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$SourceSpecification.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$SourceType.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$VideoSelectionOptions$Builder.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages$VideoSelectionOptions.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/.transforms/66d93fd32ae6cfe5510cd92d7e5689e5/transformed/release/io/flutter/plugins/imagepicker/Messages.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/intermediates/compiled_local_resources/release/out/xml_flutter_image_picker_file_paths.xml.flat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/intermediates/incremental/packageReleaseAssets/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/image_picker_android/intermediates/incremental/release/packageReleaseResources/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/.last_build_id" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/App.framework/App" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/App.framework/_CodeSignature/CodeResources" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/App.framework/flutter_assets/kernel_blob.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/DKImagePickerController/DKImagePickerController.framework/DKImagePickerController" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/DKImagePickerController/DKImagePickerController.framework/Modules/DKImagePickerController.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/DKImagePickerController/DKImagePickerController.framework/Modules/DKImagePickerController.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/DKImagePickerController/DKImagePickerController.framework/Modules/DKImagePickerController.swiftmodule/arm64-apple-ios-simulator.swiftmodule" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/DKImagePickerController/DKImagePickerController.framework/Modules/DKImagePickerController.swiftmodule/x86_64-apple-ios-simulator.swiftmodule" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/DKImagePickerController/DKImagePickerController.framework/_CodeSignature/CodeResources" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/DKPhotoGallery/DKPhotoGallery.framework/DKPhotoGallery" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/DKPhotoGallery/DKPhotoGallery.framework/Modules/DKPhotoGallery.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/DKPhotoGallery/DKPhotoGallery.framework/Modules/DKPhotoGallery.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/DKPhotoGallery/DKPhotoGallery.framework/Modules/DKPhotoGallery.swiftmodule/arm64-apple-ios-simulator.swiftmodule" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/DKPhotoGallery/DKPhotoGallery.framework/Modules/DKPhotoGallery.swiftmodule/x86_64-apple-ios-simulator.swiftmodule" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/DKPhotoGallery/DKPhotoGallery.framework/_CodeSignature/CodeResources" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Pods_Runner.framework/Pods_Runner" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Pods_Runner.framework/_CodeSignature/CodeDirectory" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Pods_Runner.framework/_CodeSignature/CodeRequirements-1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Reachability/Reachability.framework/Reachability" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/App" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/_CodeSignature/CodeResources" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/kernel_blob.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/DKImagePickerController.framework/DKImagePickerController" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/DKPhotoGallery.framework/DKPhotoGallery" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/Reachability.framework/Reachability" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/SDWebImage.framework/SDWebImage" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/SwiftyGif.framework/SwiftyGif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/app_settings.framework/app_settings" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/connectivity.framework/connectivity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/file_picker.framework/file_picker" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/flutter_file_dialog.framework/flutter_file_dialog" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/flutter_keyboard_visibility.framework/flutter_keyboard_visibility" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/image_picker_ios.framework/image_picker_ios" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/path_provider_foundation.framework/path_provider_foundation" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/shared_preferences_foundation.framework/shared_preferences_foundation" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/Runner" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.app/_CodeSignature/CodeResources" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/Runner.swiftmodule/arm64-apple-ios-simulator.swiftmodule" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/SDWebImage/SDWebImage.framework/SDWebImage" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/SwiftyGif/SwiftyGif.framework/Modules/SwiftyGif.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/SwiftyGif/SwiftyGif.framework/Modules/SwiftyGif.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/SwiftyGif/SwiftyGif.framework/Modules/SwiftyGif.swiftmodule/arm64-apple-ios-simulator.swiftmodule" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/SwiftyGif/SwiftyGif.framework/Modules/SwiftyGif.swiftmodule/x86_64-apple-ios-simulator.swiftmodule" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/SwiftyGif/SwiftyGif.framework/SwiftyGif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/SwiftyGif/SwiftyGif.framework/_CodeSignature/CodeResources" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/app_settings/app_settings.framework/Modules/app_settings.swiftmodule/arm64-apple-ios-simulator.swiftmodule" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/app_settings/app_settings.framework/Modules/app_settings.swiftmodule/x86_64-apple-ios-simulator.swiftmodule" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/app_settings/app_settings.framework/_CodeSignature/CodeResources" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/app_settings/app_settings.framework/app_settings" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/connectivity/connectivity.framework/connectivity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/file_picker/file_picker.framework/file_picker" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/flutter_file_dialog/flutter_file_dialog.framework/Modules/flutter_file_dialog.swiftmodule/arm64-apple-ios-simulator.swiftmodule" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/flutter_file_dialog/flutter_file_dialog.framework/Modules/flutter_file_dialog.swiftmodule/x86_64-apple-ios-simulator.swiftmodule" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/flutter_file_dialog/flutter_file_dialog.framework/_CodeSignature/CodeResources" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/flutter_file_dialog/flutter_file_dialog.framework/flutter_file_dialog" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/flutter_keyboard_visibility/flutter_keyboard_visibility.framework/flutter_keyboard_visibility" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/image_picker_ios/image_picker_ios.framework/image_picker_ios" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/path_provider_foundation/path_provider_foundation.framework/Modules/path_provider_foundation.swiftmodule/arm64-apple-ios-simulator.swiftmodule" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/path_provider_foundation/path_provider_foundation.framework/Modules/path_provider_foundation.swiftmodule/x86_64-apple-ios-simulator.swiftmodule" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/path_provider_foundation/path_provider_foundation.framework/_CodeSignature/CodeResources" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/path_provider_foundation/path_provider_foundation.framework/path_provider_foundation" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/permission_handler_apple/permission_handler_apple.framework/_CodeSignature/CodeDirectory" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/permission_handler_apple/permission_handler_apple.framework/_CodeSignature/CodeRequirements-1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/permission_handler_apple/permission_handler_apple.framework/permission_handler_apple" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/shared_preferences_foundation/shared_preferences_foundation.framework/Modules/shared_preferences_foundation.swiftmodule/arm64-apple-ios-simulator.swiftmodule" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/shared_preferences_foundation/shared_preferences_foundation.framework/Modules/shared_preferences_foundation.swiftmodule/x86_64-apple-ios-simulator.swiftmodule" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/shared_preferences_foundation/shared_preferences_foundation.framework/_CodeSignature/CodeResources" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Debug-iphonesimulator/shared_preferences_foundation/shared_preferences_foundation.framework/shared_preferences_foundation" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKImagePickerController-DKImagePickerController.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKImagePickerController-DKImagePickerController.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKImagePickerController.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKImagePickerController.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKPhotoGallery-DKPhotoGallery.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKPhotoGallery-DKPhotoGallery.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKPhotoGallery.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKPhotoGallery.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/Flutter.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/Flutter.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/Pods-Runner.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/Pods-Runner.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/Reachability.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/Reachability.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/SDWebImage.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/SDWebImage.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/SwiftyGif.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/SwiftyGif.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/app_settings.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/app_settings.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/connectivity.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/connectivity.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/file_picker.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/file_picker.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/flutter_file_dialog.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/flutter_file_dialog.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/flutter_keyboard_visibility.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/flutter_keyboard_visibility.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/image_picker_ios.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/image_picker_ios.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/path_provider_foundation.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/path_provider_foundation.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/permission_handler_apple.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/permission_handler_apple.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/shared_preferences_foundation.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/shared_preferences_foundation.build/dgph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/App" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/App" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/_CodeSignature/CodeResources" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/_CodeSignature/CodeResources" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/kernel_blob.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/kernel_blob.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/DKImagePickerController.framework/DKImagePickerController" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/DKImagePickerController.framework/DKImagePickerController" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/DKPhotoGallery.framework/DKPhotoGallery" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/DKPhotoGallery.framework/DKPhotoGallery" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/Reachability.framework/Reachability" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/Reachability.framework/Reachability" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/SDWebImage.framework/SDWebImage" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/SDWebImage.framework/SDWebImage" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/SwiftyGif.framework/SwiftyGif" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/SwiftyGif.framework/SwiftyGif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/app_settings.framework/app_settings" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/app_settings.framework/app_settings" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/connectivity.framework/connectivity" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/connectivity.framework/connectivity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/file_picker.framework/file_picker" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/file_picker.framework/file_picker" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/flutter_file_dialog.framework/flutter_file_dialog" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/flutter_file_dialog.framework/flutter_file_dialog" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/flutter_keyboard_visibility.framework/flutter_keyboard_visibility" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/flutter_keyboard_visibility.framework/flutter_keyboard_visibility" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/image_picker_ios.framework/image_picker_ios" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/image_picker_ios.framework/image_picker_ios" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/path_provider_foundation.framework/path_provider_foundation" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/path_provider_foundation.framework/path_provider_foundation" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/shared_preferences_foundation.framework/shared_preferences_foundation" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Frameworks/shared_preferences_foundation.framework/shared_preferences_foundation" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Runner" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/Runner" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/_CodeSignature/CodeResources" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/iphonesimulator/Runner.app/_CodeSignature/CodeResources" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/pod_inputs.fingerprint" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/pod_inputs.fingerprint" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/path_provider_android/.transforms/5e9c834f2497d59f6755651a32d55bcb/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/path_provider_android/.transforms/ebe18963156e68270d82ddd3c18517c2/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/path_provider_android/.transforms/ebe18963156e68270d82ddd3c18517c2/transformed/desugar_graph.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/path_provider_android/.transforms/ebe18963156e68270d82ddd3c18517c2/transformed/release/io/flutter/plugins/pathprovider/BuildConfig.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/path_provider_android/.transforms/ebe18963156e68270d82ddd3c18517c2/transformed/release/io/flutter/plugins/pathprovider/Messages$FlutterError.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/path_provider_android/.transforms/ebe18963156e68270d82ddd3c18517c2/transformed/release/io/flutter/plugins/pathprovider/Messages$PathProviderApi.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/path_provider_android/.transforms/ebe18963156e68270d82ddd3c18517c2/transformed/release/io/flutter/plugins/pathprovider/Messages$StorageDirectory.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/path_provider_android/.transforms/ebe18963156e68270d82ddd3c18517c2/transformed/release/io/flutter/plugins/pathprovider/Messages.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/path_provider_android/.transforms/ebe18963156e68270d82ddd3c18517c2/transformed/release/io/flutter/plugins/pathprovider/PathProviderPlugin$1.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/path_provider_android/.transforms/ebe18963156e68270d82ddd3c18517c2/transformed/release/io/flutter/plugins/pathprovider/PathProviderPlugin.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/path_provider_android/.transforms/ebe18963156e68270d82ddd3c18517c2/transformed/release/io/flutter/plugins/pathprovider/StorageDirectoryMapper.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/path_provider_android/intermediates/incremental/packageReleaseAssets/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/path_provider_android/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/path_provider_android/intermediates/incremental/release/packageReleaseResources/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/desugar_graph.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/AppSettingsManager$OpenAppSettingsSuccessCallback.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/AppSettingsManager.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/BuildConfig.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/ErrorCallback.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/MethodCallHandlerImpl.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/PermissionConstants$PermissionGroup.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/PermissionConstants$PermissionStatus.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/PermissionConstants$ServiceStatus.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/PermissionConstants.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/PermissionHandlerPlugin.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/PermissionManager$CheckPermissionsSuccessCallback.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/PermissionManager$RequestPermissionsSuccessCallback.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/PermissionManager$ShouldShowRequestPermissionRationaleSuccessCallback.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/PermissionManager.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/PermissionUtils.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/ServiceManager$SuccessCallback.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/52d5b23abc47d582dfec92cff789fb78/transformed/release/com/baseflow/permissionhandler/ServiceManager.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/.transforms/cac1519d00a23e3b9f13bb6e2864366f/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/intermediates/incremental/packageReleaseAssets/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/permission_handler_android/intermediates/incremental/release/packageReleaseResources/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/shared_preferences_android/.transforms/7bc191a463d3f398216b150447ccbcd3/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/shared_preferences_android/.transforms/857c4e307c8b7ea7b76b8ffcfe53d9b6/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/shared_preferences_android/.transforms/857c4e307c8b7ea7b76b8ffcfe53d9b6/transformed/desugar_graph.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/shared_preferences_android/.transforms/857c4e307c8b7ea7b76b8ffcfe53d9b6/transformed/release/io/flutter/plugins/sharedpreferences/BuildConfig.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/shared_preferences_android/.transforms/857c4e307c8b7ea7b76b8ffcfe53d9b6/transformed/release/io/flutter/plugins/sharedpreferences/Messages$FlutterError.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/shared_preferences_android/.transforms/857c4e307c8b7ea7b76b8ffcfe53d9b6/transformed/release/io/flutter/plugins/sharedpreferences/Messages$SharedPreferencesApi.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/shared_preferences_android/.transforms/857c4e307c8b7ea7b76b8ffcfe53d9b6/transformed/release/io/flutter/plugins/sharedpreferences/Messages.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/shared_preferences_android/.transforms/857c4e307c8b7ea7b76b8ffcfe53d9b6/transformed/release/io/flutter/plugins/sharedpreferences/SharedPreferencesListEncoder.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/shared_preferences_android/.transforms/857c4e307c8b7ea7b76b8ffcfe53d9b6/transformed/release/io/flutter/plugins/sharedpreferences/SharedPreferencesPlugin$ListEncoder.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/shared_preferences_android/.transforms/857c4e307c8b7ea7b76b8ffcfe53d9b6/transformed/release/io/flutter/plugins/sharedpreferences/SharedPreferencesPlugin.dex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/shared_preferences_android/intermediates/incremental/packageReleaseAssets/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/shared_preferences_android/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/shared_preferences_android/intermediates/incremental/release/packageReleaseResources/merger.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/textfiled_addbutton.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/textfiled_addbutton.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/views/upload_attachment.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/views/upload_attachment.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/inward_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/inward_state.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_inward_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_inward_details.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/models/material_movements_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/models/material_movements_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/services/CommonServices.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/services/CommonServices.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/utils/helpers/keys/keys.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/utils/helpers/keys/keys.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -383,22 +44,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.android.tools.idea.streaming.emulator.frame.visible&quot;: &quot;false&quot;,
-    &quot;com.android.tools.idea.streaming.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/anuragdhunna/AndroidStudioProjects/Arlanto-App-Codebase/lib/src/common_widgets/base_widget&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true",
+    "com.android.tools.idea.streaming.emulator.frame.visible": "false",
+    "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "/home/anuragdhunna/AndroidStudioProjects/Arlanto-App-Codebase/lib/src/common_widgets/base_widget",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/lib/src/common_widgets/base_widget" />
@@ -522,7 +183,14 @@
       <option name="project" value="LOCAL" />
       <updated>1691684124222</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="wip: material movement inward details location">
+      <created>1691747025101</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1691747025101</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

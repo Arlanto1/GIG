@@ -114,7 +114,7 @@ class MaterialMovementModel {
     this.materialReturnedChallanNo,
     this.returnReceiverMailId,
     this.poNumber,
-    this.originalReceiver,
+    this.originalReceiver = false,
     this.otherReceiverName,
     this.otherReceiverEmployeeId,
     this.materialPhysicallyChecked,

@@ -42,11 +42,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../../../createfound/controllers/create_found_state.dart';
 import '../../../createfound/views/create_found_newuser.dart';
 import '../../material_movements/models/material_movements_model.dart';
-import '../cubits/inward_cubit.dart';
-import '../cubits/inward_cubit.dart';
 
 class MaterialMovementInwardDetails extends StatefulWidget {
   final MaterialMovementModel? materialMovement;
@@ -130,6 +127,12 @@ class _MaterialMovementInwardDetailsState
             if (state.status == FormStatus.success) {
               Utils.dynamicAlert(
                   context, state.message ?? '', 'Material Movement', '');
+            }
+            if (state.status == FormStatus.error) {
+              Validator().showToast(
+                context,
+                state.message ?? 'Invalid Information',
+              );
             }
           },
           builder: (context, state) {
@@ -538,68 +541,83 @@ class _MaterialMovementInwardDetailsState
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    /// Officials ID Card Verified?
+                                    /// Is original receiver receiving
                                     CommonWidgets.textDisplay(
                                         Constants.isOriginalReceiverReceiving,
                                         Styles.textStyleBlack14),
+                                    // radioButtonHandling(
+                                    //     state.materialMovement.originalReceiver!
+                                    //         ? 1
+                                    //         : 0,
+                                    //     ''),
                                     radioButtonHandling(
-                                        widget.materialMovement != null &&
-                                                widget.materialMovement!
-                                                    .originalReceiver!
-                                            ? 0
-                                            : 1,
-                                        ''),
+                                      state.materialMovement.originalReceiver!
+                                          ? 1
+                                          : 0,
+                                      state.materialMovement,
+                                    ),
 
                                     /// Received For
-                                    CommonWidgets.textDisplay(
-                                      Constants.receivedFor,
-                                      Styles.textStyleBlack14,
-                                    ),
-                                    widget.materialMovement == null
-                                        ? TextfieldAddButton(
-                                            title: state.materialMovement
-                                                .otherReceiverName,
-                                            height: 70,
-                                            isDisableColor:
-                                                widget.materialMovement == null
-                                                    ? false
-                                                    : true,
-                                            onTap: () {
-                                              if (widget.materialMovement ==
-                                                  null) {
-                                                depositorDialog(
-                                                    state, Constants.depositor);
-                                              }
-                                            })
-                                        : FlutterInputField(
-                                            initialValue: state.materialMovement
-                                                .otherReceiverName,
-                                            textFormKey:
-                                                Keys.depositorTextController,
-                                            hintText: '',
-                                            isEnable: widget.materialMovement ==
-                                                    null
-                                                ? true
-                                                : (widget.materialMovement !=
-                                                            null &&
-                                                        (widget.materialMovement
-                                                                    ?.otherReceiverName ??
-                                                                '')
-                                                            .isEmpty)
-                                                    ? true
-                                                    : false,
-                                            isDisableColor:
-                                                (widget.materialMovement !=
-                                                        null)
-                                                    ? false
-                                                    : true,
-                                            onChange: (String username) {},
-                                            validateTextField:
-                                                (String? user) {},
+                                    if (!state.materialMovement
+                                        .originalReceiver!) ...[
+                                      Column(
+                                        children: [
+                                          CommonWidgets.textDisplay(
+                                            Constants.receivedFor,
+                                            Styles.textStyleBlack14,
                                           ),
-
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                          widget.materialMovement == null
+                                              ? TextfieldAddButton(
+                                                  title: state.materialMovement
+                                                      .otherReceiverName,
+                                                  height: 70,
+                                                  isDisableColor:
+                                                      widget.materialMovement ==
+                                                              null
+                                                          ? false
+                                                          : true,
+                                                  onTap: () {
+                                                    if (widget
+                                                            .materialMovement ==
+                                                        null) {
+                                                      userDialog(state,
+                                                          Constants.depositor);
+                                                    }
+                                                  })
+                                              : FlutterInputField(
+                                                  initialValue: state
+                                                      .materialMovement
+                                                      .otherReceiverName,
+                                                  textFormKey: Keys
+                                                      .depositorTextController,
+                                                  hintText: '',
+                                                  isEnable: widget
+                                                              .materialMovement ==
+                                                          null
+                                                      ? true
+                                                      : (widget.materialMovement !=
+                                                                  null &&
+                                                              (widget.materialMovement
+                                                                          ?.otherReceiverName ??
+                                                                      '')
+                                                                  .isEmpty)
+                                                          ? true
+                                                          : false,
+                                                  isDisableColor:
+                                                      (widget.materialMovement !=
+                                                              null)
+                                                          ? false
+                                                          : true,
+                                                  onChange:
+                                                      (String username) {},
+                                                  validateTextField:
+                                                      (String? user) {},
+                                                ),
+                                          CommonWidgets.verticalSpacerWidget(
+                                              height * 0.01),
+                                        ],
+                                      ),
+                                    ],
 
                                     /// Received by Employee Id
                                     CommonWidgets.textDisplay(
@@ -692,7 +710,8 @@ class _MaterialMovementInwardDetailsState
                                                 (String? user) {},
                                           )
                                         : TextfieldAddButton(
-                                            title: receiverDepartmentName,
+                                            title: state.materialMovement
+                                                .receiverDepartmenttName,
                                             height: 60,
                                             isDisableColor:
                                                 widget.materialMovement ==
@@ -706,12 +725,13 @@ class _MaterialMovementInwardDetailsState
                                                       null ||
                                                   receiverDepartmentName
                                                       .isEmpty) {
-                                                // depositorDialog(
-                                                //     state, Constants.claimant);
+                                                departmentDialog(state, 'name');
+                                                // leodepartmentsDialog(state);
                                               }
                                             },
                                           ),
 
+                                    // dbwanttodepartmentaddButtonwidgetLoading(state),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
@@ -767,7 +787,6 @@ class _MaterialMovementInwardDetailsState
                                         Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
-
                                     FlutterInputField(
                                       initialValue: state
                                           .materialMovement.receiverEmployeeId,
@@ -989,6 +1008,24 @@ class _MaterialMovementInwardDetailsState
                                   ]),
                                 ),
 
+                                // Upload
+                                widget.materialMovement == null
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.upload,
+                                        Styles.textStyleBlack14)
+                                    : Container(),
+                                widget.materialMovement == null
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                    : Container(),
+                                widget.materialMovement == null
+                                    ? uploadWidget(state)
+                                    : Container(),
+
+                                // Attachments
+                                getSpaceattchment(height),
+                                getAttachement(height),
+
                                 /// SubmitButton
                                 Row(
                                     mainAxisAlignment:
@@ -1028,7 +1065,7 @@ class _MaterialMovementInwardDetailsState
     }
   }
 
-  depositorDialog(InwardState state, String name) {
+  userDialog(InwardState state, String name) {
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
@@ -1045,17 +1082,34 @@ class _MaterialMovementInwardDetailsState
                   });
             },
             onTap: (T1Analyst user) {
-              log('----user-----${user.name}---');
+              BlocProvider.of<InwardCubit>(context)
+                  .updateDropdownValues(user: user);
+            },
+          );
+        });
+  }
 
-              BlocProvider.of<InwardCubit>(context).updateLocation(user: user);
-
-              // print(list.name);
-              // if (name.toLowerCase() == 'depositor') {
-              //   selecteddepositorList = list;
-              // } else {
-              //   selectedClaimList = list;
-              // }
-              // setState(() {});
+  departmentDialog(InwardState state, String name) {
+    showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return CustomListTexts(
+            duplicateemployeeDepartments: state.departments,
+            leftimagename: AppIcon.addicon,
+            onLeftButtonTap: () {
+              Navigator.pop(context);
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return AddEmployeeDepartment(
+                      title: '',
+                    );
+                  });
+            },
+            onTap: (EmployeeDepartment department) {
+              BlocProvider.of<InwardCubit>(context)
+                  .updateDropdownValues(department: department);
             },
           );
         });
@@ -1308,7 +1362,8 @@ class _MaterialMovementInwardDetailsState
   }
 
   // TODO: Need to use this as common widget
-  Widget radioButtonHandling(int selectedValue, String name) {
+  Widget radioButtonHandling(
+      int selectedValue, MaterialMovementModel materialMovement) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -1320,19 +1375,9 @@ class _MaterialMovementInwardDetailsState
           value: 1,
           groupValue: selectedValue,
           onChanged: (val) {
-            print(name);
-            //
-            selectedValue = 1;
-            // if (name == Constants.officialsidcardverified) {
-            //   isOfficialIdcardSelected = selectedValue;
-            // } else if (name == Constants.documentifanytoconfirmpurpose) {
-            //   isDocumentifanySelected = selectedValue;
-            // } else if (name == Constants.incaseofpolicewasofficialinuniform) {
-            //   isIncaseofpoliceSelected = selectedValue;
-            // }
-            // setState(() {});
-            lawenforcementCubit.getRadioButtonSelected(
-                name, selectedValue, "Yes");
+            BlocProvider.of<InwardCubit>(context).showFields(
+                isOriginalReceiverReceiving: true,
+                materialMovement: materialMovement);
           },
         ),
         const Text(Constants.yes),
@@ -1340,29 +1385,56 @@ class _MaterialMovementInwardDetailsState
           activeColor: widget.materialMovement != null
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
+          focusColor: AppColors.navigationSkybluecolor,
           value: 0,
           groupValue: selectedValue,
           onChanged: (val) {
-            print(name);
-            //radioButtonItem = 'No';
-            selectedValue = 0;
-            // if (name == Constants.officialsidcardverified) {
-            //   isOfficialIdcardSelected = selectedValue;
-            // } else if (name == Constants.documentifanytoconfirmpurpose) {
-            //   isDocumentifanySelected = selectedValue;
-            // } else if (name == Constants.incaseofpolicewasofficialinuniform) {
-            //   isIncaseofpoliceSelected = selectedValue;
-            // }
-            //setState(() {});
-            lawenforcementCubit.getRadioButtonSelected(
-                name, selectedValue, "No");
+            BlocProvider.of<InwardCubit>(context).showFields(
+                isOriginalReceiverReceiving: false,
+                materialMovement: materialMovement);
           },
         ),
         const Text(Constants.no),
       ],
     );
-    //return Container();
   }
+
+  // Widget radioButtonHandling(int selectedValue, String name) {
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.start,
+  //     children: <Widget>[
+  //       Radio(
+  //         activeColor: widget.materialMovement != null
+  //             ? AppColors.disabletextfieldBackground
+  //             : AppColors.navigationSkybluecolor,
+  //         focusColor: AppColors.navigationSkybluecolor,
+  //         value: 1,
+  //         groupValue: selectedValue,
+  //         onChanged: (val) {
+  //           print(name);
+  //           //
+  //           selectedValue = 1;
+  //           BlocProvider.of<InwardCubit>(context).showFields(isOriginalReceiverReceiving: true);
+  //         },
+  //       ),
+  //       const Text(Constants.yes),
+  //       Radio(
+  //         activeColor: widget.materialMovement != null
+  //             ? AppColors.disabletextfieldBackground
+  //             : AppColors.navigationSkybluecolor,
+  //         value: 2,
+  //         groupValue: selectedValue,
+  //         onChanged: (val) {
+  //           print(name);
+  //           selectedValue = 0;
+  //           BlocProvider.of<InwardCubit>(context).showFields(isOriginalReceiverReceiving: false);
+  //         },
+  //       ),
+  //       const Text(Constants.no),
+  //     ],
+  //   );
+  //   //return Container();
+  // }
 
   dbOfficialDialog(LawEnforcementState state) {
     showDialog(
@@ -1461,7 +1533,7 @@ class _MaterialMovementInwardDetailsState
     // });
   }
 
-  Widget uploadWidget(LawEnforcementState state) {
+  Widget uploadWidget(InwardState state) {
     return // upload
         widget.materialMovement == null
             ? Container(
@@ -1486,10 +1558,10 @@ class _MaterialMovementInwardDetailsState
                             context: context,
                             builder: (BuildContext dialogContext) {
                               return UploadAttachment(
-                                userdetails: state.getUserDetailsResponse ??
+                                userdetails: state.loggedInUserDetails ??
                                     GetUserDetails(),
                                 getFiles: getFiles ?? [],
-                                lawstate: state,
+                                inwardState: state,
                               );
                             });
                       },
@@ -1614,25 +1686,24 @@ class _MaterialMovementInwardDetailsState
         });
   }
 
-  leodepartmentsDialog(LawEnforcementState state) {
+  leodepartmentsDialog(InwardState state) {
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicateemployeeDepartments:
-                state.employeeDepartment?.employeeDepartments ?? [],
+            duplicateemployeeDepartments: state.departments,
             leftimagename: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
-              showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return AddEmployeeDepartment(
-                      title: Constants.addemployeedepartment,
-                      lawstate: state,
-                    );
-                  });
+              // showDialog(
+              //     barrierDismissible: false,
+              //     context: context,
+              //     builder: (BuildContext dialogContext) {
+              //       return AddEmployeeDepartment(
+              //         title: Constants.addemployeedepartment,
+              //         lawstate: state,
+              //       );
+              //     });
             },
             onTap: (EmployeeDepartment list) {
               //print(list.name);
@@ -1722,27 +1793,27 @@ class _MaterialMovementInwardDetailsState
     );
   }
 
-  Widget dbwanttodepartmentaddButtonwidgetLoading(LawEnforcementState state) {
-    return TextfieldAddButton(
-      title: state.selectedemployeeDepartmentResponse?.name ?? '',
-      height: 60,
-      isDisableColor: widget.materialMovement == null ||
-              (state.selectedemployeeDepartmentResponse != null &&
-                  ((state.selectedemployeeDepartmentResponse?.name ?? '')
-                      .isEmpty))
-          ? false
-          : true,
-      onTap: () {
-        if (widget.materialMovement == null ||
-            (state.selectedemployeeDepartmentResponse != null &&
-                ((state.selectedemployeeDepartmentResponse?.name ?? '')
-                    .isEmpty))) {
-          //   articleTypeDialog(state);
-          leodepartmentsDialog(state);
-        }
-      },
-    );
-  }
+  // Widget dbwanttodepartmentaddButtonwidgetLoading(LawEnforcementState state) {
+  //   return TextfieldAddButton(
+  //     title: state.selectedemployeeDepartmentResponse?.name ?? '',
+  //     height: 60,
+  //     isDisableColor: widget.materialMovement == null ||
+  //             (state.selectedemployeeDepartmentResponse != null &&
+  //                 ((state.selectedemployeeDepartmentResponse?.name ?? '')
+  //                     .isEmpty))
+  //         ? false
+  //         : true,
+  //     onTap: () {
+  //       if (widget.materialMovement == null ||
+  //           (state.materialMovement != null &&
+  //               ((state.materialMovement.receiverDepartmenttName ?? '')
+  //                   .isEmpty))) {
+  //         //   articleTypeDialog(state);
+  //         leodepartmentsDialog(state);
+  //       }
+  //     },
+  //   );
+  // }
 
   Widget dbofficialemailidaddButtonwidgetLoading(LawEnforcementState state) {
     return TextfieldAddButton(
@@ -1789,7 +1860,7 @@ class _MaterialMovementInwardDetailsState
                   state.materialMovement.location = location;
 
                   BlocProvider.of<InwardCubit>(context)
-                      .updateLocation(location: location);
+                      .updateDropdownValues(location: location);
 
                   // state.copyWith(
                   //   materialMovement: state.materialMovement,

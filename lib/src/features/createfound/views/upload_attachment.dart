@@ -18,6 +18,7 @@ import 'package:db_atom/src/features/createfound/models/create_found_request.dar
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_attachment.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
+import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -34,12 +35,13 @@ import 'package:file_picker/file_picker.dart';
 enum FileDocumnets { Photo, Camera, Documents }
 
 class UploadAttachment extends StatefulWidget {
-  UploadAttachment({super.key, this.userdetails, this.getFiles,this.lawstate,this.createoundstate,this.createpassmgmtstate});
+  UploadAttachment({super.key, this.userdetails, this.getFiles,this.lawstate,this.createoundstate,this.createpassmgmtstate, this.inwardState});
   GetUserDetails? userdetails;
   List<CreateImage>? getFiles;
   LawEnforcementState? lawstate;
   CreateFoundState? createoundstate;
   CreatePassMgmtState? createpassmgmtstate;
+  InwardState? inwardState;
 
   @override
   State<UploadAttachment> createState() => UploadAttachmentState();
@@ -206,6 +208,8 @@ class UploadAttachmentState extends State<UploadAttachment>
     else if (widget.createpassmgmtstate != null)
     {
       createpassmgmtCubit.addAttchment(widget.getFiles ?? []);
+    } else if (widget.inwardState != null) {
+
     }
   
     //Navigator.pop(context, textToSendBack);
