@@ -3,45 +3,31 @@ import 'dart:developer';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
-import 'package:db_atom/src/common_widgets/custom_multiple_selection_popup.dart';
 import 'package:db_atom/src/common_widgets/custom_pop_list_texts.dart';
-import 'package:db_atom/src/common_widgets/date_time_picker.dart';
 import 'package:db_atom/src/common_widgets/image_download.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
-import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
-import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 import '../../../createfound/views/create_found_newuser.dart';
 import '../../material_movements/models/material_movements_model.dart';
@@ -59,44 +45,10 @@ class MaterialMovementInwardDetails extends StatefulWidget {
 class _MaterialMovementInwardDetailsState
     extends State<MaterialMovementInwardDetails> {
   final GlobalKey<FormState> lawenforcementFormKey = GlobalKey<FormState>();
-  int isClaimantDBEmployeeSelected = 1;
-  String claimant = '';
   String receiverDepartmentName = '';
   TextEditingController receivedForTextController = TextEditingController();
 
-  TextEditingController typeTextController = TextEditingController();
-  TextEditingController challanTextController = TextEditingController();
-  TextEditingController poNumberTextController = TextEditingController();
-  TextEditingController materialBriefDescriptionTextController =
-      TextEditingController();
-  TextEditingController quantityTextController = TextEditingController();
-  TextEditingController sendersNameTextController = TextEditingController();
-  TextEditingController materialComingFromAddressTextController =
-      TextEditingController();
-  TextEditingController statusTextController = TextEditingController();
   TextEditingController actualdateTextController = TextEditingController();
-  TextEditingController dbofficailwanttimeetTextController =
-      TextEditingController();
-  TextEditingController additionalinformationTextController =
-      TextEditingController();
-  TextEditingController nameTextController1 = TextEditingController();
-  TextEditingController designationTextController1 = TextEditingController();
-  TextEditingController officeaddressTextController1 = TextEditingController();
-  TextEditingController emailidTextController1 = TextEditingController();
-  TextEditingController contactnoTextController1 = TextEditingController();
-  TextEditingController nameTextController2 = TextEditingController();
-  TextEditingController designationTextController2 = TextEditingController();
-  TextEditingController officeaddressTextController2 = TextEditingController();
-  TextEditingController emailidTextController2 = TextEditingController();
-  TextEditingController contactnoTextController2 = TextEditingController();
-  TextEditingController nameTextController3 = TextEditingController();
-  TextEditingController designationTextController3 = TextEditingController();
-  TextEditingController officeaddressTextController3 = TextEditingController();
-  TextEditingController emailidTextController3 = TextEditingController();
-  TextEditingController contactnoTextController3 = TextEditingController();
-  TextEditingController distributiongroupsTextController =
-      TextEditingController();
-  TextEditingController dateofcreationTextController = TextEditingController();
   GetUserDetails? userDetails;
 
   List<CreateImage>? getFiles;
@@ -157,6 +109,9 @@ class _MaterialMovementInwardDetailsState
                           )),
                       child: Form(
                           key: lawenforcementFormKey,
+                          autovalidateMode: state.materialMovement.status == 6
+                              ? AutovalidateMode.disabled
+                              : AutovalidateMode.onUserInteraction,
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -656,11 +611,8 @@ class _MaterialMovementInwardDetailsState
                                       validateTextField: (String? user) {},
                                     ),
 
-                                    widget.materialMovement != null &&
-                                            isClaimantDBEmployeeSelected == 1
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
 
                                     /// Receiver Department
                                     CommonWidgets.textDisplay(
@@ -772,11 +724,8 @@ class _MaterialMovementInwardDetailsState
                                       validateTextField: (String? user) {},
                                     ),
 
-                                    widget.materialMovement != null &&
-                                            isClaimantDBEmployeeSelected == 1
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
 
                                     /// Received for Employee Id
                                     CommonWidgets.textDisplay(
@@ -874,15 +823,15 @@ class _MaterialMovementInwardDetailsState
                                         height * 0.001),
                                     FlutterInputField(
                                       lineHeight: 6,
-                                      textFieldController:
-                                          materialBriefDescriptionTextController,
+                                      initialValue: state
+                                          .materialMovement.materialDescription,
                                       textFormKey: Keys.generateUniqueKey(),
                                       hintText: Constants.informationhere,
                                       isEnable: widget.materialMovement == null
                                           ? true
                                           : (widget.materialMovement != null &&
                                                   (widget.materialMovement
-                                                              ?.entrySecurityName ??
+                                                              ?.materialDescription ??
                                                           '')
                                                       .isEmpty)
                                               ? true
@@ -891,7 +840,7 @@ class _MaterialMovementInwardDetailsState
                                                           .materialMovement !=
                                                       null &&
                                                   (widget.materialMovement
-                                                              ?.entrySecurityName ??
+                                                              ?.materialDescription ??
                                                           '')
                                                       .isEmpty) ||
                                               widget.materialMovement == null
@@ -899,7 +848,7 @@ class _MaterialMovementInwardDetailsState
                                           : true,
                                       onChange: (String value) {
                                         state.materialMovement
-                                            .entrySecurityName = value;
+                                            .materialDescription = value;
                                         context
                                             .read<InwardCubit>()
                                             .onModelValueChange(
@@ -1114,7 +1063,7 @@ class _MaterialMovementInwardDetailsState
 
   Widget articleaddButtonwidgetLoading(InwardState state) {
     return TextfieldAddButton(
-      title: state.materialMovement?.otherReceiverName ?? '',
+      title: state.materialMovement.otherReceiverName ?? '',
       height: 60,
       isDisableColor: state.materialMovement.quantity != null ? false : true,
       onTap: () {
@@ -1154,225 +1103,6 @@ class _MaterialMovementInwardDetailsState
   }
 
   ///////////
-
-  Widget listVisitingOfficialDetails(
-      double height,
-      double width,
-      BuildContext context,
-      LawEnforcementState state,
-      int visitingOfficialDetailsArray) {
-    return Column(children: <Widget>[
-      for (int i = 0; i < visitingOfficialDetailsArray; i++)
-
-        // Name
-        loadData(
-            height, width, context, state, visitingOfficialDetailsArray, i),
-    ]);
-  }
-
-  Widget loadData(double height, double width, BuildContext context,
-      LawEnforcementState state, int visitingOfficialDetailsArray, int index) {
-    // TextEditingController name = TextEditingController();
-    // TextEditingController address = TextEditingController();
-    // TextEditingController conatctno = TextEditingController();
-    // TextEditingController emailid = TextEditingController();
-    // TextEditingController designation = TextEditingController();
-
-    //}
-    return Column(children: [
-      GestureDetector(
-          onTap: () {
-            int value = (state.getVisitsCount ?? 0) - 1;
-            List<VistingOfficialsModel>? getVisits1 = state.getVisits ?? [];
-            getVisits1.removeAt(index);
-            lawenforcementCubit.addingVisitis(value, getVisits1);
-          },
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: SvgPicture.asset(
-              AppIcon.closeicon,
-              color: AppColors.navigationSkybluecolor,
-            ),
-          ) //Icon(Icons.cancel)
-          ),
-      CommonWidgets.verticalSpacerWidget(height * 0.002),
-      CommonWidgets.textDisplay(Constants.name, Styles.textStyleBlack14),
-      CommonWidgets.verticalSpacerWidget(height * 0.001),
-      textfieldWidgetLoad(
-          index == 0
-              ? nameTextController1
-              : index == 1
-                  ? nameTextController2
-                  : nameTextController3,
-          index,
-          state),
-      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-      // Designation
-      CommonWidgets.textDisplay(Constants.designation, Styles.textStyleBlack14),
-      CommonWidgets.verticalSpacerWidget(height * 0.001),
-      textfieldWidgetLoad(
-          index == 0
-              ? designationTextController1
-              : index == 1
-                  ? designationTextController2
-                  : designationTextController3,
-          index,
-          state),
-      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-      // Department
-      CommonWidgets.textDisplay(Constants.department, Styles.textStyleBlack14),
-      CommonWidgets.verticalSpacerWidget(height * 0.001),
-      // articleaddButtonwidgetLoading(state),
-      departmentaddButtonwidgetLoading(state, index),
-      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-      // Office Address
-      CommonWidgets.textDisplay(
-          Constants.officeaddress, Styles.textStyleBlack14),
-      CommonWidgets.verticalSpacerWidget(height * 0.001),
-      textfieldWidgetLoad(
-          index == 0
-              ? officeaddressTextController1
-              : index == 1
-                  ? officeaddressTextController2
-                  : officeaddressTextController3,
-          index,
-          state),
-      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-      // Email Id
-      CommonWidgets.textDisplay(Constants.emailid, Styles.textStyleBlack14),
-      CommonWidgets.verticalSpacerWidget(height * 0.001),
-      textfieldWidgetLoad(
-          index == 0
-              ? emailidTextController1
-              : index == 1
-                  ? emailidTextController2
-                  : emailidTextController3,
-          index,
-          state),
-      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-      // Conatct No
-      CommonWidgets.textDisplay(Constants.contactno, Styles.textStyleBlack14),
-      CommonWidgets.verticalSpacerWidget(height * 0.001),
-      textfieldWidgetLoad(
-          index == 0
-              ? contactnoTextController1
-              : index == 1
-                  ? contactnoTextController2
-                  : contactnoTextController3,
-          index,
-          state),
-      CommonWidgets.verticalSpacerWidget(height * 0.02),
-    ]);
-  }
-
-  populateFields() async {
-    await SharedPrefs.setMaterialMovementId(widget.materialMovement?.id ?? 0);
-
-    additionalinformationTextController.text =
-        dbofficailwanttimeetTextController.text = dateofcreationTextController
-            .text = widget.materialMovement?.inputDate != null &&
-                widget.materialMovement?.inputDate != '0'
-            ? Utils.timestamptoDateConversion(
-                int.parse(widget.materialMovement?.inputDate ?? '0'),
-                Constants.fulldateFormat)
-            : dateofcreationTextController.text;
-    // List<VisitingOfficial>? visitingOfficials = widget.listuser?.visitingOfficials != null ? widget.listuser?.visitingOfficials ?? [] : [];
-
-    typeTextController.text =
-        widget.materialMovement?.status == 1 ? "Inward" : "Outward";
-
-    statusTextController.text =
-        widget.materialMovement?.status == 1 ? "Non Returnable" : "Returnable";
-
-    log('statusTextController.text--------------${statusTextController.text}');
-    //state.serialnumberResponse?.serialNo
-
-    //  state.getUserDetailsResponse  =  widget.listuser?.entrySecurity != null ? GetUserDetails(
-    //     userId: widget.listuser?.entrySecurity?.userId ?? 1,
-    //     lastName: widget.listuser?.entrySecurity?.lastName ?? "") : GetUserDetails() ;
-
-    //state.locationSelectedlist =
-    Mumbai mumbai = widget.materialMovement?.location != null
-        ? Mumbai(
-            id: widget.materialMovement?.location?.id ?? 0,
-            name: widget.materialMovement?.location?.name ?? "")
-        : Mumbai();
-
-    serialnumber = widget.materialMovement?.slNo != null
-        ? widget.materialMovement?.slNo ?? ''
-        : '';
-
-    await lawenforcementCubit.getSerialnumberDetails(
-        (widget.materialMovement?.location?.id ?? 0).toString(), 'AF');
-
-    challanTextController.text = widget.materialMovement?.challanNo != null
-        ? widget.materialMovement?.challanNo.toString() ?? ""
-        : '';
-
-    poNumberTextController.text = widget.materialMovement?.poNumber != null
-        ? widget.materialMovement?.poNumber.toString() ?? ""
-        : '';
-    materialBriefDescriptionTextController.text =
-        widget.materialMovement?.materialDescription != null
-            ? widget.materialMovement?.materialDescription.toString() ?? ""
-            : '';
-    materialComingFromAddressTextController.text =
-        widget.materialMovement?.materialFromAddress != null
-            ? widget.materialMovement?.materialFromAddress.toString() ?? ""
-            : '';
-    quantityTextController.text = widget.materialMovement?.quantity != null
-        ? widget.materialMovement?.quantity.toString() ?? ""
-        : '';
-    sendersNameTextController.text =
-        widget.materialMovement?.materialComingFrom != null
-            ? widget.materialMovement?.materialComingFrom.toString() ?? ""
-            : '';
-
-    lawenforcementCubit.getlocationsResponseData(mumbai);
-
-    if ((widget.materialMovement?.entities?.length ?? 0) > 0) {
-      List<AtomEntity> entities = [];
-      for (int i = 0; i < widget.materialMovement!.entities!.length; i++) {
-        AtomEntity entity = widget.materialMovement?.entities != null &&
-                (widget.materialMovement?.entities?.length ?? 0) > 0
-            ? AtomEntity(
-                id: widget.materialMovement?.entities![i].id ?? 0,
-                name: widget.materialMovement?.entities![i].name ?? "")
-            : AtomEntity();
-        // AtomEntity entity = state.listOfEntities![i];
-        //   DbOfficialEmailDepartment addentiity =
-        // DbOfficialEmailDepartment(id: entity.id ?? 1);
-        entities.add(entity);
-      }
-      lawenforcementCubit.getEntityData(entities);
-    }
-
-    // state.groups?.distributionGroups
-    // }
-
-    List<VistingOfficialsModel>? visitingOfficials = [];
-
-    lawenforcementCubit.addingVisitis(
-        visitingOfficials.length, visitingOfficials);
-
-    // state.selectedemployeeDepartmentResponse
-  }
-
-  getLawenforcementList() async {
-    var userid = await SharedPrefs.getUserId();
-    await lawenforcementCubit.getLocations('ATOM_LOCATIONS');
-    await lawenforcementCubit.getEntities('ATOM_ENTITIES');
-    await lawenforcementCubit.getLeopurposeofvisit('ATOM_LEO_PURPOSE_VISIT');
-    await lawenforcementCubit.getLeodepartments('ATOM_LEO_DEPARTMENTS');
-    await lawenforcementCubit.getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
-    await lawenforcementCubit.getDBofficialByRoleDepositor('ATOM_STATIC_USER');
-    await lawenforcementCubit.getUserDetails(userid);
-  }
 
   Widget cancelButtonDisplay() {
     return AppButton(
@@ -1480,103 +1210,6 @@ class _MaterialMovementInwardDetailsState
   //   //return Container();
   // }
 
-  dbOfficialDialog(LawEnforcementState state) {
-    showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomListTexts(
-            duplicatedepostorList:
-                state.getDepositorResponse?.atomStaticUser ?? [],
-            // leftimagename: AppIcon.addicon,
-            // onLeftButtonTap: () {
-            // Navigator.pop(context);
-            // showDialog(
-            //     context: context,
-            //     builder: (BuildContext dialogContext) {
-            //       return const CreateFoundNewUser();
-            //     });
-            // },
-            onTap: (AtomStaticUser list) {
-              print(list.name);
-              // if (name.toLowerCase() == 'depositor') {
-              //  // selecteddepositorList = list;
-              // } else {
-              //   selectedClaimList = list;
-              // }
-              // setState(() {});
-              lawenforcementCubit.geDBOfficialyData(list);
-            },
-          );
-        });
-  }
-
-  Widget datepickerWidgetLoading(TextEditingController textfiled) {
-    return GestureDetector(
-      onTap: () {
-        if (widget.materialMovement == null || textfiled.text.isEmpty) {
-          datePickerDialog(textfiled);
-        }
-      },
-      child: FlutterInputField(
-        textFieldController: textfiled,
-        textFormKey: textfiled == actualdateTextController
-            ? Keys.founddateTextController
-            : Keys.actualdateTextController,
-        hintText: '',
-        isEnable: false,
-        isDisableColor:
-            widget.materialMovement == null || textfiled.text.isEmpty
-                ? false
-                : true,
-        onChange: (String username) {
-          //this.username = username;
-          print('dfwf');
-
-          // setState(() {});
-        },
-        validateTextField: (String? user) {},
-        suffixWidget: GestureDetector(
-          onTap: () async {
-            if (widget.materialMovement == null || textfiled.text.isEmpty) {
-              datePickerDialog(textfiled);
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SvgPicture.asset(
-              AppIcon.calendaricon,
-              color: AppColors.textgreyThemecolor,
-              width: 20,
-              key: const Key(Keys.userIcon),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  datePickerDialog(TextEditingController textfield) async {
-    // datePickerselection(context, founddateTextController);
-    DateTime? pickedDate = await showDateTimePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2101));
-
-    print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-    String formattedDate = DateFormat(Constants.fulldateFormat)
-        .format(pickedDate ?? DateTime.now());
-    print(
-        formattedDate); //formatted date output using intl package =>  2021-03-16
-    //you can implement different kind of Date Format here according to your requirement
-    if (textfield == actualdateTextController) {
-      actualdateTextController.text = formattedDate;
-    }
-    // setState(() {
-    //   // dateinput.text = formattedDate; //set output date to TextField value.
-    // });
-  }
-
   Widget uploadWidget(InwardState state) {
     return // upload
         widget.materialMovement == null
@@ -1655,188 +1288,6 @@ class _MaterialMovementInwardDetailsState
         : attachmentListviews(getFiles, getAttachments);
   }
 
-  Widget entityaddButtonwidgetLoading(LawEnforcementState state) {
-    String title = '';
-    if ((state.listOfEntities?.length ?? 0) > 0) {
-      for (int i = 0; i < state.listOfEntities!.length; i++) {
-        AtomEntity entity = state.listOfEntities![i];
-        String value = entity.name ?? '';
-        title = title + '  ' + value;
-      }
-    }
-    return TextfieldAddButton(
-      title: title,
-      height: 60,
-      isDisableColor: widget.materialMovement == null ||
-              ((state.listOfEntities?.length ?? 0) == 0 && (title.isEmpty))
-          ? false
-          : true,
-      onTap: () {
-        if (widget.materialMovement == null ||
-            (state.listOfEntities != null && (title.isEmpty))) {
-          entityTypeDialog(state);
-        }
-      },
-    );
-  }
-
-  entityTypeDialog(LawEnforcementState state) {
-    showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomMultipleSelectionListTexts(
-            duplicateentityList: state.getEntitiesResponse?.atomEntities ?? [],
-            // leftimagename: AppIcon.addicon,
-            onLeftButtonTap: () {
-              // Navigator.pop(context);
-              // showDialog(
-              //     context: context,
-              //     builder: (BuildContext dialogContext) {
-              //       return const AddEmployeeDepartment(
-              //         title: Constants.addarticletype,
-              //       );
-              //     });
-            },
-            onTap: (List<AtomEntity> list) {
-              lawenforcementCubit.getEntityData(list);
-            },
-          );
-        });
-  }
-
-  leopurposeDialog(LawEnforcementState state) {
-    showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomListTexts(
-            duplicateleopurposevisits:
-                state.getLeopurposeResponse?.atomLeoPurposeVisit ?? [],
-            // leftimagename: AppIcon.addicon,
-            onLeftButtonTap: () {
-              // Navigator.pop(context);
-              // showDialog(
-              //     context: context,
-              //     builder: (BuildContext dialogContext) {
-              //       return const AddEmployeeDepartment(
-              //         title: Constants.addarticletype,
-              //       );
-              //     });
-            },
-            onTap: (AtomLeoPurposeVisit list) {
-              //print(list.name);
-              lawenforcementCubit.getleopurposeResponseData(list);
-            },
-          );
-        });
-  }
-
-  leodepartmentsDialog(InwardState state) {
-    showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomListTexts(
-            duplicateemployeeDepartments: state.departments,
-            leftimagename: AppIcon.addicon,
-            onLeftButtonTap: () {
-              Navigator.pop(context);
-              // showDialog(
-              //     barrierDismissible: false,
-              //     context: context,
-              //     builder: (BuildContext dialogContext) {
-              //       return AddEmployeeDepartment(
-              //         title: Constants.addemployeedepartment,
-              //         lawstate: state,
-              //       );
-              //     });
-            },
-            onTap: (EmployeeDepartment list) {
-              //print(list.name);
-              lawenforcementCubit.getemployeeDepartmentsResponseData(list);
-            },
-          );
-        });
-  }
-
-  departmentsDialog(LawEnforcementState state, int index) {
-    showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomListTexts(
-            duplicateleodepartments:
-                state.getLeodepartmentsResponse?.atomLeoDepartments ?? [],
-            // leftimagename: AppIcon.addicon,
-            onLeftButtonTap: () {
-              // Navigator.pop(context);
-              // showDialog(
-              //     context: context,
-              //     builder: (BuildContext dialogContext) {
-              //       return const AddEmployeeDepartment(
-              //         title: Constants.addarticletype,
-              //       );
-              //     });
-            },
-            onTap: (AtomLeoDepartment list) {
-              //print(list.name);
-
-              if (state.getVisits!.isNotEmpty) {
-                print(state.getVisits![index].department?.name);
-                print(state.getVisits![index].department?.id);
-                print(state.getVisits![index].name);
-                print(state.getVisits![index].designation);
-                VistingOfficialsModel model = state.getVisits![index];
-                model.department = list;
-              }
-
-              lawenforcementCubit.getleoDepartmentsResponseData(list);
-            },
-          );
-        });
-  }
-
-  Widget purposeofvisitaddButtonwidgetLoading(LawEnforcementState state) {
-    return TextfieldAddButton(
-      title: state.leoPurposeVisitResponse?.name ?? '',
-      height: 60,
-      isDisableColor: widget.materialMovement == null ||
-              (state.leoPurposeVisitResponse != null &&
-                  ((state.leoPurposeVisitResponse?.name ?? '').isEmpty))
-          ? false
-          : true,
-      onTap: () {
-        if (widget.materialMovement == null ||
-            (state.leoPurposeVisitResponse != null &&
-                ((state.leoPurposeVisitResponse?.name ?? '').isEmpty))) {
-          leopurposeDialog(state);
-        }
-      },
-    );
-  }
-
-  Widget departmentaddButtonwidgetLoading(
-      LawEnforcementState state, int index) {
-    AtomLeoDepartment? dept = AtomLeoDepartment();
-    if ((state.getVisits?.length ?? 0) > 0) {
-      dept = state.getVisits![index].department;
-    }
-    return TextfieldAddButton(
-      title: dept?.name ?? '',
-      height: 60,
-      isDisableColor:
-          widget.materialMovement == null || ((dept?.name ?? '').isEmpty)
-              ? false
-              : true,
-      onTap: () {
-        if (widget.materialMovement == null || ((dept?.name ?? '').isEmpty)) {
-          //   articleTypeDialog(state);
-          //lawenforcementCubit.getleoDepartmentsResponseData(list);
-          // }
-          //leodepartmentsDialog(state);
-          departmentsDialog(state, index);
-        }
-      },
-    );
-  }
-
   // Widget dbwanttodepartmentaddButtonwidgetLoading(LawEnforcementState state) {
   //   return TextfieldAddButton(
   //     title: state.selectedemployeeDepartmentResponse?.name ?? '',
@@ -1858,31 +1309,6 @@ class _MaterialMovementInwardDetailsState
   //     },
   //   );
   // }
-
-  Widget dbofficialemailidaddButtonwidgetLoading(LawEnforcementState state) {
-    return TextfieldAddButton(
-      title: state.getuserResponse != null &&
-              (state.getuserResponse?.name ?? '').isNotEmpty
-          ? ((state.getuserResponse?.name ?? '') +
-              '(' +
-              (state.getuserResponse?.email ?? '') +
-              ')')
-          : '',
-      height: 70,
-      isDisableColor: widget.materialMovement == null ||
-              (state.getuserResponse != null &&
-                  ((state.getuserResponse?.name ?? '').isEmpty))
-          ? false
-          : true,
-      onTap: () {
-        if (widget.materialMovement == null ||
-            (state.getuserResponse != null &&
-                ((state.getuserResponse?.name ?? '').isEmpty))) {
-          dbOfficialDialog(state);
-        }
-      },
-    );
-  }
 
   Widget locationWidgetdislay(InwardState state) {
     return GestureDetector(
@@ -1958,272 +1384,6 @@ class _MaterialMovementInwardDetailsState
     );
   }
 
-  createLawEnforcement(
-      bool isSubmit, int isFoundId, LawEnforcementState state) async {
-    int actualdate = Utils.datetoTimestampConversion(
-        actualdateTextController.text, Constants.fulldateFormat);
-    int inputdate = Utils.datetoTimestampConversion(
-        dateofcreationTextController.text, Constants.fulldateFormat);
-    int statusvalue = 0;
-    if (statusTextController.text.toLowerCase() == "draft") {
-      statusvalue = 0;
-    } else if (statusTextController.text.toLowerCase() == "Inward") {
-      statusvalue = 1;
-    } else if (statusTextController.text.toLowerCase() == "distributed") {
-      statusvalue = 3;
-    } else {
-      statusvalue = 2;
-    }
-    bool isDocumentifanySelected =
-        state.isDocumentifanySelected == 1 ? true : false;
-    bool isIncaseofpoliceSelected =
-        state.isIncaseofpoliceSelected == 1 ? true : false;
-    bool isOfficialIdcardSelected =
-        state.isOfficialIdcardSelected == 1 ? true : false;
-
-    DbOfficialEmailDepartment? dbOfficialEmailDepartment =
-        DbOfficialEmailDepartment(
-            id: state.selectedemployeeDepartmentResponse?.id ?? 1);
-    DbOfficialEmailDepartment? visitPurpose =
-        DbOfficialEmailDepartment(id: state.leoPurposeVisitResponse?.id ?? 1);
-    List<DbOfficialEmailDepartment>? entities = [];
-    if ((state.listOfEntities?.length ?? 0) > 0) {
-      for (int i = 0; i < state.listOfEntities!.length; i++) {
-        AtomEntity entity = state.listOfEntities![i];
-        DbOfficialEmailDepartment addentiity =
-            DbOfficialEmailDepartment(id: entity.id ?? 1);
-        entities.add(addentiity);
-      }
-    }
-    LawEntrySecurity? entrysecurtity =
-        LawEntrySecurity(userId: state.getUserDetailsResponse?.userId ?? 1);
-    LawLocation? location = LawLocation(
-        id: state.locationSelectedlist?.id ?? 1,
-        name: state.locationSelectedlist?.name ?? '');
-    List<VisitingOfficial>? visitingOfficials = [];
-    if (state.getVisits != null) {
-      for (int i = 0; i < state.getVisits!.length; i++) {
-        VistingOfficialsModel model = state.getVisits![i];
-        DbOfficialEmailDepartment dept =
-            DbOfficialEmailDepartment(id: model.department?.id ?? 1);
-        VisitingOfficial obj = VisitingOfficial(
-            address: model.officialaddress ?? '',
-            name: model.name ?? '',
-            contactNo: model.conatctno ?? '',
-            designation: model.designation ?? '',
-            email: model.email ?? '',
-            department: dept);
-        visitingOfficials.add(obj);
-      }
-    }
-    List<MailList>? loadGroups = [];
-    if (state.listIndividualdept != null) {
-      //for (int i = 0; i < widget.listuser!.entities!.length; i++) {
-      MailList entity = state.listIndividualdept != null
-          ? MailList(
-              groupId: state.listIndividualdept?.id ?? 0,
-              name: state.listIndividualdept?.name ?? "")
-          : MailList();
-      // AtomEntity entity = state.listOfEntities![i];
-      //   DbOfficialEmailDepartment addentiity =
-      // DbOfficialEmailDepartment(id: entity.id ?? 1);
-      //distributionGroups.add(entity);
-      //lawenforcementCubit.geDistributonData(entity);
-      loadGroups.add(entity);
-    }
-    List<CreateImage>? images = getFiles ?? [];
-    LawEnforcement? lawEnforcement;
-    if (widget.materialMovement != null) {
-      lawEnforcement = LawEnforcement(
-          id: isFoundId ?? 0,
-          entrySecurity: entrysecurtity,
-          inputDate: inputdate.toString(),
-          slNo: serialnumber ?? '',
-          location: location,
-          status: statusvalue,
-          images: images,
-          timeOfVisit: actualdate.toString(),
-          officialCardVerified: isOfficialIdcardSelected,
-          documentVerified: isDocumentifanySelected,
-          visitorInUniform: isIncaseofpoliceSelected,
-          entities: entities,
-          additionalInformation: additionalinformationTextController.text ?? '',
-          visitingOfficials: visitingOfficials,
-          dbOfficialEmailDepartment: dbOfficialEmailDepartment,
-          dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? ((state.getuserResponse?.name ?? '') +
-                  '(' +
-                  (state.getuserResponse?.email ?? '') +
-                  ')')
-              : '',
-          dbOfficialEmail: dbofficailwanttimeetTextController.text ?? '',
-          mailList: loadGroups);
-    } else {
-      lawEnforcement = LawEnforcement(
-          entrySecurity: entrysecurtity,
-          inputDate: inputdate.toString(),
-          slNo: serialnumber ?? '',
-          location: location,
-          status: statusvalue,
-          images: images,
-          timeOfVisit: actualdate.toString(),
-          officialCardVerified: isOfficialIdcardSelected,
-          documentVerified: isDocumentifanySelected,
-          visitorInUniform: isIncaseofpoliceSelected,
-          entities: entities,
-          additionalInformation: additionalinformationTextController.text ?? '',
-          visitingOfficials: visitingOfficials,
-          dbOfficialEmailDepartment: dbOfficialEmailDepartment,
-          dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? ((state.getuserResponse?.name ?? '') +
-                  '(' +
-                  (state.getuserResponse?.email ?? '') +
-                  ')')
-              : '',
-          dbOfficialEmail: dbofficailwanttimeetTextController.text ?? '',
-          mailList: loadGroups);
-    }
-    showLoadingDialog(context);
-    var username = await SharedPrefs.getUsername();
-    LawEnforcementRequestBody body =
-        LawEnforcementRequestBody(lawEnforcement: lawEnforcement);
-    lawenforcementCubit.lawcreateNewFoundArticle(
-        body,
-        isSubmit,
-        context,
-        username,
-        widget.materialMovement != null
-            ? 'edit LawEnforcement'
-            : 'Create LawEnforcement');
-  }
-
-  lawenforcementValidations(BuildContext context, LawEnforcementState state) {
-    if (statusTextController.text.isEmpty &&
-        state.getUserDetailsResponse == null &&
-        state.locationSelectedlist == null &&
-        dateofcreationTextController.text.isEmpty &&
-        serialnumber == null &&
-        state.listOfEntities == null &&
-        actualdateTextController.text.isEmpty &&
-        state.leoPurposeVisitResponse == null &&
-        dbofficailwanttimeetTextController.text.isEmpty &&
-        additionalinformationTextController.text.isEmpty &&
-        state.selectedemployeeDepartmentResponse == null) {
-      Validator().showToast(
-        context,
-        "Please fill all required fields",
-      );
-    } else if (state.getUserDetailsResponse != null &&
-        (state.getUserDetailsResponse?.lastName ?? '').isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter creator name",
-      );
-    } else if (state.locationSelectedlist != null &&
-        (state.locationSelectedlist?.name ?? '').isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter location",
-      );
-    } else if (dateofcreationTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter creator date",
-      );
-    } else if (serialnumber != null && (serialnumber ?? '').isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter serial number",
-      );
-    } else if (state.listOfEntities == null) {
-      Validator().showToast(
-        context,
-        "Please enter entitiy",
-      );
-    } else if (actualdateTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter actual date",
-      );
-    } else if (state.leoPurposeVisitResponse != null &&
-        (state.leoPurposeVisitResponse?.name ?? '').isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter purpose of visit",
-      );
-    } else if (dbofficailwanttimeetTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter db official want to meet",
-      );
-    } else if (state.selectedemployeeDepartmentResponse != null &&
-        (state.selectedemployeeDepartmentResponse?.name ?? '').isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter db official department",
-      );
-    } else if (state.getuserResponse != null &&
-        (state.getuserResponse?.name ?? '').isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter db official email id accompanied leo official",
-      );
-    } else if (additionalinformationTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter additional information",
-      );
-    } else if (state.getVisits != null && state.getVisits!.isNotEmpty) {
-      for (int i = 0; i < state.getVisits!.length; i++) {
-        VistingOfficialsModel model = state.getVisits![i];
-        if (model.name == null ||
-            (model.name ?? '').isEmpty ||
-            model.officialaddress == null ||
-            (model.officialaddress ?? '').isEmpty ||
-            model.conatctno == null ||
-            (model.conatctno ?? '').isEmpty ||
-            model.email == null ||
-            (model.email ?? '').isEmpty ||
-            model.department == null ||
-            (model.department?.name ?? '').isEmpty ||
-            model.designation == null ||
-            (model.designation ?? '').isEmpty) {
-          Validator().showToast(
-            context,
-            "Please enter visting offical details",
-          );
-        } else if (!Validator.isValidEmail(model.email)) {
-          Validator().showToast(
-            context,
-            "Please enter visting offical  details valid email",
-          );
-        } else {
-          if (widget.materialMovement != null &&
-              distributiongroupsTextController.text.isEmpty) {
-            Validator().showToast(
-              context,
-              "Please enter distribution groups",
-            );
-          } else {
-            createLawEnforcement(
-                true, widget.materialMovement?.id ?? 0, globalState);
-          }
-        }
-      }
-    } else {
-      if (widget.materialMovement != null &&
-          distributiongroupsTextController.text.isEmpty) {
-        Validator().showToast(
-          context,
-          "Please enter distribution groups",
-        );
-      } else {
-        createLawEnforcement(
-            true, widget.materialMovement?.id ?? 0, globalState);
-      }
-    }
-  }
-
   Widget datecreateWidgetdisplay(InwardState state) {
     return FlutterInputField(
       textFormKey: Keys.dateofcreationTextController,
@@ -2290,176 +1450,6 @@ class _MaterialMovementInwardDetailsState
               ],
             );
           }),
-    );
-  }
-
-  distributiongroupsDailog(LawEnforcementState state) {
-    showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomListTexts(
-            duplicateloadGroups: state.groups?.distributionGroups ?? [],
-            // leftimagename: AppIcon.addicon,
-            // onLeftButtonTap: () {
-            // Navigator.pop(context);
-            // showDialog(
-            //     context: context,
-            //     builder: (BuildContext dialogContext) {
-            //       return const CreateFoundNewUser();
-            //     });
-            // },
-            onTap: (DistributionGroup list) {
-              print(list.name);
-
-              distributiongroupsTextController.text = list.name ?? '';
-              lawenforcementCubit.geDistributonData(list);
-            },
-          );
-        });
-  }
-
-  Widget visitingtextfieldWidgetLoad(TextEditingController textController,
-      int index, LawEnforcementState state) {
-    return FlutterInputField(
-      lineHeight: textController == additionalinformationTextController ? 6 : 1,
-      onTap: () {
-        if (textController == distributiongroupsTextController) {
-          distributiongroupsDailog(state);
-        }
-      },
-      textFieldController: textController,
-      textFormKey: Keys.colorTextController,
-
-      isEnable:
-          //widget.listuser == null
-          // ? true
-          // : (widget.listuser != null &&
-          //         (widget.listuser?.color ?? '')
-          //             .isEmpty) ?
-          // true
-          // : false,
-          // isDisableColor: (widget.listuser != null &&
-          //             (widget.listuser?.color ?? '')
-          //                 .isEmpty) ||
-          //         widget.listuser == null
-          //     ? false
-          //     :
-          true,
-      hintText: '',
-      onChange: (String username) {
-        //this.username = username;
-        if (textController == nameTextController1 ||
-            textController == nameTextController2 ||
-            textController == nameTextController3) {
-          if (state.getVisits!.isNotEmpty) {
-            VistingOfficialsModel model = state.getVisits![index];
-            model.name = username;
-          }
-        } else if (textController == designationTextController1 ||
-            textController == designationTextController2 ||
-            textController == designationTextController3) {
-          if (state.getVisits!.isNotEmpty) {
-            VistingOfficialsModel model = state.getVisits![index];
-            model.designation = username;
-          }
-        } else if (textController == emailidTextController1 ||
-            textController == emailidTextController2 ||
-            textController == emailidTextController3) {
-          if (state.getVisits!.isNotEmpty) {
-            VistingOfficialsModel model = state.getVisits![index];
-            model.email = username;
-          }
-        } else if (textController == officeaddressTextController1 ||
-            textController == officeaddressTextController2 ||
-            textController == officeaddressTextController3) {
-          if (state.getVisits!.isNotEmpty) {
-            VistingOfficialsModel model = state.getVisits![index];
-            model.officialaddress = username;
-          }
-        } else if (textController == contactnoTextController1 ||
-            textController == contactnoTextController2 ||
-            textController == contactnoTextController3) {
-          if (state.getVisits!.isNotEmpty) {
-            VistingOfficialsModel model = state.getVisits![index];
-            model.conatctno = username;
-          }
-        }
-      },
-      validateTextField: (String? user) {},
-      // )
-      //)
-    );
-  }
-
-  Widget textfieldWidgetLoad(TextEditingController textController, int index,
-      LawEnforcementState state) {
-    return FlutterInputField(
-      lineHeight: textController == additionalinformationTextController ? 6 : 1,
-      onTap: () {
-        if (textController == distributiongroupsTextController) {
-          distributiongroupsDailog(state);
-        }
-      },
-      textFieldController: textController,
-      textFormKey: Keys.colorTextController,
-      isEnable:
-          //widget.listuser == null
-          // ? true
-          // : (widget.listuser != null &&
-          //         (widget.listuser?.color ?? '')
-          //             .isEmpty) ?
-          // true
-          // : false,
-          // isDisableColor: (widget.listuser != null &&
-          //             (widget.listuser?.color ?? '')
-          //                 .isEmpty) ||
-          //         widget.listuser == null
-          //     ? false
-          //     :
-          true,
-      hintText: '',
-      onChange: (String username) {
-        //this.username = username;
-        if (textController == nameTextController1 ||
-            textController == nameTextController2 ||
-            textController == nameTextController3) {
-          if (state.getVisits!.isNotEmpty) {
-            VistingOfficialsModel model = state.getVisits![index];
-            model.name = username;
-          }
-        } else if (textController == designationTextController1 ||
-            textController == designationTextController2 ||
-            textController == designationTextController3) {
-          if (state.getVisits!.isNotEmpty) {
-            VistingOfficialsModel model = state.getVisits![index];
-            model.designation = username;
-          }
-        } else if (textController == emailidTextController1 ||
-            textController == emailidTextController2 ||
-            textController == emailidTextController3) {
-          if (state.getVisits!.isNotEmpty) {
-            VistingOfficialsModel model = state.getVisits![index];
-            model.email = username;
-          }
-        } else if (textController == officeaddressTextController1 ||
-            textController == officeaddressTextController2 ||
-            textController == officeaddressTextController3) {
-          if (state.getVisits!.isNotEmpty) {
-            VistingOfficialsModel model = state.getVisits![index];
-            model.officialaddress = username;
-          }
-        } else if (textController == contactnoTextController1 ||
-            textController == contactnoTextController2 ||
-            textController == contactnoTextController3) {
-          if (state.getVisits!.isNotEmpty) {
-            VistingOfficialsModel model = state.getVisits![index];
-            model.conatctno = username;
-          }
-        }
-      },
-      validateTextField: (String? user) {},
-      // )
-      //)
     );
   }
 
