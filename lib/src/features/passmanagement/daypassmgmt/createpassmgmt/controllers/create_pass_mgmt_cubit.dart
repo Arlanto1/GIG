@@ -31,9 +31,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   CreatePassMgmtService createpassmgmtServices;
   List<CreateImage>? loadAttachments;
+  List<CreateImage>? photoAttachments;
 
   CreatePassMgmtCubit(
-      {required this.createpassmgmtServices, this.loadAttachments})
+      {required this.createpassmgmtServices, this.loadAttachments,this.photoAttachments})
       : super(
           CreatePassMgmtState(
             //lawenforcementServices: SubmitCreateFoundModel(),
@@ -398,6 +399,15 @@ Future<void> getPassnumber(String passtype, String locationid) async {
         stateType: CreatePassMgmtStateType.addattachment));
   }
 
+   Future<void> photoAttchment(List<CreateImage>? data) async {
+    int eventIds = Random.secure().nextInt(5);
+
+    emit(state.copyWith(
+        eventId: eventIds,
+        photoAttachments: data,
+        stateType: CreatePassMgmtStateType.photoattachment));
+  }
+
   // Get user details call
   Future<void> getUserDetails(String userId) async {
     try {
@@ -425,7 +435,7 @@ Future<void> getPassnumber(String passtype, String locationid) async {
     state.atomCompanyType =  AtomCompanyType();
     state.listOfEntities = [];
     state.locationSelectedlist = Mumbai();
-    state.loadAttachments = [];
+    state.photoAttachments = [];
     state.getuserResponse = AtomStaticUser();
     state.serialnumberResponse?.serialNo = '';
     state.getSerialnumberResponse = SerialNumberModel();

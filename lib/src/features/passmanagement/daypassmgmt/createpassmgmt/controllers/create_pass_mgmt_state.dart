@@ -20,7 +20,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment }
+enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment, photoattachment }
 
  class CreatePassMgmtState extends Equatable {
   GetDepositor? getDepositorResponse;
@@ -37,6 +37,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   EmployeeDepartments? employeeDepartment;
   EmployeeDepartment? selectedemployeeDepartmentResponse;
   List<CreateImage>? loadAttachments = [];
+   List<CreateImage>? photoAttachments = [];
   GetUserDetails? getUserDetailsResponse;
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
   CreateOrganisation? createOrganisationResponse;
@@ -87,6 +88,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
     this.passnumbelistresponse,
     this.escortedbyhost,
     this.radioButtonItem,
+    this.photoAttachments,
   });
   CreatePassMgmtState copyWith({
   AddEntities? getEntitiesResponse,
@@ -120,6 +122,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   DayPassNumberLists? passnumbelistresponse,
   String? radioButtonItem = '',
   int? escortedbyhost,
+  List<CreateImage>? photoAttachments,
 
 
   
@@ -157,6 +160,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
       passnumbelistresponse: passnumbelistresponse ?? this.passnumbelistresponse,
       escortedbyhost: escortedbyhost ?? this.escortedbyhost,
       radioButtonItem: radioButtonItem ?? this.radioButtonItem,
+      photoAttachments: photoAttachments ?? this.photoAttachments,
     );
   }
 
@@ -193,6 +197,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
         passnumbelistresponse,
         escortedbyhost,
         radioButtonItem,
+        photoAttachments,
       ];
 
 }
