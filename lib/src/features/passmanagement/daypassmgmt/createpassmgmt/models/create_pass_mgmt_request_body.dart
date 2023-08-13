@@ -65,6 +65,9 @@ class PassManagement {
     List<CreateImage>? images;
     PassDept? department;
     PassHost? host;
+    String? visitorName;
+    List<CreateImage>? visitorImage;
+    PassDept? visitingDepartment;
     
 
     PassManagement({
@@ -106,6 +109,9 @@ class PassManagement {
         this.images,
         this.department,
         this.host,
+        this.visitorName,
+        this.visitorImage,
+        this.visitingDepartment,
     });
 
     factory PassManagement.fromJson(Map<String, dynamic> json) => PassManagement(
@@ -149,7 +155,13 @@ class PassManagement {
             ? []
             : List<CreateImage>.from(
                 json["images"]!.map((x) => CreateImage.fromJson(x))),
-         department: json["department"] == null ? null : PassDept.fromJson(json["department"]),        
+         department: json["department"] == null ? null : PassDept.fromJson(json["department"]),
+         visitingDepartment: json["visitingDepartment"] == null ? null : PassDept.fromJson(json["visitingDepartment"]),
+         visitorName: json["visitorName"],
+          visitorImage: json["visitorImage"] == null
+            ? []
+            : List<CreateImage>.from(
+                json["visitorImage"]!.map((x) => CreateImage.fromJson(x))),        
     );
 
     Map<String, dynamic> toJson() => {
@@ -193,6 +205,12 @@ class PassManagement {
             ? []
             : List<dynamic>.from(images!.map((x) => x.toJson())),
         "department": department?.toJson(),
+        "visitorName": visitorName,
+        "visitorImage" :  visitorImage == null
+            ? []
+            : List<dynamic>.from(visitorImage!.map((x) => x.toJson())),
+        "visitingDepartment": visitingDepartment?.toJson(),    
+            
     };
 }
 
