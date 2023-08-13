@@ -213,7 +213,7 @@ class Constants {
 // static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';
 
 
-
+  /// Material Movement
   static const String materialMovementsInwardTitle = 'Inward Material Movement List';
   static const String materialMovementsOutwardTitle = 'Outward Material Movement List';
   static const String createMaterialMovementInwardTitle = 'Create Inward Material Movement';
@@ -231,5 +231,7 @@ class Constants {
   static const String receivedForEmployeeId = 'Received for Employee Id';
   static const String receiverSignature = 'Receiver Signature';
   static const String securitySignature = 'Security Signature';
+  static const String addQuantity = 'Add Quantity';
+
 
 }

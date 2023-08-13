@@ -859,7 +859,7 @@ class _MaterialMovementInwardDetailsState
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    // upload
+                                    /// upload
                                     widget.materialMovement == null
                                         ? Container(
                                             height: 60,
@@ -954,21 +954,7 @@ class _MaterialMovementInwardDetailsState
                                   ]),
                                 ),
 
-                                // Upload
-                                widget.materialMovement == null
-                                    ? CommonWidgets.textDisplay(
-                                        Constants.upload,
-                                        Styles.textStyleBlack14)
-                                    : Container(),
-                                widget.materialMovement == null
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001)
-                                    : Container(),
-                                widget.materialMovement == null
-                                    ? uploadWidget(state)
-                                    : Container(),
-
-                                // Attachments
+                                /// Attachments
                                 getSpaceattchment(height),
                                 getAttachement(height),
 
@@ -1065,9 +1051,9 @@ class _MaterialMovementInwardDetailsState
     return TextfieldAddButton(
       title: state.materialMovement.otherReceiverName ?? '',
       height: 60,
-      isDisableColor: state.materialMovement.quantity != null ? false : true,
+      isDisableColor: state.materialMovement.quantity == null ? false : true,
       onTap: () {
-        if (state.materialMovement.quantity != null) {
+        if (state.materialMovement.quantity == null) {
           articleTypeDialog(state);
         }
       },
@@ -1088,7 +1074,7 @@ class _MaterialMovementInwardDetailsState
                   context: context,
                   builder: (BuildContext dialogContext) {
                     return AddEmployeeDepartment(
-                      title: Constants.addarticletype,
+                      title: Constants.addQuantity,
                       // createoundstate:  state,
                     );
                   });
@@ -1101,8 +1087,6 @@ class _MaterialMovementInwardDetailsState
           );
         });
   }
-
-  ///////////
 
   Widget cancelButtonDisplay() {
     return AppButton(
@@ -1138,10 +1122,10 @@ class _MaterialMovementInwardDetailsState
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
-          // activeColor: widget.materialMovement != null
-          //     ? AppColors.disabletextfieldBackground
-          //     : AppColors.navigationSkybluecolor,
-          // focusColor: AppColors.navigationSkybluecolor,
+          activeColor: widget.materialMovement != null
+              ? AppColors.disabletextfieldBackground
+              : AppColors.navigationSkybluecolor,
+          focusColor: AppColors.navigationSkybluecolor,
           value: 1,
           groupValue: selectedValue,
           onChanged: materialMovement.status == 6
@@ -1154,10 +1138,10 @@ class _MaterialMovementInwardDetailsState
         ),
         const Text(Constants.yes),
         Radio(
-          // activeColor: widget.materialMovement != null
-          //     ? AppColors.disabletextfieldBackground
-          //     : AppColors.navigationSkybluecolor,
-          // focusColor: AppColors.navigationSkybluecolor,
+          activeColor: widget.materialMovement != null
+              ? AppColors.disabletextfieldBackground
+              : AppColors.navigationSkybluecolor,
+          focusColor: AppColors.navigationSkybluecolor,
           value: 0,
           groupValue: selectedValue,
           onChanged: materialMovement.status == 6
