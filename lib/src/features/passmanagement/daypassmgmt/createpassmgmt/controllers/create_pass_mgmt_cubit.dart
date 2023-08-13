@@ -431,6 +431,9 @@ Future<void> getPassnumber(String passtype, String locationid) async {
 
   initalization() {
     state.selectedemployeeDepartmentResponse = EmployeeDepartment();
+    state.employeeDepartment = EmployeeDepartments();
+    state.companyTypes = CompanyTypes();
+    state.activePassInfoList = ActivePassInfoList();
     state.loadAttachments = [];
     state.atomCompanyType =  AtomCompanyType();
     state.listOfEntities = [];
