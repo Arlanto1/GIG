@@ -24,12 +24,14 @@ class InwardCubit extends Cubit<InwardState> {
   final MaterialMovementServices materialMovementServices;
   final MaterialMovementModel? model;
   final CommonServices commonServices;
+  final bool isInward;
 
-  InwardCubit(
-      {required this.materialMovementServices,
-      required this.commonServices,
-      required this.model})
-      : super(
+  InwardCubit({
+    required this.materialMovementServices,
+    required this.commonServices,
+    required this.model,
+    required this.isInward,
+  }) : super(
           InwardState.initial(
             model: model ?? MaterialMovementModel(),
             locations: GetLocations(),
@@ -140,6 +142,7 @@ class InwardCubit extends Cubit<InwardState> {
         loadAttachments: data,
         status: FormStatus.addAttachment));
   }
+
   // void showFields({required bool isOriginalReceiverReceiving}){
   //   emit(
   //     state.copyWith(
@@ -155,14 +158,16 @@ class InwardCubit extends Cubit<InwardState> {
   //     status: FormStatus.initial,
   //   ));
   // }
-  void showFields({required bool isOriginalReceiverReceiving, required MaterialMovementModel materialMovement}) {
+  void showFields(
+      {required bool isOriginalReceiverReceiving,
+      required MaterialMovementModel materialMovement}) {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
 
-    state.materialMovement.originalReceiver= isOriginalReceiverReceiving;
+    state.materialMovement.originalReceiver = isOriginalReceiverReceiving;
     // final updatedMaterialMovement = materialMovement.copyWith(state.materialMovement.originalReceiver: isOriginalReceiverReceiving);
 
     emit(state.copyWith(
@@ -170,7 +175,6 @@ class InwardCubit extends Cubit<InwardState> {
       status: FormStatus.initial,
     ));
   }
-
 
   Future<void> submitForm() async {
     emit(

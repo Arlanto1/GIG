@@ -1,10 +1,8 @@
 // Created by Ramesh
 
 class Constants {
-
   /// Module Codes
   static const String materialMovementInwardNonReturnableModule = 'MMINN';
-
 
   static const String customFontFamily = 'Poppins';
   static const String customFontMediumFamily = 'Poppins-Medium';
@@ -209,21 +207,28 @@ class Constants {
   // Date formats
   static const String dateFormat = 'dd/MM/yyyy';
   static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';
+
 // static const String dateFormat = 'yyyy-MM-dd';
 // static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';
 
-
   /// Material Movement
-  static const String materialMovementsInwardTitle = 'Inward Material Movement List';
-  static const String materialMovementsOutwardTitle = 'Outward Material Movement List';
-  static const String createMaterialMovementInwardTitle = 'Create Inward Material Movement';
+  static const String materialMovementsInwardTitle =
+      'Inward Material Movement List';
+  static const String materialMovementsOutwardTitle =
+      'Outward Material Movement List';
+  static const String createMaterialMovementInwardTitle =
+      'Create Inward Material Movement';
+  static const String createMaterialMovementOutwardTitle =
+      'Create Outward Material Movement';
   static const String entryBy = 'Entry By';
   static const String challan = 'Challan/ Invoice Nos/ Gate Pass';
   static const String poNumber = 'PO Number';
   static const String materialBriefDescription = 'Material Brief Description';
-  static const String materialComingFromBriefDescription = 'Material coming from (Brief Description)';
+  static const String materialComingFromBriefDescription =
+      'Material coming from (Brief Description)';
   static const String sendersName = 'Senders Name';
-  static const String isOriginalReceiverReceiving = 'Is original receiver receiving';
+  static const String isOriginalReceiverReceiving =
+      'Is original receiver receiving';
   static const String receivedFor = 'Received For';
   static const String receiverEmployeeId = 'Received by Employee Id';
   static const String receiverDepartment = 'Receiver Department';
@@ -233,5 +238,12 @@ class Constants {
   static const String securitySignature = 'Security Signature';
   static const String addQuantity = 'Add Quantity';
 
-
+  static const String equipmentNo = 'Equipment No/Identification';
+  static const String address = 'Address';
+  static const String requestorEmail = 'Requestor Email';
+  static const String requestorEmployeeId = 'Requestor Employee Id';
+  static const String requestorDepartment = 'Requestor Department';
+  static const String sentTo = 'Sent To';
+  static const String purpose = 'Purpose';
+  static const String preparedBy = 'Prepared By';
 }

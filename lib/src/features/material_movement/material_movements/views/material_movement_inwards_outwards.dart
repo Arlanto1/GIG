@@ -65,11 +65,12 @@ class _MaterialMovementInwardsOutwardsState
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
-            Navigator.pushNamed(
-              context,
-              materialMovementInwardDetailsRoute,
-            )
-          },        ),
+            Navigator.pushNamed(context, materialMovementInwardDetailsRoute,
+                arguments: {
+                  "isInward": widget.isInward,
+                })
+          },
+        ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: widget.isInward
@@ -113,7 +114,9 @@ class _MaterialMovementInwardsOutwardsState
                           showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(id: state.items[selectedIndex].id.toString(),);
+                              return BasePopUpItems(
+                                id: state.items[selectedIndex].id.toString(),
+                              );
                             },
                           );
                         },
@@ -128,14 +131,20 @@ class _MaterialMovementInwardsOutwardsState
                                 id: state.items[selectedIndex].id.toString(),
                                 inputDate: state.items[selectedIndex].inputDate,
                                 location: state.items[selectedIndex].location,
-                                returnable: state.items[selectedIndex].returnable,
-                                quantity: state.items[selectedIndex].quantity.toString(),
+                                returnable:
+                                    state.items[selectedIndex].returnable,
+                                quantity: state.items[selectedIndex].quantity
+                                    .toString(),
                                 challanNo: state.items[selectedIndex].challanNo,
-                                locationRegion: state.items[selectedIndex].locationRegion,
-                              //  securityName: state.items[selectedIndex].entrySecurityName,
+                                locationRegion:
+                                    state.items[selectedIndex].locationRegion,
+                                //  securityName: state
+                                //       .items[selectedIndex].entrySecurityName,
                                 slNo: state.items[selectedIndex].slNo,
-                                status: state.items[selectedIndex].status.toString(),
-                                entrySecurityName: state.items[selectedIndex].entrySecurityName,
+                                status: state.items[selectedIndex].status
+                                    .toString(),
+                                entrySecurityName: state
+                                    .items[selectedIndex].entrySecurityName,
                               );
                             },
                           );
@@ -161,7 +170,10 @@ class _MaterialMovementInwardsOutwardsState
     dismissLoadingDialog(context);
     if (materialMovementModel != null) {
       Navigator.pushNamed(context, materialMovementInwardDetailsRoute,
-          arguments: {"MaterialMovementModel": materialMovementModel});
+          arguments: {
+            "MaterialMovementModel": materialMovementModel,
+            "isInward": widget.isInward,
+          });
     }
   }
 }

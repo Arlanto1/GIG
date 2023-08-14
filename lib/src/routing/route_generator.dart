@@ -103,26 +103,26 @@ class RouteGenerator {
       case lawEnforcementListRoute:
         return MaterialPageRoute(builder: (context) => const LnListPageList());
       case daypassmanagementListRoute:
-        if(settings.arguments!=null) {
+        if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
           if (passRoutes != null) {
             PassMngArguments? passMngArguments = passRoutes["passMngDetails"];
             return MaterialPageRoute(
                 builder: (context) => DayPassManagementList(
-                  passId:passMngArguments?.passType ?? '',
-                  title: passMngArguments?.title ?? '',
-                ));
+                      passId: passMngArguments?.passType ?? '',
+                      title: passMngArguments?.title ?? '',
+                    ));
           }
           return MaterialPageRoute(
-              builder: (context) =>  DayPassManagementList());
+              builder: (context) => DayPassManagementList());
         }
-        return MaterialPageRoute(
-            builder: (context) =>  DayPassManagementList());
+        return MaterialPageRoute(builder: (context) => DayPassManagementList());
       case daypassregistertListRoute:
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
           if (passRoutes != null) {
-            PassMngArguments? passMngArguments = passRoutes["passMngRegisterDetails"];
+            PassMngArguments? passMngArguments =
+                passRoutes["passMngRegisterDetails"];
             return MaterialPageRoute(
                 builder: (context) => DayPassInfoListPage(
                       passId: passMngArguments?.passType ?? '',
@@ -133,8 +133,8 @@ class RouteGenerator {
         }
         return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
       case createpassmgmtRoute:
-       // return MaterialPageRoute(builder: (context) => CreatePassManagement());
-if (settings.arguments != null) {
+        // return MaterialPageRoute(builder: (context) => CreatePassManagement());
+        if (settings.arguments != null) {
           final listroutes = settings.arguments as Map<String, dynamic>;
           if (listroutes != null) {
             DayPassListItemResponse? listuser = listroutes["UserElement"];
@@ -170,13 +170,14 @@ if (settings.arguments != null) {
       case materialMovementInwardDetailsRoute:
         MaterialMovementServices services = MaterialMovementServices();
         CommonServices commonServices = CommonServices();
+        bool isInward = true;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           if (arguments.isNotEmpty) {
             MaterialMovementModel? materialMovement =
                 arguments["MaterialMovementModel"];
-
+            isInward = arguments['isInward'];
 
             return MaterialPageRoute(
                 builder: (context) => BlocProvider<InwardCubit>(
@@ -184,23 +185,27 @@ if (settings.arguments != null) {
                         materialMovementServices: services,
                         commonServices: commonServices,
                         model: materialMovement,
+                        isInward: isInward,
                       ),
                       child: MaterialMovementInwardDetails(
                         materialMovement: materialMovement,
+                        isInward: isInward,
                       ),
                     ));
           }
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<InwardCubit>(
-              create: (_) => InwardCubit(
-                materialMovementServices: services,
-                commonServices: commonServices,
-                model: MaterialMovementModel(),
-              ),
-              child: const MaterialMovementInwardDetails(
-              ),
-            ));
+                  create: (_) => InwardCubit(
+                    materialMovementServices: services,
+                    commonServices: commonServices,
+                    model: MaterialMovementModel(),
+                    isInward: isInward,
+                  ),
+                  child: MaterialMovementInwardDetails(
+                    isInward: isInward,
+                  ),
+                ));
 
       default:
         return MaterialPageRoute(builder: (context) => App());
