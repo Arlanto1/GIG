@@ -1,10 +1,10 @@
 class MaterialMovementResponse {
   MaterialMovementResponse({
-    required this.message,
-    required this.materialMovementID,
+     this.message,
+     this.materialMovementID,
   });
-  late final String message;
-  late final String materialMovementID;
+  late final String? message;
+  late final String? materialMovementID;
 
   MaterialMovementResponse.fromJson(Map<String, dynamic> json){
     message = json['Message'];
