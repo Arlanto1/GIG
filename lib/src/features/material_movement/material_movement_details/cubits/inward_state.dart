@@ -11,6 +11,7 @@ class InwardState extends Equatable {
   final List<T1Analyst>? users;
   final List<EmployeeDepartment> departments;
   final List<CreateImage>? loadAttachments;
+  final List<QuantityUnit> quantityUnits;
 
   final String? message;
 
@@ -22,36 +23,42 @@ class InwardState extends Equatable {
     required String errorMessage,
     required List<EmployeeDepartment> departments,
     required List<CreateImage> loadAttachments,
+    required List<QuantityUnit> quantityUnits,
   }) {
     return InwardState(
-      status: FormStatus.initial,
-      materialMovement: model,
-      locations: locations,
-      loggedInUserDetails: loggedInUserDetails,
-      users: atomStaticUser,
-      message: errorMessage,
-      departments: departments,
-      loadAttachments: loadAttachments,
-    );
+        status: FormStatus.initial,
+        materialMovement: model,
+        locations: locations,
+        loggedInUserDetails: loggedInUserDetails,
+        users: atomStaticUser,
+        message: errorMessage,
+        departments: departments,
+        loadAttachments: loadAttachments,
+        quantityUnits: quantityUnits);
   }
 
   ErrorResponse get isValid {
     if (materialMovement.location == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Location');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Location');
     }
     if (materialMovement.challanNo == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Challan No');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Challan No');
     }
     if (materialMovement.quantity == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Quantity');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Quantity');
     }
 
     if (materialMovement.materialDescription == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Material Description');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Material Description');
     }
 
     if (materialMovement.materialComingFrom == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Material Coming From');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Material Coming From');
     }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
@@ -68,6 +75,7 @@ class InwardState extends Equatable {
     this.users,
     required this.departments,
     this.loadAttachments,
+    required this.quantityUnits,
     this.message,
   });
 
@@ -79,6 +87,7 @@ class InwardState extends Equatable {
     List<T1Analyst>? users,
     List<EmployeeDepartment>? departments,
     List<CreateImage>? loadAttachments,
+    List<QuantityUnit>? quantityUnits,
     String? message,
   }) {
     return InwardState(
@@ -89,6 +98,7 @@ class InwardState extends Equatable {
       users: users ?? this.users,
       departments: departments ?? this.departments,
       loadAttachments: loadAttachments ?? this.loadAttachments,
+      quantityUnits: quantityUnits ?? this.quantityUnits,
       message: message ?? this.message,
     );
   }

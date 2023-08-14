@@ -7,6 +7,7 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/models/material_movements_model.dart';
+import 'package:db_atom/src/features/material_movement/material_movements/models/quantity_units.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/models/requestModels/material_movement_request.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/models/responseModels/material_movement_response.dart';
 import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
@@ -40,6 +41,7 @@ class InwardCubit extends Cubit<InwardState> {
             errorMessage: '',
             departments: const [],
             loadAttachments: const [],
+            quantityUnits: const [],
           ),
         );
 
@@ -75,6 +77,9 @@ class InwardCubit extends Cubit<InwardState> {
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
+      QuantityUnits quantityUnits =
+      await commonServices.getQuantityUnits();
+
       // TODO: Generate sl No for creating Inward Movement , Need to call the API : 'getSerialnumberDetails'
       emit(
         state.copyWith(
@@ -84,6 +89,7 @@ class InwardCubit extends Cubit<InwardState> {
           materialMovement: state.materialMovement,
           users: users.t1Analyst,
           departments: departments.employeeDepartments,
+          quantityUnits: quantityUnits.units
         ),
       );
     } catch (e) {
@@ -176,7 +182,7 @@ class InwardCubit extends Cubit<InwardState> {
     ));
   }
 
-  Future<void> submitForm() async {
+  Future<void> submitForm({bool isSaveOnly = false}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -186,9 +192,8 @@ class InwardCubit extends Cubit<InwardState> {
     // TODO: Need to change inward type from String to int
     // For Inward the type value should be 1
 
-    // TODO: Validating Fields
-
-    if (!state.isValid.status) {
+    //Validating Fields
+    if (!state.isValid.status && !isSaveOnly) {
       emit(
         state.copyWith(
           status: FormStatus.error,
@@ -201,8 +206,15 @@ class InwardCubit extends Cubit<InwardState> {
     MaterialMovementRequest request =
         MaterialMovementRequest(materialMovement: state.materialMovement);
     try {
-      MaterialMovementResponse response =
-          await materialMovementServices.createMaterialMovement(request);
+
+      MaterialMovementResponse response = MaterialMovementResponse();
+      if(isSaveOnly) {
+        // TODO: Need to Pass Save only parameters
+        await materialMovementServices.createMaterialMovement(request);
+      } else {
+        response =
+        await materialMovementServices.createMaterialMovement(request);
+      }
       emit(
         state.copyWith(
           message: response.message,

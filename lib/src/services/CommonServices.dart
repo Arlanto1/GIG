@@ -4,6 +4,7 @@ import 'package:db_atom/src/features/createfound/models/emplyee_departments_mode
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
+import 'package:db_atom/src/features/material_movement/material_movements/models/quantity_units.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 class Apis {
@@ -13,6 +14,8 @@ class Apis {
   static final String _getUserDetails = '$baseUrl/getUserDetails?userId=';
   static final String _getSlNo = '$baseUrl/getSlNo?';
   static final String _getUsersByRole = '$baseUrl/getUsersByRole?roleName=';
+  static final String _getQuantityUnits =
+      '$baseUrl/getOrganisation?name=ATOM_MATERIAL_MOVEMENT_UNIT';
 }
 
 class CommonServices {
@@ -50,7 +53,8 @@ class CommonServices {
     required String locationId,
     required String moduleCode,
   }) async {
-    String url = '${Apis._getSlNo}locationId=$locationId&moduleCode=$moduleCode';
+    String url =
+        '${Apis._getSlNo}locationId=$locationId&moduleCode=$moduleCode';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -67,4 +71,11 @@ class CommonServices {
     return Analyst.fromJson(response);
   }
 
+  Future<QuantityUnits> getQuantityUnits() async {
+    String url = Apis._getQuantityUnits;
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return QuantityUnits.fromJson(response);
+  }
 }

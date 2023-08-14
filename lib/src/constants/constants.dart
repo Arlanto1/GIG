@@ -246,4 +246,10 @@ class Constants {
   static const String sentTo = 'Sent To';
   static const String purpose = 'Purpose';
   static const String preparedBy = 'Prepared By';
+  static const String preparedByDepartment = 'Prepared By Department';
+  static const String approver1Email = 'Approver1 Email';
+  static const String approver2Email = 'Approver2 Email';
+  static const String approver1Department = 'Approver1 Department ';
+  static const String approver2Department = 'Approver2 Department ';
+
 }
