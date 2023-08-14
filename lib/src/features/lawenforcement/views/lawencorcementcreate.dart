@@ -847,7 +847,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
         try {
-          createLawEnforcement(true, widget.listuser?.id ?? 0, globalState);
+           lawenforcementValidations(context, globalState);
         } catch (e) {
           // present userwith error message
         }
