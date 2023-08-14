@@ -41,10 +41,14 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
     showLoadingDialog(context);
     if (widget.lawstate != null) {
       await lawenforcementCubit.createOrganisation(
-          name, 'ARTICLE_LIST', context);
+          name, 'ARTICLE_LIST', context,widget.title);
     } else if (widget.createoundstate != null) {
       await createFoundArticleCubit.createOrganisation(
           name, 'ARTICLE_LIST', context);
+    }
+    else if (widget.createpassmgmtstate != null) {
+      await createpassmgmtCubit.createOrganisation(
+          name, 'ARTICLE_LIST', context,widget.title);
     }
   }
 
@@ -58,7 +62,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
           name, 'EMPLOYEE_DEPARTMENTS', context);
     }
     else if (widget.createpassmgmtstate != null) {
-      await createFoundArticleCubit.createEmplyeeDepartments(
+      await createpassmgmtCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     }
   }

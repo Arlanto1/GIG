@@ -290,6 +290,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
           stateType: CreateFoundStateType.success,
         ),
       );
+      dismissLoadingDialog(context);
+       await createFoundArticleCubit.getUserByRoleDepositor('ATOM_STATIC_USER');
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser, '');
       });
@@ -300,10 +302,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
           stateType: CreateFoundStateType.failure,
         ),
       );
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser,
-            Constants.errorText);
-      });
+      dismissLoadingDialog(context);
+     
     }
   }
 

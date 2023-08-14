@@ -1,5 +1,6 @@
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
+import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -55,6 +56,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   DayPassNumberLists? passnumbelistresponse;
   String? radioButtonItem = '';
   int? escortedbyhost ;
+   CreateUserModel? createUserResponse;
 
   CreatePassMgmtState({
     this.getEntitiesResponse,
@@ -89,6 +91,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
     this.escortedbyhost,
     this.radioButtonItem,
     this.photoAttachments,
+    this.createUserResponse
   });
   CreatePassMgmtState copyWith({
   AddEntities? getEntitiesResponse,
@@ -123,6 +126,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   String? radioButtonItem = '',
   int? escortedbyhost,
   List<CreateImage>? photoAttachments,
+   CreateUserModel? createUserResponse,
 
 
   
@@ -161,6 +165,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
       escortedbyhost: escortedbyhost ?? this.escortedbyhost,
       radioButtonItem: radioButtonItem ?? this.radioButtonItem,
       photoAttachments: photoAttachments ?? this.photoAttachments,
+      createUserResponse: createUserResponse ?? this.createUserResponse,
     );
   }
 
@@ -198,6 +203,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
         escortedbyhost,
         radioButtonItem,
         photoAttachments,
+        createUserResponse,
       ];
 
 }

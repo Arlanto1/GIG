@@ -2,8 +2,12 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/pop_button.dart';
+import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
+import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -11,7 +15,13 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 
 class CreateFoundNewUser extends StatefulWidget {
-  const CreateFoundNewUser({super.key});
+  //const CreateFoundNewUser({super.key});
+  CreateFoundNewUser(
+      {super.key, required this.title, this.lawstate, this.createoundstate,this.createpassmgmtstate});
+  final String title;
+  LawEnforcementState? lawstate;
+  CreateFoundState? createoundstate;
+  CreatePassMgmtState? createpassmgmtstate;
 
   @override
   State<CreateFoundNewUser> createState() => CreateFoundNewUserState();
@@ -31,8 +41,22 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
   }
 
   void _getFoundNewuser(String firstname, String lastname, String email) async {
+    showLoadingDialog(context);
+    if (widget.createoundstate != null)
+    {
     await createFoundArticleCubit.createUser(
         firstname, lastname, email, 'ATOM_STATIC_USER', context);
+    }
+    else if (widget.createpassmgmtstate != null)
+    {
+       await createpassmgmtCubit.createUser(
+        firstname, lastname, email, 'ATOM_STATIC_USER', context);
+    }
+     else if (widget.lawstate != null)
+    {
+       await lawenforcementCubit.createUser(
+        firstname, lastname, email, 'ATOM_STATIC_USER', context);
+    }
   }
 
   @override

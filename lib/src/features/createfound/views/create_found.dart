@@ -670,7 +670,7 @@ class _CreatefoundState extends State<Createfound> {
                 barrierDismissible: false,
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return const CreateFoundNewUser();
+                    return  CreateFoundNewUser(title: Constants.createnewuser,createoundstate: state,);
                   });
             },
             onTap: (AtomStaticUser list) {

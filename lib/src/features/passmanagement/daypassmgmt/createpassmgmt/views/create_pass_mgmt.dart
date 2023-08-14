@@ -1,6 +1,7 @@
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
+import 'package:db_atom/src/common_widgets/create_fields.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/common_widgets/custom_multiple_selection_popup.dart';
@@ -18,6 +19,7 @@ import 'package:db_atom/src/features/createfound/models/emplyee_departments_mode
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
+import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart';
@@ -1106,10 +1108,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   ' ' +
                   (widget.listuser?.host?.lastName ?? '')))
           : T1Analyst();
+          
       createpassmgmtCubit.gethostanalystsResponseData(host1);
+      createpassmgmtCubit.getdbsponsoranalystsResponseData(host1);
 
-      nameTextController.text = widget.passId == '1' && widget.listuser?.visitorName != null ?  widget.listuser?.visitorName ?? '': widget.listuser?.entrySecurity != null
-          ? widget.listuser?.entrySecurity?.name.toString() ?? " "
+      nameTextController.text = widget.passId == '1' && widget.listuser?.visitorName != null ?  widget.listuser?.visitorName ?? ''
           : widget.listuser?.employeeName.toString() ?? '';
       T1Analyst name1 = widget.listuser?.host != null
           ? T1Analyst(
@@ -1206,7 +1209,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               id: widget.listuser?.location?.id ?? 0,
               name: widget.listuser?.location?.name ?? "")
           : Mumbai();
-
+     
       serialnumber =
           widget.listuser?.slNo != null ? widget.listuser?.slNo ?? '' : '';
       ActivePassInfoList active = ActivePassInfoList(
@@ -1269,6 +1272,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       visitorcomingfromTextController.text = widget.listuser?.visitorComingFrom ?? '';
       contactnoTextController.text = widget.listuser?.contactNo ?? '';
       sezpassinfoTextController.text = widget.listuser?.passNo ?? '';
+      dbsponsorTextController.text = widget.listuser?.hostEmployeeId ?? '';
        
     }
   }
@@ -1432,19 +1436,22 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             duplicatedayPassReason: state.dayPassReason?.dayPassReason ?? [],
-            leftimagename: AppIcon.addicon,
-            // onLeftButtonTap: () {
-            //   Navigator.pop(context);
-            //   showDialog(
-            //       barrierDismissible: false,
-            //       context: context,
-            //       builder: (BuildContext dialogContext) {
-            //         return AddEmployeeDepartment(
-            //           title: Constants.addemployeedepartment,
-            //           createpassmgmtstate: state,
-            //         );
-            //       });
-            // },
+            leftimagename:  widget.passId == '0' || widget.passId == '2' ?  AppIcon.addicon : null, 
+            onLeftButtonTap: () {
+              if(widget.passId == '0' || widget.passId == '2')
+              {
+              Navigator.pop(context);
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return AddNewFields(
+                      title: widget.passId == '0' ? Constants.addreasonfordaypass : Constants.addreasonforvendorpass,
+                      createpassmgmtstate: state,
+                    );
+                  });
+              }
+            },
             onTap: (DayPassReasonElement list) {
               //print(list.name);
               createpassmgmtCubit.getdaypassreasonResponseData(list);
@@ -1666,16 +1673,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomMultipleSelectionListTexts(
             duplicateentityList: state.getEntitiesResponse?.atomEntities ?? [],
-            // leftimagename: AppIcon.addicon,
+            leftimagename: AppIcon.addicon,
             onLeftButtonTap: () {
-              // Navigator.pop(context);
-              // showDialog(
-              //     context: context,
-              //     builder: (BuildContext dialogContext) {
-              //       return const AddEmployeeDepartment(
-              //         title: Constants.addarticletype,
-              //       );
-              //     });
+              Navigator.pop(context);
+              showDialog(
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return  AddNewFields(
+                      title: Constants.addentitytype,
+                      createpassmgmtstate: state,
+                    );
+                  });
+           
             },
             onTap: (List<AtomEntity> list) {
               createpassmgmtCubit.getEntityData(list);
@@ -1738,16 +1747,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           return CustomListTexts(
             duplicateatomCompanyTypes:
                 state.companyTypes?.atomCompanyTypes ?? [],
-            // leftimagename: AppIcon.addicon,
+              leftimagename: AppIcon.addicon,
             onLeftButtonTap: () {
-              // Navigator.pop(context);
-              // showDialog(
-              //     context: context,
-              //     builder: (BuildContext dialogContext) {
-              //       return const AddEmployeeDepartment(
-              //         title: Constants.addarticletype,
-              //       );
-              //     });
+              Navigator.pop(context);
+              showDialog(
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return  AddNewFields(
+                      title: Constants.addcompanytype,
+                      createpassmgmtstate: state
+                    );
+                  });
+           
             },
             onTap: (AtomCompanyType list) {
               //print(list.name);
@@ -1787,16 +1798,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             duplicatet1Analyst: state.analyst?.t1Analyst ?? [],
-            // leftimagename: AppIcon.addicon,
+            leftimagename: AppIcon.addicon,
             onLeftButtonTap: () {
-              // Navigator.pop(context);
-              // showDialog(
-              //     context: context,
-              //     builder: (BuildContext dialogContext) {
-              //       return const AddEmployeeDepartment(
-              //         title: Constants.addarticletype,
-              //       );
-              //     });
+              Navigator.pop(context);
+              showDialog(
+                barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return  CreateFoundNewUser(title: Constants.createnewuser,createpassmgmtstate: state,);
+                  });
             },
             onTap: (T1Analyst list) {
               //print(list.name);
@@ -1833,16 +1843,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             duplicatet1Analyst: state.analyst?.t1Analyst ?? [],
-            // leftimagename: AppIcon.addicon,
+            leftimagename: AppIcon.addicon,
             onLeftButtonTap: () {
-              // Navigator.pop(context);
-              // showDialog(
-              //     context: context,
-              //     builder: (BuildContext dialogContext) {
-              //       return const AddEmployeeDepartment(
-              //         title: Constants.addarticletype,
-              //       );
-              //     });
+              Navigator.pop(context);
+              showDialog(
+                barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return  CreateFoundNewUser(title: Constants.createnewuser,createpassmgmtstate: state,);
+                  });
+            
             },
             onTap: (T1Analyst list) {
               //print(list.name);
@@ -1879,16 +1889,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             duplicatet1Analyst: state.analyst?.t1Analyst ?? [],
-            // leftimagename: AppIcon.addicon,
+            leftimagename: AppIcon.addicon,
             onLeftButtonTap: () {
-              // Navigator.pop(context);
-              // showDialog(
-              //     context: context,
-              //     builder: (BuildContext dialogContext) {
-              //       return const AddEmployeeDepartment(
-              //         title: Constants.addarticletype,
-              //       );
-              //     });
+              Navigator.pop(context);
+              showDialog(
+                barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return  CreateFoundNewUser(title: Constants.createnewuser,createpassmgmtstate: state,);
+                  });
             },
             onTap: (T1Analyst list) {
               //print(list.name);
@@ -2075,6 +2084,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     PassMgmtLocation? location = PassMgmtLocation(
         id: (state.locationSelectedlist?.id   == 0) ? 1 : state.locationSelectedlist?.id ?? 1,
         name: state.locationSelectedlist?.name ?? '');
+
+    PassMgmtLocation? daypass = PassMgmtLocation(
+        id: (state.dayPasselementReason?.id   == 0) ? 1 : state.dayPasselementReason?.id ?? 1,
+        name: state.dayPasselementReason?.name ?? ''); 
+
     PassCompanyType? companyType = PassCompanyType(
         id: (state.atomCompanyType?.id   == 0) ? 1 :state.atomCompanyType?.id ?? 1,
         name: state.atomCompanyType?.name ?? '');
@@ -2099,6 +2113,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     PassHost? host2 = PassHost(
         id:  (state.t1hostanalyst?.id   == 0) ? 1 : state.t1hostanalyst?.id ?? 1,
         name: state.t1hostanalyst?.name ?? '');
+
+    PassHost? dbsponsor = PassHost(
+        id:  (state.t1dbsponsoranalyst?.id   == 0) ? 1 : state.t1dbsponsoranalyst?.id ?? 1,
+        name: state.t1dbsponsoranalyst?.name ?? '');    
 
      int passtypeIdentify = 0;
       if(daypassnoTextController.text == "VISITOR_PASS")  
@@ -2176,16 +2194,17 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         passNo: widget.passId == '3' ? daypassnoTextController.text : state.dayPasselementReason?.name ?? '',
         escortedBy: escortedbyTextController.text ?? '',
         escortedEmployeeId: escortedemployeedidbyTextController.text ?? '',
-        hostEmployeeId: hostemployeeidTextController.text ?? '',
+        hostEmployeeId: hostemployeeidTextController.text.length > 0 ? hostemployeeidTextController.text ?? '' : dbsponsorTextController.text,
         passIssuedOn: passvalidfromdate.toString(),
-        endTime: passvalidfromdate.toString(),
-        hostName: state.t1hostanalyst?.name ?? '',
+        endTime: passvaliduntildate.toString(),
+        startTime:passvalidfromdate.toString(),
+        hostName: dbsponsorTextController.text.isEmpty ? state.t1hostanalyst?.name ?? '' : state.t1dbsponsoranalyst?.name ?? '',
         companyType: companyType,
         images: images,
         entities: entities,
         department: dept2,
         passInfo: info,
-        host: host2,
+        host: dbsponsorTextController.text.isEmpty ?  host2 : dbsponsor,
         email: emailTextController.text ?? '',
         contactNo: contactnoTextController.text ?? '',
         visitingDepartment: dept2,
@@ -2197,6 +2216,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         idValidationType: idValidationType,
         mifareNo: mtpapplicationnoTextController.text ?? '',
         category: category,
+        dayPassReason: daypass,
         
 
       );
@@ -2209,22 +2229,25 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         status: statusvalue,
         locationRegion: locregion,
         companyName: companynameTextController.text ?? '',
-        employeeName: state.t1nameanalyst?.name ?? '',
+        employeeName: state.t1nameanalyst?.name == null
+            ? (nameTextController.text ?? '')
+            : state.t1nameanalyst?.name ?? '',
         employeeId: employeeidTextController.text ?? '',
         passType: passtypeIdentify,//0,
         passNo:  widget.passId == '3' ? daypassnoTextController.text : state.dayPasselementReason?.name ?? '',
         escortedBy: escortedbyTextController.text ?? '',
         escortedEmployeeId: escortedemployeedidbyTextController.text ?? '',
-        hostEmployeeId: hostemployeeidTextController.text ?? '',
+        hostEmployeeId: hostemployeeidTextController.text.length > 0 ? hostemployeeidTextController.text ?? '' : dbsponsorTextController.text,
         passIssuedOn: passvalidfromdate.toString(),
-        endTime: passvalidfromdate.toString(),
-        hostName: state.t1hostanalyst?.name ?? '',
+        endTime: passvaliduntildate.toString(),
+        startTime:passvalidfromdate.toString(),
+        hostName: dbsponsorTextController.text.isEmpty ? state.t1hostanalyst?.name ?? '' : state.t1dbsponsoranalyst?.name ?? '',
         companyType: companyType,
         images: images,
         entities: entities,
         department: dept2,
         passInfo: info,
-        host: host2,
+        host: dbsponsorTextController.text.isEmpty ? host2 : dbsponsor,
         contactNo: contactnoTextController.text ?? '',
         visitingDepartment: dept2,
         visitorName:nameTextController.text ?? "",
@@ -2235,6 +2258,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         idValidationType: idValidationType,
         mifareNo: mtpapplicationnoTextController.text ?? '',
         category: category,
+        dayPassReason: daypass,
+        email: emailTextController.text ?? '',
       );
     }
     showLoadingDialog(context);

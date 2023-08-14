@@ -31,6 +31,7 @@ class PassManagement {
     String? slNo;
     String? inputDate;
     PassMgmtLocation? location;
+    PassMgmtLocation? dayPassReason;
     PassMgmtLocationregion? locationRegion;
     List<PassMgmtTypEntity>? entities;
     int? status;
@@ -68,6 +69,8 @@ class PassManagement {
     String? visitorName;
     List<CreateImage>? visitorImage;
     PassDept? visitingDepartment;
+    String? startTime;
+    
     
 
     PassManagement({
@@ -112,6 +115,8 @@ class PassManagement {
         this.visitorName,
         this.visitorImage,
         this.visitingDepartment,
+        this.dayPassReason,
+        this.startTime,
     });
 
     factory PassManagement.fromJson(Map<String, dynamic> json) => PassManagement(
@@ -120,6 +125,7 @@ class PassManagement {
         host: json["host"] == null ? null : PassHost.fromJson(json["host"]),
         inputDate: json["inputDate"],
         location: json["location"] == null ? null : PassMgmtLocation.fromJson(json["location"]),
+        dayPassReason: json["dayPassReason"] == null ? null : PassMgmtLocation.fromJson(json["dayPassReason"]),
         locationRegion: json["locationRegion"] == null ? null : PassMgmtLocationregion.fromJson(json["locationRegion"]),
         entities: json["entities"] == null ? [] : List<PassMgmtTypEntity>.from(json["entities"]!.map((x) => PassMgmtTypEntity.fromJson(x))),
         status: json["status"],
@@ -161,7 +167,9 @@ class PassManagement {
           visitorImage: json["visitorImage"] == null
             ? []
             : List<CreateImage>.from(
-                json["visitorImage"]!.map((x) => CreateImage.fromJson(x))),        
+                json["visitorImage"]!.map((x) => CreateImage.fromJson(x))),
+         startTime: json["startTime"],         
+                      
     );
 
     Map<String, dynamic> toJson() => {
@@ -209,7 +217,9 @@ class PassManagement {
         "visitorImage" :  visitorImage == null
             ? []
             : List<dynamic>.from(visitorImage!.map((x) => x.toJson())),
-        "visitingDepartment": visitingDepartment?.toJson(),    
+        "visitingDepartment": visitingDepartment?.toJson(), 
+        "dayPassReason": dayPassReason?.toJson(),  
+        "startTime" :startTime
             
     };
 }

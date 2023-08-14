@@ -1,6 +1,7 @@
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
+import 'package:db_atom/src/common_widgets/create_fields.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/common_widgets/custom_multiple_selection_popup.dart';
@@ -20,6 +21,7 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
+import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_cubit.dart';
@@ -916,15 +918,16 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
           return CustomListTexts(
             duplicatedepostorList:
                 state.getDepositorResponse?.atomStaticUser ?? [],
-            // leftimagename: AppIcon.addicon,
-            // onLeftButtonTap: () {
-            // Navigator.pop(context);
-            // showDialog(
-            //     context: context,
-            //     builder: (BuildContext dialogContext) {
-            //       return const CreateFoundNewUser();
-            //     });
-            // },
+           leftimagename: AppIcon.addicon,
+            onLeftButtonTap: () {
+              Navigator.pop(context);
+              showDialog(
+                barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return  CreateFoundNewUser(title: Constants.createnewuser,lawstate: state,);
+                  });
+            },
             onTap: (AtomStaticUser list) {
               print(list.name);
               // if (name.toLowerCase() == 'depositor') {
@@ -1123,16 +1126,18 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
         builder: (BuildContext dialogContext) {
           return CustomMultipleSelectionListTexts(
             duplicateentityList: state.getEntitiesResponse?.atomEntities ?? [],
-            // leftimagename: AppIcon.addicon,
+            leftimagename: AppIcon.addicon,
             onLeftButtonTap: () {
-              // Navigator.pop(context);
-              // showDialog(
-              //     context: context,
-              //     builder: (BuildContext dialogContext) {
-              //       return const AddEmployeeDepartment(
-              //         title: Constants.addarticletype,
-              //       );
-              //     });
+              Navigator.pop(context);
+              showDialog(
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return  AddNewFields(
+                      title: Constants.addentitytype,
+                      lawstate: state,
+                    );
+                  });
+           
             },
             onTap: (List<AtomEntity> list) {
               lawenforcementCubit.getEntityData(list);
@@ -1148,16 +1153,18 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
           return CustomListTexts(
             duplicateleopurposevisits:
                 state.getLeopurposeResponse?.atomLeoPurposeVisit ?? [],
-            // leftimagename: AppIcon.addicon,
+            leftimagename: AppIcon.addicon,
             onLeftButtonTap: () {
-              // Navigator.pop(context);
-              // showDialog(
-              //     context: context,
-              //     builder: (BuildContext dialogContext) {
-              //       return const AddEmployeeDepartment(
-              //         title: Constants.addarticletype,
-              //       );
-              //     });
+              Navigator.pop(context);
+              showDialog(
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return  AddNewFields(
+                      title: Constants.addpurposeofvisittype,
+                      lawstate: state
+                    );
+                  });
+           
             },
             onTap: (AtomLeoPurposeVisit list) {
               //print(list.name);
@@ -1202,16 +1209,18 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
           return CustomListTexts(
             duplicateleodepartments:
                 state.getLeodepartmentsResponse?.atomLeoDepartments ?? [],
-            // leftimagename: AppIcon.addicon,
+            leftimagename: AppIcon.addicon,
             onLeftButtonTap: () {
-              // Navigator.pop(context);
-              // showDialog(
-              //     context: context,
-              //     builder: (BuildContext dialogContext) {
-              //       return const AddEmployeeDepartment(
-              //         title: Constants.addarticletype,
-              //       );
-              //     });
+              Navigator.pop(context);
+              showDialog(
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return  AddNewFields(
+                      title: Constants.addleoofficialtype,
+                      lawstate: state
+                    );
+                  });
+           
             },
             onTap: (AtomLeoDepartment list) {
               //print(list.name);

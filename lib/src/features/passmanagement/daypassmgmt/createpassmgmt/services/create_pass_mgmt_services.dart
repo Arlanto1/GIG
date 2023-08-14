@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
+import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
@@ -39,6 +40,29 @@ class CreatePassMgmtService
       print(response);
       if (response.statusCode == 200) {
         return CreatePassMgmtResponse.fromJson(json.decode(response.body));
+      } else {
+        throw json.decode(response.body);
+      }
+    } on SocketException {
+      throw json.decode('{"errorMessage":"Network Lost"}');
+    }
+  }
+
+  // Create user api call
+  Future<CreateUserModel> createUser(
+      String firstName, String lastName, String email, String role) async {
+   
+    final url = Uri.parse(
+        '$endpoint/createUser?firstName=$firstName&lastName=$lastName&email=$email&role=$role');
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode == 200) {
+        return CreateUserModel.fromJson(json.decode(response.body));
       } else {
         throw json.decode(response.body);
       }

@@ -5,6 +5,7 @@ import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
+import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -45,7 +46,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 //
 //law organisation call
   Future<void> createOrganisation(
-      String name, String orgName, BuildContext context) async {
+      String name, String orgName, BuildContext context,String title) async {
     try {
       CreateOrganisation createOrganisationData =
           await createpassmgmtServices.createOrganisation(name, orgName);
@@ -55,10 +56,22 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           stateType: CreatePassMgmtStateType.success,
         ),
       );
+      if (Constants.addcompanytype == title)
+      {
+        await createpassmgmtCubit.getCompanytypes('ATOM_COMPANY_TYPES');
+      }
+      else if (Constants.addreasonfordaypass == title || Constants.addreasonforvendorpass == title)
+       {
+       await createpassmgmtCubit.getDayPassreasons('DAY_PASS_REASON');
+       }
+       else if (Constants.addentitytype == title )
+       {
+        await createpassmgmtCubit.getEntities('ATOM_ENTITIES');
+       }
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
-            context, 'Added sucessfully', Constants.addarticletype, '');
+            context, 'Added sucessfully', title, '');
       });
     } catch (e) {
       emit(
@@ -75,6 +88,36 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
+
+  // Create user call
+  Future<void> createUser(String firstName, String lastName, String email,
+      String role, BuildContext context) async {
+    try {
+      CreateUserModel createUserData = await createpassmgmtServices.createUser(
+          firstName, lastName, email, role);
+      emit(
+        state.copyWith(
+          createUserResponse: createUserData,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+       await createpassmgmtCubit.getAnalysts('T1_Analyst');
+       dismissLoadingDialog(context);
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser, '');
+      });
+    } catch (e) {
+      dismissLoadingDialog(context);
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+     
+    }
+  }
+
   // law organisation call
   Future<void> createEmplyeeDepartments(
       String name, String orgName, BuildContext context) async {
@@ -88,7 +131,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         ),
       );
       dismissLoadingDialog(context);
-      await lawenforcementCubit.getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
+      await createpassmgmtCubit.getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
             context, 'Added sucessfully', Constants.addemployeedepartment, '');
