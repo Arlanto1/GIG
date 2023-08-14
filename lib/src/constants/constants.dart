@@ -98,6 +98,7 @@ class Constants {
   static const String claimantemployeeid = 'Claimant Employee Id';
   static const String claimant = 'Claimant';
   static const String status = 'Status';
+  static const String updatestatus = 'Update Status';
   static const String dateofcreation = 'Date of Creation';
   static const String assetype = 'Asset Type';
   static const String founddate = 'Found Date';

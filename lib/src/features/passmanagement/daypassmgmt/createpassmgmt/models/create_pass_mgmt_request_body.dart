@@ -35,6 +35,7 @@ class PassManagement {
     PassMgmtLocationregion? locationRegion;
     List<PassMgmtTypEntity>? entities;
     int? status;
+    int? updatedStatus;
     List<dynamic>? history;
     int? passType;
     PassCompanyType? companyType;
@@ -70,6 +71,7 @@ class PassManagement {
     List<CreateImage>? visitorImage;
     PassDept? visitingDepartment;
     String? startTime;
+    PassEntrySecurity? entrySecurity;
     
     
 
@@ -117,6 +119,8 @@ class PassManagement {
         this.visitingDepartment,
         this.dayPassReason,
         this.startTime,
+        this.updatedStatus,
+        this.entrySecurity,
     });
 
     factory PassManagement.fromJson(Map<String, dynamic> json) => PassManagement(
@@ -129,6 +133,7 @@ class PassManagement {
         locationRegion: json["locationRegion"] == null ? null : PassMgmtLocationregion.fromJson(json["locationRegion"]),
         entities: json["entities"] == null ? [] : List<PassMgmtTypEntity>.from(json["entities"]!.map((x) => PassMgmtTypEntity.fromJson(x))),
         status: json["status"],
+        updatedStatus: json["updatedStatus"],
         history: json["history"] == null ? [] : List<dynamic>.from(json["history"]!.map((x) => x)),
         passType: json["passType"],
         companyType: json["companyType"] == null ? null : PassCompanyType.fromJson(json["companyType"]),
@@ -168,7 +173,10 @@ class PassManagement {
             ? []
             : List<CreateImage>.from(
                 json["visitorImage"]!.map((x) => CreateImage.fromJson(x))),
-         startTime: json["startTime"],         
+         startTime: json["startTime"],   
+          entrySecurity: json["entrySecurity"] == null
+            ? null
+            : PassEntrySecurity.fromJson(json["entrySecurity"]),      
                       
     );
 
@@ -219,11 +227,27 @@ class PassManagement {
             : List<dynamic>.from(visitorImage!.map((x) => x.toJson())),
         "visitingDepartment": visitingDepartment?.toJson(), 
         "dayPassReason": dayPassReason?.toJson(),  
-        "startTime" :startTime
+        "startTime" :startTime,
+        "updatedStatus": updatedStatus,
+        "entrySecurity": entrySecurity?.toJson(),
             
     };
 }
+class PassEntrySecurity {
+  int? userId;
 
+  PassEntrySecurity({
+    this.userId,
+  });
+
+  factory PassEntrySecurity.fromJson(Map<String, dynamic> json) => PassEntrySecurity(
+        userId: json["userId"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "userId": userId,
+      };
+}
 class PassHost {
     int? id;
     String? name;

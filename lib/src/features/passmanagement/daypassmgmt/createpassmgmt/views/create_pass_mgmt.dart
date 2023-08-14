@@ -53,6 +53,7 @@ class CreatePassManagement extends StatefulWidget {
 class _CreatePassManagementState extends State<CreatePassManagement> {
   final GlobalKey<FormState> lawenforcementFormKey = GlobalKey<FormState>();
   TextEditingController statusTextController = TextEditingController();
+  TextEditingController updatestatusTextController = TextEditingController();
   TextEditingController passvalidfromTextController = TextEditingController();
   TextEditingController passvaliduntilTextController = TextEditingController();
   TextEditingController companynameTextController = TextEditingController();
@@ -225,6 +226,62 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     ),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
+
+                             
+                                    // Update Status
+                                  (widget.listuser != null && (statusTextController.text.toLowerCase() == "created" || statusTextController.text.toLowerCase() == "handed over") )?  CommonWidgets.textDisplay(Constants.updatestatus,
+                                        Styles.textStyleBlack14) : Container(),
+                                    (widget.listuser != null && (statusTextController.text.toLowerCase() == "created" || statusTextController.text.toLowerCase() == "handed over") )? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001) : Container(),
+                                   (widget.listuser != null && (statusTextController.text.toLowerCase() == "created" || statusTextController.text.toLowerCase() == "handed over") ) ? GestureDetector(
+                                      onTap: () {
+                                        if (statusTextController.text.toLowerCase() == "created" )
+                                            {
+                                           updatestausTypeDialog();
+                                        }
+                                        else
+                                        {
+                                           updatestausTypeDialog();
+                                        }
+                                      },
+                                     child: FlutterInputField(
+                                        isEnable: false,
+                                        isDisableColor: true,
+                                        textFieldController: updatestatusTextController,
+                                        textFormKey: Keys.statusTextController,
+                                        hintText: '',
+                                        onChange: (String username) {
+                                          //this.username = username;
+                                        },
+                                        validateTextField: (String? user) {},
+                                        suffixWidget: GestureDetector(
+                                          onTap: () {
+                                            if (statusTextController.text.toLowerCase() == "created" )
+                                            {
+                                           updatestausTypeDialog();
+                                        }
+                                        else
+                                        {
+                                           updatestausTypeDialog();
+                                        }
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: SvgPicture.asset(
+                                              //AppIcon.dropdownicon,
+                                              AppIcon.dropdownicon,
+                                              //fit: BoxFit.,
+                                              color: AppColors.textgreyThemecolor,
+                                              width: 10,
+                                              height: 10,
+                                              key: const Key(Keys.userIcon),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                   ) : Container(),
+                                   (statusTextController.text.toLowerCase() == "created" || statusTextController.text.toLowerCase() == "handed over") ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01) : Container(),     
 
                                     //created by
 
@@ -1114,9 +1171,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
       nameTextController.text = widget.passId == '1' && widget.listuser?.visitorName != null ?  widget.listuser?.visitorName ?? ''
           : widget.listuser?.employeeName.toString() ?? '';
-      T1Analyst name1 = widget.listuser?.host != null
+            var userid = await SharedPrefs.getUserId();
+      T1Analyst name1 = nameTextController.text.isNotEmpty
           ? T1Analyst(
-              id: widget.listuser?.entrySecurity?.userId ?? 0,
+              id:int.parse(userid) ,
               name: nameTextController.text)
           : T1Analyst();
       createpassmgmtCubit.getnameanalystsResponseData(name1);
@@ -1342,6 +1400,23 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             onTap: (String value) {
               print(value);
               passtypeTextController.text = value;
+              setState(() {});
+            },
+          );
+        });
+  }
+
+  updatestausTypeDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CustomSimpleListTexts(
+            texts: statusTextController.text.toLowerCase() == "created"
+                ? ["cancelled"]
+                :  ["returned","lost","damaged", "defaced", "returned damaged" ,"returned defaced"],
+            onTap: (String value) {
+              print(value);
+              updatestatusTextController.text = value;
               setState(() {});
             },
           );
@@ -2051,6 +2126,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     int inputdate = Utils.datetoTimestampConversion(
         dateofcreationTextController.text, Constants.fulldateFormat);
     int statusvalue = 0;
+   
+
     if (statusTextController.text.toLowerCase() == "created") {
       statusvalue = 0;
     } else if (statusTextController.text.toLowerCase() == "handed over") {
@@ -2071,6 +2148,23 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       statusvalue = 8;
     } else {
       statusvalue = 9;
+    }
+
+  int updatestatusvalue = 0;
+     if (updatestatusTextController.text.toLowerCase() == "returned") {
+      updatestatusvalue = 2;
+    } else if (updatestatusTextController.text.toLowerCase() == "lost") {
+      updatestatusvalue = 4;
+    } else if (updatestatusTextController.text.toLowerCase() == "damaged") {
+      updatestatusvalue = 5;
+    } else if (updatestatusTextController.text.toLowerCase() == "defaced") {
+      updatestatusvalue = 6;
+    } else if (updatestatusTextController.text.toLowerCase() == "cancelled") {
+      updatestatusvalue = 7;
+    } else if (updatestatusTextController.text.toLowerCase() == "returned damaged") {
+      updatestatusvalue = 8;
+    } else {
+      updatestatusvalue = 9;
     }
 
     List<PassMgmtTypEntity>? entities = [];
@@ -2176,10 +2270,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     List<CreateImage>? images = getFiles ?? [];
     List<CreateImage>? photoimages = photogetFiles ?? [];
+    PassEntrySecurity? entrysecurtity =
+        PassEntrySecurity(userId: state.getUserDetailsResponse?.userId ?? 1);
     PassManagement? passmgmtbody;
     if (widget.listuser != null) {
       passmgmtbody = PassManagement(
         id: isFoundId ?? 0,
+        updatedStatus: (statusTextController.text.toLowerCase() == "created" || statusTextController.text.toLowerCase() == "handed over") ? updatestatusvalue : null,
         inputDate: inputdate.toString(),
         slNo: serialnumber ?? '',
         location: location,
@@ -2217,8 +2314,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         mifareNo: mtpapplicationnoTextController.text ?? '',
         category: category,
         dayPassReason: daypass,
-        
-
+        entrySecurity: entrysecurtity,
       );
     } else {
       passmgmtbody = PassManagement(
@@ -2260,6 +2356,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         category: category,
         dayPassReason: daypass,
         email: emailTextController.text ?? '',
+        entrySecurity: entrysecurtity
       );
     }
     showLoadingDialog(context);
