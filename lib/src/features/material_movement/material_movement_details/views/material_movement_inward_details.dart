@@ -277,44 +277,49 @@ class _MaterialMovementInwardDetailsState
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    /// PO Number
-                                    CommonWidgets.textDisplay(
-                                        Constants.poNumber,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    FlutterInputField(
-                                      keyboardType: TextInputType.number,
-                                      initialValue:
-                                          state.materialMovement.poNumber,
-                                      textFormKey: Keys.generateUniqueKey(),
-                                      hintText: '',
-                                      isEnable: widget.materialMovement == null
-                                          ? true
-                                          : (widget.materialMovement != null &&
-                                                  (widget.materialMovement
-                                                          ?.poNumber ==
-                                                      null))
-                                              ? false
-                                              : true,
-                                      isDisableColor:
-                                          (widget.materialMovement != null &&
-                                                  (widget.materialMovement
-                                                          ?.poNumber !=
-                                                      null))
-                                              ? true
-                                              : false,
-                                      onChange: (String value) {
-                                        state.materialMovement.poNumber = value;
-                                        context
-                                            .read<InwardCubit>()
-                                            .onModelValueChange(
-                                                state.materialMovement);
-                                      },
-                                      validateTextField: (String? user) {},
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                    if (widget.isInward) ...[
+                                      /// PO Number
+                                      CommonWidgets.textDisplay(
+                                          Constants.poNumber,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      FlutterInputField(
+                                        keyboardType: TextInputType.number,
+                                        initialValue:
+                                            state.materialMovement.poNumber,
+                                        textFormKey: Keys.generateUniqueKey(),
+                                        hintText: '',
+                                        isEnable:
+                                            widget.materialMovement == null
+                                                ? true
+                                                : (widget.materialMovement !=
+                                                            null &&
+                                                        (widget.materialMovement
+                                                                ?.poNumber ==
+                                                            null))
+                                                    ? false
+                                                    : true,
+                                        isDisableColor:
+                                            (widget.materialMovement != null &&
+                                                    (widget.materialMovement
+                                                            ?.poNumber !=
+                                                        null))
+                                                ? true
+                                                : false,
+                                        onChange: (String value) {
+                                          state.materialMovement.poNumber =
+                                              value;
+                                          context
+                                              .read<InwardCubit>()
+                                              .onModelValueChange(
+                                                  state.materialMovement);
+                                        },
+                                        validateTextField: (String? user) {},
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                    ],
 
                                     /// Material Brief Description
                                     CommonWidgets.textDisplay(
@@ -826,7 +831,7 @@ class _MaterialMovementInwardDetailsState
                                                       ?.name,
                                                   height: 60,
                                                   isDisableColor:
-                                                  widget.materialMovement ==
+                                                      widget.materialMovement ==
                                                               null
                                                           ? false
                                                           : true,
@@ -850,53 +855,57 @@ class _MaterialMovementInwardDetailsState
                                               ),
                                               widget.materialMovement == null
                                                   ? TextfieldAddButton(
-                                                  title: state.materialMovement
-                                                      .approver1Email,
-                                                  height: 70,
-                                                  isDisableColor:
-                                                  widget.materialMovement ==
-                                                      null
-                                                      ? false
-                                                      : true,
-                                                  onTap: () {
-                                                    if (widget
-                                                        .materialMovement ==
-                                                        null) {
-                                                      userDialog(state,
-                                                          Constants.depositor);
-                                                    }
-                                                  })
+                                                      title: state
+                                                          .materialMovement
+                                                          .approver1Email,
+                                                      height: 70,
+                                                      isDisableColor:
+                                                          widget.materialMovement ==
+                                                                  null
+                                                              ? false
+                                                              : true,
+                                                      onTap: () {
+                                                        if (widget
+                                                                .materialMovement ==
+                                                            null) {
+                                                          userDialog(
+                                                              state,
+                                                              Constants
+                                                                  .depositor);
+                                                        }
+                                                      })
                                                   : FlutterInputField(
-                                                initialValue: state
-                                                    .materialMovement
-                                                    .approver1Email,
-                                                textFormKey: Keys
-                                                    .depositorTextController,
-                                                hintText: '',
-                                                isEnable: widget
-                                                    .materialMovement ==
-                                                    null
-                                                    ? true
-                                                    : (widget.materialMovement !=
-                                                    null &&
-                                                    (widget.materialMovement
-                                                        ?.approver1Email ??
-                                                        '')
-                                                        .isEmpty)
-                                                    ? true
-                                                    : false,
-                                                isDisableColor:
-                                                (widget.materialMovement !=
-                                                    null)
-                                                    ? false
-                                                    : true,
-                                                onChange:
-                                                    (String username) {},
-                                                validateTextField:
-                                                    (String? user) {},
-                                              ),
-                                              CommonWidgets.verticalSpacerWidget(
-                                                  height * 0.01),
+                                                      initialValue: state
+                                                          .materialMovement
+                                                          .approver1Email,
+                                                      textFormKey: Keys
+                                                          .depositorTextController,
+                                                      hintText: '',
+                                                      isEnable: widget
+                                                                  .materialMovement ==
+                                                              null
+                                                          ? true
+                                                          : (widget.materialMovement !=
+                                                                      null &&
+                                                                  (widget.materialMovement
+                                                                              ?.approver1Email ??
+                                                                          '')
+                                                                      .isEmpty)
+                                                              ? true
+                                                              : false,
+                                                      isDisableColor:
+                                                          (widget.materialMovement !=
+                                                                  null)
+                                                              ? false
+                                                              : true,
+                                                      onChange:
+                                                          (String username) {},
+                                                      validateTextField:
+                                                          (String? user) {},
+                                                    ),
+                                              CommonWidgets
+                                                  .verticalSpacerWidget(
+                                                      height * 0.01),
                                             ],
                                           ),
 
@@ -990,53 +999,57 @@ class _MaterialMovementInwardDetailsState
                                               ),
                                               widget.materialMovement == null
                                                   ? TextfieldAddButton(
-                                                  title: state.materialMovement
-                                                      .approver2Email,
-                                                  height: 70,
-                                                  isDisableColor:
-                                                  widget.materialMovement ==
-                                                      null
-                                                      ? false
-                                                      : true,
-                                                  onTap: () {
-                                                    if (widget
-                                                        .materialMovement ==
-                                                        null) {
-                                                      userDialog(state,
-                                                          Constants.depositor);
-                                                    }
-                                                  })
+                                                      title: state
+                                                          .materialMovement
+                                                          .approver2Email,
+                                                      height: 70,
+                                                      isDisableColor:
+                                                          widget.materialMovement ==
+                                                                  null
+                                                              ? false
+                                                              : true,
+                                                      onTap: () {
+                                                        if (widget
+                                                                .materialMovement ==
+                                                            null) {
+                                                          userDialog(
+                                                              state,
+                                                              Constants
+                                                                  .depositor);
+                                                        }
+                                                      })
                                                   : FlutterInputField(
-                                                initialValue: state
-                                                    .materialMovement
-                                                    .approver2Email,
-                                                textFormKey: Keys
-                                                    .depositorTextController,
-                                                hintText: '',
-                                                isEnable: widget
-                                                    .materialMovement ==
-                                                    null
-                                                    ? true
-                                                    : (widget.materialMovement !=
-                                                    null &&
-                                                    (widget.materialMovement
-                                                        ?.approver2Email ??
-                                                        '')
-                                                        .isEmpty)
-                                                    ? true
-                                                    : false,
-                                                isDisableColor:
-                                                (widget.materialMovement !=
-                                                    null)
-                                                    ? false
-                                                    : true,
-                                                onChange:
-                                                    (String username) {},
-                                                validateTextField:
-                                                    (String? user) {},
-                                              ),
-                                              CommonWidgets.verticalSpacerWidget(
-                                                  height * 0.01),
+                                                      initialValue: state
+                                                          .materialMovement
+                                                          .approver2Email,
+                                                      textFormKey: Keys
+                                                          .depositorTextController,
+                                                      hintText: '',
+                                                      isEnable: widget
+                                                                  .materialMovement ==
+                                                              null
+                                                          ? true
+                                                          : (widget.materialMovement !=
+                                                                      null &&
+                                                                  (widget.materialMovement
+                                                                              ?.approver2Email ??
+                                                                          '')
+                                                                      .isEmpty)
+                                                              ? true
+                                                              : false,
+                                                      isDisableColor:
+                                                          (widget.materialMovement !=
+                                                                  null)
+                                                              ? false
+                                                              : true,
+                                                      onChange:
+                                                          (String username) {},
+                                                      validateTextField:
+                                                          (String? user) {},
+                                                    ),
+                                              CommonWidgets
+                                                  .verticalSpacerWidget(
+                                                      height * 0.01),
                                             ],
                                           ),
 
@@ -1047,78 +1060,76 @@ class _MaterialMovementInwardDetailsState
                                           ),
                                           widget.materialMovement != null
                                               ? FlutterInputField(
-                                            initialValue: state
-                                                .materialMovement
-                                                .preparedByDepartment
-                                                ?.name,
-                                            textFormKey: Keys
-                                                .claimantTextController,
-                                            hintText:
-                                            receiverDepartmentName,
-                                            isEnable: widget
-                                                .materialMovement ==
-                                                null
-                                                ? true
-                                                : (widget.materialMovement !=
-                                                null &&
-                                                (widget
-                                                    .materialMovement
-                                                    ?.approver1Department
-                                                    ?.name ??
-                                                    '')
-                                                    .isEmpty)
-                                                ? true
-                                                : false,
-                                            isDisableColor: (widget
-                                                .materialMovement !=
-                                                null &&
-                                                (widget
-                                                    .materialMovement
-                                                    ?.approver1Department
-                                                    ?.name ??
-                                                    '')
-                                                    .isEmpty)
-                                                ? false
-                                                : true,
-                                            onChange: (String value) {
-                                              state
-                                                  .materialMovement
-                                                  .approver1Department
-                                                  ?.name = value;
-                                              context
-                                                  .read<InwardCubit>()
-                                                  .onModelValueChange(state
-                                                  .materialMovement);
-                                            },
-                                            validateTextField:
-                                                (String? user) {},
-                                          )
+                                                  initialValue: state
+                                                      .materialMovement
+                                                      .preparedByDepartment
+                                                      ?.name,
+                                                  textFormKey: Keys
+                                                      .claimantTextController,
+                                                  hintText:
+                                                      receiverDepartmentName,
+                                                  isEnable: widget
+                                                              .materialMovement ==
+                                                          null
+                                                      ? true
+                                                      : (widget.materialMovement !=
+                                                                  null &&
+                                                              (widget
+                                                                          .materialMovement
+                                                                          ?.approver1Department
+                                                                          ?.name ??
+                                                                      '')
+                                                                  .isEmpty)
+                                                          ? true
+                                                          : false,
+                                                  isDisableColor: (widget
+                                                                  .materialMovement !=
+                                                              null &&
+                                                          (widget
+                                                                      .materialMovement
+                                                                      ?.approver1Department
+                                                                      ?.name ??
+                                                                  '')
+                                                              .isEmpty)
+                                                      ? false
+                                                      : true,
+                                                  onChange: (String value) {
+                                                    state
+                                                        .materialMovement
+                                                        .approver1Department
+                                                        ?.name = value;
+                                                    context
+                                                        .read<InwardCubit>()
+                                                        .onModelValueChange(state
+                                                            .materialMovement);
+                                                  },
+                                                  validateTextField:
+                                                      (String? user) {},
+                                                )
                                               : TextfieldAddButton(
-                                            title: state
-                                                .materialMovement
-                                                .approver1Department
-                                                ?.name,
-                                            height: 60,
-                                            isDisableColor:
-                                            widget.materialMovement ==
-                                                null
-                                                ? false
-                                                : true,
-                                            onTap: () {
-                                              if (widget
-                                                  .materialMovement ==
-                                                  null) {
-                                                departmentDialog(
-                                                    state, 'name');
-                                                // leodepartmentsDialog(state);
-                                              }
-                                            },
-                                          ),
+                                                  title: state
+                                                      .materialMovement
+                                                      .approver1Department
+                                                      ?.name,
+                                                  height: 60,
+                                                  isDisableColor:
+                                                      widget.materialMovement ==
+                                                              null
+                                                          ? false
+                                                          : true,
+                                                  onTap: () {
+                                                    if (widget
+                                                            .materialMovement ==
+                                                        null) {
+                                                      departmentDialog(
+                                                          state, 'name');
+                                                      // leodepartmentsDialog(state);
+                                                    }
+                                                  },
+                                                ),
 
                                           CommonWidgets.verticalSpacerWidget(
                                               height * 0.01),
-
-
                                         ],
                                       ),
                                     ],
@@ -1139,452 +1150,474 @@ class _MaterialMovementInwardDetailsState
                                     //   },
                                     // ),
 
-                                    /// Senders Name
-                                    CommonWidgets.textDisplay(
-                                        Constants.sendersName,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    FlutterInputField(
-                                      keyboardType: TextInputType.name,
-                                      initialValue: state
-                                          .materialMovement.materialComingFrom,
-                                      textFormKey: Keys.generateUniqueKey(),
-                                      hintText: '',
-                                      isEnable: widget.materialMovement == null
-                                          ? true
-                                          : (widget.materialMovement != null &&
-                                                  (widget.materialMovement
-                                                          ?.materialComingFrom ==
-                                                      null))
-                                              ? false
-                                              : true,
-                                      isDisableColor: (widget
-                                                      .materialMovement !=
-                                                  null &&
-                                              (widget.materialMovement
-                                                      ?.materialComingFrom !=
-                                                  null))
-                                          ? true
-                                          : false,
-                                      onChange: (String value) {
-                                        state.materialMovement
-                                            .materialComingFrom = value;
-                                        context
-                                            .read<InwardCubit>()
-                                            .onModelValueChange(
-                                                state.materialMovement);
-                                      },
-                                      validateTextField: (String? user) {},
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                                    /// Material Coming From Address
-                                    CommonWidgets.textDisplay(
-                                        Constants
-                                            .materialComingFromBriefDescription,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    FlutterInputField(
-                                      lineHeight: 6,
-                                      initialValue: state
-                                          .materialMovement.materialFromAddress,
-                                      textFormKey: Keys.generateUniqueKey(),
-                                      hintText: Constants.informationhere,
-                                      isEnable: widget.materialMovement == null
-                                          ? true
-                                          : (widget.materialMovement != null &&
-                                                  (widget.materialMovement
-                                                              ?.materialFromAddress ??
-                                                          '')
-                                                      .isEmpty)
-                                              ? true
-                                              : false,
-                                      isDisableColor: (widget
-                                                          .materialMovement !=
-                                                      null &&
-                                                  (widget.materialMovement
-                                                              ?.materialFromAddress ??
-                                                          '')
-                                                      .isEmpty) ||
-                                              widget.materialMovement == null
-                                          ? false
-                                          : true,
-                                      onChange: (String value) {
-                                        state.materialMovement
-                                            .materialFromAddress = value;
-                                        context
-                                            .read<InwardCubit>()
-                                            .onModelValueChange(
-                                                state.materialMovement);
-                                      },
-                                      validateTextField: (String? user) {},
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                                    /// Is original receiver receiving
-                                    CommonWidgets.textDisplay(
-                                        Constants.isOriginalReceiverReceiving,
-                                        Styles.textStyleBlack14),
-                                    radioButtonHandling(
-                                      state.materialMovement.originalReceiver!
-                                          ? 1
-                                          : 0,
-                                      state.materialMovement,
-                                    ),
-
-                                    /// Received For
-                                    if (!state.materialMovement
-                                        .originalReceiver!) ...[
-                                      Column(
-                                        children: [
-                                          CommonWidgets.textDisplay(
-                                            Constants.receivedFor,
-                                            Styles.textStyleBlack14,
-                                          ),
-                                          widget.materialMovement == null
-                                              ? TextfieldAddButton(
-                                                  title: state.materialMovement
-                                                      .otherReceiverName,
-                                                  height: 70,
-                                                  isDisableColor:
-                                                      widget.materialMovement ==
-                                                              null
-                                                          ? false
-                                                          : true,
-                                                  onTap: () {
-                                                    if (widget
-                                                            .materialMovement ==
-                                                        null) {
-                                                      userDialog(state,
-                                                          Constants.depositor);
-                                                    }
-                                                  })
-                                              : FlutterInputField(
-                                                  initialValue: state
-                                                      .materialMovement
-                                                      .otherReceiverName,
-                                                  textFormKey: Keys
-                                                      .depositorTextController,
-                                                  hintText: '',
-                                                  isEnable: widget
-                                                              .materialMovement ==
-                                                          null
-                                                      ? true
-                                                      : (widget.materialMovement !=
-                                                                  null &&
-                                                              (widget.materialMovement
-                                                                          ?.otherReceiverName ??
-                                                                      '')
-                                                                  .isEmpty)
-                                                          ? true
-                                                          : false,
-                                                  isDisableColor:
-                                                      (widget.materialMovement !=
-                                                              null)
-                                                          ? false
-                                                          : true,
-                                                  onChange:
-                                                      (String username) {},
-                                                  validateTextField:
-                                                      (String? user) {},
-                                                ),
-                                          CommonWidgets.verticalSpacerWidget(
-                                              height * 0.01),
-                                        ],
+                                    if (widget.isInward) ...[
+                                      /// Senders Name
+                                      CommonWidgets.textDisplay(
+                                          Constants.sendersName,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      FlutterInputField(
+                                        keyboardType: TextInputType.name,
+                                        initialValue: state.materialMovement
+                                            .materialComingFrom,
+                                        textFormKey: Keys.generateUniqueKey(),
+                                        hintText: '',
+                                        isEnable: widget.materialMovement ==
+                                                null
+                                            ? true
+                                            : (widget.materialMovement !=
+                                                        null &&
+                                                    (widget.materialMovement
+                                                            ?.materialComingFrom ==
+                                                        null))
+                                                ? false
+                                                : true,
+                                        isDisableColor: (widget
+                                                        .materialMovement !=
+                                                    null &&
+                                                (widget.materialMovement
+                                                        ?.materialComingFrom !=
+                                                    null))
+                                            ? true
+                                            : false,
+                                        onChange: (String value) {
+                                          state.materialMovement
+                                              .materialComingFrom = value;
+                                          context
+                                              .read<InwardCubit>()
+                                              .onModelValueChange(
+                                                  state.materialMovement);
+                                        },
+                                        validateTextField: (String? user) {},
                                       ),
-                                    ],
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
 
-                                    /// Received by Employee Id
-                                    CommonWidgets.textDisplay(
-                                        Constants.receiverEmployeeId,
-                                        Styles.textStyleBlack14),
-
-                                    FlutterInputField(
-                                      initialValue: state.materialMovement
-                                          .otherReceiverEmployeeId,
-                                      textFormKey:
-                                          Keys.claimantEmpIdTextController,
-                                      isEnable: widget.materialMovement == null
-                                          ? true
-                                          : (widget.materialMovement != null &&
-                                                  (widget.materialMovement
-                                                              ?.otherReceiverName ??
-                                                          '')
-                                                      .isEmpty)
-                                              ? true
-                                              : false,
-                                      isDisableColor: (widget
-                                                      .materialMovement !=
-                                                  null &&
-                                              (widget.materialMovement
-                                                          ?.otherReceiverName ??
-                                                      '')
-                                                  .isEmpty)
-                                          ? false
-                                          : true,
-                                      hintText: '',
-                                      onChange: (String value) {
-                                        state.materialMovement
-                                            .otherReceiverEmployeeId = value;
-                                        context
-                                            .read<InwardCubit>()
-                                            .onModelValueChange(
-                                                state.materialMovement);
-                                      },
-                                      validateTextField: (String? user) {},
-                                    ),
-
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                                    /// Receiver Department
-                                    CommonWidgets.textDisplay(
-                                      Constants.receiverDepartment,
-                                      Styles.textStyleBlack14,
-                                    ),
-                                    widget.materialMovement != null
-                                        ? FlutterInputField(
-                                            initialValue: state.materialMovement
-                                                .receiverDepartmenttName,
-                                            textFormKey:
-                                                Keys.claimantTextController,
-                                            hintText: receiverDepartmentName,
-                                            isEnable: widget.materialMovement ==
-                                                    null
+                                      /// Material Coming From Address
+                                      CommonWidgets.textDisplay(
+                                          Constants
+                                              .materialComingFromBriefDescription,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      FlutterInputField(
+                                        lineHeight: 6,
+                                        initialValue: state.materialMovement
+                                            .materialFromAddress,
+                                        textFormKey: Keys.generateUniqueKey(),
+                                        hintText: Constants.informationhere,
+                                        isEnable: widget.materialMovement ==
+                                                null
+                                            ? true
+                                            : (widget.materialMovement !=
+                                                        null &&
+                                                    (widget.materialMovement
+                                                                ?.materialFromAddress ??
+                                                            '')
+                                                        .isEmpty)
                                                 ? true
-                                                : (widget.materialMovement !=
-                                                            null &&
-                                                        (widget.materialMovement
-                                                                    ?.receiverDepartmenttName ??
-                                                                '')
-                                                            .isEmpty)
-                                                    ? true
-                                                    : false,
-                                            isDisableColor: (widget
+                                                : false,
+                                        isDisableColor: (widget
                                                             .materialMovement !=
                                                         null &&
                                                     (widget.materialMovement
-                                                                ?.receiverDepartmenttName ??
+                                                                ?.materialFromAddress ??
+                                                            '')
+                                                        .isEmpty) ||
+                                                widget.materialMovement == null
+                                            ? false
+                                            : true,
+                                        onChange: (String value) {
+                                          state.materialMovement
+                                              .materialFromAddress = value;
+                                          context
+                                              .read<InwardCubit>()
+                                              .onModelValueChange(
+                                                  state.materialMovement);
+                                        },
+                                        validateTextField: (String? user) {},
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+
+                                      /// Is original receiver receiving
+                                      CommonWidgets.textDisplay(
+                                          Constants.isOriginalReceiverReceiving,
+                                          Styles.textStyleBlack14),
+                                      radioButtonHandling(
+                                        state.materialMovement.originalReceiver!
+                                            ? 1
+                                            : 0,
+                                        state.materialMovement,
+                                      ),
+
+                                      /// Received For
+                                      if (!state.materialMovement
+                                          .originalReceiver!) ...[
+                                        Column(
+                                          children: [
+                                            CommonWidgets.textDisplay(
+                                              Constants.receivedFor,
+                                              Styles.textStyleBlack14,
+                                            ),
+                                            widget.materialMovement == null
+                                                ? TextfieldAddButton(
+                                                    title: state
+                                                        .materialMovement
+                                                        .otherReceiverName,
+                                                    height: 70,
+                                                    isDisableColor:
+                                                        widget.materialMovement ==
+                                                                null
+                                                            ? false
+                                                            : true,
+                                                    onTap: () {
+                                                      if (widget
+                                                              .materialMovement ==
+                                                          null) {
+                                                        userDialog(
+                                                            state,
+                                                            Constants
+                                                                .depositor);
+                                                      }
+                                                    })
+                                                : FlutterInputField(
+                                                    initialValue: state
+                                                        .materialMovement
+                                                        .otherReceiverName,
+                                                    textFormKey: Keys
+                                                        .depositorTextController,
+                                                    hintText: '',
+                                                    isEnable: widget
+                                                                .materialMovement ==
+                                                            null
+                                                        ? true
+                                                        : (widget.materialMovement !=
+                                                                    null &&
+                                                                (widget.materialMovement
+                                                                            ?.otherReceiverName ??
+                                                                        '')
+                                                                    .isEmpty)
+                                                            ? true
+                                                            : false,
+                                                    isDisableColor:
+                                                        (widget.materialMovement !=
+                                                                null)
+                                                            ? false
+                                                            : true,
+                                                    onChange:
+                                                        (String username) {},
+                                                    validateTextField:
+                                                        (String? user) {},
+                                                  ),
+                                            CommonWidgets.verticalSpacerWidget(
+                                                height * 0.01),
+                                          ],
+                                        ),
+                                      ],
+
+                                      /// Received by Employee Id
+                                      CommonWidgets.textDisplay(
+                                          Constants.receiverEmployeeId,
+                                          Styles.textStyleBlack14),
+
+                                      FlutterInputField(
+                                        initialValue: state.materialMovement
+                                            .otherReceiverEmployeeId,
+                                        textFormKey:
+                                            Keys.claimantEmpIdTextController,
+                                        isEnable: widget.materialMovement ==
+                                                null
+                                            ? true
+                                            : (widget.materialMovement !=
+                                                        null &&
+                                                    (widget.materialMovement
+                                                                ?.otherReceiverName ??
                                                             '')
                                                         .isEmpty)
-                                                ? false
-                                                : true,
-                                            onChange: (String value) {
-                                              state.materialMovement
-                                                      .receiverDepartmenttName =
-                                                  value;
-                                              context
-                                                  .read<InwardCubit>()
-                                                  .onModelValueChange(
-                                                      state.materialMovement);
-                                            },
-                                            validateTextField:
-                                                (String? user) {},
-                                          )
-                                        : TextfieldAddButton(
-                                            title: state.materialMovement
-                                                .receiverDepartmenttName,
-                                            height: 60,
-                                            isDisableColor:
-                                                widget.materialMovement ==
-                                                            null ||
-                                                        receiverDepartmentName
-                                                            .isEmpty
-                                                    ? false
-                                                    : true,
-                                            onTap: () {
-                                              if (widget.materialMovement ==
-                                                      null ||
-                                                  receiverDepartmentName
-                                                      .isEmpty) {
-                                                departmentDialog(state, 'name');
-                                                // leodepartmentsDialog(state);
-                                              }
-                                            },
-                                          ),
+                                                ? true
+                                                : false,
+                                        isDisableColor: (widget
+                                                        .materialMovement !=
+                                                    null &&
+                                                (widget.materialMovement
+                                                            ?.otherReceiverName ??
+                                                        '')
+                                                    .isEmpty)
+                                            ? false
+                                            : true,
+                                        hintText: '',
+                                        onChange: (String value) {
+                                          state.materialMovement
+                                              .otherReceiverEmployeeId = value;
+                                          context
+                                              .read<InwardCubit>()
+                                              .onModelValueChange(
+                                                  state.materialMovement);
+                                        },
+                                        validateTextField: (String? user) {},
+                                      ),
 
-                                    // dbwanttodepartmentaddButtonwidgetLoading(state),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
 
-                                    /// Received By
-                                    CommonWidgets.textDisplay(
-                                        Constants.receivedBy,
-                                        Styles.textStyleBlack14),
+                                      /// Receiver Department
+                                      CommonWidgets.textDisplay(
+                                        Constants.receiverDepartment,
+                                        Styles.textStyleBlack14,
+                                      ),
+                                      widget.materialMovement != null
+                                          ? FlutterInputField(
+                                              initialValue: state
+                                                  .materialMovement
+                                                  .receiverDepartmenttName,
+                                              textFormKey:
+                                                  Keys.claimantTextController,
+                                              hintText: receiverDepartmentName,
+                                              isEnable: widget
+                                                          .materialMovement ==
+                                                      null
+                                                  ? true
+                                                  : (widget.materialMovement !=
+                                                              null &&
+                                                          (widget.materialMovement
+                                                                      ?.receiverDepartmenttName ??
+                                                                  '')
+                                                              .isEmpty)
+                                                      ? true
+                                                      : false,
+                                              isDisableColor: (widget
+                                                              .materialMovement !=
+                                                          null &&
+                                                      (widget.materialMovement
+                                                                  ?.receiverDepartmenttName ??
+                                                              '')
+                                                          .isEmpty)
+                                                  ? false
+                                                  : true,
+                                              onChange: (String value) {
+                                                state.materialMovement
+                                                        .receiverDepartmenttName =
+                                                    value;
+                                                context
+                                                    .read<InwardCubit>()
+                                                    .onModelValueChange(
+                                                        state.materialMovement);
+                                              },
+                                              validateTextField:
+                                                  (String? user) {},
+                                            )
+                                          : TextfieldAddButton(
+                                              title: state.materialMovement
+                                                  .receiverDepartmenttName,
+                                              height: 60,
+                                              isDisableColor:
+                                                  widget.materialMovement ==
+                                                              null ||
+                                                          receiverDepartmentName
+                                                              .isEmpty
+                                                      ? false
+                                                      : true,
+                                              onTap: () {
+                                                if (widget.materialMovement ==
+                                                        null ||
+                                                    receiverDepartmentName
+                                                        .isEmpty) {
+                                                  departmentDialog(
+                                                      state, 'name');
+                                                  // leodepartmentsDialog(state);
+                                                }
+                                              },
+                                            ),
 
-                                    FlutterInputField(
-                                      initialValue: state
-                                          .materialMovement.otherReceiverName,
-                                      textFormKey:
-                                          Keys.claimantEmpIdTextController,
-                                      isEnable: widget.materialMovement == null
-                                          ? true
-                                          : (widget.materialMovement != null &&
-                                                  (widget.materialMovement
-                                                              ?.otherReceiverName ??
-                                                          '')
-                                                      .isEmpty)
-                                              ? true
-                                              : false,
-                                      isDisableColor: (widget
-                                                      .materialMovement !=
-                                                  null &&
-                                              (widget.materialMovement
-                                                          ?.otherReceiverName ??
-                                                      '')
-                                                  .isEmpty)
-                                          ? false
-                                          : true,
-                                      hintText: '',
-                                      onChange: (String value) {
-                                        state.materialMovement
-                                            .otherReceiverName = value;
-                                        context
-                                            .read<InwardCubit>()
-                                            .onModelValueChange(
-                                                state.materialMovement);
-                                      },
-                                      validateTextField: (String? user) {},
-                                    ),
+                                      // dbwanttodepartmentaddButtonwidgetLoading(state),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
 
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      /// Received By
+                                      CommonWidgets.textDisplay(
+                                          Constants.receivedBy,
+                                          Styles.textStyleBlack14),
 
-                                    /// Received for Employee Id
-                                    CommonWidgets.textDisplay(
-                                        Constants.receivedForEmployeeId,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-                                    FlutterInputField(
-                                      initialValue: state
-                                          .materialMovement.receiverEmployeeId,
-                                      textFormKey:
-                                          Keys.claimantEmpIdTextController,
-                                      isEnable: widget.materialMovement == null
-                                          ? true
-                                          : (widget.materialMovement != null &&
-                                                  (widget.materialMovement
-                                                              ?.receiverEmployeeId ??
-                                                          '')
-                                                      .isEmpty)
-                                              ? true
-                                              : false,
-                                      isDisableColor: (widget
-                                                      .materialMovement !=
-                                                  null &&
-                                              (widget.materialMovement
-                                                          ?.receiverEmployeeId ??
-                                                      '')
-                                                  .isEmpty)
-                                          ? false
-                                          : true,
-                                      hintText: '',
-                                      onChange: (String value) {
-                                        state.materialMovement
-                                            .receiverEmployeeId = value;
-                                        context
-                                            .read<InwardCubit>()
-                                            .onModelValueChange(
-                                                state.materialMovement);
-                                      },
-                                      validateTextField: (String? user) {},
-                                    ),
+                                      FlutterInputField(
+                                        initialValue: state
+                                            .materialMovement.otherReceiverName,
+                                        textFormKey:
+                                            Keys.claimantEmpIdTextController,
+                                        isEnable: widget.materialMovement ==
+                                                null
+                                            ? true
+                                            : (widget.materialMovement !=
+                                                        null &&
+                                                    (widget.materialMovement
+                                                                ?.otherReceiverName ??
+                                                            '')
+                                                        .isEmpty)
+                                                ? true
+                                                : false,
+                                        isDisableColor: (widget
+                                                        .materialMovement !=
+                                                    null &&
+                                                (widget.materialMovement
+                                                            ?.otherReceiverName ??
+                                                        '')
+                                                    .isEmpty)
+                                            ? false
+                                            : true,
+                                        hintText: '',
+                                        onChange: (String value) {
+                                          state.materialMovement
+                                              .otherReceiverName = value;
+                                          context
+                                              .read<InwardCubit>()
+                                              .onModelValueChange(
+                                                  state.materialMovement);
+                                        },
+                                        validateTextField: (String? user) {},
+                                      ),
 
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
 
-                                    /// Receiver Signature
-                                    CommonWidgets.textDisplay(
-                                        Constants.receiverSignature,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    FlutterInputField(
-                                      lineHeight: 6,
-                                      initialValue:
-                                          state.materialMovement.receiverEmail,
-                                      textFormKey: Keys.generateUniqueKey(),
-                                      hintText: Constants.informationhere,
-                                      isEnable: widget.materialMovement == null
-                                          ? true
-                                          : (widget.materialMovement != null &&
-                                                  (widget.materialMovement
-                                                              ?.receiverEmployeeId ??
-                                                          '')
-                                                      .isEmpty)
-                                              ? true
-                                              : false,
-                                      isDisableColor: (widget
-                                                          .materialMovement !=
-                                                      null &&
-                                                  (widget.materialMovement
-                                                              ?.receiverEmployeeId ??
-                                                          '')
-                                                      .isEmpty) ||
-                                              widget.materialMovement == null
-                                          ? false
-                                          : true,
-                                      onChange: (String value) {
-                                        state.materialMovement
-                                            .entrySecurityName = value;
-                                        context
-                                            .read<InwardCubit>()
-                                            .onModelValueChange(
-                                                state.materialMovement);
-                                      },
-                                      validateTextField: (String? user) {},
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      /// Received for Employee Id
+                                      CommonWidgets.textDisplay(
+                                          Constants.receivedForEmployeeId,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                      FlutterInputField(
+                                        initialValue: state.materialMovement
+                                            .receiverEmployeeId,
+                                        textFormKey:
+                                            Keys.claimantEmpIdTextController,
+                                        isEnable: widget.materialMovement ==
+                                                null
+                                            ? true
+                                            : (widget.materialMovement !=
+                                                        null &&
+                                                    (widget.materialMovement
+                                                                ?.receiverEmployeeId ??
+                                                            '')
+                                                        .isEmpty)
+                                                ? true
+                                                : false,
+                                        isDisableColor: (widget
+                                                        .materialMovement !=
+                                                    null &&
+                                                (widget.materialMovement
+                                                            ?.receiverEmployeeId ??
+                                                        '')
+                                                    .isEmpty)
+                                            ? false
+                                            : true,
+                                        hintText: '',
+                                        onChange: (String value) {
+                                          state.materialMovement
+                                              .receiverEmployeeId = value;
+                                          context
+                                              .read<InwardCubit>()
+                                              .onModelValueChange(
+                                                  state.materialMovement);
+                                        },
+                                        validateTextField: (String? user) {},
+                                      ),
 
-                                    /// Security Signature
-                                    CommonWidgets.textDisplay(
-                                        Constants.securitySignature,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    FlutterInputField(
-                                      lineHeight: 6,
-                                      initialValue: state
-                                          .materialMovement.materialDescription,
-                                      textFormKey: Keys.generateUniqueKey(),
-                                      hintText: Constants.informationhere,
-                                      isEnable: widget.materialMovement == null
-                                          ? true
-                                          : (widget.materialMovement != null &&
-                                                  (widget.materialMovement
-                                                              ?.materialDescription ??
-                                                          '')
-                                                      .isEmpty)
-                                              ? true
-                                              : false,
-                                      isDisableColor: (widget
-                                                          .materialMovement !=
-                                                      null &&
-                                                  (widget.materialMovement
-                                                              ?.materialDescription ??
-                                                          '')
-                                                      .isEmpty) ||
-                                              widget.materialMovement == null
-                                          ? false
-                                          : true,
-                                      onChange: (String value) {
-                                        state.materialMovement
-                                            .materialDescription = value;
-                                        context
-                                            .read<InwardCubit>()
-                                            .onModelValueChange(
-                                                state.materialMovement);
-                                      },
-                                      validateTextField: (String? user) {},
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+
+                                      /// Receiver Signature
+                                      CommonWidgets.textDisplay(
+                                          Constants.receiverSignature,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      FlutterInputField(
+                                        lineHeight: 6,
+                                        initialValue: state
+                                            .materialMovement.receiverEmail,
+                                        textFormKey: Keys.generateUniqueKey(),
+                                        hintText: Constants.informationhere,
+                                        isEnable: widget.materialMovement ==
+                                                null
+                                            ? true
+                                            : (widget.materialMovement !=
+                                                        null &&
+                                                    (widget.materialMovement
+                                                                ?.receiverEmployeeId ??
+                                                            '')
+                                                        .isEmpty)
+                                                ? true
+                                                : false,
+                                        isDisableColor: (widget
+                                                            .materialMovement !=
+                                                        null &&
+                                                    (widget.materialMovement
+                                                                ?.receiverEmployeeId ??
+                                                            '')
+                                                        .isEmpty) ||
+                                                widget.materialMovement == null
+                                            ? false
+                                            : true,
+                                        onChange: (String value) {
+                                          state.materialMovement
+                                              .entrySecurityName = value;
+                                          context
+                                              .read<InwardCubit>()
+                                              .onModelValueChange(
+                                                  state.materialMovement);
+                                        },
+                                        validateTextField: (String? user) {},
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+
+                                      /// Security Signature
+                                      CommonWidgets.textDisplay(
+                                          Constants.securitySignature,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      FlutterInputField(
+                                        lineHeight: 6,
+                                        initialValue: state.materialMovement
+                                            .materialDescription,
+                                        textFormKey: Keys.generateUniqueKey(),
+                                        hintText: Constants.informationhere,
+                                        isEnable: widget.materialMovement ==
+                                                null
+                                            ? true
+                                            : (widget.materialMovement !=
+                                                        null &&
+                                                    (widget.materialMovement
+                                                                ?.materialDescription ??
+                                                            '')
+                                                        .isEmpty)
+                                                ? true
+                                                : false,
+                                        isDisableColor: (widget
+                                                            .materialMovement !=
+                                                        null &&
+                                                    (widget.materialMovement
+                                                                ?.materialDescription ??
+                                                            '')
+                                                        .isEmpty) ||
+                                                widget.materialMovement == null
+                                            ? false
+                                            : true,
+                                        onChange: (String value) {
+                                          state.materialMovement
+                                              .materialDescription = value;
+                                          context
+                                              .read<InwardCubit>()
+                                              .onModelValueChange(
+                                                  state.materialMovement);
+                                        },
+                                        validateTextField: (String? user) {},
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                    ],
 
                                     /// upload
                                     widget.materialMovement == null
