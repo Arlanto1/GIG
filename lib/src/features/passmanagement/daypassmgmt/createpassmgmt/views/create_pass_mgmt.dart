@@ -2119,27 +2119,27 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         name: state.t1dbsponsoranalyst?.name ?? '');    
 
      int passtypeIdentify = 0;
-      if(daypassnoTextController.text == "VISITOR_PASS")  
+      if(passtypeTextController.text == "VISITOR_PASS")  
       {
         passtypeIdentify = 1;
       } 
-      else if(daypassnoTextController.text == "DWS_VISITOR_PASS")  
+      else if(passtypeTextController.text == "DWS_VISITOR_PASS")  
       {
         passtypeIdentify = 5;
       }
-      else if(daypassnoTextController.text == "VENDOR_PASS")  
+      else if(passtypeTextController.text == "VENDOR_PASS")  
       {
         passtypeIdentify = 2;
       }
-      else if(daypassnoTextController.text == "DWS_VENDOR_PASS")  
+      else if(passtypeTextController.text == "DWS_VENDOR_PASS")  
       {
         passtypeIdentify = 6;
       }
-      else if(daypassnoTextController.text == "SEZ_PASS")  
+      else if(passtypeTextController.text == "SEZ_PASS")  
       {
         passtypeIdentify = 3;
       }
-      else if(daypassnoTextController.text == "DAY_PASS")  
+      else if(passtypeTextController.text == "DAY_PASS")  
       {
         passtypeIdentify = 0;
       }
