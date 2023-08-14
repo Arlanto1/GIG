@@ -65,10 +65,10 @@ class MaterialMovementModel {
   String? materialReturnedChallanNo;
   String? returnReceiverMailId;
    String? poNumber;
-  bool? originalReceiver;
+  bool originalReceiver;
   String? otherReceiverName;
   String? otherReceiverEmployeeId;
-  bool? materialPhysicallyChecked;
+  bool materialPhysicallyChecked;
   String? materialNotCheckedComment;
   String? takenOutAddress;
   String? entrySecurityName;
@@ -117,7 +117,7 @@ class MaterialMovementModel {
     this.originalReceiver = false,
     this.otherReceiverName,
     this.otherReceiverEmployeeId,
-    this.materialPhysicallyChecked,
+    this.materialPhysicallyChecked = false,
     this.materialNotCheckedComment,
     this.takenOutAddress,
     this.entrySecurityName,
@@ -164,10 +164,10 @@ class MaterialMovementModel {
         materialReturnedChallanNo = json['materialReturnedChallanNo'] as String?,
         returnReceiverMailId = json['returnReceiverMailId'] as String?,
         poNumber = json['poNumber'] as String?,
-        originalReceiver = json['originalReceiver'] as bool?,
+        originalReceiver = json['originalReceiver'] as bool,
         otherReceiverName = json['otherReceiverName'] as String?,
         otherReceiverEmployeeId = json['otherReceiverEmployeeId'] as String?,
-        materialPhysicallyChecked = json['materialPhysicallyChecked'] as bool?,
+        materialPhysicallyChecked = json['materialPhysicallyChecked'] as bool,
         materialNotCheckedComment = json['materialNotCheckedComment'] as String?,
         takenOutAddress = json['takenOutAddress'] as String?,
         entrySecurityName = json['entrySecurityName'] as String?,

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/common_widgets/custom_pop_list_texts.dart';
@@ -1245,16 +1246,42 @@ class _MaterialMovementInwardDetailsState
                                       CommonWidgets.textDisplay(
                                           Constants.isOriginalReceiverReceiving,
                                           Styles.textStyleBlack14),
-                                      radioButtonHandling(
-                                        state.materialMovement.originalReceiver!
-                                            ? 1
-                                            : 0,
-                                        state.materialMovement,
-                                      ),
+                                      RadioButtonsYesNo(
+                                          status:
+                                              state.materialMovement.status ??
+                                                  0,
+                                          selectedValue: state.materialMovement
+                                                  .originalReceiver
+                                              ? 1
+                                              : 0,
+                                          onChangedYes: widget.materialMovement
+                                                      ?.status ==
+                                                  6
+                                              ? null
+                                              : (val) {
+                                                  BlocProvider.of<InwardCubit>(
+                                                          context)
+                                                      .showFields(
+                                                    isOriginalReceiverReceiving:
+                                                        true,
+                                                  );
+                                                },
+                                          onChangedNo: widget.materialMovement
+                                                      ?.status ==
+                                                  6
+                                              ? null
+                                              : (val) {
+                                                  BlocProvider.of<InwardCubit>(
+                                                          context)
+                                                      .showFields(
+                                                    isOriginalReceiverReceiving:
+                                                        false,
+                                                  );
+                                                }),
 
                                       /// Received For
                                       if (!state.materialMovement
-                                          .originalReceiver!) ...[
+                                          .originalReceiver) ...[
                                         Column(
                                           children: [
                                             CommonWidgets.textDisplay(
@@ -1617,6 +1644,45 @@ class _MaterialMovementInwardDetailsState
                                       ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.01),
+
+                                      /// Is Material Physically Checked
+                                      CommonWidgets.textDisplay(
+                                          Constants.isPhysicallyChecked,
+                                          Styles.textStyleBlack14),
+                                      RadioButtonsYesNo(
+                                          status:
+                                              state.materialMovement.status ??
+                                                  0,
+                                          selectedValue: state.materialMovement
+                                                  .materialPhysicallyChecked
+                                              ? 1
+                                              : 0,
+                                          onChangedYes: widget.materialMovement
+                                                      ?.status ==
+                                                  6
+                                              ? null
+                                              : (val) {
+                                                  BlocProvider.of<InwardCubit>(
+                                                          context)
+                                                      .showFields(
+                                                    isMaterialPhysicallyChecked:
+                                                        true,
+                                                    // materialMovement: materialMovement,
+                                                  );
+                                                },
+                                          onChangedNo: widget.materialMovement
+                                                      ?.status ==
+                                                  6
+                                              ? null
+                                              : (val) {
+                                                  BlocProvider.of<InwardCubit>(
+                                                          context)
+                                                      .showFields(
+                                                    isMaterialPhysicallyChecked:
+                                                        false,
+                                                    // materialMovement: materialMovement,
+                                                  );
+                                                }),
                                     ],
 
                                     /// upload
@@ -1876,46 +1942,6 @@ class _MaterialMovementInwardDetailsState
   }
 
   // TODO: Need to use this as common widget
-  Widget radioButtonHandling(
-      int selectedValue, MaterialMovementModel materialMovement) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Radio(
-          activeColor: widget.materialMovement != null
-              ? AppColors.disabletextfieldBackground
-              : AppColors.navigationSkybluecolor,
-          focusColor: AppColors.navigationSkybluecolor,
-          value: 1,
-          groupValue: selectedValue,
-          onChanged: materialMovement.status == 6
-              ? null
-              : (val) {
-                  BlocProvider.of<InwardCubit>(context).showFields(
-                      isOriginalReceiverReceiving: true,
-                      materialMovement: materialMovement);
-                },
-        ),
-        const Text(Constants.yes),
-        Radio(
-          activeColor: widget.materialMovement != null
-              ? AppColors.disabletextfieldBackground
-              : AppColors.navigationSkybluecolor,
-          focusColor: AppColors.navigationSkybluecolor,
-          value: 0,
-          groupValue: selectedValue,
-          onChanged: materialMovement.status == 6
-              ? null
-              : (val) {
-                  BlocProvider.of<InwardCubit>(context).showFields(
-                      isOriginalReceiverReceiving: false,
-                      materialMovement: materialMovement);
-                },
-        ),
-        const Text(Constants.no),
-      ],
-    );
-  }
 
   // Widget radioButtonHandling(int selectedValue, String name) {
   //   return Row(
@@ -2227,3 +2253,4 @@ class _MaterialMovementInwardDetailsState
 //       });
 // }
 }
+

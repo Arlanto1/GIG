@@ -237,6 +237,7 @@ class Constants {
   static const String receiverSignature = 'Receiver Signature';
   static const String securitySignature = 'Security Signature';
   static const String addQuantity = 'Add Quantity';
+  static const String isPhysicallyChecked = 'Is Material Physically Checked';
 
   static const String equipmentNo = 'Equipment No/Identification';
   static const String address = 'Address';

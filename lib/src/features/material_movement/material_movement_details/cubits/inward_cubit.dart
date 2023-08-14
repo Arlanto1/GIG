@@ -165,15 +165,20 @@ class InwardCubit extends Cubit<InwardState> {
   //   ));
   // }
   void showFields(
-      {required bool isOriginalReceiverReceiving,
-      required MaterialMovementModel materialMovement}) {
+      { bool? isOriginalReceiverReceiving,
+         bool? isMaterialPhysicallyChecked}) {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
 
-    state.materialMovement.originalReceiver = isOriginalReceiverReceiving;
+    if(isOriginalReceiverReceiving != null) {
+      state.materialMovement.originalReceiver = isOriginalReceiverReceiving;
+    }
+    if(isMaterialPhysicallyChecked != null) {
+      state.materialMovement.materialPhysicallyChecked = isMaterialPhysicallyChecked;
+    }
     // final updatedMaterialMovement = materialMovement.copyWith(state.materialMovement.originalReceiver: isOriginalReceiverReceiving);
 
     emit(state.copyWith(
