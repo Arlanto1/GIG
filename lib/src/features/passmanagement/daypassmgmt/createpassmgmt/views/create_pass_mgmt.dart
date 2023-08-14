@@ -2418,12 +2418,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter entitiy",
       );
-    } else if (widget.passId == '0' && state.atomCompanyType == null) {
+    } else if ((widget.passId == '0' || widget.passId == '3')  && state.atomCompanyType?.name == null) {
       Validator().showToast(
         context,
         "Please enter company type",
       );
-    } else if (widget.passId == '0' && companynameTextController.text.isEmpty) {
+    } else if ((widget.passId == '0' || widget.passId == '3') && companynameTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter company name",
@@ -2434,49 +2434,141 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter name",
       );
-    } else if (widget.passId == '0'  && nameTextController.text.isEmpty) {
+    } else if ((widget.passId == '0' && (state.atomCompanyType?.name ?? '').toLowerCase() != 'fte')  && nameTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter name",
       );
-    } else if (widget.passId == '0'  &&  (state.atomCompanyType?.name ?? '').toLowerCase() !=
+    }
+    else if ((widget.passId == '1' || widget.passId == '2')  && nameTextController.text.isEmpty) {
+      Validator().showToast(
+        context,
+        widget.passId == '2' ? "Please enter vendor name":"Please enter visitor name",
+      );
+    } 
+     else if ((widget.passId == '1' || widget.passId == '2') && contactnoTextController.text.isEmpty) {
+      Validator().showToast(
+        context,
+        "Please enter contact no",
+      );
+    } 
+     else if (widget.passId == '1' && visitorcomingfromTextController.text.isEmpty) {
+      Validator().showToast(
+        context,
+        "Please enter visit coming from",
+      );
+    } 
+     else if (widget.passId == '1' && photofidentityextController.text.isEmpty) {
+      Validator().showToast(
+        context,
+        "Please enter photo identify type",
+      );
+    } 
+     else if (widget.passId == '1' && purposeofvisitTextController.text.isEmpty) {
+      Validator().showToast(
+        context,
+        "Please enter purpose of visit",
+      );
+    }
+   
+     else if (widget.passId == '0'  &&  (state.atomCompanyType?.name ?? '').toLowerCase() !=
             'exceptions' &&
         employeeidTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter employeed id",
       );
-    } else if ( (widget.passId == '0' && (state.atomCompanyType?.name ?? '').toLowerCase() == 'cwr t1' &&
+    } 
+     else if (widget.passId == '3'  &&
+        employeeidTextController.text.isEmpty) {
+      Validator().showToast(
+        context,
+        "Please enter employeed id",
+      );
+    }
+    else if ( (widget.passId == '0' && (state.atomCompanyType?.name ?? '').toLowerCase() == 'cwr t1' &&
         emailTextController.text.isEmpty)) {
       Validator().showToast(
         context,
         "Please enter email",
       );
-    } else if ((state.atomCompanyType?.name ?? '').toLowerCase() ==
+    } 
+    else if ( (widget.passId == '3'  &&
+        emailTextController.text.isEmpty)) {
+      Validator().showToast(
+        context,
+        "Please enter email",
+      );
+    }
+     else if ( (widget.passId == '3'  &&
+        sezpassinfoTextController.text.isEmpty)) {
+      Validator().showToast(
+        context,
+        "Please enter SEZ pass info",
+      );
+    }
+    
+    else if ( (widget.passId == '3'  &&
+        mtpapplicationnoTextController.text.isEmpty)) {
+      Validator().showToast(
+        context,
+        "Please enter MTP application no",
+      );
+    }
+    else if (widget.passId == '0'  && ((state.atomCompanyType?.name ?? '').toLowerCase() ==
             'exceptions' &&
+        (state.t1hostanalyst?.name ?? '').isEmpty)) {
+      Validator().showToast(
+        context,
+        "Please enter host",
+      );
+    } else if (widget.passId == '0'  && ((state.atomCompanyType?.name ?? '').toLowerCase() ==
+            'exceptions' &&
+        hostemployeeidTextController.text.isEmpty)) {
+      Validator().showToast(
+        context,
+        "Please enter host employeed id",
+      );
+    } 
+   else if ((widget.passId == '1' || widget.passId == '2' || widget.passId == '3')  &&
         (state.t1hostanalyst?.name ?? '').isEmpty) {
       Validator().showToast(
         context,
         "Please enter host",
       );
-    } else if ((state.atomCompanyType?.name ?? '').toLowerCase() ==
-            'exceptions' &&
+    } else if ((widget.passId == '1' || widget.passId == '2' || widget.passId == '3')  &&
         hostemployeeidTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter host employeed id",
       );
-    } else if ( (widget.passId == '0' && (state.selectedemployeeDepartmentResponse == null ||
+    }
+
+    else if ( (widget.passId == '0' && (state.selectedemployeeDepartmentResponse == null ||
         (state.selectedemployeeDepartmentResponse?.name ?? '').isEmpty))) {
       Validator().showToast(
         context,
         "Please enter department",
       );
-    } else if ( widget.passId == '0' && (state.dayPasselementReason == null ||
+    }
+    else if ( ((widget.passId == '1' || widget.passId == '2') && (state.selectedemployeeDepartmentResponse == null ||
+        (state.selectedemployeeDepartmentResponse?.name ?? '').isEmpty))) {
+      Validator().showToast(
+        context,
+        "Please enter visit department",
+      );
+    }
+    else if ( (widget.passId == '1' || widget.passId == '2')  && passtypeTextController.text.isEmpty) {
+      Validator().showToast(
+        context,
+        "Please enter pass type",
+      );
+    }
+     else if ( (widget.passId == '0' || widget.passId == '2') && (state.dayPasselementReason == null ||
         (state.dayPasselementReason?.name ?? '').isEmpty)) {
       Validator().showToast(
         context,
-        "Please enter reason for day pass",
+         widget.passId == '2' ? "Please enter reason for vendor pass": "Please enter reason for day pass",
       );
     } else if (  widget.passId == '0' && (state.activePassInfoList == null ||
         (state.activePassInfoList?.name ?? '').isEmpty)) {
@@ -2484,7 +2576,23 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter day pass no",
       );
-    } else if (passvalidfromTextController.text.isEmpty) {
+    } 
+    else if (  (widget.passId == '1' || widget.passId == '2') && (state.activePassInfoList == null ||
+        (state.activePassInfoList?.name ?? '').isEmpty)) {
+      Validator().showToast(
+        context,
+        widget.passId == '2' ? "Please enter vendor pass no": "Please enter visit pass no",
+      );
+    } 
+
+     else if (  widget.passId == '3' && daypassnoTextController.text.isEmpty ) {
+      Validator().showToast(
+        context,
+        "Please enter pass category",
+      );
+    } 
+    
+    else if (passvalidfromTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter pass valid from",
@@ -2494,15 +2602,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter pass valid until",
       );
-    } else if ( widget.passId == '0' && (escortedbyTextController.text.isEmpty)) {
+    } else if ((widget.passId == '0' || widget.passId == '1' || widget.passId == '2') && (escortedbyTextController.text.isEmpty)) {
       Validator().showToast(
         context,
-        "Please enter host escorted by",
+        "Please enter escorted by",
       );
-    } else if (widget.passId == '0' && (escortedemployeedidbyTextController.text.isEmpty)) {
+    } else if ((widget.passId == '0' || widget.passId == '1' || widget.passId == '2')  && (escortedemployeedidbyTextController.text.isEmpty)) {
       Validator().showToast(
         context,
-        "Please enter host escort employeed id",
+        "Please enter escort employeed id",
       );
     } else {
       passSubmit(true, widget.listuser?.id ?? 0, globalState);
