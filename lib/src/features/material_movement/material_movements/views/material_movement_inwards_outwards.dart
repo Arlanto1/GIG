@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
@@ -115,7 +113,7 @@ class _MaterialMovementInwardsOutwardsState
                           showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(id: state.items[selectedIndex].id.toString()??'',);
+                              return BasePopUpItems(id: state.items[selectedIndex].id.toString(),);
                             },
                           );
                         },
@@ -127,11 +125,14 @@ class _MaterialMovementInwardsOutwardsState
                             context: context,
                             builder: (BuildContext dialogContext) {
                               return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString()??'',
-                                inputDate: state.items[selectedIndex].inputDate.toString(),
+                                id: state.items[selectedIndex].id.toString(),
+                                inputDate: state.items[selectedIndex].inputDate,
                                 location: state.items[selectedIndex].location,
+                                returnable: state.items[selectedIndex].returnable,
+                                quantity: state.items[selectedIndex].quantity.toString(),
+                                challanNo: state.items[selectedIndex].challanNo,
                                 locationRegion: state.items[selectedIndex].locationRegion,
-                                securityName: state.items[selectedIndex].entrySecurityName,
+                              //  securityName: state.items[selectedIndex].entrySecurityName,
                                 slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status.toString(),
                                 entrySecurityName: state.items[selectedIndex].entrySecurityName,

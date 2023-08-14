@@ -11,30 +11,31 @@ class BasePopUpItems extends StatefulWidget {
   final String? id;
   final String? slNo;
   final Location? location;
-  final LocationRegion?  locationRegion;
+  final LocationRegion? locationRegion;
   final String? status;
   final String? inputDate;
-  final String? securityName;
-  final String?  entrySecurityName;
-  final String?  modifiedDate;
-  final String?  dbOfficialEmail;
-
-
+  final String? entrySecurityName;
+  final bool? returnable;
+  final String? quantity;
+  final String? challanNo;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
 
-  const BasePopUpItems({super.key,
+  const BasePopUpItems({
+    super.key,
     required this.id,
     this.slNo,
     this.location,
     this.locationRegion,
+    this.quantity,
     this.status,
     this.inputDate,
-    this.securityName,
+    // this.securityName,
     this.entrySecurityName,
-    this.modifiedDate,
-    this.dbOfficialEmail,
+    //this.modifiedDate,
+    this.returnable,
+    this.challanNo,
   });
 }
 
@@ -91,47 +92,55 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              textHandling('ID : ', widget.id.toString() ?? " "),
+              textHandling('ID : ', widget.id.toString()),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              textHandling('Sl No : ', widget.slNo.toString() ?? " "),
+              textHandling('Sl No : ', widget.slNo.toString()),
+            ],
+          ),
+          CommonWidgets.verticalSpacerWidget(8),
+          Row(
+            children: [
+              textHandling('Region : ', widget.locationRegion?.name ?? " "),
+            ],
+          ),
+          CommonWidgets.verticalSpacerWidget(8),
+          Row(
+            children: [
+              textHandling('Location : ', widget.location?.name ?? " "),
+            ],
+          ),
+          CommonWidgets.verticalSpacerWidget(8),
+          Row(
+            children: [
+              textHandling('Material Movement Type : ',
+                  widget.returnable == true ? 'Returnable' : 'Not Returnable'),
+            ],
+          ),
+          CommonWidgets.verticalSpacerWidget(8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              textHandling('Challan/Invoice Nos/Gate Pass : ',
+                  widget.challanNo.toString()),
+            ],
+          ),
+          CommonWidgets.verticalSpacerWidget(8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              textHandling('Quantity : ', widget.quantity.toString()),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
               textHandling(
-                  'Region : ', widget.locationRegion?.name ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling(
-                  'Location : ', widget.location?.name ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling(
-                  'TimeOfVisit : ',
-                  widget.status != null
-                      ? Utils.timestamptoDateConversion(
-                          int.parse(widget.status ?? '0'),
-                          Constants.dateFormat)
-                      : ''),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling(
-                  'Created By : ',
+                  'DateOfCreation : ',
                   widget.inputDate != null
                       ? Utils.timestamptoDateConversion(
                           int.parse(widget.inputDate ?? '0'),
@@ -142,50 +151,18 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
-              textHandling('EntrySecurityName : ',
-                  widget.entrySecurityName.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling('DBOfficialName : ',
-                  widget.dbOfficialEmail.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
               textHandling(
-                  'Modified Date : ',
-                  widget.modifiedDate != null
-                      ? Utils.timestamptoDateConversion(
-                          int.parse(widget.modifiedDate ?? '0'),
-                          Constants.dateFormat)
-                      : ''),
+                  'Created By : ', widget.entrySecurityName.toString()),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
-              textHandling('item Hand Over By : ',
-                  widget.entrySecurityName.toString() ?? " "),
+              textHandling('Status : ', widget.status.toString()),
             ],
           ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling(
-                  'Status : ', widget.status.toString() ?? " "),
-            ],
-          ),
-        ])
-                //),
-                //    ),
-                ),
-        // ],
+        ])),
       ),
-      // ),
     );
   }
 }
