@@ -17,8 +17,10 @@
 *.ipr
 *.iws
 .idea/
+.idea/**
 .idea/*
 **.idea/
+
 
 
 # Visual Studio Code related

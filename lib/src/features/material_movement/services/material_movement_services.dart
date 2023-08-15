@@ -2,26 +2,21 @@ import 'dart:developer';
 
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
-import 'package:db_atom/src/features/material_movement/material_movements/models/material_movements_model.dart';
-import 'package:db_atom/src/features/material_movement/material_movements/models/requestModels/material_movement_request.dart';
-import 'package:db_atom/src/features/material_movement/material_movements/models/responseModels/material_movement_response.dart';
-
+import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
+import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
+import 'package:db_atom/src/features/material_movement/models/responseModels/material_movement_response.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getMaterialMovements =
-      '$baseUrl/getMMList?';
+  static final String _getMaterialMovements = '$baseUrl/getMMList?';
 
-  static final String _getMaterialMovement =
-      '$baseUrl/getMMById';
+  static final String _getMaterialMovement = '$baseUrl/getMMById';
 
-  static final String _createMaterialMovement =
-      '$baseUrl/createMtrlMvmt';
+  static final String _createMaterialMovement = '$baseUrl/createMtrlMvmt';
 }
 
 class MaterialMovementServices {
-
   Future<MaterialMovementsModel> getMaterialMovements(
       {required String startPosition,
       required String maximumRecords,
@@ -45,7 +40,8 @@ class MaterialMovementServices {
 
   /// Create Services
 
-  Future<MaterialMovementResponse> createMaterialMovement( MaterialMovementRequest body) async {
+  Future<MaterialMovementResponse> createMaterialMovement(
+      MaterialMovementRequest body) async {
     final String url = Apis._createMaterialMovement;
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
@@ -54,5 +50,4 @@ class MaterialMovementServices {
     );
     return MaterialMovementResponse.fromJson(response);
   }
-
 }

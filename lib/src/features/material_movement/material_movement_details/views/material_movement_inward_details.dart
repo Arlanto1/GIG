@@ -20,7 +20,7 @@ import 'package:db_atom/src/features/createfound/views/add_employee_deparment.da
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart';
-import 'package:db_atom/src/features/material_movement/material_movements/models/quantity_units.dart';
+import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -31,7 +31,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../createfound/views/create_found_newuser.dart';
-import '../../material_movements/models/material_movements_model.dart';
+import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 
 class MaterialMovementInwardDetails extends StatefulWidget {
   final MaterialMovementModel? materialMovement;
