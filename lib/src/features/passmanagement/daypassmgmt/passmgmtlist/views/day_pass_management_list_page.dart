@@ -10,12 +10,14 @@ import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/controllers/day_passlist_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/controllers/day_passlist_state.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_item_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_list_detail_popup.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart';
+import 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pass_info_list_page.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -85,8 +87,31 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
   void editDataLoading(DayPassListItemResponse? foundArticleDetailsResponse) {
     dismissLoadingDialog(context);
     if (foundArticleDetailsResponse != null) {
-      Navigator.pushNamed(context, createpassmgmtRoute,
-          arguments: {"UserElement": foundArticleDetailsResponse});
+      // Navigator.pushNamed(context, createpassmgmtRoute,
+      //     arguments: {"UserElement": foundArticleDetailsResponse});
+     String titleIdentify  = '';
+         if(widget.passId  == '0')
+         {
+            titleIdentify = 'Edit Day Pass Management';
+         }
+         else if(widget.passId  == '1')
+         {
+            titleIdentify = 'Edit Vistor Pass Management';
+         }
+          else if(widget.passId  == '2')
+         {
+            titleIdentify = 'Edit Vendor Pass Management';
+         }
+          else if(widget.passId  == '3')
+         {
+            titleIdentify = 'Edit SEZ Pass Management';
+         }
+
+ DayPassListItemResponse? listuser = foundArticleDetailsResponse;
+           Navigator.pushNamed(context, createpassmgmtRoute, arguments: {
+        "passMngCreateDetails":
+            CreatePassMngArguments(widget.passId ?? '', titleIdentify, true,foundArticleDetailsResponse)
+      });
     }
   }
 
@@ -109,7 +134,29 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
         backgroundColor: AppColors.navigationSkybluecolor,
         foregroundColor: AppColors.backgroundWhitecolor,
         onPressed: () {
-          Navigator.pushNamed(context, createpassmgmtRoute);
+         // Navigator.pushNamed(context, createpassmgmtRoute);
+         String titleIdentify  = '';
+         if(widget.passId  == '0')
+         {
+            titleIdentify = 'Create Day Pass Management';
+         }
+         else if(widget.passId  == '1')
+         {
+            titleIdentify = 'Create Vistor Pass Management';
+         }
+          else if(widget.passId  == '2')
+         {
+            titleIdentify = 'Create Vendor Pass Management';
+         }
+          else if(widget.passId  == '3')
+         {
+            titleIdentify = 'Create SEZ Pass Management';
+         }
+
+          Navigator.pushNamed(context, createpassmgmtRoute, arguments: {
+        "passMngCreateDetails":
+            CreatePassMngArguments(widget.passId ?? '', titleIdentify, true,null)
+      });
         },
       ),
       appBar: AppHeader(
@@ -292,10 +339,9 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                 //do the detail edit of user found
               },
               oneditTap: (selectedIndex) {
-                if(widget.passId == '0')
-                {
+                
                 getpassFoundArticleListId(userList[selectedIndex].id ?? 0);
-                }
+                
               },
               onviewTap: (selectedIndex) {
                 showDialog(

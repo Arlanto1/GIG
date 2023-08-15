@@ -98,6 +98,7 @@ class Constants {
   static const String claimantemployeeid = 'Claimant Employee Id';
   static const String claimant = 'Claimant';
   static const String status = 'Status';
+  static const String updatestatus = 'Update Status';
   static const String dateofcreation = 'Date of Creation';
   static const String assetype = 'Asset Type';
   static const String founddate = 'Found Date';
@@ -115,6 +116,8 @@ class Constants {
   static const String informationhere = 'Information here';
   static const String location = 'Location';
   static const String addemployeedepartment = 'Add Employee Department';
+  static const String addreasonfordaypass = 'Add Reason for Day Pass';
+  static const String addreasonforvendorpass = 'Add Reason for Vendor Pass';
   static const String save = 'Save';
   static const String cancel = 'Cancel';
   static const String newuser = 'New User';
@@ -139,6 +142,10 @@ class Constants {
   static const String createlawenforcement =
       'Create LawEnforcement Official Visit';
   static const String editlawenforcement = 'Edit LawEnforcement Official Visit';
+  static const String addcompanytype = 'Add Company Type';
+  static const String addentitytype ='Add Entity';
+  static const String addpurposeofvisittype ='Add Puropose Of Visit';
+  static const String addleoofficialtype ='Add Leo Department';
 
   //static const String editlawenforcement = 'Edit Found';
   static const String entity = 'Entity';
