@@ -42,6 +42,7 @@ class Keys {
 
   static const String challanKey = 'material_inward_challan_key';
   static const String quantityKey = 'material_inward_quantity_key';
+  static const String returnableKey = 'returnableKey_mmo';
 
   //list page
   static const String searchInputField = 'search_input_field';

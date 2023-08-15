@@ -6,6 +6,7 @@ import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/common_widgets/custom_pop_list_texts.dart';
+import 'package:db_atom/src/common_widgets/custom_simple_list_texts.dart';
 import 'package:db_atom/src/common_widgets/image_download.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
@@ -18,7 +19,6 @@ import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
-import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/models/quantity_units.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
@@ -50,17 +50,12 @@ class MaterialMovementInwardDetails extends StatefulWidget {
 
 class _MaterialMovementInwardDetailsState
     extends State<MaterialMovementInwardDetails> {
-  final GlobalKey<FormState> lawenforcementFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String receiverDepartmentName = '';
-  TextEditingController receivedForTextController = TextEditingController();
-
-  TextEditingController actualdateTextController = TextEditingController();
+  TextEditingController returnableTextController = TextEditingController();
   GetUserDetails? userDetails;
-
   List<CreateImage>? getFiles;
   List<FoundImage>? getAttachments;
-  late LawEnforcementState globalState;
-  String? serialnumber;
 
   @override
   void initState() {
@@ -100,6 +95,11 @@ class _MaterialMovementInwardDetailsState
             }
           },
           builder: (context, state) {
+            returnableTextController.text = state.materialMovement.returnable!
+                ? 'Returnable'
+                : 'Non Returnable';
+
+            log('--builder---${state.materialMovement.returnable}------');
             if (state.status == FormStatus.loading) {
               return const Center(child: CircularProgressIndicator());
             }
@@ -119,7 +119,7 @@ class _MaterialMovementInwardDetailsState
                                 top: Radius.circular(20.0)),
                           )),
                       child: Form(
-                          key: lawenforcementFormKey,
+                          key: _formKey,
                           autovalidateMode: state.materialMovement.status == 6
                               ? AutovalidateMode.disabled
                               : AutovalidateMode.onUserInteraction,
@@ -166,18 +166,64 @@ class _MaterialMovementInwardDetailsState
                                         height * 0.01),
 
                                     /// Non Returnable
-                                    FlutterInputField(
-                                      isEnable: false,
-                                      isDisableColor: true,
-                                      initialValue:
-                                          state.materialMovement.returnable ==
-                                                  true
-                                              ? 'Returnable'
-                                              : ' Non Returnable',
-                                      textFormKey: Keys.statusTextController,
-                                      hintText: '',
-                                      onChange: (String value) {},
-                                      validateTextField: (String? user) {},
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (widget.materialMovement == null) {
+                                          assetTypeDialog(state);
+                                        }
+                                      },
+                                      child: FlutterInputField(
+                                        textFieldController:
+                                            returnableTextController,
+                                        textFormKey: Keys.returnableKey,
+                                        hintText: '',
+                                        isEnable: widget.isInward || state.materialMovement.status == 6,
+                                        isDisableColor: widget.isInward || state.materialMovement.status == 6 ,
+                                        onChange: (String value) {
+                                          log('val----$value');
+                                          // state.materialMovement.returnable = value;
+                                        },
+                                        validateTextField: (String? user) {},
+                                        suffixWidget: IconButton(
+                                            icon: SvgPicture.asset(
+                                                width: 10,
+                                                height: 10,
+                                                AppIcon.dropdownicon,
+                                                key: const Key('closed_eye')),
+                                            onPressed: () {}),
+                                      ),
+
+                                      //   FlutterInputField(
+                                      //       isEnable: false,
+                                      //       isDisableColor: widget.isInward,
+                                      //       initialValue: state.materialMovement
+                                      //                   .returnable ==
+                                      //               true
+                                      //           ? 'Returnable'
+                                      //           : 'Non Returnable',
+                                      //       textFormKey: Keys.returnableKey,
+                                      //       hintText: '',
+                                      //       onChange: (String value) {
+                                      //         bool isReturnable =
+                                      //         value == 'Returnable'
+                                      //             ? true
+                                      //             : false;
+                                      //         state.materialMovement
+                                      //             .returnable = isReturnable;
+                                      //         BlocProvider.of<InwardCubit>(
+                                      //             context)
+                                      //             .updateDropdownValues(
+                                      //             isReturnable: isReturnable);
+                                      //       },
+                                      //       suffixWidget: IconButton(
+                                      //           icon: SvgPicture.asset(
+                                      //               width: 10,
+                                      //               height: 10,
+                                      //               AppIcon.dropdownicon,
+                                      //               key: const Key('closed_eye')),
+                                      //           onPressed: () {})),
                                     ),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
@@ -1683,6 +1729,35 @@ class _MaterialMovementInwardDetailsState
                                                     // materialMovement: materialMovement,
                                                   );
                                                 }),
+
+                                      /// Comment
+                                      if(!state.materialMovement.materialPhysicallyChecked)...[
+                                      CommonWidgets.textDisplay(
+                                          Constants.comment,
+                                          Styles.textStyleBlack14),
+
+                                      FlutterInputField(
+                                        initialValue: state
+                                            .materialMovement.otherReceiverName,
+                                        textFormKey:
+                                        Keys.claimantEmpIdTextController,
+                                        isEnable: state.materialMovement.status !=6,
+                                        isDisableColor: state.materialMovement.status ==6,
+                                        hintText: '',
+                                        onChange: (String value) {
+                                          state.materialMovement
+                                              .materialNotCheckedComment = value;
+                                          context
+                                              .read<InwardCubit>()
+                                              .onModelValueChange(
+                                              state.materialMovement);
+                                        },
+                                        validateTextField: (String? user) {},
+                                      ),
+
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                      ],
                                     ],
 
                                     /// upload
@@ -1821,6 +1896,25 @@ class _MaterialMovementInwardDetailsState
       default:
         return 'Unknown Status';
     }
+  }
+
+  assetTypeDialog(InwardState state) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return CustomSimpleListTexts(
+            texts: const ["Returnable", "Non Returnable"],
+            onTap: (String value) {
+              bool isReturnable = value == 'Returnable' ? true : false;
+              state.materialMovement.returnable = isReturnable;
+
+              log('---returnable----------${state.materialMovement.returnable}');
+
+              BlocProvider.of<InwardCubit>(context)
+                  .updateDropdownValues(isReturnable: isReturnable);
+            });
+      },
+    );
   }
 
   userDialog(InwardState state, String name) {
@@ -2253,4 +2347,3 @@ class _MaterialMovementInwardDetailsState
 //       });
 // }
 }
-

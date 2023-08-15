@@ -82,7 +82,7 @@ class MaterialMovementModel {
     this.locationRegion,
     this.entities,
     this.inwardMovement = true,
-    this.returnable,
+    this.returnable = false,
     this.challanNo,
     this.materialComingFrom,
     this.materialFromAddress,

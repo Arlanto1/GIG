@@ -106,7 +106,7 @@ class InwardCubit extends Cubit<InwardState> {
   Future<void> updateDropdownValues(
       {Location? location,
       T1Analyst? user,
-      EmployeeDepartment? department}) async {
+      EmployeeDepartment? department,bool? isReturnable}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -130,8 +130,11 @@ class InwardCubit extends Cubit<InwardState> {
     if (department != null) {
       state.materialMovement.receiverDepartmenttName = department.name;
     }
+    if(isReturnable != null) {
+      state.materialMovement.returnable = isReturnable;
+    }
 
-    log('----state.materialMovement.otherReceiverName-----${state.materialMovement.otherReceiverName}---');
+    log('----state.materialMovement.returnable-----${state.materialMovement.returnable}---');
 
     emit(state.copyWith(
       materialMovement: state.materialMovement,
