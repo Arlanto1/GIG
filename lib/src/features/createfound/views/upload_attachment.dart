@@ -35,12 +35,13 @@ import 'package:file_picker/file_picker.dart';
 enum FileDocumnets { Photo, Camera, Documents }
 
 class UploadAttachment extends StatefulWidget {
-  UploadAttachment({super.key, this.userdetails, this.getFiles,this.lawstate,this.createoundstate,this.createpassmgmtstate, this.inwardState});
+  UploadAttachment({super.key, this.userdetails, this.getFiles,this.lawstate,this.createoundstate,this.createpassmgmtstate, this.isPhotoType, this.inwardState});
   GetUserDetails? userdetails;
   List<CreateImage>? getFiles;
   LawEnforcementState? lawstate;
   CreateFoundState? createoundstate;
   CreatePassMgmtState? createpassmgmtstate;
+  bool? isPhotoType;
   InwardState? inwardState;
 
   @override
@@ -207,7 +208,16 @@ class UploadAttachmentState extends State<UploadAttachment>
     }
     else if (widget.createpassmgmtstate != null)
     {
+      if (widget.isPhotoType ?? false)
+      {
+      createpassmgmtCubit.photoAttchment(widget.getFiles ?? []);
+      }
+      else
+      {
+
       createpassmgmtCubit.addAttchment(widget.getFiles ?? []);
+      }
+
     } else if (widget.inwardState != null) {
 
     }

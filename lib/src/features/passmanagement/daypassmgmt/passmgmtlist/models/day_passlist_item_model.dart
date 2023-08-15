@@ -588,6 +588,7 @@ class DayPassListItemResponse {
     String? hostEmployeeId;
     CompanyType? department;
     CompanyType? dayPassReason;
+    CompanyType? vendorPassReason;
     bool? exceptionalApproval;
     PassInfo? passInfo;
     String? startTime;
@@ -610,6 +611,8 @@ class DayPassListItemResponse {
     String? handOverSecurityName;
     String? mifareNo;
     List<FoundImage>? images;
+    List<FoundImage>? visitorImage;
+    String? visitorName;
 
     DayPassListItemResponse({
         this.id,
@@ -656,6 +659,9 @@ class DayPassListItemResponse {
         this.handOverSecurityName,
         this.mifareNo,
         this.images,
+        this.visitorImage,
+        this.visitorName,
+        this.vendorPassReason,
     });
 
     factory DayPassListItemResponse.fromJson(Map<String, dynamic> json) => DayPassListItemResponse(
@@ -677,6 +683,7 @@ class DayPassListItemResponse {
         employeeName: json["employeeName"],
         employeeId: json["employeeId"],
         email: json["email"],
+        visitorName: json["visitorName"],
         host: json["host"] == null ? null : EntrySecurity.fromJson(json["host"]),
         hostEmployeeId: json["hostEmployeeId"],
         department: json["department"] == null ? null : CompanyType.fromJson(json["department"]),
@@ -703,6 +710,9 @@ class DayPassListItemResponse {
         handOverSecurityName: json["handOverSecurityName"],
         mifareNo: json["mifareNo"],
         images: json["images"] == null ? [] : List<FoundImage>.from(json["images"]!.map((x) => FoundImage.fromJson(x))),
+        visitorImage: json["visitorImage"] == null ? [] : List<FoundImage>.from(json["visitorImage"]!.map((x) => FoundImage.fromJson(x))),
+        vendorPassReason: json["vendorPassReason"] == null ? null : CompanyType.fromJson(json["vendorPassReason"]),
+        
     );
 
     Map<String, dynamic> toJson() => {
@@ -724,10 +734,12 @@ class DayPassListItemResponse {
         "employeeName": employeeName,
         "employeeId": employeeId,
         "email": email,
+        "visitorName":visitorName,
         "host": host?.toJson(),
         "hostEmployeeId": hostEmployeeId,
         "department": department?.toJson(),
         "dayPassReason": dayPassReason?.toJson(),
+        "vendorPassReason": vendorPassReason?.toJson(),
         "exceptionalApproval": exceptionalApproval,
         "passInfo": passInfo?.toJson(),
         "startTime": startTime,
@@ -750,6 +762,7 @@ class DayPassListItemResponse {
         "handOverSecurityName": handOverSecurityName,
         "mifareNo": mifareNo,
         "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x.toJson())),
+        "visitorImage":visitorImage == null ? [] : List<dynamic>.from(visitorImage!.map((x) => x.toJson())),
     };
 }
 

@@ -1,5 +1,6 @@
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
+import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -20,7 +21,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment }
+enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment, photoattachment }
 
  class CreatePassMgmtState extends Equatable {
   GetDepositor? getDepositorResponse;
@@ -37,6 +38,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   EmployeeDepartments? employeeDepartment;
   EmployeeDepartment? selectedemployeeDepartmentResponse;
   List<CreateImage>? loadAttachments = [];
+   List<CreateImage>? photoAttachments = [];
   GetUserDetails? getUserDetailsResponse;
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
   CreateOrganisation? createOrganisationResponse;
@@ -52,6 +54,9 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   T1Analyst? t1dbsponsoranalyst;
   ActivePassInfoList? activePassInfoList;
   DayPassNumberLists? passnumbelistresponse;
+  String? radioButtonItem = '';
+  int? escortedbyhost ;
+   CreateUserModel? createUserResponse;
 
   CreatePassMgmtState({
     this.getEntitiesResponse,
@@ -83,7 +88,10 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
     this.t1dbsponsoranalyst,
     this.activePassInfoList,
     this.passnumbelistresponse,
-    
+    this.escortedbyhost,
+    this.radioButtonItem,
+    this.photoAttachments,
+    this.createUserResponse
   });
   CreatePassMgmtState copyWith({
   AddEntities? getEntitiesResponse,
@@ -115,6 +123,10 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   T1Analyst? t1dbsponsoranalyst,
   ActivePassInfoList? activePassInfoList,
   DayPassNumberLists? passnumbelistresponse,
+  String? radioButtonItem = '',
+  int? escortedbyhost,
+  List<CreateImage>? photoAttachments,
+   CreateUserModel? createUserResponse,
 
 
   
@@ -150,6 +162,10 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
       t1dbsponsoranalyst: t1dbsponsoranalyst ?? this.t1dbsponsoranalyst,
       activePassInfoList: activePassInfoList ?? this.activePassInfoList,
       passnumbelistresponse: passnumbelistresponse ?? this.passnumbelistresponse,
+      escortedbyhost: escortedbyhost ?? this.escortedbyhost,
+      radioButtonItem: radioButtonItem ?? this.radioButtonItem,
+      photoAttachments: photoAttachments ?? this.photoAttachments,
+      createUserResponse: createUserResponse ?? this.createUserResponse,
     );
   }
 
@@ -184,7 +200,10 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
         t1dbsponsoranalyst,
         activePassInfoList,
         passnumbelistresponse,
-
+        escortedbyhost,
+        radioButtonItem,
+        photoAttachments,
+        createUserResponse,
       ];
 
 }

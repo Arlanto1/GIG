@@ -5,6 +5,7 @@ import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
+import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -40,7 +41,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
 // 
 //law organisation call
   Future<void> createOrganisation(
-      String name, String orgName, BuildContext context) async {
+      String name, String orgName, BuildContext context, String title) async {
     try {
       CreateOrganisation createOrganisationData =
           await lawenforcementServices.createOrganisation(name, orgName);
@@ -50,10 +51,25 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
           stateType: LawEnforcementStateType.success,
         ),
       );
+        if (Constants.addentitytype == title )
+       {
+        await lawenforcementCubit.getEntities('ATOM_ENTITIES');
+       }
+       else if (Constants.addpurposeofvisittype == title )
+       {
+        await lawenforcementCubit.getLeopurposeofvisit('ATOM_LEO_PURPOSE_VISIT');
+       }
+       else if (Constants.addleoofficialtype == title )
+       {
+          await lawenforcementCubit.getLeodepartments('ATOM_LEO_DEPARTMENTS');
+       }
+       
+  
       dismissLoadingDialog(context);
+     
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
-            context, 'Added sucessfully', Constants.addarticletype, '');
+            context, 'Added sucessfully', title, '');
       });
     } catch (e) {
       emit(
@@ -389,6 +405,34 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
           stateType: LawEnforcementStateType.failure,
         ),
       );
+    }
+  }
+
+  // Create user call
+  Future<void> createUser(String firstName, String lastName, String email,
+      String role, BuildContext context) async {
+    try {
+      CreateUserModel createUserData = await lawenforcementServices.createUser(
+          firstName, lastName, email, role);
+      emit(
+        state.copyWith(
+          createUserResponse: createUserData,
+          stateType: LawEnforcementStateType.success,
+        ),
+      );
+      dismissLoadingDialog(context);
+      await lawenforcementCubit.getDBofficialByRoleDepositor('ATOM_STATIC_USER');
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser, '');
+      });
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: LawEnforcementStateType.failure,
+        ),
+      );
+      dismissLoadingDialog(context);
     }
   }
 

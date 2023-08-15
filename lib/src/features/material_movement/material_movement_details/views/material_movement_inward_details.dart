@@ -1930,7 +1930,7 @@ class _MaterialMovementInwardDetailsState
                   barrierDismissible: false,
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return const CreateFoundNewUser();
+                    return  CreateFoundNewUser(title: Constants.createnewuser,);
                   });
             },
             onTap: (T1Analyst user) {

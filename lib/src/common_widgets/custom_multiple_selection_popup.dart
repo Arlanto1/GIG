@@ -64,10 +64,45 @@ class CustomMultipleSelectionListTextsState
     // final width = size.width;
 
     return AlertDialog(
-      icon: widget.leftimagename != null
-          ? Row(
+      icon:
+          // widget.leftimagename != null
+          //     ? Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //         children: <Widget>[
+          //             GestureDetector(
+          //                 onTap: () {
+          //                   widget.onLeftButtonTap != null
+          //                       ? widget.onLeftButtonTap!()
+          //                       : null;
+          //                 },
+          //                 child: SvgPicture.asset(
+          //                   widget.leftimagename ?? '',
+          //                   color: AppColors.navigationSkybluecolor,
+          //                 ) //Icon(Icons.cancel)
+          //                 ),
+          //             GestureDetector(
+          //                 onTap: () {
+          //                   Navigator.of(context).pop();
+          //                 },
+          //                 child: SvgPicture.asset(
+          //                     AppIcon.closeicon) //Icon(Icons.cancel)
+          //                 ),
+          //           ])
+          //:
+          Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: SvgPicture.asset(
+                          AppIcon.closeicon) //Icon(Icons.cancel)
+                      ),
+                  SizedBox(width: 10),
                   GestureDetector(
                       onTap: () {
                         widget.onLeftButtonTap != null
@@ -79,36 +114,19 @@ class CustomMultipleSelectionListTextsState
                         color: AppColors.navigationSkybluecolor,
                       ) //Icon(Icons.cancel)
                       ),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: SvgPicture.asset(
-                          AppIcon.closeicon) //Icon(Icons.cancel)
-                      ),
-                ])
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: SvgPicture.asset(
-                          AppIcon.closeicon) //Icon(Icons.cancel)
-                      ),
-                  GestureDetector(
-                    onTap: () {
-                      //lawenforcementValidations(context, globalState);
-                       widget.onTap!(selectentityList);
-                    Navigator.of(context).pop();
-                    },
-                    child: Icon(
-                      Icons.send,
-                      color: AppColors.navigationSkybluecolor,
-                    ),
-                  ),
                 ]),
+            GestureDetector(
+              onTap: () {
+                //lawenforcementValidations(context, globalState);
+                widget.onTap!(selectentityList);
+                Navigator.of(context).pop();
+              },
+              child: Icon(
+                Icons.send,
+                color: AppColors.navigationSkybluecolor,
+              ),
+            ),
+          ]),
       backgroundColor: AppColors.backgroundWhitecolor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
@@ -116,7 +134,7 @@ class CustomMultipleSelectionListTextsState
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
         return Container(
-          height: height/2,
+          height: height / 2,
           width: width - 40,
           child: SingleChildScrollView(
             child: Padding(
@@ -241,10 +259,10 @@ class CustomMultipleSelectionListTextsState
                     if (selectedListindexes.contains(index)) {
                       selectedListindexes.remove(index);
 
-                      AtomEntity? articleItem1
-                        = widget.duplicateentityList?[index];
-                   selectentityList.removeWhere((item) => item.id == (articleItem1?.id ?? 0));
-                      
+                      AtomEntity? articleItem1 =
+                          widget.duplicateentityList?[index];
+                      selectentityList.removeWhere(
+                          (item) => item.id == (articleItem1?.id ?? 0));
                     } else {
                       selectedListindexes.add(index);
                       selectentityList.add(articleItem!);
