@@ -7,6 +7,8 @@ import 'package:db_atom/src/features/createfound/models/serial_number_model.dart
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
+import '../features/createfound/models/get_depositor_model.dart';
+
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
@@ -69,6 +71,16 @@ class CommonServices {
       url: url,
     );
     return Analyst.fromJson(response);
+  }
+
+  Future<GetDepositor> getAtomStaticUsers({
+    required String roleName,
+  }) async {
+    String url = '${Apis._getUsersByRole}$roleName';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return GetDepositor.fromJson(response);
   }
 
   Future<QuantityUnits> getQuantityUnits() async {

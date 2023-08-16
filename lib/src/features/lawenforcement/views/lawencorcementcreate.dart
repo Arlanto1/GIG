@@ -6,7 +6,6 @@ import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/common_widgets/custom_multiple_selection_popup.dart';
 import 'package:db_atom/src/common_widgets/custom_pop_list_texts.dart';
-import 'package:db_atom/src/common_widgets/custom_simple_list_texts.dart';
 import 'package:db_atom/src/common_widgets/date_time_picker.dart';
 import 'package:db_atom/src/common_widgets/image_download.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
@@ -15,11 +14,8 @@ import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
@@ -32,7 +28,6 @@ import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart'
 import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
-import 'package:db_atom/src/features/lawenforcement/services/lawenforcementservice.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -42,6 +37,9 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+
+import '../../../models/base_user.dart';
+import '../../../models/department.dart';
 
 class CreateLawenforcement extends StatefulWidget {
   LawEnforcementDetails? listuser;
@@ -742,13 +740,13 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
           : AtomLeoPurposeVisit();
       lawenforcementCubit.getleopurposeResponseData(visit);
 
-      AtomStaticUser staticUser =
+      BaseUser staticUser =
           widget.listuser?.dbOfficialEmailDepartment != null
-              ? AtomStaticUser(
+              ? BaseUser(
                   id: widget.listuser?.dbOfficialEmailDepartment?.id ?? 0,
                   name: widget.listuser?.dbOfficialEmailDepartment?.name ?? "",
                   email: widget.listuser?.dbOfficialAccompaniedEmail ?? '')
-              : AtomStaticUser();
+              : BaseUser();
 
       lawenforcementCubit.geDBOfficialyData(staticUser);
 
@@ -812,12 +810,12 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
           visitingOfficials.length, visitingOfficials);
 
       // state.selectedemployeeDepartmentResponse
-      EmployeeDepartment emp =
+      Department emp =
           widget.listuser?.dbOfficialEmailDepartment != null
-              ? EmployeeDepartment(
+              ? Department(
                   id: widget.listuser?.dbOfficialEmailDepartment?.id ?? 0,
                   name: widget.listuser?.dbOfficialEmailDepartment?.name ?? '')
-              : EmployeeDepartment();
+              : Department();
       lawenforcementCubit.getemployeeDepartmentsResponseData(emp);
       getAttachments =
           widget.listuser?.images != null ? widget.listuser?.images ?? [] : [];
@@ -928,7 +926,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
                     return  CreateFoundNewUser(title: Constants.createnewuser,lawstate: state,);
                   });
             },
-            onTap: (AtomStaticUser list) {
+            onTap: (BaseUser list) {
               print(list.name);
               // if (name.toLowerCase() == 'depositor') {
               //  // selecteddepositorList = list;
@@ -1194,7 +1192,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
                     );
                   });
             },
-            onTap: (EmployeeDepartment list) {
+            onTap: (Department list) {
               //print(list.name);
               lawenforcementCubit.getemployeeDepartmentsResponseData(list);
             },

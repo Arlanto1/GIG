@@ -21,6 +21,9 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../models/base_user.dart';
+import '../../../../../models/department.dart';
+
 enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment, photoattachment }
 
  class CreatePassMgmtState extends Equatable {
@@ -34,9 +37,9 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
  List<AtomEntity>?  listOfEntities;
   Mumbai? locationSelectedlist;
   SerialNumberModel? serialnumberResponse;
-  AtomStaticUser? getuserResponse;
+  BaseUser? getuserResponse;
   EmployeeDepartments? employeeDepartment;
-  EmployeeDepartment? selectedemployeeDepartmentResponse;
+  Department? selectedemployeeDepartmentResponse;
   List<CreateImage>? loadAttachments = [];
    List<CreateImage>? photoAttachments = [];
   GetUserDetails? getUserDetailsResponse;
@@ -48,10 +51,10 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   CreatePassMgmtResponse? createpassFoundresponse;
   DayPassReasonElement? dayPasselementReason;
   DayPassReason? dayPassReason;
-  T1Analyst? t1nameanalyst;
+  BaseUser? t1nameanalyst;
   Analyst? analyst;
-  T1Analyst? t1hostanalyst;
-  T1Analyst? t1dbsponsoranalyst;
+  BaseUser? t1hostanalyst;
+  BaseUser? t1dbsponsoranalyst;
   ActivePassInfoList? activePassInfoList;
   DayPassNumberLists? passnumbelistresponse;
   String? radioButtonItem = '';
@@ -104,9 +107,9 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   Mumbai? locationSelectedlist,
   SerialNumberModel? serialnumberResponse,
   GetDepositor? getDepositorResponse,
-  AtomStaticUser? getuserResponse,
+  BaseUser? getuserResponse,
   EmployeeDepartments? employeeDepartment,
-  EmployeeDepartment? selectedemployeeDepartmentResponse,
+  Department? selectedemployeeDepartmentResponse,
   List<CreateImage>? loadAttachments,
   GetUserDetails? getUserDetailsResponse,
   SubmitLawEnforcementResponse? lawcreateFoundresponse,
@@ -117,10 +120,10 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   CreatePassMgmtResponse? createpassFoundresponse,
   DayPassReasonElement? dayPasselementReason,
   DayPassReason? dayPassReason,
-  T1Analyst? t1nameanalyst,
+  BaseUser? t1nameanalyst,
   Analyst? analyst,
-  T1Analyst? t1hostanalyst,
-  T1Analyst? t1dbsponsoranalyst,
+  BaseUser? t1hostanalyst,
+  BaseUser? t1dbsponsoranalyst,
   ActivePassInfoList? activePassInfoList,
   DayPassNumberLists? passnumbelistresponse,
   String? radioButtonItem = '',

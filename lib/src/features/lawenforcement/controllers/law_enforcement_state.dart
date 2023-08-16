@@ -6,7 +6,6 @@ import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
@@ -14,7 +13,9 @@ import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../models/base_user.dart';
+import '../../../models/department.dart';
 
 enum LawEnforcementStateType { initial, loading, success, failure, addattachment }
 
@@ -37,9 +38,9 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
   int? isOfficialIdcardSelected ;
   int? isDocumentifanySelected ;
   int? isIncaseofpoliceSelected ;
-  AtomStaticUser? getuserResponse;
+  BaseUser? getuserResponse;
   EmployeeDepartments? employeeDepartment;
-  EmployeeDepartment? selectedemployeeDepartmentResponse;
+  Department? selectedemployeeDepartmentResponse;
   List<CreateImage>? loadAttachments = [];
   List<VistingOfficialsModel>? getVisits = [];
   int? getVisitsCount = 0;
@@ -106,9 +107,9 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
   int? isDocumentifanySelected ,
   int? isIncaseofpoliceSelected ,
   GetDepositor? getDepositorResponse,
-  AtomStaticUser? getuserResponse,
+  BaseUser? getuserResponse,
   EmployeeDepartments? employeeDepartment,
-  EmployeeDepartment? selectedemployeeDepartmentResponse,
+  Department? selectedemployeeDepartmentResponse,
   List<CreateImage>? loadAttachments,
   int? getVisitsCount,
   List<VistingOfficialsModel>? getVisits,

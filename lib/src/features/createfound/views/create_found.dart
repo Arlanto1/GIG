@@ -36,6 +36,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../models/base_user.dart';
+import '../../../models/department.dart';
+
 class Createfound extends StatefulWidget {
   FoundListArticleDetails? listuser;
 
@@ -78,13 +81,13 @@ class _CreatefoundState extends State<Createfound> {
   String createdByValue = "";
   String itemhandoverByValue = "";
   String locationselectedText = "";
-  EmployeeDepartment? selectedEmployeedepartment;
-  EmployeeDepartment? selectedClaimdepartment;
+  Department? selectedEmployeedepartment;
+  Department? selectedClaimdepartment;
   String claimantDepartmentName = '';
   String claimant = '';
   ArticleList? selectedArtclelist;
-  AtomStaticUser? selecteddepositorList;
-  AtomStaticUser? selectedClaimList;
+  BaseUser? selecteddepositorList;
+  BaseUser? selectedClaimList;
   GetUserDetails? userDetails;
   Mumbai? locationSelectedlist;
   SubmitCreateFoundModel? createfoundResponse;
@@ -105,10 +108,10 @@ class _CreatefoundState extends State<Createfound> {
   editCreatefoundItems() async {
     if (widget.listuser != null) {
       await SharedPrefs.setFoundId(widget.listuser?.id ?? 0);
-      selecteddepositorList = widget.listuser?.depositor != null ? AtomStaticUser(
+      selecteddepositorList = widget.listuser?.depositor != null ? BaseUser(
           email: widget.listuser?.depositor?.email ?? "",
           id: widget.listuser?.depositor?.userId ?? 0,
-          name: widget.listuser?.depositor?.name ?? "") : AtomStaticUser();
+          name: widget.listuser?.depositor?.name ?? "") : BaseUser();
       selectedArtclelist = widget.listuser?.typeOfArticle != null ? ArticleList(
           id: widget.listuser?.typeOfArticle?.id ?? 1,
           name: widget.listuser?.typeOfArticle?.name ?? "") : ArticleList();
@@ -148,8 +151,8 @@ class _CreatefoundState extends State<Createfound> {
       isClaimantDBEmployeeSelected =
           ((widget.listuser?.claimantDbEmp ?? false) == true) ? 1 : 0;
       depositorEmpIdTextController.text = widget.listuser?.employeeId !=null ? widget.listuser?.employeeId ?? '' : '';
-      selectedEmployeedepartment = widget.listuser?.depositorDepartment !=null ? EmployeeDepartment(
-          id:widget.listuser?.depositorDepartment?.id ?? 0 , name: widget.listuser?.depositorDepartment?.name ?? '') : EmployeeDepartment();
+      selectedEmployeedepartment = widget.listuser?.depositorDepartment !=null ? Department(
+          id:widget.listuser?.depositorDepartment?.id ?? 0 , name: widget.listuser?.depositorDepartment?.name ?? '') : Department();
       getAttachments = widget.listuser?.images != null ? widget.listuser?.images ?? [] :[];
       claimantDepartmentName = widget.listuser?.claimantDepartmentName !=null ? widget.listuser?.claimantDepartmentName ?? '' :'';
       itemhandoverByValue = widget.listuser?.handOverSecurityName ?? '';
@@ -673,7 +676,7 @@ class _CreatefoundState extends State<Createfound> {
                     return  CreateFoundNewUser(title: Constants.createnewuser,createoundstate: state,);
                   });
             },
-            onTap: (AtomStaticUser list) {
+            onTap: (BaseUser list) {
               print(list.name);
               if (name.toLowerCase() == 'depositor') {
                 selecteddepositorList = list;
@@ -706,7 +709,7 @@ class _CreatefoundState extends State<Createfound> {
                     );
                   });
             },
-            onTap: (EmployeeDepartment list) {
+            onTap: (Department list) {
               print(list.name);
               if (name == Constants.employeedepartment) {
                 selectedEmployeedepartment = list;

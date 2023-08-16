@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/department_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
@@ -13,15 +14,14 @@ import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
+import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -30,8 +30,8 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../createfound/views/create_found_newuser.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
+import '../../../../models/base_user.dart';
+import '../../../../models/department.dart';
 
 class MaterialMovementDetails extends StatefulWidget {
   final MaterialMovementModel? materialMovement;
@@ -48,8 +48,7 @@ class MaterialMovementDetails extends StatefulWidget {
       _MaterialMovementDetailsState();
 }
 
-class _MaterialMovementDetailsState
-    extends State<MaterialMovementDetails> {
+class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String receiverDepartmentName = '';
   TextEditingController returnableTextController = TextEditingController();
@@ -77,11 +76,13 @@ class _MaterialMovementDetailsState
           showSaveButton: true,
           onTapSave: () {
             FocusScope.of(context).unfocus();
-            BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(isSaveOnly: true);
+            BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                .submitForm(isSaveOnly: true);
           },
         ),
         backgroundColor: AppColors.backgroundWhitecolor,
-        body: BlocConsumer<MaterialMovementDetailsCubit, MaterialMovementDetailsState>(
+        body: BlocConsumer<MaterialMovementDetailsCubit,
+            MaterialMovementDetailsState>(
           listener: (context, state) {
             if (state.status == FormStatus.success) {
               Utils.dynamicAlert(
@@ -179,8 +180,10 @@ class _MaterialMovementDetailsState
                                             returnableTextController,
                                         textFormKey: Keys.returnableKey,
                                         hintText: '',
-                                        isEnable: widget.isInward || state.materialMovement.status == 6,
-                                        isDisableColor: widget.isInward || state.materialMovement.status == 6 ,
+                                        isEnable: widget.isInward ||
+                                            state.materialMovement.status == 6,
+                                        isDisableColor: widget.isInward ||
+                                            state.materialMovement.status == 6,
                                         onChange: (String value) {
                                           log('val----$value');
                                           // state.materialMovement.returnable = value;
@@ -314,7 +317,8 @@ class _MaterialMovementDetailsState
                                         state.materialMovement.challanNo =
                                             value;
                                         context
-                                            .read<MaterialMovementDetailsCubit>()
+                                            .read<
+                                                MaterialMovementDetailsCubit>()
                                             .onModelValueChange(
                                                 state.materialMovement);
                                         log('value-challan---$value');
@@ -358,7 +362,8 @@ class _MaterialMovementDetailsState
                                           state.materialMovement.poNumber =
                                               value;
                                           context
-                                              .read<MaterialMovementDetailsCubit>()
+                                              .read<
+                                                  MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -403,7 +408,8 @@ class _MaterialMovementDetailsState
                                         state.materialMovement
                                             .materialDescription = value;
                                         context
-                                            .read<MaterialMovementDetailsCubit>()
+                                            .read<
+                                                MaterialMovementDetailsCubit>()
                                             .onModelValueChange(
                                                 state.materialMovement);
                                       },
@@ -461,7 +467,8 @@ class _MaterialMovementDetailsState
                                           state.materialMovement
                                               .materialFromAddress = value;
                                           context
-                                              .read<MaterialMovementDetailsCubit>()
+                                              .read<
+                                                  MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -507,7 +514,8 @@ class _MaterialMovementDetailsState
                                           state.materialMovement.address =
                                               value;
                                           context
-                                              .read<MaterialMovementDetailsCubit>()
+                                              .read<
+                                                  MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -537,16 +545,27 @@ class _MaterialMovementDetailsState
                                                     if (widget
                                                             .materialMovement ==
                                                         null) {
-                                                      userDialog(state,
-                                                          Constants.depositor);
+                                                      BaseDialog().userDialog(
+                                                        context: context,
+                                                        users:
+                                                            state.emailUsers!,
+                                                        onTap: (BaseUser user) {
+                                                          BlocProvider.of<
+                                                                      MaterialMovementDetailsCubit>(
+                                                                  context)
+                                                              .updateDropdownValues(
+                                                                  requesterEmailUser:
+                                                                      user);
+                                                        },
+                                                      );
                                                     }
                                                   })
                                               : FlutterInputField(
                                                   initialValue: state
                                                       .materialMovement
                                                       .receiverEmail,
-                                                  textFormKey: Keys
-                                                      .depositorTextController,
+                                                  textFormKey:
+                                                      Keys.requesterEmailKey,
                                                   hintText: '',
                                                   isEnable: widget
                                                               .materialMovement ==
@@ -610,7 +629,8 @@ class _MaterialMovementDetailsState
                                           state.materialMovement
                                               .requestorEmployeeId = value;
                                           context
-                                              .read<MaterialMovementDetailsCubit>()
+                                              .read<
+                                                  MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -642,8 +662,19 @@ class _MaterialMovementDetailsState
                                                     if (widget
                                                             .materialMovement ==
                                                         null) {
-                                                      userDialog(state,
-                                                          Constants.depositor);
+                                                      BaseDialog()
+                                                          .departmentDialog(
+                                                        context: context,
+                                                        departments:
+                                                            state.departments!,
+                                                        onTap: (BaseUser user) {
+                                                          BlocProvider.of<
+                                                                      MaterialMovementDetailsCubit>(
+                                                                  context)
+                                                              .updateDropdownValues(
+                                                                  user: user);
+                                                        },
+                                                      );
                                                     }
                                                   })
                                               : FlutterInputField(
@@ -716,7 +747,8 @@ class _MaterialMovementDetailsState
                                               state.materialMovement.sentTo =
                                                   value;
                                               context
-                                                  .read<MaterialMovementDetailsCubit>()
+                                                  .read<
+                                                      MaterialMovementDetailsCubit>()
                                                   .onModelValueChange(
                                                       state.materialMovement);
                                             },
@@ -762,7 +794,8 @@ class _MaterialMovementDetailsState
                                               state.materialMovement.purpose =
                                                   value;
                                               context
-                                                  .read<MaterialMovementDetailsCubit>()
+                                                  .read<
+                                                      MaterialMovementDetailsCubit>()
                                                   .onModelValueChange(
                                                       state.materialMovement);
                                             },
@@ -780,11 +813,10 @@ class _MaterialMovementDetailsState
                                               height * 0.001),
 
                                           FlutterInputField(
-                                            keyboardType: TextInputType.number,
+                                            // keyboardType: TextInputType.number,
                                             initialValue: state
                                                 .materialMovement.preparedBy,
-                                            textFormKey:
-                                                Keys.generateUniqueKey(),
+                                            textFormKey: Keys.preparedByKey,
                                             hintText: '',
                                             isEnable: widget.materialMovement ==
                                                     null
@@ -807,8 +839,9 @@ class _MaterialMovementDetailsState
                                             onChange: (String value) {
                                               state.materialMovement
                                                   .preparedBy = value;
-                                              context
-                                                  .read<MaterialMovementDetailsCubit>()
+                                              BlocProvider.of<
+                                                          MaterialMovementDetailsCubit>(
+                                                      context)
                                                   .onModelValueChange(
                                                       state.materialMovement);
                                             },
@@ -830,9 +863,8 @@ class _MaterialMovementDetailsState
                                                       .preparedByDepartment
                                                       ?.name,
                                                   textFormKey: Keys
-                                                      .claimantTextController,
-                                                  hintText:
-                                                      receiverDepartmentName,
+                                                      .preparedByDepartmentKey,
+                                                  hintText: '',
                                                   isEnable: widget
                                                               .materialMovement ==
                                                           null
@@ -858,16 +890,7 @@ class _MaterialMovementDetailsState
                                                               .isEmpty)
                                                       ? false
                                                       : true,
-                                                  onChange: (String value) {
-                                                    state
-                                                        .materialMovement
-                                                        .preparedByDepartment
-                                                        ?.name = value;
-                                                    context
-                                                        .read<MaterialMovementDetailsCubit>()
-                                                        .onModelValueChange(state
-                                                            .materialMovement);
-                                                  },
+                                                  onChange: (String value) {},
                                                   validateTextField:
                                                       (String? user) {},
                                                 )
@@ -886,8 +909,21 @@ class _MaterialMovementDetailsState
                                                     if (widget
                                                             .materialMovement ==
                                                         null) {
-                                                      departmentDialog(
-                                                          state, 'name');
+                                                      BaseDialog()
+                                                          .departmentDialog(
+                                                        context: context,
+                                                        departments:
+                                                            state.departments,
+                                                        onTap: (Department
+                                                            department) {
+                                                          BlocProvider.of<
+                                                                      MaterialMovementDetailsCubit>(
+                                                                  context)
+                                                              .updateDropdownValues(
+                                                                  preparedByDepartment:
+                                                                      department);
+                                                        },
+                                                      );
                                                       // leodepartmentsDialog(state);
                                                     }
                                                   },
@@ -915,10 +951,21 @@ class _MaterialMovementDetailsState
                                                         if (widget
                                                                 .materialMovement ==
                                                             null) {
-                                                          userDialog(
-                                                              state,
-                                                              Constants
-                                                                  .depositor);
+                                                          BaseDialog()
+                                                              .userDialog(
+                                                            context: context,
+                                                            users: state
+                                                                .emailUsers!,
+                                                            onTap: (BaseUser
+                                                                user) {
+                                                              BlocProvider.of<
+                                                                          MaterialMovementDetailsCubit>(
+                                                                      context)
+                                                                  .updateDropdownValues(
+                                                                      approver1EmailUser:
+                                                                          user);
+                                                            },
+                                                          );
                                                         }
                                                       })
                                                   : FlutterInputField(
@@ -1005,7 +1052,8 @@ class _MaterialMovementDetailsState
                                                         .approver1Department
                                                         ?.name = value;
                                                     context
-                                                        .read<MaterialMovementDetailsCubit>()
+                                                        .read<
+                                                            MaterialMovementDetailsCubit>()
                                                         .onModelValueChange(state
                                                             .materialMovement);
                                                   },
@@ -1027,8 +1075,21 @@ class _MaterialMovementDetailsState
                                                     if (widget
                                                             .materialMovement ==
                                                         null) {
-                                                      departmentDialog(
-                                                          state, 'name');
+                                                      BaseDialog()
+                                                          .departmentDialog(
+                                                        context: context,
+                                                        departments:
+                                                            state.departments,
+                                                        onTap: (Department
+                                                            department) {
+                                                          BlocProvider.of<
+                                                                      MaterialMovementDetailsCubit>(
+                                                                  context)
+                                                              .updateDropdownValues(
+                                                                  approver1Department:
+                                                                      department);
+                                                        },
+                                                      );
                                                       // leodepartmentsDialog(state);
                                                     }
                                                   },
@@ -1059,10 +1120,21 @@ class _MaterialMovementDetailsState
                                                         if (widget
                                                                 .materialMovement ==
                                                             null) {
-                                                          userDialog(
-                                                              state,
-                                                              Constants
-                                                                  .depositor);
+                                                          BaseDialog()
+                                                              .userDialog(
+                                                            context: context,
+                                                            users: state
+                                                                .emailUsers!,
+                                                            onTap: (BaseUser
+                                                                user) {
+                                                              BlocProvider.of<
+                                                                          MaterialMovementDetailsCubit>(
+                                                                      context)
+                                                                  .updateDropdownValues(
+                                                                      approver2EmailUser:
+                                                                          user);
+                                                            },
+                                                          );
                                                         }
                                                       })
                                                   : FlutterInputField(
@@ -1146,7 +1218,8 @@ class _MaterialMovementDetailsState
                                                         .approver1Department
                                                         ?.name = value;
                                                     context
-                                                        .read<MaterialMovementDetailsCubit>()
+                                                        .read<
+                                                            MaterialMovementDetailsCubit>()
                                                         .onModelValueChange(state
                                                             .materialMovement);
                                                   },
@@ -1168,8 +1241,21 @@ class _MaterialMovementDetailsState
                                                     if (widget
                                                             .materialMovement ==
                                                         null) {
-                                                      departmentDialog(
-                                                          state, 'name');
+                                                      BaseDialog()
+                                                          .departmentDialog(
+                                                        context: context,
+                                                        departments:
+                                                            state.departments,
+                                                        onTap: (Department
+                                                            department) {
+                                                          BlocProvider.of<
+                                                                      MaterialMovementDetailsCubit>(
+                                                                  context)
+                                                              .updateDropdownValues(
+                                                                  approver2Department:
+                                                                      department);
+                                                        },
+                                                      );
                                                       // leodepartmentsDialog(state);
                                                     }
                                                   },
@@ -1232,7 +1318,8 @@ class _MaterialMovementDetailsState
                                           state.materialMovement
                                               .materialComingFrom = value;
                                           context
-                                              .read<MaterialMovementDetailsCubit>()
+                                              .read<
+                                                  MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -1279,7 +1366,8 @@ class _MaterialMovementDetailsState
                                           state.materialMovement
                                               .materialFromAddress = value;
                                           context
-                                              .read<MaterialMovementDetailsCubit>()
+                                              .read<
+                                                  MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -1300,30 +1388,32 @@ class _MaterialMovementDetailsState
                                                   .originalReceiver
                                               ? 1
                                               : 0,
-                                          onChangedYes: widget.materialMovement
-                                                      ?.status ==
-                                                  6
-                                              ? null
-                                              : (val) {
-                                                  BlocProvider.of<MaterialMovementDetailsCubit>(
-                                                          context)
-                                                      .showFields(
-                                                    isOriginalReceiverReceiving:
-                                                        true,
-                                                  );
-                                                },
-                                          onChangedNo: widget.materialMovement
-                                                      ?.status ==
-                                                  6
-                                              ? null
-                                              : (val) {
-                                                  BlocProvider.of<MaterialMovementDetailsCubit>(
-                                                          context)
-                                                      .showFields(
-                                                    isOriginalReceiverReceiving:
-                                                        false,
-                                                  );
-                                                }),
+                                          onChangedYes:
+                                              widget.materialMovement?.status ==
+                                                      6
+                                                  ? null
+                                                  : (val) {
+                                                      BlocProvider.of<
+                                                                  MaterialMovementDetailsCubit>(
+                                                              context)
+                                                          .showFields(
+                                                        isOriginalReceiverReceiving:
+                                                            true,
+                                                      );
+                                                    },
+                                          onChangedNo:
+                                              widget.materialMovement?.status ==
+                                                      6
+                                                  ? null
+                                                  : (val) {
+                                                      BlocProvider.of<
+                                                                  MaterialMovementDetailsCubit>(
+                                                              context)
+                                                          .showFields(
+                                                        isOriginalReceiverReceiving:
+                                                            false,
+                                                      );
+                                                    }),
 
                                       /// Received For
                                       if (!state.materialMovement
@@ -1349,10 +1439,19 @@ class _MaterialMovementDetailsState
                                                       if (widget
                                                               .materialMovement ==
                                                           null) {
-                                                        userDialog(
-                                                            state,
-                                                            Constants
-                                                                .depositor);
+                                                        BaseDialog().userDialog(
+                                                          context: context,
+                                                          users:
+                                                              state.emailUsers!,
+                                                          onTap:
+                                                              (BaseUser user) {
+                                                            BlocProvider.of<
+                                                                        MaterialMovementDetailsCubit>(
+                                                                    context)
+                                                                .updateDropdownValues(
+                                                                    user: user);
+                                                          },
+                                                        );
                                                       }
                                                     })
                                                 : FlutterInputField(
@@ -1425,7 +1524,8 @@ class _MaterialMovementDetailsState
                                           state.materialMovement
                                               .otherReceiverEmployeeId = value;
                                           context
-                                              .read<MaterialMovementDetailsCubit>()
+                                              .read<
+                                                  MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -1474,7 +1574,8 @@ class _MaterialMovementDetailsState
                                                         .receiverDepartmenttName =
                                                     value;
                                                 context
-                                                    .read<MaterialMovementDetailsCubit>()
+                                                    .read<
+                                                        MaterialMovementDetailsCubit>()
                                                     .onModelValueChange(
                                                         state.materialMovement);
                                               },
@@ -1497,8 +1598,20 @@ class _MaterialMovementDetailsState
                                                         null ||
                                                     receiverDepartmentName
                                                         .isEmpty) {
-                                                  departmentDialog(
-                                                      state, 'name');
+                                                  BaseDialog().departmentDialog(
+                                                    context: context,
+                                                    departments:
+                                                        state.departments,
+                                                    onTap: (Department
+                                                        department) {
+                                                      BlocProvider.of<
+                                                                  MaterialMovementDetailsCubit>(
+                                                              context)
+                                                          .updateDropdownValues(
+                                                              receiverDepartment:
+                                                                  department);
+                                                    },
+                                                  );
                                                   // leodepartmentsDialog(state);
                                                 }
                                               },
@@ -1543,7 +1656,8 @@ class _MaterialMovementDetailsState
                                           state.materialMovement
                                               .otherReceiverName = value;
                                           context
-                                              .read<MaterialMovementDetailsCubit>()
+                                              .read<
+                                                  MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -1589,7 +1703,8 @@ class _MaterialMovementDetailsState
                                           state.materialMovement
                                               .receiverEmployeeId = value;
                                           context
-                                              .read<MaterialMovementDetailsCubit>()
+                                              .read<
+                                                  MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -1636,7 +1751,8 @@ class _MaterialMovementDetailsState
                                           state.materialMovement
                                               .entrySecurityName = value;
                                           context
-                                              .read<MaterialMovementDetailsCubit>()
+                                              .read<
+                                                  MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -1682,7 +1798,8 @@ class _MaterialMovementDetailsState
                                           state.materialMovement
                                               .materialDescription = value;
                                           context
-                                              .read<MaterialMovementDetailsCubit>()
+                                              .read<
+                                                  MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -1703,60 +1820,67 @@ class _MaterialMovementDetailsState
                                                   .materialPhysicallyChecked
                                               ? 1
                                               : 0,
-                                          onChangedYes: widget.materialMovement
-                                                      ?.status ==
-                                                  6
-                                              ? null
-                                              : (val) {
-                                                  BlocProvider.of<MaterialMovementDetailsCubit>(
-                                                          context)
-                                                      .showFields(
-                                                    isMaterialPhysicallyChecked:
-                                                        true,
-                                                    // materialMovement: materialMovement,
-                                                  );
-                                                },
-                                          onChangedNo: widget.materialMovement
-                                                      ?.status ==
-                                                  6
-                                              ? null
-                                              : (val) {
-                                                  BlocProvider.of<MaterialMovementDetailsCubit>(
-                                                          context)
-                                                      .showFields(
-                                                    isMaterialPhysicallyChecked:
-                                                        false,
-                                                    // materialMovement: materialMovement,
-                                                  );
-                                                }),
+                                          onChangedYes:
+                                              widget.materialMovement?.status ==
+                                                      6
+                                                  ? null
+                                                  : (val) {
+                                                      BlocProvider.of<
+                                                                  MaterialMovementDetailsCubit>(
+                                                              context)
+                                                          .showFields(
+                                                        isMaterialPhysicallyChecked:
+                                                            true,
+                                                        // materialMovement: materialMovement,
+                                                      );
+                                                    },
+                                          onChangedNo:
+                                              widget.materialMovement?.status ==
+                                                      6
+                                                  ? null
+                                                  : (val) {
+                                                      BlocProvider.of<
+                                                                  MaterialMovementDetailsCubit>(
+                                                              context)
+                                                          .showFields(
+                                                        isMaterialPhysicallyChecked:
+                                                            false,
+                                                        // materialMovement: materialMovement,
+                                                      );
+                                                    }),
 
                                       /// Comment
-                                      if(!state.materialMovement.materialPhysicallyChecked)...[
-                                      CommonWidgets.textDisplay(
-                                          Constants.comment,
-                                          Styles.textStyleBlack14),
-
-                                      FlutterInputField(
-                                        initialValue: state
-                                            .materialMovement.otherReceiverName,
-                                        textFormKey:
-                                        Keys.claimantEmpIdTextController,
-                                        isEnable: state.materialMovement.status !=6,
-                                        isDisableColor: state.materialMovement.status ==6,
-                                        hintText: '',
-                                        onChange: (String value) {
-                                          state.materialMovement
-                                              .materialNotCheckedComment = value;
-                                          context
-                                              .read<MaterialMovementDetailsCubit>()
-                                              .onModelValueChange(
-                                              state.materialMovement);
-                                        },
-                                        validateTextField: (String? user) {},
-                                      ),
-
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
+                                      if (!state.materialMovement
+                                          .materialPhysicallyChecked) ...[
+                                        CommonWidgets.textDisplay(
+                                            Constants.comment,
+                                            Styles.textStyleBlack14),
+                                        FlutterInputField(
+                                          initialValue: state.materialMovement
+                                              .otherReceiverName,
+                                          textFormKey:
+                                              Keys.claimantEmpIdTextController,
+                                          isEnable:
+                                              state.materialMovement.status !=
+                                                  6,
+                                          isDisableColor:
+                                              state.materialMovement.status ==
+                                                  6,
+                                          hintText: '',
+                                          onChange: (String value) {
+                                            state.materialMovement
+                                                    .materialNotCheckedComment =
+                                                value;
+                                            context
+                                                .read<
+                                                    MaterialMovementDetailsCubit>()
+                                                .onModelValueChange(
+                                                    state.materialMovement);
+                                          },
+                                          validateTextField: (String? user) {},
+                                        ),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
                                       ],
                                     ],
 
@@ -1907,64 +2031,11 @@ class _MaterialMovementDetailsState
             onTap: (String value) {
               bool isReturnable = value == 'Returnable' ? true : false;
               state.materialMovement.returnable = isReturnable;
-
-              log('---returnable----------${state.materialMovement.returnable}');
-
               BlocProvider.of<MaterialMovementDetailsCubit>(context)
                   .updateDropdownValues(isReturnable: isReturnable);
             });
       },
     );
-  }
-
-  userDialog(MaterialMovementDetailsState state, String name) {
-    showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomListTexts(
-            duplicatet1Analyst: state.users,
-            leftimagename: AppIcon.addicon,
-            onLeftButtonTap: () {
-              Navigator.pop(context);
-              showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return  CreateFoundNewUser(title: Constants.createnewuser,);
-                  });
-            },
-            onTap: (T1Analyst user) {
-              BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                  .updateDropdownValues(user: user);
-            },
-          );
-        });
-  }
-
-  departmentDialog(MaterialMovementDetailsState state, String name) {
-    showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomListTexts(
-            duplicateemployeeDepartments: state.departments,
-            leftimagename: AppIcon.addicon,
-            onLeftButtonTap: () {
-              Navigator.pop(context);
-              showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return AddEmployeeDepartment(
-                      title: '',
-                    );
-                  });
-            },
-            onTap: (EmployeeDepartment department) {
-              BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                  .updateDropdownValues(department: department);
-            },
-          );
-        });
   }
 
   Widget quantityUnitPopUp(MaterialMovementDetailsState state) {
@@ -2034,45 +2105,6 @@ class _MaterialMovementDetailsState
       },
     );
   }
-
-  // TODO: Need to use this as common widget
-
-  // Widget radioButtonHandling(int selectedValue, String name) {
-  //   return Row(
-  //     mainAxisAlignment: MainAxisAlignment.start,
-  //     children: <Widget>[
-  //       Radio(
-  //         activeColor: widget.materialMovement != null
-  //             ? AppColors.disabletextfieldBackground
-  //             : AppColors.navigationSkybluecolor,
-  //         focusColor: AppColors.navigationSkybluecolor,
-  //         value: 1,
-  //         groupValue: selectedValue,
-  //         onChanged: (val) {
-  //           print(name);
-  //           //
-  //           selectedValue = 1;
-  //           BlocProvider.of<InwardCubit>(context).showFields(isOriginalReceiverReceiving: true);
-  //         },
-  //       ),
-  //       const Text(Constants.yes),
-  //       Radio(
-  //         activeColor: widget.materialMovement != null
-  //             ? AppColors.disabletextfieldBackground
-  //             : AppColors.navigationSkybluecolor,
-  //         value: 2,
-  //         groupValue: selectedValue,
-  //         onChanged: (val) {
-  //           print(name);
-  //           selectedValue = 0;
-  //           BlocProvider.of<InwardCubit>(context).showFields(isOriginalReceiverReceiving: false);
-  //         },
-  //       ),
-  //       const Text(Constants.no),
-  //     ],
-  //   );
-  //   //return Container();
-  // }
 
   Widget uploadWidget(MaterialMovementDetailsState state) {
     return // upload
@@ -2151,28 +2183,6 @@ class _MaterialMovementDetailsState
             : attachmentListviews(getFiles, getAttachments)
         : attachmentListviews(getFiles, getAttachments);
   }
-
-  // Widget dbwanttodepartmentaddButtonwidgetLoading(LawEnforcementState state) {
-  //   return TextfieldAddButton(
-  //     title: state.selectedemployeeDepartmentResponse?.name ?? '',
-  //     height: 60,
-  //     isDisableColor: widget.materialMovement == null ||
-  //             (state.selectedemployeeDepartmentResponse != null &&
-  //                 ((state.selectedemployeeDepartmentResponse?.name ?? '')
-  //                     .isEmpty))
-  //         ? false
-  //         : true,
-  //     onTap: () {
-  //       if (widget.materialMovement == null ||
-  //           (state.materialMovement != null &&
-  //               ((state.materialMovement.receiverDepartmenttName ?? '')
-  //                   .isEmpty))) {
-  //         //   articleTypeDialog(state);
-  //         leodepartmentsDialog(state);
-  //       }
-  //     },
-  //   );
-  // }
 
   Widget locationWidgetdislay(MaterialMovementDetailsState state) {
     return GestureDetector(
@@ -2317,33 +2327,4 @@ class _MaterialMovementDetailsState
     );
   }
 
-// depositorDialog(CreateFoundState state, String name) {
-//   showDialog(
-//       context: context,
-//       builder: (BuildContext dialogContext) {
-//         return CustomListTexts(
-//           duplicatedepostorList:
-//               state.getDepositorResponse?.atomStaticUser ?? [],
-//           leftimagename: AppIcon.addicon,
-//           onLeftButtonTap: () {
-//             Navigator.pop(context);
-//             showDialog(
-//                 barrierDismissible: false,
-//                 context: context,
-//                 builder: (BuildContext dialogContext) {
-//                   return const CreateFoundNewUser();
-//                 });
-//           },
-//           onTap: (AtomStaticUser list) {
-//             print(list.name);
-//             // if (name.toLowerCase() == 'depositor') {
-//             //   selecteddepositorList = list;
-//             // } else {
-//             //   selectedClaimList = list;
-//             // }
-//             setState(() {});
-//           },
-//         );
-//       });
-// }
 }

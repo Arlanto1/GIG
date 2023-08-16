@@ -43,6 +43,10 @@ class Keys {
   static const String challanKey = 'material_inward_challan_key';
   static const String quantityKey = 'material_inward_quantity_key';
   static const String returnableKey = 'returnableKey_mmo';
+  static const String preparedByKey = 'preparedByKey_mmo';
+  static const String preparedByDepartmentKey = 'preparedByKey_mmo';
+  static const String approver1EmailKey = 'approver1Email_mmo';
+  static const String requesterEmailKey = 'requesterEmail_mmo';
 
   //list page
   static const String searchInputField = 'search_input_field';

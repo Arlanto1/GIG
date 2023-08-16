@@ -1,8 +1,6 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
+import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
@@ -17,6 +15,9 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../constants/constants.dart';
+import '../../../../models/base_user.dart';
+import '../../../../models/department.dart';
+import '../../../createfound/models/emplyee_departments_model.dart';
 import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 part 'material_movement_details_state.dart';
@@ -37,7 +38,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
             model: model ?? MaterialMovementModel(),
             locations: GetLocations(),
             loggedInUserDetails: GetUserDetails(),
-            atomStaticUser: const [],
+            users: const [],
+            emailUsers: const[],
             errorMessage: '',
             departments: const [],
             loadAttachments: const [],
@@ -77,19 +79,21 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
-      QuantityUnits quantityUnits =
-      await commonServices.getQuantityUnits();
+      GetDepositor emailUsers =
+      await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
-      // TODO: Generate sl No for creating Inward Movement , Need to call the API : 'getSerialnumberDetails'
+      QuantityUnits quantityUnits = await commonServices.getQuantityUnits();
+
       emit(
         state.copyWith(
-          locations: getLocationsData,
-          loggedInUserDetails: loggedInUserDetails,
-          status: FormStatus.initial,
-          materialMovement: state.materialMovement,
-          users: users.t1Analyst,
-          departments: departments.employeeDepartments,
-          quantityUnits: quantityUnits.units
+            locations: getLocationsData,
+            loggedInUserDetails: loggedInUserDetails,
+            status: FormStatus.initial,
+            materialMovement: state.materialMovement,
+            users: users.t1Analyst,
+          emailUsers: emailUsers.atomStaticUser,
+            departments: departments.employeeDepartments,
+            quantityUnits: quantityUnits.units,
         ),
       );
     } catch (e) {
@@ -103,16 +107,24 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
   }
 
-  Future<void> updateDropdownValues(
-      {Location? location,
-      T1Analyst? user,
-      EmployeeDepartment? department,bool? isReturnable}) async {
+  Future<void> updateDropdownValues({
+    Location? location,
+    BaseUser? user,
+    BaseUser? requesterEmailUser,
+    BaseUser? approver1EmailUser,
+    BaseUser? approver2EmailUser,
+    Department? department,
+    Department? preparedByDepartment,
+    Department? approver1Department,
+    Department? approver2Department,
+    Department? receiverDepartment,
+    bool? isReturnable,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
-    log('---status-----${state.status}---');
     //Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -127,20 +139,44 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.materialMovement.otherReceiverName = user.name;
     }
 
+    if (requesterEmailUser != null) {
+      state.materialMovement.requestorEmail = requesterEmailUser.email;
+    }
+    if (approver1EmailUser != null) {
+      state.materialMovement.approver1Email = approver1EmailUser.email;
+    }
+    if (approver2EmailUser != null) {
+      state.materialMovement.approver2Email = approver2EmailUser.email;
+    }
+
     if (department != null) {
       state.materialMovement.receiverDepartmenttName = department.name;
     }
-    if(isReturnable != null) {
-      state.materialMovement.returnable = isReturnable;
+    if (preparedByDepartment != null) {
+      state.materialMovement.preparedByDepartment =
+          preparedByDepartment;
+    }
+    if (approver1Department != null) {
+      state.materialMovement.approver1Department =
+          approver1Department;
     }
 
-    log('----state.materialMovement.returnable-----${state.materialMovement.returnable}---');
+    if (approver2Department != null) {
+      state.materialMovement.approver2Department =
+          approver2Department;
+    }
+    if (receiverDepartment != null) {
+      state.materialMovement.receiverDepartmenttName =
+          receiverDepartment.name;
+    }
+    if (isReturnable != null) {
+      state.materialMovement.returnable = isReturnable;
+    }
 
     emit(state.copyWith(
       materialMovement: state.materialMovement,
       status: FormStatus.initial,
     ));
-    log('---status-----${state.status}---');
   }
 
   Future<void> addAttchment(List<CreateImage>? data) async {
@@ -168,19 +204,19 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   //   ));
   // }
   void showFields(
-      { bool? isOriginalReceiverReceiving,
-         bool? isMaterialPhysicallyChecked}) {
+      {bool? isOriginalReceiverReceiving, bool? isMaterialPhysicallyChecked}) {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
 
-    if(isOriginalReceiverReceiving != null) {
+    if (isOriginalReceiverReceiving != null) {
       state.materialMovement.originalReceiver = isOriginalReceiverReceiving;
     }
-    if(isMaterialPhysicallyChecked != null) {
-      state.materialMovement.materialPhysicallyChecked = isMaterialPhysicallyChecked;
+    if (isMaterialPhysicallyChecked != null) {
+      state.materialMovement.materialPhysicallyChecked =
+          isMaterialPhysicallyChecked;
     }
     // final updatedMaterialMovement = materialMovement.copyWith(state.materialMovement.originalReceiver: isOriginalReceiverReceiving);
 
@@ -200,28 +236,26 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     // TODO: Need to change inward type from String to int
     // For Inward the type value should be 1
 
-    //Validating Fields
-    if (!state.isValid.status && !isSaveOnly) {
-      emit(
-        state.copyWith(
-          status: FormStatus.error,
-          message: state.isValid.message,
-        ),
-      );
-    }
-
     // Create/Update API Call
     MaterialMovementRequest request =
         MaterialMovementRequest(materialMovement: state.materialMovement);
     try {
-
       MaterialMovementResponse response = MaterialMovementResponse();
-      if(isSaveOnly) {
-        // TODO: Need to Pass Save only parameters
-        await materialMovementServices.createMaterialMovement(request);
+      if (isSaveOnly) {
+        await materialMovementServices.createMaterialMovement(
+            body: request, isSubmit: false);
       } else {
-        response =
-        await materialMovementServices.createMaterialMovement(request);
+        //Validating Fields
+        if (!state.isValid.status) {
+          emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValid.message,
+            ),
+          );
+        }
+        response = await materialMovementServices.createMaterialMovement(
+            body: request, isSubmit: true);
       }
       emit(
         state.copyWith(

@@ -1,3 +1,5 @@
+import '../../../models/department.dart';
+
 class MaterialMovementsModel {
   List<MaterialMovementModel>? items;
   int? totalCount;
@@ -48,18 +50,18 @@ class MaterialMovementModel {
   List<History>? history;
   String? requestorEmail;
   String? requestorEmployeeId;
-  RequestorDepartment? requestorDepartment;
+  Department? requestorDepartment;
   String? sentTo;
   String? address;
   String? purpose;
   String? modelInfo;
   Unit? unit;
   String? preparedBy;
-  PreparedByDepartment? preparedByDepartment;
+  Department? preparedByDepartment;
   String? approver1Email;
-  Approver1Department? approver1Department;
+  Department? approver1Department;
   String? approver2Email;
-  Approver2Department? approver2Department;
+  Department? approver2Department;
   String? takenOutEmail;
   String? takenOutContactNo;
   String? materialReturnedChallanNo;
@@ -147,18 +149,18 @@ class MaterialMovementModel {
         history = (json['history'] as List?)?.map((dynamic e) => History.fromJson(e as Map<String,dynamic>)).toList(),
         requestorEmail = json['requestorEmail'] as String?,
         requestorEmployeeId = json['requestorEmployeeId'] as String?,
-        requestorDepartment = (json['requestorDepartment'] as Map<String,dynamic>?) != null ? RequestorDepartment.fromJson(json['requestorDepartment'] as Map<String,dynamic>) : null,
+        requestorDepartment = (json['requestorDepartment'] as Map<String,dynamic>?) != null ? Department.fromJson(json['requestorDepartment'] as Map<String,dynamic>) : null,
         sentTo = json['sentTo'] as String?,
         address = json['address'] as String?,
         purpose = json['purpose'] as String?,
         modelInfo = json['modelInfo'] as String?,
         unit = (json['unit'] as Map<String,dynamic>?) != null ? Unit.fromJson(json['unit'] as Map<String,dynamic>) : null,
         preparedBy = json['preparedBy'] as String?,
-        preparedByDepartment = (json['preparedByDepartment'] as Map<String,dynamic>?) != null ? PreparedByDepartment.fromJson(json['preparedByDepartment'] as Map<String,dynamic>) : null,
+        preparedByDepartment = (json['preparedByDepartment'] as Map<String,dynamic>?) != null ? Department.fromJson(json['preparedByDepartment'] as Map<String,dynamic>) : null,
         approver1Email = json['approver1Email'] as String?,
-        approver1Department = (json['approver1Department'] as Map<String,dynamic>?) != null ? Approver1Department.fromJson(json['approver1Department'] as Map<String,dynamic>) : null,
+        approver1Department = (json['approver1Department'] as Map<String,dynamic>?) != null ? Department.fromJson(json['approver1Department'] as Map<String,dynamic>) : null,
         approver2Email = json['approver2Email'] as String?,
-        approver2Department = (json['approver2Department'] as Map<String,dynamic>?) != null ? Approver2Department.fromJson(json['approver2Department'] as Map<String,dynamic>) : null,
+        approver2Department = (json['approver2Department'] as Map<String,dynamic>?) != null ? Department.fromJson(json['approver2Department'] as Map<String,dynamic>) : null,
         takenOutEmail = json['takenOutEmail'] as String?,
         takenOutContactNo = json['takenOutContactNo'] as String?,
         materialReturnedChallanNo = json['materialReturnedChallanNo'] as String?,
@@ -431,24 +433,6 @@ class History {
   };
 }
 
-class RequestorDepartment {
-  int? id;
-  String? name;
-
-  RequestorDepartment({
-    this.id,
-    this.name,
-  });
-
-  RequestorDepartment.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        name = json['name'] as String?;
-
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'name' : name
-  };
-}
 
 class Unit {
   int? id;
@@ -460,63 +444,6 @@ class Unit {
   });
 
   Unit.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        name = json['name'] as String?;
-
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'name' : name
-  };
-}
-
-class PreparedByDepartment {
-  int? id;
-  String? name;
-
-  PreparedByDepartment({
-    this.id,
-    this.name,
-  });
-
-  PreparedByDepartment.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        name = json['name'] as String?;
-
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'name' : name
-  };
-}
-
-class Approver1Department {
-  int? id;
-  String? name;
-
-  Approver1Department({
-    this.id,
-    this.name,
-  });
-
-  Approver1Department.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        name = json['name'] as String?;
-
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'name' : name
-  };
-}
-
-class Approver2Department {
-  int? id;
-  String? name;
-
-  Approver2Department({
-    this.id,
-    this.name,
-  });
-
-  Approver2Department.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
         name = json['name'] as String?;
 

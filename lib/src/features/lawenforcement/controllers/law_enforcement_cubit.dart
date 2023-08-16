@@ -25,6 +25,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../models/base_user.dart';
+import '../../../models/department.dart';
+
 class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   LawEnforcementService lawenforcementServices;
   List<CreateImage>? loadAttachments;
@@ -369,7 +372,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
      lawenforcementCubit.
      state.getVisits = [];
      state.getVisitsCount = 0;
-     state.selectedemployeeDepartmentResponse = EmployeeDepartment();
+     state.selectedemployeeDepartmentResponse = Department();
      state.loadAttachments = [];
      //state.getUserDetailsResponse =  GetUserDetails();
      state.listOfEntities =[];
@@ -380,7 +383,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
      state.isDocumentifanySelected = 1;
      state.isIncaseofpoliceSelected = 1;
      state.isOfficialIdcardSelected = 1;
-    state.getuserResponse = AtomStaticUser();
+    state.getuserResponse = BaseUser();
      state.serialnumberResponse?.serialNo = '';
      state.getSerialnumberResponse = SerialNumberModel();
 
@@ -478,7 +481,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  geDBOfficialyData(AtomStaticUser listOfdept) async {
+  geDBOfficialyData(BaseUser listOfdept) async {
     try {
       emit(
         state.copyWith(
@@ -551,7 +554,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
   getemployeeDepartmentsResponseData(
-      EmployeeDepartment employeedepartment) async {
+      Department employeedepartment) async {
     try {
       emit(
         state.copyWith(

@@ -40,6 +40,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../models/base_user.dart';
+import '../../../../../models/department.dart';
+
 class CreatePassManagement extends StatefulWidget {
   DayPassListItemResponse? listuser;
   String? passId = '0';
@@ -1158,13 +1161,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? widget.listuser?.hostEmployeeId.toString() ?? ""
               : '';
 
-      T1Analyst host1 = widget.listuser?.host != null
-          ? T1Analyst(
+      BaseUser host1 = widget.listuser?.host != null
+          ? BaseUser(
               id: widget.listuser?.host?.userId ?? 0,
               name: ((widget.listuser?.host?.firstName ?? '') +
                   ' ' +
                   (widget.listuser?.host?.lastName ?? '')))
-          : T1Analyst();
+          : BaseUser();
           
       createpassmgmtCubit.gethostanalystsResponseData(host1);
       createpassmgmtCubit.getdbsponsoranalystsResponseData(host1);
@@ -1172,11 +1175,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       nameTextController.text = widget.passId == '1' && widget.listuser?.visitorName != null ?  widget.listuser?.visitorName ?? ''
           : widget.listuser?.employeeName.toString() ?? '';
             var userid = await SharedPrefs.getUserId();
-      T1Analyst name1 = nameTextController.text.isNotEmpty
-          ? T1Analyst(
+      BaseUser name1 = nameTextController.text.isNotEmpty
+          ? BaseUser(
               id:int.parse(userid) ,
               name: nameTextController.text)
-          : T1Analyst();
+          : BaseUser();
       createpassmgmtCubit.getnameanalystsResponseData(name1);
       dateofcreationTextController.text = widget.listuser?.inputDate != null &&
               widget.listuser?.inputDate != '0'
@@ -1313,11 +1316,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           : DayPassReasonElement();
       createpassmgmtCubit.getdaypassreasonResponseData(day);
 
-      EmployeeDepartment dep = widget.listuser != null
-          ? EmployeeDepartment(
+      Department dep = widget.listuser != null
+          ? Department(
               id: widget.listuser?.department?.id ?? 0,
               name: widget.listuser?.department?.name ?? '')
-          : EmployeeDepartment();
+          : Department();
       createpassmgmtCubit.getemployeeDepartmentsResponseData(dep);
       getAttachments =
           widget.listuser?.images != null ? widget.listuser?.images ?? [] : [];
@@ -1788,7 +1791,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     );
                   });
             },
-            onTap: (EmployeeDepartment list) {
+            onTap: (Department list) {
               //print(list.name);
               createpassmgmtCubit.getemployeeDepartmentsResponseData(list);
             },
@@ -1883,7 +1886,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     return  CreateFoundNewUser(title: Constants.createnewuser,createpassmgmtstate: state,);
                   });
             },
-            onTap: (T1Analyst list) {
+            onTap: (BaseUser list) {
               //print(list.name);
               createpassmgmtCubit.getnameanalystsResponseData(list);
             },
@@ -1929,7 +1932,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   });
             
             },
-            onTap: (T1Analyst list) {
+            onTap: (BaseUser list) {
               //print(list.name);
               createpassmgmtCubit.gethostanalystsResponseData(list);
             },
@@ -1974,7 +1977,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     return  CreateFoundNewUser(title: Constants.createnewuser,createpassmgmtstate: state,);
                   });
             },
-            onTap: (T1Analyst list) {
+            onTap: (BaseUser list) {
               //print(list.name);
               createpassmgmtCubit.getdbsponsoranalystsResponseData(list);
             },

@@ -7,14 +7,10 @@ import 'package:db_atom/src/features/createfound/models/create_found_request.dar
 import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
-import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
-import 'package:db_atom/src/features/lawenforcement/services/lawenforcementservice.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
@@ -23,11 +19,13 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgmt_services.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../../models/base_user.dart';
+import '../../../../../models/department.dart';
 
 class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   CreatePassMgmtService createpassmgmtServices;
@@ -357,7 +355,7 @@ Future<void> getPassnumber(String passtype, String locationid) async {
   }
 
   getnameanalystsResponseData(
-      T1Analyst? companytypeResponse) async {
+      BaseUser? companytypeResponse) async {
     try {
       emit(
         state.copyWith(
@@ -376,7 +374,7 @@ Future<void> getPassnumber(String passtype, String locationid) async {
   }
 
   gethostanalystsResponseData(
-      T1Analyst? companytypeResponse) async {
+      BaseUser? companytypeResponse) async {
     try {
       emit(
         state.copyWith(
@@ -394,7 +392,7 @@ Future<void> getPassnumber(String passtype, String locationid) async {
     }
   }
   getdbsponsoranalystsResponseData(
-      T1Analyst? companytypeResponse) async {
+      BaseUser? companytypeResponse) async {
     try {
       emit(
         state.copyWith(
@@ -473,7 +471,7 @@ Future<void> getPassnumber(String passtype, String locationid) async {
   }
 
   initalization() {
-    state.selectedemployeeDepartmentResponse = EmployeeDepartment();
+    state.selectedemployeeDepartmentResponse = Department();
     state.employeeDepartment = EmployeeDepartments();
     state.companyTypes = CompanyTypes();
     state.activePassInfoList = ActivePassInfoList();
@@ -482,11 +480,11 @@ Future<void> getPassnumber(String passtype, String locationid) async {
     state.listOfEntities = [];
     state.locationSelectedlist = Mumbai();
     state.photoAttachments = [];
-    state.getuserResponse = AtomStaticUser();
+    state.getuserResponse = BaseUser();
     state.serialnumberResponse?.serialNo = '';
     state.getSerialnumberResponse = SerialNumberModel();
-    state.t1hostanalyst = T1Analyst();
-    state.t1nameanalyst = T1Analyst();
+    state.t1hostanalyst = BaseUser();
+    state.t1nameanalyst = BaseUser();
     state.getUserDetailsResponse = GetUserDetails();
     state.dayPasselementReason = DayPassReasonElement();
   }
@@ -510,7 +508,7 @@ Future<void> getPassnumber(String passtype, String locationid) async {
   }
 
   getemployeeDepartmentsResponseData(
-      EmployeeDepartment employeedepartment) async {
+      Department employeedepartment) async {
     try {
       emit(
         state.copyWith(

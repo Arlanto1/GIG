@@ -4,19 +4,21 @@
 
 import 'dart:convert';
 
+import '../../../../../models/base_user.dart';
+
 Analyst analystFromJson(String str) => Analyst.fromJson(json.decode(str));
 
 String analystToJson(Analyst data) => json.encode(data.toJson());
 
 class Analyst {
-    List<T1Analyst>? t1Analyst;
+    List<BaseUser>? t1Analyst;
 
     Analyst({
         this.t1Analyst,
     });
 
     factory Analyst.fromJson(Map<String, dynamic> json) => Analyst(
-        t1Analyst: json["T1_Analyst"] == null ? [] : List<T1Analyst>.from(json["T1_Analyst"]!.map((x) => T1Analyst.fromJson(x))),
+        t1Analyst: json["T1_Analyst"] == null ? [] : List<BaseUser>.from(json["T1_Analyst"]!.map((x) => BaseUser.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -24,26 +26,4 @@ class Analyst {
     };
 }
 
-class T1Analyst {
-    String? email;
-    int? id;
-    String? name;
 
-    T1Analyst({
-        this.email,
-        this.id,
-        this.name,
-    });
-
-    factory T1Analyst.fromJson(Map<String, dynamic> json) => T1Analyst(
-        email: json["Email"],
-        id: json["Id"],
-        name: json["Name"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "Email": email,
-        "Id": id,
-        "Name": name,
-    };
-}

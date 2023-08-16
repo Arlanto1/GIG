@@ -8,8 +8,9 @@ class MaterialMovementDetailsState extends Equatable {
   final MaterialMovementModel materialMovement;
   final GetLocations? locations;
   final GetUserDetails? loggedInUserDetails;
-  final List<T1Analyst>? users;
-  final List<EmployeeDepartment> departments;
+  final List<BaseUser>? users;
+  final List<BaseUser>? emailUsers;
+  final List<Department> departments;
   final List<CreateImage>? loadAttachments;
   final List<QuantityUnit> quantityUnits;
 
@@ -19,9 +20,10 @@ class MaterialMovementDetailsState extends Equatable {
     required MaterialMovementModel model,
     required GetLocations locations,
     required GetUserDetails loggedInUserDetails,
-    required List<T1Analyst>? atomStaticUser,
+    required List<BaseUser>? users,
+    final List<BaseUser>? emailUsers,
     required String errorMessage,
-    required List<EmployeeDepartment> departments,
+    required List<Department> departments,
     required List<CreateImage> loadAttachments,
     required List<QuantityUnit> quantityUnits,
   }) {
@@ -30,7 +32,8 @@ class MaterialMovementDetailsState extends Equatable {
         materialMovement: model,
         locations: locations,
         loggedInUserDetails: loggedInUserDetails,
-        users: atomStaticUser,
+        users: users,
+        emailUsers: emailUsers,
         message: errorMessage,
         departments: departments,
         loadAttachments: loadAttachments,
@@ -73,6 +76,7 @@ class MaterialMovementDetailsState extends Equatable {
     this.locations,
     this.loggedInUserDetails,
     this.users,
+    this.emailUsers,
     required this.departments,
     this.loadAttachments,
     required this.quantityUnits,
@@ -84,8 +88,9 @@ class MaterialMovementDetailsState extends Equatable {
     MaterialMovementModel? materialMovement,
     GetLocations? locations,
     GetUserDetails? loggedInUserDetails,
-    List<T1Analyst>? users,
-    List<EmployeeDepartment>? departments,
+    List<BaseUser>? users,
+    List<BaseUser>? emailUsers,
+    List<Department>? departments,
     List<CreateImage>? loadAttachments,
     List<QuantityUnit>? quantityUnits,
     String? message,
@@ -96,6 +101,7 @@ class MaterialMovementDetailsState extends Equatable {
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
+      emailUsers: emailUsers ?? this.emailUsers,
       departments: departments ?? this.departments,
       loadAttachments: loadAttachments ?? this.loadAttachments,
       quantityUnits: quantityUnits ?? this.quantityUnits,

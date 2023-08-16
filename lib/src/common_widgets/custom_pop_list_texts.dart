@@ -2,7 +2,6 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
@@ -18,6 +17,9 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
+
+import '../models/base_user.dart';
+import '../models/department.dart';
 
 class CustomListTexts extends StatefulWidget {
   CustomListTexts(
@@ -39,10 +41,10 @@ class CustomListTexts extends StatefulWidget {
       this.duplicateactivePassInfoList,
       this.duplicateQuantityUnitList});
   final String? imagename;
-  List<EmployeeDepartment>? duplicateemployeeDepartments;
+  List<Department>? duplicateemployeeDepartments;
   List<ArticleList>? duplicatearticleList;
   List<AtomEntity>? duplicateentityList;
-  List<AtomStaticUser>? duplicatedepostorList;
+  List<BaseUser>? duplicatedepostorList;
   List<AtomLeoDepartment>? duplicateleodepartments;
   List<AtomLeoPurposeVisit>? duplicateleopurposevisits;
   final Function? onTap;
@@ -51,7 +53,7 @@ class CustomListTexts extends StatefulWidget {
   List<DistributionGroup>? duplicateloadGroups;
   List<AtomCompanyType>? duplicateatomCompanyTypes;
   List<DayPassReasonElement>? duplicatedayPassReason;
-  List<T1Analyst>? duplicatet1Analyst;
+  List<BaseUser>? duplicatet1Analyst;
   List<ActivePassInfoList>? duplicateactivePassInfoList;
 
   List<QuantityUnit>? duplicateQuantityUnitList;
@@ -64,16 +66,16 @@ class CustomListTextsState extends State<CustomListTexts> {
   final _formKey = GlobalKey<FormState>();
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
-  List<EmployeeDepartment> employeeDepartments = [];
+  List<Department> employeeDepartments = [];
   List<ArticleList> articleList = [];
   List<AtomEntity> entityList = [];
-  List<AtomStaticUser> depostorList = [];
+  List<BaseUser> depostorList = [];
   List<AtomLeoDepartment> leodepartments = [];
   List<AtomLeoPurposeVisit> leopurposevisits = [];
   List<DistributionGroup> loadGroups = [];
   List<AtomCompanyType> companyTypes = [];
   List<DayPassReasonElement> dayPassReason = [];
-  List<T1Analyst> t1analysts = [];
+  List<BaseUser> t1analysts = [];
   List<ActivePassInfoList> activePassInfoList = [];
   List<QuantityUnit> quantityUnitList = [];
 
@@ -406,7 +408,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                 activePassInfoList.isEmpty))) {
       return //const Expanded(
           // child:
-          Center(
+          const Center(
         child: Text(
           Constants.nodata,
           style: Styles.textStyleRegularGrey16,
@@ -477,7 +479,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                                   : widget.duplicateloadGroups?.length ),
           itemBuilder: (BuildContext context, int index) {
             if (widget.duplicateemployeeDepartments != null) {
-              EmployeeDepartment? drawerItem;
+              Department? drawerItem;
               if ((_searchCtrl.text.length > 0 &&
                   employeeDepartments.isNotEmpty)) {
                 drawerItem = employeeDepartments[index];
@@ -555,7 +557,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicatedepostorList != null) {
-              AtomStaticUser? articleItem;
+              BaseUser? articleItem;
               if ((_searchCtrl.text.length > 0 && depostorList.isNotEmpty)) {
                 articleItem = depostorList[index];
               } else {
@@ -873,7 +875,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                   ));
             }
              else if (widget.duplicatet1Analyst != null) {
-              T1Analyst? articleItem;
+              BaseUser? articleItem;
               if ((_searchCtrl.text.length > 0 && companyTypes.isNotEmpty)) {
                 articleItem = t1analysts[index];
               } else {
