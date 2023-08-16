@@ -19,7 +19,7 @@ import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
-import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart';
+import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -33,23 +33,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../createfound/views/create_found_newuser.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 
-class MaterialMovementInwardDetails extends StatefulWidget {
+class MaterialMovementDetails extends StatefulWidget {
   final MaterialMovementModel? materialMovement;
   final bool isInward;
 
-  const MaterialMovementInwardDetails({
+  const MaterialMovementDetails({
     super.key,
     this.materialMovement,
     required this.isInward,
   });
 
   @override
-  State<MaterialMovementInwardDetails> createState() =>
-      _MaterialMovementInwardDetailsState();
+  State<MaterialMovementDetails> createState() =>
+      _MaterialMovementDetailsState();
 }
 
-class _MaterialMovementInwardDetailsState
-    extends State<MaterialMovementInwardDetails> {
+class _MaterialMovementDetailsState
+    extends State<MaterialMovementDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String receiverDepartmentName = '';
   TextEditingController returnableTextController = TextEditingController();
@@ -60,7 +60,7 @@ class _MaterialMovementInwardDetailsState
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<InwardCubit>(context).initializeValues();
+    BlocProvider.of<MaterialMovementDetailsCubit>(context).initializeValues();
   }
 
   @override
@@ -77,11 +77,11 @@ class _MaterialMovementInwardDetailsState
           showSaveButton: true,
           onTapSave: () {
             FocusScope.of(context).unfocus();
-            BlocProvider.of<InwardCubit>(context).submitForm(isSaveOnly: true);
+            BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(isSaveOnly: true);
           },
         ),
         backgroundColor: AppColors.backgroundWhitecolor,
-        body: BlocConsumer<InwardCubit, InwardState>(
+        body: BlocConsumer<MaterialMovementDetailsCubit, MaterialMovementDetailsState>(
           listener: (context, state) {
             if (state.status == FormStatus.success) {
               Utils.dynamicAlert(
@@ -314,7 +314,7 @@ class _MaterialMovementInwardDetailsState
                                         state.materialMovement.challanNo =
                                             value;
                                         context
-                                            .read<InwardCubit>()
+                                            .read<MaterialMovementDetailsCubit>()
                                             .onModelValueChange(
                                                 state.materialMovement);
                                         log('value-challan---$value');
@@ -358,7 +358,7 @@ class _MaterialMovementInwardDetailsState
                                           state.materialMovement.poNumber =
                                               value;
                                           context
-                                              .read<InwardCubit>()
+                                              .read<MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -403,7 +403,7 @@ class _MaterialMovementInwardDetailsState
                                         state.materialMovement
                                             .materialDescription = value;
                                         context
-                                            .read<InwardCubit>()
+                                            .read<MaterialMovementDetailsCubit>()
                                             .onModelValueChange(
                                                 state.materialMovement);
                                       },
@@ -461,7 +461,7 @@ class _MaterialMovementInwardDetailsState
                                           state.materialMovement
                                               .materialFromAddress = value;
                                           context
-                                              .read<InwardCubit>()
+                                              .read<MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -507,7 +507,7 @@ class _MaterialMovementInwardDetailsState
                                           state.materialMovement.address =
                                               value;
                                           context
-                                              .read<InwardCubit>()
+                                              .read<MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -610,7 +610,7 @@ class _MaterialMovementInwardDetailsState
                                           state.materialMovement
                                               .requestorEmployeeId = value;
                                           context
-                                              .read<InwardCubit>()
+                                              .read<MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -716,7 +716,7 @@ class _MaterialMovementInwardDetailsState
                                               state.materialMovement.sentTo =
                                                   value;
                                               context
-                                                  .read<InwardCubit>()
+                                                  .read<MaterialMovementDetailsCubit>()
                                                   .onModelValueChange(
                                                       state.materialMovement);
                                             },
@@ -762,7 +762,7 @@ class _MaterialMovementInwardDetailsState
                                               state.materialMovement.purpose =
                                                   value;
                                               context
-                                                  .read<InwardCubit>()
+                                                  .read<MaterialMovementDetailsCubit>()
                                                   .onModelValueChange(
                                                       state.materialMovement);
                                             },
@@ -808,7 +808,7 @@ class _MaterialMovementInwardDetailsState
                                               state.materialMovement
                                                   .preparedBy = value;
                                               context
-                                                  .read<InwardCubit>()
+                                                  .read<MaterialMovementDetailsCubit>()
                                                   .onModelValueChange(
                                                       state.materialMovement);
                                             },
@@ -864,7 +864,7 @@ class _MaterialMovementInwardDetailsState
                                                         .preparedByDepartment
                                                         ?.name = value;
                                                     context
-                                                        .read<InwardCubit>()
+                                                        .read<MaterialMovementDetailsCubit>()
                                                         .onModelValueChange(state
                                                             .materialMovement);
                                                   },
@@ -1005,7 +1005,7 @@ class _MaterialMovementInwardDetailsState
                                                         .approver1Department
                                                         ?.name = value;
                                                     context
-                                                        .read<InwardCubit>()
+                                                        .read<MaterialMovementDetailsCubit>()
                                                         .onModelValueChange(state
                                                             .materialMovement);
                                                   },
@@ -1146,7 +1146,7 @@ class _MaterialMovementInwardDetailsState
                                                         .approver1Department
                                                         ?.name = value;
                                                     context
-                                                        .read<InwardCubit>()
+                                                        .read<MaterialMovementDetailsCubit>()
                                                         .onModelValueChange(state
                                                             .materialMovement);
                                                   },
@@ -1232,7 +1232,7 @@ class _MaterialMovementInwardDetailsState
                                           state.materialMovement
                                               .materialComingFrom = value;
                                           context
-                                              .read<InwardCubit>()
+                                              .read<MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -1279,7 +1279,7 @@ class _MaterialMovementInwardDetailsState
                                           state.materialMovement
                                               .materialFromAddress = value;
                                           context
-                                              .read<InwardCubit>()
+                                              .read<MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -1305,7 +1305,7 @@ class _MaterialMovementInwardDetailsState
                                                   6
                                               ? null
                                               : (val) {
-                                                  BlocProvider.of<InwardCubit>(
+                                                  BlocProvider.of<MaterialMovementDetailsCubit>(
                                                           context)
                                                       .showFields(
                                                     isOriginalReceiverReceiving:
@@ -1317,7 +1317,7 @@ class _MaterialMovementInwardDetailsState
                                                   6
                                               ? null
                                               : (val) {
-                                                  BlocProvider.of<InwardCubit>(
+                                                  BlocProvider.of<MaterialMovementDetailsCubit>(
                                                           context)
                                                       .showFields(
                                                     isOriginalReceiverReceiving:
@@ -1425,7 +1425,7 @@ class _MaterialMovementInwardDetailsState
                                           state.materialMovement
                                               .otherReceiverEmployeeId = value;
                                           context
-                                              .read<InwardCubit>()
+                                              .read<MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -1474,7 +1474,7 @@ class _MaterialMovementInwardDetailsState
                                                         .receiverDepartmenttName =
                                                     value;
                                                 context
-                                                    .read<InwardCubit>()
+                                                    .read<MaterialMovementDetailsCubit>()
                                                     .onModelValueChange(
                                                         state.materialMovement);
                                               },
@@ -1543,7 +1543,7 @@ class _MaterialMovementInwardDetailsState
                                           state.materialMovement
                                               .otherReceiverName = value;
                                           context
-                                              .read<InwardCubit>()
+                                              .read<MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -1589,7 +1589,7 @@ class _MaterialMovementInwardDetailsState
                                           state.materialMovement
                                               .receiverEmployeeId = value;
                                           context
-                                              .read<InwardCubit>()
+                                              .read<MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -1636,7 +1636,7 @@ class _MaterialMovementInwardDetailsState
                                           state.materialMovement
                                               .entrySecurityName = value;
                                           context
-                                              .read<InwardCubit>()
+                                              .read<MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -1682,7 +1682,7 @@ class _MaterialMovementInwardDetailsState
                                           state.materialMovement
                                               .materialDescription = value;
                                           context
-                                              .read<InwardCubit>()
+                                              .read<MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                                   state.materialMovement);
                                         },
@@ -1708,7 +1708,7 @@ class _MaterialMovementInwardDetailsState
                                                   6
                                               ? null
                                               : (val) {
-                                                  BlocProvider.of<InwardCubit>(
+                                                  BlocProvider.of<MaterialMovementDetailsCubit>(
                                                           context)
                                                       .showFields(
                                                     isMaterialPhysicallyChecked:
@@ -1721,7 +1721,7 @@ class _MaterialMovementInwardDetailsState
                                                   6
                                               ? null
                                               : (val) {
-                                                  BlocProvider.of<InwardCubit>(
+                                                  BlocProvider.of<MaterialMovementDetailsCubit>(
                                                           context)
                                                       .showFields(
                                                     isMaterialPhysicallyChecked:
@@ -1748,7 +1748,7 @@ class _MaterialMovementInwardDetailsState
                                           state.materialMovement
                                               .materialNotCheckedComment = value;
                                           context
-                                              .read<InwardCubit>()
+                                              .read<MaterialMovementDetailsCubit>()
                                               .onModelValueChange(
                                               state.materialMovement);
                                         },
@@ -1898,7 +1898,7 @@ class _MaterialMovementInwardDetailsState
     }
   }
 
-  assetTypeDialog(InwardState state) {
+  assetTypeDialog(MaterialMovementDetailsState state) {
     showDialog(
       context: context,
       builder: (dialogContext) {
@@ -1910,14 +1910,14 @@ class _MaterialMovementInwardDetailsState
 
               log('---returnable----------${state.materialMovement.returnable}');
 
-              BlocProvider.of<InwardCubit>(context)
+              BlocProvider.of<MaterialMovementDetailsCubit>(context)
                   .updateDropdownValues(isReturnable: isReturnable);
             });
       },
     );
   }
 
-  userDialog(InwardState state, String name) {
+  userDialog(MaterialMovementDetailsState state, String name) {
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
@@ -1934,14 +1934,14 @@ class _MaterialMovementInwardDetailsState
                   });
             },
             onTap: (T1Analyst user) {
-              BlocProvider.of<InwardCubit>(context)
+              BlocProvider.of<MaterialMovementDetailsCubit>(context)
                   .updateDropdownValues(user: user);
             },
           );
         });
   }
 
-  departmentDialog(InwardState state, String name) {
+  departmentDialog(MaterialMovementDetailsState state, String name) {
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
@@ -1960,14 +1960,14 @@ class _MaterialMovementInwardDetailsState
                   });
             },
             onTap: (EmployeeDepartment department) {
-              BlocProvider.of<InwardCubit>(context)
+              BlocProvider.of<MaterialMovementDetailsCubit>(context)
                   .updateDropdownValues(department: department);
             },
           );
         });
   }
 
-  Widget quantityUnitPopUp(InwardState state) {
+  Widget quantityUnitPopUp(MaterialMovementDetailsState state) {
     return TextfieldAddButton(
       title: 'Quantity',
       height: 60,
@@ -1980,7 +1980,7 @@ class _MaterialMovementInwardDetailsState
     );
   }
 
-  quantityUnitDialog(InwardState state) {
+  quantityUnitDialog(MaterialMovementDetailsState state) {
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
@@ -2030,7 +2030,7 @@ class _MaterialMovementInwardDetailsState
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<InwardCubit>(context).submitForm();
+        BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm();
       },
     );
   }
@@ -2074,7 +2074,7 @@ class _MaterialMovementInwardDetailsState
   //   //return Container();
   // }
 
-  Widget uploadWidget(InwardState state) {
+  Widget uploadWidget(MaterialMovementDetailsState state) {
     return // upload
         widget.materialMovement == null
             ? Container(
@@ -2174,7 +2174,7 @@ class _MaterialMovementInwardDetailsState
   //   );
   // }
 
-  Widget locationWidgetdislay(InwardState state) {
+  Widget locationWidgetdislay(MaterialMovementDetailsState state) {
     return GestureDetector(
       onTap: () {
         if (widget.materialMovement == null ||
@@ -2193,7 +2193,7 @@ class _MaterialMovementInwardDetailsState
                   location.name = list?.name;
                   state.materialMovement.location = location;
 
-                  BlocProvider.of<InwardCubit>(context)
+                  BlocProvider.of<MaterialMovementDetailsCubit>(context)
                       .updateDropdownValues(location: location);
 
                   // state.copyWith(
@@ -2248,7 +2248,7 @@ class _MaterialMovementInwardDetailsState
     );
   }
 
-  Widget datecreateWidgetdisplay(InwardState state) {
+  Widget datecreateWidgetdisplay(MaterialMovementDetailsState state) {
     return FlutterInputField(
       textFormKey: Keys.dateofcreationTextController,
       initialValue: state.materialMovement.inputDate,

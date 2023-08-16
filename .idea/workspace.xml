@@ -4,13 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="radio button common widget created">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="Merge remote-tracking branch 'origin/main' into dev&#10;&#10;# Conflicts:&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/.filecache&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/app.dill&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/debug_ios_bundle_flutter_assets.stamp&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/flutter_assets.d&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/kernel_snapshot.d&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/kernel_snapshot.stamp&#10;#&#9;.flutter-plugins-dependencies&#10;#&#9;build/08cc42a12d40126f9972e2438221aca3.cache.dill.track.dill&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/App&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/App&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/file_picker.framework/file_picker&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Runner&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/file_picker/file_picker.framework/file_picker&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/App&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/file_picker.framework/file_picker&#10;#&#9;build/ios/iphonesimulator/Runner.app/Runner&#10;#&#9;build/ios/iphonesimulator/Runner.app/_CodeSignature/CodeResources&#10;#&#9;lib/src/features/createfound/views/upload_attachment.dart&#10;#&#9;lib/src/routing/route_generator.dart">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_inward_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_inward_details.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/models/material_movements_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/models/material_movements_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/utils/helpers/keys/keys.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/utils/helpers/keys/keys.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/views/upload_attachment.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/views/upload_attachment.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/inward_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_inward_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -280,7 +280,28 @@
       <option name="project" value="LOCAL" />
       <updated>1692009812261</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="material movement outward and material physically checked comment">
+      <created>1692080702594</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1692080702594</updated>
+    </task>
+    <task id="LOCAL-00030" summary="model package moved">
+      <created>1692081279542</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1692081279542</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Merge remote-tracking branch 'origin/main' into dev&#10;&#10;# Conflicts:&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/.filecache&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/app.dill&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/debug_ios_bundle_flutter_assets.stamp&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/flutter_assets.d&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/kernel_snapshot.d&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/kernel_snapshot.stamp&#10;#&#9;.flutter-plugins-dependencies&#10;#&#9;build/08cc42a12d40126f9972e2438221aca3.cache.dill.track.dill&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/App&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/App&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/file_picker.framework/file_picker&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Runner&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/file_picker/file_picker.framework/file_picker&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/App&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/file_picker.framework/file_picker&#10;#&#9;build/ios/iphonesimulator/Runner.app/Runner&#10;#&#9;build/ios/iphonesimulator/Runner.app/_CodeSignature/CodeResources&#10;#&#9;lib/src/features/createfound/views/upload_attachment.dart&#10;#&#9;lib/src/routing/route_generator.dart">
+      <created>1692088797661</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1692088797661</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -317,8 +338,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modified API calling" />
-    <MESSAGE value="modified API callings" />
     <MESSAGE value="wip: material movements api base setup done" />
     <MESSAGE value="done: material movements inward api calling" />
     <MESSAGE value="done: material movements inward scroll issue fixed" />
@@ -341,7 +360,10 @@
     <MESSAGE value="improvements,&#10;outward details" />
     <MESSAGE value="improvements in inward and outward details" />
     <MESSAGE value="radio button common widget created" />
-    <option name="LAST_COMMIT_MESSAGE" value="radio button common widget created" />
+    <MESSAGE value="material movement outward and material physically checked comment" />
+    <MESSAGE value="model package moved" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/main' into dev&#10;&#10;# Conflicts:&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/.filecache&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/app.dill&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/debug_ios_bundle_flutter_assets.stamp&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/flutter_assets.d&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/kernel_snapshot.d&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/kernel_snapshot.stamp&#10;#&#9;.flutter-plugins-dependencies&#10;#&#9;build/08cc42a12d40126f9972e2438221aca3.cache.dill.track.dill&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/App&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/App&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/file_picker.framework/file_picker&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Runner&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/file_picker/file_picker.framework/file_picker&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/App&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/file_picker.framework/file_picker&#10;#&#9;build/ios/iphonesimulator/Runner.app/Runner&#10;#&#9;build/ios/iphonesimulator/Runner.app/_CodeSignature/CodeResources&#10;#&#9;lib/src/features/createfound/views/upload_attachment.dart&#10;#&#9;lib/src/routing/route_generator.dart" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/main' into dev&#10;&#10;# Conflicts:&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/.filecache&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/app.dill&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/debug_ios_bundle_flutter_assets.stamp&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/flutter_assets.d&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/kernel_snapshot.d&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/kernel_snapshot.stamp&#10;#&#9;.flutter-plugins-dependencies&#10;#&#9;build/08cc42a12d40126f9972e2438221aca3.cache.dill.track.dill&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/App&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/App&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/file_picker.framework/file_picker&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Runner&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/file_picker/file_picker.framework/file_picker&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/App&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/file_picker.framework/file_picker&#10;#&#9;build/ios/iphonesimulator/Runner.app/Runner&#10;#&#9;build/ios/iphonesimulator/Runner.app/_CodeSignature/CodeResources&#10;#&#9;lib/src/features/createfound/views/upload_attachment.dart&#10;#&#9;lib/src/routing/route_generator.dart" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

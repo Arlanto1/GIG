@@ -18,7 +18,7 @@ import 'package:db_atom/src/features/createfound/models/create_found_request.dar
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_attachment.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
-import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/inward_cubit.dart';
+import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -42,7 +42,7 @@ class UploadAttachment extends StatefulWidget {
   CreateFoundState? createoundstate;
   CreatePassMgmtState? createpassmgmtstate;
   bool? isPhotoType;
-  InwardState? inwardState;
+  MaterialMovementDetailsState? inwardState;
 
   @override
   State<UploadAttachment> createState() => UploadAttachmentState();

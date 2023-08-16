@@ -20,8 +20,8 @@ import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../features/material_movement/material_movement_details/cubits/inward_cubit.dart';
-import '../features/material_movement/material_movement_details/views/material_movement_inward_details.dart';
+import '../features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
+import '../features/material_movement/material_movement_details/views/material_movement_details.dart';
 import '../features/material_movement/material_movements/bloc/inward_outward_bloc.dart';
 import '../features/material_movement/material_movements/views/material_movement_inwards_outwards.dart';
 import '../features/material_movement/models/material_movements_model.dart';
@@ -199,14 +199,14 @@ class RouteGenerator {
             isInward = arguments['isInward'];
 
             return MaterialPageRoute(
-                builder: (context) => BlocProvider<InwardCubit>(
-                  create: (_) => InwardCubit(
+                builder: (context) => BlocProvider<MaterialMovementDetailsCubit>(
+                  create: (_) => MaterialMovementDetailsCubit(
                     materialMovementServices: services,
                     commonServices: commonServices,
                     model: materialMovement,
                     isInward: isInward,
                   ),
-                  child: MaterialMovementInwardDetails(
+                  child: MaterialMovementDetails(
                     materialMovement: materialMovement,
                     isInward: isInward,
                   ),
@@ -214,14 +214,14 @@ class RouteGenerator {
           }
         }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<InwardCubit>(
-              create: (_) => InwardCubit(
+            builder: (context) => BlocProvider<MaterialMovementDetailsCubit>(
+              create: (_) => MaterialMovementDetailsCubit(
                 materialMovementServices: services,
                 commonServices: commonServices,
                 model: MaterialMovementModel(),
                 isInward: isInward,
               ),
-              child: MaterialMovementInwardDetails(
+              child: MaterialMovementDetails(
                 isInward: isInward,
               ),
             ));

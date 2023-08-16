@@ -19,21 +19,21 @@ import 'package:intl/intl.dart';
 import '../../../../constants/constants.dart';
 import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
-part 'inward_state.dart';
+part 'material_movement_details_state.dart';
 
-class InwardCubit extends Cubit<InwardState> {
+class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   final MaterialMovementServices materialMovementServices;
   final MaterialMovementModel? model;
   final CommonServices commonServices;
   final bool isInward;
 
-  InwardCubit({
+  MaterialMovementDetailsCubit({
     required this.materialMovementServices,
     required this.commonServices,
     required this.model,
     required this.isInward,
   }) : super(
-          InwardState.initial(
+          MaterialMovementDetailsState.initial(
             model: model ?? MaterialMovementModel(),
             locations: GetLocations(),
             loggedInUserDetails: GetUserDetails(),

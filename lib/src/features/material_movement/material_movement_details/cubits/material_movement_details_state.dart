@@ -1,8 +1,8 @@
-part of 'inward_cubit.dart';
+part of 'material_movement_details_cubit.dart';
 
 enum FormStatus { loading, initial, submitting, addAttachment, success, error }
 
-class InwardState extends Equatable {
+class MaterialMovementDetailsState extends Equatable {
   final FormStatus status;
 
   final MaterialMovementModel materialMovement;
@@ -15,7 +15,7 @@ class InwardState extends Equatable {
 
   final String? message;
 
-  factory InwardState.initial({
+  factory MaterialMovementDetailsState.initial({
     required MaterialMovementModel model,
     required GetLocations locations,
     required GetUserDetails loggedInUserDetails,
@@ -25,7 +25,7 @@ class InwardState extends Equatable {
     required List<CreateImage> loadAttachments,
     required List<QuantityUnit> quantityUnits,
   }) {
-    return InwardState(
+    return MaterialMovementDetailsState(
         status: FormStatus.initial,
         materialMovement: model,
         locations: locations,
@@ -67,7 +67,7 @@ class InwardState extends Equatable {
   @override
   List<Object?> get props => [materialMovement, status];
 
-  const InwardState({
+  const MaterialMovementDetailsState({
     required this.status,
     required this.materialMovement,
     this.locations,
@@ -79,7 +79,7 @@ class InwardState extends Equatable {
     this.message,
   });
 
-  InwardState copyWith({
+  MaterialMovementDetailsState copyWith({
     FormStatus? status,
     MaterialMovementModel? materialMovement,
     GetLocations? locations,
@@ -90,7 +90,7 @@ class InwardState extends Equatable {
     List<QuantityUnit>? quantityUnits,
     String? message,
   }) {
-    return InwardState(
+    return MaterialMovementDetailsState(
       status: status ?? this.status,
       materialMovement: materialMovement ?? this.materialMovement,
       locations: locations ?? this.locations,
