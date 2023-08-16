@@ -22,8 +22,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import '../features/material_movement/material_movement_details/views/material_movement_details.dart';
-import '../features/material_movement/material_movements/bloc/inward_outward_bloc.dart';
-import '../features/material_movement/material_movements/views/material_movement_inwards_outwards.dart';
+import '../features/material_movement/material_movements/bloc/material_movement_bloc.dart';
+import '../features/material_movement/material_movements/views/material_movements.dart';
 import '../features/material_movement/models/material_movements_model.dart';
 import '../features/material_movement/services/material_movement_services.dart';
 import '../features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list_page.dart';
@@ -178,10 +178,10 @@ class RouteGenerator {
           }
         }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<InwardOutwardBloc>(
-              create: (_) => InwardOutwardBloc(isInward: isInward)
+            builder: (context) => BlocProvider<MaterialMovementBloc>(
+              create: (_) => MaterialMovementBloc(isInward: isInward)
                 ..add(const InwardFetch(startPos: 0, maxPos: 20)),
-              child: MaterialMovementInwardsOutwards(
+              child: MaterialMovements(
                 isInward: isInward,
               ),
             ));

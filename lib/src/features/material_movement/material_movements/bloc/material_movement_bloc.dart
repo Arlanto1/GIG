@@ -8,15 +8,15 @@ import 'package:db_atom/src/features/material_movement/services/material_movemen
 import 'package:equatable/equatable.dart';
 
 
-part 'inward_outward_event.dart';
+part 'material_movement_event.dart';
 
-part 'inward_outward_state.dart';
+part 'material_movement_state.dart';
 
-class InwardOutwardBloc extends Bloc<InwardOutwardEvent, InwardOutwardState> {
+class MaterialMovementBloc extends Bloc<MaterialMovementEvent, MaterialMovementState> {
   final bool isInward;
 
-  InwardOutwardBloc({required this.isInward})
-      : super(const InwardOutwardState()) {
+  MaterialMovementBloc({required this.isInward})
+      : super(const MaterialMovementState()) {
     on<InwardFetch>(
       _fetchMaterialMovements,
       transformer: droppable(),
@@ -27,7 +27,7 @@ class InwardOutwardBloc extends Bloc<InwardOutwardEvent, InwardOutwardState> {
       MaterialMovementServices();
 
   FutureOr<void> _fetchMaterialMovements(
-      InwardFetch event, Emitter<InwardOutwardState> emit) async {
+      InwardFetch event, Emitter<MaterialMovementState> emit) async {
     try {
       if (state.hasReachedMax) return;
 

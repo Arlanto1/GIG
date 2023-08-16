@@ -14,20 +14,20 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/inward_outward_bloc.dart';
+import '../bloc/material_movement_bloc.dart';
 
-class MaterialMovementInwardsOutwards extends StatefulWidget {
-  const MaterialMovementInwardsOutwards({super.key, required this.isInward});
+class MaterialMovements extends StatefulWidget {
+  const MaterialMovements({super.key, required this.isInward});
 
   final bool isInward;
 
   @override
-  State<MaterialMovementInwardsOutwards> createState() =>
-      _MaterialMovementInwardsOutwardsState();
+  State<MaterialMovements> createState() =>
+      _MaterialMovementsState();
 }
 
-class _MaterialMovementInwardsOutwardsState
-    extends State<MaterialMovementInwardsOutwards> {
+class _MaterialMovementsState
+    extends State<MaterialMovements> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
 
@@ -52,7 +52,7 @@ class _MaterialMovementInwardsOutwardsState
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context
-          .read<InwardOutwardBloc>()
+          .read<MaterialMovementBloc>()
           .add(InwardFetch(startPos: pageNumber, maxPos: 20));
     }
   }
@@ -79,7 +79,7 @@ class _MaterialMovementInwardsOutwardsState
           showPopUp: true,
           showSaveButton: false,
         ),
-        body: BlocBuilder<InwardOutwardBloc, InwardOutwardState>(
+        body: BlocBuilder<MaterialMovementBloc, MaterialMovementState>(
             builder: (context, state) {
           if (state.status == LawEnforcementListStateType.initial) {
             return const Center(
