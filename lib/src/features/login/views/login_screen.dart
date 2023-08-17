@@ -17,6 +17,7 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:db_atom/src/utils/alert_handler.dart' as alert_handler;
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -54,7 +55,9 @@ class _LoginState extends State<Login> {
         listener: (context, state) {
           if (state is LoginFailureState) {
             dismissLoadingDialog(context);
-            _showCustomPop(context, 'Something went wrong');
+            //_showCustomPop(context, );
+            alert_handler.alertDisplay(
+        context,'Please enter valid credentials');
           } else if (state is LoginSuccessState) {
             dismissLoadingDialog(context);
             Navigator.pushNamed(context, otpVerificationRoute, arguments: {
