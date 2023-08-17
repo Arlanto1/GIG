@@ -7,7 +7,7 @@ class Constants {
   static const String customFontRegularFamily = 'Poppins-Regular';
   static const String customFontSemiBoldFamily = 'Poppins-SemiBold';
   static const String customFontMixedFamily = 'Poppins-Mixed';
-  static const String appname = 'DB_ATOM';
+  static const String appname = 'AtomEdge';
   static const String unsaveddata = 'Unsaved Data';
   static const String unsaveddatadesc =
       "There is unsaved data. Do you want to exit anyhow?";
