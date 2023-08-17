@@ -110,6 +110,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   Future<void> updateDropdownValues({
     Location? location,
     BaseUser? user,
+    BaseUser? receiverEmailUser,
     BaseUser? requesterEmailUser,
     BaseUser? approver1EmailUser,
     BaseUser? approver2EmailUser,
@@ -139,6 +140,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.materialMovement.otherReceiverName = user.name;
     }
 
+    if (receiverEmailUser != null) {
+      state.materialMovement.receiverEmail = receiverEmailUser.email;
+    }
     if (requesterEmailUser != null) {
       state.materialMovement.requestorEmail = requesterEmailUser.email;
     }

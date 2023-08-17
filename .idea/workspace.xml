@@ -4,30 +4,29 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="files renamed">
-      <change afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/department_dialog.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/src/models/base_user.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/src/models/department.dart" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="files renamed&#10;&#10;class T1Analyst and AtomStaticUser changed to Baseuser&#10;&#10;created Reusable Dialog Boxs">
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/version" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/custom_pop_list_texts.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/custom_pop_list_texts.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/models/emplyee_departments_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/models/emplyee_departments_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/models/get_depositor_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/models/get_depositor_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/lawencorcementcreate.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/lawencorcementcreate.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/constants/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constants.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_state.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/views/material_movements.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/views/material_movements.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/models/material_movements_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/models/material_movements_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/services/material_movement_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/services/material_movement_services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/services/CommonServices.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/services/CommonServices.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/utils/helpers/keys/keys.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/utils/helpers/keys/keys.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/linux/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugins.cmake" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -332,7 +331,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692160099165</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="files renamed&#10;&#10;class T1Analyst and AtomStaticUser changed to Baseuser&#10;&#10;created Reusable Dialog Boxs">
+      <created>1692188701209</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1692188701209</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -369,8 +375,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="done: material movements inward api calling" />
-    <MESSAGE value="done: material movements inward scroll issue fixed" />
     <MESSAGE value="wip: material inward details" />
     <MESSAGE value="update gitignore" />
     <MESSAGE value="wip: material inward movement details ui" />
@@ -394,7 +398,9 @@
     <MESSAGE value="model package moved" />
     <MESSAGE value="Merge remote-tracking branch 'origin/main' into dev&#10;&#10;# Conflicts:&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/.filecache&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/app.dill&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/debug_ios_bundle_flutter_assets.stamp&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/flutter_assets.d&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/kernel_snapshot.d&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/kernel_snapshot.stamp&#10;#&#9;.flutter-plugins-dependencies&#10;#&#9;build/08cc42a12d40126f9972e2438221aca3.cache.dill.track.dill&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/App&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/App&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/file_picker.framework/file_picker&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Runner&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/file_picker/file_picker.framework/file_picker&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/App&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/file_picker.framework/file_picker&#10;#&#9;build/ios/iphonesimulator/Runner.app/Runner&#10;#&#9;build/ios/iphonesimulator/Runner.app/_CodeSignature/CodeResources&#10;#&#9;lib/src/features/createfound/views/upload_attachment.dart&#10;#&#9;lib/src/routing/route_generator.dart" />
     <MESSAGE value="files renamed" />
-    <option name="LAST_COMMIT_MESSAGE" value="files renamed" />
+    <MESSAGE value="files renamed&#10;&#10;class T1Analyst and AtomStaticUser changed to Baseuser" />
+    <MESSAGE value="files renamed&#10;&#10;class T1Analyst and AtomStaticUser changed to Baseuser&#10;&#10;created Reusable Dialog Boxs" />
+    <option name="LAST_COMMIT_MESSAGE" value="files renamed&#10;&#10;class T1Analyst and AtomStaticUser changed to Baseuser&#10;&#10;created Reusable Dialog Boxs" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

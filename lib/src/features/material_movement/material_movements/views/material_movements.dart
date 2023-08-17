@@ -68,6 +68,9 @@ class _MaterialMovementsState
             Navigator.pushNamed(context, materialMovementInwardDetailsRoute,
                 arguments: {
                   "isInward": widget.isInward,
+                  "isCreate": true,
+                  "title": widget.isInward? Constants.materialMovementInwardCreate: Constants.materialMovementOutwardCreate,
+
                 })
           },
         ),
@@ -173,6 +176,7 @@ class _MaterialMovementsState
           arguments: {
             "MaterialMovementModel": materialMovementModel,
             "isInward": widget.isInward,
+            "title": widget.isInward? Constants.materialMovementInwardEdit: Constants.materialMovementOutwardEdit,
           });
     }
   }

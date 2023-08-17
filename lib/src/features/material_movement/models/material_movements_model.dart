@@ -14,17 +14,20 @@ class MaterialMovementsModel {
   });
 
   MaterialMovementsModel.fromJson(Map<String, dynamic> json)
-      : items = (json['list'] as List?)?.map((dynamic e) => MaterialMovementModel.fromJson(e as Map<String,dynamic>)).toList(),
+      : items = (json['list'] as List?)
+            ?.map((dynamic e) =>
+                MaterialMovementModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'list' : items?.map((e) => e.toJson()).toList(),
-    'totalCount' : totalCount,
-    'currentPageNo' : currentPageNo,
-    'totalPageCount' : totalPageCount
-  };
+        'list': items?.map((e) => e.toJson()).toList(),
+        'totalCount': totalCount,
+        'currentPageNo': currentPageNo,
+        'totalPageCount': totalPageCount
+      };
 }
 
 class MaterialMovementModel {
@@ -41,7 +44,9 @@ class MaterialMovementModel {
   String? materialFromAddress;
   String? materialDescription;
   int? quantity;
-  List<dynamic>? images;
+  List<Image>? images;
+  List<Image>? receiverSign;
+  List<Image>? entrySecuritySign;
   String? receiverEmail;
   String? receiverEmployeeId;
   EntrySecurity? entrySecurity;
@@ -66,7 +71,7 @@ class MaterialMovementModel {
   String? takenOutContactNo;
   String? materialReturnedChallanNo;
   String? returnReceiverMailId;
-   String? poNumber;
+  String? poNumber;
   bool originalReceiver;
   String? otherReceiverName;
   String? otherReceiverEmployeeId;
@@ -83,7 +88,7 @@ class MaterialMovementModel {
     this.location,
     this.locationRegion,
     this.entities,
-    this.inwardMovement = true,
+    this.inwardMovement = false,
     this.returnable = false,
     this.challanNo,
     this.materialComingFrom,
@@ -98,6 +103,8 @@ class MaterialMovementModel {
     this.modifiedBy,
     this.history,
     this.requestorEmail,
+    this.receiverSign,
+    this.entrySecuritySign,
     this.requestorEmployeeId,
     this.requestorDepartment,
     this.sentTo,
@@ -130,8 +137,14 @@ class MaterialMovementModel {
       : id = json['id'] as int?,
         slNo = json['slNo'] as String?,
         inputDate = json['inputDate'] as String?,
-        location = (json['location'] as Map<String,dynamic>?) != null ? Location.fromJson(json['location'] as Map<String,dynamic>) : null,
-        locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? LocationRegion.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
+        location = (json['location'] as Map<String, dynamic>?) != null
+            ? Location.fromJson(json['location'] as Map<String, dynamic>)
+            : null,
+        locationRegion =
+            (json['locationRegion'] as Map<String, dynamic>?) != null
+                ? LocationRegion.fromJson(
+                    json['locationRegion'] as Map<String, dynamic>)
+                : null,
         entities = json['entities'] as List?,
         inwardMovement = json['inwardMovement'] as bool?,
         returnable = json['returnable'] as bool?,
@@ -140,90 +153,126 @@ class MaterialMovementModel {
         materialFromAddress = json['materialFromAddress'] as String?,
         materialDescription = json['materialDescription'] as String?,
         quantity = json['quantity'] as int?,
-        images = json['images'] as List?,
+        images =
+            List.from(json['images']).map((e) => Image.fromJson(e)).toList(),
         receiverEmail = json['receiverEmail'] as String?,
         receiverEmployeeId = json['receiverEmployeeId'] as String?,
-        entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? EntrySecurity.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
+        entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
+            ? EntrySecurity.fromJson(
+                json['entrySecurity'] as Map<String, dynamic>)
+            : null,
         status = json['status'] as int?,
         modifiedBy = json['modifiedBy'] as String?,
-        history = (json['history'] as List?)?.map((dynamic e) => History.fromJson(e as Map<String,dynamic>)).toList(),
+        history = (json['history'] as List?)
+            ?.map((dynamic e) => History.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        receiverSign = (json['receiverSign'] as List?)
+            ?.map(
+                (dynamic e) => Image.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        entrySecuritySign = (json['entrySecuritySign'] as List?)
+            ?.map((dynamic e) =>
+            Image.fromJson(e as Map<String, dynamic>))
+            .toList(),
         requestorEmail = json['requestorEmail'] as String?,
         requestorEmployeeId = json['requestorEmployeeId'] as String?,
-        requestorDepartment = (json['requestorDepartment'] as Map<String,dynamic>?) != null ? Department.fromJson(json['requestorDepartment'] as Map<String,dynamic>) : null,
+        requestorDepartment =
+            (json['requestorDepartment'] as Map<String, dynamic>?) != null
+                ? Department.fromJson(
+                    json['requestorDepartment'] as Map<String, dynamic>)
+                : null,
         sentTo = json['sentTo'] as String?,
         address = json['address'] as String?,
         purpose = json['purpose'] as String?,
         modelInfo = json['modelInfo'] as String?,
-        unit = (json['unit'] as Map<String,dynamic>?) != null ? Unit.fromJson(json['unit'] as Map<String,dynamic>) : null,
+        unit = (json['unit'] as Map<String, dynamic>?) != null
+            ? Unit.fromJson(json['unit'] as Map<String, dynamic>)
+            : null,
         preparedBy = json['preparedBy'] as String?,
-        preparedByDepartment = (json['preparedByDepartment'] as Map<String,dynamic>?) != null ? Department.fromJson(json['preparedByDepartment'] as Map<String,dynamic>) : null,
+        preparedByDepartment =
+            (json['preparedByDepartment'] as Map<String, dynamic>?) != null
+                ? Department.fromJson(
+                    json['preparedByDepartment'] as Map<String, dynamic>)
+                : null,
         approver1Email = json['approver1Email'] as String?,
-        approver1Department = (json['approver1Department'] as Map<String,dynamic>?) != null ? Department.fromJson(json['approver1Department'] as Map<String,dynamic>) : null,
+        approver1Department =
+            (json['approver1Department'] as Map<String, dynamic>?) != null
+                ? Department.fromJson(
+                    json['approver1Department'] as Map<String, dynamic>)
+                : null,
         approver2Email = json['approver2Email'] as String?,
-        approver2Department = (json['approver2Department'] as Map<String,dynamic>?) != null ? Department.fromJson(json['approver2Department'] as Map<String,dynamic>) : null,
+        approver2Department =
+            (json['approver2Department'] as Map<String, dynamic>?) != null
+                ? Department.fromJson(
+                    json['approver2Department'] as Map<String, dynamic>)
+                : null,
         takenOutEmail = json['takenOutEmail'] as String?,
         takenOutContactNo = json['takenOutContactNo'] as String?,
-        materialReturnedChallanNo = json['materialReturnedChallanNo'] as String?,
+        materialReturnedChallanNo =
+            json['materialReturnedChallanNo'] as String?,
         returnReceiverMailId = json['returnReceiverMailId'] as String?,
         poNumber = json['poNumber'] as String?,
         originalReceiver = json['originalReceiver'] as bool,
         otherReceiverName = json['otherReceiverName'] as String?,
         otherReceiverEmployeeId = json['otherReceiverEmployeeId'] as String?,
         materialPhysicallyChecked = json['materialPhysicallyChecked'] as bool,
-        materialNotCheckedComment = json['materialNotCheckedComment'] as String?,
+        materialNotCheckedComment =
+            json['materialNotCheckedComment'] as String?,
         takenOutAddress = json['takenOutAddress'] as String?,
         entrySecurityName = json['entrySecurityName'] as String?,
         receiverDepartmenttName = json['receiverDepartmenttName'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'id' : id,
-    'slNo' : slNo,
-    'inputDate' : inputDate,
-    'location' : location?.toJson(),
-    'locationRegion' : locationRegion?.toJson(),
-    'entities' : entities,
-    'inwardMovement' : inwardMovement,
-    'returnable' : returnable,
-    'challanNo' : challanNo,
-    'materialComingFrom' : materialComingFrom,
-    'materialFromAddress' : materialFromAddress,
-    'materialDescription' : materialDescription,
-    'quantity' : quantity,
-    'images' : images,
-    'receiverEmail' : receiverEmail,
-    'receiverEmployeeId' : receiverEmployeeId,
-    'entrySecurity' : entrySecurity?.toJson(),
-    'status' : status,
-    'modifiedBy' : modifiedBy,
-    'history' : history?.map((e) => e.toJson()).toList(),
-    'requestorEmail' : requestorEmail,
-    'requestorEmployeeId' : requestorEmployeeId,
-    'requestorDepartment' : requestorDepartment?.toJson(),
-    'sentTo' : sentTo,
-    'address' : address,
-    'purpose' : purpose,
-    'modelInfo' : modelInfo,
-    'unit' : unit?.toJson(),
-    'preparedBy' : preparedBy,
-    'preparedByDepartment' : preparedByDepartment?.toJson(),
-    'approver1Email' : approver1Email,
-    'approver1Department' : approver1Department?.toJson(),
-    'approver2Email' : approver2Email,
-    'approver2Department' : approver2Department?.toJson(),
-    'takenOutEmail' : takenOutEmail,
-    'takenOutContactNo' : takenOutContactNo,
-    'materialReturnedChallanNo' : materialReturnedChallanNo,
-    'returnReceiverMailId' : returnReceiverMailId,
-    'poNumber' : poNumber,
-    'originalReceiver' : originalReceiver,
-    'otherReceiverName' : otherReceiverName,
-    'otherReceiverEmployeeId' : otherReceiverEmployeeId,
-    'materialPhysicallyChecked' : materialPhysicallyChecked,
-    'materialNotCheckedComment' : materialNotCheckedComment,
-    'takenOutAddress' : takenOutAddress,
-    'entrySecurityName' : entrySecurityName,
-    'receiverDepartmenttName' : receiverDepartmenttName
-  };
+        'id': id,
+        'slNo': slNo,
+        'inputDate': inputDate,
+        'location': location?.toJson(),
+        'locationRegion': locationRegion?.toJson(),
+        'entities': entities,
+        'inwardMovement': inwardMovement,
+        'returnable': returnable,
+        'challanNo': challanNo,
+        'materialComingFrom': materialComingFrom,
+        'materialFromAddress': materialFromAddress,
+        'materialDescription': materialDescription,
+        'quantity': quantity,
+        'images': images?.map((e) => e.toJson()).toList(),
+        'receiverSign': receiverSign?.map((e) => e.toJson()).toList(),
+        'entrySecuritySign': entrySecuritySign?.map((e) => e.toJson()).toList(),
+        'receiverEmail': receiverEmail,
+        'receiverEmployeeId': receiverEmployeeId,
+        'entrySecurity': entrySecurity?.toJson(),
+        'status': status,
+        'modifiedBy': modifiedBy,
+        'history': history?.map((e) => e.toJson()).toList(),
+        'requestorEmail': requestorEmail,
+        'requestorEmployeeId': requestorEmployeeId,
+        'requestorDepartment': requestorDepartment?.toJson(),
+        'sentTo': sentTo,
+        'address': address,
+        'purpose': purpose,
+        'modelInfo': modelInfo,
+        'unit': unit?.toJson(),
+        'preparedBy': preparedBy,
+        'preparedByDepartment': preparedByDepartment?.toJson(),
+        'approver1Email': approver1Email,
+        'approver1Department': approver1Department?.toJson(),
+        'approver2Email': approver2Email,
+        'approver2Department': approver2Department?.toJson(),
+        'takenOutEmail': takenOutEmail,
+        'takenOutContactNo': takenOutContactNo,
+        'materialReturnedChallanNo': materialReturnedChallanNo,
+        'returnReceiverMailId': returnReceiverMailId,
+        'poNumber': poNumber,
+        'originalReceiver': originalReceiver,
+        'otherReceiverName': otherReceiverName,
+        'otherReceiverEmployeeId': otherReceiverEmployeeId,
+        'materialPhysicallyChecked': materialPhysicallyChecked,
+        'materialNotCheckedComment': materialNotCheckedComment,
+        'takenOutAddress': takenOutAddress,
+        'entrySecurityName': entrySecurityName,
+        'receiverDepartmenttName': receiverDepartmenttName
+      };
 }
 
 class Location {
@@ -239,10 +288,34 @@ class Location {
       : id = json['id'] as int?,
         name = json['name'] as String?;
 
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
+}
+
+class Image {
+  final String? contentType;
+  final String? title;
+  final int? fileSize;
+  final String? imageContent;
+
+  Image({
+    this.contentType,
+    this.title,
+    this.fileSize,
+    this.imageContent,
+  });
+
+  Image.fromJson(Map<String, dynamic> json)
+      : contentType = json['contentType'] as String?,
+        title = json['title'] as String?,
+        fileSize = json['fileSize'] as int?,
+        imageContent = json['imageContent'] as String?;
+
   Map<String, dynamic> toJson() => {
-    'id' : id,
-    'name' : name
-  };
+        'contentType': contentType,
+        'title': title,
+        'fileSize': fileSize,
+        'imageContent': imageContent
+      };
 }
 
 class LocationRegion {
@@ -258,10 +331,7 @@ class LocationRegion {
       : id = json['id'] as int?,
         name = json['name'] as String?;
 
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'name' : name
-  };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
 }
 
 class EntrySecurity {
@@ -300,27 +370,32 @@ class EntrySecurity {
         firstName = json['firstName'] as String?,
         lastName = json['lastName'] as String?,
         phone = json['phone'] as String?,
-        roles = (json['roles'] as List?)?.map((dynamic e) => Roles.fromJson(e as Map<String,dynamic>)).toList(),
-        roleExtensions = (json['roleExtensions'] as List?)?.map((dynamic e) => RoleExtensions.fromJson(e as Map<String,dynamic>)).toList(),
+        roles = (json['roles'] as List?)
+            ?.map((dynamic e) => Roles.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        roleExtensions = (json['roleExtensions'] as List?)
+            ?.map((dynamic e) =>
+                RoleExtensions.fromJson(e as Map<String, dynamic>))
+            .toList(),
         notApprovedRoles = json['notApprovedRoles'] as List?,
         notApprovedRoleExtensions = json['notApprovedRoleExtensions'] as List?,
         name = json['name'] as String?,
         userStatus = json['userStatus'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'userId' : userId,
-    'userName' : userName,
-    'email' : email,
-    'firstName' : firstName,
-    'lastName' : lastName,
-    'phone' : phone,
-    'roles' : roles?.map((e) => e.toJson()).toList(),
-    'roleExtensions' : roleExtensions?.map((e) => e.toJson()).toList(),
-    'notApprovedRoles' : notApprovedRoles,
-    'notApprovedRoleExtensions' : notApprovedRoleExtensions,
-    'name' : name,
-    'userStatus' : userStatus
-  };
+        'userId': userId,
+        'userName': userName,
+        'email': email,
+        'firstName': firstName,
+        'lastName': lastName,
+        'phone': phone,
+        'roles': roles?.map((e) => e.toJson()).toList(),
+        'roleExtensions': roleExtensions?.map((e) => e.toJson()).toList(),
+        'notApprovedRoles': notApprovedRoles,
+        'notApprovedRoleExtensions': notApprovedRoleExtensions,
+        'name': name,
+        'userStatus': userStatus
+      };
 }
 
 class Roles {
@@ -342,16 +417,19 @@ class Roles {
       : roleId = json['roleId'] as int?,
         application = json['application'] as String?,
         roleName = json['roleName'] as String?,
-        roleExtensions = (json['roleExtensions'] as List?)?.map((dynamic e) => RoleExtensions.fromJson(e as Map<String,dynamic>)).toList(),
+        roleExtensions = (json['roleExtensions'] as List?)
+            ?.map((dynamic e) =>
+                RoleExtensions.fromJson(e as Map<String, dynamic>))
+            .toList(),
         name = json['name'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'roleId' : roleId,
-    'application' : application,
-    'roleName' : roleName,
-    'roleExtensions' : roleExtensions?.map((e) => e.toJson()).toList(),
-    'name' : name
-  };
+        'roleId': roleId,
+        'application': application,
+        'roleName': roleName,
+        'roleExtensions': roleExtensions?.map((e) => e.toJson()).toList(),
+        'name': name
+      };
 }
 
 class RoleExtensions {
@@ -386,17 +464,16 @@ class RoleExtensions {
         accessRight = json['accessRight'];
 
   Map<String, dynamic> toJson() => {
-    'roleExtensionId' : roleExtensionId,
-    'roleId' : roleId,
-    'displayName' : displayName,
-    'area' : area,
-    'filter' : filter,
-    'rootNodeId' : rootNodeId,
-    'nodeId' : nodeId,
-    'accessRight' : accessRight
-  };
+        'roleExtensionId': roleExtensionId,
+        'roleId': roleId,
+        'displayName': displayName,
+        'area': area,
+        'filter': filter,
+        'rootNodeId': rootNodeId,
+        'nodeId': nodeId,
+        'accessRight': accessRight
+      };
 }
-
 
 class History {
   int? id;
@@ -424,15 +501,14 @@ class History {
         parameters = json['parameters'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'id' : id,
-    'state' : state,
-    'action' : action,
-    'email' : email,
-    'actiontime' : actiontime,
-    'parameters' : parameters
-  };
+        'id': id,
+        'state': state,
+        'action': action,
+        'email': email,
+        'actiontime': actiontime,
+        'parameters': parameters
+      };
 }
-
 
 class Unit {
   int? id;
@@ -447,8 +523,5 @@ class Unit {
       : id = json['id'] as int?,
         name = json['name'] as String?;
 
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'name' : name
-  };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
 }

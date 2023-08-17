@@ -76,7 +76,12 @@ class Constants {
   static const String logout = 'Logout';
 
   static const String materialMovementInward = 'Material Movement Inward';
+  static const String materialMovementInwardCreate = 'Create Inward Material Movement';
+  static const String materialMovementInwardEdit = 'Edit Inward Material Movement';
+
   static const String materialMovementOutward = 'Material Movement Outward';
+  static const String materialMovementOutwardCreate = 'Create Outward Material Movement';
+  static const String materialMovementOutwardEdit = 'Edit Outward Material Movement';
 
   static const String daypassmgmt = 'Day Pass Management';
   static const String daypassregister = 'Day Pass Register';

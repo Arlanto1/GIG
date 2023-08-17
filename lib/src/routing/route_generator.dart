@@ -15,7 +15,6 @@ import 'package:db_atom/src/features/login/views/login_screen.dart';
 import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_item_model.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,9 +49,9 @@ class RouteGenerator {
             VerifyOTPArguments? userDetails = userRoutes["userDetails"];
             return MaterialPageRoute(
                 builder: (context) => OtpVerifyScreen(
-                  userName: userDetails?.name ?? '',
-                  password: userDetails?.pwd ?? '',
-                ));
+                      userName: userDetails?.name ?? '',
+                      password: userDetails?.pwd ?? '',
+                    ));
           }
           return MaterialPageRoute(builder: (context) => OtpVerifyScreen());
         }
@@ -71,7 +70,7 @@ class RouteGenerator {
           return MaterialPageRoute(builder: (context) => Createfound());
         }
       case lawenforcementScreenRoute:
-      // return MaterialPageRoute(builder: (context) => CreateLawenforcement());
+        // return MaterialPageRoute(builder: (context) => CreateLawenforcement());
         if (settings.arguments != null) {
           final listroutes = settings.arguments as Map<String, dynamic>;
           if (listroutes != null) {
@@ -88,8 +87,8 @@ class RouteGenerator {
       case addemployeedepartmentRoute:
         return MaterialPageRoute(
             builder: (context) => AddEmployeeDepartment(
-              title: Constants.addemployeedepartment,
-            ));
+                  title: Constants.addemployeedepartment,
+                ));
 
       case articleFoundListRoute:
         return MaterialPageRoute(builder: (context) => FoundList());
@@ -103,128 +102,131 @@ class RouteGenerator {
       case lawEnforcementListRoute:
         return MaterialPageRoute(builder: (context) => const LnListPageList());
       case daypassmanagementListRoute:
-        if(settings.arguments!=null) {
+        if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
           if (passRoutes != null) {
             PassMngArguments? passMngArguments = passRoutes["passMngDetails"];
             return MaterialPageRoute(
                 builder: (context) => DayPassManagementList(
-                  passId:passMngArguments?.passType ?? '',
-                  title: passMngArguments?.title ?? '',
-                ));
+                      passId: passMngArguments?.passType ?? '',
+                      title: passMngArguments?.title ?? '',
+                    ));
           }
           return MaterialPageRoute(
-              builder: (context) =>  DayPassManagementList());
+              builder: (context) => DayPassManagementList());
         }
-        return MaterialPageRoute(
-            builder: (context) =>  DayPassManagementList());
+        return MaterialPageRoute(builder: (context) => DayPassManagementList());
       case daypassregistertListRoute:
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
           if (passRoutes != null) {
-            PassMngArguments? passMngArguments = passRoutes["passMngRegisterDetails"];
+            PassMngArguments? passMngArguments =
+                passRoutes["passMngRegisterDetails"];
             return MaterialPageRoute(
                 builder: (context) => DayPassInfoListPage(
-                  passId:passMngArguments?.passType ?? '',
-                  title: passMngArguments?.title ?? '',
-                ));
+                      passId: passMngArguments?.passType ?? '',
+                      title: passMngArguments?.title ?? '',
+                    ));
           }
           return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
         }
-        return MaterialPageRoute(
-            builder: (context) =>  DayPassInfoListPage());
+        return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
       case createpassmgmtRoute:
-      // return MaterialPageRoute(builder: (context) => CreatePassManagement());
-      // if (settings.arguments != null) {
-      //     final listroutes = settings.arguments as Map<String, dynamic>;
+        // return MaterialPageRoute(builder: (context) => CreatePassManagement());
+        // if (settings.arguments != null) {
+        //     final listroutes = settings.arguments as Map<String, dynamic>;
 
-      //     if (listroutes != null) {
-      //      // DayPassListItemResponse? listuser = listroutes["UserElement"];
-      //       PassMngArguments? passMngArguments = listroutes["passMngRegisterDetails"];
-      //       return MaterialPageRoute(
-      //           builder: (context) => CreatePassManagement(listuser: listuser));
-      //     }
+        //     if (listroutes != null) {
+        //      // DayPassListItemResponse? listuser = listroutes["UserElement"];
+        //       PassMngArguments? passMngArguments = listroutes["passMngRegisterDetails"];
+        //       return MaterialPageRoute(
+        //           builder: (context) => CreatePassManagement(listuser: listuser));
+        //     }
 
-      //     return MaterialPageRoute(
-      //         builder: (context) => CreatePassManagement());
-      //   } else {
-      //     return MaterialPageRoute(
-      //         builder: (context) => CreatePassManagement());
-      //   }
+        //     return MaterialPageRoute(
+        //         builder: (context) => CreatePassManagement());
+        //   } else {
+        //     return MaterialPageRoute(
+        //         builder: (context) => CreatePassManagement());
+        //   }
 
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
           if (passRoutes != null) {
-            CreatePassMngArguments? passMngArguments = passRoutes["passMngCreateDetails"];
+            CreatePassMngArguments? passMngArguments =
+                passRoutes["passMngCreateDetails"];
             return MaterialPageRoute(
                 builder: (context) => CreatePassManagement(
-                  passId:passMngArguments?.passType ?? '',
-                  title: passMngArguments?.title ?? '',
-                  listuser: passMngArguments?.listuser,
-                ));
+                      passId: passMngArguments?.passType ?? '',
+                      title: passMngArguments?.title ?? '',
+                      listuser: passMngArguments?.listuser,
+                    ));
           }
-          return MaterialPageRoute(builder: (context) => CreatePassManagement());
+          return MaterialPageRoute(
+              builder: (context) => CreatePassManagement());
         }
-        return MaterialPageRoute(
-            builder: (context) =>  CreatePassManagement());
+        return MaterialPageRoute(builder: (context) => CreatePassManagement());
 
       case materialMovementInwardsOutwardsRoute:
         bool isInward = true;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
           if (arguments.isNotEmpty) {
             isInward = arguments['isInward'];
           }
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<MaterialMovementBloc>(
-              create: (_) => MaterialMovementBloc(isInward: isInward)
-                ..add(const InwardFetch(startPos: 0, maxPos: 20)),
-              child: MaterialMovements(
-                isInward: isInward,
-              ),
-            ));
+                  create: (_) => MaterialMovementBloc(isInward: isInward)
+                    ..add(const InwardFetch(startPos: 0, maxPos: 20)),
+                  child: MaterialMovements(
+                    isInward: isInward,
+                  ),
+                ));
 
       case materialMovementInwardDetailsRoute:
         MaterialMovementServices services = MaterialMovementServices();
         CommonServices commonServices = CommonServices();
         bool isInward = true;
-        if (settings.arguments != null) {
-          Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
-          if (arguments.isNotEmpty) {
-            MaterialMovementModel? materialMovement =
-            arguments["MaterialMovementModel"];
-            isInward = arguments['isInward'];
+        String title;
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments['title'];
 
-            return MaterialPageRoute(
-                builder: (context) => BlocProvider<MaterialMovementDetailsCubit>(
-                  create: (_) => MaterialMovementDetailsCubit(
-                    materialMovementServices: services,
-                    commonServices: commonServices,
-                    model: materialMovement,
-                    isInward: isInward,
-                  ),
-                  child: MaterialMovementDetails(
-                    materialMovement: materialMovement,
-                    isInward: isInward,
-                  ),
-                ));
-          }
+        isInward = arguments['isInward'];
+        MaterialMovementModel? materialMovement =
+            arguments["MaterialMovementModel"];
+
+        if (materialMovement != null) {
+          return MaterialPageRoute(
+              builder: (context) => BlocProvider<MaterialMovementDetailsCubit>(
+                    create: (_) => MaterialMovementDetailsCubit(
+                      materialMovementServices: services,
+                      commonServices: commonServices,
+                      model: materialMovement,
+                      isInward: isInward,
+                    ),
+                    child: MaterialMovementDetails(
+                      materialMovement: materialMovement,
+                      isInward: isInward,
+                      title: title,
+                    ),
+                  ));
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<MaterialMovementDetailsCubit>(
-              create: (_) => MaterialMovementDetailsCubit(
-                materialMovementServices: services,
-                commonServices: commonServices,
-                model: MaterialMovementModel(),
-                isInward: isInward,
-              ),
-              child: MaterialMovementDetails(
-                isInward: isInward,
-              ),
-            ));
+                  create: (_) => MaterialMovementDetailsCubit(
+                    materialMovementServices: services,
+                    commonServices: commonServices,
+                    model: MaterialMovementModel(),
+                    isInward: isInward,
+                  ),
+                  child: MaterialMovementDetails(
+                    isInward: isInward,
+                    title: title,
+                  ),
+                ));
 
       default:
         return MaterialPageRoute(builder: (context) => App());
