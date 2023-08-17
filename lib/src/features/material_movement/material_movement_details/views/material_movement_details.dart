@@ -36,11 +36,12 @@ import '../../../../models/department.dart';
 class MaterialMovementDetails extends StatefulWidget {
   final MaterialMovementModel? materialMovement;
   final bool isInward;
+  final String title;
 
   const MaterialMovementDetails({
     super.key,
     this.materialMovement,
-    required this.isInward,
+    required this.isInward, required this.title,
   });
 
   @override
@@ -69,9 +70,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     return Scaffold(
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: widget.isInward
-              ? Constants.createMaterialMovementInwardTitle
-              : Constants.createMaterialMovementOutwardTitle,
+          title: widget.title,
           showPopUp: false,
           showSaveButton: true,
           onTapSave: () {
@@ -424,6 +423,45 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
+                                    // FlutterInputField(
+                                    //   lineHeight: 6,
+                                    //   initialValue: state.materialMovement
+                                    //       .materialFromAddress,
+                                    //   textFormKey: Keys.generateUniqueKey(),
+                                    //   keyboardType: TextInputType.number,
+                                    //   hintText: '',
+                                    //   isEnable: widget.materialMovement ==
+                                    //       null
+                                    //       ? true
+                                    //       : (widget.materialMovement !=
+                                    //       null &&
+                                    //       (widget.materialMovement
+                                    //           ?.materialFromAddress ??
+                                    //           '')
+                                    //           .isEmpty)
+                                    //       ? true
+                                    //       : false,
+                                    //   isDisableColor: (widget
+                                    //       .materialMovement !=
+                                    //       null &&
+                                    //       (widget.materialMovement
+                                    //           ?.materialFromAddress ??
+                                    //           '')
+                                    //           .isEmpty) ||
+                                    //       widget.materialMovement == null
+                                    //       ? false
+                                    //       : true,
+                                    //   onChange: (String value) {
+                                    //     state.materialMovement
+                                    //         .quantity = value as int;
+                                    //     context
+                                    //         .read<
+                                    //         MaterialMovementDetailsCubit>()
+                                    //         .onModelValueChange(
+                                    //         state.materialMovement);
+                                    //   },
+                                    //   validateTextField: (String? user) {},
+                                    // ),
                                     quantityUnitPopUp(state),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
@@ -1428,7 +1466,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                 ? TextfieldAddButton(
                                                     title: state
                                                         .materialMovement
-                                                        .otherReceiverName,
+                                                        .receiverEmail,
                                                     height: 70,
                                                     isDisableColor:
                                                         widget.materialMovement ==
@@ -1449,7 +1487,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                                         MaterialMovementDetailsCubit>(
                                                                     context)
                                                                 .updateDropdownValues(
-                                                                    user: user);
+                                                                receiverEmailUser: user);
                                                           },
                                                         );
                                                       }
