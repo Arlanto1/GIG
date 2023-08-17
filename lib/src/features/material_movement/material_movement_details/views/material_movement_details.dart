@@ -83,6 +83,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
         body: BlocConsumer<MaterialMovementDetailsCubit,
             MaterialMovementDetailsState>(
           listener: (context, state) {
+            log('--state.status-2-listener--${state.status}----');
             if (state.status == FormStatus.success) {
               Utils.dynamicAlert(
                   context, state.message ?? '', 'Material Movement', '');
@@ -102,6 +103,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
             log('--builder---${state.materialMovement.returnable}------');
             if (state.status == FormStatus.loading) {
               return const Center(child: CircularProgressIndicator());
+            }
+            log('--status-2-builder--${state.status}----');
+
+            if (state.status == FormStatus.addAttachment) {
+              log('---getAttachments----builder----${getAttachments?.length}-----');
+              getFiles = state.loadAttachments ?? [];
+              log('---getFiles----builder----${getFiles?.length}-----');
+
             }
             return Container(
                 color: AppColors.navigationSkybluecolor,
@@ -1924,102 +1933,25 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                     /// upload
                                     widget.materialMovement == null
-                                        ? Container(
-                                            height: 60,
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color:
-                                                      const Color(0xFFCACACA),
-                                                  width: 1.0,
-                                                ),
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(8))),
-                                            child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 5.0),
-                                                    child: ElevatedButton.icon(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                              fixedSize:
-                                                                  const Size(
-                                                                      140, 50)),
-                                                      onPressed: () {
-                                                        // Navigator.pushNamed(context,
-                                                        //     createFoundAttachmentRoute);
-                                                        //UploadAttachment();
-                                                        showDialog(
-                                                            context: context,
-                                                            builder: (BuildContext
-                                                                dialogContext) {
-                                                              return UploadAttachment(
-                                                                userdetails:
-                                                                    userDetails,
-                                                                getFiles:
-                                                                    getFiles ??
-                                                                        [],
-                                                              );
-                                                            });
-                                                      },
-
-                                                      icon: SvgPicture.asset(
-                                                        //AppIcon.dropdownicon,
-                                                        AppIcon.uploadicon,
-                                                        //fit: BoxFit.,
-                                                        color: AppColors
-                                                            .backgroundWhitecolor,
-                                                        width: 13,
-                                                        height: 13,
-                                                        key: const Key(
-                                                            Keys.userIcon),
-                                                      ),
-                                                      // const Icon(
-                                                      //   // <-- Icon
-                                                      //   Icons.upload,
-                                                      //   color: AppColors.backgroundWhitecolor,
-                                                      //   size: 24.0,
-                                                      // ),
-                                                      label: const Text(
-                                                        Constants.clicktoupload,
-                                                        style: Styles
-                                                            .textStyleRegularNormalWhite12,
-                                                      ), // <-- Text
-                                                    ),
-                                                  ),
-                                                ]),
-                                          )
+                                        ? CommonWidgets.textDisplay(
+                                        Constants.upload,
+                                        Styles.textStyleBlack14)
                                         : Container(),
-                                    getAttachments != null ||
-                                            getFiles != null ||
-                                            getFiles?.length != 0 ||
-                                            getAttachments?.length != 0
+                                    widget.materialMovement == null
                                         ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
+                                        height * 0.001)
                                         : Container(),
-                                    (getAttachments == null ||
-                                            getAttachments?.length == 0 ||
-                                            widget.materialMovement == null)
-                                        ? getFiles?.length == 0 ||
-                                                getFiles == null
-                                            ? Container()
-                                            : attachmentListviews(
-                                                getFiles, getAttachments)
-                                        : attachmentListviews(
-                                            getFiles, getAttachments),
+                                    widget.materialMovement == null
+                                        ? uploadWidget(state)
 
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                        : Container(),
+
+                                    // Attachments
+                                    getSpaceattchment(height),
+                                    getAttachement(state, height),
                                   ]),
                                 ),
 
-                                /// Attachments
-                                getSpaceattchment(height),
-                                getAttachement(height),
 
                                 /// SubmitButton
                                 Row(
@@ -2145,7 +2077,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   }
 
   Widget uploadWidget(MaterialMovementDetailsState state) {
-    return // upload
+    return
         widget.materialMovement == null
             ? Container(
                 height: 60,
@@ -2204,6 +2136,9 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   }
 
   Widget getSpaceattchment(double height) {
+
+    log('---getAttachments--------${getAttachments?.length}-----');
+
     return getAttachments != null ||
             getFiles != null ||
             getFiles?.length != 0 ||
@@ -2212,11 +2147,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
         : Container();
   }
 
-  Widget getAttachement(double height) {
-    return (getAttachments == null ||
-            getAttachments?.length == 0 ||
+  Widget getAttachement(MaterialMovementDetailsState state, double height) {
+
+    log('---getAttachments----aaa----${getAttachments?.length}-----');
+
+    return (state.loadAttachments == null ||
+        state.loadAttachments!.isEmpty ||
             widget.materialMovement == null)
-        ? getFiles?.length == 0 || getFiles == null
+        ? state.loadAttachments?.length == 0 || getFiles == null
             ? Container()
             : attachmentListviews(getFiles, getAttachments)
         : attachmentListviews(getFiles, getAttachments);
@@ -2312,6 +2250,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     List<CreateImage>? attachmentListviews,
     List<FoundImage>? attachmentListviews1,
   ) {
+
+    log('----attachmentListviews-----${attachmentListviews?.length}-----------');
+    log('----attachmentListviews1-----${attachmentListviews1?.length}-----------');
+
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
