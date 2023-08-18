@@ -28,6 +28,7 @@ class CreatePassMgmtService
  final endpoint = Environment().config.apiHost;
   Future<CreatePassMgmtResponse> createLawFoundArticle(
       CreatePassMgmtBody requestBody, bool isSubmit, String username) async {
+        print(requestBody.toString());
     final url = Uri.parse('$endpoint/createPass?isSubmit=$isSubmit&userEmail=username');
     try {
       final response = await http.post(

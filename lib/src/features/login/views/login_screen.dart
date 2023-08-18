@@ -54,7 +54,21 @@ class _LoginState extends State<Login> {
         listener: (context, state) {
           if (state is LoginFailureState) {
             dismissLoadingDialog(context);
-            _showCustomPop(context, 'Something went wrong');
+            //_showCustomPop(context, );
+        //     alert_handler.alertDisplay(
+        // context,state.errorMsg);
+        var dialog = CustomAlertDialog(
+        title: Constants.appname,
+        message: state.errorMsg,
+        onPostivePressed: () {
+          //Validator.logoutAction(context);
+          Navigator.of(context).pop();
+        },
+        positiveBtnText: Constants.ok,
+        //negativeBtnText: Constants.no
+        )
+        ;
+    showDialog(context: context, builder: (BuildContext context) => dialog);
           } else if (state is LoginSuccessState) {
             dismissLoadingDialog(context);
             Navigator.pushNamed(context, otpVerificationRoute, arguments: {

@@ -232,7 +232,7 @@ class CustomMultipleSelectionListTextsState
     } else {
       return Container(
         //padding: const EdgeInsets.all(20),
-        height: height / 1.6, // Change as per your requirement
+       // height: height / 1.6, // Change as per your requirement
         // width: width- 50, // Change as per your requirement
         width: double.maxFinite,
         child: ListView.builder(

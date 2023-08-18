@@ -32,7 +32,7 @@ android {
 //            C:\Users\Ashok\AndroidStudioProjects\db_atom\android\Atomedgekeystore
             ///Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/Atomedgekeystore/atomedge
             //storeFile file('C:\\Users\\Ashok\\AndroidStudioProjects\\db_atom\\android\\Atomedgekeystore\\atomedge')
-//            storeFile file('Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/Atomedgekeystore/atomedge')
+//            storeFile file('Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/Atomedgekeystore/atomedge')storeFile file('/Users/narendra/Documents/Narendra/Projects/Freelancer/ATOM_Main/Arlanto-App-Codebase/android/Atomedgekeystore/atomedge')
             storePassword 'Bnaren@513'
             keyAlias 'AtomEdge'
             keyPassword 'Bvineela@513'

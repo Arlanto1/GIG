@@ -726,7 +726,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 widget.passId == "0") ||
                                             widget.passId == "1" ||
                                             widget.passId == "2" ||
-                                            widget.passId == '3'
+                                            widget.passId == '3' || (state.atomCompanyType?.name == null && 
+                                                widget.passId == "0")
                                         ? CommonWidgets.textDisplay(
                                             Constants.host,
                                             Styles.textStyleBlack14)
@@ -737,18 +738,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 widget.passId == "0") ||
                                             widget.passId == "1" ||
                                             widget.passId == "2" ||
-                                            widget.passId == '3'
+                                            widget.passId == '3' || (state.atomCompanyType?.name == null && 
+                                                widget.passId == "0")
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
                                         : Container(),
                                     // articleaddButtonwidgetLoading(state),
                                     ((state.atomCompanyType?.name ?? '')
                                                         .toLowerCase() ==
-                                                    'exceptions' &&
+                                                    'exceptions' && 
                                                 widget.passId == "0") ||
                                             widget.passId == "1" ||
                                             widget.passId == "2" ||
-                                            widget.passId == '3'
+                                            widget.passId == '3' || (state.atomCompanyType?.name == null && 
+                                                widget.passId == "0")
                                         ? hostaddButtonwidgetLoading(state)
                                         : Container(),
                                     ((state.atomCompanyType?.name ?? '')
@@ -757,7 +760,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 widget.passId == "0") ||
                                             widget.passId == "1" ||
                                             widget.passId == "2" ||
-                                            widget.passId == '3'
+                                            widget.passId == '3' || (state.atomCompanyType?.name == null && 
+                                                widget.passId == "0")
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.01)
                                         : Container(),
@@ -769,7 +773,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 widget.passId == "0") ||
                                             widget.passId == "1" ||
                                             widget.passId == "2" ||
-                                            widget.passId == '3'
+                                            widget.passId == '3' || (state.atomCompanyType?.name == null && 
+                                                widget.passId == "0")
                                         ? CommonWidgets.textDisplay(
                                             Constants.hostemployeeid,
                                             Styles.textStyleBlack14)
@@ -780,7 +785,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 widget.passId == "0") ||
                                             widget.passId == "1" ||
                                             widget.passId == "2" ||
-                                            widget.passId == '3'
+                                            widget.passId == '3' || (state.atomCompanyType?.name == null && 
+                                                widget.passId == "0")
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
                                         : Container(),
@@ -790,7 +796,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 widget.passId == "0") ||
                                             widget.passId == "1" ||
                                             widget.passId == "2" ||
-                                            widget.passId == '3'
+                                            widget.passId == '3' || (state.atomCompanyType?.name == null && 
+                                                widget.passId == "0")
                                         ? textfieldWidgetLoad(
                                             hostemployeeidTextController,
                                             0,
@@ -2197,7 +2204,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         id:  (state.selectedemployeeDepartmentResponse?.id   == 0) ? 1 : state.selectedemployeeDepartmentResponse?.id ?? 1,
         name: state.selectedemployeeDepartmentResponse?.name ?? '');
     PassmgmtInfo info = PassmgmtInfo(
-        id:  (state.activePassInfoList?.id   == 0) ? 1 : state.activePassInfoList?.id ?? 1,
+        id:  (state.activePassInfoList?.id   == 0) ? 1 : state.activePassInfoList?.id ?? ((state.activePassInfoList?.id   == 3)  ? 9151 : 1),
         passNo: state.activePassInfoList?.name ?? '');
 
     //  if (widget.passId == '3') {
