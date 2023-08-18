@@ -60,9 +60,9 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   String? radioButtonItem = '';
   int? escortedbyhost ;
   CreateUserModel? createUserResponse;
-  AtomStaticUser? hostResponse;
-  AtomStaticUser? dbsponsorResponse;
-  AtomStaticUser? nameResponse;
+  BaseUser? hostResponse;
+  BaseUser? dbsponsorResponse;
+  BaseUser? nameResponse;
 
   CreatePassMgmtState({
     this.getEntitiesResponse,
@@ -136,9 +136,9 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   int? escortedbyhost,
   List<CreateImage>? photoAttachments,
    CreateUserModel? createUserResponse,
-   AtomStaticUser? hostResponse,
-   AtomStaticUser? dbsponsorResponse,
-  AtomStaticUser? nameResponse,
+   BaseUser? hostResponse,
+   BaseUser? dbsponsorResponse,
+  BaseUser? nameResponse,
 
 
   

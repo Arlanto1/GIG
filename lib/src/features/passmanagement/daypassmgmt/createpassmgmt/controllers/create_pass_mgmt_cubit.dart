@@ -26,6 +26,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
+import '../../../../createfound/models/get_depositor_model.dart';
 
 class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   CreatePassMgmtService createpassmgmtServices;
@@ -108,7 +109,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   gethostUsersResponseData(
-      AtomStaticUser? hostResponse) async {
+      BaseUser? hostResponse) async {
     try {
       emit(
         state.copyWith(
@@ -127,7 +128,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
    getdbsponsorUsersResponseData(
-      AtomStaticUser? dbsponsorResponse) async {
+      BaseUser? dbsponsorResponse) async {
     try {
       emit(
         state.copyWith(
@@ -146,7 +147,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
    getnameUsersResponseData(
-      AtomStaticUser? userresponsedata) async {
+      BaseUser? userresponsedata) async {
     try {
       emit(
         state.copyWith(
