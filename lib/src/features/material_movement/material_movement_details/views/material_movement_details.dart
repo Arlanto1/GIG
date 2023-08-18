@@ -716,7 +716,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                           .departmentDialog(
                                                         context: context,
                                                         departments:
-                                                            state.departments!,
+                                                            state.departments,
                                                         onTap: (BaseUser user) {
                                                           BlocProvider.of<
                                                                       MaterialMovementDetailsCubit>(
@@ -1245,7 +1245,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                                   null &&
                                                               (widget
                                                                           .materialMovement
-                                                                          ?.approver1Department
+                                                                          ?.approver2Department
                                                                           ?.name ??
                                                                       '')
                                                                   .isEmpty)
@@ -1256,7 +1256,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                               null &&
                                                           (widget
                                                                       .materialMovement
-                                                                      ?.approver1Department
+                                                                      ?.approver2Department
                                                                       ?.name ??
                                                                   '')
                                                               .isEmpty)
@@ -1265,7 +1265,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                   onChange: (String value) {
                                                     state
                                                         .materialMovement
-                                                        .approver1Department
+                                                        .approver2Department
                                                         ?.name = value;
                                                     context
                                                         .read<
