@@ -42,7 +42,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           emit(LoginSuccessState());
         }
       } else {
-        emit(LoginFailureState(errorMsg: 'Something went wrong'));
+        emit(LoginFailureState(errorMsg: '${loginData.msg}' ));
       }
     } catch (e) {
       emit(LoginFailureState(errorMsg: 'Something went wrong'));

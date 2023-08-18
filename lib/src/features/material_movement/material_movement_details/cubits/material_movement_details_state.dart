@@ -13,7 +13,7 @@ class MaterialMovementDetailsState extends Equatable {
   final List<Department> departments;
   final List<CreateImage>? loadAttachments;
   final List<QuantityUnit> quantityUnits;
-
+  final int? eventId;
   final String? message;
 
   factory MaterialMovementDetailsState.initial({
@@ -26,6 +26,7 @@ class MaterialMovementDetailsState extends Equatable {
     required List<Department> departments,
     required List<CreateImage> loadAttachments,
     required List<QuantityUnit> quantityUnits,
+    required  int? eventId,
   }) {
     return MaterialMovementDetailsState(
         status: FormStatus.initial,
@@ -37,7 +38,8 @@ class MaterialMovementDetailsState extends Equatable {
         message: errorMessage,
         departments: departments,
         loadAttachments: loadAttachments,
-        quantityUnits: quantityUnits);
+        quantityUnits: quantityUnits,
+    eventId: eventId);
   }
 
   ErrorResponse get isValid {
@@ -80,6 +82,7 @@ class MaterialMovementDetailsState extends Equatable {
     required this.departments,
     this.loadAttachments,
     required this.quantityUnits,
+    this.eventId,
     this.message,
   });
 
@@ -93,6 +96,7 @@ class MaterialMovementDetailsState extends Equatable {
     List<Department>? departments,
     List<CreateImage>? loadAttachments,
     List<QuantityUnit>? quantityUnits,
+    int? eventId,
     String? message,
   }) {
     return MaterialMovementDetailsState(
@@ -105,6 +109,7 @@ class MaterialMovementDetailsState extends Equatable {
       departments: departments ?? this.departments,
       loadAttachments: loadAttachments ?? this.loadAttachments,
       quantityUnits: quantityUnits ?? this.quantityUnits,
+      eventId: eventId ?? this.eventId,
       message: message ?? this.message,
     );
   }

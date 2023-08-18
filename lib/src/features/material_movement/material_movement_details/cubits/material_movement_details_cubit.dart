@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
@@ -44,6 +46,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
             departments: const [],
             loadAttachments: const [],
             quantityUnits: const [],
+            eventId: null
           ),
         );
 
@@ -183,30 +186,31 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     ));
   }
 
-  Future<void> addAttchment(List<CreateImage>? data) async {
-    // int eventIds = Random.secure().nextInt(5);
+  void addAttchment(List<CreateImage>? data) async {
+    print('--state.status-1---${state.status}----');
+
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    int eventIds = Random.secure().nextInt(5);
+
+    print('--data----${data?.length}----');
+    print('--state.status-2---${state.status}----');
+
 
     emit(state.copyWith(
-        // eventId:eventIds ,
-        loadAttachments: data,
-        status: FormStatus.addAttachment));
+      eventId:eventIds ,
+      materialMovement: state.materialMovement,
+      loadAttachments: data,
+      status: FormStatus.initial,
+    ));
+
+    print('--state.status--3--${state.status}----');
+
   }
 
-  // void showFields({required bool isOriginalReceiverReceiving}){
-  //   emit(
-  //     state.copyWith(
-  //       status: FormStatus.loading,
-  //     ),
-  //   );
-  //   log('-isOriginalReceiverReceiving---$isOriginalReceiverReceiving-----');
-  //
-  //   state.materialMovement.originalReceiver = isOriginalReceiverReceiving;
-  //
-  //   emit(state.copyWith(
-  //     materialMovement: state.materialMovement,
-  //     status: FormStatus.initial,
-  //   ));
-  // }
   void showFields(
       {bool? isOriginalReceiverReceiving, bool? isMaterialPhysicallyChecked}) {
     emit(

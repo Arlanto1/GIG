@@ -51,7 +51,7 @@ class UploadAttachment extends StatefulWidget {
 class UploadAttachmentState extends State<UploadAttachment>
     with WidgetsBindingObserver {
   final _formKey = GlobalKey<FormState>();
-  
+
   PermissionStatus _status = PermissionStatus.denied;
 
   @override
@@ -97,7 +97,7 @@ class UploadAttachmentState extends State<UploadAttachment>
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
       print(imageFile);
-      
+
 
       getpath(imageFile);
     }
@@ -122,7 +122,7 @@ class UploadAttachmentState extends State<UploadAttachment>
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
-     
+
       PlatformFile platformfile = result.files.first;
 
       print(platformfile.name);
@@ -197,7 +197,7 @@ class UploadAttachmentState extends State<UploadAttachment>
   // get the text in the TextField and send it back to the FirstScreen
   Future<void> _sendDataBack(CreateImage data) async {
     widget.getFiles?.add(data);
-    print(widget.getFiles ?? []);
+    print('----widget.getFiles----------${widget.getFiles ?? []}');
     if (widget.lawstate != null)
     {
       lawenforcementCubit.addAttchment(widget.getFiles ?? []);
@@ -219,9 +219,9 @@ class UploadAttachmentState extends State<UploadAttachment>
       }
 
     } else if (widget.inwardState != null) {
-
+      materialMovementDetailsCubit.addAttchment(widget.getFiles ?? []);
     }
-  
+
     //Navigator.pop(context, textToSendBack);
   }
 
@@ -282,7 +282,7 @@ class UploadAttachmentState extends State<UploadAttachment>
                   margin: const EdgeInsets.only(top: 8.0),
                   padding: const EdgeInsets.only(
                       left: 12, top: 0, right: 12, bottom: 12),
-               
+
                     child: Column(
                       children: [
                         Container(

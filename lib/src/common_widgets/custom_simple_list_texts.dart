@@ -37,8 +37,8 @@ Widget setupAlertDialoadContainer() {
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
      return Container(
-          height: height/3,
-          width: width - 40,
+          //height: height/3,
+          width: double.maxFinite,
       child :ListView.builder(
         shrinkWrap: true,
         itemCount: widget.texts?.length,
