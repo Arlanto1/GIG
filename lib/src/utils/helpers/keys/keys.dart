@@ -1,5 +1,3 @@
-
-
 class Keys {
   static const String userTextField = 'external_login_username_textfield';
   static const String passwordTextField = 'external_login_password_textfield';
