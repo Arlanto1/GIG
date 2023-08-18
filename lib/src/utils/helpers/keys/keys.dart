@@ -8,7 +8,7 @@ class Keys {
   static const String submitButton = 'user_submit_button';
   static const String userIcon = 'user_icon';
 
- 
+
 
 
   // CreateFound
@@ -40,24 +40,34 @@ class Keys {
   static const String claimantTextController = 'createfound_claimant_textfield';
   static const String actualdateTextController = 'external_lawenforcement_actualdate_textfield';
 
+  /// Material Movement
   static const String challanKey = 'material_inward_challan_key';
+  static const String poNumberKey = 'po_number_mmi';
   static const String quantityKey = 'material_inward_quantity_key';
   static const String returnableKey = 'returnableKey_mmo';
   static const String preparedByKey = 'preparedByKey_mmo';
   static const String preparedByDepartmentKey = 'preparedByKey_mmo';
   static const String approver1EmailKey = 'approver1Email_mmo';
   static const String requesterEmailKey = 'requesterEmail_mmo';
+  static const String sentToKey = 'sentToKey_mm';
+  static const String takenOutByKey = 'takenOutByKey_mmo';
+  static const String takenOutAddressKey = 'takenOutAddressKey_mmo';
+  static const String receiverSignKey = 'receiverSignKey_mmo';
+  static const String takenOutContactKey = 'takenOutContactKey_mmo';
+  static const String materialBreifDescKey = 'materialBreifDescKey_mmo';
+  static const String equipmentNoKey = 'equipmentNoKey_mmo';
+  static const String addressKey = 'addressKey_mmo';
+  static const String purposeKey = 'purposeKey_mmo';
+  static const String requestorEmployeeKey = 'requestorEmployeeKey_mmo';
+  static const String sendersKey = 'sendersKey_mmo';
+  static const String materialComingFromKey = 'materialComingFromKey_mmo';
+  static const String securitySignKey = 'securitySignKey_mm';
 
   //list page
   static const String searchInputField = 'search_input_field';
   static const String returnableField = 'returnableField';
 
 
-  static String generateUniqueKey() {
-    final uniqueKey = UniqueKey();
-    return uniqueKey.toString();
-  }
-  /// Material Movement
 
 
 }

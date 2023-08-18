@@ -350,7 +350,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         keyboardType: TextInputType.number,
                                         initialValue:
                                             state.materialMovement.poNumber,
-                                        textFormKey: Keys.generateUniqueKey(),
+                                        textFormKey: Keys.poNumberKey,
                                         hintText: '',
                                         isEnable:
                                             widget.materialMovement == null
@@ -394,7 +394,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       lineHeight: 6,
                                       initialValue: state
                                           .materialMovement.materialDescription,
-                                      textFormKey: Keys.generateUniqueKey(),
+                                      textFormKey: Keys.materialBreifDescKey,
                                       hintText: Constants.informationhere,
                                       isEnable: widget.materialMovement == null
                                           ? true
@@ -490,7 +490,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         lineHeight: 6,
                                         initialValue: state.materialMovement
                                             .materialFromAddress,
-                                        textFormKey: Keys.generateUniqueKey(),
+                                        textFormKey: Keys.equipmentNoKey,
                                         hintText: '',
                                         isEnable: widget.materialMovement ==
                                                 null
@@ -537,7 +537,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         lineHeight: 6,
                                         initialValue:
                                             state.materialMovement.address,
-                                        textFormKey: Keys.generateUniqueKey(),
+                                        textFormKey: Keys.addressKey,
                                         hintText: '',
                                         isEnable:
                                             widget.materialMovement == null
@@ -655,7 +655,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         keyboardType: TextInputType.number,
                                         initialValue: state.materialMovement
                                             .requestorEmployeeId,
-                                        textFormKey: Keys.generateUniqueKey(),
+                                        textFormKey: Keys.requestorEmployeeKey,
                                         hintText: '',
                                         isEnable: widget.materialMovement ==
                                                 null
@@ -773,7 +773,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             initialValue:
                                                 state.materialMovement.sentTo,
                                             textFormKey:
-                                                Keys.generateUniqueKey(),
+                                                Keys.sentToKey,
                                             hintText: '',
                                             isEnable: widget.materialMovement ==
                                                     null
@@ -820,7 +820,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             initialValue:
                                                 state.materialMovement.purpose,
                                             textFormKey:
-                                                Keys.generateUniqueKey(),
+                                                  Keys.purposeKey,
                                             hintText: '',
                                             isEnable: widget.materialMovement ==
                                                     null
@@ -1325,7 +1325,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                             /// Approved Date
                                             CommonWidgets.verticalTextHandling(
-                                                Constants.approvedBy,
+                                                Constants.approvedDate,
                                                 'TODO: 2023-09-88'),
                                             CommonWidgets.verticalSpacerWidget(
                                                 height * 0.01),
@@ -1342,7 +1342,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                   .materialMovement
                                                   .takenOutEmail,
                                               textFormKey:
-                                                  Keys.generateUniqueKey(),
+                                                  Keys.takenOutByKey,
                                               hintText: '',
                                               isEnable: state.materialMovement
                                                       .status ==
@@ -1378,7 +1378,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                   .materialMovement
                                                   .takenOutContactNo,
                                               textFormKey:
-                                                  Keys.generateUniqueKey(),
+                                                  Keys.takenOutContactKey,
                                               hintText: '',
                                               isEnable: state.materialMovement
                                                       .status ==
@@ -1414,7 +1414,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                   .materialMovement
                                                   .takenOutAddress,
                                               textFormKey:
-                                                  Keys.generateUniqueKey(),
+                                                  Keys.takenOutAddressKey,
                                               hintText: '',
                                               isEnable: state.materialMovement
                                                       .status ==
@@ -1440,7 +1440,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                             /// Taken Out On
                                             CommonWidgets.textDisplay(
-                                                Constants.founddate,
+                                                Constants.takenOutOn,
                                                 Styles.textStyleBlack14),
                                             CommonWidgets.verticalSpacerWidget(
                                                 height * 0.001),
@@ -1482,7 +1482,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         keyboardType: TextInputType.name,
                                         initialValue: state.materialMovement
                                             .materialComingFrom,
-                                        textFormKey: Keys.generateUniqueKey(),
+                                        textFormKey: Keys.sendersKey,
                                         hintText: '',
                                         isEnable: widget.materialMovement ==
                                                 null
@@ -1527,7 +1527,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         lineHeight: 6,
                                         initialValue: state.materialMovement
                                             .materialFromAddress,
-                                        textFormKey: Keys.generateUniqueKey(),
+                                        textFormKey: Keys.materialComingFromKey,
                                         hintText: Constants.informationhere,
                                         isEnable: widget.materialMovement ==
                                                 null
@@ -1688,26 +1688,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             .otherReceiverEmployeeId,
                                         textFormKey:
                                             Keys.claimantEmpIdTextController,
-                                        isEnable: widget.materialMovement ==
-                                                null
-                                            ? true
-                                            : (widget.materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                                ?.otherReceiverName ??
-                                                            '')
-                                                        .isEmpty)
-                                                ? true
-                                                : false,
-                                        isDisableColor: (widget
-                                                        .materialMovement !=
-                                                    null &&
-                                                (widget.materialMovement
-                                                            ?.otherReceiverName ??
-                                                        '')
-                                                    .isEmpty)
-                                            ? false
-                                            : true,
+                                        isEnable: state.materialMovement.status !=6,
+                                        isDisableColor: state.materialMovement.status ==6,
                                         hintText: '',
                                         onChange: (String value) {
                                           state.materialMovement
@@ -1820,26 +1802,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             .materialMovement.otherReceiverName,
                                         textFormKey:
                                             Keys.claimantEmpIdTextController,
-                                        isEnable: widget.materialMovement ==
-                                                null
-                                            ? true
-                                            : (widget.materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                                ?.otherReceiverName ??
-                                                            '')
-                                                        .isEmpty)
-                                                ? true
-                                                : false,
-                                        isDisableColor: (widget
-                                                        .materialMovement !=
-                                                    null &&
-                                                (widget.materialMovement
-                                                            ?.otherReceiverName ??
-                                                        '')
-                                                    .isEmpty)
-                                            ? false
-                                            : true,
+                                        isEnable: state.materialMovement.status !=6,
+                                        isDisableColor: state.materialMovement.status ==6,
                                         hintText: '',
                                         onChange: (String value) {
                                           state.materialMovement
@@ -1867,26 +1831,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             .receiverEmployeeId,
                                         textFormKey:
                                             Keys.claimantEmpIdTextController,
-                                        isEnable: widget.materialMovement ==
-                                                null
-                                            ? true
-                                            : (widget.materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                                ?.receiverEmployeeId ??
-                                                            '')
-                                                        .isEmpty)
-                                                ? true
-                                                : false,
-                                        isDisableColor: (widget
-                                                        .materialMovement !=
-                                                    null &&
-                                                (widget.materialMovement
-                                                            ?.receiverEmployeeId ??
-                                                        '')
-                                                    .isEmpty)
-                                            ? false
-                                            : true,
+                                        isEnable: state.materialMovement.status !=6,
+                                        isDisableColor: state.materialMovement.status ==6,
                                         hintText: '',
                                         onChange: (String value) {
                                           state.materialMovement
@@ -1913,7 +1859,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         lineHeight: 6,
                                         initialValue: state
                                             .materialMovement.receiverEmail,
-                                        textFormKey: Keys.generateUniqueKey(),
+                                        textFormKey: Keys.receiverSignKey,
                                         hintText: Constants.informationhere,
                                         isEnable: widget.materialMovement ==
                                                 null
@@ -1960,7 +1906,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         lineHeight: 6,
                                         initialValue: state.materialMovement
                                             .materialDescription,
-                                        textFormKey: Keys.generateUniqueKey(),
+                                        textFormKey: Keys.securitySignKey,
                                         hintText: Constants.informationhere,
                                         isEnable: widget.materialMovement ==
                                                 null
