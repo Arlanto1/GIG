@@ -88,6 +88,84 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
+  // get depositor user by role API call
+  Future<void> getUserByRoleDepositor(String userRole) async {
+    try {
+      GetDepositor getDepositorData =
+          await createpassmgmtServices.getUserByRoleDepositor(userRole);
+      emit(
+        state.copyWith(
+          getDepositorResponse: getDepositorData,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+  gethostUsersResponseData(
+      AtomStaticUser? hostResponse) async {
+    try {
+      emit(
+        state.copyWith(
+          hostResponse: hostResponse,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+   getdbsponsorUsersResponseData(
+      AtomStaticUser? dbsponsorResponse) async {
+    try {
+      emit(
+        state.copyWith(
+          dbsponsorResponse: dbsponsorResponse,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
+   getnameUsersResponseData(
+      AtomStaticUser? userresponsedata) async {
+    try {
+      emit(
+        state.copyWith(
+          nameResponse: userresponsedata,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+
 
   // Create user call
   Future<void> createUser(String firstName, String lastName, String email,
