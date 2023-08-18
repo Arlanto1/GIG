@@ -62,7 +62,9 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   List<CreateImage>? getFiles;
   List<FoundImage>? getAttachments;
   TextEditingController takenOutOnDateController = TextEditingController();
-  TextEditingController expectedDateOfReturnController = TextEditingController();
+  TextEditingController expectedDateOfReturnController =
+      TextEditingController();
+  bool isDisabled = true;
 
   @override
   void initState() {
@@ -120,6 +122,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
               log('---getAttachments----builder----${getAttachments?.length}-----');
               getFiles = state.loadAttachments ?? [];
               log('---getFiles----builder----${getFiles?.length}-----');
+            }
+
+            if (state.materialMovement.status == 2) {
+              isDisabled = false;
             }
             return Container(
                 color: AppColors.navigationSkybluecolor,
@@ -195,9 +201,9 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             returnableTextController,
                                         textFormKey: Keys.returnableKey,
                                         hintText: '',
-                                        isEnable: widget.isInward ||
-                                            state.materialMovement.status == 6,
-                                        isDisableColor: widget.isInward ||
+                                        isEnable:
+                                            state.materialMovement.status != 6,
+                                        isDisableColor:
                                             state.materialMovement.status == 6,
                                         onChange: (String value) {
                                           log('val----$value');
@@ -306,28 +312,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         height * 0.001),
                                     FlutterInputField(
                                       keyboardType: TextInputType.name,
-                                      // textFieldController:
-                                      //     challanTextController,
                                       textFormKey: Keys.challanKey,
-
                                       initialValue:
                                           state.materialMovement.challanNo,
                                       hintText: '',
-                                      isEnable: widget.materialMovement == null
-                                          ? true
-                                          : (widget.materialMovement != null &&
-                                                  (widget.materialMovement
-                                                          ?.challanNo ==
-                                                      null))
-                                              ? false
-                                              : true,
+                                      isEnable:
+                                          state.materialMovement.status != 6,
                                       isDisableColor:
-                                          (widget.materialMovement != null &&
-                                                  (widget.materialMovement
-                                                          ?.challanNo !=
-                                                      null))
-                                              ? true
-                                              : false,
+                                          state.materialMovement.status == 6,
                                       onChange: (String value) {
                                         state.materialMovement.challanNo =
                                             value;
@@ -336,7 +328,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                 MaterialMovementDetailsCubit>()
                                             .onModelValueChange(
                                                 state.materialMovement);
-                                        log('value-challan---$value');
                                       },
                                       validateTextField: (String? user) {},
                                     ),
@@ -400,25 +391,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           .materialMovement.materialDescription,
                                       textFormKey: Keys.materialBreifDescKey,
                                       hintText: Constants.informationhere,
-                                      isEnable: widget.materialMovement == null
-                                          ? true
-                                          : (widget.materialMovement != null &&
-                                                  (widget.materialMovement
-                                                              ?.materialDescription ??
-                                                          '')
-                                                      .isEmpty)
-                                              ? true
-                                              : false,
-                                      isDisableColor: (widget
-                                                          .materialMovement !=
-                                                      null &&
-                                                  (widget.materialMovement
-                                                              ?.materialDescription ??
-                                                          '')
-                                                      .isEmpty) ||
-                                              widget.materialMovement == null
-                                          ? false
-                                          : true,
+                                      isEnable:
+                                          state.materialMovement.status != 6,
+                                      isDisableColor:
+                                          state.materialMovement.status == 6,
                                       onChange: (String value) {
                                         state.materialMovement
                                             .materialDescription = value;
@@ -512,27 +488,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             .materialFromAddress,
                                         textFormKey: Keys.equipmentNoKey,
                                         hintText: '',
-                                        isEnable: widget.materialMovement ==
-                                                null
-                                            ? true
-                                            : (widget.materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                                ?.materialFromAddress ??
-                                                            '')
-                                                        .isEmpty)
-                                                ? true
-                                                : false,
-                                        isDisableColor: (widget
-                                                            .materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                                ?.materialFromAddress ??
-                                                            '')
-                                                        .isEmpty) ||
-                                                widget.materialMovement == null
-                                            ? false
-                                            : true,
+                                        isEnable:
+                                            state.materialMovement.status != 6,
+                                        isDisableColor:
+                                            state.materialMovement.status == 6,
                                         onChange: (String value) {
                                           state.materialMovement
                                               .materialFromAddress = value;
@@ -637,23 +596,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                   textFormKey:
                                                       Keys.requesterEmailKey,
                                                   hintText: '',
-                                                  isEnable: widget
-                                                              .materialMovement ==
-                                                          null
-                                                      ? true
-                                                      : (widget.materialMovement !=
-                                                                  null &&
-                                                              (widget.materialMovement
-                                                                          ?.requestorEmail ??
-                                                                      '')
-                                                                  .isEmpty)
-                                                          ? true
-                                                          : false,
-                                                  isDisableColor:
-                                                      (widget.materialMovement !=
-                                                              null)
-                                                          ? false
-                                                          : true,
+                                                  isEnable: state
+                                                          .materialMovement
+                                                          .status !=
+                                                      6,
+                                                  isDisableColor: state
+                                                          .materialMovement
+                                                          .status ==
+                                                      6,
                                                   onChange:
                                                       (String username) {},
                                                   validateTextField:
@@ -677,24 +627,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             .requestorEmployeeId,
                                         textFormKey: Keys.requestorEmployeeKey,
                                         hintText: '',
-                                        isEnable: widget.materialMovement ==
-                                                null
-                                            ? true
-                                            : (widget.materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                            ?.requestorEmployeeId ==
-                                                        null))
-                                                ? false
-                                                : true,
-                                        isDisableColor: (widget
-                                                        .materialMovement !=
-                                                    null &&
-                                                (widget.materialMovement
-                                                        ?.requestorEmployeeId !=
-                                                    null))
-                                            ? true
-                                            : false,
+                                        isEnable:
+                                            state.materialMovement.status != 6,
+                                        isDisableColor:
+                                            state.materialMovement.status == 6,
                                         onChange: (String value) {
                                           state.materialMovement
                                               .requestorEmployeeId = value;
@@ -754,25 +690,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                   textFormKey: Keys
                                                       .depositorTextController,
                                                   hintText: '',
-                                                  isEnable: widget
-                                                              .materialMovement ==
-                                                          null
-                                                      ? true
-                                                      : (widget.materialMovement !=
-                                                                  null &&
-                                                              (widget
-                                                                          .materialMovement
-                                                                          ?.requestorDepartment
-                                                                          ?.name ??
-                                                                      '')
-                                                                  .isEmpty)
-                                                          ? true
-                                                          : false,
-                                                  isDisableColor:
-                                                      (widget.materialMovement !=
-                                                              null)
-                                                          ? false
-                                                          : true,
+                                                  isEnable: state
+                                                          .materialMovement
+                                                          .status !=
+                                                      6,
+                                                  isDisableColor: state
+                                                          .materialMovement
+                                                          .status ==
+                                                      6,
                                                   onChange:
                                                       (String username) {},
                                                   validateTextField:
@@ -1000,23 +925,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                   textFormKey: Keys
                                                       .depositorTextController,
                                                   hintText: '',
-                                                  isEnable: widget
-                                                              .materialMovement ==
-                                                          null
-                                                      ? true
-                                                      : (widget.materialMovement !=
-                                                                  null &&
-                                                              (widget.materialMovement
-                                                                          ?.approver1Email ??
-                                                                      '')
-                                                                  .isEmpty)
-                                                          ? true
-                                                          : false,
-                                                  isDisableColor:
-                                                      (widget.materialMovement !=
-                                                              null)
-                                                          ? false
-                                                          : true,
+                                                  isEnable: state
+                                                          .materialMovement
+                                                          .status !=
+                                                      6,
+                                                  isDisableColor: state
+                                                          .materialMovement
+                                                          .status ==
+                                                      6,
                                                   onChange:
                                                       (String username) {},
                                                   validateTextField:
@@ -1138,23 +1054,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                   textFormKey: Keys
                                                       .depositorTextController,
                                                   hintText: '',
-                                                  isEnable: widget
-                                                              .materialMovement ==
-                                                          null
-                                                      ? true
-                                                      : (widget.materialMovement !=
-                                                                  null &&
-                                                              (widget.materialMovement
-                                                                          ?.approver2Email ??
-                                                                      '')
-                                                                  .isEmpty)
-                                                          ? true
-                                                          : false,
-                                                  isDisableColor:
-                                                      (widget.materialMovement !=
-                                                              null)
-                                                          ? false
-                                                          : true,
+                                                  isEnable: state
+                                                          .materialMovement
+                                                          .status !=
+                                                      6,
+                                                  isDisableColor: state
+                                                          .materialMovement
+                                                          .status ==
+                                                      6,
                                                   onChange:
                                                       (String username) {},
                                                   validateTextField:
@@ -1224,23 +1131,26 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.01),
 
+                                      /// If Status is Approved(status=2), Inward Pending(status=5), Submitted(status=1)
                                       if (state.materialMovement.status == 2 ||
                                           state.materialMovement.status == 5 ||
                                           state.materialMovement.status ==
                                               1) ...[
-
-                                        /// Expected Date Of Return
-                                        CommonWidgets.textDisplay(
-                                            Constants.expectedDateOfReturn,
-                                            Styles.textStyleBlack14),
-                                        CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001),
-
-                                        datepickerWidgetLoading(
-                                            state, expectedDateOfReturnController),
-                                        // datepickerWidgetLoading(dateTextController),
-                                        CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01),
+                                        if (state.materialMovement.returnable ==
+                                            true) ...[
+                                          /// Expected Date Of Return
+                                          CommonWidgets.textDisplay(
+                                              Constants.expectedDateOfReturn,
+                                              Styles.textStyleBlack14),
+                                          CommonWidgets.verticalSpacerWidget(
+                                              height * 0.001),
+                                          datepickerWidgetLoading(
+                                              textfiled:
+                                                  expectedDateOfReturnController,
+                                              isDisabled: isDisabled),
+                                          CommonWidgets.verticalSpacerWidget(
+                                              height * 0.01),
+                                        ],
 
                                         /// If Status is Approved(status=2) and Inward Pending(status=5)
                                         if (state.materialMovement.status ==
@@ -1371,11 +1281,37 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               height * 0.001),
 
                                           datepickerWidgetLoading(
-                                              state, takenOutOnDateController),
+                                              textfiled:
+                                                  takenOutOnDateController),
                                           // datepickerWidgetLoading(dateTextController),
                                           CommonWidgets.verticalSpacerWidget(
                                               height * 0.01),
-                                        ],
+                                        ]
+                                      ],
+
+                                      /// If Status is Approved(status=3)
+                                      if (state.materialMovement.status ==
+                                          3) ...[
+                                        /// Rejected By
+                                        CommonWidgets.verticalTextHandling(
+                                            Constants.rejectedBy,
+                                            'TODO from json'),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
+
+                                        /// Rejected Date
+                                        CommonWidgets.verticalTextHandling(
+                                            Constants.rejectedDate,
+                                            'TODO from json'),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
+
+                                        /// Rejected Comment
+                                        CommonWidgets.verticalTextHandling(
+                                            Constants.rejectedComment,
+                                            'TODO from json'),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.01),
                                       ],
                                     ],
 
@@ -1392,24 +1328,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             .materialComingFrom,
                                         textFormKey: Keys.sendersKey,
                                         hintText: '',
-                                        isEnable: widget.materialMovement ==
-                                                null
-                                            ? true
-                                            : (widget.materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                            ?.materialComingFrom ==
-                                                        null))
-                                                ? false
-                                                : true,
-                                        isDisableColor: (widget
-                                                        .materialMovement !=
-                                                    null &&
-                                                (widget.materialMovement
-                                                        ?.materialComingFrom !=
-                                                    null))
-                                            ? true
-                                            : false,
+                                        isEnable:
+                                            state.materialMovement.status != 6,
+                                        isDisableColor:
+                                            state.materialMovement.status == 6,
                                         onChange: (String value) {
                                           state.materialMovement
                                               .materialComingFrom = value;
@@ -1437,27 +1359,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             .materialFromAddress,
                                         textFormKey: Keys.materialComingFromKey,
                                         hintText: Constants.informationhere,
-                                        isEnable: widget.materialMovement ==
-                                                null
-                                            ? true
-                                            : (widget.materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                                ?.materialFromAddress ??
-                                                            '')
-                                                        .isEmpty)
-                                                ? true
-                                                : false,
-                                        isDisableColor: (widget
-                                                            .materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                                ?.materialFromAddress ??
-                                                            '')
-                                                        .isEmpty) ||
-                                                widget.materialMovement == null
-                                            ? false
-                                            : true,
+                                        isEnable:
+                                            state.materialMovement.status != 6,
+                                        isDisableColor:
+                                            state.materialMovement.status == 6,
                                         onChange: (String value) {
                                           state.materialMovement
                                               .materialFromAddress = value;
@@ -1558,23 +1463,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                     textFormKey: Keys
                                                         .depositorTextController,
                                                     hintText: '',
-                                                    isEnable: widget
-                                                                .materialMovement ==
-                                                            null
-                                                        ? true
-                                                        : (widget.materialMovement !=
-                                                                    null &&
-                                                                (widget.materialMovement
-                                                                            ?.otherReceiverName ??
-                                                                        '')
-                                                                    .isEmpty)
-                                                            ? true
-                                                            : false,
-                                                    isDisableColor:
-                                                        (widget.materialMovement !=
-                                                                null)
-                                                            ? false
-                                                            : true,
+                                                    isEnable: state
+                                                            .materialMovement
+                                                            .status !=
+                                                        6,
+                                                    isDisableColor: state
+                                                            .materialMovement
+                                                            .status ==
+                                                        6,
                                                     onChange:
                                                         (String username) {},
                                                     validateTextField:
@@ -1629,27 +1525,13 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               textFormKey:
                                                   Keys.claimantTextController,
                                               hintText: receiverDepartmentName,
-                                              isEnable: widget
-                                                          .materialMovement ==
-                                                      null
-                                                  ? true
-                                                  : (widget.materialMovement !=
-                                                              null &&
-                                                          (widget.materialMovement
-                                                                      ?.receiverDepartmenttName ??
-                                                                  '')
-                                                              .isEmpty)
-                                                      ? true
-                                                      : false,
-                                              isDisableColor: (widget
-                                                              .materialMovement !=
-                                                          null &&
-                                                      (widget.materialMovement
-                                                                  ?.receiverDepartmenttName ??
-                                                              '')
-                                                          .isEmpty)
-                                                  ? false
-                                                  : true,
+                                              isEnable: state.materialMovement
+                                                      .status !=
+                                                  6,
+                                              isDisableColor: state
+                                                      .materialMovement
+                                                      .status ==
+                                                  6,
                                               onChange: (String value) {
                                                 state.materialMovement
                                                         .receiverDepartmenttName =
@@ -1775,27 +1657,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             .materialMovement.receiverEmail,
                                         textFormKey: Keys.receiverSignKey,
                                         hintText: Constants.informationhere,
-                                        isEnable: widget.materialMovement ==
-                                                null
-                                            ? true
-                                            : (widget.materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                                ?.receiverEmployeeId ??
-                                                            '')
-                                                        .isEmpty)
-                                                ? true
-                                                : false,
-                                        isDisableColor: (widget
-                                                            .materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                                ?.receiverEmployeeId ??
-                                                            '')
-                                                        .isEmpty) ||
-                                                widget.materialMovement == null
-                                            ? false
-                                            : true,
+                                        isEnable:
+                                            state.materialMovement.status != 6,
+                                        isDisableColor:
+                                            state.materialMovement.status == 6,
                                         onChange: (String value) {
                                           state.materialMovement
                                               .entrySecurityName = value;
@@ -1822,27 +1687,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             .materialDescription,
                                         textFormKey: Keys.securitySignKey,
                                         hintText: Constants.informationhere,
-                                        isEnable: widget.materialMovement ==
-                                                null
-                                            ? true
-                                            : (widget.materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                                ?.materialDescription ??
-                                                            '')
-                                                        .isEmpty)
-                                                ? true
-                                                : false,
-                                        isDisableColor: (widget
-                                                            .materialMovement !=
-                                                        null &&
-                                                    (widget.materialMovement
-                                                                ?.materialDescription ??
-                                                            '')
-                                                        .isEmpty) ||
-                                                widget.materialMovement == null
-                                            ? false
-                                            : true,
+                                        isEnable:
+                                            state.materialMovement.status != 6,
+                                        isDisableColor:
+                                            state.materialMovement.status == 6,
                                         onChange: (String value) {
                                           state.materialMovement
                                               .materialDescription = value;
@@ -2051,13 +1899,15 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
         });
   }
 
-  Widget datepickerWidgetLoading(
-      MaterialMovementDetailsState state, TextEditingController textfiled) {
+  Widget datepickerWidgetLoading({
+    required TextEditingController textfiled,
+    bool isDisabled = false,
+  }) {
     return GestureDetector(
       onTap: () {
-        // if (widget.materialMovement == null || textfiled.text.isEmpty) {
-        datePickerDialog(textfiled);
-        // }
+        if (!isDisabled) {
+          datePickerDialog(textfiled);
+        }
       },
       child: FlutterInputField(
         textFieldController: textfiled,
@@ -2065,8 +1915,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
             ? Keys.founddateTextController
             : Keys.handedoverdateTextController,
         hintText: '',
-        isEnable: false,
-        isDisableColor: false,
+        isEnable: !isDisabled,
+        isDisableColor: isDisabled,
         onChange: (String value) {
           //this.username = username;
           print('dfwf');

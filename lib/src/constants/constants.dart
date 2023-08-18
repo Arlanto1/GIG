@@ -270,6 +270,9 @@ class Constants {
   static const String takenOutAddress = 'Taken Out Address';
   static const String takenOutOn = 'Taken Out On';
   static const String expectedDateOfReturn = 'Expected Date Of Return';
+  static const String rejectedBy = 'Rejected By';
+  static const String rejectedDate = 'Rejected Date';
+  static const String rejectedComment = 'Rejected Comment';
 
   static const String approvedBy = 'Approved By';
   static const String approvedDate = 'Approved Date';
