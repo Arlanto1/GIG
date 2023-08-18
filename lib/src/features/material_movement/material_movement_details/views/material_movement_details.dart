@@ -1,9 +1,11 @@
 import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_button.dart';
+import 'package:db_atom/src/common_widgets/base_widget/add_button_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/department_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';
+import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/common_widgets/custom_pop_list_texts.dart';
@@ -71,6 +73,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
+    final width = size.width;
     return Scaffold(
         appBar: BaseAppBar().buildAppHeader(
           context: context,
@@ -438,46 +441,62 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
-                                    // FlutterInputField(
-                                    //   lineHeight: 6,
-                                    //   initialValue: state.materialMovement
-                                    //       .materialFromAddress,
-                                    //   textFormKey: Keys.generateUniqueKey(),
-                                    //   keyboardType: TextInputType.number,
-                                    //   hintText: '',
-                                    //   isEnable: widget.materialMovement ==
-                                    //       null
-                                    //       ? true
-                                    //       : (widget.materialMovement !=
-                                    //       null &&
-                                    //       (widget.materialMovement
-                                    //           ?.materialFromAddress ??
-                                    //           '')
-                                    //           .isEmpty)
-                                    //       ? true
-                                    //       : false,
-                                    //   isDisableColor: (widget
-                                    //       .materialMovement !=
-                                    //       null &&
-                                    //       (widget.materialMovement
-                                    //           ?.materialFromAddress ??
-                                    //           '')
-                                    //           .isEmpty) ||
-                                    //       widget.materialMovement == null
-                                    //       ? false
-                                    //       : true,
-                                    //   onChange: (String value) {
-                                    //     state.materialMovement
-                                    //         .quantity = value as int;
-                                    //     context
-                                    //         .read<
-                                    //         MaterialMovementDetailsCubit>()
-                                    //         .onModelValueChange(
-                                    //         state.materialMovement);
-                                    //   },
-                                    //   validateTextField: (String? user) {},
-                                    // ),
-                                    quantityUnitPopUp(state),
+
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          width: 250,
+                                          child: FlutterInputField(
+                                            keyboardType: TextInputType.number,
+                                            initialValue:
+                                                state.materialMovement.sentTo,
+                                            textFormKey: Keys.sentToKey,
+                                            hintText: '',
+                                            isEnable:
+                                                state.materialMovement.status !=
+                                                    6,
+                                            isDisableColor:
+                                                state.materialMovement.status ==
+                                                    6,
+                                            onChange: (String value) {
+                                              state.materialMovement.quantity =
+                                                  value as int;
+                                              context
+                                                  .read<
+                                                      MaterialMovementDetailsCubit>()
+                                                  .onModelValueChange(
+                                                      state.materialMovement);
+                                            },
+                                            validateTextField:
+                                                (String? user) {},
+                                          ),
+                                        ),
+                                        // CommonWidgets.horizontalSpacerWidget(
+                                        //     width * 0.01),
+                                        TileWidget(
+                                          name: state.materialMovement.unit
+                                                  ?.name ??
+                                              'Unit',
+                                          width: 70,
+                                        ),
+                                        // CommonWidgets.horizontalSpacerWidget(
+                                        //     width * 0.01),
+                                        InkWell(
+                                            onTap: () {
+                                              quantityUnitDialog(
+                                                context: context,
+                                                quantityUnits:
+                                                    state.quantityUnits);
+                                            },
+                                            child: const AddButtonWidget(
+                                              height: 50,
+                                            )),
+                                      ],
+                                    ),
+
+                                    // quantityUnitPopUp(state),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
@@ -777,24 +796,12 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                 state.materialMovement.sentTo,
                                             textFormKey: Keys.sentToKey,
                                             hintText: '',
-                                            isEnable: widget.materialMovement ==
-                                                    null
-                                                ? true
-                                                : (widget.materialMovement !=
-                                                            null &&
-                                                        (widget.materialMovement
-                                                                ?.sentTo ==
-                                                            null))
-                                                    ? false
-                                                    : true,
+                                            isEnable:
+                                                state.materialMovement.status !=
+                                                    6,
                                             isDisableColor:
-                                                (widget.materialMovement !=
-                                                            null &&
-                                                        (widget.materialMovement
-                                                                ?.sentTo !=
-                                                            null))
-                                                    ? true
-                                                    : false,
+                                                state.materialMovement.status ==
+                                                    6,
                                             onChange: (String value) {
                                               state.materialMovement.sentTo =
                                                   value;
@@ -1190,59 +1197,59 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           ),
                                           widget.materialMovement != null
                                               ? FlutterInputField(
-                                            initialValue: state
-                                                .materialMovement
-                                                .approver2Department
-                                                ?.name,
-                                            textFormKey: Keys
-                                                .aprrover2DepartmentKey,
-                                            hintText: '',
-                                            isEnable: state
-                                                .materialMovement
-                                                .status !=
-                                                6,
-                                            isDisableColor: state
-                                                .materialMovement
-                                                .status ==
-                                                6,
-                                            onChange: (String value) {},
-                                            validateTextField:
-                                                (String? user) {},
-                                          )
+                                                  initialValue: state
+                                                      .materialMovement
+                                                      .approver2Department
+                                                      ?.name,
+                                                  textFormKey: Keys
+                                                      .aprrover2DepartmentKey,
+                                                  hintText: '',
+                                                  isEnable: state
+                                                          .materialMovement
+                                                          .status !=
+                                                      6,
+                                                  isDisableColor: state
+                                                          .materialMovement
+                                                          .status ==
+                                                      6,
+                                                  onChange: (String value) {},
+                                                  validateTextField:
+                                                      (String? user) {},
+                                                )
                                               : TextfieldAddButton(
-                                            title: state
-                                                .materialMovement
-                                                .approver2Department
-                                                ?.name,
-                                            height: 60,
-                                            isDisableColor:
-                                            widget.materialMovement ==
-                                                null
-                                                ? false
-                                                : true,
-                                            onTap: () {
-                                              if (widget
-                                                  .materialMovement ==
-                                                  null) {
-                                                BaseDialog()
-                                                    .departmentDialog(
-                                                  context: context,
-                                                  departments:
-                                                  state.departments,
-                                                  onTap: (Department
-                                                  department) {
-                                                    BlocProvider.of<
-                                                        MaterialMovementDetailsCubit>(
-                                                        context)
-                                                        .updateDropdownValues(
-                                                        approver2Department:
-                                                        department);
+                                                  title: state
+                                                      .materialMovement
+                                                      .approver2Department
+                                                      ?.name,
+                                                  height: 60,
+                                                  isDisableColor:
+                                                      widget.materialMovement ==
+                                                              null
+                                                          ? false
+                                                          : true,
+                                                  onTap: () {
+                                                    if (widget
+                                                            .materialMovement ==
+                                                        null) {
+                                                      BaseDialog()
+                                                          .departmentDialog(
+                                                        context: context,
+                                                        departments:
+                                                            state.departments,
+                                                        onTap: (Department
+                                                            department) {
+                                                          BlocProvider.of<
+                                                                      MaterialMovementDetailsCubit>(
+                                                                  context)
+                                                              .updateDropdownValues(
+                                                                  approver2Department:
+                                                                      department);
+                                                        },
+                                                      );
+                                                      // leodepartmentsDialog(state);
+                                                    }
                                                   },
-                                                );
-                                                // leodepartmentsDialog(state);
-                                              }
-                                            },
-                                          ),
+                                                ),
 
                                           CommonWidgets.verticalSpacerWidget(
                                               height * 0.01),
@@ -2039,18 +2046,21 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
       isDisableColor: state.materialMovement.quantity == null ? false : true,
       onTap: () {
         if (state.materialMovement.quantity == null) {
-          quantityUnitDialog(state);
+          quantityUnitDialog(
+              context: context, quantityUnits: state.quantityUnits);
         }
       },
     );
   }
 
-  quantityUnitDialog(MaterialMovementDetailsState state) {
+  quantityUnitDialog(
+      {required BuildContext context,
+      required List<QuantityUnit> quantityUnits}) {
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicateQuantityUnitList: state.quantityUnits,
+            duplicateQuantityUnitList: quantityUnits,
             leftimagename: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
@@ -2065,9 +2075,12 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                   });
             },
             onTap: (QuantityUnit unit) {
-              // print(list.name);
-              // selectedArtclelist = list;
-              // setState(() {});
+              BlocProvider.of<
+                  MaterialMovementDetailsCubit>(
+                  context)
+                  .updateDropdownValues(
+                  quantityUnit:
+                  unit);
             },
           );
         });
@@ -2283,35 +2296,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
           );
         }
       },
-      child: Container(
-          height: 60,
-          decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color(0xFFCACACA),
-              ),
-              borderRadius: const BorderRadius.all(Radius.circular(8))),
-          child: (state.materialMovement.location?.name ?? '').isEmpty
-              ? Container()
-              : Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  SizedBox(
-                    height: 50,
-                    width: 150,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 5.0),
-                      child: TextButton(
-                        style: const ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(
-                              AppColors.normaltextBackground),
-                        ),
-                        onPressed: () {},
-                        child: Text(
-                          state.materialMovement.location?.name ?? '',
-                          style: Styles.textStyleBlack14,
-                        ),
-                      ),
-                    ),
-                  )
-                ])),
+      child: SelectedTileValueWidget(
+          name: state.materialMovement.location?.name ?? ''),
     );
   }
 

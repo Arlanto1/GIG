@@ -1,3 +1,5 @@
+import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
+
 import '../../../models/department.dart';
 
 class MaterialMovementsModel {
@@ -60,7 +62,7 @@ class MaterialMovementModel {
   String? address;
   String? purpose;
   String? modelInfo;
-  Unit? unit;
+  QuantityUnit? unit;
   String? preparedBy;
   Department? preparedByDepartment;
   String? approver1Email;
@@ -186,7 +188,7 @@ class MaterialMovementModel {
         purpose = json['purpose'] as String?,
         modelInfo = json['modelInfo'] as String?,
         unit = (json['unit'] as Map<String, dynamic>?) != null
-            ? Unit.fromJson(json['unit'] as Map<String, dynamic>)
+            ? QuantityUnit.fromJson(json['unit'] as Map<String, dynamic>)
             : null,
         preparedBy = json['preparedBy'] as String?,
         preparedByDepartment =
@@ -508,20 +510,4 @@ class History {
         'actiontime': actiontime,
         'parameters': parameters
       };
-}
-
-class Unit {
-  int? id;
-  String? name;
-
-  Unit({
-    this.id,
-    this.name,
-  });
-
-  Unit.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        name = json['name'] as String?;
-
-  Map<String, dynamic> toJson() => {'id': id, 'name': name};
 }

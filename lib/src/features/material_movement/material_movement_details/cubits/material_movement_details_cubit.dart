@@ -122,6 +122,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     Department? approver1Department,
     Department? approver2Department,
     Department? receiverDepartment,
+    QuantityUnit? quantityUnit,
     bool? isReturnable,
   }) async {
     emit(
@@ -159,18 +160,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.materialMovement.receiverDepartmenttName = department.name;
     }
     if (preparedByDepartment != null) {
-      print('---------preparedByDepartment-------------------------------');
       state.materialMovement.preparedByDepartment =
           preparedByDepartment;
     }
     if (approver1Department != null) {
-      print('---------approver1Department-------------------------${approver1Department.name}------');
       state.materialMovement.approver1Department =
           approver1Department;
     }
 
     if (approver2Department != null) {
-      print('---------approver2Department--------------------------${approver2Department.name}-----');
       state.materialMovement.approver2Department =
           approver2Department;
     }
@@ -178,12 +176,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.materialMovement.receiverDepartmenttName =
           receiverDepartment.name;
     }
+
+    if (quantityUnit != null) {
+      state.materialMovement.unit =
+          quantityUnit;
+    }
+
     if (isReturnable != null) {
       state.materialMovement.returnable = isReturnable;
     }
-
-    print('---------approver1Department----------111---------------${state.materialMovement.approver1Department?.name}------');
-    print('---------approver2Department-----------222--------------${state.materialMovement.approver2Department?.name}------');
 
     emit(state.copyWith(
       materialMovement: state.materialMovement,
