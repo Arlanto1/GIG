@@ -265,5 +265,10 @@ class Constants {
   static const String approver2Email = 'Approver2 Email';
   static const String approver1Department = 'Approver1 Department ';
   static const String approver2Department = 'Approver2 Department ';
+  static const String takenOutBy = 'Taken Out By';
+  static const String takenOutByContactNo = 'Taken Out By Contact No.';
+  static const String takenOutAddress = 'Taken Out Address';
+  static const String approvedBy = 'Approved By';
+
 
 }

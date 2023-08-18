@@ -29,7 +29,9 @@ import 'package:db_atom/src/utils/util.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
+import '../../../../common_widgets/date_time_picker.dart';
 import '../../../../models/base_user.dart';
 import '../../../../models/department.dart';
 
@@ -41,7 +43,8 @@ class MaterialMovementDetails extends StatefulWidget {
   const MaterialMovementDetails({
     super.key,
     this.materialMovement,
-    required this.isInward, required this.title,
+    required this.isInward,
+    required this.title,
   });
 
   @override
@@ -56,6 +59,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   GetUserDetails? userDetails;
   List<CreateImage>? getFiles;
   List<FoundImage>? getAttachments;
+  TextEditingController dateTextController = TextEditingController();
 
   @override
   void initState() {
@@ -110,7 +114,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
               log('---getAttachments----builder----${getAttachments?.length}-----');
               getFiles = state.loadAttachments ?? [];
               log('---getFiles----builder----${getFiles?.length}-----');
-
             }
             return Container(
                 color: AppColors.navigationSkybluecolor,
@@ -1310,6 +1313,144 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                           CommonWidgets.verticalSpacerWidget(
                                               height * 0.01),
+
+                                          /// If Status is Approved(status=2)
+                                          if (state.materialMovement.status ==
+                                              2) ...[
+                                            /// Approved By
+                                            CommonWidgets.verticalTextHandling(
+                                                Constants.approvedBy, 'TODO'),
+                                            CommonWidgets.verticalSpacerWidget(
+                                                height * 0.01),
+
+                                            /// Approved Date
+                                            CommonWidgets.verticalTextHandling(
+                                                Constants.approvedBy,
+                                                'TODO: 2023-09-88'),
+                                            CommonWidgets.verticalSpacerWidget(
+                                                height * 0.01),
+
+                                            /// Taken Out By
+                                            CommonWidgets.textDisplay(
+                                                Constants.takenOutBy,
+                                                Styles.textStyleBlack14),
+                                            CommonWidgets.verticalSpacerWidget(
+                                                height * 0.001),
+
+                                            FlutterInputField(
+                                              initialValue: state
+                                                  .materialMovement
+                                                  .takenOutEmail,
+                                              textFormKey:
+                                                  Keys.generateUniqueKey(),
+                                              hintText: '',
+                                              isEnable: state.materialMovement
+                                                      .status ==
+                                                  2,
+                                              isDisableColor: state
+                                                      .materialMovement
+                                                      .status !=
+                                                  2,
+                                              onChange: (String value) {
+                                                state.materialMovement
+                                                    .takenOutEmail = value;
+                                                context
+                                                    .read<
+                                                        MaterialMovementDetailsCubit>()
+                                                    .onModelValueChange(
+                                                        state.materialMovement);
+                                              },
+                                              validateTextField:
+                                                  (String? user) {},
+                                            ),
+                                            CommonWidgets.verticalSpacerWidget(
+                                                height * 0.01),
+
+                                            /// Taken Out By Contact No.
+                                            CommonWidgets.textDisplay(
+                                                Constants.takenOutByContactNo,
+                                                Styles.textStyleBlack14),
+                                            CommonWidgets.verticalSpacerWidget(
+                                                height * 0.001),
+
+                                            FlutterInputField(
+                                              initialValue: state
+                                                  .materialMovement
+                                                  .takenOutContactNo,
+                                              textFormKey:
+                                                  Keys.generateUniqueKey(),
+                                              hintText: '',
+                                              isEnable: state.materialMovement
+                                                      .status ==
+                                                  2,
+                                              isDisableColor: state
+                                                      .materialMovement
+                                                      .status !=
+                                                  2,
+                                              onChange: (String value) {
+                                                state.materialMovement
+                                                    .takenOutContactNo = value;
+                                                context
+                                                    .read<
+                                                        MaterialMovementDetailsCubit>()
+                                                    .onModelValueChange(
+                                                        state.materialMovement);
+                                              },
+                                              validateTextField:
+                                                  (String? user) {},
+                                            ),
+                                            CommonWidgets.verticalSpacerWidget(
+                                                height * 0.01),
+
+                                            /// Taken Out Address
+                                            CommonWidgets.textDisplay(
+                                                Constants.takenOutAddress,
+                                                Styles.textStyleBlack14),
+                                            CommonWidgets.verticalSpacerWidget(
+                                                height * 0.001),
+
+                                            FlutterInputField(
+                                              initialValue: state
+                                                  .materialMovement
+                                                  .takenOutAddress,
+                                              textFormKey:
+                                                  Keys.generateUniqueKey(),
+                                              hintText: '',
+                                              isEnable: state.materialMovement
+                                                      .status ==
+                                                  2,
+                                              isDisableColor: state
+                                                      .materialMovement
+                                                      .status !=
+                                                  2,
+                                              onChange: (String value) {
+                                                state.materialMovement
+                                                    .takenOutAddress = value;
+                                                context
+                                                    .read<
+                                                        MaterialMovementDetailsCubit>()
+                                                    .onModelValueChange(
+                                                        state.materialMovement);
+                                              },
+                                              validateTextField:
+                                                  (String? user) {},
+                                            ),
+                                            CommonWidgets.verticalSpacerWidget(
+                                                height * 0.01),
+
+                                            /// Taken Out On
+                                            CommonWidgets.textDisplay(
+                                                Constants.founddate,
+                                                Styles.textStyleBlack14),
+                                            CommonWidgets.verticalSpacerWidget(
+                                                height * 0.001),
+
+                                            datepickerWidgetLoading(state,
+                                                dateTextController),
+                                            // datepickerWidgetLoading(dateTextController),
+                                            CommonWidgets.verticalSpacerWidget(
+                                                height * 0.01),
+                                          ],
                                         ],
                                       ),
                                     ],
@@ -1496,7 +1637,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                                         MaterialMovementDetailsCubit>(
                                                                     context)
                                                                 .updateDropdownValues(
-                                                                receiverEmailUser: user);
+                                                                    receiverEmailUser:
+                                                                        user);
                                                           },
                                                         );
                                                       }
@@ -1934,16 +2076,15 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     /// upload
                                     widget.materialMovement == null
                                         ? CommonWidgets.textDisplay(
-                                        Constants.upload,
-                                        Styles.textStyleBlack14)
+                                            Constants.upload,
+                                            Styles.textStyleBlack14)
                                         : Container(),
                                     widget.materialMovement == null
                                         ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001)
+                                            height * 0.001)
                                         : Container(),
                                     widget.materialMovement == null
                                         ? uploadWidget(state)
-
                                         : Container(),
 
                                     // Attachments
@@ -1951,7 +2092,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     getAttachement(state, height),
                                   ]),
                                 ),
-
 
                                 /// SubmitButton
                                 Row(
@@ -2049,6 +2189,64 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
         });
   }
 
+  Widget datepickerWidgetLoading(MaterialMovementDetailsState state, TextEditingController textfiled) {
+    return GestureDetector(
+      onTap: () {
+        // if (widget.materialMovement == null || textfiled.text.isEmpty) {
+          datePickerDialog(textfiled);
+        // }
+      },
+      child: FlutterInputField(
+        textFieldController: textfiled,
+        textFormKey: textfiled == textfiled
+            ? Keys.founddateTextController
+            : Keys.handedoverdateTextController,
+        hintText: '',
+        isEnable: false,
+        isDisableColor:false,
+        onChange: (String value) {
+          //this.username = username;
+          print('dfwf');
+
+          setState(() {});
+        },
+        validateTextField: (String? user) {},
+        suffixWidget: GestureDetector(
+          onTap: () async {
+            if (textfiled.text.isEmpty) {
+              datePickerDialog( textfiled);
+              // state.materialMovement.tak
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: SvgPicture.asset(
+              AppIcon.calendaricon,
+              color: AppColors.textgreyThemecolor,
+              width: 20,
+              key: const Key(Keys.userIcon),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  datePickerDialog(TextEditingController textfield) async {
+    DateTime? pickedDate = await showDateTimePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2101));
+
+    String formattedDate = DateFormat(Constants.fulldateFormat)
+        .format(pickedDate ?? DateTime.now());
+    //you can implement different kind of Date Format here according to your requirement
+      dateTextController.text = formattedDate;
+    setState(() {
+      // dateinput.text = formattedDate; //set output date to TextField value.
+    });
+  }
+
   Widget cancelButtonDisplay() {
     return AppButton(
       // Customize the button properties as needed
@@ -2077,66 +2275,64 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   }
 
   Widget uploadWidget(MaterialMovementDetailsState state) {
-    return
-        widget.materialMovement == null
-            ? Container(
-                height: 60,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color(0xFFCACACA),
-                      width: 1.0,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(8))),
-                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 5.0),
-                    child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(140, 50)),
-                      onPressed: () {
-                        // Navigator.pushNamed(context,
-                        //     createFoundAttachmentRoute);
-                        //UploadAttachment();
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return UploadAttachment(
-                                userdetails: state.loggedInUserDetails ??
-                                    GetUserDetails(),
-                                getFiles: getFiles ?? [],
-                                inwardState: state,
-                              );
-                            });
-                      },
+    return widget.materialMovement == null
+        ? Container(
+            height: 60,
+            decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color(0xFFCACACA),
+                  width: 1.0,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(8))),
+            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 5.0),
+                child: ElevatedButton.icon(
+                  style:
+                      ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
+                  onPressed: () {
+                    // Navigator.pushNamed(context,
+                    //     createFoundAttachmentRoute);
+                    //UploadAttachment();
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return UploadAttachment(
+                            userdetails:
+                                state.loggedInUserDetails ?? GetUserDetails(),
+                            getFiles: getFiles ?? [],
+                            inwardState: state,
+                          );
+                        });
+                  },
 
-                      icon: SvgPicture.asset(
-                        //AppIcon.dropdownicon,
-                        AppIcon.uploadicon,
-                        //fit: BoxFit.,
-                        color: AppColors.backgroundWhitecolor,
-                        width: 13,
-                        height: 13,
-                        key: const Key(Keys.userIcon),
-                      ),
-                      // const Icon(
-                      //   // <-- Icon
-                      //   Icons.upload,
-                      //   color: AppColors.backgroundWhitecolor,
-                      //   size: 24.0,
-                      // ),
-                      label: const Text(
-                        Constants.clicktoupload,
-                        style: Styles.textStyleRegularNormalWhite12,
-                      ), // <-- Text
-                    ),
+                  icon: SvgPicture.asset(
+                    //AppIcon.dropdownicon,
+                    AppIcon.uploadicon,
+                    //fit: BoxFit.,
+                    color: AppColors.backgroundWhitecolor,
+                    width: 13,
+                    height: 13,
+                    key: const Key(Keys.userIcon),
                   ),
-                ]),
-              )
-            : Container();
+                  // const Icon(
+                  //   // <-- Icon
+                  //   Icons.upload,
+                  //   color: AppColors.backgroundWhitecolor,
+                  //   size: 24.0,
+                  // ),
+                  label: const Text(
+                    Constants.clicktoupload,
+                    style: Styles.textStyleRegularNormalWhite12,
+                  ), // <-- Text
+                ),
+              ),
+            ]),
+          )
+        : Container();
   }
 
   Widget getSpaceattchment(double height) {
-
     log('---getAttachments--------${getAttachments?.length}-----');
 
     return getAttachments != null ||
@@ -2148,11 +2344,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   }
 
   Widget getAttachement(MaterialMovementDetailsState state, double height) {
-
     log('---getAttachments----aaa----${getAttachments?.length}-----');
 
     return (state.loadAttachments == null ||
-        state.loadAttachments!.isEmpty ||
+            state.loadAttachments!.isEmpty ||
             widget.materialMovement == null)
         ? state.loadAttachments?.length == 0 || getFiles == null
             ? Container()
@@ -2250,7 +2445,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     List<CreateImage>? attachmentListviews,
     List<FoundImage>? attachmentListviews1,
   ) {
-
     log('----attachmentListviews-----${attachmentListviews?.length}-----------');
     log('----attachmentListviews1-----${attachmentListviews1?.length}-----------');
 
@@ -2306,5 +2500,4 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
           }),
     );
   }
-
 }
