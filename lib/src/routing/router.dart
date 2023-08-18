@@ -29,6 +29,8 @@ const String otpVerificationRoute = '/otpverification';
 const String materialMovementInwardsOutwardsRoute = '/materialMovementInwards';
 const String materialMovementInwardDetailsRoute = '/materialMovementInwardDetailsRoute';
 
-const String materialMovementOutwardsRoute = '/materialMovementOutwardsRoute';
-const String materialMovementOutwardDetailsRoute = '/materialMovementOutwardDetailsRoute';
+
+const String guardingOperationsRoute = '/guardingOperation';
+
+
 

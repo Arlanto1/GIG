@@ -73,6 +73,7 @@ class Constants {
   static const String eventprotectionlist = 'Event Protection List';
   static const String materialMovement = 'Material Movement';
   static const String passmanagement = 'Pass Management';
+  static const String guarding = 'Guarding Operation';
   static const String logout = 'Logout';
 
   static const String materialMovementInward = 'Material Movement Inward';
@@ -224,7 +225,9 @@ class Constants {
 // static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';
 
   /// Material Movement
-  static const String materialMovementsInwardTitle =
+  static const String materialMovementstype =
+      'Material Movement Type';
+    static const String materialMovementsInwardTitle =
       'Inward Material Movement List';
   static const String materialMovementsOutwardTitle =
       'Outward Material Movement List';
@@ -232,7 +235,11 @@ class Constants {
       'Create Inward Material Movement';
   static const String createMaterialMovementOutwardTitle =
       'Create Outward Material Movement';
+  static const String editMaterialMovementInwardTitle = 'Edit Inward Material Movement';
+  static const String editMaterialMovementOutwardTitle = 'Edit OutWard Material Movement';
   static const String entryBy = 'Entry By';
+  static const String inwardMaterialMovementType = 'Inward';
+  static const String outwardMaterialMovementType = 'Outward';
   static const String challan = 'Challan/ Invoice Nos/ Gate Pass';
   static const String poNumber = 'PO Number';
   static const String materialBriefDescription = 'Material Brief Description';
@@ -251,7 +258,7 @@ class Constants {
   static const String addQuantity = 'Add Quantity';
   static const String isPhysicallyChecked = 'Is Material Physically Checked';
   static const String comment = 'Comment';
-
+  static const String isMaterialPhysicallyChecked = 'Is Material Physically Checked';
   static const String equipmentNo = 'Equipment No/Identification';
   static const String address = 'Address';
   static const String requestorEmail = 'Requestor Email';
@@ -278,4 +285,11 @@ class Constants {
   static const String approvedDate = 'Approved Date';
 
 
+  ///Guarding Operations
+  static const String guardingMasterData = 'Guarding Master Data';
+  static const String guardingMasterReport = 'Guarding Master Report';
+  static const String guardingRate = 'Guarding Rates';
+  static const String femaleDropPickUp = 'Female Drop PickUp';
+  static const String keyManagementList = 'Key Management List';
+  static const String occurrence = 'Occurrence';
 }

@@ -38,12 +38,23 @@ class navigationDrawer1 extends StatelessWidget {
     const DrawerItem1(Constants.eventprotectionlist, AppIcon.tasklist, 0),
     const DrawerItem1(Constants.materialMovement, AppIcon.materialmovement, 1),
     const DrawerItem1(Constants.passmanagement, AppIcon.passmanagement, 1),
+    const DrawerItem1(Constants.guarding, AppIcon.clipboardImage, 1),
+
   ];
 
   final materialMovementDrawerItems = [
     const DrawerItem1(Constants.materialMovementInward, AppIcon.settings, 0),
     const DrawerItem1(Constants.materialMovementOutward, AppIcon.settings, 0),
   ];
+
+  final guardingOperationDrawerItems = [
+    const DrawerItem1(Constants.guardingMasterData, AppIcon.settings, 0),
+    const DrawerItem1(Constants.guardingMasterReport, AppIcon.settings, 0),
+    const DrawerItem1(Constants.guardingRate, AppIcon.settings, 0),
+    const DrawerItem1(Constants.femaleDropPickUp, AppIcon.settings, 0),
+    const DrawerItem1(Constants.keyManagementList, AppIcon.settings, 0),
+    const DrawerItem1(Constants.occurrence, AppIcon.settings, 0),
+     ];
 
   final passtiledrawerItems = [
     const DrawerItem1(Constants.daypassmgmt, AppIcon.settings, 0),
@@ -218,17 +229,17 @@ class navigationDrawer1 extends StatelessWidget {
                                   : const Color.fromRGBO(90, 88, 93, 1))),
                       childrenPadding: const EdgeInsets.only(left: 20),
                       //children padding
-                      children: drawerItem.title == Constants.materialMovement
-                          ? _materialMovementBuildDrawerChildren(context, state)
-                          : _passmgmtbuildDrawerChildren(context, state),
+                    children: buildDrawerChildren(context, state, drawerItem.title),
+
+                  )
                   ),
-                ),
-              ),
-      );
+                )
+                    );
     }
 
     return children;
   }
+
 
   List<Widget> _materialMovementBuildDrawerChildren(
       BuildContext context, DrawerState state) {
@@ -283,6 +294,75 @@ class navigationDrawer1 extends StatelessWidget {
     } else if (index == 1) {
       Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
           arguments: {"isInward": false});
+    }
+  }
+
+  List<Widget> _guardingoperationBuildDrawerChildren(
+      BuildContext context, DrawerState state) {
+    List<Widget> children = [];
+
+    for (int i = 0; i < guardingOperationDrawerItems.length; i++) {
+      DrawerItem1 drawerItem = guardingOperationDrawerItems[i];
+      children.add(Container(
+        decoration: const BoxDecoration(
+          border:
+          Border(bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+        ),
+        child: ListTile(
+          leading: SizedBox(
+              width: 20,
+              height: 20,
+              child: Image.asset(drawerItem.imageName,
+                  fit: BoxFit.cover,
+                  color: (i == _passlastSelectedItem)
+                      ? AppColors.navigationSkybluecolor
+                      : AppColors.textgreyThemecolor)),
+          title: Text(drawerItem.title,
+              //style: Styles.textStyleBlack16,
+              style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: Constants.customFontSemiBoldFamily,
+                  fontWeight: FontWeight.w600,
+                  color: (i == _passlastSelectedItem)
+                      ? AppColors.navigationSkybluecolor
+                      : AppColors.textgreyThemecolor)),
+          // selected: i == _lastSelectedItem,
+          onTap: () => _onguardingOperationItemSelected(i, context),
+        ),
+      ));
+    }
+
+    return children;
+  }
+
+
+  _onguardingOperationItemSelected(int index, BuildContext context) async {
+    _menuscaffoldKey.currentState!.closeDrawer();
+    _passlastSelectedItem = index;
+    print('_passlastSelectedItem index = $index');
+    print('2 index = $_passlastSelectedItem');
+    //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
+    //state = const DrawerInitial();
+    context.read<DrawerCubit>().getPassmgmtindexChange(index);
+    if (index == 0) {
+      print('pass mangement index1');
+      Navigator.pushNamed(context, guardingOperationsRoute,
+          arguments: {"Guarding Master Data": true});
+    } else if (index == 1) {
+      Navigator.pushNamed(context, guardingOperationsRoute,
+          arguments: {"Guarding Master Report": false});
+    } else if (index == 2) {
+      Navigator.pushNamed(context, guardingOperationsRoute,
+          arguments: {"Guarding Rates": true});
+    } else if (index ==3) {
+      Navigator.pushNamed(context, guardingOperationsRoute,
+          arguments: {"Female Drop PickUp": false});
+    } else if (index == 4) {
+      Navigator.pushNamed(context, guardingOperationsRoute,
+          arguments: {"Key Management List": true});
+    } else if (index ==5) {
+      Navigator.pushNamed(context, guardingOperationsRoute,
+          arguments: {"Occurrence": false});
     }
   }
 
@@ -654,8 +734,21 @@ class navigationDrawer1 extends StatelessWidget {
         negativeBtnText: Constants.no);
     showDialog(context: context, builder: (BuildContext context) => dialog);
   }
+  List<Widget> buildDrawerChildren(BuildContext context, DrawerState state, String title) {
+    if (title == Constants.materialMovement) {
+      return _materialMovementBuildDrawerChildren(context, state);
+    } else if (title == Constants.guarding) {
+      return _guardingoperationBuildDrawerChildren(context, state);
+    } else {
+      return _passmgmtbuildDrawerChildren(context, state);
+    }
+  }
+
 }
 
+_list(){
+
+}
 Widget createDrawerHeader() {
   return const DrawerHeader(
       decoration: BoxDecoration(
@@ -715,3 +808,5 @@ class ImageIconDimention1 {
 
   const ImageIconDimention1(this.height, this.width);
 }
+
+

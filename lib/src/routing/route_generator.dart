@@ -92,6 +92,8 @@ class RouteGenerator {
 
       case articleFoundListRoute:
         return MaterialPageRoute(builder: (context) => FoundList());
+      case guardingOperationsRoute:
+        return MaterialPageRoute(builder: (context) => MaterialMovements(isInward: true,));
       case createFoundAttachmentRoute:
         return MaterialPageRoute(builder: (context) => CreateFoundAttachment());
       case piechartRoute:
@@ -167,6 +169,7 @@ class RouteGenerator {
         }
         return MaterialPageRoute(builder: (context) => CreatePassManagement());
 
+
       case materialMovementInwardsOutwardsRoute:
         bool isInward = true;
         if (settings.arguments != null) {
@@ -193,7 +196,6 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments['title'];
-
         isInward = arguments['isInward'];
         MaterialMovementModel? materialMovement =
             arguments["MaterialMovementModel"];
