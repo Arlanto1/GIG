@@ -88,6 +88,9 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
             MaterialMovementDetailsState>(
           listener: (context, state) {
             log('--state.status-2-listener--${state.status}----');
+
+            log('-listener--response--msg--${state.message}---');
+
             if (state.status == FormStatus.success) {
               Utils.dynamicAlert(
                   context, state.message ?? '', 'Material Movement', '');
@@ -772,8 +775,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             keyboardType: TextInputType.number,
                                             initialValue:
                                                 state.materialMovement.sentTo,
-                                            textFormKey:
-                                                Keys.sentToKey,
+                                            textFormKey: Keys.sentToKey,
                                             hintText: '',
                                             isEnable: widget.materialMovement ==
                                                     null
@@ -816,11 +818,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               height * 0.001),
 
                                           FlutterInputField(
-                                            keyboardType: TextInputType.number,
+                                            keyboardType: TextInputType.text,
                                             initialValue:
                                                 state.materialMovement.purpose,
-                                            textFormKey:
-                                                  Keys.purposeKey,
+                                            textFormKey: Keys.purposeKey,
                                             hintText: '',
                                             isEnable: widget.materialMovement ==
                                                     null
@@ -915,31 +916,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                   textFormKey: Keys
                                                       .preparedByDepartmentKey,
                                                   hintText: '',
-                                                  isEnable: widget
-                                                              .materialMovement ==
-                                                          null
-                                                      ? true
-                                                      : (widget.materialMovement !=
-                                                                  null &&
-                                                              (widget
-                                                                          .materialMovement
-                                                                          ?.preparedByDepartment
-                                                                          ?.name ??
-                                                                      '')
-                                                                  .isEmpty)
-                                                          ? true
-                                                          : false,
-                                                  isDisableColor: (widget
-                                                                  .materialMovement !=
-                                                              null &&
-                                                          (widget
-                                                                      .materialMovement
-                                                                      ?.preparedByDepartment
-                                                                      ?.name ??
-                                                                  '')
-                                                              .isEmpty)
-                                                      ? false
-                                                      : true,
+                                                  isEnable: state
+                                                          .materialMovement
+                                                          .status !=
+                                                      6,
+                                                  isDisableColor: state
+                                                          .materialMovement
+                                                          .status ==
+                                                      6,
                                                   onChange: (String value) {},
                                                   validateTextField:
                                                       (String? user) {},
@@ -1065,37 +1049,19 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               ? FlutterInputField(
                                                   initialValue: state
                                                       .materialMovement
-                                                      .preparedByDepartment
+                                                      .approver1Department
                                                       ?.name,
                                                   textFormKey: Keys
-                                                      .claimantTextController,
-                                                  hintText:
-                                                      receiverDepartmentName,
-                                                  isEnable: widget
-                                                              .materialMovement ==
-                                                          null
-                                                      ? true
-                                                      : (widget.materialMovement !=
-                                                                  null &&
-                                                              (widget
-                                                                          .materialMovement
-                                                                          ?.approver1Department
-                                                                          ?.name ??
-                                                                      '')
-                                                                  .isEmpty)
-                                                          ? true
-                                                          : false,
-                                                  isDisableColor: (widget
-                                                                  .materialMovement !=
-                                                              null &&
-                                                          (widget
-                                                                      .materialMovement
-                                                                      ?.approver1Department
-                                                                      ?.name ??
-                                                                  '')
-                                                              .isEmpty)
-                                                      ? false
-                                                      : true,
+                                                      .aprrover1DepartmentKey,
+                                                  hintText: '',
+                                                  isEnable: state
+                                                          .materialMovement
+                                                          .status !=
+                                                      6,
+                                                  isDisableColor: state
+                                                          .materialMovement
+                                                          .status ==
+                                                      6,
                                                   onChange: (String value) {
                                                     state
                                                         .materialMovement
@@ -1122,26 +1088,21 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                           ? false
                                                           : true,
                                                   onTap: () {
-                                                    if (widget
-                                                            .materialMovement ==
-                                                        null) {
-                                                      BaseDialog()
-                                                          .departmentDialog(
-                                                        context: context,
-                                                        departments:
-                                                            state.departments,
-                                                        onTap: (Department
-                                                            department) {
-                                                          BlocProvider.of<
-                                                                      MaterialMovementDetailsCubit>(
-                                                                  context)
-                                                              .updateDropdownValues(
-                                                                  approver1Department:
-                                                                      department);
-                                                        },
-                                                      );
-                                                      // leodepartmentsDialog(state);
-                                                    }
+                                                    BaseDialog()
+                                                        .departmentDialog(
+                                                      context: context,
+                                                      departments:
+                                                          state.departments,
+                                                      onTap: (Department
+                                                          department) {
+                                                        BlocProvider.of<
+                                                                    MaterialMovementDetailsCubit>(
+                                                                context)
+                                                            .updateDropdownValues(
+                                                                approver1Department:
+                                                                    department);
+                                                      },
+                                                    );
                                                   },
                                                 ),
 
@@ -1229,87 +1190,59 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           ),
                                           widget.materialMovement != null
                                               ? FlutterInputField(
-                                                  initialValue: state
-                                                      .materialMovement
-                                                      .preparedByDepartment
-                                                      ?.name,
-                                                  textFormKey: Keys
-                                                      .claimantTextController,
-                                                  hintText:
-                                                      receiverDepartmentName,
-                                                  isEnable: widget
-                                                              .materialMovement ==
-                                                          null
-                                                      ? true
-                                                      : (widget.materialMovement !=
-                                                                  null &&
-                                                              (widget
-                                                                          .materialMovement
-                                                                          ?.approver2Department
-                                                                          ?.name ??
-                                                                      '')
-                                                                  .isEmpty)
-                                                          ? true
-                                                          : false,
-                                                  isDisableColor: (widget
-                                                                  .materialMovement !=
-                                                              null &&
-                                                          (widget
-                                                                      .materialMovement
-                                                                      ?.approver2Department
-                                                                      ?.name ??
-                                                                  '')
-                                                              .isEmpty)
-                                                      ? false
-                                                      : true,
-                                                  onChange: (String value) {
-                                                    state
-                                                        .materialMovement
-                                                        .approver2Department
-                                                        ?.name = value;
-                                                    context
-                                                        .read<
-                                                            MaterialMovementDetailsCubit>()
-                                                        .onModelValueChange(state
-                                                            .materialMovement);
-                                                  },
-                                                  validateTextField:
-                                                      (String? user) {},
-                                                )
+                                            initialValue: state
+                                                .materialMovement
+                                                .approver2Department
+                                                ?.name,
+                                            textFormKey: Keys
+                                                .aprrover2DepartmentKey,
+                                            hintText: '',
+                                            isEnable: state
+                                                .materialMovement
+                                                .status !=
+                                                6,
+                                            isDisableColor: state
+                                                .materialMovement
+                                                .status ==
+                                                6,
+                                            onChange: (String value) {},
+                                            validateTextField:
+                                                (String? user) {},
+                                          )
                                               : TextfieldAddButton(
-                                                  title: state
-                                                      .materialMovement
-                                                      .approver1Department
-                                                      ?.name,
-                                                  height: 60,
-                                                  isDisableColor:
-                                                      widget.materialMovement ==
-                                                              null
-                                                          ? false
-                                                          : true,
-                                                  onTap: () {
-                                                    if (widget
-                                                            .materialMovement ==
-                                                        null) {
-                                                      BaseDialog()
-                                                          .departmentDialog(
-                                                        context: context,
-                                                        departments:
-                                                            state.departments,
-                                                        onTap: (Department
-                                                            department) {
-                                                          BlocProvider.of<
-                                                                      MaterialMovementDetailsCubit>(
-                                                                  context)
-                                                              .updateDropdownValues(
-                                                                  approver2Department:
-                                                                      department);
-                                                        },
-                                                      );
-                                                      // leodepartmentsDialog(state);
-                                                    }
+                                            title: state
+                                                .materialMovement
+                                                .approver2Department
+                                                ?.name,
+                                            height: 60,
+                                            isDisableColor:
+                                            widget.materialMovement ==
+                                                null
+                                                ? false
+                                                : true,
+                                            onTap: () {
+                                              if (widget
+                                                  .materialMovement ==
+                                                  null) {
+                                                BaseDialog()
+                                                    .departmentDialog(
+                                                  context: context,
+                                                  departments:
+                                                  state.departments,
+                                                  onTap: (Department
+                                                  department) {
+                                                    BlocProvider.of<
+                                                        MaterialMovementDetailsCubit>(
+                                                        context)
+                                                        .updateDropdownValues(
+                                                        approver2Department:
+                                                        department);
                                                   },
-                                                ),
+                                                );
+                                                // leodepartmentsDialog(state);
+                                              }
+                                            },
+                                          ),
 
                                           CommonWidgets.verticalSpacerWidget(
                                               height * 0.01),
@@ -1341,8 +1274,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               initialValue: state
                                                   .materialMovement
                                                   .takenOutEmail,
-                                              textFormKey:
-                                                  Keys.takenOutByKey,
+                                              textFormKey: Keys.takenOutByKey,
                                               hintText: '',
                                               isEnable: state.materialMovement
                                                       .status ==
@@ -1445,8 +1377,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             CommonWidgets.verticalSpacerWidget(
                                                 height * 0.001),
 
-                                            datepickerWidgetLoading(state,
-                                                dateTextController),
+                                            datepickerWidgetLoading(
+                                                state, dateTextController),
                                             // datepickerWidgetLoading(dateTextController),
                                             CommonWidgets.verticalSpacerWidget(
                                                 height * 0.01),
@@ -1688,8 +1620,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             .otherReceiverEmployeeId,
                                         textFormKey:
                                             Keys.claimantEmpIdTextController,
-                                        isEnable: state.materialMovement.status !=6,
-                                        isDisableColor: state.materialMovement.status ==6,
+                                        isEnable:
+                                            state.materialMovement.status != 6,
+                                        isDisableColor:
+                                            state.materialMovement.status == 6,
                                         hintText: '',
                                         onChange: (String value) {
                                           state.materialMovement
@@ -1802,8 +1736,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             .materialMovement.otherReceiverName,
                                         textFormKey:
                                             Keys.claimantEmpIdTextController,
-                                        isEnable: state.materialMovement.status !=6,
-                                        isDisableColor: state.materialMovement.status ==6,
+                                        isEnable:
+                                            state.materialMovement.status != 6,
+                                        isDisableColor:
+                                            state.materialMovement.status == 6,
                                         hintText: '',
                                         onChange: (String value) {
                                           state.materialMovement
@@ -1831,8 +1767,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             .receiverEmployeeId,
                                         textFormKey:
                                             Keys.claimantEmpIdTextController,
-                                        isEnable: state.materialMovement.status !=6,
-                                        isDisableColor: state.materialMovement.status ==6,
+                                        isEnable:
+                                            state.materialMovement.status != 6,
+                                        isDisableColor:
+                                            state.materialMovement.status == 6,
                                         hintText: '',
                                         onChange: (String value) {
                                           state.materialMovement
@@ -2135,11 +2073,12 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
         });
   }
 
-  Widget datepickerWidgetLoading(MaterialMovementDetailsState state, TextEditingController textfiled) {
+  Widget datepickerWidgetLoading(
+      MaterialMovementDetailsState state, TextEditingController textfiled) {
     return GestureDetector(
       onTap: () {
         // if (widget.materialMovement == null || textfiled.text.isEmpty) {
-          datePickerDialog(textfiled);
+        datePickerDialog(textfiled);
         // }
       },
       child: FlutterInputField(
@@ -2149,7 +2088,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
             : Keys.handedoverdateTextController,
         hintText: '',
         isEnable: false,
-        isDisableColor:false,
+        isDisableColor: false,
         onChange: (String value) {
           //this.username = username;
           print('dfwf');
@@ -2160,7 +2099,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
         suffixWidget: GestureDetector(
           onTap: () async {
             if (textfiled.text.isEmpty) {
-              datePickerDialog( textfiled);
+              datePickerDialog(textfiled);
               // state.materialMovement.tak
             }
           },
@@ -2177,6 +2116,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
       ),
     );
   }
+
   datePickerDialog(TextEditingController textfield) async {
     DateTime? pickedDate = await showDateTimePicker(
         context: context,
@@ -2187,7 +2127,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     String formattedDate = DateFormat(Constants.fulldateFormat)
         .format(pickedDate ?? DateTime.now());
     //you can implement different kind of Date Format here according to your requirement
-      dateTextController.text = formattedDate;
+    dateTextController.text = formattedDate;
     setState(() {
       // dateinput.text = formattedDate; //set output date to TextField value.
     });

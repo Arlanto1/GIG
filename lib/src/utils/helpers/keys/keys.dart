@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 
 class Keys {
   static const String userTextField = 'external_login_username_textfield';
@@ -59,6 +59,8 @@ class Keys {
   static const String addressKey = 'addressKey_mmo';
   static const String purposeKey = 'purposeKey_mmo';
   static const String requestorEmployeeKey = 'requestorEmployeeKey_mmo';
+  static const String aprrover1DepartmentKey = 'aprrover1DepartmentKey_mmo';
+  static const String aprrover2DepartmentKey = 'aprrover2DepartmentKey_mmo';
   static const String sendersKey = 'sendersKey_mmo';
   static const String materialComingFromKey = 'materialComingFromKey_mmo';
   static const String securitySignKey = 'securitySignKey_mm';

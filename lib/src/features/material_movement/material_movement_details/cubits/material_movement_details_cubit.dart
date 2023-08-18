@@ -155,20 +155,22 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     if (approver2EmailUser != null) {
       state.materialMovement.approver2Email = approver2EmailUser.email;
     }
-
     if (department != null) {
       state.materialMovement.receiverDepartmenttName = department.name;
     }
     if (preparedByDepartment != null) {
+      print('---------preparedByDepartment-------------------------------');
       state.materialMovement.preparedByDepartment =
           preparedByDepartment;
     }
     if (approver1Department != null) {
+      print('---------approver1Department-------------------------${approver1Department.name}------');
       state.materialMovement.approver1Department =
           approver1Department;
     }
 
     if (approver2Department != null) {
+      print('---------approver2Department--------------------------${approver2Department.name}-----');
       state.materialMovement.approver2Department =
           approver2Department;
     }
@@ -179,6 +181,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     if (isReturnable != null) {
       state.materialMovement.returnable = isReturnable;
     }
+
+    print('---------approver1Department----------111---------------${state.materialMovement.approver1Department?.name}------');
+    print('---------approver2Department-----------222--------------${state.materialMovement.approver2Department?.name}------');
 
     emit(state.copyWith(
       materialMovement: state.materialMovement,
@@ -265,6 +270,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         response = await materialMovementServices.createMaterialMovement(
             body: request, isSubmit: true);
       }
+
+      print('---response--msg--${response.message}---');
+
       emit(
         state.copyWith(
           message: response.message,

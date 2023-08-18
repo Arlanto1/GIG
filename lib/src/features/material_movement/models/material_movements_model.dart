@@ -95,7 +95,7 @@ class MaterialMovementModel {
     this.materialFromAddress,
     this.materialDescription,
     this.quantity,
-    this.images,
+    this.images = const [],
     this.receiverEmail,
     this.receiverEmployeeId,
     this.entrySecurity,
