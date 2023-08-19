@@ -13,6 +13,7 @@ import 'package:db_atom/src/features/material_movement/models/responseModels/mat
 import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
+import 'package:db_atom/src/utils/util.dart';
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
@@ -79,6 +80,14 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       // Get Date of Creation
       state.materialMovement.inputDate = _getCurrentDate();
 
+      if(state.materialMovement.approvedDate != null) {
+        state.materialMovement.approvedDate = Utils().formatUnixTimestamp(
+            state.materialMovement.approvedDate ?? '');
+      }
+      if(state.materialMovement.rejectedDate != null) {
+        state.materialMovement.rejectedDate = Utils().formatUnixTimestamp(
+            state.materialMovement.rejectedDate ?? '');
+      }
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 

@@ -294,7 +294,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
-                                    datecreateWidgetdisplay(state),
+                                    datecreateWidgetdisplay(state.materialMovement.inputDate??''),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
@@ -1161,14 +1161,18 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                           /// Approved By
                                           CommonWidgets.verticalTextHandling(
-                                              Constants.approvedBy, 'TODO'),
+                                              Constants.approvedBy,
+                                              state.materialMovement
+                                                      .approvedBy ??
+                                                  ''),
                                           CommonWidgets.verticalSpacerWidget(
                                               height * 0.01),
 
                                           /// Approved Date
                                           CommonWidgets.verticalTextHandling(
                                               Constants.approvedDate,
-                                              'TODO: 2023-09-88'),
+                                              state.materialMovement.approvedDate??''),
+
                                           CommonWidgets.verticalSpacerWidget(
                                               height * 0.01),
 
@@ -1289,27 +1293,32 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         ]
                                       ],
 
-                                      /// If Status is Approved(status=3)
+                                      /// If Status is Rejected(status=3)
                                       if (state.materialMovement.status ==
                                           3) ...[
                                         /// Rejected By
                                         CommonWidgets.verticalTextHandling(
                                             Constants.rejectedBy,
-                                            'TODO from json'),
+                                            state.materialMovement.rejectedBy ??
+                                                ''),
                                         CommonWidgets.verticalSpacerWidget(
                                             height * 0.01),
 
                                         /// Rejected Date
                                         CommonWidgets.verticalTextHandling(
                                             Constants.rejectedDate,
-                                            'TODO from json'),
+                                            state.materialMovement
+                                                    .rejectedDate ??
+                                                ''),
                                         CommonWidgets.verticalSpacerWidget(
                                             height * 0.01),
 
                                         /// Rejected Comment
                                         CommonWidgets.verticalTextHandling(
                                             Constants.rejectedComment,
-                                            'TODO from json'),
+                                            state.materialMovement
+                                                    .rejectionComment ??
+                                                ''),
                                         CommonWidgets.verticalSpacerWidget(
                                             height * 0.01),
                                       ],
@@ -2116,10 +2125,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     );
   }
 
-  Widget datecreateWidgetdisplay(MaterialMovementDetailsState state) {
+  Widget datecreateWidgetdisplay(String date) {
     return FlutterInputField(
       textFormKey: Keys.dateofcreationTextController,
-      initialValue: state.materialMovement.inputDate,
+      initialValue: date,
       hintText: '',
       isEnable: false,
       isDisableColor: true,

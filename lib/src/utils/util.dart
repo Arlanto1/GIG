@@ -91,5 +91,23 @@ class Utils {
     final now = DateTime.now();
     return now.microsecondsSinceEpoch.toString();
   }
-  
+
+  String formatUnixTimestamp(String timestampString) {
+    try {
+      // Parse the Unix timestamp as an int
+      int unixTimestamp = int.parse(timestampString);
+
+      // Convert the Unix timestamp to a DateTime object
+      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(unixTimestamp * 1000);
+
+      // Format the DateTime object as a string
+      String formattedDate = DateFormat('dd/MM/yyyy a HH:mm:ss').format(dateTime);
+
+      return formattedDate;
+    } catch (e) {
+      // Handle any parsing or formatting errors here
+      print('Error formatting Unix timestamp: $e');
+      return 'Invalid Date';
+    }
+  }
 }

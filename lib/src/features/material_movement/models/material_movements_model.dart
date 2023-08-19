@@ -82,6 +82,11 @@ class MaterialMovementModel {
   String? takenOutAddress;
   String? entrySecurityName;
   String? receiverDepartmenttName;
+  String? rejectedDate;
+  String? rejectedBy;
+  String? rejectionComment;
+  String? approvedBy;
+  String? approvedDate;
 
   MaterialMovementModel({
     this.id,
@@ -133,6 +138,11 @@ class MaterialMovementModel {
     this.takenOutAddress,
     this.entrySecurityName,
     this.receiverDepartmenttName,
+    this.rejectedBy,
+    this.rejectedDate,
+    this.rejectionComment,
+    this.approvedBy,
+    this.approvedDate,
   });
 
   MaterialMovementModel.fromJson(Map<String, dynamic> json)
@@ -169,12 +179,10 @@ class MaterialMovementModel {
             ?.map((dynamic e) => History.fromJson(e as Map<String, dynamic>))
             .toList(),
         receiverSign = (json['receiverSign'] as List?)
-            ?.map(
-                (dynamic e) => Image.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) => Image.fromJson(e as Map<String, dynamic>))
             .toList(),
         entrySecuritySign = (json['entrySecuritySign'] as List?)
-            ?.map((dynamic e) =>
-            Image.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) => Image.fromJson(e as Map<String, dynamic>))
             .toList(),
         requestorEmail = json['requestorEmail'] as String?,
         requestorEmployeeId = json['requestorEmployeeId'] as String?,
@@ -191,6 +199,7 @@ class MaterialMovementModel {
             ? QuantityUnit.fromJson(json['unit'] as Map<String, dynamic>)
             : null,
         preparedBy = json['preparedBy'] as String?,
+        approvedDate = json['approvedDate'],
         preparedByDepartment =
             (json['preparedByDepartment'] as Map<String, dynamic>?) != null
                 ? Department.fromJson(
@@ -220,8 +229,12 @@ class MaterialMovementModel {
         materialPhysicallyChecked = json['materialPhysicallyChecked'] as bool,
         materialNotCheckedComment =
             json['materialNotCheckedComment'] as String?,
+        approvedBy = json['approvedBy'],
         takenOutAddress = json['takenOutAddress'] as String?,
         entrySecurityName = json['entrySecurityName'] as String?,
+        rejectedDate = json['rejectedDate'],
+        rejectedBy = json['rejectedBy'],
+        rejectionComment = json['rejectionComment'],
         receiverDepartmenttName = json['receiverDepartmenttName'] as String?;
 
   Map<String, dynamic> toJson() => {
@@ -252,6 +265,11 @@ class MaterialMovementModel {
         'requestorDepartment': requestorDepartment?.toJson(),
         'sentTo': sentTo,
         'address': address,
+        'rejectedBy': rejectedBy,
+        'rejectedDate': rejectedDate,
+        'rejectionComment': rejectionComment,
+        'approvedBy': approvedBy,
+        'approvedDate': approvedDate,
         'purpose': purpose,
         'modelInfo': modelInfo,
         'unit': unit?.toJson(),
