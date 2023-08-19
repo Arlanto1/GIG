@@ -118,7 +118,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
             }
             log('--status-2-builder--${state.status}----');
 
-            if (state.status == FormStatus.addAttachment) {
+            if (state.status == FormStatus.addAttachment || state.status == FormStatus.initial) {
               log('---getAttachments----builder----${getAttachments?.length}-----');
               getFiles = state.loadAttachments ?? [];
               log('---getFiles----builder----${getFiles?.length}-----');
@@ -294,7 +294,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
-                                    datecreateWidgetdisplay(state.materialMovement.inputDate??''),
+                                    datecreateWidgetdisplay(
+                                        state.materialMovement.inputDate ?? ''),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
@@ -1145,9 +1146,19 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           CommonWidgets.verticalSpacerWidget(
                                               height * 0.001),
                                           datepickerWidgetLoading(
-                                              textfiled:
-                                                  expectedDateOfReturnController,
-                                              isDisabled: isDisabled),
+                                            textfiled:
+                                                expectedDateOfReturnController,
+                                            isDisabled: isDisabled,
+                                            onChange: (String value) {
+                                              state.materialMovement
+                                                  .expectedDateOfReturn = value;
+                                              BlocProvider.of<
+                                                          MaterialMovementDetailsCubit>(
+                                                      context)
+                                                  .onModelValueChange(
+                                                      state.materialMovement);
+                                            },
+                                          ),
                                           CommonWidgets.verticalSpacerWidget(
                                               height * 0.01),
                                         ],
@@ -1171,7 +1182,9 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           /// Approved Date
                                           CommonWidgets.verticalTextHandling(
                                               Constants.approvedDate,
-                                              state.materialMovement.approvedDate??''),
+                                              state.materialMovement
+                                                      .approvedDate ??
+                                                  ''),
 
                                           CommonWidgets.verticalSpacerWidget(
                                               height * 0.01),
@@ -1285,9 +1298,17 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               height * 0.001),
 
                                           datepickerWidgetLoading(
-                                              textfiled:
-                                                  takenOutOnDateController),
-                                          // datepickerWidgetLoading(dateTextController),
+                                            textfiled: takenOutOnDateController,
+                                            onChange: (String value) {
+                                              state.materialMovement
+                                                  .takenOutOn = value;
+                                              BlocProvider.of<
+                                                          MaterialMovementDetailsCubit>(
+                                                      context)
+                                                  .onModelValueChange(
+                                                      state.materialMovement);
+                                            },
+                                          ),
                                           CommonWidgets.verticalSpacerWidget(
                                               height * 0.01),
                                         ]
@@ -1809,6 +1830,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     getAttachement(state, height),
                                   ]),
                                 ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
 
                                 /// SubmitButton
                                 Row(
@@ -1911,6 +1934,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   Widget datepickerWidgetLoading({
     required TextEditingController textfiled,
     bool isDisabled = false,
+    required Function onChange,
   }) {
     return GestureDetector(
       onTap: () {
@@ -1926,12 +1950,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
         hintText: '',
         isEnable: !isDisabled,
         isDisableColor: isDisabled,
-        onChange: (String value) {
-          //this.username = username;
-          print('dfwf');
-
-          setState(() {});
-        },
+        onChange: onChange,
         validateTextField: (String? user) {},
         suffixWidget: GestureDetector(
           onTap: () async {
@@ -2025,6 +2044,15 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 state.loggedInUserDetails ?? GetUserDetails(),
                             getFiles: getFiles ?? [],
                             inwardState: state,
+                            onImageSelected: (CreateImage data) {
+                              log('-------function---onImageSelected---------');
+                              List<CreateImage>? files =[];
+                              files.add(data);
+                              for(CreateImage image in getFiles!.toList()) {
+                                files.add(image);
+                              }
+                              BlocProvider.of<MaterialMovementDetailsCubit>(context).addAttchment(files);
+                            },
                           );
                         });
                   },

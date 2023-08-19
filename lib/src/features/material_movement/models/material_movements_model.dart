@@ -87,6 +87,8 @@ class MaterialMovementModel {
   String? rejectionComment;
   String? approvedBy;
   String? approvedDate;
+  String? expectedDateOfReturn;
+  String? takenOutOn;
 
   MaterialMovementModel({
     this.id,
@@ -143,6 +145,8 @@ class MaterialMovementModel {
     this.rejectionComment,
     this.approvedBy,
     this.approvedDate,
+    this.takenOutOn,
+    this.expectedDateOfReturn,
   });
 
   MaterialMovementModel.fromJson(Map<String, dynamic> json)
@@ -200,6 +204,7 @@ class MaterialMovementModel {
             : null,
         preparedBy = json['preparedBy'] as String?,
         approvedDate = json['approvedDate'],
+        takenOutOn = json['takenOutOn'],
         preparedByDepartment =
             (json['preparedByDepartment'] as Map<String, dynamic>?) != null
                 ? Department.fromJson(
@@ -233,6 +238,7 @@ class MaterialMovementModel {
         takenOutAddress = json['takenOutAddress'] as String?,
         entrySecurityName = json['entrySecurityName'] as String?,
         rejectedDate = json['rejectedDate'],
+        expectedDateOfReturn = json['expectedDateOfReturn'],
         rejectedBy = json['rejectedBy'],
         rejectionComment = json['rejectionComment'],
         receiverDepartmenttName = json['receiverDepartmenttName'] as String?;
@@ -267,9 +273,11 @@ class MaterialMovementModel {
         'address': address,
         'rejectedBy': rejectedBy,
         'rejectedDate': rejectedDate,
+        'takenOutOn': takenOutOn,
         'rejectionComment': rejectionComment,
         'approvedBy': approvedBy,
         'approvedDate': approvedDate,
+        'expectedDateOfReturn': expectedDateOfReturn,
         'purpose': purpose,
         'modelInfo': modelInfo,
         'unit': unit?.toJson(),

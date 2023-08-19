@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -35,7 +36,18 @@ import 'package:file_picker/file_picker.dart';
 enum FileDocumnets { Photo, Camera, Documents }
 
 class UploadAttachment extends StatefulWidget {
-  UploadAttachment({super.key, this.userdetails, this.getFiles,this.lawstate,this.createoundstate,this.createpassmgmtstate, this.isPhotoType, this.inwardState});
+  UploadAttachment(
+      {super.key,
+      this.userdetails,
+      this.getFiles,
+      this.lawstate,
+      this.createoundstate,
+      this.createpassmgmtstate,
+      this.isPhotoType,
+      this.inwardState,
+        this.onImageSelected,
+      });
+
   GetUserDetails? userdetails;
   List<CreateImage>? getFiles;
   LawEnforcementState? lawstate;
@@ -43,6 +55,7 @@ class UploadAttachment extends StatefulWidget {
   CreatePassMgmtState? createpassmgmtstate;
   bool? isPhotoType;
   MaterialMovementDetailsState? inwardState;
+  Function? onImageSelected;
 
   @override
   State<UploadAttachment> createState() => UploadAttachmentState();
@@ -98,7 +111,6 @@ class UploadAttachmentState extends State<UploadAttachment>
       File imageFile = File(pickedFile.path);
       print(imageFile);
 
-
       getpath(imageFile);
     }
   }
@@ -122,7 +134,6 @@ class UploadAttachmentState extends State<UploadAttachment>
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
-
       PlatformFile platformfile = result.files.first;
 
       print(platformfile.name);
@@ -131,8 +142,9 @@ class UploadAttachmentState extends State<UploadAttachment>
       print(platformfile.extension);
       print(platformfile.path);
 
-     // Uint8List? imgbytes = platformfile.bytes;
-     Uint8List imgbytes = Uint8List.fromList(File(platformfile.path ?? '' ).readAsBytesSync());
+      // Uint8List? imgbytes = platformfile.bytes;
+      Uint8List imgbytes =
+          Uint8List.fromList(File(platformfile.path ?? '').readAsBytesSync());
       String fileName = platformfile.name;
       String bs4str = base64Encode(imgbytes);
       String? contentype = lookupMimeType(platformfile.path ?? '');
@@ -191,37 +203,31 @@ class UploadAttachmentState extends State<UploadAttachment>
     // var res = await ImagesMultiPart().uploadImage(
     //     "/uploadFoundImage?id=$id&userEmail=$username", result.path);
     // print(res);
+
     await _sendDataBack(image);
   }
 
   // get the text in the TextField and send it back to the FirstScreen
   Future<void> _sendDataBack(CreateImage data) async {
-    widget.getFiles?.add(data);
-    print('----widget.getFiles----------${widget.getFiles ?? []}');
-    if (widget.lawstate != null)
-    {
+    if (widget.lawstate != null) {
+      widget.getFiles?.add(data);
       lawenforcementCubit.addAttchment(widget.getFiles ?? []);
-    }
-    else if (widget.createoundstate != null)
-    {
+    } else if (widget.createoundstate != null) {
+      widget.getFiles?.add(data);
       createFoundArticleCubit.addAttchment(widget.getFiles ?? []);
-    }
-    else if (widget.createpassmgmtstate != null)
-    {
-      if (widget.isPhotoType ?? false)
-      {
-      createpassmgmtCubit.photoAttchment(widget.getFiles ?? []);
+    } else if (widget.createpassmgmtstate != null) {
+      widget.getFiles?.add(data);
+      if (widget.isPhotoType ?? false) {
+        createpassmgmtCubit.photoAttchment(widget.getFiles ?? []);
+      } else {
+        createpassmgmtCubit.addAttchment(widget.getFiles ?? []);
       }
-      else
-      {
-
-      createpassmgmtCubit.addAttchment(widget.getFiles ?? []);
-      }
-
-    } else if (widget.inwardState != null) {
-      materialMovementDetailsCubit.addAttchment(widget.getFiles ?? []);
     }
-
+    if (widget.inwardState != null) {
+      log('-------function------------');
+      await widget.onImageSelected!(data); // Call the callback with the image data
+      return;
+    }
     //Navigator.pop(context, textToSendBack);
   }
 
@@ -275,126 +281,125 @@ class UploadAttachmentState extends State<UploadAttachment>
         context: context,
         builder: (builder) {
           return Card(
-               child: SingleChildScrollView(
-              child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height:150,
-                  margin: const EdgeInsets.only(top: 8.0),
+              child: SingleChildScrollView(
+                  child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 150,
+            margin: const EdgeInsets.only(top: 8.0),
+            padding:
+                const EdgeInsets.only(left: 12, top: 0, right: 12, bottom: 12),
+            child: Column(
+              children: [
+                Container(
                   padding: const EdgeInsets.only(
-                      left: 12, top: 0, right: 12, bottom: 12),
-
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.only(
-                              left: 10, top: 5, right: 10, bottom: 10),
-                          alignment: Alignment.topLeft,
-                          child: const Text(
-                            Constants.caotureorupload,
-                            style: Styles.textStyleRegularGrey16,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0, bottom: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      left: 10, top: 5, right: 10, bottom: 10),
+                  alignment: Alignment.topLeft,
+                  child: const Text(
+                    Constants.caotureorupload,
+                    style: Styles.textStyleRegularGrey16,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: Container(
+                        padding: const EdgeInsets.all(20.0),
+                        decoration: const ShapeDecoration(
+                            color: AppColors.lightgreyBackground,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(20.0),
+                                  bottom: Radius.circular(20.0)),
+                            )),
+                        child: InkWell(
+                          child: Column(
                             children: [
-                              Expanded(
-                                  child: Container(
-                                padding: const EdgeInsets.all(20.0),
-                                decoration: const ShapeDecoration(
-                                    color: AppColors.lightgreyBackground,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(20.0),
-                                          bottom: Radius.circular(20.0)),
-                                    )),
-                                child: InkWell(
-                                  child: Column(
-                                    children: [
-                                      SvgPicture.asset(
-                                        AppIcon.galleryIcon,
-                                        width: 36,
-                                        height: 36,
-                                      ),
-                                    ],
-                                  ),
-                                  onTap: () {
-                                    _askPermission(FileDocumnets.Photo);
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              )),
-                              const SizedBox(
-                                width: 15,
+                              SvgPicture.asset(
+                                AppIcon.galleryIcon,
+                                width: 36,
+                                height: 36,
                               ),
-                              Expanded(
-                                  child: Container(
-                                padding: const EdgeInsets.all(20.0),
-                                decoration: const ShapeDecoration(
-                                    color: AppColors.lightgreyBackground,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(20.0),
-                                          bottom: Radius.circular(20.0)),
-                                    )),
-                                child: InkWell(
-                                  child: SizedBox(
-                                    child: Column(
-                                      children: [
-                                        SvgPicture.asset(
-                                          AppIcon.cameraIcon,
-                                          width: 36,
-                                          height: 36,
-                                        ),
-                                        //  ),
-                                      ],
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    _askPermission(FileDocumnets.Camera);
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              )),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              Expanded(
-                                  child: Container(
-                                padding: const EdgeInsets.all(20.0),
-                                decoration: const ShapeDecoration(
-                                    color: AppColors.lightgreyBackground,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(20.0),
-                                          bottom: Radius.circular(20.0)),
-                                    )),
-                                child: InkWell(
-                                  child: SizedBox(
-                                    child: Column(
-                                      children: [
-                                        SvgPicture.asset(
-                                          AppIcon.documentsIcon,
-                                          width: 36,
-                                          height: 36,
-                                        ),
-                                        // ),
-                                      ],
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    _getDocumentFileslist();
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ))
                             ],
                           ),
+                          onTap: () {
+                            _askPermission(FileDocumnets.Photo);
+                            Navigator.pop(context);
+                          },
                         ),
-                      ],
-                    ),
-                  )));
+                      )),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Expanded(
+                          child: Container(
+                        padding: const EdgeInsets.all(20.0),
+                        decoration: const ShapeDecoration(
+                            color: AppColors.lightgreyBackground,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(20.0),
+                                  bottom: Radius.circular(20.0)),
+                            )),
+                        child: InkWell(
+                          child: SizedBox(
+                            child: Column(
+                              children: [
+                                SvgPicture.asset(
+                                  AppIcon.cameraIcon,
+                                  width: 36,
+                                  height: 36,
+                                ),
+                                //  ),
+                              ],
+                            ),
+                          ),
+                          onTap: () {
+                            _askPermission(FileDocumnets.Camera);
+                            Navigator.pop(context);
+                          },
+                        ),
+                      )),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Expanded(
+                          child: Container(
+                        padding: const EdgeInsets.all(20.0),
+                        decoration: const ShapeDecoration(
+                            color: AppColors.lightgreyBackground,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(20.0),
+                                  bottom: Radius.circular(20.0)),
+                            )),
+                        child: InkWell(
+                          child: SizedBox(
+                            child: Column(
+                              children: [
+                                SvgPicture.asset(
+                                  AppIcon.documentsIcon,
+                                  width: 36,
+                                  height: 36,
+                                ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                          onTap: () {
+                            _getDocumentFileslist();
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ))
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )));
         }).then((value) {
       Navigator.pop(context);
     });
