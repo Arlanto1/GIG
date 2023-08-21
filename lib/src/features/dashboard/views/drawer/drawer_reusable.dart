@@ -297,7 +297,7 @@ class navigationDrawer1 extends StatelessWidget {
     }
   }
 
-  List<Widget> _guardingoperationBuildDrawerChildren(
+  List<Widget> _guardingOperationBuildDrawerChildren(
       BuildContext context, DrawerState state) {
     List<Widget> children = [];
 
@@ -327,7 +327,7 @@ class navigationDrawer1 extends StatelessWidget {
                       ? AppColors.navigationSkybluecolor
                       : AppColors.textgreyThemecolor)),
           // selected: i == _lastSelectedItem,
-          onTap: () => _onguardingOperationItemSelected(i, context),
+          onTap: () => _onGuardingOperationItemSelected(i, context),
         ),
       ));
     }
@@ -336,7 +336,7 @@ class navigationDrawer1 extends StatelessWidget {
   }
 
 
-  _onguardingOperationItemSelected(int index, BuildContext context) async {
+  _onGuardingOperationItemSelected(int index, BuildContext context) async {
     _menuscaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     print('_passlastSelectedItem index = $index');
@@ -345,14 +345,13 @@ class navigationDrawer1 extends StatelessWidget {
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassmgmtindexChange(index);
     if (index == 0) {
-      print('pass mangement index1');
       Navigator.pushNamed(context, guardingOperationsRoute,
           arguments: {"Guarding Master Data": true});
     } else if (index == 1) {
       Navigator.pushNamed(context, guardingOperationsRoute,
           arguments: {"Guarding Master Report": false});
     } else if (index == 2) {
-      Navigator.pushNamed(context, guardingOperationsRoute,
+      Navigator.pushNamed(context, guardingRatesRoute,
           arguments: {"Guarding Rates": true});
     } else if (index ==3) {
       Navigator.pushNamed(context, guardingOperationsRoute,
@@ -738,7 +737,7 @@ class navigationDrawer1 extends StatelessWidget {
     if (title == Constants.materialMovement) {
       return _materialMovementBuildDrawerChildren(context, state);
     } else if (title == Constants.guarding) {
-      return _guardingoperationBuildDrawerChildren(context, state);
+      return _guardingOperationBuildDrawerChildren(context, state);
     } else {
       return _passmgmtbuildDrawerChildren(context, state);
     }
