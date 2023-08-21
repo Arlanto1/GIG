@@ -31,6 +31,7 @@ const String materialMovementInwardDetailsRoute = '/materialMovementInwardDetail
 
 
 const String guardingOperationsRoute = '/guardingOperation';
+const String guardingRatesRoute = '/guardingRatesRoute';
 
 
 

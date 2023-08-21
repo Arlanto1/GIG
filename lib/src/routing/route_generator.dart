@@ -8,6 +8,7 @@ import 'package:db_atom/src/features/createfound/views/create_found.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_attachment.dart';
 import 'package:db_atom/src/features/dashboard/views/charts/pie_chart.dart';
 import 'package:db_atom/src/features/dashboard/views/my_home_page.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rate_bloc.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/law_enforcement_list/views/ln_list_page.dart';
 import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.dart';
@@ -19,8 +20,8 @@ import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-//import '../features/guarding_rates/views/guarding_rates_list.dart';
-import '../features/guarding_operation/guarding_rates/views/guarding_rates_list.dart';
+import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/guarding_rate_details.dart';
+import '../features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates.dart';
 import '../features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import '../features/material_movement/material_movement_details/views/material_movement_details.dart';
 import '../features/material_movement/material_movements/bloc/material_movement_bloc.dart';
@@ -39,11 +40,11 @@ class RouteGenerator {
       case appRoute:
         return MaterialPageRoute(builder: (context) => App());
       case homePageRoute:
-        return MaterialPageRoute(builder: (context) => MyHomePage());
+        return MaterialPageRoute(builder: (context) => const MyHomePage());
       case splashScreenRoute:
-        return MaterialPageRoute(builder: (context) => SplashScreen());
+        return MaterialPageRoute(builder: (context) => const SplashScreen());
       case loginScreenRoute:
-        return MaterialPageRoute(builder: (context) => LoginScreen());
+        return MaterialPageRoute(builder: (context) => const LoginScreen());
       case otpVerificationRoute:
         if (settings.arguments != null) {
           final userRoutes = settings.arguments as Map<String, dynamic>;
@@ -93,11 +94,11 @@ class RouteGenerator {
                 ));
 
       case articleFoundListRoute:
-        return MaterialPageRoute(builder: (context) => FoundList());
+        return MaterialPageRoute(builder: (context) => const FoundList());
       case guardingOperationsRoute:
-        return MaterialPageRoute(builder: (context) => GuardingRates());
+        return MaterialPageRoute(builder: (context) => const GuardingRateDetails());
       case createFoundAttachmentRoute:
-        return MaterialPageRoute(builder: (context) => CreateFoundAttachment());
+        return MaterialPageRoute(builder: (context) => const CreateFoundAttachment());
       case piechartRoute:
         return MaterialPageRoute(builder: (context) => PieChartApp());
       case customexpansionlisttextsRoute:
@@ -232,6 +233,19 @@ class RouteGenerator {
                   ),
                 ));
 
+      case guardingRatesRoute:
+        bool isInward = true;
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+        }
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<GuardingRateBloc>(
+              create: (_) => GuardingRateBloc()
+                ..add(const FetchList(startPos: 0, maxPos: 20)),
+              child: const GuardingRates(
+              ),
+            ));
       default:
         return MaterialPageRoute(builder: (context) => App());
     }

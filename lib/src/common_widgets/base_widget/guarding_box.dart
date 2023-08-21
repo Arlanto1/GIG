@@ -17,43 +17,44 @@ class _GuardingRectangleState extends State<GuardingRectangle> {
 
   Widget buildTwoColumnLayout() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             buildRectangleBox(
               imageAsset: 'assets/images/dollar.png',
               text: Constants.guardingRatingInformation,
-              bottomPadding: 8, textStyle: Styles.styleHeaderGreyText16,
+              bottomPadding: 8,
+              textStyle: Styles.styleHeaderGreyText16,
             ),
-            SizedBox(width: 19), // Add some spacing between the boxes
+            const SizedBox(width: 19),
             buildRectangleBox(
               imageAsset: 'assets/images/security.png',
               text: 'Security Guard',
-              bottomPadding: 22, textStyle: Styles.styleHeaderGreyText16,
+              bottomPadding: 22,
+              textStyle: Styles.styleHeaderGreyText16,
             ),
           ],
         ),
-        SizedBox(height: 19), // Add spacing between the columns
+        const SizedBox(height: 19), // Add spacing between the columns
         Row(
           children: [
             buildRectangleBox(
               imageAsset: 'assets/images/security.png',
-              // Add the image asset path
               text: 'Security Supervisor',
               // Add the text
               bottomPadding: 22, textStyle: Styles.styleHeaderGreyText16,
             ),
-            SizedBox(width: 19), // Add some spacing between the boxes
+            const SizedBox(width: 19), // Add some spacing between the boxes
             buildRectangleBox(
               imageAsset: 'assets/images/security.png',
-              // Add the image asset path
               text: 'Security Officer',
-              // Add the text
               bottomPadding: 22, textStyle: Styles.styleHeaderGreyText16,
             ),
           ],
         ),
-        SizedBox(height: 19), // Add spacing between the columns
+        const SizedBox(height: 19),
         Row(
           children: [
             buildRectangleBox(
@@ -62,11 +63,12 @@ class _GuardingRectangleState extends State<GuardingRectangle> {
               textStyle: Styles.styleHeaderGreyText16,
               bottomPadding: 22,
             ),
-            SizedBox(width: 19), // Add some spacing between the boxes
+            const SizedBox(width: 19), // Add some spacing between the boxes
             buildRectangleBox(
               imageAsset: 'assets/images/securityGunMan.png',
               text: 'Gun Man',
-              bottomPadding: 22, textStyle: Styles.styleHeaderGreyText16,
+              bottomPadding: 22,
+              textStyle: Styles.styleHeaderGreyText16,
             ),
           ],
         ),
@@ -74,10 +76,12 @@ class _GuardingRectangleState extends State<GuardingRectangle> {
     );
   }
 
-  Widget buildRectangleBox(
-      {required String imageAsset,
-      required String text,
-      required double bottomPadding, TextStyle? textStyle, }) {
+  Widget buildRectangleBox({
+    required String imageAsset,
+    required String text,
+    required double bottomPadding,
+    TextStyle? textStyle,
+  }) {
     final size = MediaQuery.of(context).size;
 
     return Container(
@@ -91,7 +95,7 @@ class _GuardingRectangleState extends State<GuardingRectangle> {
             color: Colors.blue.withOpacity(0.4),
             spreadRadius: 1.0,
             blurRadius: 4.0,
-            offset: Offset(0, 0),
+            offset: const Offset(0, 0),
           ),
         ],
       ),
