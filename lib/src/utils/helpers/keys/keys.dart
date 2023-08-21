@@ -45,6 +45,7 @@ class Keys {
   static const String returnableKey = 'returnableKey_mmo';
   static const String preparedByKey = 'preparedByKey_mmo';
   static const String preparedByDepartmentKey = 'preparedByKey_mmo';
+  static const String requesterDepartmentKey = 'preparedByKey_mmo';
   static const String approver1EmailKey = 'approver1Email_mmo';
   static const String requesterEmailKey = 'requesterEmail_mmo';
   static const String sentToKey = 'sentToKey_mm';

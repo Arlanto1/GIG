@@ -647,66 +647,59 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           height * 0.01),
 
                                       /// Requester Department
-                                      Column(
-                                        children: [
-                                          CommonWidgets.textDisplay(
-                                            Constants.requestorDepartment,
-                                            Styles.textStyleBlack14,
-                                          ),
-                                          widget.materialMovement == null
-                                              ? TextfieldAddButton(
-                                                  title: state
-                                                      .materialMovement
-                                                      .requestorDepartment
-                                                      ?.name,
-                                                  height: 70,
-                                                  isDisableColor:
-                                                      widget.materialMovement ==
-                                                              null
-                                                          ? false
-                                                          : true,
-                                                  onTap: () {
-                                                    if (widget
-                                                            .materialMovement ==
-                                                        null) {
-                                                      BaseDialog()
-                                                          .departmentDialog(
-                                                        context: context,
-                                                        departments:
-                                                            state.departments,
-                                                        onTap: (BaseUser user) {
-                                                          BlocProvider.of<
-                                                                      MaterialMovementDetailsCubit>(
-                                                                  context)
-                                                              .updateDropdownValues(
-                                                                  user: user);
-                                                        },
-                                                      );
-                                                    }
-                                                  })
-                                              : FlutterInputField(
-                                                  initialValue: state
-                                                      .materialMovement
-                                                      .receiverEmail,
-                                                  textFormKey: Keys
-                                                      .depositorTextController,
-                                                  hintText: '',
-                                                  isEnable: state
-                                                          .materialMovement
-                                                          .status !=
-                                                      6,
-                                                  isDisableColor: state
-                                                          .materialMovement
-                                                          .status ==
-                                                      6,
-                                                  onChange:
-                                                      (String username) {},
-                                                  validateTextField:
-                                                      (String? user) {},
-                                                ),
-                                          CommonWidgets.verticalSpacerWidget(
-                                              height * 0.01),
-                                        ],
+                                      CommonWidgets.textDisplay(
+                                        Constants.requestorDepartment,
+                                        Styles.textStyleBlack14,
+                                      ),
+                                      widget.materialMovement != null
+                                          ? FlutterInputField(
+                                        initialValue: state
+                                            .materialMovement
+                                            .requestorDepartment
+                                            ?.name,
+                                        textFormKey:
+                                        Keys.requesterDepartmentKey,
+                                        hintText: '',
+                                        isEnable: state.materialMovement
+                                            .status !=
+                                            6,
+                                        isDisableColor: state
+                                            .materialMovement
+                                            .status ==
+                                            6,
+                                        onChange: (String value) {},
+                                        validateTextField:
+                                            (String? user) {},
+                                      )
+                                          : TextfieldAddButton(
+                                        title: state.materialMovement
+                                            .requestorDepartment?.name,
+                                        height: 60,
+                                        isDisableColor:
+                                        widget.materialMovement ==
+                                            null
+                                            ? false
+                                            : true,
+                                        onTap: () {
+                                          if (widget.materialMovement ==
+                                              null) {
+                                            BaseDialog().departmentDialog(
+                                              context: context,
+                                              departments:
+                                              state.departments,
+                                              onTap: (Department
+                                              department) {
+                                                BlocProvider.of<
+                                                    MaterialMovementDetailsCubit>(
+                                                    context)
+                                                    .updateDropdownValues(
+                                                    requesterDepartment:
+                                                    department);
+                                              },
+                                            );
+                                            // leodepartmentsDialog(state);
+                                          }
+                                        },
                                       ),
 
                                       /// Sent To
@@ -717,7 +710,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           height * 0.001),
 
                                       FlutterInputField(
-                                        keyboardType: TextInputType.number,
+                                        keyboardType: TextInputType.text,
                                         initialValue:
                                             state.materialMovement.sentTo,
                                         textFormKey: Keys.sentToKey,

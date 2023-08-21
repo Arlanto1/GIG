@@ -127,6 +127,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     BaseUser? approver1EmailUser,
     BaseUser? approver2EmailUser,
     Department? department,
+    Department? requesterDepartment,
     Department? preparedByDepartment,
     Department? approver1Department,
     Department? approver2Department,
@@ -167,6 +168,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
     if (department != null) {
       state.materialMovement.receiverDepartmenttName = department.name;
+    }
+
+    if (requesterDepartment != null) {
+      state.materialMovement.requestorDepartment = requesterDepartment;
     }
     if (preparedByDepartment != null) {
       state.materialMovement.preparedByDepartment =
@@ -256,16 +261,14 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       ),
     );
 
-    // TODO: Need to change inward type from String to int
-    // For Inward the type value should be 1
-
     // Create/Update API Call
     MaterialMovementRequest request =
         MaterialMovementRequest(materialMovement: state.materialMovement);
+
     try {
       MaterialMovementResponse response = MaterialMovementResponse();
       if (isSaveOnly) {
-        await materialMovementServices.createMaterialMovement(
+        response = await materialMovementServices.createMaterialMovement(
             body: request, isSubmit: false);
       } else {
         //Validating Fields
@@ -276,6 +279,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
               message: state.isValid.message,
             ),
           );
+          return;
         }
         response = await materialMovementServices.createMaterialMovement(
             body: request, isSubmit: true);
