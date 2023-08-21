@@ -286,6 +286,8 @@ class Constants {
 
 
   ///Guarding Operations
+  static const String guardingRatingCards = 'Guarding Official Rating Cards';
+  static const String guardingRatingInformation = 'Guarding Rating Information';
   static const String guardingMasterData = 'Guarding Master Data';
   static const String guardingMasterReport = 'Guarding Master Report';
   static const String guardingRate = 'Guarding Rates';

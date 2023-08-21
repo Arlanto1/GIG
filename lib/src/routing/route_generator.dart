@@ -19,6 +19,8 @@ import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+//import '../features/guarding_rates/views/guarding_rates_list.dart';
+import '../features/guarding_operation/guarding_rates/views/guarding_rates_list.dart';
 import '../features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import '../features/material_movement/material_movement_details/views/material_movement_details.dart';
 import '../features/material_movement/material_movements/bloc/material_movement_bloc.dart';
@@ -93,7 +95,7 @@ class RouteGenerator {
       case articleFoundListRoute:
         return MaterialPageRoute(builder: (context) => FoundList());
       case guardingOperationsRoute:
-        return MaterialPageRoute(builder: (context) => MaterialMovements(isInward: true,));
+        return MaterialPageRoute(builder: (context) => GuardingRates());
       case createFoundAttachmentRoute:
         return MaterialPageRoute(builder: (context) => CreateFoundAttachment());
       case piechartRoute:

@@ -1,0 +1,126 @@
+import 'package:flutter/material.dart';
+import 'package:db_atom/src/constants/constants.dart';
+import 'package:flutter_svg/svg.dart';
+
+import '../../constants/app_icon.dart';
+import '../../utils/app_themes/colors/app_color.dart';
+import '../../utils/app_themes/styles/app_styles.dart';
+
+class GuardingRectangle extends StatefulWidget {
+  const GuardingRectangle({Key? key}) : super(key: key);
+
+  @override
+  State<GuardingRectangle> createState() => _GuardingRectangleState();
+}
+
+class _GuardingRectangleState extends State<GuardingRectangle> {
+  @override
+  Widget build(BuildContext context) {
+    return buildTwoColumnLayout();
+  }
+
+  Widget buildTwoColumnLayout() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            buildRectangleBox(
+              imageAsset: 'assets/images/dollar.png',
+              text: Constants.guardingRatingInformation,
+              bottomPadding: 8, textStyle: Styles.styleHeaderGreyText16,
+            ),
+            SizedBox(width: 19), // Add some spacing between the boxes
+            buildRectangleBox(
+              imageAsset: 'assets/images/security.png',
+              text: 'Security Guard',
+              bottomPadding: 22, textStyle: Styles.styleHeaderGreyText16,
+            ),
+          ],
+        ),
+        SizedBox(height: 19), // Add spacing between the columns
+        Row(
+          children: [
+            buildRectangleBox(
+              imageAsset: 'assets/images/security.png',
+              // Add the image asset path
+              text: 'Security Supervisor',
+              // Add the text
+              bottomPadding: 22, textStyle: Styles.styleHeaderGreyText16,
+            ),
+            SizedBox(width: 19), // Add some spacing between the boxes
+            buildRectangleBox(
+              imageAsset: 'assets/images/security.png',
+              // Add the image asset path
+              text: 'Security Officer',
+              // Add the text
+              bottomPadding: 22, textStyle: Styles.styleHeaderGreyText16,
+            ),
+          ],
+        ),
+        SizedBox(height: 19), // Add spacing between the columns
+        Row(
+          children: [
+            buildRectangleBox(
+              imageAsset: 'assets/images/security.png',
+              text: 'Security Facilitator',
+              textStyle: Styles.styleHeaderGreyText16,
+              bottomPadding: 22,
+            ),
+            SizedBox(width: 19), // Add some spacing between the boxes
+            buildRectangleBox(
+              imageAsset: 'assets/images/securityGunMan.png',
+              text: 'Gun Man',
+              bottomPadding: 22, textStyle: Styles.styleHeaderGreyText16,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget buildRectangleBox(
+      {required String imageAsset,
+      required String text,
+      required double bottomPadding, TextStyle? textStyle, }) {
+    final size = MediaQuery.of(context).size;
+
+    return Container(
+      width: size.width * 0.42,
+      height: 160,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.blue.withOpacity(0.4),
+            spreadRadius: 1.0,
+            blurRadius: 4.0,
+            offset: Offset(0, 0),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: Image.asset(
+              imageAsset,
+              width: 69,
+              height: 110,
+            ),
+          ),
+          Positioned(
+            bottom: bottomPadding, // Use the provided bottom padding
+            left: 0,
+            right: 0,
+            child: Text(
+              text,
+              textAlign: TextAlign.center,
+              style: textStyle,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
