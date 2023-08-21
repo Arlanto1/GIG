@@ -24,14 +24,6 @@ class GuardingRatesState extends State<GuardingRates> {
     super.initState();
   }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Placeholder();
-//   }
-// }
-
-  // final width = size.width;
-// class MyHomePage extends StatelessWidget {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -43,11 +35,7 @@ class GuardingRatesState extends State<GuardingRates> {
       appBar: AppHeader(
         isTitleCenter: false,
         title: 'Create Guarding Rates Cards',
-
-        action: [
-                ],
-        // backgroundColor: AppColors.navigationSkybluecolor,
-           backBtn: IconButton(
+        backBtn: IconButton(
              onPressed: () {
                Navigator.pop(context);
              },
