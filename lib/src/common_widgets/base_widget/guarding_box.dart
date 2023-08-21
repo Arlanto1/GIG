@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:flutter_svg/svg.dart';
-
-import '../../constants/app_icon.dart';
-import '../../utils/app_themes/colors/app_color.dart';
 import '../../utils/app_themes/styles/app_styles.dart';
 
 class GuardingRectangle extends StatefulWidget {
