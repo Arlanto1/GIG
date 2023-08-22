@@ -36,15 +36,14 @@ class navigationDrawer1 extends StatelessWidget {
     const DrawerItem1(
         Constants.lawenforcementvisitslist, AppIcon.lawenforcement, 0),
     const DrawerItem1(Constants.eventprotectionlist, AppIcon.tasklist, 0),
-    const DrawerItem1(Constants.materialMovement, AppIcon.materialmovement, 1),
+    const DrawerItem1(Constants.materialMovement, AppIcon.materialMovement, 1),
     const DrawerItem1(Constants.passmanagement, AppIcon.passmanagement, 1),
     const DrawerItem1(Constants.guarding, AppIcon.clipboardImage, 1),
-
   ];
 
   final materialMovementDrawerItems = [
-    const DrawerItem1(Constants.materialMovementInward, AppIcon.settings, 0),
-    const DrawerItem1(Constants.materialMovementOutward, AppIcon.settings, 0),
+    const DrawerItem1(Constants.materialMovementInward, AppIcon.materialMovementInwardIcon, 0),
+    const DrawerItem1(Constants.materialMovementOutward, AppIcon.materialMovementOutwardIcon, 0),
   ];
 
   final guardingOperationDrawerItems = [
@@ -220,13 +219,13 @@ class navigationDrawer1 extends StatelessWidget {
                         // style: Styles.textStyleBlack16,
                       ),
                       leading: SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: Image.asset(AppIcon.passmanagement,
-                              fit: BoxFit.cover,
+                          width: 18,
+                          height: 18,
+                          child: Image.asset(drawerItem.imageName,
+                              fit: BoxFit.fitHeight,
                               color: (i == _opearationslastSelectedItem)
                                   ? AppColors.navigationSkybluecolor
-                                  : const Color.fromRGBO(90, 88, 93, 1))),
+                                  : AppColors.textgreyThemecolor)),
                       childrenPadding: const EdgeInsets.only(left: 20),
                       //children padding
                     children: buildDrawerChildren(context, state, drawerItem.title),
@@ -257,10 +256,10 @@ class navigationDrawer1 extends StatelessWidget {
               width: 20,
               height: 20,
               child: Image.asset(drawerItem.imageName,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.scaleDown,
                   color: (i == _passlastSelectedItem)
                       ? AppColors.navigationSkybluecolor
-                      : AppColors.textgreyThemecolor)),
+                      : AppColors.boldgreyBackground)),
           title: Text(drawerItem.title,
               //style: Styles.textStyleBlack16,
               style: TextStyle(
@@ -270,7 +269,7 @@ class navigationDrawer1 extends StatelessWidget {
                   color: (i == _passlastSelectedItem)
                       ? AppColors.navigationSkybluecolor
                       : AppColors.textgreyThemecolor)),
-          // selected: i == _lastSelectedItem,
+           //selected: i == _lastSelectedItem,
           onTap: () => _onMaterialMovementItemSelected(i, context),
         ),
       ));
@@ -348,8 +347,8 @@ class navigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, guardingOperationsRoute,
           arguments: {"Guarding Master Data": true});
     } else if (index == 1) {
-      Navigator.pushNamed(context, guardingOperationsRoute,
-          arguments: {"Guarding Master Report": false});
+      Navigator.pushNamed(context, guardingMasterReportRoute,
+          arguments: {"Guarding Master Report": true});
     } else if (index == 2) {
       Navigator.pushNamed(context, guardingRatesRoute,
           arguments: {"Guarding Rates": true});
@@ -518,10 +517,11 @@ class navigationDrawer1 extends StatelessWidget {
                       width: 20,
                       height: 20,
                       child: Image.asset(drawerItem.imageName,
-                          fit: BoxFit.cover,
+                          //fit: BoxFit.cover,
                           color: (i == _securityfunfunctionslastSelectedItem)
                               ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor)),
+                              : AppColors.gerylightBackground,
+                      )),
                   title: Text(drawerItem.title,
                       //style: Styles.textStyleBlack16,
                       style: TextStyle(
