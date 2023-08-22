@@ -37,7 +37,7 @@ class Constants {
   static const String version = 'Version';
 
   //Login
-  static const String hintUserName = 'Enter user name';
+  static const String hintUserName = 'Enter username';
   static const String hintPassword = "Enter password";
   static const String hintEmail = "Enter email";
   static const String hintOtp = "Enter Otp";

@@ -112,15 +112,15 @@ class _ForgotPwdWidgetState extends State<ForgotPwdWidget> {
                                   FlutterInputField(
                                     textFieldController: emailTextController,
                                     textFormKey: Keys.userTextField,
-                                    hintText: Constants.hintEmail,
-                                    keyboardType: TextInputType.emailAddress,
+                                    hintText: Constants.hintUserName,
+                                    keyboardType: TextInputType.text,
                                     onChange: (String text) {
                                       this.email = text;
                                       setState(() {});
                                     },
                                     validateTextField: (String? user) {
-                                      if (!Validator.isValidEmail(user)) {
-                                        return Constants.enterValidEmail;
+                                      if (!Validator.isValidUserName(user)) {
+                                        return Constants.enterusername;
                                       }
                                     },
                                   ),
