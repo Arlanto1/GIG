@@ -11,6 +11,7 @@ import 'package:db_atom/src/features/dashboard/views/my_home_page.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/law_enforcement_list/views/ln_list_page.dart';
 import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.dart';
+import 'package:db_atom/src/features/login/views/forgot_pwd_screen.dart';
 import 'package:db_atom/src/features/login/views/login_screen.dart';
 import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
@@ -30,11 +31,13 @@ class RouteGenerator {
       case appRoute:
         return MaterialPageRoute(builder: (context) => App());
       case homePageRoute:
-        return MaterialPageRoute(builder: (context) => MyHomePage());
+        return MaterialPageRoute(builder: (context) => const MyHomePage());
       case splashScreenRoute:
-        return MaterialPageRoute(builder: (context) => SplashScreen());
+        return MaterialPageRoute(builder: (context) => const SplashScreen());
       case loginScreenRoute:
-        return MaterialPageRoute(builder: (context) => LoginScreen());
+        return MaterialPageRoute(builder: (context) => const LoginScreen());
+      case forgotPwdScreenRoute:
+        return MaterialPageRoute(builder: (context) => const ForgotPwdScreen());
       case otpVerificationRoute:
         if (settings.arguments != null) {
           final userRoutes = settings.arguments as Map<String, dynamic>;
@@ -84,9 +87,9 @@ class RouteGenerator {
                 ));
 
       case articleFoundListRoute:
-        return MaterialPageRoute(builder: (context) => FoundList());
+        return MaterialPageRoute(builder: (context) => const FoundList());
       case createFoundAttachmentRoute:
-        return MaterialPageRoute(builder: (context) => CreateFoundAttachment());
+        return MaterialPageRoute(builder: (context) => const CreateFoundAttachment());
       case piechartRoute:
         return MaterialPageRoute(builder: (context) => PieChartApp());
       case customexpansionlisttextsRoute:

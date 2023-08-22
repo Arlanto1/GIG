@@ -15,6 +15,8 @@ class Constants {
   // Validations
   static const String enterusername = 'Please enter valid username';
   static const String enterpassword = 'Please enter valid password';
+  static const String enterValidEmail = 'Please enter valid email';
+
   static const String invalidusername = 'Invalid username';
   static const String logoutvalidation =
       "Are you  sure, do you want to logout?";
@@ -37,6 +39,7 @@ class Constants {
   //Login
   static const String hintUserName = 'Enter user name';
   static const String hintPassword = "Enter password";
+  static const String hintEmail = "Enter email";
   static const String hintOtp = "Enter Otp";
   static const String userError = "Please enter username";
   static const String otpError = "Please enter otp";
@@ -46,7 +49,11 @@ class Constants {
       "Please enter password minimum 6 characters";
   static const String loginButtonTitle = "Login";
   static const String loginVerifyOtpTitle = "Verify";
+  static const String forgotPwd = "Send";
+
   static const String otpVerificationTitle = "OTP Verification";
+  static const String forgotPwdTitle = "Forgot Password";
+
   static const String titleHeaderLogin = "Welcome back, Login!!";
   static const String email = "Email";
   static const String otp = "OTP";

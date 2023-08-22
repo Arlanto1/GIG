@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:db_atom/src/utils/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 import '../../configurations/environment_config.dart';
 import 'refresh_token_response_model.dart';
-import 'package:http/http.dart' as http;
 
 class RefreshTokenService {
   static Future<int> getRefreshToken() async {
@@ -28,13 +28,16 @@ class RefreshTokenService {
           body: parameters);
       if (response.statusCode == 200) {
         try {
-          final refreshTokenData = RefreshTokenResponseModel.fromJson(json.decode(response.body));
+          RefreshTokenResponseModel refreshTokenData =
+              RefreshTokenResponseModel.fromJson(json.decode(response.body));
+          print('refresh token data ${refreshTokenData.token}');
           await SharedPrefs.setToken(refreshTokenData.token ?? '');
           return refreshTokenData.status ?? 200;
         } catch (e) {
           return 449;
         }
       } else {
+        print('refresh token error');
         return 449;
       }
     } on SocketException {

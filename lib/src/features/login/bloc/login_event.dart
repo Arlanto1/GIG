@@ -9,3 +9,9 @@ class LoginVerifyEvent extends LoginEvent {
 
   LoginVerifyEvent({required this.requestModel, required this.isFromLogin});
 }
+
+class ForgotPwdEvent extends LoginEvent {
+  final LoginRequestModel requestModel;
+
+  ForgotPwdEvent({required this.requestModel});
+}
