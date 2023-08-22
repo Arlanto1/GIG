@@ -31,7 +31,7 @@ class AppIcon {
   static const String documentsIcon = 'assets/images/documents.svg';
   static const String securityprotection = 'assets/images/securityprotection.png';
   static const String clipboardImage = 'assets/images/clipboard.png';
-  static const String materialmovement = 'assets/images/materialmovement.png';
+  static const String materialMovement = 'assets/images/materialmovement.png';
   static const String lawenforcement = 'assets/images/lawenforcement.png';
   static const String passmanagement = 'assets/images/passmanagement.png';
   static const String moreicon = 'assets/images/moreicon.svg';
@@ -45,6 +45,7 @@ class AppIcon {
   static const String questionmark = 'assets/images/questionmark.svg';
   static const String download = 'assets/images/download.svg';
   static const String pluscircle = 'assets/images/pluscircle.svg';
-  static const String dollor='assets/images/dollar.png';
-  
+ static const String materialMovementIcon='assets/images/material_movement_icon.png';
+  static const String materialMovementInwardIcon='assets/images/material_movement_inward_icon.png';
+  static const String materialMovementOutwardIcon='assets/images/material_movement_outward_icon.png';
 }
