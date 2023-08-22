@@ -48,4 +48,18 @@ class AppIcon {
  static const String materialMovementIcon='assets/images/material_movement_icon.png';
   static const String materialMovementInwardIcon='assets/images/material_movement_inward_icon.png';
   static const String materialMovementOutwardIcon='assets/images/material_movement_outward_icon.png';
+
+
+
+  static const String daypassmgmticon = 'assets/images/daypassmgmt.png';
+  static const String daypassregicon = 'assets/images/daypassreg.png';
+  static const String segpassregicon = 'assets/images/segpassreg.png';
+  static const String sezpassmgmticon = 'assets/images/sezpassmgmt.png';
+  static const String vendorpassmgmticon = 'assets/images/vendorpassmgmt.png';
+  static const String vendorpassregicon = 'assets/images/vendorpassreg.png';
+  static const String visitorpassmgmticon = 'assets/images/visitorpassmgmt.png';
+  static const String visitorpassregicon = 'assets/images/visitorpassreg.png';
+
+
+
 }
