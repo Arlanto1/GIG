@@ -10,11 +10,11 @@
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
-		ATNZcv/ta3+s3UMHqum0HcO3hL0=
+		j5f95Q8zzZlsHJ6rM1ElduH2k6M=
 		</data>
 		<key>flutter_assets/AssetManifest.smcbin</key>
 		<data>
-		iWOlmBuglnmLUXO5VC5QODxPDP0=
+		0U0XgziU7F1OHQiWlm6QTls1YZI=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -23,6 +23,10 @@
 		<key>flutter_assets/NOTICES.Z</key>
 		<data>
 		tAAixNwAiaI4IevozzHRn6KlsEU=
+		</data>
+		<key>flutter_assets/assets/.DS_Store</key>
+		<data>
+		vKYF8xgwQniXsPg/mIbzI8wUoT8=
 		</data>
 		<key>flutter_assets/assets/fonts/Poppins-Black.ttf</key>
 		<data>
@@ -152,6 +156,18 @@
 		<data>
 		MdZEm8c+x0JwCub07T1oJYXfLjs=
 		</data>
+		<key>flutter_assets/assets/images/daypassmgmt.png</key>
+		<data>
+		UQBEyfkOKnF6I8M2s05ZbJ419Vg=
+		</data>
+		<key>flutter_assets/assets/images/daypassreg.png</key>
+		<data>
+		ue+Lj7tonMm9v0BidWkA6+BMs+4=
+		</data>
+		<key>flutter_assets/assets/images/daypassreg.svg</key>
+		<data>
+		XRAZxAQM0ycsr0EmRI6q9+Ecenk=
+		</data>
 		<key>flutter_assets/assets/images/documents.svg</key>
 		<data>
 		Mh4YsKodaFPWZZQGciHwZaItyI8=
@@ -252,9 +268,17 @@
 		<data>
 		Iph3Mslg+HxBgGPgCgJRux4SnYU=
 		</data>
+		<key>flutter_assets/assets/images/segpassreg.png</key>
+		<data>
+		ue+Lj7tonMm9v0BidWkA6+BMs+4=
+		</data>
 		<key>flutter_assets/assets/images/settings.png</key>
 		<data>
 		w9NkJNnu0zsUoP7eJNAmc3mzM3w=
+		</data>
+		<key>flutter_assets/assets/images/sezpassmgmt.png</key>
+		<data>
+		gsUqajyIDALbSsiPnmDU5868PIs=
 		</data>
 		<key>flutter_assets/assets/images/task-list.png</key>
 		<data>
@@ -268,9 +292,25 @@
 		<data>
 		vevRjvLKNo3lQV8MXPpXRkI12BQ=
 		</data>
+		<key>flutter_assets/assets/images/vendorpassmgmt.png</key>
+		<data>
+		dfE4Tva0YIOiyly+4EqwTnMK3Gc=
+		</data>
+		<key>flutter_assets/assets/images/vendorpassreg.png</key>
+		<data>
+		ue+Lj7tonMm9v0BidWkA6+BMs+4=
+		</data>
 		<key>flutter_assets/assets/images/viewicon.svg</key>
 		<data>
 		MTZB8Mua7Q2m0H/UXvlgjpZiLo0=
+		</data>
+		<key>flutter_assets/assets/images/visitorpassmgmt.png</key>
+		<data>
+		fsxNsRJScK5YBtU8+bhHXWC76NE=
+		</data>
+		<key>flutter_assets/assets/images/visitorpassreg.png</key>
+		<data>
+		ue+Lj7tonMm9v0BidWkA6+BMs+4=
 		</data>
 		<key>flutter_assets/assets/splash.png</key>
 		<data>
@@ -290,7 +330,7 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		BU6TND7AjRKyf9ZR+kyqSvibEl4=
+		By+1pXwApkWUDWq0fh/kRf/tBJk=
 		</data>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -311,14 +351,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Zj0uPcqQfqQY7oHeO+DjFZPeW/VsjgGb2xBesgJHlZQ=
+			8Az3BqvEY16jREQFp61il5dWEqkmBLT5F33g4X1BhCg=
 			</data>
 		</dict>
 		<key>flutter_assets/AssetManifest.smcbin</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			gD4UuTombK6H3ffYcVAowUS68ighVPhjbcCU7n82Amg=
+			+xnFnUOkVUHCYFKECdJ7+BDEDlKtb3PFqwaWIqk6kKI=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -559,6 +599,27 @@
 			daE0qJ1TNDUFz54Fov6Jmc4g1mbur87P9uOcnXKfEmk=
 			</data>
 		</dict>
+		<key>flutter_assets/assets/images/daypassmgmt.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			nT0U9mOQetDMK5yI0pbsovkgG0tDbuDIv1rDfqCxp+k=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/images/daypassreg.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+p5nBuj0v94QjZoWzPas9gsN8CBvgh4FUiBoFH3foTo=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/images/daypassreg.svg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ow2EwvIiU5xxu5yOaky8LCWEdJsnLpBCXekFnHAccJs=
+			</data>
+		</dict>
 		<key>flutter_assets/assets/images/documents.svg</key>
 		<dict>
 			<key>hash2</key>
@@ -734,11 +795,25 @@
 			dVCCTVjUE30g8CYu0RLue6pshJfAu2fT+CHqMRsycG0=
 			</data>
 		</dict>
+		<key>flutter_assets/assets/images/segpassreg.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+p5nBuj0v94QjZoWzPas9gsN8CBvgh4FUiBoFH3foTo=
+			</data>
+		</dict>
 		<key>flutter_assets/assets/images/settings.png</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			+1F9KqhbVCOThuwMjU90YEkI3CIfeBSsGCVbv51HawY=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/images/sezpassmgmt.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			rtsaoXIJ93WEe7dUaqT3QV4GPh0f3NNBHsE/v+FN6w4=
 			</data>
 		</dict>
 		<key>flutter_assets/assets/images/task-list.png</key>
@@ -762,11 +837,39 @@
 			/DKr754ybmhG0uCr2guueuQOWFfw3CtT6g4K9IDshgg=
 			</data>
 		</dict>
+		<key>flutter_assets/assets/images/vendorpassmgmt.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			tp7LpLGIU8vkjMA60viwzOdqQUTXlW7cQF0gRyEOdp8=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/images/vendorpassreg.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+p5nBuj0v94QjZoWzPas9gsN8CBvgh4FUiBoFH3foTo=
+			</data>
+		</dict>
 		<key>flutter_assets/assets/images/viewicon.svg</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			4MCdk8QVpNngel+HLgcuEPiTSXr16lGuG1v6JZF5FlY=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/images/visitorpassmgmt.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			tQBfwUVr2QGv6clbu6m8d/oCWxWcanPwANF5ppeJUmY=
+			</data>
+		</dict>
+		<key>flutter_assets/assets/images/visitorpassreg.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+p5nBuj0v94QjZoWzPas9gsN8CBvgh4FUiBoFH3foTo=
 			</data>
 		</dict>
 		<key>flutter_assets/assets/splash.png</key>
@@ -801,7 +904,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			aqZTlHG94zl/t61A/7A9hoJPWepvqiRbxlTLaPLJ2qI=
+			0tHktOXhxXRd9L6HwgwuKqdrsPG5GeOk49VfEuBkI1w=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
