@@ -1,17 +1,17 @@
 part of 'guarding_rate_bloc.dart';
 
  class GuardingRateState extends Equatable {
-   final List<MaterialMovementModel> items;
+   final List<GMRate> items;
    final bool hasReachedMax;
    final LawEnforcementListStateType status;
 
    const GuardingRateState(
-       {this.items = const <MaterialMovementModel>[],
+       {this.items = const <GMRate>[],
          this.hasReachedMax = false,
          this.status = LawEnforcementListStateType.initial});
 
    GuardingRateState copyWith({
-     List<MaterialMovementModel>? items,
+     List<GMRate>? items,
      bool? hasReachedMax,
      LawEnforcementListStateType? status,
    }) {

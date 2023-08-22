@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:db_atom/src/constants/constants.dart';
+import '../../routing/router.dart';
 import '../../utils/app_themes/styles/app_styles.dart';
 
 class GuardingRectangle extends StatefulWidget {
@@ -22,37 +23,62 @@ class _GuardingRectangleState extends State<GuardingRectangle> {
       children: [
         Row(
           children: [
-            buildRectangleBox(
-              imageAsset: 'assets/images/dollar.png',
-              text: Constants.guardingRatingInformation,
-              bottomPadding: 8,
-              textStyle: Styles.styleHeaderGreyText16,
+            InkWell(
+              onTap: (){
+                Navigator.pushNamed(context, guardingRatesGRIRoute,
+                    arguments: {
+                      "title": Constants.createGuardingRatingCards,
+
+                    });
+              },
+              child: buildRectangleBox(
+                imageAsset: 'assets/images/dollar.png',
+                text: Constants.guardingRatingInformation,
+                bottomPadding: 8,
+              ),
             ),
             const SizedBox(width: 19),
-            buildRectangleBox(
-              imageAsset: 'assets/images/security.png',
-              text: 'Security Guard',
-              bottomPadding: 22,
-              textStyle: Styles.styleHeaderGreyText16,
+            InkWell(
+              onTap: (){
+                Navigator.pushNamed(context, guardingRatesSSRoute,
+                    arguments: {
+                      "title": Constants.createSecurityGuard,
+
+                    });
+              },
+              child: buildRectangleBox(
+                imageAsset: 'assets/images/security.png',
+                text: 'Security Guard',
+                bottomPadding: 22,
+              ),
             ),
           ],
         ),
         const SizedBox(height: 19), // Add spacing between the columns
-        Row(
-          children: [
-            buildRectangleBox(
-              imageAsset: 'assets/images/security.png',
-              text: 'Security Supervisor',
-              // Add the text
-              bottomPadding: 22, textStyle: Styles.styleHeaderGreyText16,
-            ),
-            const SizedBox(width: 19), // Add some spacing between the boxes
-            buildRectangleBox(
-              imageAsset: 'assets/images/security.png',
-              text: 'Security Officer',
-              bottomPadding: 22, textStyle: Styles.styleHeaderGreyText16,
-            ),
-          ],
+        InkWell(
+          onTap: (){
+            Navigator.pushNamed(context, guardingRatesSSRoute,
+                arguments: {
+                  "title": Constants.createGuardingRatingCards,
+
+                });
+          },
+          child: Row(
+            children: [
+              buildRectangleBox(
+                imageAsset: 'assets/images/security.png',
+                text: 'Security Supervisor',
+                // Add the text
+                bottomPadding: 22,
+              ),
+              const SizedBox(width: 19), // Add some spacing between the boxes
+              buildRectangleBox(
+                imageAsset: 'assets/images/security.png',
+                text: 'Security Officer',
+                bottomPadding: 22,
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 19),
         Row(
@@ -60,7 +86,6 @@ class _GuardingRectangleState extends State<GuardingRectangle> {
             buildRectangleBox(
               imageAsset: 'assets/images/security.png',
               text: 'Security Facilitator',
-              textStyle: Styles.styleHeaderGreyText16,
               bottomPadding: 22,
             ),
             const SizedBox(width: 19), // Add some spacing between the boxes
@@ -68,7 +93,6 @@ class _GuardingRectangleState extends State<GuardingRectangle> {
               imageAsset: 'assets/images/securityGunMan.png',
               text: 'Gun Man',
               bottomPadding: 22,
-              textStyle: Styles.styleHeaderGreyText16,
             ),
           ],
         ),
@@ -80,7 +104,6 @@ class _GuardingRectangleState extends State<GuardingRectangle> {
     required String imageAsset,
     required String text,
     required double bottomPadding,
-    TextStyle? textStyle,
   }) {
     final size = MediaQuery.of(context).size;
 
@@ -116,7 +139,7 @@ class _GuardingRectangleState extends State<GuardingRectangle> {
             child: Text(
               text,
               textAlign: TextAlign.center,
-              style: textStyle,
+              style: Styles.styleHeaderGreyText16,
             ),
           ),
         ],

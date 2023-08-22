@@ -5,8 +5,8 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../law_enforcement_list/controllers/law_enforcement_list_state.dart';
-import '../../../../material_movement/models/material_movements_model.dart';
-import '../../../../material_movement/services/material_movement_services.dart';
+import '../../models/rates_response.dart';
+import '../../services/guarding_services.dart';
 
 part 'guarding_rate_event.dart';
 part 'guarding_rate_state.dart';
@@ -21,8 +21,8 @@ class GuardingRateBloc extends Bloc<GuardingRateEvent, GuardingRateState> {
     );
   }
 
-  final MaterialMovementServices _materialMovementServices =
-  MaterialMovementServices();
+  final GuardingServices _materialMovementServices =
+  GuardingServices();
 
   FutureOr<void> _fetchMaterialMovements(
       FetchList event, Emitter<GuardingRateState> emit) async {
@@ -30,7 +30,7 @@ class GuardingRateBloc extends Bloc<GuardingRateEvent, GuardingRateState> {
       if (state.hasReachedMax) return;
 
       if (state.status == LawEnforcementListStateType.initial) {
-        MaterialMovementsModel getMaterialMovements =
+        RatesResponse getMaterialMovements =
         await _materialMovementServices.getMaterialMovements(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
@@ -47,7 +47,7 @@ class GuardingRateBloc extends Bloc<GuardingRateEvent, GuardingRateState> {
         );
       }
 
-      MaterialMovementsModel getMaterialMovements =
+      RatesResponse getMaterialMovements =
       await _materialMovementServices.getMaterialMovements(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',

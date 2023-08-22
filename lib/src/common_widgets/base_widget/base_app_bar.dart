@@ -15,6 +15,8 @@ class BaseAppBar {
     required bool showPopUp,
     required bool showSaveButton,
     Function? onTapSave,
+    bool? showAddButton,
+    Function? onTapAddButton,
   }) {
     return AppHeader(
       isTitleCenter: false,
@@ -61,7 +63,20 @@ class BaseAppBar {
               ),
             ),
           )
-        ]
+        ],
+        if (showAddButton ?? false) ...[
+          GestureDetector(
+            onTap: () {
+              onTapAddButton!();
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: SvgPicture.asset(
+                AppIcon.addicon,
+              ),
+            ),
+          )
+        ],
       ],
     );
   }

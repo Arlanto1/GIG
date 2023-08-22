@@ -64,10 +64,9 @@ class _GuardingRatesState
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
-            Navigator.pushNamed(context, materialMovementInwardDetailsRoute,
+            Navigator.pushNamed(context, guardingRateDetailsRoute,
                 arguments: {
-                  "isCreate": true,
-                  "title": Constants.materialMovementOutwardCreate,
+                  "title": Constants.createGuardingRatingCards,
 
                 })
           },
@@ -106,9 +105,9 @@ class _GuardingRatesState
                         : BaseListTileItem(
                       id: state.items[index].id,
                       inputDate: state.items[index].inputDate,
-                      location: state.items[index].location,
-                      locationRegion: state.items[index].locationRegion,
-                      status: state.items[index].status,
+                      // location: state.items[index].location,
+                      // locationRegion: state.items[index].locationRegion,
+                      // status: state.items[index].status,
                       onTap: (selectedIndex) {
                         showDialog(
                           context: context,
@@ -129,21 +128,21 @@ class _GuardingRatesState
                             return BasePopUpItems(
                               id: state.items[selectedIndex].id.toString(),
                               inputDate: state.items[selectedIndex].inputDate,
-                              location: state.items[selectedIndex].location,
-                              returnable:
-                              state.items[selectedIndex].returnable,
-                              quantity: state.items[selectedIndex].quantity
-                                  .toString(),
-                              challanNo: state.items[selectedIndex].challanNo,
-                              locationRegion:
-                              state.items[selectedIndex].locationRegion,
+                              // location: state.items[selectedIndex].location,
+                              // returnable:
+                              // state.items[selectedIndex].returnable,
+                              // quantity: state.items[selectedIndex].quantity
+                              //     .toString(),
+                              // challanNo: state.items[selectedIndex].challanNo,
+                              // locationRegion:
+                              // state.items[selectedIndex].locationRegion,
                               //  securityName: state
                               //       .items[selectedIndex].entrySecurityName,
                               slNo: state.items[selectedIndex].slNo,
-                              status: state.items[selectedIndex].status
-                                  .toString(),
-                              entrySecurityName: state
-                                  .items[selectedIndex].entrySecurityName,
+                              // status: state.items[selectedIndex].status
+                              //     .toString(),
+                              // entrySecurityName: state
+                              //     .items[selectedIndex].entrySecurityName,
                             );
                           },
                         );
@@ -170,7 +169,7 @@ class _GuardingRatesState
     if (materialMovementModel != null) {
       Navigator.pushNamed(context, materialMovementInwardDetailsRoute,
           arguments: {
-            "MaterialMovementModel": materialMovementModel,
+            "model": materialMovementModel,
             "title": Constants.materialMovementOutwardEdit,
           });
     }

@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 
 
 class GuardingRateDetails extends StatefulWidget {
-  const GuardingRateDetails({super.key});
+  final String title;
+  const GuardingRateDetails({super.key, required this.title});
 
   @override
   State<GuardingRateDetails> createState() => GuardingRateDetailsState();
@@ -33,7 +34,7 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
       drawer: navigationDrawer1(scaffoldKey),
       appBar: BaseAppBar().buildAppHeader(
         context: context,
-        title: Constants.createGuardingRatingCards,
+        title: widget.title,
         showPopUp: false,
         showSaveButton: false,
       ),

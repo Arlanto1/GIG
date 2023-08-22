@@ -208,7 +208,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                                     // height : 150,
                                                     _image!)
                                                 : Image.asset(
-                                                    AppIcon.materialmovement,
+                                                    AppIcon.materialMovement,
                                                     width: width - 40,
                                                     height: 150,
                                                   ),

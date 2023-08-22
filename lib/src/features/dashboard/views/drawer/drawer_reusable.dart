@@ -344,7 +344,7 @@ class navigationDrawer1 extends StatelessWidget {
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassmgmtindexChange(index);
     if (index == 0) {
-      Navigator.pushNamed(context, guardingOperationsRoute,
+      Navigator.pushNamed(context, guardingRateDetailsRoute,
           arguments: {"Guarding Master Data": true});
     } else if (index == 1) {
       Navigator.pushNamed(context, guardingMasterReportRoute,
@@ -353,13 +353,13 @@ class navigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, guardingRatesRoute,
           arguments: {"Guarding Rates": true});
     } else if (index ==3) {
-      Navigator.pushNamed(context, guardingOperationsRoute,
+      Navigator.pushNamed(context, guardingRateDetailsRoute,
           arguments: {"Female Drop PickUp": false});
     } else if (index == 4) {
-      Navigator.pushNamed(context, guardingOperationsRoute,
+      Navigator.pushNamed(context, guardingRateDetailsRoute,
           arguments: {"Key Management List": true});
     } else if (index ==5) {
-      Navigator.pushNamed(context, guardingOperationsRoute,
+      Navigator.pushNamed(context, guardingRateDetailsRoute,
           arguments: {"Occurrence": false});
     }
   }

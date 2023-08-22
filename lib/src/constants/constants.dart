@@ -296,4 +296,18 @@ class Constants {
   static const String femaleDropPickUp = 'Female Drop PickUp';
   static const String keyManagementList = 'Key Management List';
   static const String occurrence = 'Occurrence';
+
+  static const String vendor = 'Vendor';
+  static const String previous = 'Previous';
+  static const String next = "Next";
+  static const String createSecurityGuard = 'Create Security Guard';
+  static const String addSecurityGuard = 'Security Guard';
+
+  static const String monthlyCost = 'Monthly Cost';
+  static const String days = 'Days';
+  static const String perHour = 'Per Hour';
+  static const String fromDate = 'From Date';
+  static const String toDate = 'To Date';
+
+
 }
