@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
@@ -17,9 +19,15 @@ class GuardingServices {
   }) async {
     String url =
         '${Apis._getRates}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId';
+
+    log('--url----$url-');
+
     final response = await BaseApiService().getRequest(
       url: url,
     );
+
+    log('--response----$response-');
+
     return RatesResponse.fromJson(response);
   }
 

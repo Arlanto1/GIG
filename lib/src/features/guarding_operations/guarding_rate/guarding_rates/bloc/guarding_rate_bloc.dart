@@ -10,20 +10,18 @@ import '../../models/rates_response.dart';
 import '../../services/guarding_services.dart';
 
 part 'guarding_rate_event.dart';
+
 part 'guarding_rate_state.dart';
 
 class GuardingRateBloc extends Bloc<GuardingRateEvent, GuardingRateState> {
-
-  GuardingRateBloc()
-      : super(const GuardingRateState()) {
+  GuardingRateBloc() : super(const GuardingRateState()) {
     on<FetchList>(
       _fetchList,
       transformer: droppable(),
     );
   }
 
-  final GuardingServices _materialMovementServices =
-  GuardingServices();
+  final GuardingServices _services = GuardingServices();
 
   FutureOr<void> _fetchList(
       FetchList event, Emitter<GuardingRateState> emit) async {
@@ -33,18 +31,18 @@ class GuardingRateBloc extends Bloc<GuardingRateEvent, GuardingRateState> {
       log('----_fetchList----');
 
       if (state.status == LawEnforcementListStateType.initial) {
-        RatesResponse getMaterialMovements =
-        await _materialMovementServices.getRates(
+        RatesResponse response =
+            await _services.getRates(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '77',
         );
 
-        log('-getMaterialMovements----1-----$getMaterialMovements----');
+        log('-response----1-----$response----');
 
         return emit(
           state.copyWith(
-            items: getMaterialMovements.items,
+            items: response.items,
             hasReachedMax: false,
             status: LawEnforcementListStateType.success,
           ),
@@ -53,10 +51,10 @@ class GuardingRateBloc extends Bloc<GuardingRateEvent, GuardingRateState> {
       log('----_fetchList--22--');
 
       RatesResponse getMaterialMovements =
-      await _materialMovementServices.getRates(
+          await _services.getRates(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '77',   //TODO: make it dynamic
+        userId: '77', //TODO: make it dynamic
       );
 
       log('-getMaterialMovements----2-----$getMaterialMovements----');

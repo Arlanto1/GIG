@@ -3,9 +3,9 @@ import '../../../material_movement/models/material_movements_model.dart';
 
 class RatesResponse {
   List<GMRate>? items;
-  int? totalCount;
-  int? currentPageNo;
-  int? totalPageCount;
+  num? totalCount;
+  num? currentPageNo;
+  num? totalPageCount;
 
   RatesResponse({
     this.items,
@@ -16,9 +16,9 @@ class RatesResponse {
 
   RatesResponse.fromJson(Map<String, dynamic> json)
       : items = (json['data'] as List?)?.map((dynamic e) => GMRate.fromJson(e as Map<String,dynamic>)).toList(),
-        totalCount = json['totalCount'] as int?,
-        currentPageNo = json['currentPageNo'] as int?,
-        totalPageCount = json['totalPageCount'] as int?;
+        totalCount = json['totalCount'] as num?,
+        currentPageNo = json['currentPageNo'] as num?,
+        totalPageCount = json['totalPageCount'] as num?;
 
   Map<String, dynamic> toJson() => {
     'data' : items?.map((e) => e.toJson()).toList(),
@@ -36,7 +36,7 @@ class GMRate {
   EntrySecurity? entrySecurity;
   List<dynamic>? entities;
   String? inputDate;
-  int? modifiedDate;
+  num? modifiedDate;
   String? modifiedBy;
   Department? vendor;
   List<PayRate>? securityGuardRates;
@@ -73,7 +73,7 @@ class GMRate {
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? EntrySecurity.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         entities = json['entities'] as List?,
         inputDate = json['inputDate'] as String?,
-        modifiedDate = json['modifiedDate'] as int?,
+        modifiedDate = json['modifiedDate'] as num?,
         modifiedBy = json['modifiedBy'] as String?,
         vendor = (json['vendor'] as Map<String,dynamic>?) != null ? Department.fromJson(json['vendor'] as Map<String,dynamic>) : null,
         securityGuardRates = (json['securityGuardRates'] as List?)?.map((dynamic e) => PayRate.fromJson(e as Map<String,dynamic>)).toList(),
@@ -106,7 +106,7 @@ class GMRate {
 
 
 class EntrySecurity {
-  int? userId;
+  num? userId;
   String? userName;
   String? email;
   String? firstName;
@@ -135,7 +135,7 @@ class EntrySecurity {
   });
 
   EntrySecurity.fromJson(Map<String, dynamic> json)
-      : userId = json['userId'] as int?,
+      : userId = json['userId'] as num?,
         userName = json['userName'] as String?,
         email = json['email'] as String?,
         firstName = json['firstName'] as String?,
@@ -165,7 +165,7 @@ class EntrySecurity {
 }
 
 class Roles {
-  int? roleId;
+  num? roleId;
   String? application;
   String? roleName;
   List<RoleExtensions>? roleExtensions;
@@ -180,7 +180,7 @@ class Roles {
   });
 
   Roles.fromJson(Map<String, dynamic> json)
-      : roleId = json['roleId'] as int?,
+      : roleId = json['roleId'] as num?,
         application = json['application'] as String?,
         roleName = json['roleName'] as String?,
         roleExtensions = (json['roleExtensions'] as List?)?.map((dynamic e) => RoleExtensions.fromJson(e as Map<String,dynamic>)).toList(),
@@ -196,8 +196,8 @@ class Roles {
 }
 
 class RoleExtensions {
-  int? roleExtensionId;
-  int? roleId;
+  num? roleExtensionId;
+  num? roleId;
   String? displayName;
   String? area;
   String? filter;
@@ -217,8 +217,8 @@ class RoleExtensions {
   });
 
   RoleExtensions.fromJson(Map<String, dynamic> json)
-      : roleExtensionId = json['roleExtensionId'] as int?,
-        roleId = json['roleId'] as int?,
+      : roleExtensionId = json['roleExtensionId'] as num?,
+        roleId = json['roleId'] as num?,
         displayName = json['displayName'] as String?,
         area = json['area'] as String?,
         filter = json['filter'] as String?,
@@ -243,11 +243,11 @@ class RoleExtensions {
 
 class PayRate {
   int? id;
-  int? rankId;
+  num? rankId;
   Department? vendor;
   double? days;
   double? perHour;
-  int? total;
+  num? total;
   String? fromDate;
   String? toDate;
   String? comment;
@@ -266,11 +266,11 @@ class PayRate {
 
   PayRate.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
-        rankId = json['rankId'] as int?,
+        rankId = json['rankId'] as num?,
         vendor = (json['vendor'] as Map<String,dynamic>?) != null ? Department.fromJson(json['vendor'] as Map<String,dynamic>) : null,
         days = json['days'] as double?,
         perHour = json['perHour'] as double?,
-        total = json['total'] as int?,
+        total = json['total'] as num?,
         fromDate = json['fromDate'] as String?,
         toDate = json['toDate'] as String?,
         comment = json['comment'] as String?;
