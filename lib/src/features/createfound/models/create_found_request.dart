@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import '../../../models/entry_security.dart';
+
 CreateFoundRequestBody foundListArticleDetailsFromJson(String str) =>
     CreateFoundRequestBody.fromJson(json.decode(str));
 
@@ -285,22 +287,6 @@ class Depositor {
         "email": email,
         "firstName": firstName,
         "lastName": lastName,
-      };
-}
-
-class EntrySecurity {
-  int? userId;
-
-  EntrySecurity({
-    this.userId,
-  });
-
-  factory EntrySecurity.fromJson(Map<String, dynamic> json) => EntrySecurity(
-        userId: json["userId"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "userId": userId,
       };
 }
 

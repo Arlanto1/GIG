@@ -20,6 +20,7 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
@@ -36,6 +37,7 @@ import 'package:intl/intl.dart';
 import '../../../../../common_widgets/date_time_picker.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
+import '../../../../../models/entry_security.dart';
 
 class RatesInfo extends StatefulWidget {
   final MaterialMovementModel? materialMovement;
@@ -97,8 +99,8 @@ class _RatesInfoState extends State<RatesInfo> {
           ],
         ),
         backgroundColor: AppColors.backgroundWhitecolor,
-        body: BlocConsumer<MaterialMovementDetailsCubit,
-            MaterialMovementDetailsState>(
+        body: BlocConsumer<PayRateCubit,
+            PayRateState>(
           listener: (context, state) {
             if (state.status == FormStatus.success) {
               Utils.dynamicAlert(
@@ -113,26 +115,15 @@ class _RatesInfoState extends State<RatesInfo> {
             }
           },
           builder: (context, state) {
-            returnableTextController.text = state.materialMovement.returnable!
-                ? 'Returnable'
-                : 'Non Returnable';
 
-            log('--builder---${state.materialMovement.returnable}------');
             if (state.status == FormStatus.loading) {
               return const Center(child: CircularProgressIndicator());
             }
             log('--status-2-builder--${state.status}----');
 
-            if (state.status == FormStatus.addAttachment ||
-                state.status == FormStatus.initial) {
-              log('---getAttachments----builder----${getAttachments?.length}-----');
-              getFiles = state.loadAttachments ?? [];
-              log('---getFiles----builder----${getFiles?.length}-----');
-            }
 
-            if (state.materialMovement.status == 2) {
-              isDisabled = false;
-            }
+            log('-slno- ${state.rate.slNo}---');
+
             return Container(
               color: AppColors.navigationSkybluecolor,
               child: SingleChildScrollView(
@@ -150,9 +141,9 @@ class _RatesInfoState extends State<RatesInfo> {
                         )),
                     child: Form(
                       key: _formKey,
-                      autovalidateMode: state.materialMovement.status == 6
-                          ? AutovalidateMode.disabled
-                          : AutovalidateMode.onUserInteraction,
+                      // autovalidateMode: state.rate.status == 6
+                      //     ? AutovalidateMode.disabled
+                      //     : AutovalidateMode.onUserInteraction,
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -199,14 +190,14 @@ class _RatesInfoState extends State<RatesInfo> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 datecreateWidgetdisplay(
-                                    state.materialMovement.inputDate ?? ''),
+                                    state.rate.inputDate ?? ''),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
                                 /// Sl No.
                                 CommonWidgets.horizentaltextHandling(
                                     Constants.slno,
-                                    state.materialMovement.slNo ?? ''),
+                                    state.rate.slNo ?? ''),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -215,46 +206,46 @@ class _RatesInfoState extends State<RatesInfo> {
                                   Constants.entity,
                                   Styles.textStyleBlack14,
                                 ),
-                                widget.materialMovement != null
-                                    ? FlutterInputField(
-                                        initialValue: state.materialMovement
-                                            .preparedByDepartment?.name,
-                                        textFormKey:
-                                            Keys.preparedByDepartmentKey,
-                                        hintText: '',
-                                        isEnable:
-                                            state.materialMovement.status != 6,
-                                        isDisableColor:
-                                            state.materialMovement.status == 6,
-                                        onChange: (String value) {},
-                                        validateTextField: (String? user) {},
-                                      )
-                                    : TextfieldAddButton(
-                                        title: state.materialMovement
-                                            .preparedByDepartment?.name,
-                                        height: 60,
-                                        isDisableColor:
-                                            widget.materialMovement == null
-                                                ? false
-                                                : true,
-                                        onTap: () {
-                                          if (widget.materialMovement == null) {
-                                            BaseDialog().departmentDialog(
-                                              context: context,
-                                              departments: state.departments,
-                                              onTap: (Department department) {
-                                                BlocProvider.of<
-                                                            MaterialMovementDetailsCubit>(
-                                                        context)
-                                                    .updateDropdownValues(
-                                                        preparedByDepartment:
-                                                            department);
-                                              },
-                                            );
-                                            // leodepartmentsDialog(state);
-                                          }
-                                        },
-                                      ),
+                                // widget.materialMovement != null
+                                    // ? FlutterInputField(
+                                    //     initialValue: state.rate
+                                    //         .entities?.name,
+                                    //     textFormKey:
+                                    //         Keys.preparedByDepartmentKey,
+                                    //     hintText: '',
+                                    //     isEnable:
+                                    //         true,
+                                    //     isDisableColor:
+                                    //         false,
+                                    //     onChange: (String value) {},
+                                    //     validateTextField: (String? user) {},
+                                    //   )
+                                    // : TextfieldAddButton(
+                                    //     title: state.rate
+                                    //         .entities?.name,
+                                    //     height: 60,
+                                    //     isDisableColor:
+                                    //         widget.materialMovement == null
+                                    //             ? false
+                                    //             : true,
+                                    //     onTap: () {
+                                    //       if (widget.materialMovement == null) {
+                                    //         BaseDialog().departmentDialog(
+                                    //           context: context,
+                                    //           departments: state.departments,
+                                    //           onTap: (Department department) {
+                                    //             BlocProvider.of<
+                                    //                         MaterialMovementDetailsCubit>(
+                                    //                     context)
+                                    //                 .updateDropdownValues(
+                                    //                     preparedByDepartment:
+                                    //                         department);
+                                    //           },
+                                    //         );
+                                    //         // leodepartmentsDialog(state);
+                                    //       }
+                                    //     },
+                                    //   ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -265,21 +256,21 @@ class _RatesInfoState extends State<RatesInfo> {
                                 ),
                                 widget.materialMovement != null
                                     ? FlutterInputField(
-                                        initialValue: state.materialMovement
-                                            .preparedByDepartment?.name,
+                                        initialValue: state.rate
+                                            .vendor?.name,
                                         textFormKey:
                                             Keys.preparedByDepartmentKey,
                                         hintText: '',
                                         isEnable:
-                                            state.materialMovement.status != 6,
+                                            true,
                                         isDisableColor:
-                                            state.materialMovement.status == 6,
+                                            false,
                                         onChange: (String value) {},
                                         validateTextField: (String? user) {},
                                       )
                                     : TextfieldAddButton(
-                                        title: state.materialMovement
-                                            .preparedByDepartment?.name,
+                                        title: state.rate
+                                            .vendor?.name,
                                         height: 60,
                                         isDisableColor:
                                             widget.materialMovement == null
@@ -512,7 +503,7 @@ class _RatesInfoState extends State<RatesInfo> {
                         builder: (BuildContext dialogContext) {
                           return UploadAttachment(
                             userdetails:
-                                state.loggedInUserDetails ?? GetUserDetails(),
+                                state.loggedInUserDetails ?? EntrySecurity(),
                             getFiles: getFiles ?? [],
                             inwardState: state,
                             onImageSelected: (CreateImage data) {
@@ -579,11 +570,11 @@ class _RatesInfoState extends State<RatesInfo> {
         : attachmentListviews(getFiles, getAttachments);
   }
 
-  Widget locationWidgetdislay(MaterialMovementDetailsState state) {
+  Widget locationWidgetdislay(PayRateState state) {
     return GestureDetector(
       onTap: () {
         if (widget.materialMovement == null ||
-            (state.materialMovement.location?.name ?? '').isEmpty) {
+            (state.rate.location?.name ?? '').isEmpty) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
@@ -596,9 +587,9 @@ class _RatesInfoState extends State<RatesInfo> {
                   Location location = Location();
                   location.id = list?.id;
                   location.name = list?.name;
-                  state.materialMovement.location = location;
+                  state.rate.location = location;
 
-                  BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                  BlocProvider.of<PayRateCubit>(context)
                       .updateDropdownValues(location: location);
 
                   // state.copyWith(
@@ -622,7 +613,7 @@ class _RatesInfoState extends State<RatesInfo> {
         }
       },
       child: SelectedTileValueWidget(
-          name: state.materialMovement.location?.name ?? ''),
+          name: state.rate.location?.name ?? ''),
     );
   }
 

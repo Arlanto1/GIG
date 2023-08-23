@@ -33,6 +33,8 @@ import 'package:mime/mime.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:file_picker/file_picker.dart';
 
+import '../../../models/entry_security.dart';
+
 enum FileDocumnets { Photo, Camera, Documents }
 
 class UploadAttachment extends StatefulWidget {
@@ -48,7 +50,7 @@ class UploadAttachment extends StatefulWidget {
         this.onImageSelected,
       });
 
-  GetUserDetails? userdetails;
+  EntrySecurity? userdetails;
   List<CreateImage>? getFiles;
   LawEnforcementState? lawstate;
   CreateFoundState? createoundstate;

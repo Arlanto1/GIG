@@ -43,6 +43,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
+import '../../../../../models/entry_security.dart';
 
 class CreatePassManagement extends StatefulWidget {
   DayPassListItemResponse? listuser;
@@ -1660,7 +1661,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                             builder: (BuildContext dialogContext) {
                               return UploadAttachment(
                                 userdetails: state.getUserDetailsResponse ??
-                                    GetUserDetails(),
+                                    EntrySecurity(),
                                 getFiles: isPhotoType ? photogetFiles ?? [] :getFiles ?? [],
                                 createpassmgmtstate: state,
                                 isPhotoType: isPhotoType,

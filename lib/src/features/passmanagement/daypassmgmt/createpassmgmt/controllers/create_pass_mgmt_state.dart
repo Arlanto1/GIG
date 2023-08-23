@@ -23,6 +23,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
+import '../../../../../models/entry_security.dart';
 
 enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment, photoattachment }
 
@@ -42,7 +43,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   Department? selectedemployeeDepartmentResponse;
   List<CreateImage>? loadAttachments = [];
    List<CreateImage>? photoAttachments = [];
-  GetUserDetails? getUserDetailsResponse;
+  EntrySecurity? getUserDetailsResponse;
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
   CreateOrganisation? createOrganisationResponse;
   CreateOrganisation? createEmployeeDepartments;
@@ -117,7 +118,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   EmployeeDepartments? employeeDepartment,
   Department? selectedemployeeDepartmentResponse,
   List<CreateImage>? loadAttachments,
-  GetUserDetails? getUserDetailsResponse,
+    EntrySecurity? getUserDetailsResponse,
   SubmitLawEnforcementResponse? lawcreateFoundresponse,
   CreateOrganisation? createOrganisationResponse,
   CreateOrganisation? createEmployeeDepartments,

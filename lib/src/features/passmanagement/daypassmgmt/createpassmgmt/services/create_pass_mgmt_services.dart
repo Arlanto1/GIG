@@ -24,6 +24,8 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../../../models/entry_security.dart';
+
 class CreatePassMgmtService
 {
  final endpoint = Environment().config.apiHost;
@@ -247,7 +249,7 @@ class CreatePassMgmtService
   }
 
   // get user Details api call
-  Future<GetUserDetails> getUserDetails(String userId) async {
+  Future<EntrySecurity> getUserDetails(String userId) async {
     
     final url = Uri.parse('$endpoint/getUserDetails?userId=$userId');
     try {
@@ -258,7 +260,7 @@ class CreatePassMgmtService
         },
       );
       if (response.statusCode == 200) {
-        return GetUserDetails.fromJson(json.decode(response.body));
+        return EntrySecurity.fromJson(json.decode(response.body));
       } else {
         throw json.decode(response.body);
       }

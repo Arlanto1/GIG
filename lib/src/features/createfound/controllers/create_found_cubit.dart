@@ -21,6 +21,8 @@ import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../models/entry_security.dart';
+
 class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   final CreateFoundServices createFoundServices;
   List<CreateImage>? loadAttachments;
@@ -310,7 +312,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   // Get user details call
   Future<void> getUserDetails(String userId) async {
     try {
-      GetUserDetails getUserData =
+      EntrySecurity getUserData =
           await createFoundServices.getUserDetails(userId);
       emit(
         state.copyWith(

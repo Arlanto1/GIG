@@ -12,6 +12,8 @@ import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../models/entry_security.dart';
+
 enum CreateFoundStateType { initial, loading, success, failure, addattachment }
 
 class CreateFoundState extends Equatable {
@@ -22,7 +24,7 @@ class CreateFoundState extends Equatable {
   CreateOrganisation? createOrganisationResponse;
   CreateOrganisation? createEmployeeDepartments;
   CreateUserModel? createUserResponse;
-  GetUserDetails? getUserDetailsResponse;
+  EntrySecurity? getUserDetailsResponse;
   SubmitCreateFoundModel? createFoundResponse;
   SerialNumberModel? getSerialnumberResponse;
   final String? errorMessage;
@@ -55,7 +57,7 @@ class CreateFoundState extends Equatable {
     CreateOrganisation? createOrganisationResponse,
     CreateOrganisation? createEmployeeDepartments,
     CreateUserModel? createUserResponse,
-    GetUserDetails? getUserDetailsResponse,
+    EntrySecurity? getUserDetailsResponse,
     SubmitCreateFoundModel? createFoundResponse,
     SerialNumberModel? getSerialnumberResponse,
     String? errorMessage,

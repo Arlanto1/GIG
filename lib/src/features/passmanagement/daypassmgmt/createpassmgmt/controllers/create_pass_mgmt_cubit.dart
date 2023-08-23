@@ -26,6 +26,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
+import '../../../../../models/entry_security.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
 
 class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
@@ -531,7 +532,7 @@ Future<void> getPassnumber(String passtype, String locationid) async {
   // Get user details call
   Future<void> getUserDetails(String userId) async {
     try {
-      GetUserDetails getUserData =
+      EntrySecurity getUserData =
           await createpassmgmtServices.getUserDetails(userId);
       emit(
         state.copyWith(
@@ -564,7 +565,7 @@ Future<void> getPassnumber(String passtype, String locationid) async {
     state.getSerialnumberResponse = SerialNumberModel();
     state.t1hostanalyst = BaseUser();
     state.t1nameanalyst = BaseUser();
-    state.getUserDetailsResponse = GetUserDetails();
+    state.getUserDetailsResponse = EntrySecurity();
     state.dayPasselementReason = DayPassReasonElement();
   }
 

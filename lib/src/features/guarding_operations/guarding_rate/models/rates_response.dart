@@ -1,4 +1,7 @@
+import 'package:db_atom/src/features/passmanagement/daypassregister/models/day_pass_info_response_model.dart';
+
 import '../../../../models/department.dart';
+import '../../../../models/entry_security.dart';
 import '../../../material_movement/models/material_movements_model.dart';
 
 class RatesResponse {
@@ -15,17 +18,19 @@ class RatesResponse {
   });
 
   RatesResponse.fromJson(Map<String, dynamic> json)
-      : items = (json['data'] as List?)?.map((dynamic e) => GMRate.fromJson(e as Map<String,dynamic>)).toList(),
+      : items = (json['data'] as List?)
+            ?.map((dynamic e) => GMRate.fromJson(e as Map<String, dynamic>))
+            .toList(),
         totalCount = json['totalCount'] as num?,
         currentPageNo = json['currentPageNo'] as num?,
         totalPageCount = json['totalPageCount'] as num?;
 
   Map<String, dynamic> toJson() => {
-    'data' : items?.map((e) => e.toJson()).toList(),
-    'totalCount' : totalCount,
-    'currentPageNo' : currentPageNo,
-    'totalPageCount' : totalPageCount
-  };
+        'data': items?.map((e) => e.toJson()).toList(),
+        'totalCount': totalCount,
+        'currentPageNo': currentPageNo,
+        'totalPageCount': totalPageCount
+      };
 }
 
 class GMRate {
@@ -34,7 +39,7 @@ class GMRate {
   Location? location;
   LocationRegion? locationRegion;
   EntrySecurity? entrySecurity;
-  List<dynamic>? entities;
+  List<Entity>? entities;
   String? inputDate;
   num? modifiedDate;
   String? modifiedBy;
@@ -68,100 +73,67 @@ class GMRate {
   GMRate.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
         slNo = json['slNo'] as String?,
-        location = (json['location'] as Map<String,dynamic>?) != null ? Location.fromJson(json['location'] as Map<String,dynamic>) : null,
-        locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? LocationRegion.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
-        entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? EntrySecurity.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
-        entities = json['entities'] as List?,
+        location = (json['location'] as Map<String, dynamic>?) != null
+            ? Location.fromJson(json['location'] as Map<String, dynamic>)
+            : null,
+        locationRegion =
+            (json['locationRegion'] as Map<String, dynamic>?) != null
+                ? LocationRegion.fromJson(
+                    json['locationRegion'] as Map<String, dynamic>)
+                : null,
+        entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
+            ? EntrySecurity.fromJson(
+                json['entrySecurity'] as Map<String, dynamic>)
+            : null,
+        entities = (json['entities'] as List?)
+            ?.map((dynamic e) => Entity.fromJson(e as Map<String, dynamic>))
+            .toList(),
         inputDate = json['inputDate'] as String?,
         modifiedDate = json['modifiedDate'] as num?,
         modifiedBy = json['modifiedBy'] as String?,
-        vendor = (json['vendor'] as Map<String,dynamic>?) != null ? Department.fromJson(json['vendor'] as Map<String,dynamic>) : null,
-        securityGuardRates = (json['securityGuardRates'] as List?)?.map((dynamic e) => PayRate.fromJson(e as Map<String,dynamic>)).toList(),
-        securityOfficerRates = (json['securityOfficerRates'] as List?)?.map((dynamic e) => PayRate.fromJson(e as Map<String,dynamic>)).toList(),
-        securitySupervisorRates = (json['securitySupervisorRates'] as List?)?.map((dynamic e) => PayRate.fromJson(e as Map<String,dynamic>)).toList(),
-        securityFacilitatorRates = (json['securityFacilitatorRates'] as List?)?.map((dynamic e) => PayRate.fromJson(e as Map<String,dynamic>)).toList(),
-        securityGunManRates = (json['securityGunManRates'] as List?)?.map((dynamic e) => PayRate.fromJson(e as Map<String,dynamic>)).toList(),
+        vendor = (json['vendor'] as Map<String, dynamic>?) != null
+            ? Department.fromJson(json['vendor'] as Map<String, dynamic>)
+            : null,
+        securityGuardRates = (json['securityGuardRates'] as List?)
+            ?.map((dynamic e) => PayRate.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        securityOfficerRates = (json['securityOfficerRates'] as List?)
+            ?.map((dynamic e) => PayRate.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        securitySupervisorRates = (json['securitySupervisorRates'] as List?)
+            ?.map((dynamic e) => PayRate.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        securityFacilitatorRates = (json['securityFacilitatorRates'] as List?)
+            ?.map((dynamic e) => PayRate.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        securityGunManRates = (json['securityGunManRates'] as List?)
+            ?.map((dynamic e) => PayRate.fromJson(e as Map<String, dynamic>))
+            .toList(),
         history = json['history'] as List?;
 
   Map<String, dynamic> toJson() => {
-    'id' : id,
-    'slNo' : slNo,
-    'location' : location?.toJson(),
-    'locationRegion' : locationRegion?.toJson(),
-    'entrySecurity' : entrySecurity?.toJson(),
-    'entities' : entities,
-    'inputDate' : inputDate,
-    'modifiedDate' : modifiedDate,
-    'modifiedBy' : modifiedBy,
-    'vendor' : vendor?.toJson(),
-    'securityGuardRates' : securityGuardRates?.map((e) => e.toJson()).toList(),
-    'securityOfficerRates' : securityOfficerRates?.map((e) => e.toJson()).toList(),
-    'securitySupervisorRates' : securitySupervisorRates?.map((e) => e.toJson()).toList(),
-    'securityFacilitatorRates' : securityFacilitatorRates?.map((e) => e.toJson()).toList(),
-    'securityGunManRates' : securityGunManRates?.map((e) => e.toJson()).toList(),
-    'history' : history
-  };
-}
-
-
-
-class EntrySecurity {
-  num? userId;
-  String? userName;
-  String? email;
-  String? firstName;
-  String? lastName;
-  String? phone;
-  List<Roles>? roles;
-  List<RoleExtensions>? roleExtensions;
-  List<dynamic>? notApprovedRoles;
-  List<dynamic>? notApprovedRoleExtensions;
-  String? name;
-  String? userStatus;
-
-  EntrySecurity({
-    this.userId,
-    this.userName,
-    this.email,
-    this.firstName,
-    this.lastName,
-    this.phone,
-    this.roles,
-    this.roleExtensions,
-    this.notApprovedRoles,
-    this.notApprovedRoleExtensions,
-    this.name,
-    this.userStatus,
-  });
-
-  EntrySecurity.fromJson(Map<String, dynamic> json)
-      : userId = json['userId'] as num?,
-        userName = json['userName'] as String?,
-        email = json['email'] as String?,
-        firstName = json['firstName'] as String?,
-        lastName = json['lastName'] as String?,
-        phone = json['phone'] as String?,
-        roles = (json['roles'] as List?)?.map((dynamic e) => Roles.fromJson(e as Map<String,dynamic>)).toList(),
-        roleExtensions = (json['roleExtensions'] as List?)?.map((dynamic e) => RoleExtensions.fromJson(e as Map<String,dynamic>)).toList(),
-        notApprovedRoles = json['notApprovedRoles'] as List?,
-        notApprovedRoleExtensions = json['notApprovedRoleExtensions'] as List?,
-        name = json['name'] as String?,
-        userStatus = json['userStatus'] as String?;
-
-  Map<String, dynamic> toJson() => {
-    'userId' : userId,
-    'userName' : userName,
-    'email' : email,
-    'firstName' : firstName,
-    'lastName' : lastName,
-    'phone' : phone,
-    'roles' : roles?.map((e) => e.toJson()).toList(),
-    'roleExtensions' : roleExtensions?.map((e) => e.toJson()).toList(),
-    'notApprovedRoles' : notApprovedRoles,
-    'notApprovedRoleExtensions' : notApprovedRoleExtensions,
-    'name' : name,
-    'userStatus' : userStatus
-  };
+        'id': id,
+        'slNo': slNo,
+        'location': location?.toJson(),
+        'locationRegion': locationRegion?.toJson(),
+        'entrySecurity': entrySecurity?.toJson(),
+        'entities': entities,
+        'inputDate': inputDate,
+        'modifiedDate': modifiedDate,
+        'modifiedBy': modifiedBy,
+        'vendor': vendor?.toJson(),
+        'securityGuardRates':
+            securityGuardRates?.map((e) => e.toJson()).toList(),
+        'securityOfficerRates':
+            securityOfficerRates?.map((e) => e.toJson()).toList(),
+        'securitySupervisorRates':
+            securitySupervisorRates?.map((e) => e.toJson()).toList(),
+        'securityFacilitatorRates':
+            securityFacilitatorRates?.map((e) => e.toJson()).toList(),
+        'securityGunManRates':
+            securityGunManRates?.map((e) => e.toJson()).toList(),
+        'history': history
+      };
 }
 
 class Roles {
@@ -183,16 +155,19 @@ class Roles {
       : roleId = json['roleId'] as num?,
         application = json['application'] as String?,
         roleName = json['roleName'] as String?,
-        roleExtensions = (json['roleExtensions'] as List?)?.map((dynamic e) => RoleExtensions.fromJson(e as Map<String,dynamic>)).toList(),
+        roleExtensions = (json['roleExtensions'] as List?)
+            ?.map((dynamic e) =>
+                RoleExtensions.fromJson(e as Map<String, dynamic>))
+            .toList(),
         name = json['name'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'roleId' : roleId,
-    'application' : application,
-    'roleName' : roleName,
-    'roleExtensions' : roleExtensions?.map((e) => e.toJson()).toList(),
-    'name' : name
-  };
+        'roleId': roleId,
+        'application': application,
+        'roleName': roleName,
+        'roleExtensions': roleExtensions?.map((e) => e.toJson()).toList(),
+        'name': name
+      };
 }
 
 class RoleExtensions {
@@ -227,19 +202,16 @@ class RoleExtensions {
         accessRight = json['accessRight'];
 
   Map<String, dynamic> toJson() => {
-    'roleExtensionId' : roleExtensionId,
-    'roleId' : roleId,
-    'displayName' : displayName,
-    'area' : area,
-    'filter' : filter,
-    'rootNodeId' : rootNodeId,
-    'nodeId' : nodeId,
-    'accessRight' : accessRight
-  };
+        'roleExtensionId': roleExtensionId,
+        'roleId': roleId,
+        'displayName': displayName,
+        'area': area,
+        'filter': filter,
+        'rootNodeId': rootNodeId,
+        'nodeId': nodeId,
+        'accessRight': accessRight
+      };
 }
-
-
-
 
 class PayRate {
   int? id;
@@ -267,7 +239,9 @@ class PayRate {
   PayRate.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
         rankId = json['rankId'] as num?,
-        vendor = (json['vendor'] as Map<String,dynamic>?) != null ? Department.fromJson(json['vendor'] as Map<String,dynamic>) : null,
+        vendor = (json['vendor'] as Map<String, dynamic>?) != null
+            ? Department.fromJson(json['vendor'] as Map<String, dynamic>)
+            : null,
         days = json['days'] as double?,
         perHour = json['perHour'] as double?,
         total = json['total'] as num?,
@@ -276,15 +250,14 @@ class PayRate {
         comment = json['comment'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'id' : id,
-    'rankId' : rankId,
-    'vendor' : vendor?.toJson(),
-    'days' : days,
-    'perHour' : perHour,
-    'total' : total,
-    'fromDate' : fromDate,
-    'toDate' : toDate,
-    'comment' : comment
-  };
+        'id': id,
+        'rankId': rankId,
+        'vendor': vendor?.toJson(),
+        'days': days,
+        'perHour': perHour,
+        'total': total,
+        'fromDate': fromDate,
+        'toDate': toDate,
+        'comment': comment
+      };
 }
-

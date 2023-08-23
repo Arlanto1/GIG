@@ -27,6 +27,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../models/base_user.dart';
 import '../../../models/department.dart';
+import '../../../models/entry_security.dart';
 
 class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   LawEnforcementService lawenforcementServices;
@@ -349,7 +350,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
    // Get user details call
   Future<void> getUserDetails(String userId) async {
     try {
-      GetUserDetails getUserData =
+      EntrySecurity getUserData =
           await lawenforcementServices.getUserDetails(userId);
       emit(
         state.copyWith(

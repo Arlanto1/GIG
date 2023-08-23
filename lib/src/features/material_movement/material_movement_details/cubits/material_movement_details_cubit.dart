@@ -20,6 +20,7 @@ import 'package:intl/intl.dart';
 import '../../../../constants/constants.dart';
 import '../../../../models/base_user.dart';
 import '../../../../models/department.dart';
+import '../../../../models/entry_security.dart';
 import '../../../createfound/models/emplyee_departments_model.dart';
 import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
@@ -40,7 +41,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           MaterialMovementDetailsState.initial(
             model: model ?? MaterialMovementModel(),
             locations: GetLocations(),
-            loggedInUserDetails: GetUserDetails(),
+            loggedInUserDetails: EntrySecurity(),
             users: const [],
             emailUsers: const[],
             errorMessage: '',
@@ -72,7 +73,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
-      GetUserDetails loggedInUserDetails =
+      EntrySecurity loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
 
       Analyst users =
@@ -96,6 +97,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       QuantityUnits quantityUnits = await commonServices.getQuantityUnits();
 
+      state.materialMovement.entrySecurity = loggedInUserDetails;
+
       emit(
         state.copyWith(
             locations: getLocationsData,
@@ -103,6 +106,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
             status: FormStatus.initial,
             materialMovement: state.materialMovement,
             users: users.t1Analyst,
+
           emailUsers: emailUsers.atomStaticUser,
             departments: departments.employeeDepartments,
             quantityUnits: quantityUnits.units,

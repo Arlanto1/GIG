@@ -15,6 +15,8 @@ import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../models/entry_security.dart';
+
 class CreateFoundServices {
    final endpoint = Environment().config.apiHost;
   Future<SubmitCreateFoundModel> createFoundArticle(
@@ -192,7 +194,7 @@ class CreateFoundServices {
   }
 
   // get user Details api call
-  Future<GetUserDetails> getUserDetails(String userId) async {
+  Future<EntrySecurity> getUserDetails(String userId) async {
     
     final url = Uri.parse('$endpoint/getUserDetails?userId=$userId');
     try {
@@ -203,7 +205,7 @@ class CreateFoundServices {
         },
       );
       if (response.statusCode == 200) {
-        return GetUserDetails.fromJson(json.decode(response.body));
+        return EntrySecurity.fromJson(json.decode(response.body));
       } else {
         throw json.decode(response.body);
       }

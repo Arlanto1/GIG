@@ -16,6 +16,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../models/base_user.dart';
 import '../../../models/department.dart';
+import '../../../models/entry_security.dart';
 
 enum LawEnforcementStateType { initial, loading, success, failure, addattachment }
 
@@ -44,7 +45,7 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
   List<CreateImage>? loadAttachments = [];
   List<VistingOfficialsModel>? getVisits = [];
   int? getVisitsCount = 0;
-  GetUserDetails? getUserDetailsResponse;
+  EntrySecurity? getUserDetailsResponse;
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
   List<DistributionGroup>? loadGroups = [];
    DistributionGroupModel? groups;
@@ -113,7 +114,7 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
   List<CreateImage>? loadAttachments,
   int? getVisitsCount,
   List<VistingOfficialsModel>? getVisits,
-  GetUserDetails? getUserDetailsResponse,
+    EntrySecurity? getUserDetailsResponse,
   SubmitLawEnforcementResponse? lawcreateFoundresponse,
   List<DistributionGroup>? loadGroups, 
   DistributionGroupModel? groups,

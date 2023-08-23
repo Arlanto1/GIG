@@ -6,32 +6,31 @@ class PayRateState extends Equatable {
   final List<PayRate> items;
   final PayRate newPayRate;
   final String? message;
+  final GetUserDetails? loggedInUserDetails;
+  final GetLocations? locations;
+  final List<Department> departments;
 
   factory PayRateState.initial({
     required List<PayRate> payRates,
     required GMRate rate,
     required String? message,
     required newPayRate,
+    required GetUserDetails loggedInUserDetails,
+    required List<Department> departments,
   }) {
     return PayRateState(
       status: FormStatus.initial,
       items: payRates,
       message: message,
       rate: rate,
-        newPayRate:newPayRate,
+      newPayRate: newPayRate,
+      departments: departments,
+      loggedInUserDetails: loggedInUserDetails,
     );
   }
 
   @override
   List<Object?> get props => [rate, status];
-
-  const PayRateState({
-    required this.status,
-    required this.rate,
-    required this.items,
-    required this.newPayRate,
-    this.message,
-  });
 
   PayRateState copyWith({
     FormStatus? status,
@@ -39,6 +38,9 @@ class PayRateState extends Equatable {
     List<PayRate>? items,
     PayRate? newPayRate,
     String? message,
+    GetUserDetails? loggedInUserDetails,
+    GetLocations? locations,
+    List<Department>? departments,
   }) {
     return PayRateState(
       status: status ?? this.status,
@@ -46,6 +48,20 @@ class PayRateState extends Equatable {
       items: items ?? this.items,
       newPayRate: newPayRate ?? this.newPayRate,
       message: message ?? this.message,
+      loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
+      locations: locations ?? this.locations,
+      departments: departments ?? this.departments,
     );
   }
+
+  const PayRateState({
+    required this.status,
+    required this.rate,
+    required this.items,
+    required this.newPayRate,
+    this.message,
+    this.loggedInUserDetails,
+    this.locations,
+    required this.departments,
+  });
 }

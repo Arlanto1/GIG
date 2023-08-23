@@ -8,6 +8,7 @@ import 'package:db_atom/src/features/material_movement/models/quantity_units.dar
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 import '../features/createfound/models/get_depositor_model.dart';
+import '../models/entry_security.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -41,14 +42,14 @@ class CommonServices {
     return EmployeeDepartments.fromJson(response);
   }
 
-  Future<GetUserDetails> getUserDetails({
+  Future<EntrySecurity> getUserDetails({
     required String userId,
   }) async {
     String url = '${Apis._getUserDetails}$userId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return GetUserDetails.fromJson(response);
+    return EntrySecurity.fromJson(response);
   }
 
   Future<SerialNumberModel> getSlNo({

@@ -38,6 +38,7 @@ import 'package:intl/intl.dart';
 
 import '../../../models/base_user.dart';
 import '../../../models/department.dart';
+import '../../../models/entry_security.dart';
 
 class Createfound extends StatefulWidget {
   FoundListArticleDetails? listuser;
@@ -88,7 +89,7 @@ class _CreatefoundState extends State<Createfound> {
   ArticleList? selectedArtclelist;
   BaseUser? selecteddepositorList;
   BaseUser? selectedClaimList;
-  GetUserDetails? userDetails;
+  EntrySecurity? userDetails;
   Mumbai? locationSelectedlist;
   SubmitCreateFoundModel? createfoundResponse;
   SerialNumberModel? serialnumberResponse;
@@ -115,9 +116,9 @@ class _CreatefoundState extends State<Createfound> {
       selectedArtclelist = widget.listuser?.typeOfArticle != null ? ArticleList(
           id: widget.listuser?.typeOfArticle?.id ?? 1,
           name: widget.listuser?.typeOfArticle?.name ?? "") : ArticleList();
-      userDetails =  widget.listuser?.entrySecurity != null ? GetUserDetails(
+      userDetails =  widget.listuser?.entrySecurity != null ? EntrySecurity(
           userId: widget.listuser?.entrySecurity?.userId ?? 1,
-          lastName: widget.listuser?.entrySecurity?.lastName ?? "") : GetUserDetails() ;
+          lastName: widget.listuser?.entrySecurity?.lastName ?? "") : EntrySecurity() ;
       createdByValue = userDetails?.lastName != null ? userDetails?.lastName ?? '' : '';
       serialNumber = widget.listuser?.slNo != null ? widget.listuser?.slNo ?? "" : '';
       locationSelectedlist = widget.listuser?.location != null ? Mumbai(
@@ -794,7 +795,7 @@ class _CreatefoundState extends State<Createfound> {
             //   });
             // }
             if (widget.listuser == null) {
-              userDetails = state.getUserDetailsResponse ?? GetUserDetails();
+              userDetails = state.getUserDetailsResponse ?? EntrySecurity();
               if (userDetails != null) {
                 createdByValue = userDetails?.lastName ?? '';
               }

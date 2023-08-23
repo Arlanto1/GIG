@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import '../../../models/entry_security.dart';
+
 LawEnforcementDetails lawEnforcementDetailsFromJson(String str) => LawEnforcementDetails.fromJson(json.decode(str));
 
 String lawEnforcementDetailsToJson(LawEnforcementDetails data) => json.encode(data.toJson());
@@ -137,66 +139,6 @@ class LawDbOfficialEmailDepartment {
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-    };
-}
-
-class EntrySecurity {
-    int? userId;
-    String? userName;
-    String? email;
-    String? firstName;
-    String? lastName;
-    String? phone;
-    List<Role>? roles;
-    List<RoleExtension>? roleExtensions;
-    List<dynamic>? notApprovedRoles;
-    List<dynamic>? notApprovedRoleExtensions;
-    String? name;
-    String? userStatus;
-
-    EntrySecurity({
-        this.userId,
-        this.userName,
-        this.email,
-        this.firstName,
-        this.lastName,
-        this.phone,
-        this.roles,
-        this.roleExtensions,
-        this.notApprovedRoles,
-        this.notApprovedRoleExtensions,
-        this.name,
-        this.userStatus,
-    });
-
-    factory EntrySecurity.fromJson(Map<String, dynamic> json) => EntrySecurity(
-        userId: json["userId"],
-        userName: json["userName"],
-        email: json["email"],
-        firstName: json["firstName"],
-        lastName: json["lastName"],
-        phone: json["phone"],
-        roles: json["roles"] == null ? [] : List<Role>.from(json["roles"]!.map((x) => Role.fromJson(x))),
-        roleExtensions: json["roleExtensions"] == null ? [] : List<RoleExtension>.from(json["roleExtensions"]!.map((x) => RoleExtension.fromJson(x))),
-        notApprovedRoles: json["notApprovedRoles"] == null ? [] : List<dynamic>.from(json["notApprovedRoles"]!.map((x) => x)),
-        notApprovedRoleExtensions: json["notApprovedRoleExtensions"] == null ? [] : List<dynamic>.from(json["notApprovedRoleExtensions"]!.map((x) => x)),
-        name: json["name"],
-        userStatus: json["userStatus"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "userId": userId,
-        "userName": userName,
-        "email": email,
-        "firstName": firstName,
-        "lastName": lastName,
-        "phone": phone,
-        "roles": roles == null ? [] : List<dynamic>.from(roles!.map((x) => x.toJson())),
-        "roleExtensions": roleExtensions == null ? [] : List<dynamic>.from(roleExtensions!.map((x) => x.toJson())),
-        "notApprovedRoles": notApprovedRoles == null ? [] : List<dynamic>.from(notApprovedRoles!.map((x) => x)),
-        "notApprovedRoleExtensions": notApprovedRoleExtensions == null ? [] : List<dynamic>.from(notApprovedRoleExtensions!.map((x) => x)),
-        "name": name,
-        "userStatus": userStatus,
     };
 }
 

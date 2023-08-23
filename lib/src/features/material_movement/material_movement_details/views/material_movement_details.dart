@@ -36,6 +36,7 @@ import 'package:intl/intl.dart';
 import '../../../../common_widgets/date_time_picker.dart';
 import '../../../../models/base_user.dart';
 import '../../../../models/department.dart';
+import '../../../../models/entry_security.dart';
 
 class MaterialMovementDetails extends StatefulWidget {
   final MaterialMovementModel? materialMovement;
@@ -2005,7 +2006,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                         builder: (BuildContext dialogContext) {
                           return UploadAttachment(
                             userdetails:
-                                state.loggedInUserDetails ?? GetUserDetails(),
+                                state.loggedInUserDetails ?? EntrySecurity(),
                             getFiles: getFiles ?? [],
                             inwardState: state,
                             onImageSelected: (CreateImage data) {

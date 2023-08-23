@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
@@ -119,6 +121,9 @@ class _PayRateViewState extends State<PayRateView> {
                           );
                         },
                         onEditTap: (selectedIndex) {
+                          log('---payRate- onedit-- ${state.items[index].id}-----');
+                          log('---payRate- onedit-- ${state.items[index].total}-----');
+
                           addSecurityGuardPopUp(
                               context: context, payRate: state.items[index]);
                         },

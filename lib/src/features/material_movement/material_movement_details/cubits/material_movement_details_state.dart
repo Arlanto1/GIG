@@ -7,7 +7,7 @@ class MaterialMovementDetailsState extends Equatable {
 
   final MaterialMovementModel materialMovement;
   final GetLocations? locations;
-  final GetUserDetails? loggedInUserDetails;
+  final EntrySecurity? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<Department> departments;
@@ -19,14 +19,14 @@ class MaterialMovementDetailsState extends Equatable {
   factory MaterialMovementDetailsState.initial({
     required MaterialMovementModel model,
     required GetLocations locations,
-    required GetUserDetails loggedInUserDetails,
+    required EntrySecurity loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
     required List<Department> departments,
     required List<CreateImage> loadAttachments,
     required List<QuantityUnit> quantityUnits,
-    required  int? eventId,
+    required int? eventId,
   }) {
     return MaterialMovementDetailsState(
         status: FormStatus.initial,
@@ -39,7 +39,7 @@ class MaterialMovementDetailsState extends Equatable {
         departments: departments,
         loadAttachments: loadAttachments,
         quantityUnits: quantityUnits,
-    eventId: eventId);
+        eventId: eventId);
   }
 
   ErrorResponse get isValid {
@@ -90,7 +90,7 @@ class MaterialMovementDetailsState extends Equatable {
     FormStatus? status,
     MaterialMovementModel? materialMovement,
     GetLocations? locations,
-    GetUserDetails? loggedInUserDetails,
+    EntrySecurity? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<Department>? departments,
