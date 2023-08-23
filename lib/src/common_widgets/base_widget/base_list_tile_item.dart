@@ -13,9 +13,15 @@ import '../../features/material_movement/models/material_movements_model.dart';
 class BaseListTileItem extends StatefulWidget {
   final int? id;
   final Location? location;
+  final bool? returnable;
   final LocationRegion? locationRegion;
   final String? inputDate;
   final int? status;
+  final String? vendor;
+  final String? region;
+  final int? guardCount;
+  final int? pvcExpired;
+  final int? msgbExempted;
 
   final Function? onTap;
   final Function? onEditTap;
@@ -23,27 +29,26 @@ class BaseListTileItem extends StatefulWidget {
 
   // final Item userItem;
   final int? index;
-
-  const BaseListTileItem(
-      {super.key,
-      this.id,
-      this.location,
-      this.locationRegion,
-      this.inputDate,
-      this.status,
-      this.onTap,
-      this.onEditTap,
-      this.onViewTap,
-      this.index});
-
-  // const BaseListTileItem({
-  //   Key? key,
-  //   this.onTap,
-  //   this.onEditTap,
-  //   this.onViewTap,
-  //   // required this.userItem,
-  //   this.index,
-  // }) : super(key: key);
+  final bool? showEditButton;
+  const BaseListTileItem({
+    super.key,
+    this.id,
+    this.location,
+    this.locationRegion,
+    this.inputDate,
+    this.status,
+    this.onTap,
+    this.onEditTap,
+    this.onViewTap,
+    this.index,
+    this.region,
+    this.vendor,
+    this.guardCount,
+    this.pvcExpired,
+    this.msgbExempted,
+    this.returnable,
+    this.showEditButton = true,
+  });
 
   @override
   State<BaseListTileItem> createState() => _BaseListTileItemState();
@@ -94,6 +99,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                       alignment: Alignment.topCenter,
                       child: Row(
                         children: [
+                          ///TODO:Add condition to Remove editicon for MasterReport
+                          if(widget.showEditButton??true)...[
                           IconButton(
                             onPressed: () {
                               //do action on view
@@ -102,7 +109,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                                   : null;
                             },
                             icon: SvgPicture.asset(AppIcon.editIcon),
-                          ),
+                          ),],
                           IconButton(
                             onPressed: () {
                               //do action on view
@@ -117,40 +124,120 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    textHandling(
-                        'Region : ', widget.locationRegion?.name ?? ''),
-                  ],
-                ),
-                CommonWidgets.verticalSpacerWidget(5),
-                Row(
-                  children: [
-                    textHandling('Location : ', widget.location?.name ?? ''),
-                  ],
-                ),
-                CommonWidgets.verticalSpacerWidget(5),
-                Row(
-                  children: [
-                    textHandling(
-                        'Date: ',
-                        widget.inputDate != null
-                            ? Utils.timestamptoDateConversion(
-                                int.parse(widget.inputDate ?? '0'),
-                                Constants.dateFormat)
-                            : ''),
-                  ],
-                ),
-                CommonWidgets.verticalSpacerWidget(5),
-                if(widget.status != null)...[
-                Row(
-                  children: [
-                    Text(
-                      'Status : ${widget.status}',
-                      style: Styles.textStyleSemiBoldGrey14,
-                    )
-                  ],
-                ),
+                if (widget.locationRegion != null) ...[
+                  Row(
+                    children: [
+                      textHandling(
+                          'Region : ', widget.locationRegion?.name ?? ''),
+                    ],
+                  ),
+                ],
+                if (widget.guardCount != null) ...[
+                  CommonWidgets.verticalSpacerWidget(5),
+                  Row(
+                    children: [
+                      Text('Guard Count :  ${widget.guardCount}',
+                          style: Styles.textStyleSemiBoldGrey14),
+                    ],
+                  ),
+                ],
+                if (widget.pvcExpired != null) ...[
+                  CommonWidgets.verticalSpacerWidget(5),
+                  Row(
+                    children: [
+                      Text(
+                          'Total No of Staff PVC Expired :  ${widget.pvcExpired}',
+                          style: Styles.textStyleSemiBoldGrey14),
+                    ],
+                  ),
+                ],
+                if (widget.msgbExempted != null) ...[
+                  CommonWidgets.verticalSpacerWidget(5),
+                  Row(
+                    children: [
+                      Text(
+                          'Total No of Staff PVC Expired :  ${widget.msgbExempted}',
+                          style: Styles.textStyleSemiBoldGrey14),
+                    ],
+                  ),
+                ],
+                if (widget.vendor != null) ...[
+                  CommonWidgets.verticalSpacerWidget(5),
+                  Row(
+                    children: [
+                      Text('vendor :  ${widget.vendor}',
+                          style: Styles.textStyleSemiBoldGrey14),
+                    ],
+                  ),
+                ],
+                if (widget.region != null) ...[
+                  CommonWidgets.verticalSpacerWidget(5),
+                  Row(
+                    children: [
+                      Text(
+                        'Region : ${widget.region}',
+                        style: Styles.textStyleSemiBoldGrey14,
+                      )
+                    ],
+                  ),
+                ],
+                if (widget.location != null) ...[
+                  CommonWidgets.verticalSpacerWidget(5),
+                  Row(
+                    children: [
+                      textHandling('Location : ', widget.location?.name ?? ''),
+                    ],
+                  ),
+                ],
+                if (widget.returnable != null) ...[
+                  CommonWidgets.verticalSpacerWidget(5),
+                  Row(
+                    children: [
+                      textHandling(
+                          'Material Movement Type : ',
+                          widget.returnable == true
+                              ? 'Returnable'
+                              : 'Not Returnable'),
+                    ],
+                  ),
+                ],
+                if (widget.inputDate != null) ...[
+                  CommonWidgets.verticalSpacerWidget(5),
+                  Row(
+                    children: [
+                      textHandling(
+                          'Date: ',
+                          widget.inputDate != null
+                              ? Utils.timestamptoDateConversion(
+                                  int.parse(widget.inputDate ?? '0'),
+                                  Constants.dateFormat)
+                              : ''),
+                    ],
+                  ),
+                ],
+                if (widget.status != null) ...[
+                  CommonWidgets.verticalSpacerWidget(5),
+                  Row(
+                    children: [
+                      textHandling(
+                          'Status: ',
+                          widget.status == 0
+                              ? 'Draft'
+                              : widget.status == 1
+                                  ? 'Submitted'
+                                  : widget.status == 2
+                                      ? 'Approved'
+                                      : widget.status == 3
+                                          ? 'Rejected'
+                                          : widget.status == 4
+                                              ? 'Outward Pending'
+                                              : widget.status == 5
+                                                  ? 'Inward Pending'
+                                                  : widget.status == 6
+                                                      ? 'Closed/Finalized'
+                                                      : ''),
+                    ],
+                  ),
                 ],
               ]),
             ),

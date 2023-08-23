@@ -110,6 +110,7 @@ class _MaterialMovementsState
                     : BaseListTileItem(
                         id: state.items[index].id,
                         inputDate: state.items[index].inputDate,
+                        returnable: state.items[index].returnable,
                         location: state.items[index].location,
                         locationRegion: state.items[index].locationRegion,
                         status: state.items[index].status,
@@ -119,6 +120,19 @@ class _MaterialMovementsState
                             builder: (BuildContext dialogContext) {
                               return BasePopUpItems(
                                 id: state.items[selectedIndex].id.toString(),
+                                inputDate: state.items[selectedIndex].inputDate,
+                                location: state.items[selectedIndex].location,
+                                returnable:
+                                state.items[selectedIndex].returnable,
+                                quantity: state.items[selectedIndex].quantity
+                                    .toString(),
+                                challanNo: state.items[selectedIndex].challanNo,
+                                locationRegion:
+                                state.items[selectedIndex].locationRegion,
+                                slNo: state.items[selectedIndex].slNo,
+                                status: state.items[selectedIndex].status,
+                                entrySecurityName: state
+                                    .items[selectedIndex].entrySecurityName,
                               );
                             },
                           );
@@ -144,8 +158,7 @@ class _MaterialMovementsState
                                 //  securityName: state
                                 //       .items[selectedIndex].entrySecurityName,
                                 slNo: state.items[selectedIndex].slNo,
-                                status: state.items[selectedIndex].status
-                                    .toString(),
+                                status: state.items[selectedIndex].status,
                                 entrySecurityName: state
                                     .items[selectedIndex].entrySecurityName,
                               );
@@ -181,3 +194,5 @@ class _MaterialMovementsState
     }
   }
 }
+
+
