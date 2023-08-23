@@ -16,7 +16,7 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/guarding_rate_bloc.dart';
+import '../bloc/guarding_rates_bloc.dart';
 
 class GuardingRates extends StatefulWidget {
   const GuardingRates({
@@ -52,7 +52,7 @@ class _GuardingRatesState extends State<GuardingRates> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context
-          .read<GuardingRateBloc>()
+          .read<GuardingRatesBloc>()
           .add(FetchList(startPos: pageNumber, maxPos: 20));
     }
   }
@@ -76,7 +76,7 @@ class _GuardingRatesState extends State<GuardingRates> {
           showPopUp: true,
           showSaveButton: false,
         ),
-        body: BlocBuilder<GuardingRateBloc, GuardingRateState>(
+        body: BlocBuilder<GuardingRatesBloc, GuardingRatesState>(
             builder: (context, state) {
           if (state.status == LawEnforcementListStateType.initial) {
             return const Center(

@@ -9,12 +9,12 @@ import '../../../../law_enforcement_list/controllers/law_enforcement_list_state.
 import '../../models/rates_response.dart';
 import '../../services/guarding_services.dart';
 
-part 'guarding_rate_event.dart';
+part 'guarding_rates_event.dart';
 
-part 'guarding_rate_state.dart';
+part 'guarding_rates_state.dart';
 
-class GuardingRateBloc extends Bloc<GuardingRateEvent, GuardingRateState> {
-  GuardingRateBloc() : super(const GuardingRateState()) {
+class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
+  GuardingRatesBloc() : super(const GuardingRatesState()) {
     on<FetchList>(
       _fetchList,
       transformer: droppable(),
@@ -24,21 +24,16 @@ class GuardingRateBloc extends Bloc<GuardingRateEvent, GuardingRateState> {
   final GuardingServices _services = GuardingServices();
 
   FutureOr<void> _fetchList(
-      FetchList event, Emitter<GuardingRateState> emit) async {
+      FetchList event, Emitter<GuardingRatesState> emit) async {
     try {
       if (state.hasReachedMax) return;
 
-      log('----_fetchList----');
-
       if (state.status == LawEnforcementListStateType.initial) {
-        RatesResponse response =
-            await _services.getRates(
+        RatesResponse response = await _services.getRates(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '77',
         );
-
-        log('-response----1-----$response----');
 
         return emit(
           state.copyWith(
@@ -48,10 +43,8 @@ class GuardingRateBloc extends Bloc<GuardingRateEvent, GuardingRateState> {
           ),
         );
       }
-      log('----_fetchList--22--');
 
-      RatesResponse getMaterialMovements =
-          await _services.getRates(
+      RatesResponse getMaterialMovements = await _services.getRates(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '77', //TODO: make it dynamic
