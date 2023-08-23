@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
@@ -79,7 +78,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
       // Get Date of Creation
-      state.materialMovement.inputDate = (DateTime.now().millisecondsSinceEpoch/1000).toString();
+      state.materialMovement.inputDate = _getCurrentDate();
 
       state.materialMovement.inwardMovement = isInward;
       if(state.materialMovement.approvedDate != null) {
@@ -131,7 +130,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     BaseUser? requesterEmailUser,
     BaseUser? approver1EmailUser,
     BaseUser? approver2EmailUser,
-    Department? department,
     Department? requesterDepartment,
     Department? preparedByDepartment,
     Department? approver1Department,
@@ -171,9 +169,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     if (approver2EmailUser != null) {
       state.materialMovement.approver2Email = approver2EmailUser.email;
     }
-    if (department != null) {
-      state.materialMovement.receiverDepartmenttName = department.name;
-    }
 
     if (requesterDepartment != null) {
       state.materialMovement.requestorDepartment = requesterDepartment;
@@ -191,6 +186,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.materialMovement.approver2Department =
           approver2Department;
     }
+    print('--depart---${receiverDepartment?.name}-----');
     if (receiverDepartment != null) {
       state.materialMovement.receiverDepartmenttName =
           receiverDepartment.name;
@@ -265,6 +261,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         status: FormStatus.loading,
       ),
     );
+
+    // Setting time in milliseconds
+    state.materialMovement.inputDate = (DateTime.now().millisecondsSinceEpoch/1000).toString();
 
     // Create/Update API Call
     MaterialMovementRequest request =

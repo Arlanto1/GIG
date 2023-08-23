@@ -57,7 +57,6 @@ class MaterialMovementDetails extends StatefulWidget {
 
 class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String receiverDepartmentName = '';
   TextEditingController returnableTextController = TextEditingController();
   GetUserDetails? userDetails;
   List<CreateImage>? getFiles;
@@ -113,7 +112,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
               return const Center(child: CircularProgressIndicator());
             }
 
-            if (state.status == FormStatus.addAttachment || state.status == FormStatus.initial) {
+            if (state.status == FormStatus.addAttachment ||
+                state.status == FormStatus.initial) {
               log('---getAttachments----builder----${getAttachments?.length}-----');
               getFiles = state.loadAttachments ?? [];
               log('---getFiles----builder----${getFiles?.length}-----');
@@ -187,7 +187,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         height * 0.001),
                                     GestureDetector(
                                       onTap: () {
-                                        if (state.materialMovement.status != 6) {
+                                        if (state.materialMovement.status !=
+                                            6) {
                                           assetTypeDialog(state);
                                         }
                                       },
@@ -196,10 +197,9 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             returnableTextController,
                                         textFormKey: Keys.returnableKey,
                                         hintText: '',
-                                        isEnable:
-                                            false,
+                                        isEnable: false,
                                         isDisableColor:
-                                        state.materialMovement.status == 6,
+                                            state.materialMovement.status == 6,
                                         onChange: (String value) {
                                           log('val----$value');
                                           // state.materialMovement.returnable = value;
@@ -213,7 +213,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                 key: const Key('closed_eye')),
                                             onPressed: () {}),
                                       ),
-
                                     ),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
@@ -392,7 +391,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           child: FlutterInputField(
                                             keyboardType: TextInputType.number,
                                             initialValue:
-                                                state.materialMovement.sentTo,
+                                                '${state.materialMovement.quantity??''}',
                                             textFormKey: Keys.sentToKey,
                                             hintText: '',
                                             isEnable:
@@ -619,54 +618,54 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       ),
                                       widget.materialMovement != null
                                           ? FlutterInputField(
-                                        initialValue: state
-                                            .materialMovement
-                                            .requestorDepartment
-                                            ?.name,
-                                        textFormKey:
-                                        Keys.requesterDepartmentKey,
-                                        hintText: '',
-                                        isEnable: state.materialMovement
-                                            .status !=
-                                            6,
-                                        isDisableColor: state
-                                            .materialMovement
-                                            .status ==
-                                            6,
-                                        onChange: (String value) {},
-                                        validateTextField:
-                                            (String? user) {},
-                                      )
+                                              initialValue: state
+                                                  .materialMovement
+                                                  .requestorDepartment
+                                                  ?.name,
+                                              textFormKey:
+                                                  Keys.requesterDepartmentKey,
+                                              hintText: '',
+                                              isEnable: state.materialMovement
+                                                      .status !=
+                                                  6,
+                                              isDisableColor: state
+                                                      .materialMovement
+                                                      .status ==
+                                                  6,
+                                              onChange: (String value) {},
+                                              validateTextField:
+                                                  (String? user) {},
+                                            )
                                           : TextfieldAddButton(
-                                        title: state.materialMovement
-                                            .requestorDepartment?.name,
-                                        height: 60,
-                                        isDisableColor:
-                                        widget.materialMovement ==
-                                            null
-                                            ? false
-                                            : true,
-                                        onTap: () {
-                                          if (widget.materialMovement ==
-                                              null) {
-                                            BaseDialog().departmentDialog(
-                                              context: context,
-                                              departments:
-                                              state.departments,
-                                              onTap: (Department
-                                              department) {
-                                                BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                    context)
-                                                    .updateDropdownValues(
-                                                    requesterDepartment:
-                                                    department);
+                                              title: state.materialMovement
+                                                  .requestorDepartment?.name,
+                                              height: 60,
+                                              isDisableColor:
+                                                  widget.materialMovement ==
+                                                          null
+                                                      ? false
+                                                      : true,
+                                              onTap: () {
+                                                if (widget.materialMovement ==
+                                                    null) {
+                                                  BaseDialog().departmentDialog(
+                                                    context: context,
+                                                    departments:
+                                                        state.departments,
+                                                    onTap: (Department
+                                                        department) {
+                                                      BlocProvider.of<
+                                                                  MaterialMovementDetailsCubit>(
+                                                              context)
+                                                          .updateDropdownValues(
+                                                              requesterDepartment:
+                                                                  department);
+                                                    },
+                                                  );
+                                                  // leodepartmentsDialog(state);
+                                                }
                                               },
-                                            );
-                                            // leodepartmentsDialog(state);
-                                          }
-                                        },
-                                      ),
+                                            ),
 
                                       /// Sent To
                                       CommonWidgets.textDisplay(
@@ -1512,8 +1511,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                   .materialMovement
                                                   .receiverDepartmenttName,
                                               textFormKey:
-                                                  Keys.claimantTextController,
-                                              hintText: receiverDepartmentName,
+                                                  Keys.receiverDepartmentKey,
+                                              hintText: '',
                                               isEnable: state.materialMovement
                                                       .status !=
                                                   6,
@@ -1540,22 +1539,22 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               height: 60,
                                               isDisableColor:
                                                   widget.materialMovement ==
-                                                              null ||
-                                                          receiverDepartmentName
-                                                              .isEmpty
+                                                          null
                                                       ? false
                                                       : true,
                                               onTap: () {
                                                 if (widget.materialMovement ==
-                                                        null ||
-                                                    receiverDepartmentName
-                                                        .isEmpty) {
+                                                    null) {
                                                   BaseDialog().departmentDialog(
                                                     context: context,
                                                     departments:
                                                         state.departments,
                                                     onTap: (Department
                                                         department) {
+                                                      state.materialMovement
+                                                              .receiverDepartmenttName =
+                                                          department.name;
+
                                                       BlocProvider.of<
                                                                   MaterialMovementDetailsCubit>(
                                                               context)
@@ -2005,12 +2004,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                             inwardState: state,
                             onImageSelected: (CreateImage data) {
                               log('-------function---onImageSelected---------');
-                              List<CreateImage>? files =[];
+                              List<CreateImage>? files = [];
                               files.add(data);
-                              for(CreateImage image in getFiles!.toList()) {
+                              for (CreateImage image in getFiles!.toList()) {
                                 files.add(image);
                               }
-                              BlocProvider.of<MaterialMovementDetailsCubit>(context).addAttchment(files);
+                              BlocProvider.of<MaterialMovementDetailsCubit>(
+                                      context)
+                                  .addAttchment(files);
                             },
                           );
                         });
