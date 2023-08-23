@@ -79,8 +79,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
       // Get Date of Creation
-      state.materialMovement.inputDate = _getCurrentDate();
+      state.materialMovement.inputDate = (DateTime.now().millisecondsSinceEpoch/1000).toString();
 
+      state.materialMovement.inwardMovement = isInward;
       if(state.materialMovement.approvedDate != null) {
         state.materialMovement.approvedDate = Utils().formatUnixTimestamp(
             state.materialMovement.approvedDate ?? '');

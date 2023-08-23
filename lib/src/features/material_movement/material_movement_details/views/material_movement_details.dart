@@ -93,10 +93,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
         body: BlocConsumer<MaterialMovementDetailsCubit,
             MaterialMovementDetailsState>(
           listener: (context, state) {
-            log('--state.status-2-listener--${state.status}----');
-
-            log('-listener--response--msg--${state.message}---');
-
             if (state.status == FormStatus.success) {
               Utils.dynamicAlert(
                   context, state.message ?? '', 'Material Movement', '');
@@ -113,11 +109,9 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                 ? 'Returnable'
                 : 'Non Returnable';
 
-            log('--builder---${state.materialMovement.returnable}------');
             if (state.status == FormStatus.loading) {
               return const Center(child: CircularProgressIndicator());
             }
-            log('--status-2-builder--${state.status}----');
 
             if (state.status == FormStatus.addAttachment || state.status == FormStatus.initial) {
               log('---getAttachments----builder----${getAttachments?.length}-----');
