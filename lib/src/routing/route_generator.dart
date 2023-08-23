@@ -23,6 +23,8 @@ import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../features/guarding_operations/guarding_master_reports/bloc/guarding_master_report_bloc.dart';
+import '../features/guarding_operations/guarding_master_reports/views/guarding_master_reports.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/views/pay_rate_view.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/guarding_rate_details.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/rates_info.dart';
@@ -248,6 +250,14 @@ class RouteGenerator {
                   child: const GuardingRates(),
                 ));
 
+      case guardingMasterReportRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<GuardingMasterReportBloc>(
+                  create: (_) => GuardingMasterReportBloc()
+                    ..add(const FetchReportList(startPos: 0, maxPos: 20)),
+                  child: const GuardingMasterReport(),
+                ));
+
       case guardingRateDetailsRoute:
         String title;
         Map<String, dynamic> arguments =
@@ -257,7 +267,7 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => GuardingRateDetails(
                   title: title,
-                  rate: rate?? GMRate(),
+                  rate: rate ?? GMRate(),
                 ));
 
       case guardingRatesGRIRoute:
@@ -310,7 +320,7 @@ class RouteGenerator {
             builder: (context) => BlocProvider<PayRateCubit>(
                   create: (_) => PayRateCubit(
                     payRates: payRates,
-                    rate: GMRate(),   // TODO: Need to fetch it from arguments
+                    rate: GMRate(), // TODO: Need to fetch it from arguments
                     services: GuardingServices(),
                   ),
                   child: PayRateView(
