@@ -85,25 +85,6 @@ class BasePopUpItems extends StatefulWidget {
 }
 
 class _BasePopUpItemsState extends State<BasePopUpItems> {
-  Widget textHandling(String title, String desc) {
-    return Expanded(
-      child: RichText(
-        text: TextSpan(
-          // Note: Styles for TextSpans must be explicitly defined.
-          // Child text spans will inherit styles from parent
-          style: Styles.textStyleRegularNormalGrey14,
-          children: <TextSpan>[
-            TextSpan(text: title),
-            TextSpan(
-              text: desc,
-              style: Styles.textStyleBoldGrey14,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -137,7 +118,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              textHandling('ID : ', widget.id.toString()),
+              Utils().textHandling('ID : ', widget.id.toString()),
             ],
           ),
           if (widget.slNo != null) ...[
@@ -145,7 +126,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Sl No : ', widget.slNo.toString()),
+                Utils().textHandling('Sl No : ', widget.slNo.toString()),
               ],
             ),
           ],
@@ -153,7 +134,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             CommonWidgets.verticalSpacerWidget(8),
             Row(
               children: [
-                textHandling('Region : ', widget.locationRegion?.name ?? " "),
+                Utils().textHandling('Region : ', widget.locationRegion?.name ?? " "),
               ],
             ),
           ],
@@ -161,7 +142,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             CommonWidgets.verticalSpacerWidget(8),
             Row(
               children: [
-                textHandling('Location : ', widget.location?.name ?? " "),
+                Utils().textHandling('Location : ', widget.location?.name ?? " "),
               ],
             ),
           ],
@@ -169,7 +150,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             CommonWidgets.verticalSpacerWidget(8),
             Row(
               children: [
-                textHandling(
+                Utils().textHandling(
                     'Material Movement Type : ',
                     widget.returnable == true
                         ? 'Returnable'
@@ -182,7 +163,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Challan/Invoice Nos/Gate Pass : ',
+                Utils().textHandling('Challan/Invoice Nos/Gate Pass : ',
                     widget.challanNo.toString()),
               ],
             ),
@@ -192,7 +173,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Quantity : ', widget.quantity.toString()),
+                Utils().textHandling('Quantity : ', widget.quantity.toString()),
               ],
             ),
           ],
@@ -200,7 +181,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             CommonWidgets.verticalSpacerWidget(8),
             Row(
               children: [
-                textHandling(
+                Utils().textHandling(
                     'DateOfCreation : ',
                     widget.inputDate != null
                         ? Utils.timestamptoDateConversion(
@@ -214,44 +195,20 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             CommonWidgets.verticalSpacerWidget(8),
             Row(
               children: [
-                textHandling(
+                Utils().textHandling(
                     'Created By : ', widget.entrySecurityName.toString()),
               ],
             ),
           ],
           if (widget.status != null) ...[
             CommonWidgets.verticalSpacerWidget(5),
-            Row(
-              children: [
-                textHandling(
-                    'Status: ',
-                    widget.status == 0
-                        ? 'Draft'
-                        : widget.status == 1
-                            ? 'Submitted'
-                            : widget.status == 2
-                                ? 'Approved'
-                                : widget.status == 3
-                                    ? 'Rejected'
-                                    : widget.status == 4
-                                        ? 'Outward Pending'
-                                        : widget.status == 5
-                                            ? 'Inward Pending'
-                                            : widget.status == 6
-                                                ? 'Closed/Finalized'
-                                                : ''),
-                // Text(
-                // 'status : ${widget.status}',
-                //style: Styles.textStyleSemiBoldGrey14,
-                //              )
-              ],
-            ),
+            Utils().buildStatusRow(widget.status??0),
           ],
           if (widget.vendorId != null) ...[
             CommonWidgets.verticalSpacerWidget(8),
             Row(
               children: [
-                textHandling('VendorId : ', widget.vendorId.toString()),
+                Utils().textHandling('VendorId : ', widget.vendorId.toString()),
               ],
             ),
           ],
@@ -259,7 +216,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             CommonWidgets.verticalSpacerWidget(8),
             Row(
               children: [
-                textHandling('Vendor : ', widget.vendor.toString()),
+                Utils().textHandling('Vendor : ', widget.vendor.toString()),
               ],
             ),
           ],
@@ -267,7 +224,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             CommonWidgets.verticalSpacerWidget(8),
             Row(
               children: [
-                textHandling('Region : ', widget.region.toString()),
+                Utils().textHandling('Region : ', widget.region.toString()),
               ],
             ),
           ],
@@ -276,7 +233,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Guard Count : ', widget.guardCount.toString()),
+                Utils().textHandling('Guard Count : ', widget.guardCount.toString()),
               ],
             ),
           ],
@@ -285,7 +242,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling(
+                Utils().textHandling(
                     'Total No of Staff MedicalCertificate Not Submitted : ',
                     widget.mcNotSubmitted.toString()),
               ],
@@ -296,7 +253,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Total No of Staff MedicalCertificate Expired : ',
+                Utils().textHandling('Total No of Staff MedicalCertificate Expired : ',
                     widget.mcExpired.toString()),
               ],
             ),
@@ -306,7 +263,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Total No of Staff Photograph Not Submitted : ',
+                Utils().textHandling('Total No of Staff Photograph Not Submitted : ',
                     widget.photoNotSubmitted.toString()),
               ],
             ),
@@ -316,7 +273,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling(
+                Utils().textHandling(
                     'Total No of Staff DeplyomentOrder Not Submitted : ',
                     widget.deploymentOrderPending.toString()),
               ],
@@ -327,7 +284,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Total No of Staff PVC Expired : ',
+                Utils().textHandling('Total No of Staff PVC Expired : ',
                     widget.pvcExpired.toString()),
               ],
             ),
@@ -337,7 +294,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Total No of Staff MSGB Exempted : ',
+                Utils().textHandling('Total No of Staff MSGB Exempted : ',
                     widget.msgbExempted.toString()),
               ],
             ),
@@ -347,7 +304,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Total No of Staff MSGB Not Exempted : ',
+                Utils().textHandling('Total No of Staff MSGB Not Exempted : ',
                     widget.msgbNotExempted.toString()),
               ],
             ),
@@ -357,7 +314,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Total No of Staff MSGB Form B Not Exempted : ',
+                Utils().textHandling('Total No of Staff MSGB Form B Not Exempted : ',
                     widget.msgbFormBNotSubmitted.toString()),
               ],
             ),
@@ -367,7 +324,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Total No of Staff MSGB Form B Under Process : ',
+                Utils().textHandling('Total No of Staff MSGB Form B Under Process : ',
                     widget.msgbFormBUnderProcess.toString()),
               ],
             ),
@@ -377,7 +334,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Total No of Staff With System Access : ',
+                Utils().textHandling('Total No of Staff With System Access : ',
                     widget.systemAccess.toString()),
               ],
             ),
@@ -387,7 +344,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling(
+                Utils().textHandling(
                     'Total No of Staff Training Certificate Pending : ',
                     widget.trainingCertPending.toString()),
               ],
@@ -398,7 +355,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling(
+                Utils().textHandling(
                     'Total No of Staff Precaution Covid Dose Pending : ',
                     widget.precPending.toString()),
               ],
@@ -409,7 +366,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling(
+                Utils().textHandling(
                     'Total No of Staff Precaution Covid Dose Taken  : ',
                     widget.precDoseCount.toString()),
               ],
@@ -420,7 +377,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Total No of Staff ERT Certified  : ',
+                Utils().textHandling('Total No of Staff ERT Certified  : ',
                     widget.ertCertified.toString()),
               ],
             ),
@@ -430,7 +387,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Total No of Staff ERT Pending  : ',
+                Utils().textHandling('Total No of Staff ERT Pending  : ',
                     widget.ertPending.toString()),
               ],
             ),
@@ -440,7 +397,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Total No of Staff ESIC Pending  : ',
+                Utils().textHandling('Total No of Staff ESIC Pending  : ',
                     widget.esicPending.toString()),
               ],
             ),
@@ -450,7 +407,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Total No of Staff UAN Pending  : ',
+                Utils().textHandling('Total No of Staff UAN Pending  : ',
                     widget.uanNoPending.toString()),
               ],
             ),
@@ -460,7 +417,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling(
+                Utils().textHandling(
                     'Total No of Staff FirstAid Training Certified  : ',
                     widget.firstAidCertified.toString()),
               ],
@@ -471,7 +428,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textHandling('Total No of Staff FirstAid Training Pending  : ',
+                Utils().textHandling('Total No of Staff FirstAid Training Pending  : ',
                     widget.firstAidNotCertified.toString()),
               ],
             ),

@@ -55,23 +55,6 @@ class BaseListTileItem extends StatefulWidget {
 }
 
 class _BaseListTileItemState extends State<BaseListTileItem> {
-  Widget textHandling(String title, String desc) {
-    return Expanded(
-      child: RichText(
-        text: TextSpan(
-          style: Styles.textStyleRegularNormalGrey14,
-          children: <TextSpan>[
-            TextSpan(text: title),
-            TextSpan(
-              text: desc,
-              style: Styles.textStyleBoldGrey14,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -94,7 +77,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    textHandling('ID : ', widget.id.toString()),
+                    Utils().textHandling('ID : ', widget.id.toString()),
                     Container(
                       alignment: Alignment.topCenter,
                       child: Row(
@@ -127,7 +110,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                 if (widget.locationRegion != null) ...[
                   Row(
                     children: [
-                      textHandling(
+                      Utils().textHandling(
                           'Region : ', widget.locationRegion?.name ?? ''),
                     ],
                   ),
@@ -185,7 +168,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                   CommonWidgets.verticalSpacerWidget(5),
                   Row(
                     children: [
-                      textHandling('Location : ', widget.location?.name ?? ''),
+                      Utils().textHandling('Location : ', widget.location?.name ?? ''),
                     ],
                   ),
                 ],
@@ -193,7 +176,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                   CommonWidgets.verticalSpacerWidget(5),
                   Row(
                     children: [
-                      textHandling(
+                      Utils().textHandling(
                           'Material Movement Type : ',
                           widget.returnable == true
                               ? 'Returnable'
@@ -205,7 +188,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                   CommonWidgets.verticalSpacerWidget(5),
                   Row(
                     children: [
-                      textHandling(
+                      Utils().textHandling(
                           'Date: ',
                           widget.inputDate != null
                               ? Utils.timestamptoDateConversion(
@@ -217,27 +200,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                 ],
                 if (widget.status != null) ...[
                   CommonWidgets.verticalSpacerWidget(5),
-                  Row(
-                    children: [
-                      textHandling(
-                          'Status: ',
-                          widget.status == 0
-                              ? 'Draft'
-                              : widget.status == 1
-                                  ? 'Submitted'
-                                  : widget.status == 2
-                                      ? 'Approved'
-                                      : widget.status == 3
-                                          ? 'Rejected'
-                                          : widget.status == 4
-                                              ? 'Outward Pending'
-                                              : widget.status == 5
-                                                  ? 'Inward Pending'
-                                                  : widget.status == 6
-                                                      ? 'Closed/Finalized'
-                                                      : ''),
-                    ],
-                  ),
+                  Utils().buildStatusRow(widget.status??0),
                 ],
               ]),
             ),

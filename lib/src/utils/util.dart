@@ -8,6 +8,8 @@ import 'package:db_atom/src/utils/customalert.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'app_themes/styles/app_styles.dart';
+
 class Utils {
   static final Random _random = Random.secure();
 
@@ -110,4 +112,61 @@ class Utils {
       return 'Invalid Date';
     }
   }
+
+
+  Row buildStatusRow(int status) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Draft';
+        break;
+      case 1:
+        statusText = 'Submitted';
+        break;
+      case 2:
+        statusText = 'Approved';
+        break;
+      case 3:
+        statusText = 'Rejected';
+        break;
+      case 4:
+        statusText = 'Outward Pending';
+        break;
+      case 5:
+        statusText = 'Inward Pending';
+        break;
+      case 6:
+        statusText = 'Closed/Finalized';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+
+    return Row(
+      children: [
+        textHandling('Status: ',statusText),
+      ],
+    );
+  }
+
+
+  Widget textHandling(String title, String desc) {
+    return Expanded(
+      child: RichText(
+        text: TextSpan(
+          style: Styles.textStyleRegularNormalGrey14,
+          children: <TextSpan>[
+            TextSpan(text: title),
+            TextSpan(
+              text: desc,
+              style: Styles.textStyleBoldGrey14,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
 }
