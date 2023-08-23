@@ -15,18 +15,21 @@ class GuardingMasterReportModel {
 
   GuardingMasterReportModel.fromJson(Map<String, dynamic> json)
       : list = json['list'],
-        data = (json['data'] as List?)?.map((dynamic e) => GuardingMasterReportsModel.fromJson(e as Map<String,dynamic>)).toList(),
+        data = (json['data'] as List?)
+            ?.map((dynamic e) =>
+                GuardingMasterReportsModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'list' : list,
-    'data' : data?.map((e) => e.toJson()).toList(),
-    'totalCount' : totalCount,
-    'currentPageNo' : currentPageNo,
-    'totalPageCount' : totalPageCount
-  };
+        'list': list,
+        'data': data?.map((e) => e.toJson()).toList(),
+        'totalCount': totalCount,
+        'currentPageNo': currentPageNo,
+        'totalPageCount': totalPageCount
+      };
 }
 
 class GuardingMasterReportsModel {
@@ -118,32 +121,32 @@ class GuardingMasterReportsModel {
         firstAidNotCertified = json['firstAidNotCertified'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'id' : id,
-    'region' : region,
-    'locationRegionId' : locationRegionId,
-    'location' : location,
-    'locationId' : locationId,
-    'vendorId' : vendorId,
-    'vendor' : vendor,
-    'guardCount' : guardCount,
-    'mcNotSubmitted' : mcNotSubmitted,
-    'mcExpired' : mcExpired,
-    'photoNotSubmitted' : photoNotSubmitted,
-    'deploymentOrderPending' : deploymentOrderPending,
-    'pvcExpired' : pvcExpired,
-    'msgbExempted' : msgbExempted,
-    'msgbNotExempted' : msgbNotExempted,
-    'msgbFormBNotSubmitted' : msgbFormBNotSubmitted,
-    'msgbFormBUnderProcess' : msgbFormBUnderProcess,
-    'systemAccess' : systemAccess,
-    'trainingCertPending' : trainingCertPending,
-    'precPending' : precPending,
-    'precDoseCount' : precDoseCount,
-    'ertCertified' : ertCertified,
-    'ertPending' : ertPending,
-    'esicPending' : esicPending,
-    'uanNoPending' : uanNoPending,
-    'firstAidCertified' : firstAidCertified,
-    'firstAidNotCertified' : firstAidNotCertified
-  };
+        'id': id,
+        'region': region,
+        'locationRegionId': locationRegionId,
+        'location': location,
+        'locationId': locationId,
+        'vendorId': vendorId,
+        'vendor': vendor,
+        'guardCount': guardCount,
+        'mcNotSubmitted': mcNotSubmitted,
+        'mcExpired': mcExpired,
+        'photoNotSubmitted': photoNotSubmitted,
+        'deploymentOrderPending': deploymentOrderPending,
+        'pvcExpired': pvcExpired,
+        'msgbExempted': msgbExempted,
+        'msgbNotExempted': msgbNotExempted,
+        'msgbFormBNotSubmitted': msgbFormBNotSubmitted,
+        'msgbFormBUnderProcess': msgbFormBUnderProcess,
+        'systemAccess': systemAccess,
+        'trainingCertPending': trainingCertPending,
+        'precPending': precPending,
+        'precDoseCount': precDoseCount,
+        'ertCertified': ertCertified,
+        'ertPending': ertPending,
+        'esicPending': esicPending,
+        'uanNoPending': uanNoPending,
+        'firstAidCertified': firstAidCertified,
+        'firstAidNotCertified': firstAidNotCertified
+      };
 }

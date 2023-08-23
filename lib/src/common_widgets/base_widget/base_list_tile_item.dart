@@ -30,6 +30,7 @@ class BaseListTileItem extends StatefulWidget {
   // final Item userItem;
   final int? index;
   final bool? showEditButton;
+
   const BaseListTileItem({
     super.key,
     this.id,
@@ -83,16 +84,17 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                       child: Row(
                         children: [
                           ///TODO:Add condition to Remove editicon for MasterReport
-                          if(widget.showEditButton??true)...[
-                          IconButton(
-                            onPressed: () {
-                              //do action on view
-                              widget.onEditTap != null
-                                  ? widget.onEditTap!(widget.index)
-                                  : null;
-                            },
-                            icon: SvgPicture.asset(AppIcon.editIcon),
-                          ),],
+                          if (widget.showEditButton ?? true) ...[
+                            IconButton(
+                              onPressed: () {
+                                //do action on view
+                                widget.onEditTap != null
+                                    ? widget.onEditTap!(widget.index)
+                                    : null;
+                              },
+                              icon: SvgPicture.asset(AppIcon.editIcon),
+                            ),
+                          ],
                           IconButton(
                             onPressed: () {
                               //do action on view
@@ -116,51 +118,40 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                   ),
                 ],
                 if (widget.guardCount != null) ...[
-                  CommonWidgets.verticalSpacerWidget(5),
+                  CommonWidgets.verticalSpacerWidget(8),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Guard Count :  ${widget.guardCount}',
-                          style: Styles.textStyleSemiBoldGrey14),
+                      Utils().textHandling(
+                          'Guard Count : ', widget.guardCount.toString()),
                     ],
                   ),
                 ],
                 if (widget.pvcExpired != null) ...[
-                  CommonWidgets.verticalSpacerWidget(5),
+                  CommonWidgets.verticalSpacerWidget(8),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                          'Total No of Staff PVC Expired :  ${widget.pvcExpired}',
-                          style: Styles.textStyleSemiBoldGrey14),
-                    ],
-                  ),
-                ],
-                if (widget.msgbExempted != null) ...[
-                  CommonWidgets.verticalSpacerWidget(5),
-                  Row(
-                    children: [
-                      Text(
-                          'Total No of Staff PVC Expired :  ${widget.msgbExempted}',
-                          style: Styles.textStyleSemiBoldGrey14),
+                      Utils().textHandling('Total No of Staff PVC Expired : ',
+                          widget.pvcExpired.toString()),
                     ],
                   ),
                 ],
                 if (widget.vendor != null) ...[
-                  CommonWidgets.verticalSpacerWidget(5),
+                  CommonWidgets.verticalSpacerWidget(8),
                   Row(
                     children: [
-                      Text('vendor :  ${widget.vendor}',
-                          style: Styles.textStyleSemiBoldGrey14),
+                      Utils()
+                          .textHandling('Vendor : ', widget.vendor.toString()),
                     ],
                   ),
                 ],
                 if (widget.region != null) ...[
-                  CommonWidgets.verticalSpacerWidget(5),
+                  CommonWidgets.verticalSpacerWidget(8),
                   Row(
                     children: [
-                      Text(
-                        'Region : ${widget.region}',
-                        style: Styles.textStyleSemiBoldGrey14,
-                      )
+                      Utils()
+                          .textHandling('Region : ', widget.region.toString()),
                     ],
                   ),
                 ],
@@ -168,7 +159,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                   CommonWidgets.verticalSpacerWidget(5),
                   Row(
                     children: [
-                      Utils().textHandling('Location : ', widget.location?.name ?? ''),
+                      Utils().textHandling(
+                          'Location : ', widget.location?.name ?? ''),
                     ],
                   ),
                 ],
@@ -200,7 +192,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                 ],
                 if (widget.status != null) ...[
                   CommonWidgets.verticalSpacerWidget(5),
-                  Utils().buildStatusRow(widget.status??0),
+                  Utils().buildStatusRow(widget.status ?? 0),
                 ],
               ]),
             ),

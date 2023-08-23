@@ -2,7 +2,6 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 
@@ -19,19 +18,18 @@ class BasePopUpItems extends StatefulWidget {
   final bool? returnable;
   final String? quantity;
   final String? challanNo;
-  final String? vendorId;
   final String? vendor;
   final String? region;
   final int? guardCount;
   final int? mcNotSubmitted;
-  final dynamic mcExpired;
+  final int? mcExpired;
   final int? photoNotSubmitted;
   final int? deploymentOrderPending;
   final int? pvcExpired;
   final int? msgbExempted;
   final int? msgbNotExempted;
-  final dynamic msgbFormBNotSubmitted;
-  final dynamic msgbFormBUnderProcess;
+  final int? msgbFormBNotSubmitted;
+  final int? msgbFormBUnderProcess;
   final int? systemAccess;
   final int? trainingCertPending;
   final int? precPending;
@@ -58,7 +56,6 @@ class BasePopUpItems extends StatefulWidget {
     this.entrySecurityName,
     this.returnable,
     this.challanNo,
-    this.vendorId,
     this.region,
     this.vendor,
     this.guardCount,
@@ -134,7 +131,8 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             CommonWidgets.verticalSpacerWidget(8),
             Row(
               children: [
-                Utils().textHandling('Region : ', widget.locationRegion?.name ?? " "),
+                Utils().textHandling(
+                    'Region : ', widget.locationRegion?.name ?? " "),
               ],
             ),
           ],
@@ -142,7 +140,8 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             CommonWidgets.verticalSpacerWidget(8),
             Row(
               children: [
-                Utils().textHandling('Location : ', widget.location?.name ?? " "),
+                Utils()
+                    .textHandling('Location : ', widget.location?.name ?? " "),
               ],
             ),
           ],
@@ -202,15 +201,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
           if (widget.status != null) ...[
             CommonWidgets.verticalSpacerWidget(5),
-            Utils().buildStatusRow(widget.status??0),
-          ],
-          if (widget.vendorId != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              children: [
-                Utils().textHandling('VendorId : ', widget.vendorId.toString()),
-              ],
-            ),
+            Utils().buildStatusRow(widget.status ?? 0),
           ],
           if (widget.vendor != null) ...[
             CommonWidgets.verticalSpacerWidget(8),
@@ -233,7 +224,8 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Utils().textHandling('Guard Count : ', widget.guardCount.toString()),
+                Utils().textHandling(
+                    'Guard Count : ', widget.guardCount.toString()),
               ],
             ),
           ],
@@ -253,7 +245,8 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Utils().textHandling('Total No of Staff MedicalCertificate Expired : ',
+                Utils().textHandling(
+                    'Total No of Staff MedicalCertificate Expired : ',
                     widget.mcExpired.toString()),
               ],
             ),
@@ -263,7 +256,8 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Utils().textHandling('Total No of Staff Photograph Not Submitted : ',
+                Utils().textHandling(
+                    'Total No of Staff Photograph Not Submitted : ',
                     widget.photoNotSubmitted.toString()),
               ],
             ),
@@ -314,7 +308,8 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Utils().textHandling('Total No of Staff MSGB Form B Not Exempted : ',
+                Utils().textHandling(
+                    'Total No of Staff MSGB Form B Not Exempted : ',
                     widget.msgbFormBNotSubmitted.toString()),
               ],
             ),
@@ -324,7 +319,8 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Utils().textHandling('Total No of Staff MSGB Form B Under Process : ',
+                Utils().textHandling(
+                    'Total No of Staff MSGB Form B Under Process : ',
                     widget.msgbFormBUnderProcess.toString()),
               ],
             ),
@@ -428,7 +424,8 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Utils().textHandling('Total No of Staff FirstAid Training Pending  : ',
+                Utils().textHandling(
+                    'Total No of Staff FirstAid Training Pending  : ',
                     widget.firstAidNotCertified.toString()),
               ],
             ),
