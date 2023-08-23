@@ -72,87 +72,90 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
     return Column(
       children: [
         Card(
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              side:
-                  const BorderSide(color: AppColors.searchBarBorder, width: 1),
-              borderRadius: circularBorderRadius10,
-            ),
-            child: InkWell(
-                onTap: () {
-                  HapticFeedback.lightImpact();
-                  widget.onTap != null ? widget.onTap!(widget.index) : null;
-                },
-                borderRadius: BorderRadius.circular(8),
-                child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(color: AppColors.searchBarBorder, width: 1),
+            borderRadius: circularBorderRadius10,
+          ),
+          child: InkWell(
+            onTap: () {
+              HapticFeedback.lightImpact();
+              widget.onTap != null ? widget.onTap!(widget.index) : null;
+            },
+            borderRadius: BorderRadius.circular(8),
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    textHandling('ID : ', widget.id.toString()),
+                    Container(
+                      alignment: Alignment.topCenter,
+                      child: Row(
                         children: [
-                          textHandling('ID : ', widget.id.toString()),
-                          Container(
-                            alignment: Alignment.topCenter,
-                            child: Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    //do action on view
-                                    widget.onEditTap != null
-                                        ? widget.onEditTap!(widget.index)
-                                        : null;
-                                  },
-                                  icon: SvgPicture.asset(AppIcon.editIcon),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    //do action on view
-                                    widget.onViewTap != null
-                                        ? widget.onViewTap!(widget.index)
-                                        : null;
-                                  },
-                                  icon: SvgPicture.asset(AppIcon.viewIcon),
-                                ),
-                              ],
-                            ),
+                          IconButton(
+                            onPressed: () {
+                              //do action on view
+                              widget.onEditTap != null
+                                  ? widget.onEditTap!(widget.index)
+                                  : null;
+                            },
+                            icon: SvgPicture.asset(AppIcon.editIcon),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              //do action on view
+                              widget.onViewTap != null
+                                  ? widget.onViewTap!(widget.index)
+                                  : null;
+                            },
+                            icon: SvgPicture.asset(AppIcon.viewIcon),
                           ),
                         ],
                       ),
-                      Row(
-                        children: [
-                          textHandling(
-                              'Region : ', widget.locationRegion?.name ?? ''),
-                        ],
-                      ),
-                      CommonWidgets.verticalSpacerWidget(5),
-                      Row(
-                        children: [
-                          textHandling(
-                              'Location : ', widget.location?.name ?? ''),
-                        ],
-                      ),
-                      CommonWidgets.verticalSpacerWidget(5),
-                      Row(
-                        children: [
-                          textHandling(
-                              'Date: ',
-                              widget.inputDate != null
-                                  ? Utils.timestamptoDateConversion(
-                                      int.parse(widget.inputDate ?? '0'),
-                                      Constants.dateFormat)
-                                  : ''),
-                        ],
-                      ),
-                      CommonWidgets.verticalSpacerWidget(5),
-                      Row(
-                        children: [
-                          Text(
-                            'Status : ${widget.status}',
-                            style: Styles.textStyleSemiBoldGrey14,
-                          )
-                        ],
-                      ),
-                    ])))),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    textHandling(
+                        'Region : ', widget.locationRegion?.name ?? ''),
+                  ],
+                ),
+                CommonWidgets.verticalSpacerWidget(5),
+                Row(
+                  children: [
+                    textHandling('Location : ', widget.location?.name ?? ''),
+                  ],
+                ),
+                CommonWidgets.verticalSpacerWidget(5),
+                Row(
+                  children: [
+                    textHandling(
+                        'Date: ',
+                        widget.inputDate != null
+                            ? Utils.timestamptoDateConversion(
+                                int.parse(widget.inputDate ?? '0'),
+                                Constants.dateFormat)
+                            : ''),
+                  ],
+                ),
+                CommonWidgets.verticalSpacerWidget(5),
+                if(widget.status != null)...[
+                Row(
+                  children: [
+                    Text(
+                      'Status : ${widget.status}',
+                      style: Styles.textStyleSemiBoldGrey14,
+                    )
+                  ],
+                ),
+                ],
+              ]),
+            ),
+          ),
+        ),
         CommonWidgets.verticalSpacerWidget(5),
       ],
     );

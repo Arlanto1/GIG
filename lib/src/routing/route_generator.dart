@@ -8,8 +8,10 @@ import 'package:db_atom/src/features/createfound/views/create_found.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_attachment.dart';
 import 'package:db_atom/src/features/dashboard/views/charts/pie_chart.dart';
 import 'package:db_atom/src/features/dashboard/views/my_home_page.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/bloc/pay_rate_bloc.dart' as payBloc;
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rate_bloc.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/law_enforcement_list/views/ln_list_page.dart';
 import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.dart';
@@ -21,9 +23,9 @@ import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/views/pay_rate_view.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/guarding_rate_details.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/rates_info.dart';
-import '../features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/views/security_guards.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates.dart';
 import '../features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import '../features/material_movement/material_movement_details/views/material_movement_details.dart';
@@ -99,7 +101,8 @@ class RouteGenerator {
       case articleFoundListRoute:
         return MaterialPageRoute(builder: (context) => const FoundList());
       case createFoundAttachmentRoute:
-        return MaterialPageRoute(builder: (context) => const CreateFoundAttachment());
+        return MaterialPageRoute(
+            builder: (context) => const CreateFoundAttachment());
       case piechartRoute:
         return MaterialPageRoute(builder: (context) => PieChartApp());
       case customexpansionlisttextsRoute:
@@ -173,7 +176,6 @@ class RouteGenerator {
         }
         return MaterialPageRoute(builder: (context) => CreatePassManagement());
 
-
       case materialMovementInwardsOutwardsRoute:
         bool isInward = true;
         if (settings.arguments != null) {
@@ -237,116 +239,84 @@ class RouteGenerator {
       case guardingRatesRoute:
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<GuardingRateBloc>(
-              create: (_) => GuardingRateBloc()
-                ..add(const FetchList(startPos: 0, maxPos: 20)),
-              child: const GuardingRates(
-              ),
-            ));
+                  create: (_) => GuardingRateBloc()
+                    ..add(const FetchList(startPos: 0, maxPos: 20)),
+                  child: const GuardingRates(),
+                ));
 
       case guardingRateDetailsRoute:
         String title;
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         title = arguments['title'];
-        return MaterialPageRoute(builder: (context) =>  GuardingRateDetails(
-          title: title,
-        ));
+        GMRate? rate = arguments['rate'];
+        return MaterialPageRoute(
+            builder: (context) => GuardingRateDetails(
+                  title: title,
+                  rate: rate?? GMRate(),
+                ));
 
       case guardingRatesGRIRoute:
-
         MaterialMovementServices services = MaterialMovementServices();
         CommonServices commonServices = CommonServices();
         bool isInward = true;
         String title;
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         title = arguments['title'];
         MaterialMovementModel? materialMovement =
-        arguments["MaterialMovementModel"];
+            arguments["MaterialMovementModel"];
 
         if (materialMovement != null) {
           return MaterialPageRoute(
               builder: (context) => BlocProvider<MaterialMovementDetailsCubit>(
-                create: (_) => MaterialMovementDetailsCubit(
-                  materialMovementServices: services,
-                  commonServices: commonServices,
-                  model: materialMovement,
-                  isInward: isInward,
-                ),
-                child: RatesInfo(
-                  // materialMovement: materialMovement,
-                  title: title,
-                ),
-              ));
+                    create: (_) => MaterialMovementDetailsCubit(
+                      materialMovementServices: services,
+                      commonServices: commonServices,
+                      model: materialMovement,
+                      isInward: isInward,
+                    ),
+                    child: RatesInfo(
+                      // materialMovement: materialMovement,
+                      title: title,
+                    ),
+                  ));
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<MaterialMovementDetailsCubit>(
-              create: (_) => MaterialMovementDetailsCubit(
-                materialMovementServices: services,
-                commonServices: commonServices,
-                model: MaterialMovementModel(),
-                isInward: isInward,
-              ),
-              child: const RatesInfo(
-                title: 'Guarding Rates Information',
-              ),
-            ));
+                  create: (_) => MaterialMovementDetailsCubit(
+                    materialMovementServices: services,
+                    commonServices: commonServices,
+                    model: MaterialMovementModel(),
+                    isInward: isInward,
+                  ),
+                  child: const RatesInfo(
+                    title: 'Guarding Rates Information',
+                  ),
+                ));
 
-      // case guardingRatesSSRoute:
-      //
-      //   MaterialMovementServices services = MaterialMovementServices();
-      //   CommonServices commonServices = CommonServices();
-      //   bool isInward = true;
-      //   String title;
-      //   Map<String, dynamic> arguments =
-      //   settings.arguments as Map<String, dynamic>;
-      //   title = arguments['title'];
-      //   MaterialMovementModel? materialMovement =
-      //   arguments["MaterialMovementModel"];
-      //
-      //   if (materialMovement != null) {
-      //     return MaterialPageRoute(
-      //         builder: (context) => BlocProvider<MaterialMovementDetailsCubit>(
-      //           create: (_) => MaterialMovementDetailsCubit(
-      //             materialMovementServices: services,
-      //             commonServices: commonServices,
-      //             model: materialMovement,
-      //             isInward: isInward,
-      //           ),
-      //           child: SecurityGuards(
-      //             // materialMovement: materialMovement,
-      //           ),
-      //         ));
-      //   }
-      //   return MaterialPageRoute(
-      //       builder: (context) => BlocProvider<MaterialMovementDetailsCubit>(
-      //         create: (_) => MaterialMovementDetailsCubit(
-      //           materialMovementServices: services,
-      //           commonServices: commonServices,
-      //           model: MaterialMovementModel(),
-      //           isInward: isInward,
-      //         ),
-      //         child: const SecurityGuards(
-      //         ),
-      //       ));
-
-
-      case guardingRatesSSRoute:
+      case payRateRoute:
+        List<PayRate> payRates = [];
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
+          payRates = arguments['payRates'];
         }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<payBloc.PayRateBloc>(
-              create: (_) => payBloc.PayRateBloc()
-                ..add(const payBloc.FetchList(startPos: 0, maxPos: 20)),
-              child: const SecurityGuards(
-              ),
-            ));
+            builder: (context) => BlocProvider<PayRateCubit>(
+                  create: (_) => PayRateCubit(
+                    payRates: payRates,
+                    rate: GMRate(),   // TODO: Need to fetch it from arguments
+                    services: GuardingServices(),
+                  ),
+                  child: PayRateView(
+                    payRates: payRates,
+                  ),
+                ));
       default:
         return MaterialPageRoute(builder: (context) => App());
     }

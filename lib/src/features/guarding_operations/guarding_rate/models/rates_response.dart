@@ -1,16 +1,13 @@
-import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
-
 import '../../../../models/department.dart';
+import '../../../material_movement/models/material_movements_model.dart';
 
 class RatesResponse {
-  final dynamic list;
-  final List<GMRate>? items;
-  final int? totalCount;
-  final int? currentPageNo;
-  final int? totalPageCount;
+  List<GMRate>? items;
+  int? totalCount;
+  int? currentPageNo;
+  int? totalPageCount;
 
   RatesResponse({
-    this.list,
     this.items,
     this.totalCount,
     this.currentPageNo,
@@ -18,14 +15,12 @@ class RatesResponse {
   });
 
   RatesResponse.fromJson(Map<String, dynamic> json)
-      : list = json['list'],
-        items = (json['data'] as List?)?.map((dynamic e) => GMRate.fromJson(e as Map<String,dynamic>)).toList(),
+      : items = (json['data'] as List?)?.map((dynamic e) => GMRate.fromJson(e as Map<String,dynamic>)).toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'list' : list,
     'data' : items?.map((e) => e.toJson()).toList(),
     'totalCount' : totalCount,
     'currentPageNo' : currentPageNo,
@@ -34,24 +29,28 @@ class RatesResponse {
 }
 
 class GMRate {
-  final int? id;
-  final String? slNo;
-  final EntrySecurity? entrySecurity;
-  final List<dynamic>? entities;
-  final String? inputDate;
-  final int? modifiedDate;
-  final String? modifiedBy;
-  final Department? vendor;
-  final List<PayRate>? securityGuardRates;
-  final List<PayRate>? securityOfficerRates;
-  final List<PayRate>? securitySupervisorRates;
-  final List<PayRate>? securityFacilitatorRates;
-  final List<PayRate>? securityGunManRates;
-  final List<History>? history;
+  int? id;
+  String? slNo;
+  Location? location;
+  LocationRegion? locationRegion;
+  EntrySecurity? entrySecurity;
+  List<dynamic>? entities;
+  String? inputDate;
+  int? modifiedDate;
+  String? modifiedBy;
+  Department? vendor;
+  List<PayRate>? securityGuardRates;
+  List<PayRate>? securityOfficerRates;
+  List<PayRate>? securitySupervisorRates;
+  List<PayRate>? securityFacilitatorRates;
+  List<PayRate>? securityGunManRates;
+  List<dynamic>? history;
 
   GMRate({
     this.id,
     this.slNo,
+    this.location,
+    this.locationRegion,
     this.entrySecurity,
     this.entities,
     this.inputDate,
@@ -69,6 +68,8 @@ class GMRate {
   GMRate.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
         slNo = json['slNo'] as String?,
+        location = (json['location'] as Map<String,dynamic>?) != null ? Location.fromJson(json['location'] as Map<String,dynamic>) : null,
+        locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? LocationRegion.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? EntrySecurity.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         entities = json['entities'] as List?,
         inputDate = json['inputDate'] as String?,
@@ -80,13 +81,13 @@ class GMRate {
         securitySupervisorRates = (json['securitySupervisorRates'] as List?)?.map((dynamic e) => PayRate.fromJson(e as Map<String,dynamic>)).toList(),
         securityFacilitatorRates = (json['securityFacilitatorRates'] as List?)?.map((dynamic e) => PayRate.fromJson(e as Map<String,dynamic>)).toList(),
         securityGunManRates = (json['securityGunManRates'] as List?)?.map((dynamic e) => PayRate.fromJson(e as Map<String,dynamic>)).toList(),
-        history = (json['history'] as List?)
-            ?.map((dynamic e) => History.fromJson(e as Map<String, dynamic>))
-            .toList();
+        history = json['history'] as List?;
 
   Map<String, dynamic> toJson() => {
     'id' : id,
     'slNo' : slNo,
+    'location' : location?.toJson(),
+    'locationRegion' : locationRegion?.toJson(),
     'entrySecurity' : entrySecurity?.toJson(),
     'entities' : entities,
     'inputDate' : inputDate,
@@ -102,19 +103,21 @@ class GMRate {
   };
 }
 
+
+
 class EntrySecurity {
-  final int? userId;
-  final String? userName;
-  final String? email;
-  final String? firstName;
-  final String? lastName;
-  final String? phone;
-  final List<Roles>? roles;
-  final List<RoleExtensions>? roleExtensions;
-  final List<dynamic>? notApprovedRoles;
-  final List<dynamic>? notApprovedRoleExtensions;
-  final String? name;
-  final String? userStatus;
+  int? userId;
+  String? userName;
+  String? email;
+  String? firstName;
+  String? lastName;
+  String? phone;
+  List<Roles>? roles;
+  List<RoleExtensions>? roleExtensions;
+  List<dynamic>? notApprovedRoles;
+  List<dynamic>? notApprovedRoleExtensions;
+  String? name;
+  String? userStatus;
 
   EntrySecurity({
     this.userId,
@@ -162,11 +165,11 @@ class EntrySecurity {
 }
 
 class Roles {
-  final int? roleId;
-  final String? application;
-  final String? roleName;
-  final List<RoleExtensions>? roleExtensions;
-  final String? name;
+  int? roleId;
+  String? application;
+  String? roleName;
+  List<RoleExtensions>? roleExtensions;
+  String? name;
 
   Roles({
     this.roleId,
@@ -193,14 +196,14 @@ class Roles {
 }
 
 class RoleExtensions {
-  final int? roleExtensionId;
-  final int? roleId;
-  final String? displayName;
-  final String? area;
-  final String? filter;
-  final dynamic rootNodeId;
-  final dynamic nodeId;
-  final dynamic accessRight;
+  int? roleExtensionId;
+  int? roleId;
+  String? displayName;
+  String? area;
+  String? filter;
+  dynamic rootNodeId;
+  dynamic nodeId;
+  dynamic accessRight;
 
   RoleExtensions({
     this.roleExtensionId,
@@ -237,16 +240,17 @@ class RoleExtensions {
 
 
 
+
 class PayRate {
-  final int? id;
-  final int? rankId;
-  final Department? vendor;
-  final dynamic days;
-  final dynamic perHour;
-  final dynamic total;
-  final dynamic fromDate;
-  final dynamic toDate;
-  final String? comment;
+  int? id;
+  int? rankId;
+  Department? vendor;
+  double? days;
+  double? perHour;
+  int? total;
+  String? fromDate;
+  String? toDate;
+  String? comment;
 
   PayRate({
     this.id,
@@ -264,11 +268,11 @@ class PayRate {
       : id = json['id'] as int?,
         rankId = json['rankId'] as int?,
         vendor = (json['vendor'] as Map<String,dynamic>?) != null ? Department.fromJson(json['vendor'] as Map<String,dynamic>) : null,
-        days = json['days'],
-        perHour = json['perHour'],
-        total = json['total'],
-        fromDate = json['fromDate'],
-        toDate = json['toDate'],
+        days = json['days'] as double?,
+        perHour = json['perHour'] as double?,
+        total = json['total'] as int?,
+        fromDate = json['fromDate'] as String?,
+        toDate = json['toDate'] as String?,
         comment = json['comment'] as String?;
 
   Map<String, dynamic> toJson() => {
@@ -283,3 +287,4 @@ class PayRate {
     'comment' : comment
   };
 }
+

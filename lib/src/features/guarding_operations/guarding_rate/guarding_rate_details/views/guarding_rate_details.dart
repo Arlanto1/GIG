@@ -4,6 +4,7 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/configurations/main_config.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/dashboard/views/drawer/drawer_reusable.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,8 @@ import 'package:flutter/material.dart';
 
 class GuardingRateDetails extends StatefulWidget {
   final String title;
-  const GuardingRateDetails({super.key, required this.title});
+  final GMRate rate;
+  const GuardingRateDetails({super.key, required this.title, required this.rate});
 
   @override
   State<GuardingRateDetails> createState() => GuardingRateDetailsState();
@@ -62,7 +64,7 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
                         style: Styles.styleHeaderGreyText16,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
-                      const GuardingRectangle(),
+                       GuardingRectangle(rate: widget.rate),
                     ],
                   ),
                 ),

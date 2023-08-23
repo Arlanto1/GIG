@@ -64,6 +64,15 @@ class Keys {
   static const String materialComingFromKey = 'materialComingFromKey_mmo';
   static const String securitySignKey = 'securitySignKey_mm';
 
+  /// Guarding Rates
+  static const String totalKey = 'totalKey_gr';
+  static const String daysKey = 'daysKey_gr';
+  static const String perHourKey = 'perHourKey_gr';
+  static const String fromDate = 'fromDate_gr';
+  static const String toDateKey = 'toDateKey_gr';
+  static const String commentKey = 'commentKey_gr';
+
+
   //list page
   static const String searchInputField = 'search_input_field';
   static const String returnableField = 'returnableField';

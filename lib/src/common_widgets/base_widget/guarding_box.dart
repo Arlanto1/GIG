@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:db_atom/src/constants/constants.dart';
+import '../../features/guarding_operations/guarding_rate/models/rates_response.dart';
 import '../../routing/router.dart';
 import '../../utils/app_themes/styles/app_styles.dart';
 
 class GuardingRectangle extends StatefulWidget {
-  const GuardingRectangle({Key? key}) : super(key: key);
+  final GMRate rate;
+  const GuardingRectangle({Key? key, required this.rate}) : super(key: key);
+
 
   @override
   State<GuardingRectangle> createState() => _GuardingRectangleState();
@@ -40,10 +43,10 @@ class _GuardingRectangleState extends State<GuardingRectangle> {
             const SizedBox(width: 19),
             InkWell(
               onTap: (){
-                Navigator.pushNamed(context, guardingRatesSSRoute,
+                Navigator.pushNamed(context, payRateRoute,
                     arguments: {
                       "title": Constants.createSecurityGuard,
-
+                      "payRates" :widget.rate.securityGuardRates??[],
                     });
               },
               child: buildRectangleBox(
@@ -57,7 +60,7 @@ class _GuardingRectangleState extends State<GuardingRectangle> {
         const SizedBox(height: 19), // Add spacing between the columns
         InkWell(
           onTap: (){
-            Navigator.pushNamed(context, guardingRatesSSRoute,
+            Navigator.pushNamed(context, payRateRoute,
                 arguments: {
                   "title": Constants.createGuardingRatingCards,
 

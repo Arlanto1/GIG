@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -16,7 +17,7 @@ class GuardingRateBloc extends Bloc<GuardingRateEvent, GuardingRateState> {
   GuardingRateBloc()
       : super(const GuardingRateState()) {
     on<FetchList>(
-      _fetchMaterialMovements,
+      _fetchList,
       transformer: droppable(),
     );
   }
@@ -24,19 +25,22 @@ class GuardingRateBloc extends Bloc<GuardingRateEvent, GuardingRateState> {
   final GuardingServices _materialMovementServices =
   GuardingServices();
 
-  FutureOr<void> _fetchMaterialMovements(
+  FutureOr<void> _fetchList(
       FetchList event, Emitter<GuardingRateState> emit) async {
     try {
       if (state.hasReachedMax) return;
 
+      log('----_fetchList----');
+
       if (state.status == LawEnforcementListStateType.initial) {
         RatesResponse getMaterialMovements =
-        await _materialMovementServices.getMaterialMovements(
+        await _materialMovementServices.getRates(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '77',
-          mmType: 1,
         );
+
+        log('-getMaterialMovements----1-----$getMaterialMovements----');
 
         return emit(
           state.copyWith(
@@ -46,14 +50,16 @@ class GuardingRateBloc extends Bloc<GuardingRateEvent, GuardingRateState> {
           ),
         );
       }
+      log('----_fetchList--22--');
 
       RatesResponse getMaterialMovements =
-      await _materialMovementServices.getMaterialMovements(
+      await _materialMovementServices.getRates(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '77',   //TODO: make it dynamic
-        mmType: 1,
       );
+
+      log('-getMaterialMovements----2-----$getMaterialMovements----');
 
       if (getMaterialMovements.items?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));

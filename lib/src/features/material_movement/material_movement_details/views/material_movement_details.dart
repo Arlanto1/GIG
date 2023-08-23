@@ -192,7 +192,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         height * 0.001),
                                     GestureDetector(
                                       onTap: () {
-                                        if (widget.materialMovement == null) {
+                                        if (state.materialMovement.status != 6) {
                                           assetTypeDialog(state);
                                         }
                                       },
@@ -202,9 +202,9 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         textFormKey: Keys.returnableKey,
                                         hintText: '',
                                         isEnable:
-                                            state.materialMovement.status != 6,
+                                            false,
                                         isDisableColor:
-                                            state.materialMovement.status == 6,
+                                        state.materialMovement.status == 6,
                                         onChange: (String value) {
                                           log('val----$value');
                                           // state.materialMovement.returnable = value;
@@ -219,35 +219,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             onPressed: () {}),
                                       ),
 
-                                      //   FlutterInputField(
-                                      //       isEnable: false,
-                                      //       isDisableColor: widget.isInward,
-                                      //       initialValue: state.materialMovement
-                                      //                   .returnable ==
-                                      //               true
-                                      //           ? 'Returnable'
-                                      //           : 'Non Returnable',
-                                      //       textFormKey: Keys.returnableKey,
-                                      //       hintText: '',
-                                      //       onChange: (String value) {
-                                      //         bool isReturnable =
-                                      //         value == 'Returnable'
-                                      //             ? true
-                                      //             : false;
-                                      //         state.materialMovement
-                                      //             .returnable = isReturnable;
-                                      //         BlocProvider.of<InwardCubit>(
-                                      //             context)
-                                      //             .updateDropdownValues(
-                                      //             isReturnable: isReturnable);
-                                      //       },
-                                      //       suffixWidget: IconButton(
-                                      //           icon: SvgPicture.asset(
-                                      //               width: 10,
-                                      //               height: 10,
-                                      //               AppIcon.dropdownicon,
-                                      //               key: const Key('closed_eye')),
-                                      //           onPressed: () {})),
                                     ),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
@@ -593,7 +564,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               : FlutterInputField(
                                                   initialValue: state
                                                       .materialMovement
-                                                      .receiverEmail,
+                                                      .requestorEmail,
                                                   textFormKey:
                                                       Keys.requesterEmailKey,
                                                   hintText: '',
