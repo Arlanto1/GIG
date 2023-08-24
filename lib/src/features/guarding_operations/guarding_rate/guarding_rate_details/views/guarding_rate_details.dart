@@ -97,7 +97,7 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
               onTap: () {
                 Navigator.pushNamed(context, guardingRatesGRIRoute, arguments: {
                   "title": Constants.createGuardingRatingCards,
-                  "model": widget.rate,
+                  "gmRate": widget.rate,
                 });
               },
               child: buildRectangleBox(
@@ -124,42 +124,71 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
           ],
         ),
         const SizedBox(height: 19), // Add spacing between the columns
-        InkWell(
-          onTap: () {
-            Navigator.pushNamed(context, payRateRoute, arguments: {
-              "title": Constants.createGuardingRatingCards,
-            });
-          },
-          child: Row(
-            children: [
-              buildRectangleBox(
+        Row(
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, payRateRoute, arguments: {
+                  "title": Constants.createSecuritySupervisor,
+                  "payRates": widget.rate.securitySupervisorRates ?? [],
+                  "gmRate": widget.rate,
+                });
+              },
+              child: buildRectangleBox(
                 imageAsset: 'assets/images/security.png',
                 text: 'Security Supervisor',
                 // Add the text
                 bottomPadding: 22,
               ),
-              const SizedBox(width: 19), // Add some spacing between the boxes
-              buildRectangleBox(
+            ),
+            const SizedBox(width: 19), // Add some spacing between the boxes
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, payRateRoute, arguments: {
+                  "title": Constants.createSecurityOfficer,
+                  "payRates": widget.rate.securityGuardRates ?? [],
+                  "gmRate": widget.rate,
+                });
+              },
+              child: buildRectangleBox(
                 imageAsset: 'assets/images/security.png',
                 text: 'Security Officer',
                 bottomPadding: 22,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         const SizedBox(height: 19),
         Row(
           children: [
-            buildRectangleBox(
-              imageAsset: 'assets/images/security.png',
-              text: 'Security Facilitator',
-              bottomPadding: 22,
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, payRateRoute, arguments: {
+                  "title": Constants.createSecurityFacilitator,
+                  "payRates": widget.rate.securityFacilitatorRates ?? [],
+                  "gmRate": widget.rate,
+                });
+              },
+              child: buildRectangleBox(
+                imageAsset: 'assets/images/security.png',
+                text: 'Security Facilitator',
+                bottomPadding: 22,
+              ),
             ),
             const SizedBox(width: 19), // Add some spacing between the boxes
-            buildRectangleBox(
-              imageAsset: 'assets/images/securityGunMan.png',
-              text: 'Gun Man',
-              bottomPadding: 22,
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, payRateRoute, arguments: {
+                  "title": Constants.createGunMan,
+                  "payRates": widget.rate.securityGunManRates ?? [],
+                  "gmRate": widget.rate,
+                });
+              },
+              child: buildRectangleBox(
+                imageAsset: 'assets/images/securityGunMan.png',
+                text: 'Gun Man',
+                bottomPadding: 22,
+              ),
             ),
           ],
         ),

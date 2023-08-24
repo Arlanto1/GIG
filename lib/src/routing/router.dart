@@ -35,7 +35,7 @@ const String guardingMasterDataRoute = '/guardingMasterDataRoute';
 const String guardingRateDetailsRoute = '/guardingRateDetailsRoute';
 const String guardingRatesRoute = '/guardingRatesRoute';
 const String guardingRatesGRIRoute = '/guardingRatesGRIRoute';
-const String payRateRoute = '/guardingRatesSSRoute';
+const String payRateRoute = '/payRateRoute';
 
 
 

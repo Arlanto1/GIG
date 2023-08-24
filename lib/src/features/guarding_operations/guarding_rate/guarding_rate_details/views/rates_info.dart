@@ -6,7 +6,6 @@ import 'package:db_atom/src/common_widgets/base_widget/department_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
-import 'package:db_atom/src/common_widgets/custom_simple_list_texts.dart';
 import 'package:db_atom/src/common_widgets/image_download.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
@@ -17,9 +16,11 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
+import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -29,11 +30,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../common_widgets/create_fields.dart';
-import '../../../../../common_widgets/custom_multiple_selection_popup.dart';
 import '../../../../../common_widgets/date_time_picker.dart';
 import '../../../../../models/department.dart';
-import '../../../../lawenforcement/models/addentities.dart';
 
 class RatesInfo extends StatefulWidget {
   final GMRate? rate;
@@ -69,6 +67,8 @@ class _RatesInfoState extends State<RatesInfo> {
 
   @override
   Widget build(BuildContext context) {
+    final PayRateCubit myCubit = PayRateCubit(
+        services: GuardingServices(), rate: GMRate(), payRates: []);
     final size = MediaQuery.of(context).size;
     final height = size.height;
     return Scaffold(
@@ -83,20 +83,33 @@ class _RatesInfoState extends State<RatesInfo> {
             //     .submitForm(isSaveOnly: true);
           },
         ),
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            cancelButtonDisplay(),
-            // TODO: Need to remove this InkWell as Navigation will be handled via Bloc Listener
-            InkWell(onTap: (){
-
-
-            },child: submitButtonDisplay()),
-          ],
-        ),
+        // floatingActionButton: Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+        //   children: [
+        //     cancelButtonDisplay(),
+        //     // TODO: Need to remove this InkWell as Navigation will be handled via Bloc Listener
+        //     submitButtonDisplay(onTap: () {
+        //
+        //
+        //       final state = myCubit.state;
+        //       log('-onTapSubmit--${state.rate.vendor?.name}----');
+        //       FocusScope.of(context).unfocus();
+        //       BlocProvider.of<PayRateCubit>(context).onSave(
+        //         isSubmit: false,
+        //       );
+        //       Navigator.pushNamed(
+        //         context,
+        //         payRateRoute,
+        //         arguments: {
+        //           "gmRate": state.rate,
+        //           "title": Constants.materialMovementOutwardEdit,
+        //         },
+        //       );
+        //     }),
+        //   ],
+        // ),
         backgroundColor: AppColors.backgroundWhitecolor,
-        body: BlocConsumer<PayRateCubit,
-            PayRateState>(
+        body: BlocConsumer<PayRateCubit, PayRateState>(
           listener: (context, state) {
             if (state.status == FormStatus.success) {
               Utils.dynamicAlert(
@@ -155,7 +168,8 @@ class _RatesInfoState extends State<RatesInfo> {
                                       children: [
                                         CommonWidgets.verticalTextHandling(
                                             Constants.createdby,
-                                            state.loggedInUserDetails?.name ?? ''),
+                                            state.loggedInUserDetails?.name ??
+                                                ''),
                                         CommonWidgets.verticalSpacerWidget(
                                             height * 0.01),
                                       ],
@@ -188,8 +202,7 @@ class _RatesInfoState extends State<RatesInfo> {
 
                                 /// Sl No.
                                 CommonWidgets.horizentaltextHandling(
-                                    Constants.slno,
-                                    state.rate.slNo ?? ''),
+                                    Constants.slno, state.rate.slNo ?? ''),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -202,8 +215,8 @@ class _RatesInfoState extends State<RatesInfo> {
                                     height * 0.01),
 
                                 /// entity type
-                                CommonWidgets.textDisplay(Constants.entity,
-                                    Styles.textStyleBlack14),
+                                CommonWidgets.textDisplay(
+                                    Constants.entity, Styles.textStyleBlack14),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 // entityaddButtonwidgetLoading(state),
@@ -217,38 +230,29 @@ class _RatesInfoState extends State<RatesInfo> {
                                 ),
                                 widget.rate == null
                                     ? FlutterInputField(
-                                        initialValue: state.rate
-                                            .vendor?.name,
-                                        textFormKey:
-                                            Keys.vendorDepartmentKey,
+                                        initialValue: state.rate.vendor?.name,
+                                        textFormKey: Keys.vendorDepartmentKey,
                                         hintText: '',
-                                        isEnable:
-                                            true,
-                                        isDisableColor:
-                                            false,
+                                        isEnable: true,
+                                        isDisableColor: false,
                                         onChange: (String value) {},
                                         validateTextField: (String? user) {},
                                       )
                                     : TextfieldAddButton(
-                                        title: state.rate
-                                            .vendor?.name,
+                                        title: state.rate.vendor?.name,
                                         height: 60,
-
-                                        isDisableColor:
-                                            false,
+                                        isDisableColor: false,
                                         onTap: () {
-                                            BaseDialog().departmentDialog(
-                                              context: context,
-                                              departments: state.departments,
-                                              onTap: (Department department) {
-                                                BlocProvider.of<
-                                                            PayRateCubit>(
-                                                        context)
-                                                    .updateDropdownValues(
-                                                        vendor:
-                                                            department);
-                                              },
-                                            );
+                                          BaseDialog().departmentDialog(
+                                            context: context,
+                                            departments: state.departments,
+                                            onTap: (Department department) {
+                                              BlocProvider.of<PayRateCubit>(
+                                                      context)
+                                                  .updateDropdownValues(
+                                                      vendor: department);
+                                            },
+                                          );
                                         },
                                       ),
 
@@ -259,6 +263,33 @@ class _RatesInfoState extends State<RatesInfo> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             CommonWidgets.verticalSpacerWidget(height * 0.04),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                cancelButtonDisplay(),
+                                submitButtonDisplay(onTap: () {
+                                  log('-onTapSubmit--${state.rate.vendor?.name}----');
+                                  FocusScope.of(context).unfocus();
+                                  // BlocProvider.of<PayRateCubit>(context).onSave(
+                                  //   isSubmit: false,
+                                  // );
+
+                                  // BlocProvider.of<PayRateCubit>(context)
+                                  //     .onModelValueChange(state.);
+
+                                  Navigator.pushNamed(
+                                    context,
+                                    payRateRoute,
+                                    arguments: {
+                                      "payRates": state.rate.securityGuardRates,
+                                      "gmRate": state.rate,
+                                      "title":
+                                          Constants.materialMovementOutwardEdit,
+                                    },
+                                  );
+                                }),
+                              ],
+                            )
                           ]),
                     ),
                   ),
@@ -268,30 +299,6 @@ class _RatesInfoState extends State<RatesInfo> {
           },
         )); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
-
-  String getStatusString(int status) {
-    switch (status) {
-      case 0:
-        return 'Draft';
-      case 1:
-        return 'Submitted';
-      case 2:
-        return 'Approved';
-      case 3:
-        return 'Rejected';
-      case 4:
-        return 'Outward Waiting';
-      case 5:
-        return 'Inward Waiting';
-      case 6:
-        return 'Closed';
-      case 7:
-        return 'Cancelled';
-      default:
-        return 'Unknown Status';
-    }
-  }
-
 
   Widget datepickerWidgetLoading({
     required TextEditingController textfiled,
@@ -385,7 +392,6 @@ class _RatesInfoState extends State<RatesInfo> {
   //       });
   // }
 
-
   datePickerDialog(TextEditingController textfield) async {
     DateTime? pickedDate = await showDateTimePicker(
         context: context,
@@ -407,7 +413,7 @@ class _RatesInfoState extends State<RatesInfo> {
       width: 150,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.previous,
+      buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
@@ -415,26 +421,20 @@ class _RatesInfoState extends State<RatesInfo> {
     );
   }
 
-  Widget submitButtonDisplay() {
+  Widget submitButtonDisplay({required Function onTap}) {
     return AppButton(
       width: 150,
       key: const Key(Keys.submitButton),
       buttonText: Constants.next,
       buttonTextKey: Keys.submitButton,
-      onTap: () async {
-        FocusScope.of(context).unfocus();
-        // BlocProvider.of<PayRateCubit>(context).submitForm();
-      },
+      onTap: onTap,
     );
   }
 
-
   Widget locationWidgetdislay(PayRateState state) {
-
     return GestureDetector(
       onTap: () {
-        if (widget.rate == null ||
-            (state.rate.location?.name ?? '').isEmpty) {
+        if (widget.rate == null || (state.rate.location?.name ?? '').isEmpty) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
@@ -472,8 +472,7 @@ class _RatesInfoState extends State<RatesInfo> {
           );
         }
       },
-      child: SelectedTileValueWidget(
-          name: state.rate.location?.name ?? ''),
+      child: SelectedTileValueWidget(name: state.rate.location?.name ?? ''),
     );
   }
 
@@ -489,63 +488,4 @@ class _RatesInfoState extends State<RatesInfo> {
     );
   }
 
-  Widget attachmentListviews(
-    List<CreateImage>? attachmentListviews,
-    List<FoundImage>? attachmentListviews1,
-  ) {
-    log('----attachmentListviews-----${attachmentListviews?.length}-----------');
-    log('----attachmentListviews1-----${attachmentListviews1?.length}-----------');
-
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: const Color(0xFFCACACA),
-          style: BorderStyle.solid,
-          width: 1.0,
-        ),
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount:
-              attachmentListviews1?.length ?? attachmentListviews?.length ?? 0,
-          itemBuilder: (BuildContext context, int index) {
-            CreateImage? imagedata;
-            FoundImage? imagedata1;
-            if (widget.rate != null) {
-              imagedata1 = attachmentListviews1?[index];
-            } else {
-              imagedata = attachmentListviews?[index];
-            }
-
-            return Column(
-              children: <Widget>[
-                ListTile(
-                  trailing: widget.rate != null
-                      ? SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground)
-                      : const SizedBox(
-                          height: 0,
-                          width: 0,
-                        ),
-                  onTap: () {
-                    DownloadImage().saveImage(
-                        context, imagedata1?.id ?? 0, imagedata1?.title ?? '');
-                  },
-                  title: widget.rate != null
-                      ? Text(imagedata1?.title ?? '')
-                      : Text(imagedata?.title ?? ''),
-                ),
-
-                const Divider(
-                  color: Color(0xFFCACACA),
-                  thickness: 1,
-                ), //                           <-- Divider
-              ],
-            );
-          }),
-    );
-  }
 }

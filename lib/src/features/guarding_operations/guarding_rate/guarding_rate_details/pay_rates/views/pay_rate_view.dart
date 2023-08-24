@@ -3,31 +3,31 @@ import 'dart:developer';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
-import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
-import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
-import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../common_widgets/app_button.dart';
+import '../../../../../../routing/router.dart';
+import '../../../../../../utils/helpers/keys/keys.dart';
 import '../cubits/pay_rate_cubit.dart';
 import 'add_security_guard_pop_up.dart';
 
 class PayRateView extends StatefulWidget {
   final List<PayRate> payRates;
   final GMRate? rate;
+  final String title;
 
   const PayRateView({
     super.key,
     required this.payRates,
     required this.rate,
+    required this.title,
   });
 
   @override
@@ -57,7 +57,10 @@ class _PayRateViewState extends State<PayRateView> {
           return AddSecurityGuardPopUp(
             title: Constants.addSecurityGuard,
             payRate: payRate,
-            onSubmit: () {},
+            mainContext: context,
+            onSubmit: (PayRate payRate) {
+              BlocProvider.of<PayRateCubit>(context).onSave();
+            },
           );
         });
   }
@@ -66,18 +69,9 @@ class _PayRateViewState extends State<PayRateView> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () => {
-            Navigator.pushNamed(context, guardingRateDetailsRoute, arguments: {
-              "title": Constants.createGuardingRatingCards,
-            })
-          },
-        ),
         appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: Constants.guardingRates,
+            title: widget.title,
             showPopUp: false,
             showSaveButton: false,
             showAddButton: true,
@@ -100,95 +94,165 @@ class _PayRateViewState extends State<PayRateView> {
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
                 )),
-            child: ListView.builder(
-              itemCount: state.items.length,
-              itemBuilder: (context, index) {
-                /// Adding Fields to BaseListTile
-                List<Label> labels = [];
-                labels.add(Label(
-                    key: 'Monthly', value: '${state.items[index].total}'));
-                labels.add(
-                    Label(key: 'Days', value: '${state.items[index].days}'));
-                labels.add(Label(
-                    key: 'Per Hour', value: '${state.items[index].perHour}'));
-                return index >= state.items.length
-                    ? const Center(
-                        child: CustomCircularProgressIndicator(),
-                      )
-                    : BaseListTileItem(
-                        id: state.items[index].id,
-                        labels: labels,
-                        // location: state.items[index].location,
-                        // locationRegion: state.items[index].locationRegion,
-                        // status: state.items[index].status,
-                        onTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
+            child: Stack(
+              children: [
+                ListView.builder(
+                  itemCount: state.items.length,
+                  itemBuilder: (context, index) {
+                    /// Adding Fields to BaseListTile
+                    List<Label> labels = [];
+                    labels.add(Label(
+                        key: 'Monthly', value: '${state.items[index].total}'));
+                    labels.add(Label(
+                        key: 'Days', value: '${state.items[index].days}'));
+                    labels.add(Label(
+                        key: 'Per Hour',
+                        value: '${state.items[index].perHour}'));
+                    return index >= state.items.length
+                        ? const Center(
+                            child: CustomCircularProgressIndicator(),
+                          )
+                        : BaseListTileItem(
+                            id: state.items[index].id,
+                            labels: labels,
+                            // location: state.items[index].location,
+                            // locationRegion: state.items[index].locationRegion,
+                            // status: state.items[index].status,
+                            onTap: (selectedIndex) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext dialogContext) {
+                                  return BasePopUpItems(
+                                    id: state.items[selectedIndex].id
+                                        .toString(),
+                                  );
+                                },
                               );
                             },
-                          );
-                        },
-                        onEditTap: (selectedIndex) {
-                          log('---payRate- onedit-- ${state.items[index].id}-----');
-                          log('---payRate- onedit-- ${state.items[index].total}-----');
+                            onEditTap: (selectedIndex) {
+                              log('---payRate- onedit-- ${state.items[index].id}-----');
+                              log('---payRate- onedit-- ${state.items[index].total}-----');
 
-                          addSecurityGuardPopUp(
-                              context: context, payRate: state.items[index]);
-                        },
-                        onViewTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                // inputDate: state.items[selectedIndex].inputDate,
-                                // location: state.items[selectedIndex].location,
-                                // returnable:
-                                // state.items[selectedIndex].returnable,
-                                // quantity: state.items[selectedIndex].quantity
-                                //     .toString(),
-                                // challanNo: state.items[selectedIndex].challanNo,
-                                // locationRegion:
-                                // state.items[selectedIndex].locationRegion,
-                                //  securityName: state
-                                //       .items[selectedIndex].entrySecurityName,
-                                // slNo: state.items[selectedIndex].slNo,
-                                // status: state.items[selectedIndex].status
-                                //     .toString(),
-                                // entrySecurityName: state
-                                //     .items[selectedIndex].entrySecurityName,
+                              addSecurityGuardPopUp(
+                                  context: context,
+                                  payRate: state.items[index]);
+                            },
+                            onViewTap: (selectedIndex) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext dialogContext) {
+                                  return BasePopUpItems(
+                                    id: state.items[selectedIndex].id
+                                        .toString(),
+                                    // inputDate: state.items[selectedIndex].inputDate,
+                                    // location: state.items[selectedIndex].location,
+                                    // returnable:
+                                    // state.items[selectedIndex].returnable,
+                                    // quantity: state.items[selectedIndex].quantity
+                                    //     .toString(),
+                                    // challanNo: state.items[selectedIndex].challanNo,
+                                    // locationRegion:
+                                    // state.items[selectedIndex].locationRegion,
+                                    //  securityName: state
+                                    //       .items[selectedIndex].entrySecurityName,
+                                    // slNo: state.items[selectedIndex].slNo,
+                                    // status: state.items[selectedIndex].status
+                                    //     .toString(),
+                                    // entrySecurityName: state
+                                    //     .items[selectedIndex].entrySecurityName,
+                                  );
+                                },
                               );
                             },
+                            index: index,
                           );
-                        },
-                        index: index,
-                      );
-              },
+                  },
+                ),
+                Positioned(
+                  bottom: 16.0, // Adjust the position as needed
+                  right: 16.0, // Adjust the position as needed
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      cancelButtonDisplay(),
+                      const SizedBox(
+                        width: 50,
+                      ),
+                      submitButtonDisplay(onTap: () {
+                        log('-onTapSubmit--${state.rate.vendor?.name}----');
+                        FocusScope.of(context).unfocus();
+                        // BlocProvider.of<PayRateCubit>(context).onSave(
+                        //   isSubmit: false,
+                        // );
+
+                        // BlocProvider.of<PayRateCubit>(context)
+                        //     .onModelValueChange(state.);
+
+                        String title = '';
+                        List<PayRate> payRates = [];
+                        switch (widget.title) {
+                          case Constants.createSecurityGuard:
+                            title = Constants.createSecuritySupervisor;
+                            payRates = state.rate.securitySupervisorRates ?? [];
+                            break;
+
+                          case Constants.createSecuritySupervisor:
+                            title = Constants.createSecurityOfficer;
+                            payRates = state.rate.securityOfficerRates ?? [];
+                            break;
+
+                          case Constants.createSecurityOfficer:
+                            title = Constants.createSecurityFacilitator;
+                            payRates = state.rate.securityFacilitatorRates ?? [];
+                            break;
+
+                          case Constants.createSecurityFacilitator:
+                            title = Constants.createGunMan;
+                            payRates = state.rate.securityGunManRates ?? [];
+                            break;
+
+                          default:
+                            break;
+                        }
+                        Navigator.pushReplacementNamed(
+                          context,
+                          payRateRoute,
+                          arguments: {
+                            "payRates": payRates,
+                            "gmRate": state.rate,
+                            "title": title,
+                          },
+                        );
+                      }),
+                    ],
+                  ),
+                ),
+              ],
             ),
           );
         }));
   }
 
-  getLawEnforcementId(int id) async {
-    showLoadingDialog(context);
-
-    MaterialMovementModel materialMovementModel =
-        await MaterialMovementServices().getMaterialMovement(id);
-
-    editDataLoading(materialMovementModel);
+  Widget cancelButtonDisplay() {
+    return AppButton(
+      width: 150,
+      backgroundColor: Colors.white,
+      key: const Key(Keys.cancelButton),
+      buttonText: Constants.cancel,
+      buttonTextKey: Keys.cancelButton,
+      onTap: () {
+        Navigator.pop(context);
+      },
+    );
   }
 
-  void editDataLoading(MaterialMovementModel? materialMovementModel) {
-    dismissLoadingDialog(context);
-    if (materialMovementModel != null) {
-      Navigator.pushNamed(context, materialMovementInwardDetailsRoute,
-          arguments: {
-            "model": materialMovementModel,
-            "title": Constants.materialMovementOutwardEdit,
-          });
-    }
+  Widget submitButtonDisplay({required Function onTap}) {
+    return AppButton(
+      width: 150,
+      key: const Key(Keys.submitButton),
+      buttonText: Constants.next,
+      buttonTextKey: Keys.submitButton,
+      onTap: onTap,
+    );
   }
 }

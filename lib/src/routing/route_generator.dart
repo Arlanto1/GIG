@@ -260,13 +260,13 @@ class RouteGenerator {
                   child: const GuardingMasterReport(),
                 ));
 
-        case guardingMasterDataRoute:
-      return MaterialPageRoute(
-          builder: (context) => BlocProvider<GuardingMasterDataBloc>(
-            create: (_) => GuardingMasterDataBloc()
-              ..add(const FetchDataList(startPos: 0, maxPos: 20)),
-            child: const GuardingMasterData(),
-          ));
+      case guardingMasterDataRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<GuardingMasterDataBloc>(
+                  create: (_) => GuardingMasterDataBloc()
+                    ..add(const FetchDataList(startPos: 0, maxPos: 20)),
+                  child: const GuardingMasterData(),
+                ));
 
       case guardingRateDetailsRoute:
         GuardingServices services = GuardingServices();
@@ -274,17 +274,18 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments['title'];
-        GMRate? rate = arguments['rate'];
-        GMRate? model = arguments["model"];
+        GMRate? rate = arguments['gmRate'];
         return MaterialPageRoute(
             builder: (context) => BlocProvider<PayRateCubit>(
-              create: (_) => PayRateCubit(
-                  services: services, rate: model??GMRate(), payRates: []),
-              child: GuardingRateDetails(
-                rate: rate ?? GMRate(),
-                title: title,
-              ),
-            ));
+                  create: (_) => PayRateCubit(
+                      services: services,
+                      rate: rate ?? GMRate(),
+                      payRates: []),
+                  child: GuardingRateDetails(
+                    rate: rate ?? GMRate(),
+                    title: title,
+                  ),
+                ));
 
       case guardingRatesGRIRoute:
         GuardingServices services = GuardingServices();
@@ -293,13 +294,16 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments['title'];
-        GMRate? model = arguments["model"];
+        GMRate? model = arguments["gmRate"];
 
         if (model != null) {
           return MaterialPageRoute(
               builder: (context) => BlocProvider<PayRateCubit>(
                     create: (_) => PayRateCubit(
-                        services: services, rate: model, payRates: []),
+                      services: services,
+                      rate: model,
+                      payRates: [],
+                    ),
                     child: RatesInfo(
                       // materialMovement: materialMovement,
                       title: title,
@@ -322,11 +326,13 @@ class RouteGenerator {
       case payRateRoute:
         List<PayRate> payRates = [];
         GMRate rate = GMRate();
+        String title = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           payRates = arguments['payRates'];
           rate = arguments['gmRate'];
+          title = arguments['title'];
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<PayRateCubit>(
@@ -338,6 +344,7 @@ class RouteGenerator {
                   child: PayRateView(
                     payRates: payRates,
                     rate: rate,
+                    title: title,
                   ),
                 ));
       default:

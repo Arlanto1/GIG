@@ -67,6 +67,7 @@ class _GuardingRatesState extends State<GuardingRates> {
           onPressed: () => {
             Navigator.pushNamed(context, guardingRateDetailsRoute, arguments: {
               "title": Constants.createGuardingRatingCards,
+              "gmRate": GMRate(),
             })
           },
         ),
@@ -170,7 +171,7 @@ class _GuardingRatesState extends State<GuardingRates> {
     if (rate != null) {
       Navigator.pushNamed(context, guardingRateDetailsRoute, arguments: {
         "title": Constants.createGuardingRatingCards,
-        "rate" : rate,
+        "gmRate" : rate,
       });
     }
   }

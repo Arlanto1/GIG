@@ -78,12 +78,16 @@ class Constants {
   static const String logout = 'Logout';
 
   static const String materialMovementInward = 'Material Movement Inward';
-  static const String materialMovementInwardCreate = 'Create Inward Material Movement';
-  static const String materialMovementInwardEdit = 'Edit Inward Material Movement';
+  static const String materialMovementInwardCreate =
+      'Create Inward Material Movement';
+  static const String materialMovementInwardEdit =
+      'Edit Inward Material Movement';
 
   static const String materialMovementOutward = 'Material Movement Outward';
-  static const String materialMovementOutwardCreate = 'Create Outward Material Movement';
-  static const String materialMovementOutwardEdit = 'Edit Outward Material Movement';
+  static const String materialMovementOutwardCreate =
+      'Create Outward Material Movement';
+  static const String materialMovementOutwardEdit =
+      'Edit Outward Material Movement';
 
   static const String daypassmgmt = 'Day Pass Management';
   static const String daypassregister = 'Day Pass Register';
@@ -157,9 +161,9 @@ class Constants {
       'Create LawEnforcement Official Visit';
   static const String editlawenforcement = 'Edit LawEnforcement Official Visit';
   static const String addcompanytype = 'Add Company Type';
-  static const String addentitytype ='Add Entity';
-  static const String addpurposeofvisittype ='Add Puropose Of Visit';
-  static const String addleoofficialtype ='Add Leo Department';
+  static const String addentitytype = 'Add Entity';
+  static const String addpurposeofvisittype = 'Add Puropose Of Visit';
+  static const String addleoofficialtype = 'Add Leo Department';
 
   //static const String editlawenforcement = 'Edit Found';
   static const String entity = 'Entity';
@@ -226,9 +230,8 @@ class Constants {
 // static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';
 
   /// Material Movement
-  static const String materialMovementstype =
-      'Material Movement Type';
-    static const String materialMovementsInwardTitle =
+  static const String materialMovementstype = 'Material Movement Type';
+  static const String materialMovementsInwardTitle =
       'Inward Material Movement List';
   static const String materialMovementsOutwardTitle =
       'Outward Material Movement List';
@@ -236,8 +239,10 @@ class Constants {
       'Create Inward Material Movement';
   static const String createMaterialMovementOutwardTitle =
       'Create Outward Material Movement';
-  static const String editMaterialMovementInwardTitle = 'Edit Inward Material Movement';
-  static const String editMaterialMovementOutwardTitle = 'Edit OutWard Material Movement';
+  static const String editMaterialMovementInwardTitle =
+      'Edit Inward Material Movement';
+  static const String editMaterialMovementOutwardTitle =
+      'Edit OutWard Material Movement';
   static const String entryBy = 'Entry By';
   static const String inwardMaterialMovementType = 'Inward';
   static const String outwardMaterialMovementType = 'Outward';
@@ -259,7 +264,8 @@ class Constants {
   static const String addQuantity = 'Add Quantity';
   static const String isPhysicallyChecked = 'Is Material Physically Checked';
   static const String comment = 'Comment';
-  static const String isMaterialPhysicallyChecked = 'Is Material Physically Checked';
+  static const String isMaterialPhysicallyChecked =
+      'Is Material Physically Checked';
   static const String equipmentNo = 'Equipment No/Identification';
   static const String address = 'Address';
   static const String requestorEmail = 'Requestor Email';
@@ -285,11 +291,12 @@ class Constants {
   static const String approvedBy = 'Approved By';
   static const String approvedDate = 'Approved Date';
 
-
   ///Guarding Operations
   static const String guardingRates = 'Guarding Rates';
-  static const String createGuardingRatingCards = 'Create Guarding Rating Cards';
-  static const String guardingOfficialRatingCards = 'Guarding Official Rating Cards';
+  static const String createGuardingRatingCards =
+      'Create Guarding Rating Cards';
+  static const String guardingOfficialRatingCards =
+      'Guarding Official Rating Cards';
   static const String guardingRatingInformation = 'Guarding Rating Information';
   static const String guardingMasterData = 'Guarding Master Data';
   static const String guardingMasterReport = 'Guarding Master Report';
@@ -302,6 +309,10 @@ class Constants {
   static const String previous = 'Previous';
   static const String next = "Next";
   static const String createSecurityGuard = 'Create Security Guard';
+  static const String createSecuritySupervisor = 'Create Security Supervisor';
+  static const String createSecurityOfficer = 'Create Security Officer';
+  static const String createSecurityFacilitator = 'Create Security Facilitator';
+  static const String createGunMan = 'Create Gun Man';
   static const String addSecurityGuard = 'Security Guard';
 
   static const String monthlyCost = 'Monthly Cost';
@@ -313,6 +324,4 @@ class Constants {
   static const String guardingMasterReportTitle = 'Guarding Master Report List';
   static const String guardingMasterDataTitle = 'Guarding Master Data List';
   static const String createGuardingMasterData = 'Create Guarding Master Data';
-
-
 }

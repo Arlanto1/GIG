@@ -6,7 +6,7 @@ class PayRateState extends Equatable {
   final List<PayRate> items;
   final PayRate newPayRate;
   final String? message;
-  final GetUserDetails? loggedInUserDetails;
+  final EntrySecurity? loggedInUserDetails;
   final GetLocations? locations;
   final List<Department> departments;
 
@@ -15,7 +15,7 @@ class PayRateState extends Equatable {
     required GMRate rate,
     required String? message,
     required newPayRate,
-    required GetUserDetails loggedInUserDetails,
+    required EntrySecurity loggedInUserDetails,
     required List<Department> departments,
   }) {
     return PayRateState(
@@ -38,7 +38,7 @@ class PayRateState extends Equatable {
     List<PayRate>? items,
     PayRate? newPayRate,
     String? message,
-    GetUserDetails? loggedInUserDetails,
+    EntrySecurity? loggedInUserDetails,
     GetLocations? locations,
     List<Department>? departments,
   }) {

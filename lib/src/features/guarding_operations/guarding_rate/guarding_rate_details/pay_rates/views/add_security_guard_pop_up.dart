@@ -19,12 +19,13 @@ class AddSecurityGuardPopUp extends StatefulWidget {
     super.key,
     required this.title,
     required this.onSubmit,
-    required this.payRate,
+    required this.payRate, required this.mainContext,
   });
 
   final String title;
   final Function onSubmit;
   final PayRate payRate;
+  final BuildContext mainContext;
 
   @override
   State<AddSecurityGuardPopUp> createState() => AddSecurityGuardPopUpState();
@@ -79,13 +80,13 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                     ),
                     CommonWidgets.verticalSpacerWidget(height * 0.01),
                     FlutterInputField(
-                      initialValue: '${widget.payRate.total}',
+                      initialValue: '${widget.payRate.total??''}',
+                      keyboardType: TextInputType.number,
                       textFormKey: Keys.totalKey,
                       hintText: '',
                       onChange: (String value) {
-
-                        widget.payRate.total = value as int;
-                        BlocProvider.of<PayRateCubit>(context).onModelValueChange(widget.payRate);
+                        widget.payRate.total = num.parse(value);
+                        BlocProvider.of<PayRateCubit>(widget.mainContext).onModelValueChange(widget.payRate);
                       },
                       validateTextField: (String? user) {},
                     ),
@@ -98,12 +99,13 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                     ),
                     CommonWidgets.verticalSpacerWidget(height * 0.01),
                     FlutterInputField(
-                      initialValue: '${widget.payRate.days}',
+                      initialValue: '${widget.payRate.days??''}',
+                      keyboardType: TextInputType.number,
                       textFormKey: Keys.daysKey,
                       hintText: '',
                       onChange: (String value) {
-                        //this.username = username;
-                        setState(() {});
+                        widget.payRate.days = double.parse(value);
+                        BlocProvider.of<PayRateCubit>(widget.mainContext).onModelValueChange(widget.payRate);
                       },
                       validateTextField: (String? user) {},
                     ),
@@ -116,12 +118,13 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                     ),
                     CommonWidgets.verticalSpacerWidget(height * 0.01),
                     FlutterInputField(
-                      initialValue: '${widget.payRate.perHour}',
+                      initialValue: '${widget.payRate.perHour??''}',
+                      keyboardType: TextInputType.number,
                       textFormKey: Keys.perHourKey,
                       hintText: '',
                       onChange: (String value) {
-                        //this.username = username;
-                        setState(() {});
+                        widget.payRate.perHour = double.parse(value);
+                        BlocProvider.of<PayRateCubit>(widget.mainContext).onModelValueChange(widget.payRate);
                       },
                       validateTextField: (String? user) {},
                     ),
@@ -134,12 +137,12 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                     ),
                     CommonWidgets.verticalSpacerWidget(height * 0.01),
                     FlutterInputField(
-                      initialValue: '${widget.payRate.fromDate}',
+                      initialValue: widget.payRate.fromDate??'',
                       textFormKey: Keys.fromDate,
                       hintText: '',
                       onChange: (String value) {
-                        //this.username = username;
-                        setState(() {});
+                        widget.payRate.fromDate = value;
+                        BlocProvider.of<PayRateCubit>(widget.mainContext).onModelValueChange(widget.payRate);
                       },
                       validateTextField: (String? user) {},
                     ),
@@ -152,12 +155,12 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                     ),
                     CommonWidgets.verticalSpacerWidget(height * 0.01),
                     FlutterInputField(
-                      initialValue: '${widget.payRate.toDate}',
+                      initialValue: widget.payRate.toDate??'',
                       textFormKey: Keys.toDateKey,
                       hintText: '',
                       onChange: (String value) {
-                        //this.username = username;
-                        setState(() {});
+                        widget.payRate.toDate = value;
+                        BlocProvider.of<PayRateCubit>(widget.mainContext).onModelValueChange(widget.payRate);
                       },
                       validateTextField: (String? user) {},
                     ),
@@ -170,7 +173,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                     ),
                     CommonWidgets.verticalSpacerWidget(height * 0.01),
                     FlutterInputField(
-                      initialValue: '${widget.payRate.comment}',
+                      initialValue: widget.payRate.comment??'',
 
                       lineHeight: 6,
                       textFormKey: Keys.commentKey,
@@ -178,6 +181,8 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                       isEnable: true,
                       isDisableColor: false,
                       onChange: (String value) {
+                        widget.payRate.comment = value;
+                        BlocProvider.of<PayRateCubit>(widget.mainContext).onModelValueChange(widget.payRate);
                       },
                       validateTextField: (String? user) {},
                     ),
@@ -244,16 +249,10 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
       onTap: () {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
-        if (nameTextController.text.isEmpty) {
-          Validator().showToast(
-            context,
-            "Please enter the name",
-          );
-        } else {
-          try {} catch (e) {
-            // present userwith error message
-          }
-        }
+
+        BlocProvider.of<PayRateCubit>(widget.mainContext).onSave(isSubmit: false);
+
+
       },
     );
   }
