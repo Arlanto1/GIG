@@ -3,10 +3,12 @@ import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/ra
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../constants/constants.dart';
 import '../../../../../../models/department.dart';
 import '../../../../../../utils/shared_preferences.dart';
+import '../../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../../createfound/models/get_locations_model.dart';
 import '../../../../../createfound/models/get_user_model.dart';
 import '../../../../../createfound/models/serial_number_model.dart';
@@ -46,13 +48,24 @@ class PayRateCubit extends Cubit<PayRateState> {
     );
     var userId = await SharedPrefs.getUserId();
 
+    GetLocations getLocationsData =
+        await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+
+    EmployeeDepartments departments =
+        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+
+    // Get Date of Creation
+    state.rate.inputDate =
+        DateFormat(Constants.fulldateFormat).format(DateTime.now());
+
     try {
       emit(
         state.copyWith(
-          rate: rate,
-          items: payRates,
-
-        ),
+            locations: getLocationsData,
+            rate: rate,
+            departments: departments.employeeDepartments,
+            items: payRates,
+            status: FormStatus.initial),
       );
     } catch (e) {
       emit(
@@ -72,11 +85,6 @@ class PayRateCubit extends Cubit<PayRateState> {
   Future<void> updateDropdownValues({
     Location? location,
     Department? vendor,
-    Department? preparedByDepartment,
-    Department? approver1Department,
-    Department? approver2Department,
-    Department? receiverDepartment,
-    bool? isReturnable,
   }) async {
     emit(
       state.copyWith(

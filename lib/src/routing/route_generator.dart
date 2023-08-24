@@ -259,50 +259,50 @@ class RouteGenerator {
                 ));
 
       case guardingRateDetailsRoute:
+        GuardingServices services = GuardingServices();
         String title;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments['title'];
         GMRate? rate = arguments['rate'];
+        GMRate? model = arguments["model"];
         return MaterialPageRoute(
-            builder: (context) => GuardingRateDetails(
-                  title: title,
-                  rate: rate ?? GMRate(),
-                ));
+            builder: (context) => BlocProvider<PayRateCubit>(
+              create: (_) => PayRateCubit(
+                  services: services, rate: model??GMRate(), payRates: []),
+              child: GuardingRateDetails(
+                rate: rate ?? GMRate(),
+                title: title,
+              ),
+            ));
 
       case guardingRatesGRIRoute:
-        MaterialMovementServices services = MaterialMovementServices();
+        GuardingServices services = GuardingServices();
         CommonServices commonServices = CommonServices();
-        bool isInward = true;
         String title;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments['title'];
-        MaterialMovementModel? materialMovement =
-            arguments["MaterialMovementModel"];
+        GMRate? model = arguments["model"];
 
-        if (materialMovement != null) {
+        if (model != null) {
           return MaterialPageRoute(
-              builder: (context) => BlocProvider<MaterialMovementDetailsCubit>(
-                    create: (_) => MaterialMovementDetailsCubit(
-                      materialMovementServices: services,
-                      commonServices: commonServices,
-                      model: materialMovement,
-                      isInward: isInward,
-                    ),
+              builder: (context) => BlocProvider<PayRateCubit>(
+                    create: (_) => PayRateCubit(
+                        services: services, rate: model, payRates: []),
                     child: RatesInfo(
                       // materialMovement: materialMovement,
                       title: title,
+                      rate: model,
                     ),
                   ));
         }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<MaterialMovementDetailsCubit>(
-                  create: (_) => MaterialMovementDetailsCubit(
-                    materialMovementServices: services,
-                    commonServices: commonServices,
-                    model: MaterialMovementModel(),
-                    isInward: isInward,
+            builder: (context) => BlocProvider<PayRateCubit>(
+                  create: (_) => PayRateCubit(
+                    services: services,
+                    rate: model ?? GMRate(),
+                    payRates: [],
                   ),
                   child: const RatesInfo(
                     title: 'Guarding Rates Information',
@@ -327,7 +327,7 @@ class RouteGenerator {
                   ),
                   child: PayRateView(
                     payRates: payRates,
-                      rate: rate,
+                    rate: rate,
                   ),
                 ));
       default:

@@ -72,6 +72,7 @@ class Keys {
   static const String fromDate = 'fromDate_gr';
   static const String toDateKey = 'toDateKey_gr';
   static const String commentKey = 'commentKey_gr';
+  static const String vendorDepartmentKey = 'vendorDepartmentKey_gr';
 
 
   //list page

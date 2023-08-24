@@ -1,14 +1,11 @@
 import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_button.dart';
-import 'package:db_atom/src/common_widgets/base_widget/add_button_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/department_dialog.dart';
-import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
-import 'package:db_atom/src/common_widgets/custom_pop_list_texts.dart';
 import 'package:db_atom/src/common_widgets/custom_simple_list_texts.dart';
 import 'package:db_atom/src/common_widgets/image_download.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
@@ -18,13 +15,11 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
-import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
-import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
-import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -34,18 +29,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../common_widgets/create_fields.dart';
+import '../../../../../common_widgets/custom_multiple_selection_popup.dart';
 import '../../../../../common_widgets/date_time_picker.dart';
-import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
-import '../../../../../models/entry_security.dart';
+import '../../../../lawenforcement/models/addentities.dart';
 
 class RatesInfo extends StatefulWidget {
-  final MaterialMovementModel? materialMovement;
+  final GMRate? rate;
   final String title;
 
   const RatesInfo({
     super.key,
-    this.materialMovement,
+    this.rate,
     required this.title,
   });
 
@@ -68,7 +64,7 @@ class _RatesInfoState extends State<RatesInfo> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<MaterialMovementDetailsCubit>(context).initializeValues();
+    BlocProvider.of<PayRateCubit>(context).initializeValues();
   }
 
   @override
@@ -83,8 +79,8 @@ class _RatesInfoState extends State<RatesInfo> {
           showSaveButton: true,
           onTapSave: () {
             FocusScope.of(context).unfocus();
-            BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                .submitForm(isSaveOnly: true);
+            // BlocProvider.of<PayRateCubit>(context)
+            //     .submitForm(isSaveOnly: true);
           },
         ),
         floatingActionButton: Row(
@@ -115,15 +111,11 @@ class _RatesInfoState extends State<RatesInfo> {
             }
           },
           builder: (context, state) {
+            log('--status--${state.status}----');
 
             if (state.status == FormStatus.loading) {
               return const Center(child: CircularProgressIndicator());
             }
-            log('--status-2-builder--${state.status}----');
-
-
-            log('-slno- ${state.rate.slNo}---');
-
             return Container(
               color: AppColors.navigationSkybluecolor,
               child: SingleChildScrollView(
@@ -206,46 +198,15 @@ class _RatesInfoState extends State<RatesInfo> {
                                   Constants.entity,
                                   Styles.textStyleBlack14,
                                 ),
-                                // widget.materialMovement != null
-                                    // ? FlutterInputField(
-                                    //     initialValue: state.rate
-                                    //         .entities?.name,
-                                    //     textFormKey:
-                                    //         Keys.preparedByDepartmentKey,
-                                    //     hintText: '',
-                                    //     isEnable:
-                                    //         true,
-                                    //     isDisableColor:
-                                    //         false,
-                                    //     onChange: (String value) {},
-                                    //     validateTextField: (String? user) {},
-                                    //   )
-                                    // : TextfieldAddButton(
-                                    //     title: state.rate
-                                    //         .entities?.name,
-                                    //     height: 60,
-                                    //     isDisableColor:
-                                    //         widget.materialMovement == null
-                                    //             ? false
-                                    //             : true,
-                                    //     onTap: () {
-                                    //       if (widget.materialMovement == null) {
-                                    //         BaseDialog().departmentDialog(
-                                    //           context: context,
-                                    //           departments: state.departments,
-                                    //           onTap: (Department department) {
-                                    //             BlocProvider.of<
-                                    //                         MaterialMovementDetailsCubit>(
-                                    //                     context)
-                                    //                 .updateDropdownValues(
-                                    //                     preparedByDepartment:
-                                    //                         department);
-                                    //           },
-                                    //         );
-                                    //         // leodepartmentsDialog(state);
-                                    //       }
-                                    //     },
-                                    //   ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                /// entity type
+                                CommonWidgets.textDisplay(Constants.entity,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                // entityaddButtonwidgetLoading(state),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -254,12 +215,12 @@ class _RatesInfoState extends State<RatesInfo> {
                                   Constants.vendor,
                                   Styles.textStyleBlack14,
                                 ),
-                                widget.materialMovement != null
+                                widget.rate == null
                                     ? FlutterInputField(
                                         initialValue: state.rate
                                             .vendor?.name,
                                         textFormKey:
-                                            Keys.preparedByDepartmentKey,
+                                            Keys.vendorDepartmentKey,
                                         hintText: '',
                                         isEnable:
                                             true,
@@ -272,26 +233,22 @@ class _RatesInfoState extends State<RatesInfo> {
                                         title: state.rate
                                             .vendor?.name,
                                         height: 60,
+
                                         isDisableColor:
-                                            widget.materialMovement == null
-                                                ? false
-                                                : true,
+                                            false,
                                         onTap: () {
-                                          if (widget.materialMovement == null) {
                                             BaseDialog().departmentDialog(
                                               context: context,
                                               departments: state.departments,
                                               onTap: (Department department) {
                                                 BlocProvider.of<
-                                                            MaterialMovementDetailsCubit>(
+                                                            PayRateCubit>(
                                                         context)
                                                     .updateDropdownValues(
-                                                        preparedByDepartment:
+                                                        vendor:
                                                             department);
                                               },
                                             );
-                                            // leodepartmentsDialog(state);
-                                          }
                                         },
                                       ),
 
@@ -335,64 +292,6 @@ class _RatesInfoState extends State<RatesInfo> {
     }
   }
 
-  assetTypeDialog(MaterialMovementDetailsState state) {
-    showDialog(
-      context: context,
-      builder: (dialogContext) {
-        return CustomSimpleListTexts(
-            texts: const ["Returnable", "Non Returnable"],
-            onTap: (String value) {
-              bool isReturnable = value == 'Returnable' ? true : false;
-              state.materialMovement.returnable = isReturnable;
-              BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                  .updateDropdownValues(isReturnable: isReturnable);
-            });
-      },
-    );
-  }
-
-  Widget quantityUnitPopUp(MaterialMovementDetailsState state) {
-    return TextfieldAddButton(
-      title: 'Quantity',
-      height: 60,
-      isDisableColor: state.materialMovement.quantity == null ? false : true,
-      onTap: () {
-        if (state.materialMovement.quantity == null) {
-          quantityUnitDialog(
-              context: context, quantityUnits: state.quantityUnits);
-        }
-      },
-    );
-  }
-
-  quantityUnitDialog(
-      {required BuildContext context,
-      required List<QuantityUnit> quantityUnits}) {
-    showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomListTexts(
-            duplicateQuantityUnitList: quantityUnits,
-            leftimagename: AppIcon.addicon,
-            onLeftButtonTap: () {
-              Navigator.pop(context);
-              showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return AddEmployeeDepartment(
-                      title: Constants.addQuantity,
-                      // createoundstate:  state,
-                    );
-                  });
-            },
-            onTap: (QuantityUnit unit) {
-              BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                  .updateDropdownValues(quantityUnit: unit);
-            },
-          );
-        });
-  }
 
   Widget datepickerWidgetLoading({
     required TextEditingController textfiled,
@@ -436,6 +335,57 @@ class _RatesInfoState extends State<RatesInfo> {
     );
   }
 
+  // Widget entityaddButtonwidgetLoading(PayRateState state) {
+  //   String title = '';
+  //   if ((state.listOfEntities?.length ?? 0) > 0) {
+  //     for (int i = 0; i < state.listOfEntities!.length; i++) {
+  //       AtomEntity entity = state.listOfEntities![i];
+  //       String value = entity.name ?? '';
+  //       title = title + '  ' + value;
+  //     }
+  //   }
+  //   return TextfieldAddButton(
+  //     title: title,
+  //     height: 60,
+  //     isDisableColor: widget.listuser == null ||
+  //         ((state.listOfEntities?.length ?? 0) == 0 && (title.isEmpty))
+  //         ? false
+  //         : true,
+  //     onTap: () {
+  //       if (widget.listuser == null ||
+  //           (state.listOfEntities != null && (title.isEmpty))) {
+  //         entityTypeDialog(state);
+  //       }
+  //     },
+  //   );
+  // }
+  // entityTypeDialog(PayRateState state) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext dialogContext) {
+  //         return CustomMultipleSelectionListTexts(
+  //           duplicateentityList: state.getEntitiesResponse?.atomEntities ?? [],
+  //           leftimagename: AppIcon.addicon,
+  //           onLeftButtonTap: () {
+  //             Navigator.pop(context);
+  //             showDialog(
+  //                 context: context,
+  //                 builder: (BuildContext dialogContext) {
+  //                   return  AddNewFields(
+  //                     title: Constants.addentitytype,
+  //                     createpassmgmtstate: state,
+  //                   );
+  //                 });
+  //
+  //           },
+  //           onTap: (List<AtomEntity> list) {
+  //             createpassmgmtCubit.getEntityData(list);
+  //           },
+  //         );
+  //       });
+  // }
+
+
   datePickerDialog(TextEditingController textfield) async {
     DateTime? pickedDate = await showDateTimePicker(
         context: context,
@@ -473,107 +423,17 @@ class _RatesInfoState extends State<RatesInfo> {
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm();
+        // BlocProvider.of<PayRateCubit>(context).submitForm();
       },
     );
   }
 
-  Widget uploadWidget(MaterialMovementDetailsState state) {
-    return widget.materialMovement == null
-        ? Container(
-            height: 60,
-            decoration: BoxDecoration(
-                border: Border.all(
-                  color: const Color(0xFFCACACA),
-                  width: 1.0,
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(8))),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 5.0),
-                child: ElevatedButton.icon(
-                  style:
-                      ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
-                  onPressed: () {
-                    // Navigator.pushNamed(context,
-                    //     createFoundAttachmentRoute);
-                    //UploadAttachment();
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return UploadAttachment(
-                            userdetails:
-                                state.loggedInUserDetails ?? EntrySecurity(),
-                            getFiles: getFiles ?? [],
-                            inwardState: state,
-                            onImageSelected: (CreateImage data) {
-                              log('-------function---onImageSelected---------');
-                              List<CreateImage>? files = [];
-                              files.add(data);
-                              for (CreateImage image in getFiles!.toList()) {
-                                files.add(image);
-                              }
-                              BlocProvider.of<MaterialMovementDetailsCubit>(
-                                      context)
-                                  .addAttchment(files);
-                            },
-                          );
-                        });
-                  },
-
-                  icon: SvgPicture.asset(
-                    //AppIcon.dropdownicon,
-                    AppIcon.uploadicon,
-                    //fit: BoxFit.,
-                    color: AppColors.backgroundWhitecolor,
-                    width: 13,
-                    height: 13,
-                    key: const Key(Keys.userIcon),
-                  ),
-                  // const Icon(
-                  //   // <-- Icon
-                  //   Icons.upload,
-                  //   color: AppColors.backgroundWhitecolor,
-                  //   size: 24.0,
-                  // ),
-                  label: const Text(
-                    Constants.clicktoupload,
-                    style: Styles.textStyleRegularNormalWhite12,
-                  ), // <-- Text
-                ),
-              ),
-            ]),
-          )
-        : Container();
-  }
-
-  Widget getSpaceattchment(double height) {
-    log('---getAttachments--------${getAttachments?.length}-----');
-
-    return getAttachments != null ||
-            getFiles != null ||
-            getFiles?.length != 0 ||
-            getAttachments?.length != 0
-        ? CommonWidgets.verticalSpacerWidget(height * 0.01)
-        : Container();
-  }
-
-  Widget getAttachement(MaterialMovementDetailsState state, double height) {
-    log('---getAttachments----aaa----${getAttachments?.length}-----');
-
-    return (state.loadAttachments == null ||
-            state.loadAttachments!.isEmpty ||
-            widget.materialMovement == null)
-        ? state.loadAttachments?.length == 0 || getFiles == null
-            ? Container()
-            : attachmentListviews(getFiles, getAttachments)
-        : attachmentListviews(getFiles, getAttachments);
-  }
 
   Widget locationWidgetdislay(PayRateState state) {
+
     return GestureDetector(
       onTap: () {
-        if (widget.materialMovement == null ||
+        if (widget.rate == null ||
             (state.rate.location?.name ?? '').isEmpty) {
           showDialog(
             context: context,
@@ -654,7 +514,7 @@ class _RatesInfoState extends State<RatesInfo> {
           itemBuilder: (BuildContext context, int index) {
             CreateImage? imagedata;
             FoundImage? imagedata1;
-            if (widget.materialMovement != null) {
+            if (widget.rate != null) {
               imagedata1 = attachmentListviews1?[index];
             } else {
               imagedata = attachmentListviews?[index];
@@ -663,7 +523,7 @@ class _RatesInfoState extends State<RatesInfo> {
             return Column(
               children: <Widget>[
                 ListTile(
-                  trailing: widget.materialMovement != null
+                  trailing: widget.rate != null
                       ? SvgPicture.asset(AppIcon.download,
                           color: AppColors.boldgreyBackground)
                       : const SizedBox(
@@ -674,7 +534,7 @@ class _RatesInfoState extends State<RatesInfo> {
                     DownloadImage().saveImage(
                         context, imagedata1?.id ?? 0, imagedata1?.title ?? '');
                   },
-                  title: widget.materialMovement != null
+                  title: widget.rate != null
                       ? Text(imagedata1?.title ?? '')
                       : Text(imagedata?.title ?? ''),
                 ),

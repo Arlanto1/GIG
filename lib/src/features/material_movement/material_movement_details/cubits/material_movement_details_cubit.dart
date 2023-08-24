@@ -77,6 +77,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+
       // Get Date of Creation
       state.materialMovement.inputDate = _getCurrentDate();
 
