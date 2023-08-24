@@ -142,10 +142,63 @@ class Utils {
       default:
         statusText = ''; // Handle the default case if needed
     }
-
     return Row(
       children: [
         textHandling('Status: ',statusText),
+      ],
+    );
+  }
+
+  Row buildMasterDataStatusRow(int dataStatus) {
+    String statusText;
+
+    switch (dataStatus) {
+      case 1:
+        statusText = 'Active';
+        break;
+      case 2:
+        statusText = 'InActive';
+        break;
+      case 3:
+        statusText = 'Leave';
+        break;
+      case 4:
+        statusText = 'WeekOff';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return Row(
+      children: [
+        textHandling('Status: ',statusText),
+      ],
+    );
+  }
+
+
+  Row buildDutyTypeRow(int dutyType) {
+    String dutyTypeText;
+
+    switch (dutyType) {
+      case 1:
+        dutyTypeText = 'Building';
+        break;
+      case 2:
+        dutyTypeText = 'Escort';
+        break;
+      case 3:
+        dutyTypeText = 'Facility';
+        break;
+      case 4:
+        dutyTypeText = 'Building & Escort';
+        break;
+      default:
+        dutyTypeText = ''; // Handle the default case if needed
+    }
+
+    return Row(
+      children: [
+        textHandling('DutyType: ',dutyTypeText),
       ],
     );
   }

@@ -23,6 +23,8 @@ import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../features/guarding_operations/guarding_master_data/guarding_master_data/bloc/guarding_master_data_bloc.dart';
+import '../features/guarding_operations/guarding_master_data/guarding_master_data/views/guarding_master_data.dart';
 import '../features/guarding_operations/guarding_master_reports/bloc/guarding_master_report_bloc.dart';
 import '../features/guarding_operations/guarding_master_reports/views/guarding_master_reports.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/views/pay_rate_view.dart';
@@ -257,6 +259,14 @@ class RouteGenerator {
                     ..add(const FetchReportList(startPos: 0, maxPos: 20)),
                   child: const GuardingMasterReport(),
                 ));
+
+        case guardingMasterDataRoute:
+      return MaterialPageRoute(
+          builder: (context) => BlocProvider<GuardingMasterDataBloc>(
+            create: (_) => GuardingMasterDataBloc()
+              ..add(const FetchDataList(startPos: 0, maxPos: 20)),
+            child: const GuardingMasterData(),
+          ));
 
       case guardingRateDetailsRoute:
         String title;
