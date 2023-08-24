@@ -42,7 +42,8 @@ class _FoundListState extends State<FoundList> {
   int pageNumber = 0;
   List<ListElement>? localfoundlist;
   late ScrollController scrollController;
-  bool isLoading = false;
+  bool isPaginationLoading = false;
+  
   @override
   void initState() {
     super.initState();
@@ -65,7 +66,8 @@ class _FoundListState extends State<FoundList> {
       {
       pageNumber = pageNumber + 20;
       }
-       showLoadingDialog(context);
+      isPaginationLoading = true;
+       //showLoadingDialog(context);
       print(pageNumber);
       // Perform event when user reach at the end of list (e.g. do Api call)
       _getFoundArticleList();
@@ -177,6 +179,14 @@ class _FoundListState extends State<FoundList> {
                 } else {
                   localfoundlist?.addAll(state.foundListModel?.list ?? []);
                 }
+                if ((state.foundListModel?.list?.length ?? 0) == 0 || (state.foundListModel?.totalCount ?? 0) == localfoundlist?.length)
+                {
+                  isPaginationLoading = false;
+                }
+                else
+                {
+                  isPaginationLoading = true;
+                }
                 return listWidgetLoading(
                     height, state, scrollController, localfoundlist);
               }
@@ -200,6 +210,7 @@ class _FoundListState extends State<FoundList> {
                 localfoundlist = state.foundListModel?.list;
               } else {
                 localfoundlist?.addAll(state.foundListModel?.list ?? []);
+                
               }
               return listWidgetLoading(
                   height, state, scrollController, localfoundlist);
@@ -232,7 +243,7 @@ class _FoundListState extends State<FoundList> {
                   // searchWidget(),
                   (foundList != null)
                       ? _userFoundListWidget(
-                          foundList, context, scrollController)
+                          foundList, context, scrollController,state)
                       : const SizedBox()
                 ],
               ),
@@ -273,17 +284,24 @@ class _FoundListState extends State<FoundList> {
 
   // List view builder
   Widget _userFoundListWidget(List<ListElement>? userList, BuildContext cont,
-      ScrollController? scrollController) {
+      ScrollController? scrollController, FoundListState state) {
     return Container(
       padding: allMargin16,
       child: Visibility(
         visible: userList!.isNotEmpty,
         child: ListView.builder(
           //controller: scrollController,
-          itemCount: userList.length,
+          itemCount: isPaginationLoading ? userList.length + 1 : userList.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
+
+            if (index >= userList.length)
+            {
+              return const Center(child:  CircularProgressIndicator());
+            }
+            else
+            {
             ListElement user = userList[index];
 
             return FoundListItem(
@@ -310,6 +328,7 @@ class _FoundListState extends State<FoundList> {
               },
               index: index,
             );
+          }
           },
         ),
       ),

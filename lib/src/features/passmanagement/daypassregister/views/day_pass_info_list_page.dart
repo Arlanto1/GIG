@@ -42,7 +42,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
   int pageNumber = 0;
   List<DaypassInfoListElement>? localfoundlist;
   late ScrollController scrollController;
-  bool isLoading = false;
+   bool isPaginationLoading = false;
 
   @override
   void initState() {
@@ -53,15 +53,22 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
     _getpassFoundArticleList();
   }
 
-  _loadMore() {
+  
+   _loadMore() {
+    
     if (scrollController.position.maxScrollExtent ==
         scrollController.position.pixels) {
-      if ((localfoundlist?.length ?? 0) > 0) {
-        pageNumber = ((localfoundlist?.length ?? 0));
-      } else {
-        pageNumber = pageNumber + 20;
+     
+      if ((localfoundlist?.length ?? 0) > 0)
+      {
+         pageNumber =  ((localfoundlist?.length ?? 0));
       }
-      showLoadingDialog(context);
+      else
+      {
+      pageNumber = pageNumber + 20;
+      }
+      isPaginationLoading = true;
+       //showLoadingDialog(context);
       print(pageNumber);
       // Perform event when user reach at the end of list (e.g. do Api call)
       _getpassFoundArticleList();
@@ -149,7 +156,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
       body: BlocBuilder<DayPassInfoCubit, DayPassInfoState>(
           bloc: daypassinfoCubit,
           builder: (context, state) {
-            if (state.stateType == DayPassInfoStateType.success) {
+             if (state.stateType == DayPassInfoStateType.success) {
               if (state.foundListModel?.list == null &&
                   state.foundListModel?.list?.length == 0) {
                 if (pageNumber == 0) {
@@ -167,15 +174,25 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
                 } else {
                   localfoundlist?.addAll(state.foundListModel?.list ?? []);
                 }
+                if ((state.foundListModel?.list?.length ?? 0) == 0 || (state.foundListModel?.totalCount ?? 0) == localfoundlist?.length)
+                {
+                  isPaginationLoading = false;
+                }
+                else
+                {
+                  isPaginationLoading = true;
+                }
                 return listWidgetLoading(
                     height, state, scrollController, localfoundlist);
               }
             }
+            
             if (state.stateType == DayPassInfoStateType.loading) {
               return const Center(
                   child: CircularProgressIndicator(
                       color: AppColors.navigationSkybluecolor));
-            } else if (state.stateType == DayPassInfoStateType.failure) {
+            } 
+            else if (state.stateType == DayPassInfoStateType.failure) {
               return Center(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -190,6 +207,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
                 localfoundlist = state.foundListModel?.list;
               } else {
                 localfoundlist?.addAll(state.foundListModel?.list ?? []);
+                
               }
               return listWidgetLoading(
                   height, state, scrollController, localfoundlist);
@@ -273,10 +291,16 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
         visible: userList!.isNotEmpty,
         child: ListView.builder(
           //controller: scrollController,
-          itemCount: userList.length,
+          itemCount:isPaginationLoading ? userList.length + 1 : userList.length,// userList.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
+             if (index >= userList.length)
+            {
+              return const Center(child:  CircularProgressIndicator());
+            }
+            else
+            {
             DaypassInfoListElement user = userList[index];
 
             return DayPassRegisterListItem(
@@ -303,7 +327,8 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
               },
               index: index,
             );
-          },
+          }
+          }
         ),
       ),
     );

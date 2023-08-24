@@ -31,11 +31,11 @@ class DayPassInfoCubit extends Cubit<DayPassInfoState> {
           await passListServices.getpassinfoFoundArticleList(
               startPosition, maximumRecords, userId, passType,isFromRegister);
 
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        if (startPosition != '0') {
-          dismissLoadingDialog(context);
-        }
-      });
+      // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      //   if (startPosition != '0') {
+      //     dismissLoadingDialog(context);
+      //   }
+      // });
       emit(
         state.copyWith(
           foundListModel: foundListModelResponse,
@@ -44,9 +44,9 @@ class DayPassInfoCubit extends Cubit<DayPassInfoState> {
       );
     } catch (e) {
       print(e);
-      if (startPosition != '0') {
-        dismissLoadingDialog(context);
-      }
+      // if (startPosition != '0') {
+      //   dismissLoadingDialog(context);
+      // }
       if (startPosition == '0') {
         emit(
           state.copyWith(

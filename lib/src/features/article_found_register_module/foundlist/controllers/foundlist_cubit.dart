@@ -32,10 +32,10 @@ class FoundListCubit extends Cubit<FoundListState> {
           .getFoundArticleList(startPosition, maximumRecords, userId);
          
            SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          if (startPosition != '0')
-          {
-             dismissLoadingDialog(context);
-          }
+          // if (startPosition != '0')
+          // {
+          //    dismissLoadingDialog(context);
+          // }
         });
       emit(
         state.copyWith(
@@ -45,10 +45,10 @@ class FoundListCubit extends Cubit<FoundListState> {
       );
     } catch (e) {
       print(e);
-       if (startPosition != '0')
-          {
-             dismissLoadingDialog(context);
-          }
+      //  if (startPosition != '0')
+      //     {
+      //        dismissLoadingDialog(context);
+      //     }
       if (startPosition == '0') {
         emit(
           state.copyWith(
