@@ -21,9 +21,9 @@ class BaseListTileItem extends StatefulWidget {
   final int? guardCount;
   final int? pvcExpired;
   final int? msgbExempted;
-
   final List<Label>? labels;
-
+  final String? locationStr;
+  final int? dutyType;
   final Function? onTap;
   final Function? onEditTap;
   final Function? onViewTap;
@@ -50,6 +50,7 @@ class BaseListTileItem extends StatefulWidget {
     this.msgbExempted,
     this.returnable,
     this.showEditButton = true,
+    this.locationStr, this.dutyType,
     this.labels,
   });
 
@@ -98,39 +99,49 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
             child: Row(
               children: [
                 if (widget.showEditButton ?? true) ...[
-                  IconButton(
-                    onPressed: () {
-                      //do action on view
-                      widget.onEditTap != null
-                          ? widget.onEditTap!(widget.index)
-                          : null;
-                    },
-                    icon: SvgPicture.asset(AppIcon.editIcon),
-                  ),
-                ],
-                IconButton(
-                  onPressed: () {
-                    //do action on view
-                    widget.onViewTap != null
-                        ? widget.onViewTap!(widget.index)
-                        : null;
-                  },
-                  icon: SvgPicture.asset(AppIcon.viewIcon),
+                            IconButton(
+                              onPressed: () {
+                                //do action on view
+                                widget.onEditTap != null
+                                    ? widget.onEditTap!(widget.index)
+                                    : null;
+                              },
+                              icon: SvgPicture.asset(AppIcon.editIcon),
+                            ),
+                          ],
+                          IconButton(
+                            onPressed: () {
+                              //do action on view
+                              widget.onViewTap != null
+                                  ? widget.onViewTap!(widget.index)
+                                  : null;
+                            },
+                            icon: SvgPicture.asset(AppIcon.viewIcon),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      if (widget.locationRegion != null) ...[
-        Row(
-          children: [
-            Utils()
+                if (widget.locationRegion != null) ...[
+                  Row(
+                    children: [
+                      Utils()
                 .textHandling('Region : ', widget.locationRegion?.name ?? ''),
           ],
         ),
       ],
-      if (widget.guardCount != null) ...[
+      if (widget.locationStr != null) ...[
+                  CommonWidgets.verticalSpacerWidget(8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Utils().textHandling(
+                          'Loaction : ', widget.locationStr.toString()),
+                    ],
+                  ),
+                ],
+                if (widget.guardCount != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -200,8 +211,16 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
       if (widget.status != null) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildStatusRow(widget.status ?? 0),
-      ],
-    ];
+                ],
+                if (widget.status != null) ...[
+                  CommonWidgets.verticalSpacerWidget(5),
+                  Utils().buildMasterDataStatusRow(widget.status ?? 0),
+                ],
+                if (widget.dutyType != null) ...[
+                  CommonWidgets.verticalSpacerWidget(5),
+                  Utils().buildDutyTypeRow(widget.dutyType ?? 0),
+                ],
+              ];
 
     for (Label label in labels ?? []) {
       CommonWidgets.verticalSpacerWidget(5);

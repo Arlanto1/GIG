@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
 // import 'package:cloud_firestore/cloud_firestore.dart';
@@ -149,10 +148,36 @@ class Utils {
     );
   }
 
-  Row buildMasterDataStatusRow(int dataStatus) {
+  Row buildMasterDataStatusRow(int Status) {
     String statusText;
 
-    switch (dataStatus) {
+    switch (Status) {
+      case 1:
+        statusText = 'Active';
+        break;
+      case 2:
+        statusText = 'InActive';
+        break;
+      case 3:
+        statusText = 'Leave';
+        break;
+      case 4:
+        statusText = 'WeekOff';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return Row(
+      children: [
+        textHandling('Status: ',statusText),
+      ],
+    );
+  }
+
+  Row buildGuardRankRow(int guardRank) {
+    String statusText;
+
+    switch (guardRank) {
       case 1:
         statusText = 'Active';
         break;
