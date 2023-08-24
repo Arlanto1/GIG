@@ -49,6 +49,7 @@ class Constants {
   static const String otpVerificationTitle = "OTP Verification";
   static const String titleHeaderLogin = "Welcome back, Login!!";
   static const String email = "Email";
+  static const String username = "Username";
   static const String otp = "OTP";
   static const String password = "Password";
   static const String forgotpassowrd = 'Forgot Password?';
