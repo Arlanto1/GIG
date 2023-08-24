@@ -2716,6 +2716,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       onTap: () {},
       textFieldController: textController,
       textFormKey: Keys.colorTextController,
+      keyboardType: textController == contactnoTextController ? TextInputType.number : TextInputType.text,
       // isEnable:
       //     widget.listuser == null
       //     ? true
