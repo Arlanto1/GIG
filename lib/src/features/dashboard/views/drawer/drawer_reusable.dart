@@ -344,11 +344,11 @@ class navigationDrawer1 extends StatelessWidget {
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassmgmtindexChange(index);
     if (index == 0) {
-      Navigator.pushNamed(context, guardingRateDetailsRoute,
+      Navigator.pushNamed(context, guardingMasterDataRoute,
           arguments: {"Guarding Master Data": true});
     } else if (index == 1) {
       Navigator.pushNamed(context, guardingMasterReportRoute,
-          arguments: {"Guarding Master Report": true});
+          arguments: {"Guarding Master Report": false});
     } else if (index == 2) {
       Navigator.pushNamed(context, guardingRatesRoute,
           arguments: {"Guarding Rates": true});

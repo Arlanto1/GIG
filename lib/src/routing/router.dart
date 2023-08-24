@@ -31,6 +31,7 @@ const String materialMovementInwardDetailsRoute = '/materialMovementInwardDetail
 
 
 const String guardingMasterReportRoute = '/guardingMasterReportRoute';
+const String guardingMasterDataRoute = '/guardingMasterDataRoute';
 const String guardingRateDetailsRoute = '/guardingRateDetailsRoute';
 const String guardingRatesRoute = '/guardingRatesRoute';
 const String guardingRatesGRIRoute = '/guardingRatesGRIRoute';

@@ -17,10 +17,10 @@ class GuardingMasterReport extends StatefulWidget {
   });
 
   @override
-  State<GuardingMasterReport> createState() => _GuardingRatesState();
+  State<GuardingMasterReport> createState() => _GuardingMasterReportState();
 }
 
-class _GuardingRatesState extends State<GuardingMasterReport> {
+class _GuardingMasterReportState extends State<GuardingMasterReport> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
 
@@ -92,6 +92,7 @@ class _GuardingRatesState extends State<GuardingMasterReport> {
                         guardCount: state.list[index].guardCount,
                         pvcExpired: state.list[index].pvcExpired,
                         msgbExempted: state.list[index].msgbExempted,
+                        locationStr: state.list[index].location,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,
@@ -173,5 +174,4 @@ class _GuardingRatesState extends State<GuardingMasterReport> {
           );
         }));
   }
-
 }

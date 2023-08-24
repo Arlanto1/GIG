@@ -310,9 +310,7 @@ class Constants {
   static const String fromDate = 'From Date';
   static const String toDate = 'To Date';
 
-
-
-  ///Guarding Master Reports
   static const String guardingMasterReportTitle = 'Guarding Master Report List';
+  static const String guardingMasterDataTitle = 'Guarding Master Data List';
 
 }

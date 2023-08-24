@@ -40,6 +40,8 @@ class BasePopUpItems extends StatefulWidget {
   final int? uanNoPending;
   final int? firstAidCertified;
   final int? firstAidNotCertified;
+  final String? locationStr;
+  final int? dutyType;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -78,6 +80,8 @@ class BasePopUpItems extends StatefulWidget {
     this.uanNoPending,
     this.firstAidCertified,
     this.firstAidNotCertified,
+    this.locationStr,
+    this.dutyType,
   });
 }
 
@@ -202,6 +206,16 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           if (widget.status != null) ...[
             CommonWidgets.verticalSpacerWidget(5),
             Utils().buildStatusRow(widget.status ?? 0),
+          ],
+          if (widget.locationStr != null) ...[
+            CommonWidgets.verticalSpacerWidget(8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Utils()
+                    .textHandling('Loaction : ', widget.locationStr.toString()),
+              ],
+            ),
           ],
           if (widget.vendor != null) ...[
             CommonWidgets.verticalSpacerWidget(8),
@@ -429,8 +443,12 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
                     widget.firstAidNotCertified.toString()),
               ],
             ),
-          ],
-        ])),
+            if (widget.dutyType != null) ...[
+              CommonWidgets.verticalSpacerWidget(5),
+              Utils().buildDutyTypeRow(widget.dutyType ?? 0),
+            ],
+            ],
+                ])),
       ),
     );
   }
