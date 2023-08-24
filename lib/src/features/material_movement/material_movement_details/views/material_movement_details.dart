@@ -1742,7 +1742,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             Styles.textStyleBlack14),
                                         FlutterInputField(
                                           initialValue: state.materialMovement
-                                              .otherReceiverName,
+                                              .materialNotCheckedComment,
                                           textFormKey:
                                               Keys.claimantEmpIdTextController,
                                           isEnable:
