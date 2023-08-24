@@ -124,7 +124,7 @@ class _LoginState extends State<Login> {
                                   Container(
                                     alignment: Alignment.topLeft,
                                     child: const Text(
-                                      Constants.email,
+                                      Constants.username,
                                       style: Styles.textStyleBlack16,
                                     ),
                                   ),

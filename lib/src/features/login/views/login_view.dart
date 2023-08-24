@@ -87,7 +87,7 @@ class _LoginViewState extends State<LoginView> {
                           Container(
                             alignment: Alignment.topLeft,
                             child: const Text(
-                              Constants.email,
+                              Constants.username,
                               style: Styles.textStyleBlack16,
                             ),
                           ),
@@ -101,7 +101,7 @@ class _LoginViewState extends State<LoginView> {
                               setState(() {});
                             },
                             validateTextField: (String? user) {
-                              if (!Validator.isValidEmail(user)) {
+                              if (!Validator.isValidUserName(user)) {
                                 return Constants.userError;
                               }
                             },
