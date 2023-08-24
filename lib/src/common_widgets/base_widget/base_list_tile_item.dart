@@ -3,7 +3,6 @@ import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +21,8 @@ class BaseListTileItem extends StatefulWidget {
   final int? guardCount;
   final int? pvcExpired;
   final int? msgbExempted;
+
+  final List<Label>? labels;
 
   final Function? onTap;
   final Function? onEditTap;
@@ -49,6 +50,7 @@ class BaseListTileItem extends StatefulWidget {
     this.msgbExempted,
     this.returnable,
     this.showEditButton = true,
+    this.labels,
   });
 
   @override
@@ -74,127 +76,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
             borderRadius: BorderRadius.circular(8),
             child: Padding(
               padding: const EdgeInsets.all(20),
-              child: Column(children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Utils().textHandling('ID : ', widget.id.toString()),
-                    Container(
-                      alignment: Alignment.topCenter,
-                      child: Row(
-                        children: [
-                          ///TODO:Add condition to Remove editicon for MasterReport
-                          if (widget.showEditButton ?? true) ...[
-                            IconButton(
-                              onPressed: () {
-                                //do action on view
-                                widget.onEditTap != null
-                                    ? widget.onEditTap!(widget.index)
-                                    : null;
-                              },
-                              icon: SvgPicture.asset(AppIcon.editIcon),
-                            ),
-                          ],
-                          IconButton(
-                            onPressed: () {
-                              //do action on view
-                              widget.onViewTap != null
-                                  ? widget.onViewTap!(widget.index)
-                                  : null;
-                            },
-                            icon: SvgPicture.asset(AppIcon.viewIcon),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                if (widget.locationRegion != null) ...[
-                  Row(
-                    children: [
-                      Utils().textHandling(
-                          'Region : ', widget.locationRegion?.name ?? ''),
-                    ],
-                  ),
-                ],
-                if (widget.guardCount != null) ...[
-                  CommonWidgets.verticalSpacerWidget(8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Utils().textHandling(
-                          'Guard Count : ', widget.guardCount.toString()),
-                    ],
-                  ),
-                ],
-                if (widget.pvcExpired != null) ...[
-                  CommonWidgets.verticalSpacerWidget(8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Utils().textHandling('Total No of Staff PVC Expired : ',
-                          widget.pvcExpired.toString()),
-                    ],
-                  ),
-                ],
-                if (widget.vendor != null) ...[
-                  CommonWidgets.verticalSpacerWidget(8),
-                  Row(
-                    children: [
-                      Utils()
-                          .textHandling('Vendor : ', widget.vendor.toString()),
-                    ],
-                  ),
-                ],
-                if (widget.region != null) ...[
-                  CommonWidgets.verticalSpacerWidget(8),
-                  Row(
-                    children: [
-                      Utils()
-                          .textHandling('Region : ', widget.region.toString()),
-                    ],
-                  ),
-                ],
-                if (widget.location != null) ...[
-                  CommonWidgets.verticalSpacerWidget(5),
-                  Row(
-                    children: [
-                      Utils().textHandling(
-                          'Location : ', widget.location?.name ?? ''),
-                    ],
-                  ),
-                ],
-                if (widget.returnable != null) ...[
-                  CommonWidgets.verticalSpacerWidget(5),
-                  Row(
-                    children: [
-                      Utils().textHandling(
-                          'Material Movement Type : ',
-                          widget.returnable == true
-                              ? 'Returnable'
-                              : 'Not Returnable'),
-                    ],
-                  ),
-                ],
-                if (widget.inputDate != null) ...[
-                  CommonWidgets.verticalSpacerWidget(5),
-                  Row(
-                    children: [
-                      Utils().textHandling(
-                          'Date: ',
-                          widget.inputDate != null
-                              ? Utils.timestamptoDateConversion(
-                                  int.parse(widget.inputDate ?? '0'),
-                                  Constants.dateFormat)
-                              : ''),
-                    ],
-                  ),
-                ],
-                if (widget.status != null) ...[
-                  CommonWidgets.verticalSpacerWidget(5),
-                  Utils().buildStatusRow(widget.status ?? 0),
-                ],
-              ]),
+              child: Column(children: getChildren(widget.labels)),
             ),
           ),
         ),
@@ -202,4 +84,143 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
       ],
     );
   }
+
+  List<Widget> getChildren(List<Label>? labels) {
+    List<Widget> widgets = [];
+
+    widgets = [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Utils().textHandling('ID : ', widget.id.toString()),
+          Container(
+            alignment: Alignment.topCenter,
+            child: Row(
+              children: [
+                if (widget.showEditButton ?? true) ...[
+                  IconButton(
+                    onPressed: () {
+                      //do action on view
+                      widget.onEditTap != null
+                          ? widget.onEditTap!(widget.index)
+                          : null;
+                    },
+                    icon: SvgPicture.asset(AppIcon.editIcon),
+                  ),
+                ],
+                IconButton(
+                  onPressed: () {
+                    //do action on view
+                    widget.onViewTap != null
+                        ? widget.onViewTap!(widget.index)
+                        : null;
+                  },
+                  icon: SvgPicture.asset(AppIcon.viewIcon),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      if (widget.locationRegion != null) ...[
+        Row(
+          children: [
+            Utils()
+                .textHandling('Region : ', widget.locationRegion?.name ?? ''),
+          ],
+        ),
+      ],
+      if (widget.guardCount != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils()
+                .textHandling('Guard Count : ', widget.guardCount.toString()),
+          ],
+        ),
+      ],
+      if (widget.pvcExpired != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Total No of Staff PVC Expired : ',
+                widget.pvcExpired.toString()),
+          ],
+        ),
+      ],
+      if (widget.vendor != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils().textHandling('Vendor : ', widget.vendor.toString()),
+          ],
+        ),
+      ],
+      if (widget.region != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils().textHandling('Region : ', widget.region.toString()),
+          ],
+        ),
+      ],
+      if (widget.location != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          children: [
+            Utils().textHandling('Location : ', widget.location?.name ?? ''),
+          ],
+        ),
+      ],
+      if (widget.returnable != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          children: [
+            Utils().textHandling('Material Movement Type : ',
+                widget.returnable == true ? 'Returnable' : 'Not Returnable'),
+          ],
+        ),
+      ],
+      if (widget.inputDate != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          children: [
+            Utils().textHandling(
+                'Date: ',
+                widget.inputDate != null
+                    ? Utils.timestamptoDateConversion(
+                        int.parse(widget.inputDate ?? '0'),
+                        Constants.dateFormat)
+                    : ''),
+          ],
+        ),
+      ],
+      if (widget.status != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Utils().buildStatusRow(widget.status ?? 0),
+      ],
+    ];
+
+    for (Label label in labels ?? []) {
+      CommonWidgets.verticalSpacerWidget(5);
+      widgets.add(Row(
+        children: [
+          Utils().textHandling('${label.key} : ', label.value),
+        ],
+      ));
+    }
+    return widgets;
+  }
+}
+
+class Label {
+  final String key;
+  final String value;
+
+  const Label({
+    required this.key,
+    required this.value,
+  });
 }

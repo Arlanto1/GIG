@@ -26,7 +26,8 @@ class PayRateView extends StatefulWidget {
 
   const PayRateView({
     super.key,
-    required this.payRates, required this.rate,
+    required this.payRates,
+    required this.rate,
   });
 
   @override
@@ -55,7 +56,7 @@ class _PayRateViewState extends State<PayRateView> {
         builder: (BuildContext dialogContext) {
           return AddSecurityGuardPopUp(
             title: Constants.addSecurityGuard,
-            payRate:  payRate,
+            payRate: payRate,
             onSubmit: () {},
           );
         });
@@ -85,11 +86,12 @@ class _PayRateViewState extends State<PayRateView> {
             }),
         body:
             BlocBuilder<PayRateCubit, PayRateState>(builder: (context, state) {
-          if (state.status == FormStatus.initial) {
+          if (state.status == FormStatus.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
+
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
@@ -101,13 +103,21 @@ class _PayRateViewState extends State<PayRateView> {
             child: ListView.builder(
               itemCount: state.items.length,
               itemBuilder: (context, index) {
+                /// Adding Fields to BaseListTile
+                List<Label> labels = [];
+                labels.add(Label(
+                    key: 'Monthly', value: '${state.items[index].total}'));
+                labels.add(
+                    Label(key: 'Days', value: '${state.items[index].days}'));
+                labels.add(Label(
+                    key: 'Per Hour', value: '${state.items[index].perHour}'));
                 return index >= state.items.length
                     ? const Center(
                         child: CustomCircularProgressIndicator(),
                       )
                     : BaseListTileItem(
                         id: state.items[index].id,
-                        // inputDate: state.items[index].inputDate,
+                        labels: labels,
                         // location: state.items[index].location,
                         // locationRegion: state.items[index].locationRegion,
                         // status: state.items[index].status,
