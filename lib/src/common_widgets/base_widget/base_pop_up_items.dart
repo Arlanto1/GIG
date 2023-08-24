@@ -42,6 +42,7 @@ class BasePopUpItems extends StatefulWidget {
   final int? firstAidNotCertified;
   final String? locationStr;
   final int? dutyType;
+  final bool? physicallyFit;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -81,7 +82,7 @@ class BasePopUpItems extends StatefulWidget {
     this.firstAidCertified,
     this.firstAidNotCertified,
     this.locationStr,
-    this.dutyType,
+    this.dutyType, this.physicallyFit,
   });
 }
 
@@ -207,6 +208,10 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             CommonWidgets.verticalSpacerWidget(5),
             Utils().buildStatusRow(widget.status ?? 0),
           ],
+                  if (widget.status != null) ...[
+                    CommonWidgets.verticalSpacerWidget(5),
+                    Utils().buildMasterDataStatusRow(widget.status ?? 0),
+                  ],
           if (widget.locationStr != null) ...[
             CommonWidgets.verticalSpacerWidget(8),
             Row(
