@@ -565,14 +565,19 @@ Future<void> getPassnumber(String passtype, String locationid) async {
     state.getSerialnumberResponse = SerialNumberModel();
     state.t1hostanalyst = BaseUser();
     state.t1nameanalyst = BaseUser();
+    state.hostResponse = AtomStaticUser();
+    state.nameResponse = AtomStaticUser();
+    state.dbsponsorResponse = AtomStaticUser();
     state.getUserDetailsResponse = EntrySecurity();
     state.dayPasselementReason = DayPassReasonElement();
   }
 
   getEntityData(List<AtomEntity> listOfEntities) async {
     try {
+        int eventIds = Random.secure().nextInt(5);
       emit(
         state.copyWith(
+          eventId: eventIds,
           listOfEntities: listOfEntities,
           stateType: CreatePassMgmtStateType.success,
         ),

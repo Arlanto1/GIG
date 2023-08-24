@@ -520,8 +520,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
 
   getEntityData(List<AtomEntity> listOfEntities) async {
     try {
+       int eventIds = Random.secure().nextInt(5);
       emit(
         state.copyWith(
+          eventId: eventIds ,
           listOfEntities: listOfEntities,
           stateType: LawEnforcementStateType.success,
         ),
