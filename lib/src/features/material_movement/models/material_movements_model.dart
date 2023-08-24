@@ -70,6 +70,7 @@ class MaterialMovementModel {
   Department? approver1Department;
   String? approver2Email;
   Department? approver2Department;
+  Department? receiverDepartment;
   String? takenOutEmail;
   String? takenOutContactNo;
   String? materialReturnedChallanNo;
@@ -128,6 +129,7 @@ class MaterialMovementModel {
     this.approver1Department,
     this.approver2Email,
     this.approver2Department,
+    this.receiverDepartment,
     this.takenOutEmail,
     this.takenOutContactNo,
     this.materialReturnedChallanNo,
@@ -223,6 +225,11 @@ class MaterialMovementModel {
                 ? Department.fromJson(
                     json['approver2Department'] as Map<String, dynamic>)
                 : null,
+        receiverDepartment =
+            (json['receiverDepartment'] as Map<String, dynamic>?) != null
+                ? Department.fromJson(
+                    json['receiverDepartment'] as Map<String, dynamic>)
+                : null,
         takenOutEmail = json['takenOutEmail'] as String?,
         takenOutContactNo = json['takenOutContactNo'] as String?,
         materialReturnedChallanNo =
@@ -288,6 +295,7 @@ class MaterialMovementModel {
         'approver1Department': approver1Department?.toJson(),
         'approver2Email': approver2Email,
         'approver2Department': approver2Department?.toJson(),
+        'receiverDepartment': receiverDepartment?.toJson(),
         'takenOutEmail': takenOutEmail,
         'takenOutContactNo': takenOutContactNo,
         'materialReturnedChallanNo': materialReturnedChallanNo,

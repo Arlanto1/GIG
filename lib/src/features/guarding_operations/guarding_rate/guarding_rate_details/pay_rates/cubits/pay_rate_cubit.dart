@@ -27,11 +27,11 @@ class PayRateCubit extends Cubit<PayRateState> {
   }) : super(
           PayRateState.initial(
             payRates: payRates,
-            rate: GMRate(),
+            rate: rate,
             message: '',
             newPayRate: PayRate(),
             loggedInUserDetails: GetUserDetails(),
-departments: const [],
+            departments: const [],
           ),
         );
 
@@ -48,7 +48,11 @@ departments: const [],
 
     try {
       emit(
-        state.copyWith(),
+        state.copyWith(
+          rate: rate,
+          items: payRates,
+
+        ),
       );
     } catch (e) {
       emit(
@@ -90,11 +94,9 @@ departments: const [],
       state.rate.slNo = slNo.serialNo;
     }
 
-
     if (vendor != null) {
       state.rate.vendor = vendor;
     }
-
 
     emit(state.copyWith(
       rate: state.rate,

@@ -47,6 +47,7 @@ class _GuardingRectangleState extends State<GuardingRectangle> {
                     arguments: {
                       "title": Constants.createSecurityGuard,
                       "payRates" :widget.rate.securityGuardRates??[],
+                      "gmRate": widget.rate,
                     });
               },
               child: buildRectangleBox(

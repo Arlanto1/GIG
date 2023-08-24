@@ -311,20 +311,23 @@ class RouteGenerator {
 
       case payRateRoute:
         List<PayRate> payRates = [];
+        GMRate rate = GMRate();
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           payRates = arguments['payRates'];
+          rate = arguments['gmRate'];
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<PayRateCubit>(
                   create: (_) => PayRateCubit(
                     payRates: payRates,
-                    rate: GMRate(), // TODO: Need to fetch it from arguments
+                    rate: rate,
                     services: GuardingServices(),
                   ),
                   child: PayRateView(
                     payRates: payRates,
+                      rate: rate,
                   ),
                 ));
       default:

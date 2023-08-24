@@ -22,10 +22,11 @@ import 'add_security_guard_pop_up.dart';
 
 class PayRateView extends StatefulWidget {
   final List<PayRate> payRates;
+  final GMRate? rate;
 
   const PayRateView({
     super.key,
-    required this.payRates,
+    required this.payRates, required this.rate,
   });
 
   @override

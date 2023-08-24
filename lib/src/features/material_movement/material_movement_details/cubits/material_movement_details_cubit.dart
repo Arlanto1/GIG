@@ -188,8 +188,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
     print('--depart---${receiverDepartment?.name}-----');
     if (receiverDepartment != null) {
-      state.materialMovement.receiverDepartmenttName =
-          receiverDepartment.name;
+      state.materialMovement.receiverDepartment =
+          receiverDepartment;
     }
 
     if (quantityUnit != null) {
