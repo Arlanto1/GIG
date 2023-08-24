@@ -9,7 +9,8 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../common_widgets/spinnerdialog.dart';
+import '../../../../../common_widgets/floating_button.dart';
+import '../../../../../routing/router.dart';
 import '../bloc/guarding_master_data_bloc.dart';
 
 class GuardingMasterData extends StatefulWidget {
@@ -55,6 +56,17 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
+        floatingActionButton: Flutterfloatingbutton(
+          backgroundColor: AppColors.navigationSkybluecolor,
+          foregroundColor: AppColors.backgroundWhitecolor,
+          onPressed: () => {
+         // Navigator.pushNamed(context, lawenforcementScreenRoute);
+            Navigator.pushNamed(context, materialMovementInwardDetailsRoute,
+                arguments: {
+                  "title": Constants.createGuardingMasterData
+                } ),
+          },
+        ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.guardingMasterDataTitle,
@@ -89,7 +101,8 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                         : BaseListTileItem(
                       id: state.list[index].id,
                       inputDate: state.list[index].inputDate,
-                      //dataStatus: state.list[index].dataStatus,
+                      dutyType: state.list[index].dutyType,
+                      status: state.list[index].status,
 
                       onTap: (selectedIndex) {
                         showDialog(
@@ -98,7 +111,7 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                             return BasePopUpItems(
                               id: state.list[selectedIndex].id.toString(),
                               slNo: state.list[selectedIndex].slNo,
-                              dutyType: state.list[selectedIndex].dutyType,
+                              uanNo: state.list[selectedIndex].uanNo,
                               inputDate: state.list[selectedIndex].inputDate,
                             );
                           },
@@ -115,7 +128,7 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                             return BasePopUpItems(
                               id: state.list[selectedIndex].id.toString(),
                               slNo: state.list[selectedIndex].slNo,
-                              dutyType: state.list[selectedIndex].dutyType,
+                              uanNo: state.list[selectedIndex].uanNo,
                               inputDate: state.list[selectedIndex].inputDate,
                              // status: state.list[selectedIndex].status,
                             );

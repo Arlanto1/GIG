@@ -42,7 +42,7 @@ class BasePopUpItems extends StatefulWidget {
   final int? firstAidNotCertified;
   final String? locationStr;
   final int? dutyType;
-  final bool? physicallyFit;
+  final String? uanNo;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -82,7 +82,7 @@ class BasePopUpItems extends StatefulWidget {
     this.firstAidCertified,
     this.firstAidNotCertified,
     this.locationStr,
-    this.dutyType, this.physicallyFit,
+    this.dutyType, this.uanNo,
   });
 }
 
@@ -452,6 +452,13 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
               CommonWidgets.verticalSpacerWidget(5),
               Utils().buildDutyTypeRow(widget.dutyType ?? 0),
             ],
+              CommonWidgets.verticalSpacerWidget(8),
+              Row(
+                children: [
+                  Utils().textHandling('UAN No : ', widget.uanNo.toString()),
+                ],
+              ),
+
             ],
                 ])),
       ),
