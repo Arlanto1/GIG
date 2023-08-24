@@ -1740,7 +1740,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
     return TextfieldAddButton(
       title: title,
-      height: 60,
+      height: (state.listOfEntities?.length ?? 0) >  4  ? (state.listOfEntities?.length ?? 0) >  9 ? 140 : 100 : 60,
       isDisableColor: widget.listuser == null ||
               ((state.listOfEntities?.length ?? 0) == 0 && (title.isEmpty))
           ? false
@@ -1761,6 +1761,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           return CustomMultipleSelectionListTexts(
             duplicateentityList: state.getEntitiesResponse?.atomEntities ?? [],
             leftimagename: AppIcon.addicon,
+            mainselectedentityList:state.listOfEntities ?? [],
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
@@ -1774,7 +1775,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
            
             },
             onTap: (List<AtomEntity> list) {
-              createpassmgmtCubit.getEntityData(list);
+             createpassmgmtCubit.getEntityData(list);
             },
           );
         });

@@ -1106,7 +1106,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
     }
     return TextfieldAddButton(
       title: title,
-      height: 60,
+     height: (state.listOfEntities?.length ?? 0) >  4  ? (state.listOfEntities?.length ?? 0) >  9 ? 140 : 100 : 60,
       isDisableColor: widget.listuser == null ||
               ((state.listOfEntities?.length ?? 0) == 0 && (title.isEmpty))
           ? false
@@ -1126,6 +1126,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
         builder: (BuildContext dialogContext) {
           return CustomMultipleSelectionListTexts(
             duplicateentityList: state.getEntitiesResponse?.atomEntities ?? [],
+            mainselectedentityList: state.listOfEntities ?? [],
             leftimagename: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);

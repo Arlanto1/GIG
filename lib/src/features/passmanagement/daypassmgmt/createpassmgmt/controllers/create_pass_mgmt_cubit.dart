@@ -574,8 +574,10 @@ Future<void> getPassnumber(String passtype, String locationid) async {
 
   getEntityData(List<AtomEntity> listOfEntities) async {
     try {
+        int eventIds = Random.secure().nextInt(5);
       emit(
         state.copyWith(
+          eventId: eventIds,
           listOfEntities: listOfEntities,
           stateType: CreatePassMgmtStateType.success,
         ),
