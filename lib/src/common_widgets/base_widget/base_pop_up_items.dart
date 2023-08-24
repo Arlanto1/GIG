@@ -82,7 +82,8 @@ class BasePopUpItems extends StatefulWidget {
     this.firstAidCertified,
     this.firstAidNotCertified,
     this.locationStr,
-    this.dutyType, this.uanNo,
+    this.dutyType,
+    this.uanNo,
   });
 }
 
@@ -208,10 +209,10 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             CommonWidgets.verticalSpacerWidget(5),
             Utils().buildStatusRow(widget.status ?? 0),
           ],
-                  if (widget.status != null) ...[
-                    CommonWidgets.verticalSpacerWidget(5),
-                    Utils().buildMasterDataStatusRow(widget.status ?? 0),
-                  ],
+          if (widget.status != null) ...[
+            CommonWidgets.verticalSpacerWidget(5),
+            Utils().buildMasterDataStatusRow(widget.status ?? 0),
+          ],
           if (widget.locationStr != null) ...[
             CommonWidgets.verticalSpacerWidget(8),
             Row(
@@ -452,15 +453,14 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
               CommonWidgets.verticalSpacerWidget(5),
               Utils().buildDutyTypeRow(widget.dutyType ?? 0),
             ],
-              CommonWidgets.verticalSpacerWidget(8),
-              Row(
-                children: [
-                  Utils().textHandling('UAN No : ', widget.uanNo.toString()),
-                ],
-              ),
-
-            ],
-                ])),
+            CommonWidgets.verticalSpacerWidget(8),
+            Row(
+              children: [
+                Utils().textHandling('UAN No : ', widget.uanNo.toString()),
+              ],
+            ),
+          ],
+        ])),
       ),
     );
   }

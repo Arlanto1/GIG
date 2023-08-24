@@ -565,9 +565,9 @@ Future<void> getPassnumber(String passtype, String locationid) async {
     state.getSerialnumberResponse = SerialNumberModel();
     state.t1hostanalyst = BaseUser();
     state.t1nameanalyst = BaseUser();
-    state.hostResponse = AtomStaticUser();
-    state.nameResponse = AtomStaticUser();
-    state.dbsponsorResponse = AtomStaticUser();
+    state.hostResponse = BaseUser();
+    state.nameResponse = BaseUser();
+    state.dbsponsorResponse = BaseUser();
     state.getUserDetailsResponse = EntrySecurity();
     state.dayPasselementReason = DayPassReasonElement();
   }
