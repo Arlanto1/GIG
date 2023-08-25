@@ -1142,6 +1142,9 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
             },
             onTap: (List<AtomEntity> list) {
               lawenforcementCubit.getEntityData(list);
+              setState(() {
+               
+             });
             },
           );
         });

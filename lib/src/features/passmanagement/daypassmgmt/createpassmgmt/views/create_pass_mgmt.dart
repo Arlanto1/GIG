@@ -1776,6 +1776,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             },
             onTap: (List<AtomEntity> list) {
              createpassmgmtCubit.getEntityData(list);
+             setState(() {
+               
+             });
             },
           );
         });
