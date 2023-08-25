@@ -1,6 +1,7 @@
 import 'package:db_atom/src/features/passmanagement/daypassregister/models/day_pass_info_response_model.dart';
 
 import '../../../../models/department.dart';
+import '../../../../models/entity.dart';
 import '../../../../models/entry_security.dart';
 import '../../../material_movement/models/material_movements_model.dart';
 
@@ -41,7 +42,7 @@ class GMRate {
   EntrySecurity? entrySecurity;
   List<Entity>? entities;
   String? inputDate;
-  num? modifiedDate;
+  // num? modifiedDate;
   String? modifiedBy;
   Department? vendor;
   List<PayRate>? securityGuardRates;
@@ -59,7 +60,7 @@ class GMRate {
     this.entrySecurity,
     this.entities,
     this.inputDate,
-    this.modifiedDate,
+    // this.modifiedDate,
     this.modifiedBy,
     this.vendor,
     this.securityGuardRates = const [],
@@ -89,7 +90,7 @@ class GMRate {
             ?.map((dynamic e) => Entity.fromJson(e as Map<String, dynamic>))
             .toList(),
         inputDate = json['inputDate'] as String?,
-        modifiedDate = json['modifiedDate'] as num?,
+        // modifiedDate = json['modifiedDate'] as num?,
         modifiedBy = json['modifiedBy'] as String?,
         vendor = (json['vendor'] as Map<String, dynamic>?) != null
             ? Department.fromJson(json['vendor'] as Map<String, dynamic>)
@@ -119,7 +120,7 @@ class GMRate {
         'entrySecurity': entrySecurity?.toJson(),
         'entities': entities,
         'inputDate': inputDate,
-        'modifiedDate': modifiedDate,
+        // 'modifiedDate': modifiedDate,
         'modifiedBy': modifiedBy,
         'vendor': vendor?.toJson(),
         'securityGuardRates':
@@ -217,7 +218,7 @@ class PayRate {
   int? id;
   num? rankId;
   Department? vendor;
-  double? days;
+  num? days;
   double? perHour;
   num? total;
   String? fromDate;
@@ -242,7 +243,7 @@ class PayRate {
         vendor = (json['vendor'] as Map<String, dynamic>?) != null
             ? Department.fromJson(json['vendor'] as Map<String, dynamic>)
             : null,
-        days = json['days'] as double?,
+        days = json['days'] as num?,
         perHour = json['perHour'] as double?,
         total = json['total'] as num?,
         fromDate = json['fromDate'] as String?,

@@ -271,7 +271,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         MaterialMovementRequest(materialMovement: state.materialMovement);
 
     try {
-      MaterialMovementResponse response = MaterialMovementResponse();
+      GenericCreateResponse response = GenericCreateResponse();
       if (isSaveOnly) {
         response = await materialMovementServices.createMaterialMovement(
             body: request, isSubmit: false);

@@ -23,6 +23,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
+import '../../../../../models/entity.dart';
 import '../../../../../models/entry_security.dart';
 
 enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment, photoattachment }
@@ -35,7 +36,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   String? errorMessage;
   GetLocations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
- List<AtomEntity>?  listOfEntities;
+ List<Entity>?  listOfEntities;
   Mumbai? locationSelectedlist;
   SerialNumberModel? serialnumberResponse;
   BaseUser? getuserResponse;
@@ -110,7 +111,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   String? errorMessage,
   GetLocations? getLocationsResponse,
   SerialNumberModel? getSerialnumberResponse,
- List<AtomEntity>?  listOfEntities,
+ List<Entity>?  listOfEntities,
   Mumbai? locationSelectedlist,
   SerialNumberModel? serialnumberResponse,
   GetDepositor? getDepositorResponse,

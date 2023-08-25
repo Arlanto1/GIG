@@ -223,7 +223,10 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
     ];
 
     for (Label label in labels ?? []) {
-      CommonWidgets.verticalSpacerWidget(5);
+      if(label.value == "null" ) {
+        continue;
+      }
+      widgets.add(CommonWidgets.verticalSpacerWidget(5));
       widgets.add(Row(
         children: [
           Utils().textHandling('${label.key} : ', label.value),

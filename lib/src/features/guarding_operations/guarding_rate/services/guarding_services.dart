@@ -41,7 +41,7 @@ class GuardingServices {
   }
 
   /// Create
-  Future<MaterialMovementResponse> createGmRate({
+  Future<GenericCreateResponse> createGmRate({
     required GMRateRequest body,
     required bool isSubmit,
   }) async {
@@ -53,6 +53,6 @@ class GuardingServices {
       url: url,
       requestedData: body.toJson(),
     );
-    return MaterialMovementResponse.fromJson(response);
+    return GenericCreateResponse.fromJson(response);
   }
 }

@@ -41,7 +41,7 @@ class MaterialMovementServices {
 
   /// Create Services
 
-  Future<MaterialMovementResponse> createMaterialMovement(
+  Future<GenericCreateResponse> createMaterialMovement(
       {
     required MaterialMovementRequest body,
     required bool isSubmit,
@@ -53,6 +53,6 @@ class MaterialMovementServices {
       url: url,
       requestedData: body.toJson(),
     );
-    return MaterialMovementResponse.fromJson(response);
+    return GenericCreateResponse.fromJson(response);
   }
 }

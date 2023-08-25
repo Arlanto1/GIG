@@ -20,6 +20,8 @@ import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 
+import '../models/entity.dart';
+
 class CustomMultipleSelectionListTexts extends StatefulWidget {
   CustomMultipleSelectionListTexts({
     super.key,
@@ -32,11 +34,11 @@ class CustomMultipleSelectionListTexts extends StatefulWidget {
   });
   final String? imagename;
 
-  List<AtomEntity>? duplicateentityList;
+  List<Entity>? duplicateentityList;
   final Function? onTap;
   final Function? onLeftButtonTap;
   final String? leftimagename;
-  List<AtomEntity>? mainselectedentityList;
+  List<Entity>? mainselectedentityList;
   @override
   State<CustomMultipleSelectionListTexts> createState() =>
       CustomMultipleSelectionListTextsState();
@@ -49,8 +51,8 @@ class CustomMultipleSelectionListTextsState
   Color borderColor = AppColors.searchBarBorder;
   var selectedListindexes = [];
 
-  List<AtomEntity> entityList = [];
-  List<AtomEntity> selectentityList = [];
+  List<Entity> entityList = [];
+  List<Entity> selectentityList = [];
 
   @override
   void initState() {
@@ -68,7 +70,7 @@ class CustomMultipleSelectionListTextsState
   {
     for (int i=0; i<(widget.duplicateentityList ?? []).length; i++ )
     {
-        AtomEntity articleItem = widget.duplicateentityList![i];
+        Entity articleItem = widget.duplicateentityList![i];
        if (widget.mainselectedentityList!.contains(articleItem)) {
           selectedListindexes.add(i);
        }
@@ -263,7 +265,7 @@ class CustomMultipleSelectionListTextsState
               : widget.duplicateentityList?.length,
           itemBuilder: (BuildContext context, int index) {
             if (widget.duplicateentityList != null) {
-              AtomEntity? articleItem;
+              Entity? articleItem;
               if ((_searchCtrl.text.length > 0 && entityList.isNotEmpty)) {
                 articleItem = entityList[index];
               } else {
@@ -278,7 +280,7 @@ class CustomMultipleSelectionListTextsState
                     if (selectedListindexes.contains(index)) {
                       selectedListindexes.remove(index);
 
-                      AtomEntity? articleItem1 =
+                      Entity? articleItem1 =
                           widget.duplicateentityList?[index];
                       selectentityList.removeWhere(
                           (item) => item.id == (articleItem1?.id ?? 0));

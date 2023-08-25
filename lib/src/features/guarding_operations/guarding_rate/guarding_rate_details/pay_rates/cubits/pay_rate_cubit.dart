@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
@@ -10,12 +11,14 @@ import 'package:intl/intl.dart';
 
 import '../../../../../../constants/constants.dart';
 import '../../../../../../models/department.dart';
+import '../../../../../../models/entity.dart';
 import '../../../../../../models/entry_security.dart';
 import '../../../../../../utils/shared_preferences.dart';
+import '../../../../../../utils/util.dart';
 import '../../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../../createfound/models/get_locations_model.dart';
-import '../../../../../createfound/models/get_user_model.dart';
 import '../../../../../createfound/models/serial_number_model.dart';
+import '../../../../../lawenforcement/models/addentities.dart';
 import '../../../../../material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import '../../../../../material_movement/models/material_movements_model.dart';
 import '../../../../../material_movement/models/responseModels/material_movement_response.dart';
@@ -53,7 +56,8 @@ class PayRateCubit extends Cubit<PayRateState> {
     );
     var userId = await SharedPrefs.getUserId();
     EntrySecurity loggedInUserDetails =
-    await commonServices.getUserDetails(userId: userId);
+        await commonServices.getUserDetails(userId: userId);
+    state.rate.entrySecurity = loggedInUserDetails;
 
     GetLocations getLocationsData =
         await commonServices.getLocations(name: 'ATOM_LOCATIONS');
@@ -65,21 +69,70 @@ class PayRateCubit extends Cubit<PayRateState> {
     state.rate.inputDate =
         DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
+    AddEntities entities =
+        await commonServices.getEntities(name: 'ATOM_ENTITIES');
+
+    log('-loggedInUserDetails---${loggedInUserDetails.name}--');
+
     try {
       emit(
         state.copyWith(
-            locations: getLocationsData,
-            loggedInUserDetails: loggedInUserDetails,
-            rate: rate,
-            departments: departments.employeeDepartments,
-            items: payRates,
-            status: FormStatus.initial),
+          locations: getLocationsData,
+          loggedInUserDetails: loggedInUserDetails,
+          rate: rate,
+          departments: departments.employeeDepartments,
+          items: payRates,
+          listOfEntities: entities.atomEntities,
+          getEntitiesResponse: entities,
+          status: FormStatus.initial,
+        ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           message: Constants.errorText,
           // TODO: error message should be dynamic
+          status: FormStatus.error,
+        ),
+      );
+    }
+  }
+
+  getEntityData(List<Entity> listOfEntities) async {
+    try {
+      int eventIds = math.Random.secure().nextInt(5);
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          listOfEntities: listOfEntities,
+          status: FormStatus.initial,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          message: Constants.errorText,
+          status: FormStatus.error,
+        ),
+      );
+    }
+  }
+
+  // Get entities api call
+  Future<void> getEntities() async {
+    try {
+      AddEntities entities =
+          await commonServices.getEntities(name: 'ATOM_ENTITIES');
+      emit(
+        state.copyWith(
+          getEntitiesResponse: entities,
+          status: FormStatus.initial,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          message: Constants.errorText,
           status: FormStatus.error,
         ),
       );
@@ -93,6 +146,7 @@ class PayRateCubit extends Cubit<PayRateState> {
   Future<void> updateDropdownValues({
     Location? location,
     Department? vendor,
+    List<Entity>? entities,
   }) async {
     emit(
       state.copyWith(
@@ -114,43 +168,66 @@ class PayRateCubit extends Cubit<PayRateState> {
       state.rate.vendor = vendor;
     }
 
+    if(entities != null) {
+      state.rate.entities = entities;
+
+    }
+
+
     emit(state.copyWith(
       rate: state.rate,
       status: FormStatus.initial,
     ));
   }
 
-  Future<void> onSave({bool isSubmit = false, officerRank = 1}) async {
+  Future<void> onSave(
+      {bool isSubmit = false, officerRank = 1, PayRate? newPayRate}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
 
-    log('----sdsss-----${state.rate.location}---');
-    log('----sdsss-----${state.newPayRate.comment}---');
+    log('--total--${state.newPayRate.total}------');
+    log('--from--${state.newPayRate.fromDate}------');
 
+    newPayRate ?? PayRate();
     switch (officerRank) {
       case 1:
-        state.rate.securityGuardRates?.add(state.newPayRate);
+        state.rate.securityGuardRates ?? [].add(newPayRate);
         break;
       case 2:
-        state.rate.securityGuardRates?.add(state.newPayRate);
+        state.rate.securityOfficerRates ?? [].add(newPayRate);
+        break;
+
+      case 3:
+        state.rate.securitySupervisorRates ?? [].add(newPayRate);
+        break;
+
+      case 4:
+        state.rate.securityFacilitatorRates ?? [].add(newPayRate);
+        break;
+
+      case 5:
+        state.rate.securityGunManRates ?? [].add(newPayRate);
         break;
 
       default:
-        state.rate.securityGuardRates?.add(state.newPayRate);
+        state.rate.securityGuardRates ?? [].add(newPayRate);
     }
+
+    state.rate.inputDate = (DateTime.now().millisecondsSinceEpoch/1000).toString();
+
 
     GMRateRequest request = GMRateRequest(guardingRateInfo: state.rate);
 
-    MaterialMovementResponse response = MaterialMovementResponse();
+    GenericCreateResponse response = GenericCreateResponse();
 
     if (!isSubmit) {
-      try{
-        response = await services.createGmRate(body: request, isSubmit: isSubmit);
-
-      } catch(e){
+      try {
+        response =
+            await services.createGmRate(body: request, isSubmit: isSubmit);
+      } catch (e) {
         log('$e');
       }
     } else {
@@ -170,7 +247,7 @@ class PayRateCubit extends Cubit<PayRateState> {
     emit(
       state.copyWith(
         message: response.message,
-        status: FormStatus.success,
+        status: isSubmit?FormStatus.success:FormStatus.next,
       ),
     );
   }

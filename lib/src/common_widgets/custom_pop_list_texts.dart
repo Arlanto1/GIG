@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 
 import '../models/base_user.dart';
 import '../models/department.dart';
+import '../models/entity.dart';
 
 class CustomListTexts extends StatefulWidget {
   CustomListTexts(
@@ -43,7 +44,7 @@ class CustomListTexts extends StatefulWidget {
   final String? imagename;
   List<Department>? duplicateemployeeDepartments;
   List<ArticleList>? duplicatearticleList;
-  List<AtomEntity>? duplicateentityList;
+  List<Entity>? duplicateentityList;
   List<BaseUser>? duplicatedepostorList;
   List<AtomLeoDepartment>? duplicateleodepartments;
   List<AtomLeoPurposeVisit>? duplicateleopurposevisits;
@@ -68,7 +69,7 @@ class CustomListTextsState extends State<CustomListTexts> {
   Color borderColor = AppColors.searchBarBorder;
   List<Department> employeeDepartments = [];
   List<ArticleList> articleList = [];
-  List<AtomEntity> entityList = [];
+  List<Entity> entityList = [];
   List<BaseUser> depostorList = [];
   List<AtomLeoDepartment> leodepartments = [];
   List<AtomLeoPurposeVisit> leopurposevisits = [];
@@ -599,7 +600,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateentityList != null) {
-              AtomEntity? articleItem;
+              Entity? articleItem;
               if ((_searchCtrl.text.length > 0 && entityList.isNotEmpty)) {
                 articleItem = entityList[index];
               } else {

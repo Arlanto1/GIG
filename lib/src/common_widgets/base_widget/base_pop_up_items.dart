@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -6,6 +8,7 @@ import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/material_movement/models/material_movements_model.dart';
+import 'base_list_tile_item.dart';
 
 class BasePopUpItems extends StatefulWidget {
   final String? id;
@@ -43,6 +46,7 @@ class BasePopUpItems extends StatefulWidget {
   final String? locationStr;
   final int? dutyType;
   final String? uanNo;
+  final List<Label>? labels;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -84,6 +88,7 @@ class BasePopUpItems extends StatefulWidget {
     this.locationStr,
     this.dutyType,
     this.uanNo,
+    this.labels,
   });
 }
 
@@ -108,360 +113,379 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             // Row(
             //  children: [
             SingleChildScrollView(
-                child: Column(children: [
-          Align(
-              alignment: Alignment.topRight,
-              child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child:
-                      SvgPicture.asset(AppIcon.closeicon) //Icon(Icons.cancel)
-                  )),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Utils().textHandling('ID : ', widget.id.toString()),
-            ],
+          child: Column(
+            children: getChildren(context, widget.labels),
           ),
-          if (widget.slNo != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling('Sl No : ', widget.slNo.toString()),
-              ],
-            ),
-          ],
-          if (widget.locationRegion != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              children: [
-                Utils().textHandling(
-                    'Region : ', widget.locationRegion?.name ?? " "),
-              ],
-            ),
-          ],
-          if (widget.locationRegion != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              children: [
-                Utils()
-                    .textHandling('Location : ', widget.location?.name ?? " "),
-              ],
-            ),
-          ],
-          if (widget.returnable != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              children: [
-                Utils().textHandling(
-                    'Material Movement Type : ',
-                    widget.returnable == true
-                        ? 'Returnable'
-                        : 'Not Returnable'),
-              ],
-            ),
-          ],
-          if (widget.challanNo != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling('Challan/Invoice Nos/Gate Pass : ',
-                    widget.challanNo.toString()),
-              ],
-            ),
-          ],
-          if (widget.quantity != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling('Quantity : ', widget.quantity.toString()),
-              ],
-            ),
-          ],
-          if (widget.inputDate != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              children: [
-                Utils().textHandling(
-                    'DateOfCreation : ',
-                    widget.inputDate != null
-                        ? Utils.timestamptoDateConversion(
-                            int.parse(widget.inputDate ?? '0'),
-                            Constants.dateFormat)
-                        : ''),
-              ],
-            ),
-          ],
-          if (widget.entrySecurityName != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              children: [
-                Utils().textHandling(
-                    'Created By : ', widget.entrySecurityName.toString()),
-              ],
-            ),
-          ],
-          if (widget.status != null) ...[
-            CommonWidgets.verticalSpacerWidget(5),
-            Utils().buildStatusRow(widget.status ?? 0),
-          ],
-          if (widget.status != null) ...[
-            CommonWidgets.verticalSpacerWidget(5),
-            Utils().buildMasterDataStatusRow(widget.status ?? 0),
-          ],
-          if (widget.locationStr != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils()
-                    .textHandling('Loaction : ', widget.locationStr.toString()),
-              ],
-            ),
-          ],
-          if (widget.vendor != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              children: [
-                Utils().textHandling('Vendor : ', widget.vendor.toString()),
-              ],
-            ),
-          ],
-          if (widget.region != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              children: [
-                Utils().textHandling('Region : ', widget.region.toString()),
-              ],
-            ),
-          ],
-          if (widget.guardCount != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling(
-                    'Guard Count : ', widget.guardCount.toString()),
-              ],
-            ),
-          ],
-          if (widget.mcNotSubmitted != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling(
-                    'Total No of Staff MedicalCertificate Not Submitted : ',
-                    widget.mcNotSubmitted.toString()),
-              ],
-            ),
-          ],
-          if (widget.mcExpired != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling(
-                    'Total No of Staff MedicalCertificate Expired : ',
-                    widget.mcExpired.toString()),
-              ],
-            ),
-          ],
-          if (widget.photoNotSubmitted != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling(
-                    'Total No of Staff Photograph Not Submitted : ',
-                    widget.photoNotSubmitted.toString()),
-              ],
-            ),
-          ],
-          if (widget.deploymentOrderPending != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling(
-                    'Total No of Staff DeplyomentOrder Not Submitted : ',
-                    widget.deploymentOrderPending.toString()),
-              ],
-            ),
-          ],
-          if (widget.pvcExpired != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling('Total No of Staff PVC Expired : ',
-                    widget.pvcExpired.toString()),
-              ],
-            ),
-          ],
-          if (widget.msgbExempted != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling('Total No of Staff MSGB Exempted : ',
-                    widget.msgbExempted.toString()),
-              ],
-            ),
-          ],
-          if (widget.msgbNotExempted != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling('Total No of Staff MSGB Not Exempted : ',
-                    widget.msgbNotExempted.toString()),
-              ],
-            ),
-          ],
-          if (widget.msgbFormBNotSubmitted != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling(
-                    'Total No of Staff MSGB Form B Not Exempted : ',
-                    widget.msgbFormBNotSubmitted.toString()),
-              ],
-            ),
-          ],
-          if (widget.msgbFormBUnderProcess != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling(
-                    'Total No of Staff MSGB Form B Under Process : ',
-                    widget.msgbFormBUnderProcess.toString()),
-              ],
-            ),
-          ],
-          if (widget.systemAccess != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling('Total No of Staff With System Access : ',
-                    widget.systemAccess.toString()),
-              ],
-            ),
-          ],
-          if (widget.trainingCertPending != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling(
-                    'Total No of Staff Training Certificate Pending : ',
-                    widget.trainingCertPending.toString()),
-              ],
-            ),
-          ],
-          if (widget.precPending != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling(
-                    'Total No of Staff Precaution Covid Dose Pending : ',
-                    widget.precPending.toString()),
-              ],
-            ),
-          ],
-          if (widget.precDoseCount != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling(
-                    'Total No of Staff Precaution Covid Dose Taken  : ',
-                    widget.precDoseCount.toString()),
-              ],
-            ),
-          ],
-          if (widget.ertCertified != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling('Total No of Staff ERT Certified  : ',
-                    widget.ertCertified.toString()),
-              ],
-            ),
-          ],
-          if (widget.ertPending != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling('Total No of Staff ERT Pending  : ',
-                    widget.ertPending.toString()),
-              ],
-            ),
-          ],
-          if (widget.esicPending != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling('Total No of Staff ESIC Pending  : ',
-                    widget.esicPending.toString()),
-              ],
-            ),
-          ],
-          if (widget.uanNoPending != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling('Total No of Staff UAN Pending  : ',
-                    widget.uanNoPending.toString()),
-              ],
-            ),
-          ],
-          if (widget.firstAidCertified != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling(
-                    'Total No of Staff FirstAid Training Certified  : ',
-                    widget.firstAidCertified.toString()),
-              ],
-            ),
-          ],
-          if (widget.firstAidNotCertified != null) ...[
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Utils().textHandling(
-                    'Total No of Staff FirstAid Training Pending  : ',
-                    widget.firstAidNotCertified.toString()),
-              ],
-            ),
-            if (widget.dutyType != null) ...[
-              CommonWidgets.verticalSpacerWidget(5),
-              Utils().buildDutyTypeRow(widget.dutyType ?? 0),
-            ],
-            CommonWidgets.verticalSpacerWidget(8),
-            Row(
-              children: [
-                Utils().textHandling('UAN No : ', widget.uanNo.toString()),
-              ],
-            ),
-          ],
-        ])),
+        ),
       ),
     );
+  }
+
+  List<Widget> getChildren(BuildContext context, List<Label>? labels) {
+    List<Widget> widgets = [];
+
+    widgets = [
+      Align(
+        alignment: Alignment.topRight,
+        child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: SvgPicture.asset(AppIcon.closeicon) //Icon(Icons.cancel)
+            ),
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Utils().textHandling('ID : ', widget.id.toString()),
+        ],
+      ),
+      if (widget.slNo != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Sl No : ', widget.slNo.toString()),
+          ],
+        ),
+      ],
+      if (widget.locationRegion != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils()
+                .textHandling('Region : ', widget.locationRegion?.name ?? " "),
+          ],
+        ),
+      ],
+      if (widget.locationRegion != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils().textHandling('Location : ', widget.location?.name ?? " "),
+          ],
+        ),
+      ],
+      if (widget.returnable != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils().textHandling('Material Movement Type : ',
+                widget.returnable == true ? 'Returnable' : 'Not Returnable'),
+          ],
+        ),
+      ],
+      if (widget.challanNo != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Challan/Invoice Nos/Gate Pass : ',
+                widget.challanNo.toString()),
+          ],
+        ),
+      ],
+      if (widget.quantity != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Quantity : ', widget.quantity.toString()),
+          ],
+        ),
+      ],
+      if (widget.inputDate != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils().textHandling(
+                'DateOfCreation : ',
+                widget.inputDate != null
+                    ? Utils.timestamptoDateConversion(
+                        int.parse(widget.inputDate ?? '0'),
+                        Constants.dateFormat)
+                    : ''),
+          ],
+        ),
+      ],
+      if (widget.entrySecurityName != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils().textHandling(
+                'Created By : ', widget.entrySecurityName.toString()),
+          ],
+        ),
+      ],
+      if (widget.status != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Utils().buildStatusRow(widget.status ?? 0),
+      ],
+      if (widget.status != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Utils().buildMasterDataStatusRow(widget.status ?? 0),
+      ],
+      if (widget.locationStr != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Loaction : ', widget.locationStr.toString()),
+          ],
+        ),
+      ],
+      if (widget.vendor != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils().textHandling('Vendor : ', widget.vendor.toString()),
+          ],
+        ),
+      ],
+      if (widget.region != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils().textHandling('Region : ', widget.region.toString()),
+          ],
+        ),
+      ],
+      if (widget.guardCount != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils()
+                .textHandling('Guard Count : ', widget.guardCount.toString()),
+          ],
+        ),
+      ],
+      if (widget.mcNotSubmitted != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Total No of Staff MedicalCertificate Not Submitted : ',
+                widget.mcNotSubmitted.toString()),
+          ],
+        ),
+      ],
+      if (widget.mcExpired != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Total No of Staff MedicalCertificate Expired : ',
+                widget.mcExpired.toString()),
+          ],
+        ),
+      ],
+      if (widget.photoNotSubmitted != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Total No of Staff Photograph Not Submitted : ',
+                widget.photoNotSubmitted.toString()),
+          ],
+        ),
+      ],
+      if (widget.deploymentOrderPending != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Total No of Staff DeplyomentOrder Not Submitted : ',
+                widget.deploymentOrderPending.toString()),
+          ],
+        ),
+      ],
+      if (widget.pvcExpired != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Total No of Staff PVC Expired : ',
+                widget.pvcExpired.toString()),
+          ],
+        ),
+      ],
+      if (widget.msgbExempted != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Total No of Staff MSGB Exempted : ',
+                widget.msgbExempted.toString()),
+          ],
+        ),
+      ],
+      if (widget.msgbNotExempted != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Total No of Staff MSGB Not Exempted : ',
+                widget.msgbNotExempted.toString()),
+          ],
+        ),
+      ],
+      if (widget.msgbFormBNotSubmitted != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Total No of Staff MSGB Form B Not Exempted : ',
+                widget.msgbFormBNotSubmitted.toString()),
+          ],
+        ),
+      ],
+      if (widget.msgbFormBUnderProcess != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Total No of Staff MSGB Form B Under Process : ',
+                widget.msgbFormBUnderProcess.toString()),
+          ],
+        ),
+      ],
+      if (widget.systemAccess != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Total No of Staff With System Access : ',
+                widget.systemAccess.toString()),
+          ],
+        ),
+      ],
+      if (widget.trainingCertPending != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Total No of Staff Training Certificate Pending : ',
+                widget.trainingCertPending.toString()),
+          ],
+        ),
+      ],
+      if (widget.precPending != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Total No of Staff Precaution Covid Dose Pending : ',
+                widget.precPending.toString()),
+          ],
+        ),
+      ],
+      if (widget.precDoseCount != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Total No of Staff Precaution Covid Dose Taken  : ',
+                widget.precDoseCount.toString()),
+          ],
+        ),
+      ],
+      if (widget.ertCertified != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Total No of Staff ERT Certified  : ',
+                widget.ertCertified.toString()),
+          ],
+        ),
+      ],
+      if (widget.ertPending != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Total No of Staff ERT Pending  : ',
+                widget.ertPending.toString()),
+          ],
+        ),
+      ],
+      if (widget.esicPending != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Total No of Staff ESIC Pending  : ',
+                widget.esicPending.toString()),
+          ],
+        ),
+      ],
+      if (widget.uanNoPending != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Total No of Staff UAN Pending  : ',
+                widget.uanNoPending.toString()),
+          ],
+        ),
+      ],
+      if (widget.firstAidCertified != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Total No of Staff FirstAid Training Certified  : ',
+                widget.firstAidCertified.toString()),
+          ],
+        ),
+      ],
+      if (widget.firstAidNotCertified != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Total No of Staff FirstAid Training Pending  : ',
+                widget.firstAidNotCertified.toString()),
+          ],
+        ),
+        if (widget.dutyType != null) ...[
+          CommonWidgets.verticalSpacerWidget(5),
+          Utils().buildDutyTypeRow(widget.dutyType ?? 0),
+        ],
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils().textHandling('UAN No : ', widget.uanNo.toString()),
+          ],
+        ),
+      ],
+    ];
+    for (Label label in labels ?? []) {
+
+      if(label.value == "null" ) {
+        continue;
+      }
+      widgets.add(CommonWidgets.verticalSpacerWidget(5));
+      widgets.add(
+        Row(
+          children: [
+            Utils().textHandling('${label.key} : ', label.value),
+          ],
+        ),
+      );
+    }
+    return widgets;
   }
 }

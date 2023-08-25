@@ -5,6 +5,7 @@ import 'package:db_atom/src/common_widgets/pop_button.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -17,11 +18,13 @@ import 'package:flutter/material.dart';
 
 class AddNewFields extends StatefulWidget {
   AddNewFields(
-      {super.key, required this.title, this.lawstate, this.createoundstate,this.createpassmgmtstate});
+      {super.key, required this.title, this.lawstate, this.createoundstate,this.createpassmgmtstate, this.payRateState,this.entityFun});
   final String title;
   LawEnforcementState? lawstate;
   CreateFoundState? createoundstate;
   CreatePassMgmtState? createpassmgmtstate;
+  PayRateState? payRateState;
+  Function? entityFun;
 
   @override
   State<AddNewFields> createState() => AddNewFieldsState();
@@ -87,6 +90,11 @@ class AddNewFieldsState extends State<AddNewFields> {
       }
       
      
+    } else if (widget.payRateState != null) {
+
+
+      await createpassmgmtCubit.createOrganisation(
+          name, 'ATOM_ENTITIES', context,widget.title);
     }
   }
 

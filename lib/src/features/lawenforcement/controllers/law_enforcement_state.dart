@@ -16,6 +16,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../models/base_user.dart';
 import '../../../models/department.dart';
+import '../../../models/entity.dart';
 import '../../../models/entry_security.dart';
 
 enum LawEnforcementStateType { initial, loading, success, failure, addattachment }
@@ -30,7 +31,7 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
   String? errorMessage;
   GetLocations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
- List<AtomEntity>?  listOfEntities;
+ List<Entity>?  listOfEntities;
   Mumbai? locationSelectedlist;
   AtomLeoPurposeVisit? leoPurposeVisitResponse;
   AtomLeoDepartment? leoDepartmentsResponse;
@@ -98,7 +99,7 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
   String? errorMessage,
   GetLocations? getLocationsResponse,
   SerialNumberModel? getSerialnumberResponse,
- List<AtomEntity>?  listOfEntities,
+ List<Entity>?  listOfEntities,
   Mumbai? locationSelectedlist,
   AtomLeoPurposeVisit? leoPurposeVisitResponse,
   AtomLeoDepartment? leoDepartmentsResponse,

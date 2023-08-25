@@ -1,6 +1,6 @@
 part of 'material_movement_details_cubit.dart';
 
-enum FormStatus { loading, initial, submitting, addAttachment, success, error }
+enum FormStatus { loading, initial, submitting, addAttachment, next, success, error }
 
 class MaterialMovementDetailsState extends Equatable {
   final FormStatus status;

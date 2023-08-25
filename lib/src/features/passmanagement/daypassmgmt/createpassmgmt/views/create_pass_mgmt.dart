@@ -43,6 +43,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
+import '../../../../../models/entity.dart';
 import '../../../../../models/entry_security.dart';
 
 class CreatePassManagement extends StatefulWidget {
@@ -1297,14 +1298,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       createpassmgmtCubit.getlocationsResponseData(mumbai);
 
       if ((widget.listuser?.entities?.length ?? 0) > 0) {
-        List<AtomEntity> entities = [];
+        List<Entity> entities = [];
         for (int i = 0; i < widget.listuser!.entities!.length; i++) {
-          AtomEntity entity = widget.listuser?.entities != null &&
+          Entity entity = widget.listuser?.entities != null &&
                   (widget.listuser?.entities?.length ?? 0) > 0
-              ? AtomEntity(
+              ? Entity(
                   id: widget.listuser?.entities![i].id ?? 0,
                   name: widget.listuser?.entities![i].name ?? "")
-              : AtomEntity();
+              : Entity();
           // AtomEntity entity = state.listOfEntities![i];
           //   DbOfficialEmailDepartment addentiity =
           // DbOfficialEmailDepartment(id: entity.id ?? 1);
@@ -1737,7 +1738,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     String title = '';
     if ((state.listOfEntities?.length ?? 0) > 0) {
       for (int i = 0; i < state.listOfEntities!.length; i++) {
-        AtomEntity entity = state.listOfEntities![i];
+        Entity entity = state.listOfEntities![i];
         String value = entity.name ?? '';
         title = title + '  ' + value;
       }
@@ -1778,7 +1779,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   });
            
             },
-            onTap: (List<AtomEntity> list) {
+            onTap: (List<Entity> list) {
              createpassmgmtCubit.getEntityData(list);
             },
           );
@@ -2191,7 +2192,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     List<PassMgmtTypEntity>? entities = [];
     if ((state.listOfEntities?.length ?? 0) > 0) {
       for (int i = 0; i < state.listOfEntities!.length; i++) {
-        AtomEntity entity = state.listOfEntities![i];
+        Entity entity = state.listOfEntities![i];
         PassMgmtTypEntity addentiity = PassMgmtTypEntity(id: entity.id ?? 1);
         entities.add(addentiity);
       }

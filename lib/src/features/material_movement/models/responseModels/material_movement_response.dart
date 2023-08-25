@@ -1,5 +1,5 @@
-class MaterialMovementResponse {
-  MaterialMovementResponse({
+class GenericCreateResponse {
+  GenericCreateResponse({
      this.message,
      this.materialMovementID,
   });
@@ -7,7 +7,7 @@ class MaterialMovementResponse {
   late final String? materialMovementID;
   late final String? id;
 
-  MaterialMovementResponse.fromJson(Map<String, dynamic> json){
+  GenericCreateResponse.fromJson(Map<String, dynamic> json){
     message = json['Message']?? json['message'];
     materialMovementID = json['Material Movement ID']??json['Guarding Rate Info ID']??json['id'];
   }

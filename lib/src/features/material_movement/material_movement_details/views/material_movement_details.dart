@@ -1943,7 +1943,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     //you can implement different kind of Date Format here according to your requirement
     takenOutOnDateController.text = formattedDate;
     setState(() {
-      // dateinput.text = formattedDate; //set output date to TextField value.
     });
   }
 

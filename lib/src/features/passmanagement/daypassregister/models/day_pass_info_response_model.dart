@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import '../../../../models/entity.dart';
+
 DayPassInfoResponseModel dayPassInfoResponseFromJson(String str) =>
     DayPassInfoResponseModel.fromJson(json.decode(str));
 
@@ -131,26 +133,6 @@ class InfoRegion {
   factory InfoRegion.fromJson(Map<String, dynamic> json) => InfoRegion(
         id: json["id"],
         name: json["name"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-      };
-}
-
-class Entity {
-  int? id;
-  String? name;
-
-  Entity({
-    this.id,
-    this.name,
-  });
-
-  factory Entity.fromJson(Map<String, dynamic> json) => Entity(
-        id: json["id"],
-        name: json["name"]!,
       );
 
   Map<String, dynamic> toJson() => {

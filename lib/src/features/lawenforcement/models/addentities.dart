@@ -4,19 +4,21 @@
 
 import 'dart:convert';
 
+import '../../../models/entity.dart';
+
 AddEntities addEntitiesFromJson(String str) => AddEntities.fromJson(json.decode(str));
 
 String addEntitiesToJson(AddEntities data) => json.encode(data.toJson());
 
 class AddEntities {
-    List<AtomEntity>? atomEntities;
+    List<Entity>? atomEntities;
 
     AddEntities({
         this.atomEntities,
     });
 
     factory AddEntities.fromJson(Map<String, dynamic> json) => AddEntities(
-        atomEntities: json["ATOM_ENTITIES"] == null ? [] : List<AtomEntity>.from(json["ATOM_ENTITIES"]!.map((x) => AtomEntity.fromJson(x))),
+        atomEntities: json["ATOM_ENTITIES"] == null ? [] : List<Entity>.from(json["ATOM_ENTITIES"]!.map((x) => Entity.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -24,22 +26,3 @@ class AddEntities {
     };
 }
 
-class AtomEntity {
-    int? id;
-    String? name;
-
-    AtomEntity({
-        this.id,
-        this.name,
-    });
-
-    factory AtomEntity.fromJson(Map<String, dynamic> json) => AtomEntity(
-        id: json["Id"],
-        name: json["Name"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "Id": id,
-        "Name": name,
-    };
-}

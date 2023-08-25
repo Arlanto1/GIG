@@ -6,7 +6,6 @@ import 'package:db_atom/src/common_widgets/base_widget/department_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
-import 'package:db_atom/src/common_widgets/image_download.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
@@ -16,7 +15,6 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
@@ -30,8 +28,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../common_widgets/create_fields.dart';
+import '../../../../../common_widgets/custom_multiple_selection_popup.dart';
 import '../../../../../common_widgets/date_time_picker.dart';
 import '../../../../../models/department.dart';
+import '../../../../../models/entity.dart';
+import '../../../../lawenforcement/models/addentities.dart';
 
 class RatesInfo extends StatefulWidget {
   final GMRate? rate;
@@ -67,8 +69,6 @@ class _RatesInfoState extends State<RatesInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final PayRateCubit myCubit = PayRateCubit(
-        services: GuardingServices(), rate: GMRate(), payRates: []);
     final size = MediaQuery.of(context).size;
     final height = size.height;
     return Scaffold(
@@ -214,12 +214,7 @@ class _RatesInfoState extends State<RatesInfo> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
-                                /// entity type
-                                CommonWidgets.textDisplay(
-                                    Constants.entity, Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                // entityaddButtonwidgetLoading(state),
+                                entityaddButtonwidgetLoading(state),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -270,9 +265,9 @@ class _RatesInfoState extends State<RatesInfo> {
                                 submitButtonDisplay(onTap: () {
                                   log('-onTapSubmit--${state.rate.vendor?.name}----');
                                   FocusScope.of(context).unfocus();
-                                  // BlocProvider.of<PayRateCubit>(context).onSave(
-                                  //   isSubmit: false,
-                                  // );
+                                  BlocProvider.of<PayRateCubit>(context).onSave(
+                                    isSubmit: false,
+                                  );
 
                                   // BlocProvider.of<PayRateCubit>(context)
                                   //     .onModelValueChange(state.);
@@ -284,7 +279,7 @@ class _RatesInfoState extends State<RatesInfo> {
                                       "payRates": state.rate.securityGuardRates,
                                       "gmRate": state.rate,
                                       "title":
-                                          Constants.materialMovementOutwardEdit,
+                                          Constants.createSecurityGuard,
                                     },
                                   );
                                 }),
@@ -298,6 +293,68 @@ class _RatesInfoState extends State<RatesInfo> {
             );
           },
         )); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
+  }
+
+  Widget entityaddButtonwidgetLoading(PayRateState state) {
+    String title = '';
+    if ((state.listOfEntities?.length ?? 0) > 0) {
+      for (int i = 0; i < state.listOfEntities!.length; i++) {
+        Entity entity = state.listOfEntities![i];
+        String value = entity.name ?? '';
+        title = title + '  ' + value;
+      }
+    }
+    return TextfieldAddButton(
+      title: title,
+      height: (state.listOfEntities?.length ?? 0) > 4
+          ? (state.listOfEntities?.length ?? 0) > 9
+              ? 140
+              : 100
+          : 60,
+      isDisableColor: false,
+      onTap: () {
+        log('--list-${state.listOfEntities?.length}-');
+
+        // if ((state.listOfEntities != null && (title.isEmpty))) {
+          log('----');
+          entityTypeDialog(state);
+        // }
+      },
+    );
+  }
+
+  entityTypeDialog(PayRateState state) {
+    showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return CustomMultipleSelectionListTexts(
+            duplicateentityList: state.getEntitiesResponse?.atomEntities ?? [],
+            leftimagename: AppIcon.addicon,
+            mainselectedentityList:state.listOfEntities ?? [],
+            onLeftButtonTap: () {
+              Navigator.pop(context);
+              showDialog(
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return  AddNewFields(
+                      title: Constants.addentitytype,
+                      payRateState: state,
+                      entityFun: (){
+                        // BlocProvider.of<PayRateCubit>(context).getEntityData();
+                      },
+                    );
+                  });
+
+            },
+            onTap: (List<Entity> list) {
+              BlocProvider.of<PayRateCubit>(
+                  context)
+                  .updateDropdownValues(
+                entities: list);
+              BlocProvider.of<PayRateCubit>(context).getEntityData(list);
+            },
+          );
+        });
   }
 
   Widget datepickerWidgetLoading({
@@ -341,56 +398,6 @@ class _RatesInfoState extends State<RatesInfo> {
       ),
     );
   }
-
-  // Widget entityaddButtonwidgetLoading(PayRateState state) {
-  //   String title = '';
-  //   if ((state.listOfEntities?.length ?? 0) > 0) {
-  //     for (int i = 0; i < state.listOfEntities!.length; i++) {
-  //       AtomEntity entity = state.listOfEntities![i];
-  //       String value = entity.name ?? '';
-  //       title = title + '  ' + value;
-  //     }
-  //   }
-  //   return TextfieldAddButton(
-  //     title: title,
-  //     height: 60,
-  //     isDisableColor: widget.listuser == null ||
-  //         ((state.listOfEntities?.length ?? 0) == 0 && (title.isEmpty))
-  //         ? false
-  //         : true,
-  //     onTap: () {
-  //       if (widget.listuser == null ||
-  //           (state.listOfEntities != null && (title.isEmpty))) {
-  //         entityTypeDialog(state);
-  //       }
-  //     },
-  //   );
-  // }
-  // entityTypeDialog(PayRateState state) {
-  //   showDialog(
-  //       context: context,
-  //       builder: (BuildContext dialogContext) {
-  //         return CustomMultipleSelectionListTexts(
-  //           duplicateentityList: state.getEntitiesResponse?.atomEntities ?? [],
-  //           leftimagename: AppIcon.addicon,
-  //           onLeftButtonTap: () {
-  //             Navigator.pop(context);
-  //             showDialog(
-  //                 context: context,
-  //                 builder: (BuildContext dialogContext) {
-  //                   return  AddNewFields(
-  //                     title: Constants.addentitytype,
-  //                     createpassmgmtstate: state,
-  //                   );
-  //                 });
-  //
-  //           },
-  //           onTap: (List<AtomEntity> list) {
-  //             createpassmgmtCubit.getEntityData(list);
-  //           },
-  //         );
-  //       });
-  // }
 
   datePickerDialog(TextEditingController textfield) async {
     DateTime? pickedDate = await showDateTimePicker(
@@ -487,5 +494,4 @@ class _RatesInfoState extends State<RatesInfo> {
       validateTextField: (String? user) {},
     );
   }
-
 }

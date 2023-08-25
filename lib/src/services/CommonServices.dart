@@ -8,6 +8,7 @@ import 'package:db_atom/src/features/material_movement/models/quantity_units.dar
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 import '../features/createfound/models/get_depositor_model.dart';
+import '../features/lawenforcement/models/addentities.dart';
 import '../models/entry_security.dart';
 
 class Apis {
@@ -90,5 +91,15 @@ class CommonServices {
       url: url,
     );
     return QuantityUnits.fromJson(response);
+  }
+
+  Future<AddEntities> getEntities({
+    required String name,
+  }) async {
+    String url = '${Apis._getLocations}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return AddEntities.fromJson(response);
   }
 }

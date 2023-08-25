@@ -26,6 +26,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
+import '../../../../../models/entity.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
 
@@ -572,7 +573,7 @@ Future<void> getPassnumber(String passtype, String locationid) async {
     state.dayPasselementReason = DayPassReasonElement();
   }
 
-  getEntityData(List<AtomEntity> listOfEntities) async {
+  getEntityData(List<Entity> listOfEntities) async {
     try {
         int eventIds = Random.secure().nextInt(5);
       emit(
