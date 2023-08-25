@@ -67,8 +67,12 @@ class CustomMultipleSelectionListTextsState
   }
 
   itemsIdentify()
+  async {
+    await getdata();
+  }
+  getdata()
   {
-    for (int i=0; i<(widget.duplicateentityList ?? []).length; i++ )
+     for (int i=0; i<(widget.duplicateentityList ?? []).length; i++ )
     {
         Entity articleItem = widget.duplicateentityList![i];
        if (widget.mainselectedentityList!.contains(articleItem)) {

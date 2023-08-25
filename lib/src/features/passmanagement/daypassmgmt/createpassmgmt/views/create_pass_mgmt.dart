@@ -1337,8 +1337,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       createpassmgmtCubit.getemployeeDepartmentsResponseData(dep);
       getAttachments =
           widget.listuser?.images != null ? widget.listuser?.images ?? [] : [];
-      photogetAttachments =
-          widget.listuser?.visitorImage != null ? widget.listuser?.visitorImage ?? [] : [];   
+      // photogetAttachments =
+      //     widget.listuser?.visitorImage != null ? widget.listuser?.visitorImage ?? [] : [];   
           
       emailTextController.text = widget.listuser?.email ?? '';
       purposeofvisitTextController.text = widget.listuser?.visitingPurpose ?? '';  
