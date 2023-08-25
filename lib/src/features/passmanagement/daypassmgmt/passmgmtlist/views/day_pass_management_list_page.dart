@@ -243,7 +243,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                   child: CircularProgressIndicator(
                       color: AppColors.navigationSkybluecolor));
             } 
-            else if (state.stateType == DayPassListStateType.failure) {
+            else if (state.stateType == DayPassListStateType.failure && (localfoundlist ?? []).isEmpty) {
               return Center(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
