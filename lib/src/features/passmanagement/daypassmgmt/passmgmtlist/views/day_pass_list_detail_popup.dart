@@ -11,7 +11,8 @@ import 'package:intl/intl.dart';
 
 class DayPassCustomPopUpList extends StatefulWidget {
   DayPassListElement? userItem;
-  DayPassCustomPopUpList(this.userItem, {Key? key}) : super(key: key);
+  String? passId = '0';
+  DayPassCustomPopUpList(this.userItem,this.passId, {Key? key}) : super(key: key);
 
   @override
   State<DayPassCustomPopUpList> createState() => _DayPassCustomPopUpListState();
@@ -81,35 +82,35 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                   child:
                       SvgPicture.asset(AppIcon.closeicon) //Icon(Icons.cancel)
                   )),
-          Row(
+         widget.userItem?.id != null ? Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               textHandling('ID : ', widget.userItem?.id.toString() ?? " "),
             ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
+          ) : Container(),
+          widget.userItem?.id != null ? CommonWidgets.verticalSpacerWidget(8) : Container(),
+          widget.userItem?.slNo != null ? Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               textHandling('Sl No : ', widget.userItem?.slNo.toString() ?? " "),
             ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
+          ) : Container(),
+           widget.userItem?.slNo != null ? CommonWidgets.verticalSpacerWidget(8) : Container(),
+           widget.userItem?.locationRegion?.name != null ? Row(
             children: [
               textHandling(
                   'Region : ', widget.userItem?.locationRegion?.name.toString() ?? " "),
             ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
+          ): Container(),
+           widget.userItem?.locationRegion?.name != null ? CommonWidgets.verticalSpacerWidget(8) : Container(),
+           widget.userItem?.location?.name != null ? Row(
             children: [
               textHandling('Location : ',
                   widget.userItem?.location?.name.toString() ?? " "),
             ],
-          ),
+          ) : Container(),
          
-          CommonWidgets.verticalSpacerWidget(8),
+           widget.userItem?.location?.name !=null ? CommonWidgets.verticalSpacerWidget(8) : Container(),
           // Row(
           //   children: [
           //     textHandling('Entity : ',
@@ -117,7 +118,7 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
           //   ],
           // ),
           //  CommonWidgets.verticalSpacerWidget(8),
-          Row(
+          widget.userItem?.inputDate != null ? Row(
             children: [
               textHandling(
                   'Date of creation : ',
@@ -125,61 +126,61 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                   Utils.timestamptoDateConversion(
                        int.parse(widget.userItem?.inputDate ?? '0'),Constants.dateFormat): ''),
             ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
+          ) : Container(),
+          widget.userItem?.inputDate != null ? CommonWidgets.verticalSpacerWidget(8) : Container(),
+          widget.userItem?.entrySecurity?.userName != null ? Row(
             children: [
               textHandling('Created By : ',
                   widget.userItem?.entrySecurity?.userName.toString() ?? " "),
             ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
+          ) : Container(),
+          widget.userItem?.entrySecurity?.userName != null ? CommonWidgets.verticalSpacerWidget(8) : Container(),
+          (widget.userItem?.employeeName != null &&  widget.userItem?.entrySecurity !=null ) ? Row(
             children: [
               textHandling(
                   'Name : ',  widget.userItem?.entrySecurity !=null ? widget.userItem?.entrySecurity?.name.toString() ?? " " : widget.userItem?.employeeName.toString() ?? ''),
             ],
-          ),
-           CommonWidgets.verticalSpacerWidget(8),
-          Row(
+          ): Container(),
+           (widget.userItem?.employeeName != null &&  widget.userItem?.entrySecurity !=null ) ? CommonWidgets.verticalSpacerWidget(8) : Container(),
+          widget.userItem?.passInfo?.passNo != null && (widget.userItem?.passInfo?.passNo ?? '').isNotEmpty ? Row(
             children: [
               textHandling(
-                  'Day Pass No : ', widget.userItem?.passInfo?.passNo?.toString() ?? " "
+                  widget.passId == '3' ? 'SEZ Pass No  : ' : widget.passId == '2'  ? 'Vendor Pass No  : ' : widget.passId == '1' ? 'Visitor Pass No  : ' : 'Day Pass No : ', widget.userItem?.passInfo?.passNo?.toString() ?? " "
                  ),
             ],
-          ),
-         CommonWidgets.verticalSpacerWidget(8),
-          Row(
+          ) : Container(),
+         widget.userItem?.passInfo?.passNo != null && (widget.userItem?.passInfo?.passNo ?? '').isNotEmpty  ?  CommonWidgets.verticalSpacerWidget(8) : Container(),
+          widget.userItem?.passType != null ? Row(
             children: [
               textHandling(
                   'Pass Type: ', widget.userItem?.passType.toString() ?? " "),
             ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
+          ): Container(),
+          widget.userItem?.passType != null ? CommonWidgets.verticalSpacerWidget(8): Container(),
+          widget.userItem?.companyType?.name != null ? Row(
             children: [
               textHandling('Company Type : ',
-                  widget.userItem?.companyName.toString() ?? " "),
+                  widget.userItem?.companyType?.name.toString() ?? " "),
             ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
+          ) : Container(),
+           widget.userItem?.companyType?.name != null   ? CommonWidgets.verticalSpacerWidget(8) :Container(),
+           widget.userItem?.companyName != null  && (widget.userItem?.companyName ?? '').isNotEmpty ? Row(
             children: [
               textHandling('Company Name  : ',
                   widget.userItem?.companyName.toString() ?? " "),
             ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
+          ): Container(),
+           widget.userItem?.companyName != null &&  (widget.userItem?.companyName ?? '').isNotEmpty ? CommonWidgets.verticalSpacerWidget(8) : Container(),
+           widget.userItem?.startTime != null ?Row(
             children: [
                     textHandling('Pass Valid From : ',
                  widget.userItem?.startTime != null ?
                   Utils.timestamptoDateConversion(
                        int.parse(widget.userItem?.startTime ?? '0'),Constants.fulldateFormat): ''),
             ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
+          ) : Container(),
+           widget.userItem?.startTime != null ? CommonWidgets.verticalSpacerWidget(8) : Container(),
+          widget.userItem?.endTime != null ? Row(
             children: [
                   textHandling(
                   'Pass Valid Until : ',
@@ -187,17 +188,17 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                   Utils.timestamptoDateConversion(
                        int.parse(widget.userItem?.endTime ?? '0'),Constants.dateFormat): ''),
             ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
+          ) : Container(),
+          widget.userItem?.endTime != null ? CommonWidgets.verticalSpacerWidget(8) : Container(),
+          widget.userItem?.handoverSecurity?.userName != null ? Row(
             children: [
                   textHandling(
                   'Pass Collected By : ',
                   widget.userItem?.handoverSecurity?.userName.toString() ?? " "),
             ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
+          ) : Container(),
+         widget.userItem?.handoverSecurity?.userName != null ? CommonWidgets.verticalSpacerWidget(8) :Container(),
+         widget.userItem?.returnedTime != null ? Row(
             children: [
               textHandling('Pass Returened on: ',
                    widget.userItem?.returnedTime != null ?
@@ -205,14 +206,14 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                        int.parse(widget.userItem?.returnedTime ?? '0'),Constants.dateFormat): ''),
                   
             ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
+          ) : Container(),
+          widget.userItem?.returnedTime != null ? CommonWidgets.verticalSpacerWidget(8) : Container(),
+          widget.userItem?.status != null ? Row(
             children: [
               textHandling(
                   'Status : ', widget.userItem?.status.toString() ?? " "),
             ],
-          ),
+          ) : Container(),
         ])
                 //),
                 //    ),

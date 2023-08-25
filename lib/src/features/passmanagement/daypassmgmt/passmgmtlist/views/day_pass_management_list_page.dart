@@ -358,7 +358,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                 showDialog(
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return DayPassCustomPopUpList(userList[selectedIndex]);
+                    return DayPassCustomPopUpList(userList[selectedIndex],widget.passId);
                   },
                 );
                 //do the detail edit of user found
@@ -372,7 +372,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                 showDialog(
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return DayPassCustomPopUpList(userList[selectedIndex]);
+                    return DayPassCustomPopUpList(userList[selectedIndex],widget.passId);
                   },
                 );
               },
