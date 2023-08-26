@@ -10,6 +10,7 @@ class FlutterInputField extends StatelessWidget {
   final Function? suffixTap;
   final Function? onTap;
   final Function? validateTextField;
+  final Function? onfieldSubmitted;
   final bool isSecure;
   final int lineHeight;
   final double labelFontSize;
@@ -19,6 +20,8 @@ class FlutterInputField extends StatelessWidget {
   final bool? isDisableColor;
   final String textFormKey;
   final TextInputType keyboardType;
+  final TextInputAction? textInputAction;
+  final FocusNode? focusnode;
 
   const FlutterInputField({
     Key? key,
@@ -38,7 +41,10 @@ class FlutterInputField extends StatelessWidget {
     required this.textFormKey,
     this.keyboardType = TextInputType.text,
     this.onTap,
-    this.isDisableColor
+    this.isDisableColor,
+    this.textInputAction,
+    this.onfieldSubmitted,
+    this.focusnode,
   }) : super(key: key);
 
   @override
@@ -46,11 +52,13 @@ class FlutterInputField extends StatelessWidget {
     return TextFormField(
       key: Key(textFormKey),
       controller: textFieldController,
+      textInputAction: textInputAction,
       obscureText: isSecure,
       enabled: isEnable,
       maxLines: lineHeight,
       autofocus: autoFocus!,
       keyboardType: keyboardType,
+      focusNode: focusnode,
       decoration: InputDecoration(
         fillColor: (isDisableColor ?? false) ? AppColors.disabletextfieldBackground:AppColors.enabletextfieldBackground,
         filled: true,
@@ -84,6 +92,10 @@ class FlutterInputField extends StatelessWidget {
       },
       onTap: () {
         onTap != null ? onTap!() : null;
+      },
+      onFieldSubmitted: (value) {
+        // onfieldSubmitted != null ? onfieldSubmitted!() : null;
+           onfieldSubmitted!(value);
       },
       onEditingComplete: () {
         FocusScope.of(context).unfocus();
