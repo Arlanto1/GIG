@@ -28,8 +28,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../common_widgets/base_widget/multiple_selection_pop_up.dart';
 import '../../../../../common_widgets/create_fields.dart';
-import '../../../../../common_widgets/custom_multiple_selection_popup.dart';
+// import '../../../../../common_widgets/custom_multiple_selection_popup.dart';
 import '../../../../../common_widgets/date_time_picker.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
@@ -93,7 +94,7 @@ class _RatesInfoState extends State<RatesInfo> {
         //
         //       final state = myCubit.state;
         //       log('-onTapSubmit--${state.rate.vendor?.name}----');
-        //       FocusScope.of(context).unfocus();
+        //       FocusScope.of(context).unfocus();F
         //       BlocProvider.of<PayRateCubit>(context).onSave(
         //         isSubmit: false,
         //       );
@@ -214,7 +215,16 @@ class _RatesInfoState extends State<RatesInfo> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
-                                entityaddButtonwidgetLoading(state),
+                                // entityaddButtonwidgetLoading(state),
+
+                                // ElevatedButton(
+                                //   onPressed: () {
+                                //     _showEntitySelectionDialog(context, state);
+                                //   },
+                                //   child: const Text('Select Entities'),
+                                // ),
+
+                                entityaddButtonwidgetLoading(context, state, state.rate.entities??[], state.listOfEntities??[]),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -295,67 +305,89 @@ class _RatesInfoState extends State<RatesInfo> {
         )); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-  Widget entityaddButtonwidgetLoading(PayRateState state) {
+  Widget entityaddButtonwidgetLoading(BuildContext context, PayRateState state, List<Entity> selectedValues, List<Entity> all) {
     String title = '';
-    if ((state.listOfEntities?.length ?? 0) > 0) {
-      for (int i = 0; i < state.listOfEntities!.length; i++) {
-        Entity entity = state.listOfEntities![i];
+    if (selectedValues.isNotEmpty) {
+      for (int i = 0; i < selectedValues.length; i++) {
+        Entity entity = selectedValues[i];
+        log('-entities--name-${entity.name}--');
+
+
         String value = entity.name ?? '';
-        title = title + '  ' + value;
+        title = '$title  $value';
       }
     }
     return TextfieldAddButton(
       title: title,
-      height: (state.listOfEntities?.length ?? 0) > 4
-          ? (state.listOfEntities?.length ?? 0) > 9
+      height: (selectedValues.length) > 4
+          ? (selectedValues.length) > 9
               ? 140
               : 100
           : 60,
       isDisableColor: false,
       onTap: () {
-        log('--list-${state.listOfEntities?.length}-');
+        log('--list-${selectedValues.length}-');
 
-        // if ((state.listOfEntities != null && (title.isEmpty))) {
+        // if ((selectedValues != null && (title.isEmpty))) {
           log('----');
-          entityTypeDialog(state);
+        _showEntitySelectionDialog(context, state);
         // }
       },
     );
   }
 
-  entityTypeDialog(PayRateState state) {
+  void _showEntitySelectionDialog(BuildContext context, PayRateState state) {
     showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomMultipleSelectionListTexts(
-            duplicateentityList: state.getEntitiesResponse?.atomEntities ?? [],
-            leftimagename: AppIcon.addicon,
-            mainselectedentityList:state.listOfEntities ?? [],
-            onLeftButtonTap: () {
-              Navigator.pop(context);
-              showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return  AddNewFields(
-                      title: Constants.addentitytype,
-                      payRateState: state,
-                      entityFun: (){
-                        // BlocProvider.of<PayRateCubit>(context).getEntityData();
-                      },
-                    );
-                  });
-
-            },
-            onTap: (List<Entity> list) {
-              BlocProvider.of<PayRateCubit>(
-                  context)
-                  .updateDropdownValues(
-                entities: list);
-              BlocProvider.of<PayRateCubit>(context).getEntityData(list);
-            },
-          );
-        });
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return CustomMultipleSelectionListTexts(
+          duplicateEntityList: state.listOfEntities??[],
+          mainSelectedEntityList: state.rate.entities??[], // Pass initially selected entities here
+          onTap: (List<Entity> selectedEntities) {
+            // This callback is called when the user confirms the selection
+            // Do something with selectedEntities
+            print('Selected Entities: ${selectedEntities.map((e) => e.name).toList()}');
+            Navigator.of(context).pop(); // Close the dialog
+          },
+          leftImageName: 'left_arrow_icon.png', // Provide your left button icon
+        );
+      },
+    );
   }
+
+  // entityTypeDialog(PayRateState state) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext dialogContext) {
+  //         return CustomMultipleSelectionListTexts(
+  //           duplicateentityList: state.getEntitiesResponse?.atomEntities ?? [],
+  //           leftimagename: AppIcon.addicon,
+  //           mainselectedentityList:state.listOfEntities ?? [],
+  //           onLeftButtonTap: () {
+  //             Navigator.pop(context);
+  //             showDialog(
+  //                 context: context,
+  //                 builder: (BuildContext dialogContext) {
+  //                   return  AddNewFields(
+  //                     title: Constants.addentitytype,
+  //                     payRateState: state,
+  //                     entityFun: (){
+  //                       // BlocProvider.of<PayRateCubit>(context).getEntityData();
+  //                     },
+  //                   );
+  //                 });
+  //
+  //           },
+  //           onTap: (List<Entity> list) {
+  //             BlocProvider.of<PayRateCubit>(
+  //                 context)
+  //                 .updateDropdownValues(
+  //               entities: list);
+  //             BlocProvider.of<PayRateCubit>(context).getEntityData(list);
+  //           },
+  //         );
+  //       });
+  // }
 
   Widget datepickerWidgetLoading({
     required TextEditingController textfiled,

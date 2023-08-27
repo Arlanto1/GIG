@@ -49,6 +49,8 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
   Widget build(BuildContext context) {
     log('------payRate--${widget.payRate}------');
     final size = MediaQuery.of(context).size;
+    fromDateController.text = widget.payRate.fromDate??'';
+    toDateController.text = widget.payRate.toDate??'';
     return AlertDialog(
       title: Align(
         alignment: Alignment.center,

@@ -14,7 +14,6 @@ import '../../../../../../models/department.dart';
 import '../../../../../../models/entity.dart';
 import '../../../../../../models/entry_security.dart';
 import '../../../../../../utils/shared_preferences.dart';
-import '../../../../../../utils/util.dart';
 import '../../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../../createfound/models/get_locations_model.dart';
 import '../../../../../createfound/models/serial_number_model.dart';
@@ -72,7 +71,10 @@ class PayRateCubit extends Cubit<PayRateState> {
     AddEntities entities =
         await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
-    log('-loggedInUserDetails---${loggedInUserDetails.name}--');
+    log('-entities---${state.rate.entities?.length}--');
+    for (Entity entity in state.rate.entities ?? []) {
+      log('-entity--name-${entity.name}--');
+    }
 
     try {
       emit(
@@ -168,11 +170,9 @@ class PayRateCubit extends Cubit<PayRateState> {
       state.rate.vendor = vendor;
     }
 
-    if(entities != null) {
+    if (entities != null) {
       state.rate.entities = entities;
-
     }
-
 
     emit(state.copyWith(
       rate: state.rate,
@@ -216,8 +216,8 @@ class PayRateCubit extends Cubit<PayRateState> {
         state.rate.securityGuardRates ?? [].add(newPayRate);
     }
 
-    state.rate.inputDate = (DateTime.now().millisecondsSinceEpoch/1000).toString();
-
+    state.rate.inputDate =
+        (DateTime.now().millisecondsSinceEpoch / 1000).toString();
 
     GMRateRequest request = GMRateRequest(guardingRateInfo: state.rate);
 
@@ -247,7 +247,7 @@ class PayRateCubit extends Cubit<PayRateState> {
     emit(
       state.copyWith(
         message: response.message,
-        status: isSubmit?FormStatus.success:FormStatus.next,
+        status: isSubmit ? FormStatus.success : FormStatus.next,
       ),
     );
   }

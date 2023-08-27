@@ -52,6 +52,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         );
 
   void onModelValueChange(MaterialMovementModel model) {
+
+    
+    
     emit(state.copyWith(materialMovement: model, status: FormStatus.initial));
   }
 
@@ -60,6 +63,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   }
 
   Future<void> initializeValues() async {
+    print('-status-1-${state.status}--');
     //Show Loader and emit loading state
     emit(
       state.copyWith(
@@ -67,7 +71,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       ),
     );
     var userId = await SharedPrefs.getUserId();
-
     try {
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');

@@ -1,10 +1,12 @@
 class Entity {
   int? id;
   String? name;
+  bool? isSelected;
 
   Entity({
     this.id,
     this.name,
+    this.isSelected = false,
   });
 
   factory Entity.fromJson(Map<String, dynamic> json) => Entity(
