@@ -46,7 +46,6 @@ class FlutterInputField extends StatelessWidget {
     this.textInputAction,
     this.onfieldSubmitted,
     this.focusnode,
-    this.isDisableColor,
     this.initialValue,
   }) : super(key: key);
 
