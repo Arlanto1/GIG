@@ -182,10 +182,14 @@ class _ForgotPwdWidgetState extends State<ForgotPwdWidget> {
         onPostivePressed: () {
           //Validator.logoutAction(context);
           Navigator.of(context).pop();
+          Navigator.of(context).pop();
         },
         positiveBtnText: Constants.yes,
         negativeBtnText: '');
-    showDialog(context: context, builder: (BuildContext context) => dialog);
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => dialog);
   }
 
   Widget welcomeLogin() {

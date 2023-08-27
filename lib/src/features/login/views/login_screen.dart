@@ -209,8 +209,10 @@ class _LoginState extends State<Login> {
                               ForgotPassword(
                                 onForgottenPassword: () => {
                                   //widget.onPasswordForgotten()
-                                Navigator.pushNamed(context, forgotPwdScreenRoute)
+                                  Navigator.pushNamed(
+                                      context, resetPwdScreenRoute)
                                 },
+                                title: Constants.ResetPwdTitle,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                 height * 0.17,

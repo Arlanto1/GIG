@@ -176,6 +176,7 @@ class _LoginViewState extends State<LoginView> {
                         onForgottenPassword: () => {
                           //widget.onPasswordForgotten()
                         },
+                        title: Constants.ResetPwdTitle,
                       ),
                       CommonWidgets.verticalSpacerWidget(
                         height * 0.17,

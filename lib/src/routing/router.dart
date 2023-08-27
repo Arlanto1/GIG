@@ -26,6 +26,7 @@ const String createpassmgmtRoute = '/createpassmgmt';
 
 const String otpVerificationRoute = '/otpverification';
 const String forgotPwdScreenRoute = '/forgotPwdScreen';
+const String resetPwdScreenRoute = '/resetPwdScreen';
 
 
 

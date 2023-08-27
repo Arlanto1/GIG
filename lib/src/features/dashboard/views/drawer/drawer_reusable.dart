@@ -586,7 +586,7 @@ class navigationDrawer1 extends StatelessWidget {
         },
         positiveBtnText: Constants.yes,
         negativeBtnText: Constants.no);
-    showDialog(context: context, builder: (BuildContext context) => dialog);
+    showDialog(context: context ,builder: (BuildContext context) => dialog);
   }
 }
 

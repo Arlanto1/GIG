@@ -48,16 +48,21 @@ class Constants {
   static const String passwordLengthError =
       "Please enter password minimum 6 characters";
   static const String loginButtonTitle = "Login";
+  static const String resetPwdTitle = "Reset Password";
+
   static const String loginVerifyOtpTitle = "Verify";
   static const String forgotPwd = "Send";
-
+  static const String update = "Update";
   static const String otpVerificationTitle = "OTP Verification";
   static const String forgotPwdTitle = "Forgot Password";
-
+  static const String ResetPwdTitle = "Reset Password";
   static const String titleHeaderLogin = "Welcome back, Login!!";
   static const String email = "Email";
+  static const String username = "UserName";
   static const String otp = "OTP";
   static const String password = "Password";
+  static const String old_password = "Old Password";
+  static const String new_password = "New Password";
   static const String forgotpassowrd = 'Forgot Password?';
   static const String supporttext = "Support: +49 6150 961 6244";
   static const String copyrighttext = "Copyright Â© 2023 RimaOne.";

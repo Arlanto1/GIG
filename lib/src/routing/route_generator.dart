@@ -14,6 +14,7 @@ import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.d
 import 'package:db_atom/src/features/login/views/forgot_pwd_screen.dart';
 import 'package:db_atom/src/features/login/views/login_screen.dart';
 import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
+import 'package:db_atom/src/features/login/views/reset_password_screen.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_item_model.dart';
@@ -38,6 +39,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const LoginScreen());
       case forgotPwdScreenRoute:
         return MaterialPageRoute(builder: (context) => const ForgotPwdScreen());
+      case resetPwdScreenRoute:
+        return MaterialPageRoute(builder: (context) => const ResetPasswordScreen());
       case otpVerificationRoute:
         if (settings.arguments != null) {
           final userRoutes = settings.arguments as Map<String, dynamic>;
