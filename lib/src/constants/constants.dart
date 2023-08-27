@@ -24,6 +24,8 @@ class Constants {
   // Sharedpreferences keys
   static const String isLoggedInKey = 'isLoggedIn';
   static const String isUserNameKey = 'isUserName';
+  static const String isEmailKey = 'isEmail';
+
   static const String isUserIdKey = 'isUserId';
   static const String isFoundIdKey = 'isFoundId';
   static const String isMenuIndexIdentifyKey = 'isMenuIndexIdentify';

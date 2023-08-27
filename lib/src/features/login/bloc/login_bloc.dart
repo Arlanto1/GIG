@@ -33,8 +33,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       if (loginData.status == 200) {
         if (!event.isFromLogin) {
+          print('email address is ${loginData.user?.email}');
           await SharedPrefs.setUsername(userName);
           await SharedPrefs.setUserId('${loginData.user?.userId}');
+          await SharedPrefs.setEmail('${loginData.user?.email}');
           await SharedPrefs.setIdentifymenuindex(0);
           emit(LoginVerifyOtpActionState());
         } else {

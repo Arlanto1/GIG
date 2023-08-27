@@ -27,14 +27,13 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     signingConfigs {
-        debug {
+        PROD {
 //            C:\Users\Ashok\AndroidStudioProjects\db_atom\android\Atomedgekeystore
             ///Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/Atomedgekeystore/atomedge
             //storeFile file('C:\\Users\\Ashok\\AndroidStudioProjects\\db_atom\\android\\Atomedgekeystore\\atomedge')
 //            storeFile file('Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/Atomedgekeystore/atomedge')
 //            storeFile file('/Users/narendra/Documents/Narendra/Projects/Freelancer/ATOM_Main/Arlanto-App-Codebase/android/Atomedgekeystore/atomedge')
             storeFile file('D:\\ATomEdgeReleases\\AtomEdgeMain\\android\\Atomedgekeystore')
-
             storePassword 'Bnaren@513'
             keyAlias 'AtomEdge'
             keyPassword 'Bvineela@513'

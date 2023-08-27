@@ -14,8 +14,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../passmanagement/daypassregister/views/day_pass_info_list_page.dart';
 
 class navigationDrawer1 extends StatelessWidget {
-  navigationDrawer1(this._menuscaffoldKey);
+  navigationDrawer1(this._menuscaffoldKey, this.username, this.email);
 
+  String? username;
+  String? email;
   final GlobalKey<ScaffoldState> _menuscaffoldKey;
   final drawerItems = [
     const DrawerItem1(Constants.dashboard, AppIcon.dashboardselect, 0),
@@ -41,10 +43,13 @@ class navigationDrawer1 extends StatelessWidget {
   final passtiledrawerItems = [
     const DrawerItem1(Constants.daypassmgmt, AppIcon.daypassmgmticon, 0),
     const DrawerItem1(Constants.daypassregister, AppIcon.daypassregicon, 0),
-    const DrawerItem1(Constants.visitorpassmgmt, AppIcon.visitorpassmgmticon, 0),
-    const DrawerItem1(Constants.visitorpassregister, AppIcon.visitorpassregicon, 0),
+    const DrawerItem1(
+        Constants.visitorpassmgmt, AppIcon.visitorpassmgmticon, 0),
+    const DrawerItem1(
+        Constants.visitorpassregister, AppIcon.visitorpassregicon, 0),
     const DrawerItem1(Constants.vendorpassmgmt, AppIcon.vendorpassmgmticon, 0),
-    const DrawerItem1(Constants.vendorpassregister, AppIcon.vendorpassregicon, 0),
+    const DrawerItem1(
+        Constants.vendorpassregister, AppIcon.vendorpassregicon, 0),
     const DrawerItem1(Constants.sezpassmgmt, AppIcon.sezpassmgmticon, 0),
     const DrawerItem1(Constants.sezpassregister, AppIcon.segpassregicon, 0),
   ];
@@ -114,7 +119,7 @@ class navigationDrawer1 extends StatelessWidget {
                                 // ),
                                 )),
                       ),
-                      createDrawerHeader(),
+                      createDrawerHeader(username, email),
                       Column(
                         children: _buildDrawerChildren(context, state),
                       ),
@@ -586,20 +591,20 @@ class navigationDrawer1 extends StatelessWidget {
         },
         positiveBtnText: Constants.yes,
         negativeBtnText: Constants.no);
-    showDialog(context: context ,builder: (BuildContext context) => dialog);
+    showDialog(context: context, builder: (BuildContext context) => dialog);
   }
 }
 
-Widget createDrawerHeader() {
-  return const DrawerHeader(
-      decoration: BoxDecoration(
+Widget createDrawerHeader(String? username, String? email) {
+  return  DrawerHeader(
+      decoration: const BoxDecoration(
         color: AppColors.backgroundWhitecolor,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          CircleAvatar(
+          const CircleAvatar(
             radius: 45.0,
             backgroundColor: AppColors.navigationSkybluecolor,
             child: CircleAvatar(
@@ -612,7 +617,7 @@ Widget createDrawerHeader() {
 
             // NetworkImage("Your Photo Url"), // for Network image
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Expanded(
@@ -621,11 +626,11 @@ Widget createDrawerHeader() {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Name',
+                  username ?? '',
                   style: Styles.textStyleBlack16,
                 ),
                 Text(
-                  'Sub Title',
+                  email ?? '',
                   style: Styles.textStyleRegularNormalGrey14,
                 ),
               ],

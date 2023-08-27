@@ -35,6 +35,20 @@ class SharedPrefs {
     return isUsername; //Future<bool>.value(isLoggedIn);
   }
 
+  static Future<void> setEmail(String value) async {
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    instance.setString(Constants.isEmailKey, value);
+  }
+
+  static Future<String> getEmail() async {
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? isEmail = instance.getString(Constants.isEmailKey) ?? '';
+    print(isEmail);
+    return isEmail; //Future<bool>.value(isLoggedIn);
+  }
+
   static Future<void> setUserId(String value) async {
     // final SharedPreferences prefs = await SharedPreferences.getInstance();
 
