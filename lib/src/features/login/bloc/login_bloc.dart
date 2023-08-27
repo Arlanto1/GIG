@@ -9,7 +9,6 @@ import 'package:meta/meta.dart';
 import '../services/login_services.dart';
 
 part 'login_event.dart';
-
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
@@ -19,6 +18,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   LoginBloc({required this.loginService}) : super(LoginLoadingState()) {
     on<LoginVerifyEvent>(_loginVerifyEvent);
+    on<ForgotPwdEvent>(_forgotPwdEvent);
   }
 
   Future<FutureOr<void>> _loginVerifyEvent(
@@ -31,11 +31,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       userName = data.request?.id ?? '';
       password = data.request?.password ?? '';
 
-
       if (loginData.status == 200) {
         if (!event.isFromLogin) {
+          print('email address is ${loginData.user?.email}');
           await SharedPrefs.setUsername(userName);
           await SharedPrefs.setUserId('${loginData.user?.userId}');
+          await SharedPrefs.setEmail('${loginData.user?.email}');
           await SharedPrefs.setIdentifymenuindex(0);
           emit(LoginVerifyOtpActionState());
         } else {
@@ -43,6 +44,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         }
       } else {
         emit(LoginFailureState(errorMsg: '${loginData.msg}' ));
+      }
+    } catch (e) {
+      emit(LoginFailureState(errorMsg: 'Something went wrong'));
+    }
+  }
+
+  Future<FutureOr<void>> _forgotPwdEvent(
+      ForgotPwdEvent event, Emitter<LoginState> emit) async {
+    emit(LoginLoadingState());
+    try {
+      LoginResponseModel loginData =
+          await loginService.forgotPwdAPI(event.requestModel);
+
+      if (loginData.status == 200) {
+        emit(LoginSuccessState(msg: loginData.msg));
+      } else {
+        emit(LoginFailureState(errorMsg: loginData.msg ?? ''));
       }
     } catch (e) {
       emit(LoginFailureState(errorMsg: 'Something went wrong'));

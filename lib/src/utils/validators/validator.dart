@@ -10,7 +10,7 @@ class Validator {
   }
 
   static bool passwordValidation(String? password) {
-    return password!.length > 5;
+    return password!.length >= 5;
   }
 
   static logoutAction(BuildContext context) {

@@ -25,7 +25,6 @@ class OtpVerifyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('OTP username ${userName} pwd ${password}');
     return BlocProvider<LoginBloc>(
       create: (_) => LoginBloc(loginService: LoginService()),
       child: OtpVerify(
