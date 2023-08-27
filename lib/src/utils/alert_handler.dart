@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
@@ -22,14 +21,14 @@ void alertDisplay(BuildContext context, String text) {
       primary: AppColors.navigationSkybluecolor),
             child: Text("Ok"),
             onPressed: () {
-              if(text=="Unauthorised Access."){
-                navigateToLanding(context);
-                // sharedPreferencesStore.logOut();
-                // chargingStatusStore?.cancelSubcription();
-              }
-              else{
+              // if(text=="Unauthorised Access."){
+              //   navigateToLanding(context);
+              //   // sharedPreferencesStore.logOut();
+              //   // chargingStatusStore?.cancelSubcription();
+              // }
+              // else{
                 Navigator.of(context).pop();
-              }
+              //}
 
             },
           ),

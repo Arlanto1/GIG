@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:db_atom/src/features/login/models/login_model.dart';
 import 'package:db_atom/src/features/login/models/login_request_model.dart';
+import 'package:db_atom/src/utils/generate_token/generate_token_service.dart';
 import 'package:db_atom/src/utils/refresh_token/refresh_token_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -37,7 +38,19 @@ class LoginService {
         if (refreshToken == 200) {
           LoginResponseModel model = await loginUser(data);
           return model;
-        } else {
+        }
+        else if (refreshToken == 449)
+        { 
+          int generateToken = await GenerateTokenService.getGenerateToken();
+           if (generateToken == 200) {
+          LoginResponseModel model = await loginUser(data);
+          return model;
+          }
+           else {
+          return LoginResponseModel();
+        }
+        }
+         else {
           return LoginResponseModel();
         }
       } else {

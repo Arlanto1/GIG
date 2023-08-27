@@ -26,6 +26,7 @@ class Constants {
   static const String isFoundIdKey = 'isFoundId';
   static const String isMenuIndexIdentifyKey = 'isMenuIndexIdentify';
   static const String isAccessToken = 'isAccessToken';
+  static const String isSessionToken = 'isSessionToken';
 
   // Images
   static const String bg = 'assets/images/bg.png';
