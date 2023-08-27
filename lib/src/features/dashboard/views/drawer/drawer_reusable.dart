@@ -39,14 +39,14 @@ class navigationDrawer1 extends StatelessWidget {
   ];
 
   final passtiledrawerItems = [
-    const DrawerItem1(Constants.daypassmgmt, AppIcon.settings, 0),
-    const DrawerItem1(Constants.daypassregister, AppIcon.settings, 0),
-    const DrawerItem1(Constants.visitorpassmgmt, AppIcon.settings, 0),
-    const DrawerItem1(Constants.visitorpassregister, AppIcon.settings, 0),
-    const DrawerItem1(Constants.vendorpassmgmt, AppIcon.settings, 0),
-    const DrawerItem1(Constants.vendorpassregister, AppIcon.settings, 0),
-    const DrawerItem1(Constants.sezpassmgmt, AppIcon.settings, 0),
-    const DrawerItem1(Constants.sezpassregister, AppIcon.settings, 0),
+    const DrawerItem1(Constants.daypassmgmt, AppIcon.daypassmgmticon, 0),
+    const DrawerItem1(Constants.daypassregister, AppIcon.daypassregicon, 0),
+    const DrawerItem1(Constants.visitorpassmgmt, AppIcon.visitorpassmgmticon, 0),
+    const DrawerItem1(Constants.visitorpassregister, AppIcon.visitorpassregicon, 0),
+    const DrawerItem1(Constants.vendorpassmgmt, AppIcon.vendorpassmgmticon, 0),
+    const DrawerItem1(Constants.vendorpassregister, AppIcon.vendorpassregicon, 0),
+    const DrawerItem1(Constants.sezpassmgmt, AppIcon.sezpassmgmticon, 0),
+    const DrawerItem1(Constants.sezpassregister, AppIcon.segpassregicon, 0),
   ];
 
   late int _lastSelectedItem = 0;

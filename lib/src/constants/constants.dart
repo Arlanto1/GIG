@@ -7,7 +7,7 @@ class Constants {
   static const String customFontRegularFamily = 'Poppins-Regular';
   static const String customFontSemiBoldFamily = 'Poppins-SemiBold';
   static const String customFontMixedFamily = 'Poppins-Mixed';
-  static const String appname = 'DB_ATOM';
+  static const String appname = 'AtomEdge';
   static const String unsaveddata = 'Unsaved Data';
   static const String unsaveddatadesc =
       "There is unsaved data. Do you want to exit anyhow?";
@@ -28,6 +28,7 @@ class Constants {
   static const String isFoundIdKey = 'isFoundId';
   static const String isMenuIndexIdentifyKey = 'isMenuIndexIdentify';
   static const String isAccessToken = 'isAccessToken';
+  static const String isSessionToken = 'isSessionToken';
 
   // Images
   static const String bg = 'assets/images/bg.png';
@@ -58,7 +59,7 @@ class Constants {
   static const String ResetPwdTitle = "Reset Password";
   static const String titleHeaderLogin = "Welcome back, Login!!";
   static const String email = "Email";
-  static const String username = "UserName";
+  static const String username = "Username";
   static const String otp = "OTP";
   static const String password = "Password";
   static const String old_password = "Old Password";

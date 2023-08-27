@@ -42,6 +42,8 @@ class _LoginState extends State<Login> {
   String username = '';
   String password = '';
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  final FocusNode _usernameFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,21 @@ class _LoginState extends State<Login> {
         listener: (context, state) {
           if (state is LoginFailureState) {
             dismissLoadingDialog(context);
-            _showCustomPop(context, 'Something went wrong');
+            //_showCustomPop(context, );
+            //     alert_handler.alertDisplay(
+            // context,state.errorMsg);
+            var dialog = CustomAlertDialog(
+              title: Constants.appname,
+              message: state.errorMsg,
+              onPostivePressed: () {
+                //Validator.logoutAction(context);
+                Navigator.of(context).pop();
+              },
+              positiveBtnText: Constants.ok,
+              //negativeBtnText: Constants.no
+            );
+            showDialog(
+                context: context, builder: (BuildContext context) => dialog);
           } else if (state is LoginSuccessState) {
             dismissLoadingDialog(context);
             Navigator.pushNamed(context, otpVerificationRoute, arguments: {
@@ -110,7 +126,7 @@ class _LoginState extends State<Login> {
                                   Container(
                                     alignment: Alignment.topLeft,
                                     child: const Text(
-                                      Constants.email,
+                                      Constants.username,
                                       style: Styles.textStyleBlack16,
                                     ),
                                   ),
@@ -120,6 +136,13 @@ class _LoginState extends State<Login> {
                                     textFieldController: userNameTextController,
                                     textFormKey: Keys.userTextField,
                                     hintText: Constants.hintUserName,
+                                    textInputAction: TextInputAction.next,
+                                    focusnode: _usernameFocus,
+                                    onfieldSubmitted: (term) {
+                                      _usernameFocus.unfocus();
+                                      FocusScope.of(context)
+                                          .requestFocus(_passwordFocus);
+                                    },
                                     onChange: (String username) {
                                       this.username = username;
                                       setState(() {});
@@ -154,6 +177,7 @@ class _LoginState extends State<Login> {
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
                                       LoginPassword(
+                                        passfocusnode: _passwordFocus,
                                         validatePassword: ((String? password) {
                                           if (!Validator.isValidPassword(
                                               password)) {
@@ -164,6 +188,11 @@ class _LoginState extends State<Login> {
                                                 .passwordLengthError;
                                           }
                                         }),
+                                        onfieldSubmitted: (term) {
+                                          _passwordFocus.unfocus();
+                                          //FocusScope.of(context).requestFocus(_passwordFocus);
+                                          _loginButtonAction(bloc);
+                                        },
                                         onChange: (String password) {
                                           this.password = password;
                                         },
@@ -181,21 +210,7 @@ class _LoginState extends State<Login> {
                                     buttonTextKey: Keys.loginButtonText,
                                     onTap: () async {
                                       //loginFormKey.currentState!.validate();
-                                      FocusScope.of(context).unfocus();
-                                      try {
-                                        if (loginFormKey.currentState!
-                                            .validate()) {
-                                          print(
-                                              'username $username password $password');
-                                          bloc.add(LoginVerifyEvent(
-                                              requestModel:
-                                                  prepareLoginRequestBody(
-                                                      username, password, ''),
-                                              isFromLogin: true));
-                                        }
-                                      } catch (e) {
-                                        // present userwith error message
-                                      }
+                                      _loginButtonAction(bloc);
                                     },
                                   ),
 
@@ -273,6 +288,20 @@ class _LoginState extends State<Login> {
         positiveBtnText: Constants.yes,
         negativeBtnText: Constants.no);
     showDialog(context: context, builder: (BuildContext context) => dialog);
+  }
+
+  _loginButtonAction(LoginBloc bloc) {
+    FocusScope.of(context).unfocus();
+    try {
+      if (loginFormKey.currentState!.validate()) {
+        print('username $username password $password');
+        bloc.add(LoginVerifyEvent(
+            requestModel: prepareLoginRequestBody(username, password, ''),
+            isFromLogin: true));
+      }
+    } catch (e) {
+      // present userwith error message
+    }
   }
 
   Widget welcomeLogin() {

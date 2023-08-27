@@ -28,6 +28,7 @@ class CustomMultipleSelectionListTexts extends StatefulWidget {
     this.onLeftButtonTap,
     this.leftimagename,
     this.duplicateentityList,
+    this.mainselectedentityList,
   });
   final String? imagename;
 
@@ -35,6 +36,7 @@ class CustomMultipleSelectionListTexts extends StatefulWidget {
   final Function? onTap;
   final Function? onLeftButtonTap;
   final String? leftimagename;
+  List<AtomEntity>? mainselectedentityList;
   @override
   State<CustomMultipleSelectionListTexts> createState() =>
       CustomMultipleSelectionListTextsState();
@@ -55,6 +57,26 @@ class CustomMultipleSelectionListTextsState
     // TODO: implement initState
     super.initState();
     // employeeDepartments = widget.duplicateemployeeDepartments ?? [];
+    if (widget.mainselectedentityList != null && (widget.mainselectedentityList ?? []).isNotEmpty)
+    {
+        selectentityList = widget.mainselectedentityList ?? [];
+        itemsIdentify();
+    }
+  }
+
+  itemsIdentify()
+  async {
+    await getdata();
+  }
+  getdata()
+  {
+     for (int i=0; i<(widget.duplicateentityList ?? []).length; i++ )
+    {
+        AtomEntity articleItem = widget.duplicateentityList![i];
+       if (widget.mainselectedentityList!.contains(articleItem)) {
+          selectedListindexes.add(i);
+       }
+    }
   }
 
   @override
@@ -232,7 +254,7 @@ class CustomMultipleSelectionListTextsState
     } else {
       return Container(
         //padding: const EdgeInsets.all(20),
-        height: height / 1.6, // Change as per your requirement
+       // height: height / 1.6, // Change as per your requirement
         // width: width- 50, // Change as per your requirement
         width: double.maxFinite,
         child: ListView.builder(
@@ -251,6 +273,7 @@ class CustomMultipleSelectionListTextsState
               } else {
                 articleItem = widget.duplicateentityList?[index];
               }
+                 
               return ListTile(
                   onTap: () {
                     //widget.onTap!(articleItem);

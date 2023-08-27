@@ -85,4 +85,25 @@ class SharedPrefs {
     String token = instance.getString(Constants.isAccessToken) ?? '';
     return token;
   }
+
+  static removeAccessToken() async {
+    //final prefs = await SharedPreferences.getInstance();
+     instance.remove(Constants.isAccessToken) ?? '';
+  
+  }
+
+  static Future<void> setSessionToken(String token) async {
+    instance.setString(Constants.isSessionToken, token);
+  }
+
+  static Future<String> getSessionToken() async {
+    String token = instance.getString(Constants.isSessionToken) ?? '';
+    return token;
+  }
+
+  static removeSessionAccessToken() async {
+    //final prefs = await SharedPreferences.getInstance();
+     instance.remove(Constants.isSessionToken) ?? '';
+  
+  }
 }

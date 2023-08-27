@@ -41,7 +41,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     try {
       SubmitCreateFoundModel createFoundResponse =
           await createFoundServices.createFoundArticle(bodyRequest, isSubmit,
-              username); //replace empty model with bodyRequest
+              username,context); //replace empty model with bodyRequest
       emit(
         state.copyWith(
           createFoundResponse: createFoundResponse,
@@ -78,7 +78,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     try {
       SubmitCreateFoundModel createFoundResponse =
           await createFoundServices.createFoundArticleHandle(bodyRequest, isSubmit,
-              username); //replace empty model with bodyRequest
+              username,context); //replace empty model with bodyRequest
       emit(
         state.copyWith(
           createFoundResponse: createFoundResponse,

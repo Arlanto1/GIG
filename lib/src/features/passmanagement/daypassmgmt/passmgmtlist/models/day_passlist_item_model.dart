@@ -611,7 +611,7 @@ class DayPassListItemResponse {
     String? handOverSecurityName;
     String? mifareNo;
     List<FoundImage>? images;
-    List<FoundImage>? visitorImage;
+    VisitorImage? visitorImage;
     String? visitorName;
 
     DayPassListItemResponse({
@@ -710,7 +710,7 @@ class DayPassListItemResponse {
         handOverSecurityName: json["handOverSecurityName"],
         mifareNo: json["mifareNo"],
         images: json["images"] == null ? [] : List<FoundImage>.from(json["images"]!.map((x) => FoundImage.fromJson(x))),
-        visitorImage: json["visitorImage"] == null ? [] : List<FoundImage>.from(json["visitorImage"]!.map((x) => FoundImage.fromJson(x))),
+       visitorImage: json["visitorImage"] == null ? null : VisitorImage.fromJson(json["visitorImage"]),
         vendorPassReason: json["vendorPassReason"] == null ? null : CompanyType.fromJson(json["vendorPassReason"]),
         
     );
@@ -762,7 +762,7 @@ class DayPassListItemResponse {
         "handOverSecurityName": handOverSecurityName,
         "mifareNo": mifareNo,
         "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x.toJson())),
-        "visitorImage":visitorImage == null ? [] : List<dynamic>.from(visitorImage!.map((x) => x.toJson())),
+         "visitorImage": visitorImage?.toJson(),
     };
 }
 
@@ -809,7 +809,41 @@ class FoundImage {
         "imageContent": imageContent,
     };
 }
+class VisitorImage {
+    int? id;
+    String? ownerName;
+    String? contentType;
+    dynamic uploadDate;
+    dynamic fileSize;
+    dynamic imageContent;
 
+    VisitorImage({
+        this.id,
+        this.ownerName,
+        this.contentType,
+        this.uploadDate,
+        this.fileSize,
+        this.imageContent,
+    });
+
+    factory VisitorImage.fromJson(Map<String, dynamic> json) => VisitorImage(
+        id: json["id"],
+        ownerName: json["ownerName"],
+        contentType: json["contentType"],
+        uploadDate: json["uploadDate"],
+        fileSize: json["fileSize"],
+        imageContent: json["imageContent"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "ownerName": ownerName,
+        "contentType": contentType,
+        "uploadDate": uploadDate,
+        "fileSize": fileSize,
+        "imageContent": imageContent,
+    };
+}
 class CompanyType {
     int? id;
     String? name;

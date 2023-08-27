@@ -45,6 +45,18 @@ class AppIcon {
   static const String questionmark = 'assets/images/questionmark.svg';
   static const String download = 'assets/images/download.svg';
   static const String pluscircle = 'assets/images/pluscircle.svg';
+
+
+
+  static const String daypassmgmticon = 'assets/images/daypassmgmt.png';
+  static const String daypassregicon = 'assets/images/daypassreg.png';
+  static const String segpassregicon = 'assets/images/segpassreg.png';
+  static const String sezpassmgmticon = 'assets/images/sezpassmgmt.png';
+  static const String vendorpassmgmticon = 'assets/images/vendorpassmgmt.png';
+  static const String vendorpassregicon = 'assets/images/vendorpassreg.png';
+  static const String visitorpassmgmticon = 'assets/images/visitorpassmgmt.png';
+  static const String visitorpassregicon = 'assets/images/visitorpassreg.png';
+  
   
   
 }

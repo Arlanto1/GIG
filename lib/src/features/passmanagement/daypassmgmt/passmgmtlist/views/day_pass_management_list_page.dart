@@ -42,7 +42,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
   int pageNumber = 0;
   List<DayPassListElement>? localfoundlist;
   late ScrollController scrollController;
-  bool isLoading = false;
+  bool isPaginationLoading = false;
 
   @override
   void initState() {
@@ -53,15 +53,23 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
     _getpassFoundArticleList();
   }
 
+  
+
   _loadMore() {
+    
     if (scrollController.position.maxScrollExtent ==
         scrollController.position.pixels) {
-      if ((localfoundlist?.length ?? 0) > 0) {
-        pageNumber = ((localfoundlist?.length ?? 0));
-      } else {
-        pageNumber = pageNumber + 20;
+     
+      if ((localfoundlist?.length ?? 0) > 0)
+      {
+         pageNumber =  ((localfoundlist?.length ?? 0));
       }
-      showLoadingDialog(context);
+      else
+      {
+      pageNumber = pageNumber + 20;
+      }
+      isPaginationLoading = true;
+       //showLoadingDialog(context);
       print(pageNumber);
       // Perform event when user reach at the end of list (e.g. do Api call)
       _getpassFoundArticleList();
@@ -69,6 +77,8 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
     }
     //  });
   }
+
+  
 
   void _getpassFoundArticleList() async {
     String userid = await SharedPrefs.getUserId();
@@ -216,6 +226,14 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                 } else {
                   localfoundlist?.addAll(state.foundListModel?.list ?? []);
                 }
+                if ((state.foundListModel?.list?.length ?? 0) == 0 || (state.foundListModel?.totalCount ?? 0) == localfoundlist?.length)
+                {
+                  isPaginationLoading = false;
+                }
+                else
+                {
+                  isPaginationLoading = true;
+                }
                 return listWidgetLoading(
                     height, state, scrollController, localfoundlist);
               }
@@ -224,9 +242,8 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
               return const Center(
                   child: CircularProgressIndicator(
                       color: AppColors.navigationSkybluecolor));
-            } else if (state.stateType == DayPassListStateType.failure &&
-                (state.foundListModel?.list == null &&
-                    state.foundListModel?.list?.length == 0)) {
+            } 
+            else if (state.stateType == DayPassListStateType.failure && (localfoundlist ?? []).isEmpty) {
               return Center(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -241,10 +258,12 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                 localfoundlist = state.foundListModel?.list;
               } else {
                 localfoundlist?.addAll(state.foundListModel?.list ?? []);
+                
               }
               return listWidgetLoading(
                   height, state, scrollController, localfoundlist);
             }
+            
           }),
     );
   }
@@ -321,10 +340,16 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
         visible: userList!.isNotEmpty,
         child: ListView.builder(
           //controller: scrollController,
-          itemCount: userList.length,
+          itemCount: isPaginationLoading ? userList.length + 1 : userList.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
+            if (index >= userList.length)
+            {
+              return const Center(child:  CircularProgressIndicator());
+            }
+            else
+            {
             DayPassListElement user = userList[index];
 
             return DayPassManagementListItem(
@@ -333,7 +358,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                 showDialog(
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return DayPassCustomPopUpList(userList[selectedIndex]);
+                    return DayPassCustomPopUpList(userList[selectedIndex],widget.passId);
                   },
                 );
                 //do the detail edit of user found
@@ -347,12 +372,13 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                 showDialog(
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return DayPassCustomPopUpList(userList[selectedIndex]);
+                    return DayPassCustomPopUpList(userList[selectedIndex],widget.passId);
                   },
                 );
               },
               index: index,
             );
+            }
           },
         ),
       ),
