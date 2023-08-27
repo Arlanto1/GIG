@@ -174,7 +174,7 @@ class AppServices {
                   .pushNamedAndRemoveUntil(loginScreenRoute, (route) => false);
               return;
             }
-            get(url, context);
+            post(url, context,body);
             return refreshToken;
           } else if (refreshToken == 449) {
             int generateToken = await GenerateTokenService.getGenerateToken();
@@ -185,7 +185,7 @@ class AppServices {
                     loginScreenRoute, (route) => false);
                 return;
               }
-              get(url, context);
+             post(url, context,body);
               return generateToken;
             } else {
               Navigator.of(context)
