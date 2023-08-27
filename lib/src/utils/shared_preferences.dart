@@ -35,6 +35,20 @@ class SharedPrefs {
     return isUsername; //Future<bool>.value(isLoggedIn);
   }
 
+  static Future<void> setEmail(String value) async {
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    instance.setString(Constants.isEmailKey, value);
+  }
+
+  static Future<String> getEmail() async {
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? isEmail = instance.getString(Constants.isEmailKey) ?? '';
+    print(isEmail);
+    return isEmail; //Future<bool>.value(isLoggedIn);
+  }
+
   static Future<void> setUserId(String value) async {
     // final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -84,6 +98,27 @@ class SharedPrefs {
   static Future<String> getToken() async {
     String token = instance.getString(Constants.isAccessToken) ?? '';
     return token;
+  }
+
+  static removeAccessToken() async {
+    //final prefs = await SharedPreferences.getInstance();
+     instance.remove(Constants.isAccessToken) ?? '';
+
+  }
+
+  static Future<void> setSessionToken(String token) async {
+    instance.setString(Constants.isSessionToken, token);
+  }
+
+  static Future<String> getSessionToken() async {
+    String token = instance.getString(Constants.isSessionToken) ?? '';
+    return token;
+  }
+
+  static removeSessionAccessToken() async {
+    //final prefs = await SharedPreferences.getInstance();
+     instance.remove(Constants.isSessionToken) ?? '';
+
   }
 
   static Future<void> setMaterialMovementId(int value) async {

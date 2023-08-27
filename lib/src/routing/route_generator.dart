@@ -15,8 +15,10 @@ import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/law_enforcement_list/views/ln_list_page.dart';
 import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.dart';
+import 'package:db_atom/src/features/login/views/forgot_pwd_screen.dart';
 import 'package:db_atom/src/features/login/views/login_screen.dart';
 import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
+import 'package:db_atom/src/features/login/views/reset_password_screen.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
 import 'package:db_atom/src/routing/router.dart';
@@ -54,6 +56,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const SplashScreen());
       case loginScreenRoute:
         return MaterialPageRoute(builder: (context) => const LoginScreen());
+      case forgotPwdScreenRoute:
+        return MaterialPageRoute(builder: (context) => const ForgotPwdScreen());
+      case resetPwdScreenRoute:
+        return MaterialPageRoute(builder: (context) => const ResetPasswordScreen());
       case otpVerificationRoute:
         if (settings.arguments != null) {
           final userRoutes = settings.arguments as Map<String, dynamic>;

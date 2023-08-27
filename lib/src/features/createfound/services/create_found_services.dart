@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:db_atom/src/appservices/app_services.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/configurations/prod_config.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
@@ -13,56 +14,74 @@ import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../models/entry_security.dart';
 
 class CreateFoundServices {
    final endpoint = Environment().config.apiHost;
+    Future<dynamic> globalGetServiceCall(String url,BuildContext context,)
+  {
+    return AppServices().get(url, context);
+  }
+
+   Future<dynamic> globalPostServiceCall(String url,BuildContext context,Object? body)
+  {
+    return AppServices().post(url, context,body);
+  }
+
+
   Future<SubmitCreateFoundModel> createFoundArticle(
-      CreateFoundRequestBody requestBody, bool isSubmit, String username) async {
-    final url = Uri.parse('$endpoint/addFound?isSubmit=$isSubmit&userEmail=username');
-    try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: json.encode(requestBody),
-      );
-      print(response);
-      if (response.statusCode == 200) {
-        return SubmitCreateFoundModel.fromJson(json.decode(response.body));
-      } else {
-        throw json.decode(response.body);
-      }
-    } on SocketException {
-      throw json.decode('{"errorMessage":"Network Lost"}');
-    }
+      CreateFoundRequestBody requestBody, bool isSubmit, String username,BuildContext context) async {
+    // final url = Uri.parse('$endpoint/addFound?isSubmit=$isSubmit&userEmail=username');
+    // try {
+    //   final response = await http.post(
+    //     url,
+    //     headers: {
+    //       'Content-Type': 'application/json; charset=UTF-8',
+    //     },
+    //     body: json.encode(requestBody),
+    //   );
+    //   print(response);
+    //   if (response.statusCode == 200) {
+    //     return SubmitCreateFoundModel.fromJson(json.decode(response.body));
+    //   } else {
+    //     throw json.decode(response.body);
+    //   }
+    // } on SocketException {
+    //   throw json.decode('{"errorMessage":"Network Lost"}');
+    // }
+     var value  = await globalPostServiceCall('/addFound?isSubmit=$isSubmit&userEmail=username',context,json.encode(requestBody));
+
+   return  SubmitCreateFoundModel.fromJson(value);
   }
 
   Future<SubmitCreateFoundModel> createFoundArticleHandle(
-      Map<String, dynamic> requestBody, bool isSubmit, String username) async {
+      Map<String, dynamic> requestBody, bool isSubmit, String username,BuildContext context) async {
    
    print(requestBody);
-    final url = Uri.parse('$endpoint/addFound?isSubmit=$isSubmit&userEmail=username');
-    try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: json.encode(requestBody),
-      );
-      print(response);
-      if (response.statusCode == 200) {
-        return SubmitCreateFoundModel.fromJson(json.decode(response.body));
-      } else {
-        throw json.decode(response.body);
-      }
-    } on SocketException {
-      throw json.decode('{"errorMessage":"Network Lost"}');
-    }
+    // final url = Uri.parse('$endpoint/addFound?isSubmit=$isSubmit&userEmail=username');
+    // try {
+    //   final response = await http.post(
+    //     url,
+    //     headers: {
+    //       'Content-Type': 'application/json; charset=UTF-8',
+    //     },
+    //     body: json.encode(requestBody),
+    //   );
+    //   print(response);
+    //   if (response.statusCode == 200) {
+    //     return SubmitCreateFoundModel.fromJson(json.decode(response.body));
+    //   } else {
+    //     throw json.decode(response.body);
+    //   }
+    // } on SocketException {
+    //   throw json.decode('{"errorMessage":"Network Lost"}');
+    // }
+    var value  = await globalPostServiceCall('/addFound?isSubmit=$isSubmit&userEmail=username',context,json.encode(requestBody));
+
+   return  SubmitCreateFoundModel.fromJson(value);
   }
 
   //Get Depositor users by role

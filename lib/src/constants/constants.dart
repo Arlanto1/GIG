@@ -18,6 +18,8 @@ class Constants {
   // Validations
   static const String enterusername = 'Please enter valid username';
   static const String enterpassword = 'Please enter valid password';
+  static const String enterValidEmail = 'Please enter valid email';
+
   static const String invalidusername = 'Invalid username';
   static const String logoutvalidation =
       "Are you  sure, do you want to logout?";
@@ -25,11 +27,14 @@ class Constants {
   // Sharedpreferences keys
   static const String isLoggedInKey = 'isLoggedIn';
   static const String isUserNameKey = 'isUserName';
+  static const String isEmailKey = 'isEmail';
+
   static const String isUserIdKey = 'isUserId';
   static const String isFoundIdKey = 'isFoundId';
   static const String isMenuIndexIdentifyKey = 'isMenuIndexIdentify';
   static const String isMaterialMovementIdKey = 'isMaterialMovementId';
   static const String isAccessToken = 'isAccessToken';
+  static const String isSessionToken = 'isSessionToken';
 
   // Images
   static const String bg = 'assets/images/bg.png';
@@ -39,8 +44,9 @@ class Constants {
   static const String version = 'Version';
 
   //Login
-  static const String hintUserName = 'Enter user name';
+  static const String hintUserName = 'Enter username';
   static const String hintPassword = "Enter password";
+  static const String hintEmail = "Enter email";
   static const String hintOtp = "Enter Otp";
   static const String userError = "Please enter username";
   static const String otpError = "Please enter otp";
@@ -49,13 +55,21 @@ class Constants {
   static const String passwordLengthError =
       "Please enter password minimum 6 characters";
   static const String loginButtonTitle = "Login";
+  static const String resetPwdTitle = "Reset Password";
+
   static const String loginVerifyOtpTitle = "Verify";
+  static const String forgotPwd = "Send";
+  static const String update = "Update";
   static const String otpVerificationTitle = "OTP Verification";
+  static const String forgotPwdTitle = "Forgot Password";
+  static const String ResetPwdTitle = "Reset Password";
   static const String titleHeaderLogin = "Welcome back, Login!!";
   static const String email = "Email";
   static const String username = "Username";
   static const String otp = "OTP";
   static const String password = "Password";
+  static const String old_password = "Old Password";
+  static const String new_password = "New Password";
   static const String forgotpassowrd = 'Forgot Password?';
   static const String supporttext = "Support: +49 6150 961 6244";
   static const String copyrighttext = "Copyright Â© 2023 RimaOne.";
