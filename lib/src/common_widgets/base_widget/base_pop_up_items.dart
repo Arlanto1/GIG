@@ -47,6 +47,7 @@ class BasePopUpItems extends StatefulWidget {
   final int? dutyType;
   final String? uanNo;
   final List<Label>? labels;
+  final bool? isMaterGuard;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -88,7 +89,7 @@ class BasePopUpItems extends StatefulWidget {
     this.locationStr,
     this.dutyType,
     this.uanNo,
-    this.labels,
+    this.labels, this.isMaterGuard,
   });
 }
 
@@ -221,7 +222,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildStatusRow(widget.status ?? 0),
       ],
-      if (widget.status != null) ...[
+      if (widget.isMaterGuard != null) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildMasterDataStatusRow(widget.status ?? 0),
       ],

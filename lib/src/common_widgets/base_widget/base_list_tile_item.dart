@@ -31,6 +31,7 @@ class BaseListTileItem extends StatefulWidget {
   // final Item userItem;
   final int? index;
   final bool? showEditButton;
+  final bool? isMaterGuard;
 
   const BaseListTileItem({
     super.key,
@@ -52,7 +53,7 @@ class BaseListTileItem extends StatefulWidget {
     this.showEditButton = true,
     this.locationStr,
     this.dutyType,
-    this.labels,
+    this.labels, this.isMaterGuard,
   });
 
   @override
@@ -212,7 +213,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildStatusRow(widget.status ?? 0),
       ],
-      if (widget.status != null) ...[
+      if (widget.isMaterGuard != null) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildMasterDataStatusRow(widget.status ?? 0),
       ],
