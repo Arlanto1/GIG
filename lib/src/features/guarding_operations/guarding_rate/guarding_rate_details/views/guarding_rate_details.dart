@@ -2,7 +2,6 @@ import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/configurations/main_config.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/dashboard/views/drawer/drawer_reusable.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -37,7 +36,7 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
     final height = size.height;
     return Scaffold(
       key: scaffoldKey,
-      drawer: navigationDrawer1(scaffoldKey),
+      // drawer: navigationDrawer1(scaffoldKey),
       appBar: BaseAppBar().buildAppHeader(
         context: context,
         title: widget.title,
