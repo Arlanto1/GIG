@@ -27,6 +27,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common_widgets/base_widget/multiple_selection_pop_up.dart';
+import '../../../../../common_widgets/create_fields.dart';
+import '../../../../../constants/app_icon.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
 
@@ -328,6 +330,18 @@ class _RatesInfoState extends State<RatesInfo> {
       context: context,
       builder: (BuildContext dialogContext) {
         return CustomMultipleSelectionListTexts(
+          onLeftButtonTap: () {
+            Navigator.pop(context);
+            showDialog(
+                context: context,
+                builder: (BuildContext dialogContext) {
+                  return  AddNewFields(
+                    title: Constants.addentitytype,
+                    // TODO: Need to make it functional
+                    // createpassmgmtstate: state,
+                  );
+                });
+          },
           duplicateEntityList: state.listOfEntities ?? [],
           mainSelectedEntityList: state.rate.entities ?? [],
           onTap: (List<Entity> selectedEntities) {
@@ -336,7 +350,7 @@ class _RatesInfoState extends State<RatesInfo> {
                 .updateDropdownValues(entities: selectedEntities);
             Navigator.of(context).pop(); // Close the dialog
           },
-          leftImageName: 'left_arrow_icon.png', // Provide your left button icon
+          leftImageName: AppIcon.addicon, // Provide your left button icon
         );
       },
     );

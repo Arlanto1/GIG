@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -58,6 +60,8 @@ class CustomMultipleSelectionListTextsState
         children: <Widget>[
           GestureDetector(
             onTap: () {
+              log('----left tap---');
+
               widget.onLeftButtonTap != null ? widget.onLeftButtonTap!() : null;
             },
             child: SvgPicture.asset(
