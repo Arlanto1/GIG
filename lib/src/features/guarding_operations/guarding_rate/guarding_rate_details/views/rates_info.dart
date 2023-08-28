@@ -2,9 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/department_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
@@ -17,20 +15,22 @@ import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/ra
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
-import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../common_widgets/base_widget/department_dialog.dart';
 import '../../../../../common_widgets/base_widget/multiple_selection_pop_up.dart';
+import '../../../../../common_widgets/basic_reusable_widgets.dart';
 import '../../../../../common_widgets/create_fields.dart';
 import '../../../../../constants/app_icon.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
+import '../../../../../routing/router.dart';
+import '../../../../../utils/app_themes/styles/app_styles.dart';
 
 class RatesInfo extends StatefulWidget {
   final GMRate? rate;
@@ -68,232 +68,212 @@ class _RatesInfoState extends State<RatesInfo> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    return Scaffold(
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: widget.title,
-          showPopUp: false,
-          showSaveButton: true,
-          onTapSave: () {
-            FocusScope.of(context).unfocus();
-            // BlocProvider.of<PayRateCubit>(context)
-            //     .submitForm(isSaveOnly: true);
-          },
-        ),
-        // floatingActionButton: Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //   children: [
-        //     cancelButtonDisplay(),
-        //     // TODO: Need to remove this InkWell as Navigation will be handled via Bloc Listener
-        //     submitButtonDisplay(onTap: () {
-        //
-        //
-        //       final state = myCubit.state;
-        //       log('-onTapSubmit--${state.rate.vendor?.name}----');
-        //       FocusScope.of(context).unfocus();F
-        //       BlocProvider.of<PayRateCubit>(context).onSave(
-        //         isSubmit: false,
-        //       );
-        //       Navigator.pushNamed(
-        //         context,
-        //         payRateRoute,
-        //         arguments: {
-        //           "gmRate": state.rate,
-        //           "title": Constants.materialMovementOutwardEdit,
-        //         },
-        //       );
-        //     }),
-        //   ],
-        // ),
-        backgroundColor: AppColors.backgroundWhitecolor,
-        body: BlocConsumer<PayRateCubit, PayRateState>(
-          listener: (context, state) {
-            if (state.status == FormStatus.success) {
-              Utils.dynamicAlert(
-                  context, state.message ?? '', 'Material Movement', '');
-            }
-            // TODO: Navigate to Next Page
-            if (state.status == FormStatus.error) {
-              Validator().showToast(
-                context,
-                state.message ?? 'Invalid Information',
-              );
-            }
-          },
-          builder: (context, state) {
-            log('--status--${state.status}--#####--');
+    return BlocConsumer<PayRateCubit, PayRateState>(
+      listener: (context, state) {
+        if (state.status == FormStatus.success) {
+          Utils.dynamicAlert(
+              context, state.message ?? '', 'Material Movement', '');
+        }
+        // TODO: Navigate to Next Page
+        if (state.status == FormStatus.error) {
+          Validator().showToast(
+            context,
+            state.message ?? 'Invalid Information',
+          );
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: BaseAppBar().buildAppHeader(
+            context: context,
+            title: widget.title,
+            showPopUp: false,
+            showSaveButton: true,
+            onTapSave: () {
+              FocusScope.of(context).unfocus();
+              // BlocProvider.of<PayRateCubit>(context)
+              //     .submitForm(isSaveOnly: true);
+            },
+          ),
+          backgroundColor: AppColors.backgroundWhitecolor,
+          body: getBody(context, state, height),
+        );
+      },
+    ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
+  }
 
-            if (state.status == FormStatus.loading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            return Container(
-              color: AppColors.navigationSkybluecolor,
-              child: SingleChildScrollView(
-                child: Column(children: [
-                  Container(
-                    height: height * 0.01,
-                    color: AppColors.navigationSkybluecolor,
-                  ),
-                  Container(
-                    decoration: const ShapeDecoration(
-                        color: AppColors.backgroundWhitecolor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(20.0)),
-                        )),
-                    child: Form(
-                      key: _formKey,
-                      // autovalidateMode: state.rate.status == 6
-                      //     ? AutovalidateMode.disabled
-                      //     : AutovalidateMode.onUserInteraction,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
+  getBody(BuildContext context, PayRateState state, height) {
+    log('--status--${state.status}--#####--');
+
+    if (state.status == FormStatus.loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    return Container(
+      color: AppColors.navigationSkybluecolor,
+      child: SingleChildScrollView(
+        child: Column(children: [
+          Container(
+            height: height * 0.01,
+            color: AppColors.navigationSkybluecolor,
+          ),
+          Container(
+            decoration: const ShapeDecoration(
+                color: AppColors.backgroundWhitecolor,
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                  BorderRadius.vertical(top: Radius.circular(20.0)),
+                )),
+            child: Form(
+              key: _formKey,
+              // autovalidateMode: state.rate.status == 6
+              //     ? AutovalidateMode.disabled
+              //     : AutovalidateMode.onUserInteraction,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding:
+                      const EdgeInsets.only(left: 20.0, right: 20),
+                      child: Column(children: [
+                        CommonWidgets.verticalSpacerWidget(
+                            height * 0.02),
+
+                        /// Created By
+                        Row(
                           children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20.0, right: 20),
-                              child: Column(children: [
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-
-                                /// Created By
-                                Row(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        CommonWidgets.verticalTextHandling(
-                                            Constants.createdby,
-                                            state.loggedInUserDetails?.name ??
-                                                ''),
-                                        CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01),
-                                      ],
-                                    ),
-                                    const Spacer(),
-                                    const Text('1/6'),
-                                  ],
-                                ),
-
-                                /// Location
-                                CommonWidgets.textDisplay(Constants.location,
-                                    Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                locationWidgetdislay(state),
-
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-
-                                /// Date of creation
-                                CommonWidgets.textDisplay(
-                                    Constants.dateofcreation,
-                                    Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                datecreateWidgetdisplay(
-                                    state.rate.inputDate ?? ''),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-
-                                /// Sl No.
-                                CommonWidgets.horizentaltextHandling(
-                                    Constants.slno, state.rate.slNo ?? ''),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-
-                                /// Entity
-                                CommonWidgets.textDisplay(
-                                  Constants.entity,
-                                  Styles.textStyleBlack14,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-
-                                entityaddButtonwidgetLoading(
-                                  context: context,
-                                  state: state,
-                                  selectedValues: state.rate.entities ?? [],
-                                  all: state.listOfEntities ?? [],
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-
-                                /// Vendor
-                                CommonWidgets.textDisplay(
-                                  Constants.vendor,
-                                  Styles.textStyleBlack14,
-                                ),
-                                widget.rate == null
-                                    ? FlutterInputField(
-                                        initialValue: state.rate.vendor?.name,
-                                        textFormKey: Keys.vendorDepartmentKey,
-                                        hintText: '',
-                                        isEnable: true,
-                                        isDisableColor: false,
-                                        onChange: (String value) {},
-                                        validateTextField: (String? user) {},
-                                      )
-                                    : TextfieldAddButton(
-                                        title: state.rate.vendor?.name,
-                                        height: 60,
-                                        isDisableColor: false,
-                                        onTap: () {
-                                          BaseDialog().departmentDialog(
-                                            context: context,
-                                            departments: state.departments,
-                                            onTap: (Department department) {
-                                              BlocProvider.of<PayRateCubit>(
-                                                      context)
-                                                  .updateDropdownValues(
-                                                      vendor: department);
-                                            },
-                                          );
-                                        },
-                                      ),
-
-                                // quantityUnitPopUp(state),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-                              ]),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            Column(
                               children: [
-                                cancelButtonDisplay(),
-                                submitButtonDisplay(onTap: () {
-                                  log('-onTapSubmit--${state.rate.vendor?.name}----');
-                                  FocusScope.of(context).unfocus();
-                                  BlocProvider.of<PayRateCubit>(context).onSave(
-                                    isSubmit: false,
-                                  );
-
-                                  // BlocProvider.of<PayRateCubit>(context)
-                                  //     .onModelValueChange(state.);
-
-                                  Navigator.pushNamed(
-                                    context,
-                                    payRateRoute,
-                                    arguments: {
-                                      "payRates": state.rate.securityGuardRates,
-                                      "gmRate": state.rate,
-                                      "title": Constants.createSecurityGuard,
-                                    },
-                                  );
-                                }),
+                                CommonWidgets.verticalTextHandling(
+                                    Constants.createdby,
+                                    state.loggedInUserDetails?.name ??
+                                        ''),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
                               ],
-                            )
-                          ]),
+                            ),
+                            const Spacer(),
+                            const Text('1/6'),
+                          ],
+                        ),
+
+                        /// Location
+                        CommonWidgets.textDisplay(Constants.location,
+                            Styles.textStyleBlack14),
+                        CommonWidgets.verticalSpacerWidget(
+                            height * 0.001),
+                        locationWidgetdislay(state),
+
+                        CommonWidgets.verticalSpacerWidget(
+                            height * 0.01),
+
+                        /// Date of creation
+                        CommonWidgets.textDisplay(
+                            Constants.dateofcreation,
+                            Styles.textStyleBlack14),
+                        CommonWidgets.verticalSpacerWidget(
+                            height * 0.001),
+                        datecreateWidgetdisplay(
+                            state.rate.inputDate ?? ''),
+                        CommonWidgets.verticalSpacerWidget(
+                            height * 0.01),
+
+                        /// Sl No.
+                        CommonWidgets.horizentaltextHandling(
+                            Constants.slno, state.rate.slNo ?? ''),
+                        CommonWidgets.verticalSpacerWidget(
+                            height * 0.01),
+
+                        /// Entity
+                        CommonWidgets.textDisplay(
+                          Constants.entity,
+                          Styles.textStyleBlack14,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(
+                            height * 0.01),
+
+                        entityaddButtonwidgetLoading(
+                          context: context,
+                          state: state,
+                          selectedValues: state.rate.entities ?? [],
+                          all: state.listOfEntities ?? [],
+                        ),
+                        CommonWidgets.verticalSpacerWidget(
+                            height * 0.01),
+
+                        /// Vendor
+                        CommonWidgets.textDisplay(
+                          Constants.vendor,
+                          Styles.textStyleBlack14,
+                        ),
+                        widget.rate == null
+                            ? FlutterInputField(
+                          initialValue: state.rate.vendor?.name,
+                          textFormKey: Keys.vendorDepartmentKey,
+                          hintText: '',
+                          isEnable: true,
+                          isDisableColor: false,
+                          onChange: (String value) {},
+                          validateTextField: (String? user) {},
+                        )
+                            : TextfieldAddButton(
+                          title: state.rate.vendor?.name,
+                          height: 60,
+                          isDisableColor: false,
+                          onTap: () {
+                            BaseDialog().departmentDialog(
+                              context: context,
+                              departments: state.departments,
+                              onTap: (Department department) {
+                                BlocProvider.of<PayRateCubit>(
+                                    context)
+                                    .updateDropdownValues(
+                                    vendor: department);
+                              },
+                            );
+                          },
+                        ),
+
+                        // quantityUnitPopUp(state),
+                        CommonWidgets.verticalSpacerWidget(
+                            height * 0.01),
+                      ]),
                     ),
-                  ),
-                ]),
-              ),
-            );
-          },
-        )); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
+                    CommonWidgets.verticalSpacerWidget(height * 0.01),
+                    CommonWidgets.verticalSpacerWidget(height * 0.04),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        cancelButtonDisplay(),
+                        submitButtonDisplay(onTap: () {
+                          log('-onTapSubmit--${state.rate.vendor?.name}----');
+                          FocusScope.of(context).unfocus();
+                          BlocProvider.of<PayRateCubit>(context).onSave(
+                            isSubmit: false,
+                          );
+
+                          // BlocProvider.of<PayRateCubit>(context)
+                          //     .onModelValueChange(state.);
+
+                          Navigator.pushNamed(
+                            context,
+                            payRateRoute,
+                            arguments: {
+                              "payRates": state.rate.securityGuardRates,
+                              "gmRate": state.rate,
+                              "title": Constants.createSecurityGuard,
+                            },
+                          );
+                        }),
+                      ],
+                    )
+                  ]),
+            ),
+          ),
+        ]),
+      ),
+    );
   }
 
   Widget entityaddButtonwidgetLoading({
@@ -335,7 +315,7 @@ class _RatesInfoState extends State<RatesInfo> {
             showDialog(
                 context: context,
                 builder: (BuildContext dialogContext) {
-                  return  AddNewFields(
+                  return AddNewFields(
                     title: Constants.addentitytype,
                     // TODO: Need to make it functional
                     // createpassmgmtstate: state,
