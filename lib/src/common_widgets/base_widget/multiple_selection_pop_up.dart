@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -15,13 +13,13 @@ class CustomMultipleSelectionListTexts extends StatefulWidget {
   final String? leftImageName;
 
   const CustomMultipleSelectionListTexts({
-    super.key,
+    Key? key,
     required this.duplicateEntityList,
     required this.onTap,
     required this.mainSelectedEntityList,
     this.onLeftButtonTap,
     this.leftImageName,
-  });
+  }) : super(key: key);
 
   @override
   State<CustomMultipleSelectionListTexts> createState() =>
@@ -38,10 +36,6 @@ class CustomMultipleSelectionListTextsState
   void initState() {
     super.initState();
 
-    for (Entity entity in widget.duplicateEntityList) {
-      log('-entity--${entity.name}---');
-    }
-
     entityList = List.from(widget.duplicateEntityList);
     _initializeSelection();
   }
@@ -49,7 +43,7 @@ class CustomMultipleSelectionListTextsState
   void _initializeSelection() {
     for (final selectedEntity in widget.mainSelectedEntityList) {
       final index =
-          entityList.indexWhere((entity) => entity.id == selectedEntity.id);
+      entityList.indexWhere((entity) => entity.id == selectedEntity.id);
       if (index != -1) {
         entityList[index].isSelected = true;
       }
@@ -91,6 +85,17 @@ class CustomMultipleSelectionListTextsState
           ],
         ),
       ),
+      actions: [
+        ElevatedButton(
+          onPressed: () {
+            // Collect selected entities
+            final selectedEntities =
+            entityList.where((entity) => entity.isSelected??false).toList();
+            widget.onTap(selectedEntities); // Call the callback
+          },
+          child: Text('Confirm'),
+        ),
+      ],
     );
   }
 
@@ -115,7 +120,7 @@ class CustomMultipleSelectionListTextsState
     setState(() {
       entityList = widget.duplicateEntityList
           .where((entity) =>
-              entity.name!.toLowerCase().contains(text.toLowerCase()))
+          entity.name!.toLowerCase().contains(text.toLowerCase()))
           .toList();
     });
   }
@@ -127,7 +132,6 @@ class CustomMultipleSelectionListTextsState
         itemBuilder: (BuildContext context, int index) {
           final entity = entityList[index];
 
-          log('-name--${entity.name}-------');
           return ListTile(
             title: Text(entity.name ?? ''),
             leading: Checkbox(

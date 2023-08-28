@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
@@ -98,8 +96,6 @@ class _GuardingRatesState extends State<GuardingRates> {
                   ? state.items.length
                   : state.items.length + 1,
               itemBuilder: (context, index) {
-
-                log('-state.items.length---${state.items.length}--');
 
                 return index >= state.items.length
                     ? const Center(

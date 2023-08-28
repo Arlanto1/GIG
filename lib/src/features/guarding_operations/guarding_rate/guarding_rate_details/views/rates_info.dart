@@ -124,7 +124,7 @@ class _RatesInfoState extends State<RatesInfo> {
             }
           },
           builder: (context, state) {
-            log('--status--${state.status}----');
+            log('--status--${state.status}--#####--');
 
             if (state.status == FormStatus.loading) {
               return const Center(child: CircularProgressIndicator());
@@ -227,7 +227,8 @@ class _RatesInfoState extends State<RatesInfo> {
                                     context,
                                     state,
                                     state.rate.entities ?? [],
-                                    state.listOfEntities ?? []),
+                                    state.listOfEntities ?? [],
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -317,7 +318,6 @@ class _RatesInfoState extends State<RatesInfo> {
     if (selectedValues.isNotEmpty) {
       for (int i = 0; i < selectedValues.length; i++) {
         Entity entity = selectedValues[i];
-        log('-entities--name-${entity.name}--');
 
         String value = entity.name ?? '';
         title = '$title  $value';
@@ -353,6 +353,10 @@ class _RatesInfoState extends State<RatesInfo> {
           onTap: (List<Entity> selectedEntities) {
             // This callback is called when the user confirms the selection
             // Do something with selectedEntities
+
+            log('--selectedEntities----${selectedEntities.length}');
+            BlocProvider.of<PayRateCubit>(context).updateDropdownValues(entities: selectedEntities);
+
             print(
                 'Selected Entities: ${selectedEntities.map((e) => e.name).toList()}');
             Navigator.of(context).pop(); // Close the dialog

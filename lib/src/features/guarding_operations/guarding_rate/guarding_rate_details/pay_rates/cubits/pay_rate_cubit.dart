@@ -71,11 +71,6 @@ class PayRateCubit extends Cubit<PayRateState> {
     AddEntities entities =
         await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
-    log('-entities--length-${state.rate.entities?.length}--');
-    for (Entity entity in state.rate.entities ?? []) {
-      log('-entity--name-${entity.name}--');
-    }
-
 
     // state.rate.location = loggedInUserDetails. // TODO: get location
     try {
