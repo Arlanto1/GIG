@@ -8,7 +8,6 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -26,12 +25,8 @@ import 'package:db_atom/src/utils/util.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../../common_widgets/base_widget/multiple_selection_pop_up.dart';
-
-// import '../../../../../common_widgets/custom_multiple_selection_popup.dart';
-import '../../../../../common_widgets/date_time_picker.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
 
@@ -214,20 +209,11 @@ class _RatesInfoState extends State<RatesInfo> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
-                                // entityaddButtonwidgetLoading(state),
-
-                                // ElevatedButton(
-                                //   onPressed: () {
-                                //     _showEntitySelectionDialog(context, state);
-                                //   },
-                                //   child: const Text('Select Entities'),
-                                // ),
-
                                 entityaddButtonwidgetLoading(
-                                    context,
-                                    state,
-                                    state.rate.entities ?? [],
-                                    state.listOfEntities ?? [],
+                                  context: context,
+                                  state: state,
+                                  selectedValues: state.rate.entities ?? [],
+                                  all: state.listOfEntities ?? [],
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
@@ -308,12 +294,12 @@ class _RatesInfoState extends State<RatesInfo> {
         )); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-  Widget entityaddButtonwidgetLoading(
-    BuildContext context,
-    PayRateState state,
-    List<Entity> selectedValues,
-    List<Entity> all,
-  ) {
+  Widget entityaddButtonwidgetLoading({
+    required BuildContext context,
+    required PayRateState state,
+    required List<Entity> selectedValues,
+    required List<Entity> all,
+  }) {
     String title = '';
     if (selectedValues.isNotEmpty) {
       for (int i = 0; i < selectedValues.length; i++) {
@@ -332,12 +318,7 @@ class _RatesInfoState extends State<RatesInfo> {
           : 60,
       isDisableColor: false,
       onTap: () {
-        log('--list-${selectedValues.length}-');
-
-        // if ((selectedValues != null && (title.isEmpty))) {
-        log('----');
         _showEntitySelectionDialog(context, state);
-        // }
       },
     );
   }
@@ -349,114 +330,16 @@ class _RatesInfoState extends State<RatesInfo> {
         return CustomMultipleSelectionListTexts(
           duplicateEntityList: state.listOfEntities ?? [],
           mainSelectedEntityList: state.rate.entities ?? [],
-          // Pass initially selected entities here
           onTap: (List<Entity> selectedEntities) {
-            // This callback is called when the user confirms the selection
-            // Do something with selectedEntities
-
             log('--selectedEntities----${selectedEntities.length}');
-            BlocProvider.of<PayRateCubit>(context).updateDropdownValues(entities: selectedEntities);
-
-            print(
-                'Selected Entities: ${selectedEntities.map((e) => e.name).toList()}');
+            BlocProvider.of<PayRateCubit>(context)
+                .updateDropdownValues(entities: selectedEntities);
             Navigator.of(context).pop(); // Close the dialog
           },
           leftImageName: 'left_arrow_icon.png', // Provide your left button icon
         );
       },
     );
-  }
-
-  // entityTypeDialog(PayRateState state) {
-  //   showDialog(
-  //       context: context,
-  //       builder: (BuildContext dialogContext) {
-  //         return CustomMultipleSelectionListTexts(
-  //           duplicateentityList: state.getEntitiesResponse?.atomEntities ?? [],
-  //           leftimagename: AppIcon.addicon,
-  //           mainselectedentityList:state.listOfEntities ?? [],
-  //           onLeftButtonTap: () {
-  //             Navigator.pop(context);
-  //             showDialog(
-  //                 context: context,
-  //                 builder: (BuildContext dialogContext) {
-  //                   return  AddNewFields(
-  //                     title: Constants.addentitytype,
-  //                     payRateState: state,
-  //                     entityFun: (){
-  //                       // BlocProvider.of<PayRateCubit>(context).getEntityData();
-  //                     },
-  //                   );
-  //                 });
-  //
-  //           },
-  //           onTap: (List<Entity> list) {
-  //             BlocProvider.of<PayRateCubit>(
-  //                 context)
-  //                 .updateDropdownValues(
-  //               entities: list);
-  //             BlocProvider.of<PayRateCubit>(context).getEntityData(list);
-  //           },
-  //         );
-  //       });
-  // }
-
-  Widget datepickerWidgetLoading({
-    required TextEditingController textfiled,
-    bool isDisabled = false,
-    required Function onChange,
-  }) {
-    return GestureDetector(
-      onTap: () {
-        if (!isDisabled) {
-          datePickerDialog(textfiled);
-        }
-      },
-      child: FlutterInputField(
-        textFieldController: textfiled,
-        textFormKey: textfiled == textfiled
-            ? Keys.founddateTextController
-            : Keys.handedoverdateTextController,
-        hintText: '',
-        isEnable: !isDisabled,
-        isDisableColor: isDisabled,
-        onChange: onChange,
-        validateTextField: (String? user) {},
-        suffixWidget: GestureDetector(
-          onTap: () async {
-            if (textfiled.text.isEmpty) {
-              datePickerDialog(textfiled);
-              // state.materialMovement.tak
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SvgPicture.asset(
-              AppIcon.calendaricon,
-              color: AppColors.textgreyThemecolor,
-              width: 20,
-              key: const Key(Keys.userIcon),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  datePickerDialog(TextEditingController textfield) async {
-    DateTime? pickedDate = await showDateTimePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2101));
-
-    String formattedDate = DateFormat(Constants.fulldateFormat)
-        .format(pickedDate ?? DateTime.now());
-    //you can implement different kind of Date Format here according to your requirement
-    takenOutOnDateController.text = formattedDate;
-    setState(() {
-      // dateinput.text = formattedDate; //set output date to TextField value.
-    });
   }
 
   Widget cancelButtonDisplay() {
