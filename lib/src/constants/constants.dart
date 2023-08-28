@@ -152,6 +152,7 @@ class Constants {
   static const String addreasonforvendorpass = 'Add Reason for Vendor Pass';
   static const String save = 'Save';
   static const String cancel = 'Cancel';
+  static const String add = 'Add';
   static const String newuser = 'New User';
   static const String newuserdesc =
       'Provide the below data to create a new User.';

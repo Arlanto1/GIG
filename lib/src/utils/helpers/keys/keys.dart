@@ -29,6 +29,7 @@ class Keys {
   static const String emailTextController = 'external_createfound_email_textfield';
   static const String saveButton = 'createfound_save_button';
   static const String cancelButton = 'createfound_cancel_button';
+  static const String addButton = 'addButton_button';
   static const String saveButtonText = 'createfound_save_button_text';
   static const String cancelButtonText = 'createfound_cancel_button_text';
   static const String createnewuserButton = 'createfound_createnewuser_button';

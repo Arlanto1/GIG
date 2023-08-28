@@ -87,20 +87,17 @@ class _PayRateViewState extends State<PayRateView> {
               switch (widget.title) {
                 case Constants.createSecurityGuard:
                   title = Constants.createSecuritySupervisor;
-                  payRates =
-                      state.rate.securitySupervisorRates ?? [];
+                  payRates = state.rate.securitySupervisorRates ?? [];
                   break;
 
                 case Constants.createSecuritySupervisor:
                   title = Constants.createSecurityOfficer;
-                  payRates =
-                      state.rate.securityOfficerRates ?? [];
+                  payRates = state.rate.securityOfficerRates ?? [];
                   break;
 
                 case Constants.createSecurityOfficer:
                   title = Constants.createSecurityFacilitator;
-                  payRates =
-                      state.rate.securityFacilitatorRates ?? [];
+                  payRates = state.rate.securityFacilitatorRates ?? [];
                   break;
 
                 case Constants.createSecurityFacilitator:
@@ -121,147 +118,161 @@ class _PayRateViewState extends State<PayRateView> {
                 },
               );
             }
-
           },
           builder: (context, state) {
-              if (state.status == FormStatus.loading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+            if (state.status == FormStatus.loading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-              return Container(
-                margin: allMargin16,
-                decoration: const ShapeDecoration(
-                    color: AppColors.backgroundWhitecolor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20.0)),
-                    )),
-                child: Stack(
-                  children: [
-                    ListView.builder(
-                      itemCount: state.items.length,
-                      itemBuilder: (context, index) {
-                        /// Adding Fields to BaseListTile
-                        List<Label> labels = [];
-                        labels.add(Label(
-                            key: 'Monthly',
-                            value: '${state.items[index].total}'));
-                        labels.add(Label(
-                            key: 'Days', value: '${state.items[index].days}'));
-                        labels.add(Label(
-                            key: 'Per Hour',
-                            value: '${state.items[index].perHour}'));
-
-                        return index >= state.items.length
-                            ? const Center(
-                                child: CustomCircularProgressIndicator(),
-                              )
-                            : BaseListTileItem(
-                                id: state.items[index].id,
-                                labels: labels,
-                                onTap: (selectedIndex) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext dialogContext) {
-                                      return BasePopUpItems(
-                                        id: state.items[selectedIndex].id
-                                            .toString(),
-                                        labels: labels,
-                                      );
-                                    },
-                                  );
-                                },
-                                onEditTap: (selectedIndex) {
-                                  log('---payRate- onedit-- ${state.items[index].id}-----');
-                                  log('---payRate- onedit-- ${state.items[index].total}-----');
-
-                                  addSecurityGuardPopUp(
-                                      context: context,
-                                      payRate: state.items[index]);
-                                },
-                                onViewTap: (selectedIndex) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext dialogContext) {
-                                      return BasePopUpItems(
-                                        id: state.items[selectedIndex].id
-                                            .toString(),
-                                        labels: labels,
-                                      );
-                                    },
-                                  );
-                                },
-                                index: index,
-                              );
-                      },
-                    ),
-                    Positioned(
-                      bottom: 16.0, // Adjust the position as needed
-                      right: 16.0, // Adjust the position as needed
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          cancelButtonDisplay(),
-                          const SizedBox(
-                            width: 50,
-                          ),
-                          submitButtonDisplay(onTap: () {
-                            log('-onTapSubmit--${state.rate.vendor?.name}----');
-                            FocusScope.of(context).unfocus();
-                            // BlocProvider.of<PayRateCubit>(context).onSave(
-                            //   isSubmit: false,
-                            // );
-
-                            BlocProvider.of<PayRateCubit>(context)
-                                .onSave(isSubmit: false, newPayRate: state.newPayRate);
-
-                            String title = '';
-                            List<PayRate> payRates = [];
-                            switch (widget.title) {
-                              case Constants.createSecurityGuard:
-                                title = Constants.createSecuritySupervisor;
-                                payRates =
-                                    state.rate.securitySupervisorRates ?? [];
-                                break;
-
-                              case Constants.createSecuritySupervisor:
-                                title = Constants.createSecurityOfficer;
-                                payRates =
-                                    state.rate.securityOfficerRates ?? [];
-                                break;
-
-                              case Constants.createSecurityOfficer:
-                                title = Constants.createSecurityFacilitator;
-                                payRates =
-                                    state.rate.securityFacilitatorRates ?? [];
-                                break;
-
-                              case Constants.createSecurityFacilitator:
-                                title = Constants.createGunMan;
-                                payRates = state.rate.securityGunManRates ?? [];
-                                break;
-
-                              default:
-                                break;
-                            }
-                            Navigator.pushReplacementNamed(
-                              context,
-                              payRateRoute,
-                              arguments: {
-                                "payRates": payRates,
-                                "gmRate": state.rate,
-                                "title": title,
-                              },
-                            );
-                          }),
-                        ],
-                      ),
-                    ),
-                  ],
+            if (state.items.isEmpty) {
+              return Center(
+                child: AppButton(
+                  width: 150,
+                  backgroundColor: AppColors.navigationSkybluecolor,
+                  key: const Key(Keys.cancelButton),
+                  buttonText: Constants.add,
+                  buttonTextKey: Keys.cancelButton,
+                  onTap: () {
+                    addSecurityGuardPopUp(context: context, payRate: PayRate());
+                  },
                 ),
               );
+            }
+            return Container(
+              margin: allMargin16,
+              decoration: const ShapeDecoration(
+                  color: AppColors.backgroundWhitecolor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20.0)),
+                  )),
+              child: Stack(
+                children: [
+                  ListView.builder(
+                    itemCount: state.items.length,
+                    itemBuilder: (context, index) {
+                      /// Adding Fields to BaseListTile
+                      List<Label> labels = [];
+                      labels.add(Label(
+                          key: 'Monthly',
+                          value: '${state.items[index].total}'));
+                      labels.add(Label(
+                          key: 'Days', value: '${state.items[index].days}'));
+                      labels.add(Label(
+                          key: 'Per Hour',
+                          value: '${state.items[index].perHour}'));
+
+                      log('-${state.items.length}----lenth---');
+
+                      return index >= state.items.length
+                          ? const Center(
+                              child: CustomCircularProgressIndicator(),
+                            )
+                          : BaseListTileItem(
+                              id: state.items[index].id,
+                              labels: labels,
+                              onTap: (selectedIndex) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext dialogContext) {
+                                    return BasePopUpItems(
+                                      id: state.items[selectedIndex].id
+                                          .toString(),
+                                      labels: labels,
+                                    );
+                                  },
+                                );
+                              },
+                              onEditTap: (selectedIndex) {
+                                log('---payRate- onedit-- ${state.items[index].id}-----');
+                                log('---payRate- onedit-- ${state.items[index].total}-----');
+
+                                addSecurityGuardPopUp(
+                                    context: context,
+                                    payRate: state.items[index]);
+                              },
+                              onViewTap: (selectedIndex) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext dialogContext) {
+                                    return BasePopUpItems(
+                                      id: state.items[selectedIndex].id
+                                          .toString(),
+                                      labels: labels,
+                                    );
+                                  },
+                                );
+                              },
+                              index: index,
+                            );
+                    },
+                  ),
+                  Positioned(
+                    bottom: 16.0, // Adjust the position as needed
+                    right: 16.0, // Adjust the position as needed
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        cancelButtonDisplay(),
+                        const SizedBox(
+                          width: 50,
+                        ),
+                        submitButtonDisplay(onTap: () {
+                          log('-onTapSubmit--${state.rate.vendor?.name}----');
+                          FocusScope.of(context).unfocus();
+                          // BlocProvider.of<PayRateCubit>(context).onSave(
+                          //   isSubmit: false,
+                          // );
+
+                          BlocProvider.of<PayRateCubit>(context).onSave(
+                              isSubmit: false, newPayRate: state.newPayRate);
+
+                          String title = '';
+                          List<PayRate> payRates = [];
+                          switch (widget.title) {
+                            case Constants.createSecurityGuard:
+                              title = Constants.createSecuritySupervisor;
+                              payRates =
+                                  state.rate.securitySupervisorRates ?? [];
+                              break;
+
+                            case Constants.createSecuritySupervisor:
+                              title = Constants.createSecurityOfficer;
+                              payRates = state.rate.securityOfficerRates ?? [];
+                              break;
+
+                            case Constants.createSecurityOfficer:
+                              title = Constants.createSecurityFacilitator;
+                              payRates =
+                                  state.rate.securityFacilitatorRates ?? [];
+                              break;
+
+                            case Constants.createSecurityFacilitator:
+                              title = Constants.createGunMan;
+                              payRates = state.rate.securityGunManRates ?? [];
+                              break;
+
+                            default:
+                              break;
+                          }
+                          Navigator.pushReplacementNamed(
+                            context,
+                            payRateRoute,
+                            arguments: {
+                              "payRates": payRates,
+                              "gmRate": state.rate,
+                              "title": title,
+                            },
+                          );
+                        }),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
           },
         ));
   }
