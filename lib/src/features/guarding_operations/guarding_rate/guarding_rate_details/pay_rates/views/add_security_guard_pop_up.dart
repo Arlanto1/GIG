@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/pop_button.dart';
@@ -11,10 +12,6 @@ import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-
-import '../../../../../../common_widgets/date_time_picker.dart';
-import '../../../../../../constants/app_icon.dart';
 
 class AddSecurityGuardPopUp extends StatefulWidget {
   const AddSecurityGuardPopUp({
@@ -48,9 +45,8 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
   @override
   Widget build(BuildContext context) {
     log('------payRate--${widget.payRate}------');
-    final size = MediaQuery.of(context).size;
-    fromDateController.text = widget.payRate.fromDate??'';
-    toDateController.text = widget.payRate.toDate??'';
+    fromDateController.text = widget.payRate.fromDate ?? '';
+    toDateController.text = widget.payRate.toDate ?? '';
     return AlertDialog(
       title: Align(
         alignment: Alignment.center,
@@ -126,12 +122,12 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                         if (value.isNotEmpty && widget.payRate.total != null) {
                           widget.payRate.days = double.parse(value);
 
-
                           perHourController.text = ((widget.payRate.total)! /
                                   (widget.payRate.days as num))
                               .toString();
 
-                          widget.payRate.perHour = double.parse(perHourController.text);
+                          widget.payRate.perHour =
+                              double.parse(perHourController.text);
                           BlocProvider.of<PayRateCubit>(widget.mainContext)
                               .onModelValueChange(widget.payRate);
                         }
@@ -169,25 +165,16 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                     ),
                     CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                    datePickerWidgetLoading(
-                      textfiled: fromDateController,
+                    BaseDate().datePickerWidgetLoading(
+                      textController: fromDateController,
                       onChange: (String value) {
                         log('--fr-value-${fromDateController.text}------');
                         widget.payRate.fromDate = value;
                         BlocProvider.of<PayRateCubit>(widget.mainContext)
                             .onModelValueChange(widget.payRate);
                       },
+                      context: widget.mainContext,
                     ),
-                    // FlutterInputField(
-                    //   initialValue: widget.payRate.fromDate??'',
-                    //   textFormKey: Keys.fromDate,
-                    //   hintText: '',
-                    //   onChange: (String value) {
-                    //     widget.payRate.fromDate = value;
-                    //     BlocProvider.of<PayRateCubit>(widget.mainContext).onModelValueChange(widget.payRate);
-                    //   },
-                    //   validateTextField: (String? user) {},
-                    // ),
                     CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                     /// To Date
@@ -197,25 +184,15 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                     ),
                     CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                    datePickerWidgetLoading(
-                      textfiled: toDateController,
+                    BaseDate().datePickerWidgetLoading(
+                      textController: toDateController,
                       onChange: (String value) {
                         widget.payRate.toDate = value;
                         BlocProvider.of<PayRateCubit>(widget.mainContext)
                             .onModelValueChange(widget.payRate);
                       },
+                      context: widget.mainContext,
                     ),
-                    // FlutterInputField(
-                    //   initialValue: widget.payRate.toDate??'',
-                    //   textFormKey: Keys.toDateKey,
-                    //   hintText: '',
-                    //   onChange: (String value) {
-                    //     widget.payRate.toDate = value;
-                    //     BlocProvider.of<PayRateCubit>(widget.mainContext).onModelValueChange(widget.payRate);
-                    //   },
-                    //   validateTextField: (String? user) {},
-                    // ),
-                    // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                     /// To Comment
                     CommonWidgets.textDisplay(
@@ -250,125 +227,6 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
       }),
     );
   }
-
-  // Widget datepickerWidgetLoading({
-  //   required TextEditingController textfiled,
-  //   bool isDisabled = false,
-  //   required Function onChange,
-  // }) {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       if (!isDisabled) {
-  //         datePickerDialog(textfiled);
-  //       }
-  //     },
-  //     child: FlutterInputField(
-  //       textFieldController: textfiled,
-  //       textFormKey: textfiled == textfiled
-  //           ? Keys.founddateTextController
-  //           : Keys.handedoverdateTextController,
-  //       hintText: '',
-  //       isEnable: !isDisabled,
-  //       isDisableColor: isDisabled,
-  //       onChange: onChange,
-  //       validateTextField: (String? user) {},
-  //       suffixWidget: GestureDetector(
-  //         onTap: () async {
-  //           if (textfiled.text.isEmpty) {
-  //             textfiled.text = await datePickerDialog(textfiled);
-  //             log('--textfiled.text-${textfiled.text}------');
-  //             // state.materialMovement.tak
-  //           }
-  //         },
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(20.0),
-  //           child: SvgPicture.asset(
-  //             AppIcon.calendaricon,
-  //             color: AppColors.textgreyThemecolor,
-  //             width: 20,
-  //             key: const Key(Keys.userIcon),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  Widget datePickerWidgetLoading({
-    required TextEditingController textfiled,
-    bool isDisabled = false,
-    required Function(String) onChange, // Updated the parameter type to accept a String
-  }) {
-    return GestureDetector(
-      onTap: () {
-        if (!isDisabled) {
-          datePickerDialog(textfiled, onChange);
-        }
-      },
-      child: FlutterInputField(
-        textFieldController: textfiled,
-        textFormKey: textfiled == textfiled
-            ? Keys.founddateTextController
-            : Keys.handedoverdateTextController,
-        hintText: '',
-        isEnable: !isDisabled,
-        isDisableColor: isDisabled,
-        onChange: onChange, // Pass the onChange callback to FlutterInputField
-        validateTextField: (String? user) {},
-        suffixWidget: GestureDetector(
-          onTap: () async {
-            if (textfiled.text.isEmpty) {
-              textfiled.text = await datePickerDialog(textfiled, onChange);
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SvgPicture.asset(
-              AppIcon.calendaricon,
-              color: AppColors.textgreyThemecolor,
-              width: 20,
-              key: const Key(Keys.userIcon),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<String> datePickerDialog(
-      TextEditingController textfield,
-      Function(String) onChange, // Updated the parameter type to accept a String
-      ) async {
-    DateTime? pickedDate = await showDateTimePicker(
-      context: widget.mainContext,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-
-    String formattedDate = DateFormat(Constants.fulldateFormat)
-        .format(pickedDate ?? DateTime.now());
-
-    textfield.text = formattedDate; // Update the text field value
-    onChange(formattedDate); // Call the onChange callback with the selected date
-    return formattedDate;
-  }
-
-
-  // Future<String> datePickerDialog(TextEditingController textfield) async {
-  //   DateTime? pickedDate = await showDateTimePicker(
-  //     context: widget.mainContext,
-  //     initialDate: DateTime.now(),
-  //     firstDate: DateTime(2000),
-  //     lastDate: DateTime(2101),
-  //   );
-  //
-  //   String formattedDate = DateFormat(Constants.fulldateFormat)
-  //       .format(pickedDate ?? DateTime.now());
-  //
-  //   log('--formattedDate-$formattedDate------');
-  //   return formattedDate;
-  // }
 
   Widget buttonViews(BuildContext context, double width) {
     return Container(
@@ -419,10 +277,6 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
       onTap: () {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
-
-        log('--total-tap-${widget.payRate.total}------');
-        log('--fr-tap-${widget.payRate.fromDate}------');
-        log('--fr-controller tap-${fromDateController.text}------');
 
         BlocProvider.of<PayRateCubit>(widget.mainContext)
             .onSave(isSubmit: false, newPayRate: widget.payRate);

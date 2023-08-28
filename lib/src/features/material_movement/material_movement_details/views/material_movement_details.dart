@@ -24,19 +24,19 @@ import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
+import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/util.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
-import '../../../../common_widgets/date_time_picker.dart';
+import '../../../../common_widgets/base_widget/date_picker_dialog.dart';
 import '../../../../models/base_user.dart';
 import '../../../../models/department.dart';
 import '../../../../models/entry_security.dart';
+import '../../../../utils/customalert.dart';
 
 class MaterialMovementDetails extends StatefulWidget {
   final MaterialMovementModel? materialMovement;
@@ -80,8 +80,26 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
         MaterialMovementDetailsState>(
       listener: (context, state) {
         if (state.status == FormStatus.success) {
-          Utils.dynamicAlert(
-              context, state.message ?? '', 'Material Movement', '');
+          var dialog = CustomAlertDialog(
+            title: 'Material Movement',
+            message: state.message ?? '',
+            positiveBtnText: Constants.ok,
+            onPostivePressed: () {
+              // TODO: Need to improve this code
+              Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.popAndPushNamed(
+                  context, materialMovementInwardsOutwardsRoute,
+                  arguments: {"isInward": widget.isInward});
+            },
+          );
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) => dialog);
+
+          // Utils.dynamicAlert(
+          //     context, state.message ?? '', 'Material Movement', '');
         }
         if (state.status == FormStatus.error) {
           Validator().showToast(
@@ -125,7 +143,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
       log('---getFiles----builder----${getFiles?.length}-----');
     }
 
-    if (state.materialMovement.status == 2) {
+    if (state.materialMovement.status == 1) {
       isDisabled = false;
     }
     return Container(
@@ -351,7 +369,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 SizedBox(
                                   width: 250,
                                   child: FlutterInputField(
-                                    keyboardType: const TextInputType.numberWithOptions(
+                                    keyboardType:
+                                        const TextInputType.numberWithOptions(
                                       decimal: true,
                                     ),
                                     initialValue:
@@ -948,19 +967,20 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       Styles.textStyleBlack14),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
-                                  datepickerWidgetLoading(
-                                    textfiled: expectedDateOfReturnController,
-                                    isDisabled: isDisabled,
-                                    onChange: (String value) {
-                                      state.materialMovement
-                                          .expectedDateOfReturn = value;
-                                      BlocProvider.of<
-                                                  MaterialMovementDetailsCubit>(
-                                              context)
-                                          .onModelValueChange(
-                                              state.materialMovement);
-                                    },
-                                  ),
+                                  BaseDate().datePickerWidgetLoading(
+                                      textController:
+                                          expectedDateOfReturnController,
+                                      onChange: (String value) {
+                                        log('--expectedDateOfReturnController-value-${expectedDateOfReturnController.text}------');
+                                        widget.materialMovement
+                                            ?.expectedDateOfReturn = value;
+                                        BlocProvider.of<
+                                                    MaterialMovementDetailsCubit>(
+                                                context)
+                                            .onModelValueChange(
+                                                state.materialMovement);
+                                      },
+                                      context: context),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
                                 ],
@@ -1080,17 +1100,18 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
 
-                                  datepickerWidgetLoading(
-                                    textfiled: takenOutOnDateController,
-                                    onChange: (String value) {
-                                      state.materialMovement.takenOutOn = value;
-                                      BlocProvider.of<
-                                                  MaterialMovementDetailsCubit>(
-                                              context)
-                                          .onModelValueChange(
-                                              state.materialMovement);
-                                    },
-                                  ),
+                                  BaseDate().datePickerWidgetLoading(
+                                      textController: takenOutOnDateController,
+                                      onChange: (String value) {
+                                        state.materialMovement.takenOutOn =
+                                            value;
+                                        BlocProvider.of<
+                                                    MaterialMovementDetailsCubit>(
+                                                context)
+                                            .onModelValueChange(
+                                                state.materialMovement);
+                                      },
+                                      context: context),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
                                 ]
@@ -1641,62 +1662,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
         });
   }
 
-  Widget datepickerWidgetLoading({
-    required TextEditingController textfiled,
-    bool isDisabled = false,
-    required Function onChange,
-  }) {
-    return GestureDetector(
-      onTap: () {
-        if (!isDisabled) {
-          datePickerDialog(textfiled);
-        }
-      },
-      child: FlutterInputField(
-        textFieldController: textfiled,
-        textFormKey: textfiled == textfiled
-            ? Keys.founddateTextController
-            : Keys.handedoverdateTextController,
-        hintText: '',
-        isEnable: !isDisabled,
-        isDisableColor: isDisabled,
-        onChange: onChange,
-        validateTextField: (String? user) {},
-        suffixWidget: GestureDetector(
-          onTap: () async {
-            if (textfiled.text.isEmpty) {
-              datePickerDialog(textfiled);
-              // state.materialMovement.tak
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SvgPicture.asset(
-              AppIcon.calendaricon,
-              color: AppColors.textgreyThemecolor,
-              width: 20,
-              key: const Key(Keys.userIcon),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  datePickerDialog(TextEditingController textfield) async {
-    DateTime? pickedDate = await showDateTimePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2101));
-
-    String formattedDate = DateFormat(Constants.fulldateFormat)
-        .format(pickedDate ?? DateTime.now());
-    //you can implement different kind of Date Format here according to your requirement
-    takenOutOnDateController.text = formattedDate;
-    setState(() {});
-  }
-
   Widget cancelButtonDisplay() {
     return AppButton(
       // Customize the button properties as needed
@@ -1794,8 +1759,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   }
 
   Widget getSpaceattchment(double height) {
-    log('---getAttachments--------${getAttachments?.length}-----');
-
     return getAttachments != null ||
             getFiles != null ||
             getFiles?.length != 0 ||
@@ -1805,8 +1768,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   }
 
   Widget getAttachement(MaterialMovementDetailsState state, double height) {
-    log('---getAttachments----aaa----${getAttachments?.length}-----');
-
     return (state.loadAttachments == null ||
             state.loadAttachments!.isEmpty ||
             widget.materialMovement == null)
@@ -1928,7 +1889,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                 const Divider(
                   color: Color(0xFFCACACA),
                   thickness: 1,
-                ), //                           <-- Divider
+                ), //
               ],
             );
           }),
