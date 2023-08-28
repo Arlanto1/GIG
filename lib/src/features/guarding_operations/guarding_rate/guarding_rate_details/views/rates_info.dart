@@ -29,12 +29,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../common_widgets/base_widget/multiple_selection_pop_up.dart';
-import '../../../../../common_widgets/create_fields.dart';
+
 // import '../../../../../common_widgets/custom_multiple_selection_popup.dart';
 import '../../../../../common_widgets/date_time_picker.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
-import '../../../../lawenforcement/models/addentities.dart';
 
 class RatesInfo extends StatefulWidget {
   final GMRate? rate;
@@ -224,7 +223,11 @@ class _RatesInfoState extends State<RatesInfo> {
                                 //   child: const Text('Select Entities'),
                                 // ),
 
-                                entityaddButtonwidgetLoading(context, state, state.rate.entities??[], state.listOfEntities??[]),
+                                entityaddButtonwidgetLoading(
+                                    context,
+                                    state,
+                                    state.rate.entities ?? [],
+                                    state.listOfEntities ?? []),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -288,8 +291,7 @@ class _RatesInfoState extends State<RatesInfo> {
                                     arguments: {
                                       "payRates": state.rate.securityGuardRates,
                                       "gmRate": state.rate,
-                                      "title":
-                                          Constants.createSecurityGuard,
+                                      "title": Constants.createSecurityGuard,
                                     },
                                   );
                                 }),
@@ -305,13 +307,17 @@ class _RatesInfoState extends State<RatesInfo> {
         )); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-  Widget entityaddButtonwidgetLoading(BuildContext context, PayRateState state, List<Entity> selectedValues, List<Entity> all) {
+  Widget entityaddButtonwidgetLoading(
+    BuildContext context,
+    PayRateState state,
+    List<Entity> selectedValues,
+    List<Entity> all,
+  ) {
     String title = '';
     if (selectedValues.isNotEmpty) {
       for (int i = 0; i < selectedValues.length; i++) {
         Entity entity = selectedValues[i];
         log('-entities--name-${entity.name}--');
-
 
         String value = entity.name ?? '';
         title = '$title  $value';
@@ -329,7 +335,7 @@ class _RatesInfoState extends State<RatesInfo> {
         log('--list-${selectedValues.length}-');
 
         // if ((selectedValues != null && (title.isEmpty))) {
-          log('----');
+        log('----');
         _showEntitySelectionDialog(context, state);
         // }
       },
@@ -341,12 +347,14 @@ class _RatesInfoState extends State<RatesInfo> {
       context: context,
       builder: (BuildContext dialogContext) {
         return CustomMultipleSelectionListTexts(
-          duplicateEntityList: state.listOfEntities??[],
-          mainSelectedEntityList: state.rate.entities??[], // Pass initially selected entities here
+          duplicateEntityList: state.listOfEntities ?? [],
+          mainSelectedEntityList: state.rate.entities ?? [],
+          // Pass initially selected entities here
           onTap: (List<Entity> selectedEntities) {
             // This callback is called when the user confirms the selection
             // Do something with selectedEntities
-            print('Selected Entities: ${selectedEntities.map((e) => e.name).toList()}');
+            print(
+                'Selected Entities: ${selectedEntities.map((e) => e.name).toList()}');
             Navigator.of(context).pop(); // Close the dialog
           },
           leftImageName: 'left_arrow_icon.png', // Provide your left button icon

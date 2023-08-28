@@ -10,8 +10,8 @@ class Entity {
   });
 
   factory Entity.fromJson(Map<String, dynamic> json) => Entity(
-        id: json["Id"],
-        name: json["Name"],
+        id: json["Id"]??json["id"],
+        name: json["Name"]??json["name"],
       );
 
   Map<String, dynamic> toJson() => {

@@ -14,7 +14,8 @@ class CustomMultipleSelectionListTexts extends StatefulWidget {
   final Function? onLeftButtonTap;
   final String? leftImageName;
 
-  CustomMultipleSelectionListTexts({
+  const CustomMultipleSelectionListTexts({
+    super.key,
     required this.duplicateEntityList,
     required this.onTap,
     required this.mainSelectedEntityList,
@@ -48,7 +49,7 @@ class CustomMultipleSelectionListTextsState
   void _initializeSelection() {
     for (final selectedEntity in widget.mainSelectedEntityList) {
       final index =
-      entityList.indexWhere((entity) => entity.id == selectedEntity.id);
+          entityList.indexWhere((entity) => entity.id == selectedEntity.id);
       if (index != -1) {
         entityList[index].isSelected = true;
       }
@@ -114,7 +115,7 @@ class CustomMultipleSelectionListTextsState
     setState(() {
       entityList = widget.duplicateEntityList
           .where((entity) =>
-          entity.name!.toLowerCase().contains(text.toLowerCase()))
+              entity.name!.toLowerCase().contains(text.toLowerCase()))
           .toList();
     });
   }
@@ -128,8 +129,10 @@ class CustomMultipleSelectionListTextsState
 
           log('-name--${entity.name}-------');
           return ListTile(
-            title: Text(entity.name??'DISPL'),
+            title: Text(entity.name ?? ''),
             leading: Checkbox(
+              checkColor: AppColors.white,
+              activeColor: AppColors.navigationSkybluecolor,
               value: entity.isSelected,
               onChanged: (value) {
                 setState(() {
