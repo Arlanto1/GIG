@@ -128,6 +128,7 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                                 dutyType: state.list[selectedIndex].dutyType,
                                 maritalStatus:
                                     state.list[selectedIndex].maritalStatus,
+                                locationRegion: state.list[selectedIndex].locationRegion,
                                 //isMasterGuard:true,
                                 // status: state.list[selectedIndex].status,
                                 //locationRegion: state.list[selectedIndex].locationRegion,
