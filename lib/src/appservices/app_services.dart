@@ -11,6 +11,7 @@ import 'package:db_atom/src/utils/customalert.dart';
 import 'package:db_atom/src/utils/generate_token/generate_token_service.dart';
 import 'package:db_atom/src/utils/refresh_token/refresh_token_service.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
+import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:db_atom/src/utils/network_handler.dart' as network_handler;
@@ -55,8 +56,7 @@ class AppServices {
           if (refreshToken == 200) {
             counterValue = counterValue + 1;
             if (counterValue > 2) {
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil(loginScreenRoute, (route) => false);
+              Validator.logoutAction(context);
               return;
             }
             get(url, context);
@@ -66,15 +66,13 @@ class AppServices {
             if (generateToken == 200) {
               counterValue = counterValue + 1;
               if (counterValue > 2) {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    loginScreenRoute, (route) => false);
+                Validator.logoutAction(context);
                 return;
               }
               get(url, context);
               return generateToken;
             } else {
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil(loginScreenRoute, (route) => false);
+              Validator.logoutAction(context);
               return generateToken;
             }
           }
@@ -156,8 +154,7 @@ class AppServices {
           if (refreshToken == 200) {
             counterValue = counterValue + 1;
             if (counterValue > 2) {
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil(loginScreenRoute, (route) => false);
+             Validator.logoutAction(context);
               return;
             }
             post(url, context,body);
@@ -167,15 +164,13 @@ class AppServices {
             if (generateToken == 200) {
               counterValue = counterValue + 1;
               if (counterValue > 2) {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    loginScreenRoute, (route) => false);
+                Validator.logoutAction(context);
                 return;
               }
              post(url, context,body);
               return generateToken;
             } else {
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil(loginScreenRoute, (route) => false);
+              Validator.logoutAction(context);
               return generateToken;
             }
           }
