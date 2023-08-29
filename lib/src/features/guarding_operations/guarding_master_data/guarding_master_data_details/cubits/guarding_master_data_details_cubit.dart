@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../createfound/models/serial_number_model.dart';
+import '../../../../material_movement/models/material_movements_model.dart';
 import '../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import '../../models/guarding_master_data_model.dart';
 import '../../services/guarding_master_data_services.dart';

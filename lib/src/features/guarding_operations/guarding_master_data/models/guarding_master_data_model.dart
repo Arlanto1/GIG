@@ -1,3 +1,5 @@
+import '../../../material_movement/models/material_movements_model.dart';
+
 class GuardingMasterDataModel {
   List<GuardingMastersDataModel>? data;
   int? totalCount;
