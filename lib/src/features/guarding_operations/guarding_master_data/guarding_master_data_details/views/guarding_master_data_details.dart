@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../main_DEV.dart';
 import '../../../../../common_widgets/app_button.dart';
 import '../../../../../common_widgets/base_widget/base_app_bar.dart';
+import '../../../../../common_widgets/base_widget/date_picker_dialog.dart';
 import '../../../../../common_widgets/base_widget/selected_tile_value_widget.dart';
 import '../../../../../common_widgets/basic_reusable_widgets.dart';
 import '../../../../../common_widgets/custom_list_expansion_pop_up.dart';
@@ -24,7 +25,6 @@ import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_locations_model.dart';
 import '../../../../createfound/models/get_user_model.dart';
 import '../../../../createfound/views/upload_attachment.dart';
-import '../../../../material_movement/models/material_movements_model.dart';
 import '../../models/guarding_master_data_model.dart';
 import '../cubits/guarding_master_data_details_cubit.dart';
 
@@ -53,6 +53,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   TextEditingController expectedDateOfReturnController =
       TextEditingController();
   bool isDisabled = true;
+
 
   @override
   void initState() {
@@ -269,7 +270,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             /// upload
                             widget.guardingMasterData == null
                                 ? CommonWidgets.textDisplay(
-                                    Constants.upload, Styles.textStyleBlack14)
+                                    Constants.uploadPhoto, Styles.textStyleBlack14)
                                 : Container(),
                             widget.guardingMasterData == null
                                 ? CommonWidgets.verticalSpacerWidget(
@@ -326,25 +327,25 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             FlutterInputField(
                               keyboardType: TextInputType.number,
                               initialValue:
-                                  state.guardingMasterData.guardingPoc,
+                                  state.guardingMasterData.employeeCode,
                               textFormKey: Keys.poNumberKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
                                   ? true
                                   : (widget.guardingMasterData != null &&
                                           (widget.guardingMasterData
-                                                  ?.guardingPoc ==
+                                                  ?.employeeCode ==
                                               null))
                                       ? false
                                       : true,
                               isDisableColor: (widget.guardingMasterData !=
                                           null &&
-                                      (widget.guardingMasterData?.guardingPoc !=
+                                      (widget.guardingMasterData?.employeeCode !=
                                           null))
                                   ? true
                                   : false,
                               onChange: (String value) {
-                                state.guardingMasterData.guardingPoc = value;
+                                state.guardingMasterData.employeeCode = value;
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
                                     .onModelValueChange(
@@ -353,6 +354,174 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.04),
+
+                        /// DB Employee ID
+                        CommonWidgets.textDisplay(
+                            Constants.dbEmployeeId,
+                            Styles.textStyleBlack14),
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        FlutterInputField(
+                          keyboardType: TextInputType.number,
+                          initialValue:
+                          state.guardingMasterData.guardingPoc,
+                          textFormKey: Keys.poNumberKey,
+                          hintText: '',
+                          isEnable: widget.guardingMasterData == null
+                              ? true
+                              : (widget.guardingMasterData != null &&
+                              (widget.guardingMasterData
+                                  ?.dbEmployeeId ==
+                                  null))
+                              ? false
+                              : true,
+                          isDisableColor: (widget.guardingMasterData !=
+                              null &&
+                              (widget.guardingMasterData?.dbEmployeeId !=
+                                  null))
+                              ? true
+                              : false,
+                          onChange: (String value) {
+                            state.guardingMasterData.dbEmployeeId = value;
+                            context
+                                .read<GuardingMasterDataDetailsCubit>()
+                                .onModelValueChange(
+                                state.guardingMasterData);
+                          },
+                          validateTextField: (String? user) {},
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.04),
+
+                            /// Contact Num
+                            CommonWidgets.textDisplay(
+                                Constants.mobileNum,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              keyboardType: TextInputType.number,
+                              initialValue:
+                              state.guardingMasterData.contactNo,
+                              textFormKey: Keys.poNumberKey,
+                              hintText: '',
+                              isEnable: widget.guardingMasterData == null
+                                  ? true
+                                  : (widget.guardingMasterData != null &&
+                                  (widget.guardingMasterData
+                                      ?.contactNo ==
+                                      null))
+                                  ? false
+                                  : true,
+                              isDisableColor: (widget.guardingMasterData !=
+                                  null &&
+                                  (widget.guardingMasterData?.contactNo !=
+                                      null))
+                                  ? true
+                                  : false,
+                              onChange: (String value) {
+                                state.guardingMasterData.contactNo = value;
+                                context
+                                    .read<GuardingMasterDataDetailsCubit>()
+                                    .onModelValueChange(
+                                    state.guardingMasterData);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.04),
+
+                            /// Expected Date Of Return
+                            CommonWidgets.textDisplay(
+                                Constants.dateOfBirth,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.001),
+                            BaseDate().datePickerWidgetLoading(
+                                textController:
+                                expectedDateOfReturnController,
+                                onChange: (String value) {
+                                  widget.guardingMasterData
+                                      ?.inputDate = value;
+                                  BlocProvider.of<
+                                      GuardingMasterDataDetailsCubit>(
+                                      context)
+                                      .onModelValueChange(
+                                      state.guardingMasterData);
+                                },
+                                context: context),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.01),
+
+                            /// ESIC No
+                            CommonWidgets.textDisplay(
+                                Constants.esicNo,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              keyboardType: TextInputType.number,
+                              initialValue:
+                              state.guardingMasterData.esicNo,
+                              textFormKey: Keys.poNumberKey,
+                              hintText: '',
+                              isEnable: widget.guardingMasterData == null
+                                  ? true
+                                  : (widget.guardingMasterData != null &&
+                                  (widget.guardingMasterData
+                                      ?.esicNo ==
+                                      null))
+                                  ? false
+                                  : true,
+                              isDisableColor: (widget.guardingMasterData !=
+                                  null &&
+                                  (widget.guardingMasterData?.esicNo !=
+                                      null))
+                                  ? true
+                                  : false,
+                              onChange: (String value) {
+                                state.guardingMasterData.esicNo = value;
+                                context
+                                    .read<GuardingMasterDataDetailsCubit>()
+                                    .onModelValueChange(
+                                    state.guardingMasterData);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.04),
+
+                            /// UAN  No
+                            CommonWidgets.textDisplay(
+                                Constants.uanNo,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              keyboardType: TextInputType.number,
+                              initialValue:
+                              state.guardingMasterData.uanNo,
+                              textFormKey: Keys.poNumberKey,
+                              hintText: '',
+                              isEnable: widget.guardingMasterData == null
+                                  ? true
+                                  : (widget.guardingMasterData != null &&
+                                  (widget.guardingMasterData
+                                      ?.uanNo ==
+                                      null))
+                                  ? false
+                                  : true,
+                              isDisableColor: (widget.guardingMasterData !=
+                                  null &&
+                                  (widget.guardingMasterData?.uanNo !=
+                                      null))
+                                  ? true
+                                  : false,
+                              onChange: (String value) {
+                                state.guardingMasterData.uanNo = value;
+                                context
+                                    .read<GuardingMasterDataDetailsCubit>()
+                                    .onModelValueChange(
+                                    state.guardingMasterData);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.04),
+
+
                           ]),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),

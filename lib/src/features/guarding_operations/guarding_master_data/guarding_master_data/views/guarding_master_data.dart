@@ -1,3 +1,4 @@
+
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
@@ -94,24 +95,13 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                   ? state.list.length
                   : state.list.length + 1,
               itemBuilder: (context, index) {
-                List<Label> labels = [];
-                labels.add(Label(
-                    key: 'Region',
-                    value: state.list[index].locationRegion.toString()));
-                labels.add(Label(
-                    key: 'Building Location',
-                    value: state.list[index].location.toString()));
-                labels.add(Label(
-                    key: 'Physically Fit?',
-                    value: state.list[index].physicallyFit.toString()));
-
                 return index >= state.list.length
                     ? const Center(
                         child: CustomCircularProgressIndicator(),
                       )
                     : BaseListTileItem(
                         id: state.list[index].id,
-                        //locationRegion: state.list[index].locationRegion,
+                        guardRank: state.list[index].guardRank,
                         inputDate: state.list[index].inputDate,
                         dutyType: state.list[index].dutyType,
                         status: state.list[index].status,
@@ -122,17 +112,16 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                             builder: (BuildContext dialogContext) {
                               return BasePopUpItems(
                                 id: state.list[selectedIndex].id.toString(),
-                                labels: labels,
+                                slNo: state.list[selectedIndex].slNo,
                                 guardRank: state.list[selectedIndex].guardRank,
                                 gender: state.list[selectedIndex].gender,
                                 dutyType: state.list[selectedIndex].dutyType,
                                 maritalStatus:
                                     state.list[selectedIndex].maritalStatus,
                                 locationRegion: state.list[selectedIndex].locationRegion,
-                                //isMasterGuard:true,
-                                // status: state.list[selectedIndex].status,
-                                //locationRegion: state.list[selectedIndex].locationRegion,
-                                // location: state.list[selectedIndex].location,
+                                isMaterGuard:true,
+                                 status: state.list[selectedIndex].status,
+                                location: state.list[selectedIndex].location,
                               );
                             },
                           );
@@ -147,13 +136,16 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                             builder: (BuildContext dialogContext) {
                               return BasePopUpItems(
                                 id: state.list[selectedIndex].id.toString(),
-                                labels: labels,
-                                //locationRegionStr: state.list[selectedIndex].locationRegion,
-                                //location: state.list[selectedIndex].location,
+                                slNo: state.list[selectedIndex].slNo,
+                                locationRegion: state.list[selectedIndex].locationRegion,
+                                location: state.list[selectedIndex].location,
+                                maritalStatus:
+                                state.list[selectedIndex].maritalStatus,
                                 guardRank: state.list[selectedIndex].guardRank,
                                 gender: state.list[selectedIndex].gender,
                                 dutyType: state.list[selectedIndex].dutyType,
-                                //status: state.list[selectedIndex].status,
+                                isMaterGuard:true,
+                                status: state.list[selectedIndex].status,
                               );
                             },
                           );

@@ -12,7 +12,6 @@ enum FormStatus {
 
 class GuardingMasterDataDetailsState extends Equatable {
   final FormStatus status;
-
   final GuardingMastersDataModel guardingMasterData;
   final GetLocations? locations;
   final EntrySecurity? loggedInUserDetails;
@@ -44,14 +43,14 @@ class GuardingMasterDataDetailsState extends Equatable {
         eventId: eventId);
   }
 
-  /*ErrorResponse get isValid {
+  ErrorResponse get isValid {
     if (guardingMasterData.location == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
-  }*/
+  }
 
   @override
   List<Object?> get props => [guardingMasterData, status];
