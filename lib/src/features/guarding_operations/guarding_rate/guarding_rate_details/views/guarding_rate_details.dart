@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/configurations/main_config.dart';
@@ -8,7 +10,11 @@ import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../common_widgets/app_button.dart';
 import '../../../../../routing/router.dart';
+import '../../../../../utils/helpers/keys/keys.dart';
+import '../../../../../utils/validators/validator.dart';
+import '../../../../material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import '../pay_rates/cubits/pay_rate_cubit.dart';
 
 class GuardingRateDetails extends StatefulWidget {
@@ -32,7 +38,9 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery
+        .of(context)
+        .size;
     final height = size.height;
     return Scaffold(
       key: scaffoldKey,
@@ -43,45 +51,70 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
         showPopUp: false,
         showSaveButton: false,
       ),
-      body: BlocBuilder<PayRateCubit, PayRateState>(
-        builder: (context, state) {
-          return Container(
-            color: AppColors.navigationSkybluecolor,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(20.0),
-                      decoration: const ShapeDecoration(
-                          color: AppColors.backgroundWhitecolor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(20.0)),
-                          )),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            Constants.guardingOfficialRatingCards,
-                            style: Styles.styleHeaderGreyText16,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.02),
-                          // GuardingRectangle(rate: widget.rate),
+      body: BlocConsumer<PayRateCubit, PayRateState>(
+        listener: (context, state) {
+          if (state.status == FormStatus.error) {
+            log('--if-ssss--${state.status}-----');
 
-                          buildTwoColumnLayout(),
-                        ],
-                      ),
+
+            Validator().showToast(
+              context,
+              state.message ?? 'Invalid Information',
+            );
+          }
+        },
+        builder: (context, state) {
+
+              return Container(
+                color: AppColors.navigationSkybluecolor,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(20.0),
+                          decoration: const ShapeDecoration(
+                              color: AppColors.backgroundWhitecolor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20.0)),
+                              )),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                Constants.guardingOfficialRatingCards,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              // GuardingRectangle(rate: widget.rate),
+
+                              buildTwoColumnLayout(),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          );
+              );
         },
       ),
+    );
+  }
+
+  Widget submitButtonDisplay() {
+    return AppButton(
+      width: 150,
+      key: const Key(Keys.submitButton),
+      buttonText: Constants.submit,
+      buttonTextKey: Keys.submitButton,
+      onTap: () async {
+        FocusScope.of(context).unfocus();
+        BlocProvider.of<PayRateCubit>(context).onSave(isSubmit: true);
+      },
     );
   }
 
@@ -191,6 +224,10 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
             ),
           ],
         ),
+        const SizedBox(height: 30), // Add some spacing between the boxes
+        Center(
+          child: submitButtonDisplay(),
+        ),
       ],
     );
   }
@@ -200,7 +237,9 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
     required String text,
     required double bottomPadding,
   }) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery
+        .of(context)
+        .size;
 
     return Container(
       width: size.width * 0.42,

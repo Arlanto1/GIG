@@ -9,7 +9,7 @@ class PayRateState extends Equatable {
   final EntrySecurity? loggedInUserDetails;
   final GetLocations? locations;
   final List<Department> departments;
-  final List<Entity>?  listOfEntities;
+  final List<Entity>? listOfEntities;
   final AddEntities? getEntitiesResponse;
   final int? eventId;
 
@@ -75,5 +75,38 @@ class PayRateState extends Equatable {
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       eventId: eventId ?? this.eventId,
     );
+  }
+
+  ErrorResponse get isValid {
+    if (rate.entities == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Guarding Rating Information.');
+    }
+    if (rate.securityGuardRates == null || rate.securityGuardRates!.isEmpty) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Security Guard Rates');
+    }
+
+    if (rate.securitySupervisorRates == null ||
+        rate.securitySupervisorRates!.isEmpty) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Security Supervisor Rates');
+    }
+    if (rate.securityOfficerRates == null ||
+        rate.securityOfficerRates!.isEmpty) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Security Officer Rates');
+    }
+    if (rate.securityFacilitatorRates == null ||
+        rate.securityFacilitatorRates!.isEmpty) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Security Facilitator Rates');
+    }
+    if (rate.securityGunManRates == null || rate.securityGunManRates!.isEmpty) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Security Gun Man Rates');
+    }
+
+    return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }
