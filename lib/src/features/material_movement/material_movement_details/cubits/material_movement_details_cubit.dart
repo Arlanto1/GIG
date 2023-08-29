@@ -20,6 +20,7 @@ import '../../../../constants/constants.dart';
 import '../../../../models/base_user.dart';
 import '../../../../models/department.dart';
 import '../../../../models/entry_security.dart';
+import '../../../../models/location.dart';
 import '../../../createfound/models/emplyee_departments_model.dart';
 import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 

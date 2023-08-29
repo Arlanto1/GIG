@@ -13,6 +13,7 @@ import '../../../../../../constants/constants.dart';
 import '../../../../../../models/department.dart';
 import '../../../../../../models/entity.dart';
 import '../../../../../../models/entry_security.dart';
+import '../../../../../../models/location.dart';
 import '../../../../../../utils/shared_preferences.dart';
 import '../../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../../createfound/models/get_locations_model.dart';

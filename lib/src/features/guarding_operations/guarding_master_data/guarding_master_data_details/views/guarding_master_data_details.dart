@@ -12,6 +12,7 @@ import '../../../../../common_widgets/image_download.dart';
 import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../constants/app_icon.dart';
 import '../../../../../constants/constants.dart';
+import '../../../../../models/location.dart';
 import '../../../../../routing/router.dart';
 import '../../../../../utils/app_themes/colors/app_color.dart';
 import '../../../../../utils/app_themes/styles/app_styles.dart';

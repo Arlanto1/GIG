@@ -7,7 +7,8 @@ import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../features/material_movement/models/material_movements_model.dart';
+import '../../models/location.dart';
+import '../../models/location_region.dart';
 
 class BaseListTileItem extends StatefulWidget {
   final int? id;

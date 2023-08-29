@@ -5,7 +5,8 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 
-import '../../features/material_movement/models/material_movements_model.dart';
+import '../../models/location.dart';
+import '../../models/location_region.dart';
 import 'base_list_tile_item.dart';
 
 class BasePopUpItems extends StatefulWidget {

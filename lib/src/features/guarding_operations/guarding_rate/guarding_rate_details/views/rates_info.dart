@@ -26,6 +26,7 @@ import '../../../../../common_widgets/create_fields.dart';
 import '../../../../../constants/app_icon.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
+import '../../../../../models/location.dart';
 import '../../../../../routing/router.dart';
 import '../../../../../utils/app_themes/styles/app_styles.dart';
 

@@ -2,6 +2,8 @@ import 'package:db_atom/src/features/material_movement/models/quantity_units.dar
 
 import '../../../models/department.dart';
 import '../../../models/entry_security.dart';
+import '../../../models/location.dart';
+import '../../../models/location_region.dart';
 
 class MaterialMovementsModel {
   List<MaterialMovementModel>? items;
@@ -312,22 +314,6 @@ class MaterialMovementModel {
       };
 }
 
-class Location {
-  int? id;
-  String? name;
-
-  Location({
-    this.id,
-    this.name,
-  });
-
-  Location.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        name = json['name'] as String?;
-
-  Map<String, dynamic> toJson() => {'id': id, 'name': name};
-}
-
 class Image {
   final String? contentType;
   final String? title;
@@ -353,22 +339,6 @@ class Image {
         'fileSize': fileSize,
         'imageContent': imageContent
       };
-}
-
-class LocationRegion {
-  int? id;
-  String? name;
-
-  LocationRegion({
-    this.id,
-    this.name,
-  });
-
-  LocationRegion.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        name = json['name'] as String?;
-
-  Map<String, dynamic> toJson() => {'id': id, 'name': name};
 }
 
 class Roles {

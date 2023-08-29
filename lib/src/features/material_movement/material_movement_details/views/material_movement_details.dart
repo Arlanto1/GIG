@@ -36,6 +36,7 @@ import '../../../../common_widgets/base_widget/date_picker_dialog.dart';
 import '../../../../models/base_user.dart';
 import '../../../../models/department.dart';
 import '../../../../models/entry_security.dart';
+import '../../../../models/location.dart';
 import '../../../../utils/customalert.dart';
 
 class MaterialMovementDetails extends StatefulWidget {
