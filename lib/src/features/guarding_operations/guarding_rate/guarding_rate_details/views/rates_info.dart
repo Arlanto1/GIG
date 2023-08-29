@@ -7,12 +7,9 @@ import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
-import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -48,15 +45,10 @@ class RatesInfo extends StatefulWidget {
 
 class _RatesInfoState extends State<RatesInfo> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String receiverDepartmentName = '';
   TextEditingController returnableTextController = TextEditingController();
-  GetUserDetails? userDetails;
-  List<CreateImage>? getFiles;
-  List<FoundImage>? getAttachments;
   TextEditingController takenOutOnDateController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
       TextEditingController();
-  bool isDisabled = true;
 
   @override
   void initState() {
@@ -286,11 +278,14 @@ class _RatesInfoState extends State<RatesInfo> {
     if (selectedValues.isNotEmpty) {
       for (int i = 0; i < selectedValues.length; i++) {
         Entity entity = selectedValues[i];
+        log('--entity name-${entity.name}--');
 
         String value = entity.name ?? '';
         title = '$title  $value';
       }
     }
+
+    log('--title-$title--');
     return TextfieldAddButton(
       title: title,
       height: (selectedValues.length) > 4

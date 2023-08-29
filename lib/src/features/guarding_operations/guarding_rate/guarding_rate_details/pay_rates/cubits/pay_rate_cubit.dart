@@ -71,7 +71,6 @@ class PayRateCubit extends Cubit<PayRateState> {
     AddEntities entities =
         await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
-
     // state.rate.location = loggedInUserDetails. // TODO: get location
     try {
       emit(
@@ -215,6 +214,8 @@ class PayRateCubit extends Cubit<PayRateState> {
 
     state.rate.inputDate =
         (DateTime.now().millisecondsSinceEpoch / 1000).toString();
+
+    log('-en ll-${state.rate.entities?.length}----');
 
     GMRateRequest request = GMRateRequest(guardingRateInfo: state.rate);
 
