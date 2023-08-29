@@ -10,7 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common_widgets/floating_button.dart';
+import '../../../../../common_widgets/spinnerdialog.dart';
 import '../../../../../routing/router.dart';
+import '../../models/guarding_master_data_model.dart';
+import '../../services/guarding_master_data_services.dart';
 import '../bloc/guarding_master_data_bloc.dart';
 
 class GuardingMasterData extends StatefulWidget {
@@ -60,8 +63,7 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
-         // Navigator.pushNamed(context, lawenforcementScreenRoute);
-            Navigator.pushNamed(context, materialMovementInwardDetailsRoute,
+            Navigator.pushNamed(context, guardingMasterDataDetailsRoute,
                 arguments: {
                   "title": Constants.createGuardingMasterData
                 } ),
@@ -94,31 +96,50 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                       ? state.list.length
                       : state.list.length + 1,
                   itemBuilder: (context, index) {
+                    List<Label> labels = [];
+                     labels.add(Label(
+                        key: 'Region',
+                    value: state.list[index].locationRegion.toString()));
+                    labels.add(Label(
+                        key: 'Building Location',
+                        value: state.list[index].location.toString()));
+                    labels.add(Label(
+                        key: 'Physically Fit?',
+                        value: state.list[index].physicallyFit.toString()));
+
+
                     return index >= state.list.length
                         ? const Center(
                       child: CustomCircularProgressIndicator(),
                     )
                         : BaseListTileItem(
                       id: state.list[index].id,
+                      //locationRegion: state.list[index].locationRegion,
                       inputDate: state.list[index].inputDate,
                       dutyType: state.list[index].dutyType,
                       status: state.list[index].status,
-
+                      isMasterGuard:true,
                       onTap: (selectedIndex) {
                         showDialog(
                           context: context,
                           builder: (BuildContext dialogContext) {
                             return BasePopUpItems(
                               id: state.list[selectedIndex].id.toString(),
-                              slNo: state.list[selectedIndex].slNo,
-                              uanNo: state.list[selectedIndex].uanNo,
-                              inputDate: state.list[selectedIndex].inputDate,
+                              labels: labels,
+                              guardRank: state.list[selectedIndex].guardRank,
+                              gender: state.list[selectedIndex].gender,
+                              dutyType: state.list[selectedIndex].dutyType,
+                              maritalStatus: state.list[selectedIndex].maritalStatus,
+                              //isMasterGuard:true,
+                             // status: state.list[selectedIndex].status,
+                              //locationRegion: state.list[selectedIndex].locationRegion,
+                             // location: state.list[selectedIndex].location,
                             );
                           },
                         );
                       },
                       onEditTap: (selectedIndex) {
-                       // getLawEnforcementId(state.items[index].id ?? 0);
+                        getLawEnforcementId(state.list[index].id ?? 0);
                       },
                       showEditButton: true,
                       onViewTap: (selectedIndex) {
@@ -127,10 +148,13 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                           builder: (BuildContext dialogContext) {
                             return BasePopUpItems(
                               id: state.list[selectedIndex].id.toString(),
-                              slNo: state.list[selectedIndex].slNo,
-                              uanNo: state.list[selectedIndex].uanNo,
-                              inputDate: state.list[selectedIndex].inputDate,
-                             // status: state.list[selectedIndex].status,
+                              labels: labels,
+                              //locationRegionStr: state.list[selectedIndex].locationRegion,
+                              //location: state.list[selectedIndex].location,
+                              guardRank: state.list[selectedIndex].guardRank,
+                              gender: state.list[selectedIndex].gender,
+                              dutyType: state.list[selectedIndex].dutyType,
+                              //status: state.list[selectedIndex].status,
                             );
                           },
                         );
@@ -142,4 +166,24 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
               );
             }));
   }
+getLawEnforcementId(int id) async {
+  showLoadingDialog(context);
+
+  GuardingMastersDataModel guardingMastersDataModel =
+  await GuardingMasterDataServices().getGuardingMastersData(id);
+
+  editDataLoading(guardingMastersDataModel);
+}
+
+void editDataLoading(GuardingMastersDataModel? guardingMastersDataModel) {
+  dismissLoadingDialog(context);
+  if (guardingMastersDataModel != null) {
+    Navigator.pushNamed(context, guardingMasterDataDetailsRoute,
+        arguments: {
+          "GuardingMastersDataModel": guardingMastersDataModel,
+          //"isInward": widget.isInward,
+          "title": Constants.editGuardingMasterData
+        });
+  }
+}
 }

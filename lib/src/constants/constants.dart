@@ -339,4 +339,7 @@ class Constants {
   static const String guardingMasterReportTitle = 'Guarding Master Report List';
   static const String guardingMasterDataTitle = 'Guarding Master Data List';
   static const String createGuardingMasterData = 'Create Guarding Master Data';
+  static const String editGuardingMasterData = 'Edit Guarding Master Data';
+  static const String guardingPoc = 'Guarding Partner POC';
+  static const String guardingAgencyEmpCode = 'Guarding Agency Employee Code';
 }

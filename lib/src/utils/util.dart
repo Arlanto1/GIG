@@ -174,32 +174,6 @@ class Utils {
     );
   }
 
-  Row buildGuardRankRow(int guardRank) {
-    String statusText;
-
-    switch (guardRank) {
-      case 1:
-        statusText = 'Active';
-        break;
-      case 2:
-        statusText = 'InActive';
-        break;
-      case 3:
-        statusText = 'Leave';
-        break;
-      case 4:
-        statusText = 'WeekOff';
-        break;
-      default:
-        statusText = ''; // Handle the default case if needed
-    }
-    return Row(
-      children: [
-        textHandling('Status: ',statusText),
-      ],
-    );
-  }
-
 
   Row buildDutyTypeRow(int dutyType) {
     String dutyTypeText;
@@ -228,7 +202,81 @@ class Utils {
     );
   }
 
+  Row buildGuardrank(int guardRank) {
+    String guardRankText;
 
+    switch (guardRank) {
+      case 1:
+        guardRankText = 'Security Guard';
+        break;
+      case 2:
+        guardRankText = 'Security Officer';
+        break;
+      case 3:
+        guardRankText = 'Security Supervisor';
+        break;
+      case 4:
+        guardRankText = 'Security Facilitator';
+        break;
+      case 5:
+        guardRankText = 'Gun Man';
+        break;
+      case 6:
+        guardRankText = 'Lady Security Guard';
+        break;
+      default:
+        guardRankText = 'Null'; // Handle the default case if needed
+    }
+
+    return Row(
+      children: [
+        textHandling('GuardRank: ',guardRankText),
+      ],
+    );
+  }
+
+
+  Row buildMaritalStatus(int maritalStatus) {
+    String maritalStatusText;
+
+    switch (maritalStatus) {
+      case 1:
+        maritalStatusText = 'Single';
+        break;
+      case 2:
+        maritalStatusText = 'Married';
+        break;
+      default:
+        maritalStatusText = ''; // Handle the default case if needed
+    }
+    return Row(
+      children: [
+        textHandling('MaritalStatus: ',maritalStatusText),
+      ],
+    );
+  }
+  Row buildGender(int gender) {
+    String genderText;
+
+    switch (gender) {
+      case 1:
+        genderText = 'Male';
+        break;
+      case 2:
+        genderText = 'Female';
+        break;
+      case 3:
+        genderText = 'TransGender';
+        break;
+      default:
+        genderText = ''; // Handle the default case if needed
+    }
+    return Row(
+      children: [
+        textHandling('Gender: ',genderText),
+      ],
+    );
+  }
   Widget textHandling(String title, String desc) {
     return Expanded(
       child: RichText(

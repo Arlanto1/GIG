@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
@@ -45,9 +44,12 @@ class BasePopUpItems extends StatefulWidget {
   final int? firstAidNotCertified;
   final String? locationStr;
   final int? dutyType;
-  final String? uanNo;
   final List<Label>? labels;
   final bool? isMaterGuard;
+  final int? guardRank;
+  final int? gender;
+  final int? maritalStatus;
+  final LocationRegion? locationRegionStr;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -88,8 +90,9 @@ class BasePopUpItems extends StatefulWidget {
     this.firstAidNotCertified,
     this.locationStr,
     this.dutyType,
-    this.uanNo,
-    this.labels, this.isMaterGuard,
+
+   // this.uanNo,
+    this.labels, this.isMaterGuard, this.guardRank, this.gender, this.maritalStatus, this.locationRegionStr,
   });
 }
 
@@ -222,6 +225,23 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildStatusRow(widget.status ?? 0),
       ],
+      if (widget.guardRank != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Utils().buildGuardrank(widget.guardRank ?? 0),
+      ],
+
+      if (widget.gender != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Utils().buildGender(widget.gender ?? 0),
+      ],
+      if (widget.dutyType != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Utils().buildDutyTypeRow(widget.dutyType ?? 0),
+      ],
+      if (widget.maritalStatus != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Utils().buildMaritalStatus(widget.maritalStatus ?? 0),
+      ],
       if (widget.isMaterGuard != null) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildMasterDataStatusRow(widget.status ?? 0),
@@ -232,6 +252,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().textHandling('Loaction : ', widget.locationStr.toString()),
+          ],
+        ),
+      ],
+      if (widget.locationRegionStr != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Region : ', widget.locationRegionStr.toString()),
           ],
         ),
       ],
@@ -461,16 +490,12 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
                 widget.firstAidNotCertified.toString()),
           ],
         ),
-        if (widget.dutyType != null) ...[
-          CommonWidgets.verticalSpacerWidget(5),
-          Utils().buildDutyTypeRow(widget.dutyType ?? 0),
-        ],
-        CommonWidgets.verticalSpacerWidget(8),
-        Row(
-          children: [
-            Utils().textHandling('UAN No : ', widget.uanNo.toString()),
-          ],
-        ),
+        //CommonWidgets.verticalSpacerWidget(8),
+       // Row(
+       //   children: [
+       //     Utils().textHandling('UAN No : ', widget.uanNo.toString()),
+       //   ],
+       // ),
       ],
     ];
     for (Label label in labels ?? []) {

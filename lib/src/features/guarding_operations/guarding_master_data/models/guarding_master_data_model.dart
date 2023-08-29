@@ -1,358 +1,404 @@
+
 class GuardingMasterDataModel {
-  final List<GuardingMastersDataModel>? data;
-  final int? totalCount;
-  final int? currentPageNo;
-  final int? totalPageCount;
+  List<GuardingMastersDataModel>? data;
+  int? totalCount;
+  int? currentPageNo;
+  int? totalPageCount;
 
-  GuardingMasterDataModel({
-    this.data,
-    this.totalCount,
-    this.currentPageNo,
-    this.totalPageCount,
-  });
+  GuardingMasterDataModel({this.data, this.totalCount, this.currentPageNo, this.totalPageCount});
 
-  GuardingMasterDataModel.fromJson(Map<String, dynamic> json)
-      : data = (json['data'] as List?)?.map((dynamic e) => GuardingMastersDataModel.fromJson(e as Map<String,dynamic>)).toList(),
-        totalCount = json['totalCount'] as int?,
-        currentPageNo = json['currentPageNo'] as int?,
-        totalPageCount = json['totalPageCount'] as int?;
+  GuardingMasterDataModel.fromJson(Map<String, dynamic> json) {
+    data = json["data"] == null ? null : (json["data"] as List).map((e) => GuardingMastersDataModel.fromJson(e)).toList();
+    totalCount = json["totalCount"];
+    currentPageNo = json["currentPageNo"];
+    totalPageCount = json["totalPageCount"];
+  }
 
-  Map<String, dynamic> toJson() => {
-    'data' : data?.map((e) => e.toJson()).toList(),
-    'totalCount' : totalCount,
-    'currentPageNo' : currentPageNo,
-    'totalPageCount' : totalPageCount
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> _data = <String, dynamic>{};
+    if(data != null) {
+      _data["data"] = data?.map((e) => e.toJson()).toList();
+    }
+    _data["totalCount"] = totalCount;
+    _data["currentPageNo"] = currentPageNo;
+    _data["totalPageCount"] = totalPageCount;
+    return _data;
+  }
 }
 
 class GuardingMastersDataModel {
-  final String? guardingMasterId;
-  final int? id;
-  final String? slNo;
-  final EntrySecurity? entrySecurity;
-  final String? inputDate;
-  final int? status;
-  final int? guardRank;
-  final String? employeeCode;
-  final String? dbEmployeeId;
-  final int? dutyType;
-  final int? gender;
-  final String? contactNo;
-  final int? maritalStatus;
-  final int? typeOfDeployment;
-  final bool? deploymentOrderSubmitted;
-  final List<dynamic>? deploymentOrders;
-  final bool? physicallyFit;
-  final String? localLanguage;
-  final bool? localLangProficiencyR;
-  final bool? hindiLangProficiencyR;
-  final bool? englishLangProficiencyR;
-  final bool? localLangProficiencyW;
-  final bool? hindiLangProficiencyW;
-  final bool? englishLangProficiencyW;
-  final bool? localLangProficiencyS;
-  final bool? hindiLangProficiencyS;
-  final bool? englishLangProficiencyS;
-  final String? securityExperience;
-  final String? permanentAddress;
-  final String? localAddress;
-  final List<dynamic>? qualifications;
-  final List<dynamic>? pvc;
-  final bool? trainingCertificateProvided;
-  final List<dynamic>? trainingCertificates;
-  final List<dynamic>? medicalCertificates;
-  final int? systemAccess;
-  final bool? onboarded;
-  final String? esicNo;
-  final String? uanNo;
-  final bool? msgbExempted;
-  final int? msgbFormBSubmitted;
-  final int? staffMsgbCompliant;
-  final bool? csrParticipation;
-  final bool? specialAchievement;
-  final String? specialAchievementText;
-  final String? additionalInitiatives;
-  final String? guardingPOC;
+  int? id;
+  String? slNo;
+  Location? location;
+  LocationRegion? locationRegion;
+  EntrySecurity? entrySecurity;
+  String? inputDate;
+  int? status;
+  int? guardRank;
+  String? employeeCode;
+  String? dbEmployeeId;
+  int? dutyType;
+  int? gender;
+  String? contactNo;
+  int? maritalStatus;
+  int? typeOfDeployment;
+  bool? deploymentOrderSubmitted;
+  List<dynamic>? deploymentOrders;
+  bool? physicallyFit;
+  String? localLanguage;
+  bool? localLangProficiencyR;
+  bool? hindiLangProficiencyR;
+  bool? englishLangProficiencyR;
+  bool? localLangProficiencyW;
+  bool? hindiLangProficiencyW;
+  bool? englishLangProficiencyW;
+  bool? localLangProficiencyS;
+  bool? hindiLangProficiencyS;
+  bool? englishLangProficiencyS;
+  String? securityExperience;
+  String? permanentAddress;
+  String? localAddress;
+  List<dynamic>? qualifications;
+  List<dynamic>? pvc;
+  bool? trainingCertificateProvided;
+  List<dynamic>? trainingCertificates;
+  List<dynamic>? medicalCertificates;
+  int? systemAccess;
+  bool? onboarded;
+  String? esicNo;
+  String? uanNo;
+  bool? msgbExempted;
+  int? msgbFormBSubmitted;
+  int? staffMsgbCompliant;
+  bool? csrParticipation;
+  bool? specialAchievement;
+  String? specialAchievementText;
+  String? additionalInitiatives;
+  List<dynamic>? history;
+  String? guardingPoc;
 
-  GuardingMastersDataModel({
-    this.guardingMasterId,
-    this.id,
-    this.slNo,
-    this.entrySecurity,
-    this.inputDate,
-    this.status,
-    this.guardRank,
-    this.employeeCode,
-    this.dbEmployeeId,
-    this.dutyType,
-    this.gender,
-    this.contactNo,
-    this.maritalStatus,
-    this.typeOfDeployment,
-    this.deploymentOrderSubmitted,
-    this.deploymentOrders,
-    this.physicallyFit,
-    this.localLanguage,
-    this.localLangProficiencyR,
-    this.hindiLangProficiencyR,
-    this.englishLangProficiencyR,
-    this.localLangProficiencyW,
-    this.hindiLangProficiencyW,
-    this.englishLangProficiencyW,
-    this.localLangProficiencyS,
-    this.hindiLangProficiencyS,
-    this.englishLangProficiencyS,
-    this.securityExperience,
-    this.permanentAddress,
-    this.localAddress,
-    this.qualifications,
-    this.pvc,
-    this.trainingCertificateProvided,
-    this.trainingCertificates,
-    this.medicalCertificates,
-    this.systemAccess,
-    this.onboarded,
-    this.esicNo,
-    this.uanNo,
-    this.msgbExempted,
-    this.msgbFormBSubmitted,
-    this.staffMsgbCompliant,
-    this.csrParticipation,
-    this.specialAchievement,
-    this.specialAchievementText,
-    this.additionalInitiatives,
-    this.guardingPOC,
-  });
+  GuardingMastersDataModel({this.id, this.slNo, this.location, this.locationRegion, this.entrySecurity, this.inputDate, this.status, this.guardRank, this.employeeCode, this.dbEmployeeId, this.dutyType, this.gender, this.contactNo, this.maritalStatus, this.typeOfDeployment, this.deploymentOrderSubmitted, this.deploymentOrders, this.physicallyFit, this.localLanguage, this.localLangProficiencyR, this.hindiLangProficiencyR, this.englishLangProficiencyR, this.localLangProficiencyW, this.hindiLangProficiencyW, this.englishLangProficiencyW, this.localLangProficiencyS, this.hindiLangProficiencyS, this.englishLangProficiencyS, this.securityExperience, this.permanentAddress, this.localAddress, this.qualifications, this.pvc, this.trainingCertificateProvided, this.trainingCertificates, this.medicalCertificates, this.systemAccess, this.onboarded, this.esicNo, this.uanNo, this.msgbExempted, this.msgbFormBSubmitted, this.staffMsgbCompliant, this.csrParticipation, this.specialAchievement, this.specialAchievementText, this.additionalInitiatives, this.history, this.guardingPoc});
 
-  GuardingMastersDataModel.fromJson(Map<String, dynamic> json)
-      : guardingMasterId = json['guardingMasterId'] as String?,
-        id = json['id'] as int?,
-        slNo = json['slNo'] as String?,
-        entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? EntrySecurity.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
-        inputDate = json['inputDate'] as String?,
-        status = json['status'] as int?,
-        guardRank = json['guardRank'] as int?,
-        employeeCode = json['employeeCode'] as String?,
-        dbEmployeeId = json['dbEmployeeId'] as String?,
-        dutyType = json['dutyType'] as int?,
-        gender = json['gender'] as int?,
-        contactNo = json['contactNo'] as String?,
-        maritalStatus = json['maritalStatus'] as int?,
-        typeOfDeployment = json['typeOfDeployment'] as int?,
-        deploymentOrderSubmitted = json['deploymentOrderSubmitted'] as bool?,
-        deploymentOrders = json['deploymentOrders'] as List?,
-        physicallyFit = json['physicallyFit'] as bool?,
-        localLanguage = json['localLanguage'] as String?,
-        localLangProficiencyR = json['localLangProficiencyR'] as bool?,
-        hindiLangProficiencyR = json['hindiLangProficiencyR'] as bool?,
-        englishLangProficiencyR = json['englishLangProficiencyR'] as bool?,
-        localLangProficiencyW = json['localLangProficiencyW'] as bool?,
-        hindiLangProficiencyW = json['hindiLangProficiencyW'] as bool?,
-        englishLangProficiencyW = json['englishLangProficiencyW'] as bool?,
-        localLangProficiencyS = json['localLangProficiencyS'] as bool?,
-        hindiLangProficiencyS = json['hindiLangProficiencyS'] as bool?,
-        englishLangProficiencyS = json['englishLangProficiencyS'] as bool?,
-        securityExperience = json['securityExperience'] as String?,
-        permanentAddress = json['permanentAddress'] as String?,
-        localAddress = json['localAddress'] as String?,
-        qualifications = json['qualifications'] as List?,
-        pvc = json['pvc'] as List?,
-        trainingCertificateProvided = json['trainingCertificateProvided'] as bool?,
-        trainingCertificates = json['trainingCertificates'] as List?,
-        medicalCertificates = json['medicalCertificates'] as List?,
-        systemAccess = json['systemAccess'] as int?,
-        onboarded = json['onboarded'] as bool?,
-        esicNo = json['esicNo'] as String?,
-        uanNo = json['uanNo'] as String?,
-        msgbExempted = json['msgbExempted'] as bool?,
-        msgbFormBSubmitted = json['msgbFormBSubmitted'] as int?,
-        staffMsgbCompliant = json['staffMsgbCompliant'] as int?,
-        csrParticipation = json['csrParticipation'] as bool?,
-        specialAchievement = json['specialAchievement'] as bool?,
-        specialAchievementText = json['specialAchievementText'] as String?,
-        additionalInitiatives = json['additionalInitiatives'] as String?,
-        guardingPOC = json['guardingPOC'] as String?;
+  GuardingMastersDataModel.fromJson(Map<String, dynamic> json) {
+    id = json["id"];
+    slNo = json["slNo"];
+    location = json["location"] == null ? null : Location.fromJson(json["location"]);
+    locationRegion = json["locationRegion"] == null ? null : LocationRegion.fromJson(json["locationRegion"]);
+    entrySecurity = json["entrySecurity"] == null ? null : EntrySecurity.fromJson(json["entrySecurity"]);
+    inputDate = json["inputDate"];
+    status = json["status"];
+    guardRank = json["guardRank"];
+    employeeCode = json["employeeCode"];
+    dbEmployeeId = json["dbEmployeeId"];
+    dutyType = json["dutyType"];
+    gender = json["gender"];
+    contactNo = json["contactNo"];
+    maritalStatus = json["maritalStatus"];
+    typeOfDeployment = json["typeOfDeployment"];
+    deploymentOrderSubmitted = json["deploymentOrderSubmitted"];
+    deploymentOrders = json["deploymentOrders"] ?? [];
+    physicallyFit = json["physicallyFit"];
+    localLanguage = json["localLanguage"];
+    localLangProficiencyR = json["localLangProficiencyR"];
+    hindiLangProficiencyR = json["hindiLangProficiencyR"];
+    englishLangProficiencyR = json["englishLangProficiencyR"];
+    localLangProficiencyW = json["localLangProficiencyW"];
+    hindiLangProficiencyW = json["hindiLangProficiencyW"];
+    englishLangProficiencyW = json["englishLangProficiencyW"];
+    localLangProficiencyS = json["localLangProficiencyS"];
+    hindiLangProficiencyS = json["hindiLangProficiencyS"];
+    englishLangProficiencyS = json["englishLangProficiencyS"];
+    securityExperience = json["securityExperience"];
+    permanentAddress = json["permanentAddress"];
+    localAddress = json["localAddress"];
+    qualifications = json["qualifications"] ?? [];
+    pvc = json["pvc"] ?? [];
+    trainingCertificateProvided = json["trainingCertificateProvided"];
+    trainingCertificates = json["trainingCertificates"] ?? [];
+    medicalCertificates = json["medicalCertificates"] ?? [];
+    systemAccess = json["systemAccess"];
+    onboarded = json["onboarded"];
+    esicNo = json["esicNo"];
+    uanNo = json["uanNo"];
+    msgbExempted = json["msgbExempted"];
+    msgbFormBSubmitted = json["msgbFormBSubmitted"];
+    staffMsgbCompliant = json["staffMsgbCompliant"];
+    csrParticipation = json["csrParticipation"];
+    specialAchievement = json["specialAchievement"];
+    specialAchievementText = json["specialAchievementText"];
+    additionalInitiatives = json["additionalInitiatives"];
+    history = json["history"] ?? [];
+    guardingPoc = json["guardingPOC"];
+  }
 
-  Map<String, dynamic> toJson() => {
-    'guardingMasterId' : guardingMasterId,
-    'id' : id,
-    'slNo' : slNo,
-    'entrySecurity' : entrySecurity?.toJson(),
-    'inputDate' : inputDate,
-    'status' : status,
-    'guardRank' : guardRank,
-    'employeeCode' : employeeCode,
-    'dbEmployeeId' : dbEmployeeId,
-    'dutyType' : dutyType,
-    'gender' : gender,
-    'contactNo' : contactNo,
-    'maritalStatus' : maritalStatus,
-    'typeOfDeployment' : typeOfDeployment,
-    'deploymentOrderSubmitted' : deploymentOrderSubmitted,
-    'deploymentOrders' : deploymentOrders,
-    'physicallyFit' : physicallyFit,
-    'localLanguage' : localLanguage,
-    'localLangProficiencyR' : localLangProficiencyR,
-    'hindiLangProficiencyR' : hindiLangProficiencyR,
-    'englishLangProficiencyR' : englishLangProficiencyR,
-    'localLangProficiencyW' : localLangProficiencyW,
-    'hindiLangProficiencyW' : hindiLangProficiencyW,
-    'englishLangProficiencyW' : englishLangProficiencyW,
-    'localLangProficiencyS' : localLangProficiencyS,
-    'hindiLangProficiencyS' : hindiLangProficiencyS,
-    'englishLangProficiencyS' : englishLangProficiencyS,
-    'securityExperience' : securityExperience,
-    'permanentAddress' : permanentAddress,
-    'localAddress' : localAddress,
-    'qualifications' : qualifications,
-    'pvc' : pvc,
-    'trainingCertificateProvided' : trainingCertificateProvided,
-    'trainingCertificates' : trainingCertificates,
-    'medicalCertificates' : medicalCertificates,
-    'systemAccess' : systemAccess,
-    'onboarded' : onboarded,
-    'esicNo' : esicNo,
-    'uanNo' : uanNo,
-    'msgbExempted' : msgbExempted,
-    'msgbFormBSubmitted' : msgbFormBSubmitted,
-    'staffMsgbCompliant' : staffMsgbCompliant,
-    'csrParticipation' : csrParticipation,
-    'specialAchievement' : specialAchievement,
-    'specialAchievementText' : specialAchievementText,
-    'additionalInitiatives' : additionalInitiatives,
-    'guardingPOC' : guardingPOC
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> _data = <String, dynamic>{};
+    _data["id"] = id;
+    _data["slNo"] = slNo;
+    if(location != null) {
+      _data["location"] = location?.toJson();
+    }
+    if(locationRegion != null) {
+      _data["locationRegion"] = locationRegion?.toJson();
+    }
+    if(entrySecurity != null) {
+      _data["entrySecurity"] = entrySecurity?.toJson();
+    }
+    _data["inputDate"] = inputDate;
+    _data["status"] = status;
+    _data["guardRank"] = guardRank;
+    _data["employeeCode"] = employeeCode;
+    _data["dbEmployeeId"] = dbEmployeeId;
+    _data["dutyType"] = dutyType;
+    _data["gender"] = gender;
+    _data["contactNo"] = contactNo;
+    _data["maritalStatus"] = maritalStatus;
+    _data["typeOfDeployment"] = typeOfDeployment;
+    _data["deploymentOrderSubmitted"] = deploymentOrderSubmitted;
+    if(deploymentOrders != null) {
+      _data["deploymentOrders"] = deploymentOrders;
+    }
+    _data["physicallyFit"] = physicallyFit;
+    _data["localLanguage"] = localLanguage;
+    _data["localLangProficiencyR"] = localLangProficiencyR;
+    _data["hindiLangProficiencyR"] = hindiLangProficiencyR;
+    _data["englishLangProficiencyR"] = englishLangProficiencyR;
+    _data["localLangProficiencyW"] = localLangProficiencyW;
+    _data["hindiLangProficiencyW"] = hindiLangProficiencyW;
+    _data["englishLangProficiencyW"] = englishLangProficiencyW;
+    _data["localLangProficiencyS"] = localLangProficiencyS;
+    _data["hindiLangProficiencyS"] = hindiLangProficiencyS;
+    _data["englishLangProficiencyS"] = englishLangProficiencyS;
+    _data["securityExperience"] = securityExperience;
+    _data["permanentAddress"] = permanentAddress;
+    _data["localAddress"] = localAddress;
+    if(qualifications != null) {
+      _data["qualifications"] = qualifications;
+    }
+    if(pvc != null) {
+      _data["pvc"] = pvc;
+    }
+    _data["trainingCertificateProvided"] = trainingCertificateProvided;
+    if(trainingCertificates != null) {
+      _data["trainingCertificates"] = trainingCertificates;
+    }
+    if(medicalCertificates != null) {
+      _data["medicalCertificates"] = medicalCertificates;
+    }
+    _data["systemAccess"] = systemAccess;
+    _data["onboarded"] = onboarded;
+    _data["esicNo"] = esicNo;
+    _data["uanNo"] = uanNo;
+    _data["msgbExempted"] = msgbExempted;
+    _data["msgbFormBSubmitted"] = msgbFormBSubmitted;
+    _data["staffMsgbCompliant"] = staffMsgbCompliant;
+    _data["csrParticipation"] = csrParticipation;
+    _data["specialAchievement"] = specialAchievement;
+    _data["specialAchievementText"] = specialAchievementText;
+    _data["additionalInitiatives"] = additionalInitiatives;
+    if(history != null) {
+      _data["history"] = history;
+    }
+    _data["guardingPOC"] = guardingPoc;
+    return _data;
+  }
 }
 
 class EntrySecurity {
-  final int? userId;
-  final String? userName;
-  final String? email;
-  final String? firstName;
-  final String? lastName;
-  final String? phone;
-  final List<Roles>? roles;
-  final List<RoleExtensions>? roleExtensions;
-  final List<dynamic>? notApprovedRoles;
-  final List<dynamic>? notApprovedRoleExtensions;
-  final String? name;
-  final String? userStatus;
+  int? userId;
+  String? userName;
+  String? email;
+  String? firstName;
+  String? lastName;
+  String? phone;
+  List<Roles>? roles;
+  List<RoleExtensions1>? roleExtensions;
+  List<dynamic>? notApprovedRoles;
+  List<dynamic>? notApprovedRoleExtensions;
+  String? name;
+  String? userStatus;
 
-  EntrySecurity({
-    this.userId,
-    this.userName,
-    this.email,
-    this.firstName,
-    this.lastName,
-    this.phone,
-    this.roles,
-    this.roleExtensions,
-    this.notApprovedRoles,
-    this.notApprovedRoleExtensions,
-    this.name,
-    this.userStatus,
-  });
+  EntrySecurity({this.userId, this.userName, this.email, this.firstName, this.lastName, this.phone, this.roles, this.roleExtensions, this.notApprovedRoles, this.notApprovedRoleExtensions, this.name, this.userStatus});
 
-  EntrySecurity.fromJson(Map<String, dynamic> json)
-      : userId = json['userId'] as int?,
-        userName = json['userName'] as String?,
-        email = json['email'] as String?,
-        firstName = json['firstName'] as String?,
-        lastName = json['lastName'] as String?,
-        phone = json['phone'] as String?,
-        roles = (json['roles'] as List?)?.map((dynamic e) => Roles.fromJson(e as Map<String,dynamic>)).toList(),
-        roleExtensions = (json['roleExtensions'] as List?)?.map((dynamic e) => RoleExtensions.fromJson(e as Map<String,dynamic>)).toList(),
-        notApprovedRoles = json['notApprovedRoles'] as List?,
-        notApprovedRoleExtensions = json['notApprovedRoleExtensions'] as List?,
-        name = json['name'] as String?,
-        userStatus = json['userStatus'] as String?;
+  EntrySecurity.fromJson(Map<String, dynamic> json) {
+    userId = json["userId"];
+    userName = json["userName"];
+    email = json["email"];
+    firstName = json["firstName"];
+    lastName = json["lastName"];
+    phone = json["phone"];
+    roles = json["roles"] == null ? null : (json["roles"] as List).map((e) => Roles.fromJson(e)).toList();
+    roleExtensions = json["roleExtensions"] == null ? null : (json["roleExtensions"] as List).map((e) => RoleExtensions1.fromJson(e)).toList();
+    notApprovedRoles = json["notApprovedRoles"] ?? [];
+    notApprovedRoleExtensions = json["notApprovedRoleExtensions"] ?? [];
+    name = json["name"];
+    userStatus = json["userStatus"];
+  }
 
-  Map<String, dynamic> toJson() => {
-    'userId' : userId,
-    'userName' : userName,
-    'email' : email,
-    'firstName' : firstName,
-    'lastName' : lastName,
-    'phone' : phone,
-    'roles' : roles?.map((e) => e.toJson()).toList(),
-    'roleExtensions' : roleExtensions?.map((e) => e.toJson()).toList(),
-    'notApprovedRoles' : notApprovedRoles,
-    'notApprovedRoleExtensions' : notApprovedRoleExtensions,
-    'name' : name,
-    'userStatus' : userStatus
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> _data = <String, dynamic>{};
+    _data["userId"] = userId;
+    _data["userName"] = userName;
+    _data["email"] = email;
+    _data["firstName"] = firstName;
+    _data["lastName"] = lastName;
+    _data["phone"] = phone;
+    if(roles != null) {
+      _data["roles"] = roles?.map((e) => e.toJson()).toList();
+    }
+    if(roleExtensions != null) {
+      _data["roleExtensions"] = roleExtensions?.map((e) => e.toJson()).toList();
+    }
+    if(notApprovedRoles != null) {
+      _data["notApprovedRoles"] = notApprovedRoles;
+    }
+    if(notApprovedRoleExtensions != null) {
+      _data["notApprovedRoleExtensions"] = notApprovedRoleExtensions;
+    }
+    _data["name"] = name;
+    _data["userStatus"] = userStatus;
+    return _data;
+  }
+}
+
+class RoleExtensions1 {
+  int? roleExtensionId;
+  int? roleId;
+  String? displayName;
+  String? area;
+  String? filter;
+  dynamic rootNodeId;
+  dynamic nodeId;
+  dynamic accessRight;
+
+  RoleExtensions1({this.roleExtensionId, this.roleId, this.displayName, this.area, this.filter, this.rootNodeId, this.nodeId, this.accessRight});
+
+  RoleExtensions1.fromJson(Map<String, dynamic> json) {
+    roleExtensionId = json["roleExtensionId"];
+    roleId = json["roleId"];
+    displayName = json["displayName"];
+    area = json["area"];
+    filter = json["filter"];
+    rootNodeId = json["rootNodeId"];
+    nodeId = json["nodeId"];
+    accessRight = json["accessRight"];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> _data = <String, dynamic>{};
+    _data["roleExtensionId"] = roleExtensionId;
+    _data["roleId"] = roleId;
+    _data["displayName"] = displayName;
+    _data["area"] = area;
+    _data["filter"] = filter;
+    _data["rootNodeId"] = rootNodeId;
+    _data["nodeId"] = nodeId;
+    _data["accessRight"] = accessRight;
+    return _data;
+  }
 }
 
 class Roles {
-  final int? roleId;
-  final String? application;
-  final String? roleName;
-  final List<RoleExtensions>? roleExtensions;
-  final String? name;
+  int? roleId;
+  String? application;
+  String? roleName;
+  List<RoleExtensions>? roleExtensions;
+  String? name;
 
-  Roles({
-    this.roleId,
-    this.application,
-    this.roleName,
-    this.roleExtensions,
-    this.name,
-  });
+  Roles({this.roleId, this.application, this.roleName, this.roleExtensions, this.name});
 
-  Roles.fromJson(Map<String, dynamic> json)
-      : roleId = json['roleId'] as int?,
-        application = json['application'] as String?,
-        roleName = json['roleName'] as String?,
-        roleExtensions = (json['roleExtensions'] as List?)?.map((dynamic e) => RoleExtensions.fromJson(e as Map<String,dynamic>)).toList(),
-        name = json['name'] as String?;
+  Roles.fromJson(Map<String, dynamic> json) {
+    roleId = json["roleId"];
+    application = json["application"];
+    roleName = json["roleName"];
+    roleExtensions = json["roleExtensions"] == null ? null : (json["roleExtensions"] as List).map((e) => RoleExtensions.fromJson(e)).toList();
+    name = json["name"];
+  }
 
-  Map<String, dynamic> toJson() => {
-    'roleId' : roleId,
-    'application' : application,
-    'roleName' : roleName,
-    'roleExtensions' : roleExtensions?.map((e) => e.toJson()).toList(),
-    'name' : name
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> _data = <String, dynamic>{};
+    _data["roleId"] = roleId;
+    _data["application"] = application;
+    _data["roleName"] = roleName;
+    if(roleExtensions != null) {
+      _data["roleExtensions"] = roleExtensions?.map((e) => e.toJson()).toList();
+    }
+    _data["name"] = name;
+    return _data;
+  }
 }
 
 class RoleExtensions {
-  final int? roleExtensionId;
-  final int? roleId;
-  final String? displayName;
-  final String? area;
-  final String? filter;
-  final dynamic rootNodeId;
-  final dynamic nodeId;
-  final dynamic accessRight;
+  int? roleExtensionId;
+  int? roleId;
+  String? displayName;
+  String? area;
+  String? filter;
+  dynamic rootNodeId;
+  dynamic nodeId;
+  dynamic accessRight;
 
-  RoleExtensions({
-    this.roleExtensionId,
-    this.roleId,
-    this.displayName,
-    this.area,
-    this.filter,
-    this.rootNodeId,
-    this.nodeId,
-    this.accessRight,
-  });
+  RoleExtensions({this.roleExtensionId, this.roleId, this.displayName, this.area, this.filter, this.rootNodeId, this.nodeId, this.accessRight});
 
-  RoleExtensions.fromJson(Map<String, dynamic> json)
-      : roleExtensionId = json['roleExtensionId'] as int?,
-        roleId = json['roleId'] as int?,
-        displayName = json['displayName'] as String?,
-        area = json['area'] as String?,
-        filter = json['filter'] as String?,
-        rootNodeId = json['rootNodeId'],
-        nodeId = json['nodeId'],
-        accessRight = json['accessRight'];
+  RoleExtensions.fromJson(Map<String, dynamic> json) {
+    roleExtensionId = json["roleExtensionId"];
+    roleId = json["roleId"];
+    displayName = json["displayName"];
+    area = json["area"];
+    filter = json["filter"];
+    rootNodeId = json["rootNodeId"];
+    nodeId = json["nodeId"];
+    accessRight = json["accessRight"];
+  }
 
-  Map<String, dynamic> toJson() => {
-    'roleExtensionId' : roleExtensionId,
-    'roleId' : roleId,
-    'displayName' : displayName,
-    'area' : area,
-    'filter' : filter,
-    'rootNodeId' : rootNodeId,
-    'nodeId' : nodeId,
-    'accessRight' : accessRight
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> _data = <String, dynamic>{};
+    _data["roleExtensionId"] = roleExtensionId;
+    _data["roleId"] = roleId;
+    _data["displayName"] = displayName;
+    _data["area"] = area;
+    _data["filter"] = filter;
+    _data["rootNodeId"] = rootNodeId;
+    _data["nodeId"] = nodeId;
+    _data["accessRight"] = accessRight;
+    return _data;
+  }
+}
+
+class LocationRegion {
+  int? id;
+  String? name;
+
+  LocationRegion({this.id, this.name});
+
+  LocationRegion.fromJson(Map<String, dynamic> json) {
+    id = json["id"];
+    name = json["name"];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> _data = <String, dynamic>{};
+    _data["id"] = id;
+    _data["name"] = name;
+    return _data;
+  }
+}
+
+class Location {
+  int? id;
+  String? name;
+
+  Location({this.id, this.name});
+
+  Location.fromJson(Map<String, dynamic> json) {
+    id = json["id"];
+    name = json["name"];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> _data = <String, dynamic>{};
+    _data["id"] = id;
+    _data["name"] = name;
+    return _data;
+  }
 }
