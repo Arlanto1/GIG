@@ -1,6 +1,14 @@
 part of 'guarding_master_data_details_cubit.dart';
 
-enum FormStatus { loading, initial, submitting, addAttachment, next, success, error }
+enum FormStatus {
+  loading,
+  initial,
+  submitting,
+  addAttachment,
+  next,
+  success,
+  error
+}
 
 class GuardingMasterDataDetailsState extends Equatable {
   final FormStatus status;

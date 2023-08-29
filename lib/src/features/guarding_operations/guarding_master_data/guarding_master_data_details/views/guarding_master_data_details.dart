@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../../../../../main_DEV.dart';
 import '../../../../../common_widgets/app_button.dart';
@@ -50,7 +49,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   List<FoundImage>? getAttachments;
   TextEditingController takenOutOnDateController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
-  TextEditingController();
+      TextEditingController();
   bool isDisabled = true;
 
   @override
@@ -58,7 +57,6 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
     super.initState();
     BlocProvider.of<GuardingMasterDataDetailsCubit>(context).initializeValues();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -76,8 +74,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
-              Navigator.popAndPushNamed(
-                  context, guardingMasterDataRoute,
+              Navigator.popAndPushNamed(context, guardingMasterDataRoute,
                   arguments: {});
             },
           );
@@ -118,7 +115,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
 
   getBodybuilder(state, height) {
     //returnableTextController.text =
-   // state.materialMovement.returnable! ? 'Returnable' : 'Non Returnable';
+    // state.materialMovement.returnable! ? 'Returnable' : 'Non Returnable';
 
     if (state.status == FormStatus.loading) {
       return const Center(child: CircularProgressIndicator());
@@ -135,79 +132,79 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
         color: AppColors.navigationSkybluecolor,
         child: SingleChildScrollView(
             child: Column(children: [
-              Container(
-                height: height * 0.01,
-                color: AppColors.navigationSkybluecolor,
-              ),
-              Container(
-                  decoration: const ShapeDecoration(
-                      color: AppColors.backgroundWhitecolor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
+          Container(
+            height: height * 0.01,
+            color: AppColors.navigationSkybluecolor,
+          ),
+          Container(
+              decoration: const ShapeDecoration(
+                  color: AppColors.backgroundWhitecolor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
-                      )),
-                  child: Form(
-                      key: _formKey,
-                      autovalidateMode: state.guardingMasterData.status == 4
-                          ? AutovalidateMode.disabled
-                          : AutovalidateMode.onUserInteraction,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20.0, right: 20),
-                              child: Column(children: [
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    Constants.generalinformation,
-                                    style: Styles.styleHeaderGreyText16,
-                                  ),
-                                ),
-                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  )),
+              child: Form(
+                  key: _formKey,
+                  autovalidateMode: state.guardingMasterData.status == 4
+                      ? AutovalidateMode.disabled
+                      : AutovalidateMode.onUserInteraction,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 20),
+                          child: Column(children: [
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.generalinformation,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                                /// Status
-                                CommonWidgets.textDisplay(
-                                    Constants.status, Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(height * 0.001),
-                                FlutterInputField(
-                                  isEnable: false,
-                                  isDisableColor: true,
-                                  textFormKey: Keys.statusTextController,
-                                  hintText: '',
-                                  initialValue: getStatusString(
-                                      state.guardingMasterData.status ?? 0),
-                                  onChange: (String value) {},
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            /// Status
+                            CommonWidgets.textDisplay(
+                                Constants.status, Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              isEnable: false,
+                              isDisableColor: true,
+                              textFormKey: Keys.statusTextController,
+                              hintText: '',
+                              initialValue: getStatusString(
+                                  state.guardingMasterData.status ?? 0),
+                              onChange: (String value) {},
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                                /// Created By
-                                CommonWidgets.verticalTextHandling(
-                                    Constants.createdby,
-                                    state.loggedInUserDetails?.name ?? ''),
-                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            /// Created By
+                            CommonWidgets.verticalTextHandling(
+                                Constants.createdby,
+                                state.loggedInUserDetails?.name ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                                /// Location
-                                CommonWidgets.textDisplay(
-                                    Constants.location, Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(height * 0.001),
-                                locationWidgetdislay(state),
+                            /// Location
+                            CommonWidgets.textDisplay(
+                                Constants.location, Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            locationWidgetdislay(state),
 
-                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                                /// Date of creation
-                                CommonWidgets.textDisplay(Constants.dateofcreation,
-                                    Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(height * 0.001),
-                                datecreateWidgetdisplay(
-                                    state.guardingMasterData.inputDate ?? ''),
-                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            /// Date of creation
+                            CommonWidgets.textDisplay(Constants.dateofcreation,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            datecreateWidgetdisplay(
+                                state.guardingMasterData.inputDate ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                                /// Entity
-                             /*  if (!state.guardingMasterData.name) ...[
+                            /// Entity
+                            /*  if (!state.guardingMasterData.name) ...[
                                   Column(
                                     children: [
                                       CommonWidgets.textDisplay(
@@ -262,115 +259,115 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   ),
                                 ],*/
 
-                                /// Sl No.
-                                CommonWidgets.horizentaltextHandling(Constants.slno,
-                                    state.guardingMasterData.slNo ?? ''),
-                                CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                                /// upload
-                                widget.guardingMasterData == null
-                                    ? CommonWidgets.textDisplay(
-                                    Constants.upload, Styles.textStyleBlack14)
-                                    : Container(),
-                                widget.guardingMasterData == null
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                    : Container(),
-                                widget.guardingMasterData == null
-                                    ? uploadWidget(state)
-                                    : Container(),
-
-                                // Attachments
-                                getSpaceattchment(height),
-                                getAttachement(state, height),
-
-                                /// Guarding POC
-                                CommonWidgets.textDisplay(
-                                    Constants.guardingPoc, Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                FlutterInputField(
-                                  keyboardType: TextInputType.number,
-                                  initialValue: state.guardingMasterData.guardingPoc,
-                                  textFormKey: Keys.poNumberKey,
-                                  hintText: '',
-                                  isEnable: widget.guardingMasterData == null
-                                      ? true
-                                      : (widget.guardingMasterData != null &&
-                                      (widget.guardingMasterData
-                                          ?.guardingPoc ==
-                                          null))
-                                      ? false
-                                      : true,
-                                  isDisableColor: (widget.guardingMasterData !=
-                                      null &&
-                                      (widget.guardingMasterData?.guardingPoc !=
-                                          null))
-                                      ? true
-                                      : false,
-                                  onChange: (String value) {
-                                    state.guardingMasterData.guardingPoc = value;
-                                    context
-                                        .read<GuardingMasterDataDetailsCubit>()
-                                        .onModelValueChange(
-                                        state.guardingMasterData);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(height * 0.04),
-
-                                /// Guarding Agency Employee Code
-                                CommonWidgets.textDisplay(
-                                    Constants.guardingAgencyEmpCode, Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                FlutterInputField(
-                                  keyboardType: TextInputType.number,
-                                  initialValue: state.guardingMasterData.guardingPoc,
-                                  textFormKey: Keys.poNumberKey,
-                                  hintText: '',
-                                  isEnable: widget.guardingMasterData == null
-                                      ? true
-                                      : (widget.guardingMasterData != null &&
-                                      (widget.guardingMasterData
-                                          ?.guardingPoc ==
-                                          null))
-                                      ? false
-                                      : true,
-                                  isDisableColor: (widget.guardingMasterData !=
-                                      null &&
-                                      (widget.guardingMasterData?.guardingPoc !=
-                                          null))
-                                      ? true
-                                      : false,
-                                  onChange: (String value) {
-                                    state.guardingMasterData.guardingPoc = value;
-                                    context
-                                        .read<GuardingMasterDataDetailsCubit>()
-                                        .onModelValueChange(
-                                        state.guardingMasterData);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(height * 0.04),
-                              ]),
-                            ),
+                            /// Sl No.
+                            CommonWidgets.horizentaltextHandling(Constants.slno,
+                                state.guardingMasterData.slNo ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            /// upload
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.textDisplay(
+                                    Constants.upload, Styles.textStyleBlack14)
+                                : Container(),
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001)
+                                : Container(),
+                            widget.guardingMasterData == null
+                                ? uploadWidget(state)
+                                : Container(),
 
-                            /// SubmitButton
-                            if (state.guardingMasterData.status !=4 ) ...[
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  cancelButtonDisplay(),
-                                  submitButtonDisplay()
-                                ],
-                              ),
-                            ],
+                            // Attachments
+                            getSpaceattchment(height),
+                            getAttachement(state, height),
+
+                            /// Guarding POC
+                            CommonWidgets.textDisplay(
+                                Constants.guardingPoc, Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              keyboardType: TextInputType.number,
+                              initialValue:
+                                  state.guardingMasterData.guardingPoc,
+                              textFormKey: Keys.poNumberKey,
+                              hintText: '',
+                              isEnable: widget.guardingMasterData == null
+                                  ? true
+                                  : (widget.guardingMasterData != null &&
+                                          (widget.guardingMasterData
+                                                  ?.guardingPoc ==
+                                              null))
+                                      ? false
+                                      : true,
+                              isDisableColor: (widget.guardingMasterData !=
+                                          null &&
+                                      (widget.guardingMasterData?.guardingPoc !=
+                                          null))
+                                  ? true
+                                  : false,
+                              onChange: (String value) {
+                                state.guardingMasterData.guardingPoc = value;
+                                context
+                                    .read<GuardingMasterDataDetailsCubit>()
+                                    .onModelValueChange(
+                                        state.guardingMasterData);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.04),
-                          ])))
-            ])));
+
+                            /// Guarding Agency Employee Code
+                            CommonWidgets.textDisplay(
+                                Constants.guardingAgencyEmpCode,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              keyboardType: TextInputType.number,
+                              initialValue:
+                                  state.guardingMasterData.guardingPoc,
+                              textFormKey: Keys.poNumberKey,
+                              hintText: '',
+                              isEnable: widget.guardingMasterData == null
+                                  ? true
+                                  : (widget.guardingMasterData != null &&
+                                          (widget.guardingMasterData
+                                                  ?.guardingPoc ==
+                                              null))
+                                      ? false
+                                      : true,
+                              isDisableColor: (widget.guardingMasterData !=
+                                          null &&
+                                      (widget.guardingMasterData?.guardingPoc !=
+                                          null))
+                                  ? true
+                                  : false,
+                              onChange: (String value) {
+                                state.guardingMasterData.guardingPoc = value;
+                                context
+                                    .read<GuardingMasterDataDetailsCubit>()
+                                    .onModelValueChange(
+                                        state.guardingMasterData);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.04),
+                          ]),
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                        /// SubmitButton
+                        if (state.guardingMasterData.status != 4) ...[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              cancelButtonDisplay(),
+                              submitButtonDisplay()
+                            ],
+                          ),
+                        ],
+                        CommonWidgets.verticalSpacerWidget(height * 0.04),
+                      ])))
+        ])));
   }
 
   String getStatusString(int status) {
@@ -387,7 +384,6 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
         return 'Unknown Status';
     }
   }
-
 
   Widget cancelButtonDisplay() {
     return AppButton(
@@ -419,87 +415,87 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   Widget uploadWidget(GuardingMasterDataDetailsState state) {
     return widget.guardingMasterData == null
         ? Container(
-      height: 60,
-      decoration: BoxDecoration(
-          border: Border.all(
-            color: const Color(0xFFCACACA),
-            width: 1.0,
-          ),
-          borderRadius: const BorderRadius.all(Radius.circular(8))),
-      child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 5.0),
-          child: ElevatedButton.icon(
-            style:
-            ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
-            onPressed: () {
-              // Navigator.pushNamed(context,
-              //     createFoundAttachmentRoute);
-              //UploadAttachment();
-              showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return UploadAttachment(
-                     // userdetails:
-                      //state.loggedInUserDetails ?? EntrySecurity(),
-                      //getFiles: getFiles ?? [],
-                      //onImageSelected: (CreateImage data) {
-                       // log('-------function---onImageSelected---------');
-                       // List<CreateImage>? files = [];
-                        //files.add(data);
-                       // for (CreateImage image in getFiles!.toList()) {
-                       //   files.add(image);
-                       // }
-                       // BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                        //    context)
-                        //    .addAttchment(files);
-                     // },
-                    );
-                  });
-            },
+            height: 60,
+            decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color(0xFFCACACA),
+                  width: 1.0,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(8))),
+            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 5.0),
+                child: ElevatedButton.icon(
+                  style:
+                      ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
+                  onPressed: () {
+                    // Navigator.pushNamed(context,
+                    //     createFoundAttachmentRoute);
+                    //UploadAttachment();
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return UploadAttachment(
+                              // userdetails:
+                              //state.loggedInUserDetails ?? EntrySecurity(),
+                              //getFiles: getFiles ?? [],
+                              //onImageSelected: (CreateImage data) {
+                              // log('-------function---onImageSelected---------');
+                              // List<CreateImage>? files = [];
+                              //files.add(data);
+                              // for (CreateImage image in getFiles!.toList()) {
+                              //   files.add(image);
+                              // }
+                              // BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                              //    context)
+                              //    .addAttchment(files);
+                              // },
+                              );
+                        });
+                  },
 
-            icon: SvgPicture.asset(
-              //AppIcon.dropdownicon,
-              AppIcon.uploadicon,
-              //fit: BoxFit.,
-              color: AppColors.backgroundWhitecolor,
-              width: 13,
-              height: 13,
-              key: const Key(Keys.userIcon),
-            ),
-            // const Icon(
-            //   // <-- Icon
-            //   Icons.upload,
-            //   color: AppColors.backgroundWhitecolor,
-            //   size: 24.0,
-            // ),
-            label: const Text(
-              Constants.clicktoupload,
-              style: Styles.textStyleRegularNormalWhite12,
-            ), // <-- Text
-          ),
-        ),
-      ]),
-    )
+                  icon: SvgPicture.asset(
+                    //AppIcon.dropdownicon,
+                    AppIcon.uploadicon,
+                    //fit: BoxFit.,
+                    color: AppColors.backgroundWhitecolor,
+                    width: 13,
+                    height: 13,
+                    key: const Key(Keys.userIcon),
+                  ),
+                  // const Icon(
+                  //   // <-- Icon
+                  //   Icons.upload,
+                  //   color: AppColors.backgroundWhitecolor,
+                  //   size: 24.0,
+                  // ),
+                  label: const Text(
+                    Constants.clicktoupload,
+                    style: Styles.textStyleRegularNormalWhite12,
+                  ), // <-- Text
+                ),
+              ),
+            ]),
+          )
         : Container();
   }
 
   Widget getSpaceattchment(double height) {
     return getAttachments != null ||
-        getFiles != null ||
-        getFiles?.length != 0 ||
-        getAttachments?.length != 0
+            getFiles != null ||
+            getFiles?.length != 0 ||
+            getAttachments?.length != 0
         ? CommonWidgets.verticalSpacerWidget(height * 0.01)
         : Container();
   }
 
   Widget getAttachement(GuardingMasterDataDetailsState state, double height) {
     return (state.loadAttachments == null ||
-        state.loadAttachments!.isEmpty ||
-        widget.guardingMasterData == null)
+            state.loadAttachments!.isEmpty ||
+            widget.guardingMasterData == null)
         ? state.loadAttachments?.length == 0 || getFiles == null
-        ? Container()
-        : attachmentListviews(getFiles, getAttachments)
+            ? Container()
+            : attachmentListviews(getFiles, getAttachments)
         : attachmentListviews(getFiles, getAttachments);
   }
 
@@ -545,9 +541,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   }
 
   Widget attachmentListviews(
-      List<CreateImage>? attachmentListviews,
-      List<FoundImage>? attachmentListviews1,
-      ) {
+    List<CreateImage>? attachmentListviews,
+    List<FoundImage>? attachmentListviews1,
+  ) {
     log('----attachmentListviews-----${attachmentListviews?.length}-----------');
     log('----attachmentListviews1-----${attachmentListviews1?.length}-----------');
 
@@ -565,7 +561,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount:
-          attachmentListviews1?.length ?? attachmentListviews?.length ?? 0,
+              attachmentListviews1?.length ?? attachmentListviews?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
             CreateImage? imagedata;
             FoundImage? imagedata1;
@@ -580,11 +576,11 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                 ListTile(
                   trailing: widget.guardingMasterData != null
                       ? SvgPicture.asset(AppIcon.download,
-                      color: AppColors.boldgreyBackground)
+                          color: AppColors.boldgreyBackground)
                       : const SizedBox(
-                    height: 0,
-                    width: 0,
-                  ),
+                          height: 0,
+                          width: 0,
+                        ),
                   onTap: () {
                     DownloadImage().saveImage(
                         context, imagedata1?.id ?? 0, imagedata1?.title ?? '');
@@ -604,5 +600,3 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
     );
   }
 }
-
-

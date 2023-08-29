@@ -18,7 +18,8 @@ import '../../services/guarding_master_data_services.dart';
 
 part 'guarding_master_data_details_state.dart';
 
-class GuardingMasterDataDetailsCubit extends Cubit<GuardingMasterDataDetailsState> {
+class GuardingMasterDataDetailsCubit
+    extends Cubit<GuardingMasterDataDetailsState> {
   final GuardingMasterDataServices guardingMasterDataServices;
   final GuardingMastersDataModel? model;
   final CommonServices commonServices;
@@ -28,17 +29,16 @@ class GuardingMasterDataDetailsCubit extends Cubit<GuardingMasterDataDetailsStat
     required this.commonServices,
     required this.model,
   }) : super(
-    GuardingMasterDataDetailsState.initial(
-        model: model ?? GuardingMastersDataModel(),
-        locations: GetLocations(),
-        loggedInUserDetails: EntrySecurity(),
-        users: const [],
-        emailUsers: const[],
-        errorMessage: '',
-        loadAttachments: const [],
-        eventId: null
-    ),
-  );
+          GuardingMasterDataDetailsState.initial(
+              model: model ?? GuardingMastersDataModel(),
+              locations: GetLocations(),
+              loggedInUserDetails: EntrySecurity(),
+              users: const [],
+              emailUsers: const [],
+              errorMessage: '',
+              loadAttachments: const [],
+              eventId: null),
+        );
 
   void onModelValueChange(GuardingMastersDataModel model) {
     emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
@@ -59,20 +59,19 @@ class GuardingMasterDataDetailsCubit extends Cubit<GuardingMasterDataDetailsStat
     var userId = await SharedPrefs.getUserId();
     try {
       GetLocations getLocationsData =
-      await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
-      EntrySecurity loggedInUserDetails =
-      (await commonServices.getUserDetails(userId: userId)) as EntrySecurity;
+      EntrySecurity loggedInUserDetails = (await commonServices.getUserDetails(
+          userId: userId)) as EntrySecurity;
 
       Analyst users =
-      await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       // Get Date of Creation
       state.guardingMasterData.inputDate = _getCurrentDate();
 
       GetDepositor emailUsers =
-      await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
-
+          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
       state.guardingMasterData.entrySecurity = loggedInUserDetails;
 
@@ -83,7 +82,6 @@ class GuardingMasterDataDetailsCubit extends Cubit<GuardingMasterDataDetailsStat
           status: FormStatus.initial,
           guardingMasterData: state.guardingMasterData,
           users: users.t1Analyst,
-
           emailUsers: emailUsers.atomStaticUser,
         ),
       );
@@ -109,9 +107,10 @@ class GuardingMasterDataDetailsCubit extends Cubit<GuardingMasterDataDetailsStat
       ),
     );
     ////Get Sl No from API
-     if (location != null) {
+    if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(), moduleCode: '',
+        locationId: location.id.toString(),
+        moduleCode: '',
       );
 
       state.guardingMasterData.location = location;
@@ -137,7 +136,6 @@ class GuardingMasterDataDetailsCubit extends Cubit<GuardingMasterDataDetailsStat
     print('--data----${data?.length}----');
     print('--state.status-2---${state.status}----');
 
-
     emit(state.copyWith(
       eventId: eventIds,
       guardingMasterData: state.guardingMasterData,
@@ -156,7 +154,6 @@ class GuardingMasterDataDetailsCubit extends Cubit<GuardingMasterDataDetailsStat
       ),
     );
 
-
     // final updatedMaterialMovement = materialMovement.copyWith(state.materialMovement.originalReceiver: isOriginalReceiverReceiving);
 
     // emit(state.copyWith(
@@ -164,7 +161,6 @@ class GuardingMasterDataDetailsCubit extends Cubit<GuardingMasterDataDetailsStat
     //status: FormStatus.initial,
     //));
     //}
-
   }
 
   void submitForm({bool isSaveOnly = false}) async {
@@ -174,5 +170,4 @@ class GuardingMasterDataDetailsCubit extends Cubit<GuardingMasterDataDetailsStat
       ),
     );
   }
-
 }

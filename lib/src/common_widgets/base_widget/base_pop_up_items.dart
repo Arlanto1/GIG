@@ -1,4 +1,3 @@
-
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -91,8 +90,13 @@ class BasePopUpItems extends StatefulWidget {
     this.locationStr,
     this.dutyType,
 
-   // this.uanNo,
-    this.labels, this.isMaterGuard, this.guardRank, this.gender, this.maritalStatus, this.locationRegionStr,
+    // this.uanNo,
+    this.labels,
+    this.isMaterGuard,
+    this.guardRank,
+    this.gender,
+    this.maritalStatus,
+    this.locationRegionStr,
   });
 }
 
@@ -229,7 +233,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildGuardrank(widget.guardRank ?? 0),
       ],
-
       if (widget.gender != null) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildGender(widget.gender ?? 0),
@@ -260,7 +263,8 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Utils().textHandling('Region : ', widget.locationRegionStr.toString()),
+            Utils()
+                .textHandling('Region : ', widget.locationRegionStr.toString()),
           ],
         ),
       ],
@@ -491,16 +495,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
         //CommonWidgets.verticalSpacerWidget(8),
-       // Row(
-       //   children: [
-       //     Utils().textHandling('UAN No : ', widget.uanNo.toString()),
-       //   ],
-       // ),
+        // Row(
+        //   children: [
+        //     Utils().textHandling('UAN No : ', widget.uanNo.toString()),
+        //   ],
+        // ),
       ],
     ];
     for (Label label in labels ?? []) {
-
-      if(label.value == "null" ) {
+      if (label.value == "null") {
         continue;
       }
       widgets.add(CommonWidgets.verticalSpacerWidget(5));

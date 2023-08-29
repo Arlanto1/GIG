@@ -1,14 +1,18 @@
-
 class GuardingMasterDataModel {
   List<GuardingMastersDataModel>? data;
   int? totalCount;
   int? currentPageNo;
   int? totalPageCount;
 
-  GuardingMasterDataModel({this.data, this.totalCount, this.currentPageNo, this.totalPageCount});
+  GuardingMasterDataModel(
+      {this.data, this.totalCount, this.currentPageNo, this.totalPageCount});
 
   GuardingMasterDataModel.fromJson(Map<String, dynamic> json) {
-    data = json["data"] == null ? null : (json["data"] as List).map((e) => GuardingMastersDataModel.fromJson(e)).toList();
+    data = json["data"] == null
+        ? null
+        : (json["data"] as List)
+            .map((e) => GuardingMastersDataModel.fromJson(e))
+            .toList();
     totalCount = json["totalCount"];
     currentPageNo = json["currentPageNo"];
     totalPageCount = json["totalPageCount"];
@@ -16,7 +20,7 @@ class GuardingMasterDataModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> _data = <String, dynamic>{};
-    if(data != null) {
+    if (data != null) {
       _data["data"] = data?.map((e) => e.toJson()).toList();
     }
     _data["totalCount"] = totalCount;
@@ -77,14 +81,68 @@ class GuardingMastersDataModel {
   List<dynamic>? history;
   String? guardingPoc;
 
-  GuardingMastersDataModel({this.id, this.slNo, this.location, this.locationRegion, this.entrySecurity, this.inputDate, this.status, this.guardRank, this.employeeCode, this.dbEmployeeId, this.dutyType, this.gender, this.contactNo, this.maritalStatus, this.typeOfDeployment, this.deploymentOrderSubmitted, this.deploymentOrders, this.physicallyFit, this.localLanguage, this.localLangProficiencyR, this.hindiLangProficiencyR, this.englishLangProficiencyR, this.localLangProficiencyW, this.hindiLangProficiencyW, this.englishLangProficiencyW, this.localLangProficiencyS, this.hindiLangProficiencyS, this.englishLangProficiencyS, this.securityExperience, this.permanentAddress, this.localAddress, this.qualifications, this.pvc, this.trainingCertificateProvided, this.trainingCertificates, this.medicalCertificates, this.systemAccess, this.onboarded, this.esicNo, this.uanNo, this.msgbExempted, this.msgbFormBSubmitted, this.staffMsgbCompliant, this.csrParticipation, this.specialAchievement, this.specialAchievementText, this.additionalInitiatives, this.history, this.guardingPoc});
+  GuardingMastersDataModel(
+      {this.id,
+      this.slNo,
+      this.location,
+      this.locationRegion,
+      this.entrySecurity,
+      this.inputDate,
+      this.status,
+      this.guardRank,
+      this.employeeCode,
+      this.dbEmployeeId,
+      this.dutyType,
+      this.gender,
+      this.contactNo,
+      this.maritalStatus,
+      this.typeOfDeployment,
+      this.deploymentOrderSubmitted,
+      this.deploymentOrders,
+      this.physicallyFit,
+      this.localLanguage,
+      this.localLangProficiencyR,
+      this.hindiLangProficiencyR,
+      this.englishLangProficiencyR,
+      this.localLangProficiencyW,
+      this.hindiLangProficiencyW,
+      this.englishLangProficiencyW,
+      this.localLangProficiencyS,
+      this.hindiLangProficiencyS,
+      this.englishLangProficiencyS,
+      this.securityExperience,
+      this.permanentAddress,
+      this.localAddress,
+      this.qualifications,
+      this.pvc,
+      this.trainingCertificateProvided,
+      this.trainingCertificates,
+      this.medicalCertificates,
+      this.systemAccess,
+      this.onboarded,
+      this.esicNo,
+      this.uanNo,
+      this.msgbExempted,
+      this.msgbFormBSubmitted,
+      this.staffMsgbCompliant,
+      this.csrParticipation,
+      this.specialAchievement,
+      this.specialAchievementText,
+      this.additionalInitiatives,
+      this.history,
+      this.guardingPoc});
 
   GuardingMastersDataModel.fromJson(Map<String, dynamic> json) {
     id = json["id"];
     slNo = json["slNo"];
-    location = json["location"] == null ? null : Location.fromJson(json["location"]);
-    locationRegion = json["locationRegion"] == null ? null : LocationRegion.fromJson(json["locationRegion"]);
-    entrySecurity = json["entrySecurity"] == null ? null : EntrySecurity.fromJson(json["entrySecurity"]);
+    location =
+        json["location"] == null ? null : Location.fromJson(json["location"]);
+    locationRegion = json["locationRegion"] == null
+        ? null
+        : LocationRegion.fromJson(json["locationRegion"]);
+    entrySecurity = json["entrySecurity"] == null
+        ? null
+        : EntrySecurity.fromJson(json["entrySecurity"]);
     inputDate = json["inputDate"];
     status = json["status"];
     guardRank = json["guardRank"];
@@ -135,13 +193,13 @@ class GuardingMastersDataModel {
     final Map<String, dynamic> _data = <String, dynamic>{};
     _data["id"] = id;
     _data["slNo"] = slNo;
-    if(location != null) {
+    if (location != null) {
       _data["location"] = location?.toJson();
     }
-    if(locationRegion != null) {
+    if (locationRegion != null) {
       _data["locationRegion"] = locationRegion?.toJson();
     }
-    if(entrySecurity != null) {
+    if (entrySecurity != null) {
       _data["entrySecurity"] = entrySecurity?.toJson();
     }
     _data["inputDate"] = inputDate;
@@ -155,7 +213,7 @@ class GuardingMastersDataModel {
     _data["maritalStatus"] = maritalStatus;
     _data["typeOfDeployment"] = typeOfDeployment;
     _data["deploymentOrderSubmitted"] = deploymentOrderSubmitted;
-    if(deploymentOrders != null) {
+    if (deploymentOrders != null) {
       _data["deploymentOrders"] = deploymentOrders;
     }
     _data["physicallyFit"] = physicallyFit;
@@ -172,17 +230,17 @@ class GuardingMastersDataModel {
     _data["securityExperience"] = securityExperience;
     _data["permanentAddress"] = permanentAddress;
     _data["localAddress"] = localAddress;
-    if(qualifications != null) {
+    if (qualifications != null) {
       _data["qualifications"] = qualifications;
     }
-    if(pvc != null) {
+    if (pvc != null) {
       _data["pvc"] = pvc;
     }
     _data["trainingCertificateProvided"] = trainingCertificateProvided;
-    if(trainingCertificates != null) {
+    if (trainingCertificates != null) {
       _data["trainingCertificates"] = trainingCertificates;
     }
-    if(medicalCertificates != null) {
+    if (medicalCertificates != null) {
       _data["medicalCertificates"] = medicalCertificates;
     }
     _data["systemAccess"] = systemAccess;
@@ -196,7 +254,7 @@ class GuardingMastersDataModel {
     _data["specialAchievement"] = specialAchievement;
     _data["specialAchievementText"] = specialAchievementText;
     _data["additionalInitiatives"] = additionalInitiatives;
-    if(history != null) {
+    if (history != null) {
       _data["history"] = history;
     }
     _data["guardingPOC"] = guardingPoc;
@@ -218,7 +276,19 @@ class EntrySecurity {
   String? name;
   String? userStatus;
 
-  EntrySecurity({this.userId, this.userName, this.email, this.firstName, this.lastName, this.phone, this.roles, this.roleExtensions, this.notApprovedRoles, this.notApprovedRoleExtensions, this.name, this.userStatus});
+  EntrySecurity(
+      {this.userId,
+      this.userName,
+      this.email,
+      this.firstName,
+      this.lastName,
+      this.phone,
+      this.roles,
+      this.roleExtensions,
+      this.notApprovedRoles,
+      this.notApprovedRoleExtensions,
+      this.name,
+      this.userStatus});
 
   EntrySecurity.fromJson(Map<String, dynamic> json) {
     userId = json["userId"];
@@ -227,8 +297,14 @@ class EntrySecurity {
     firstName = json["firstName"];
     lastName = json["lastName"];
     phone = json["phone"];
-    roles = json["roles"] == null ? null : (json["roles"] as List).map((e) => Roles.fromJson(e)).toList();
-    roleExtensions = json["roleExtensions"] == null ? null : (json["roleExtensions"] as List).map((e) => RoleExtensions1.fromJson(e)).toList();
+    roles = json["roles"] == null
+        ? null
+        : (json["roles"] as List).map((e) => Roles.fromJson(e)).toList();
+    roleExtensions = json["roleExtensions"] == null
+        ? null
+        : (json["roleExtensions"] as List)
+            .map((e) => RoleExtensions1.fromJson(e))
+            .toList();
     notApprovedRoles = json["notApprovedRoles"] ?? [];
     notApprovedRoleExtensions = json["notApprovedRoleExtensions"] ?? [];
     name = json["name"];
@@ -243,16 +319,16 @@ class EntrySecurity {
     _data["firstName"] = firstName;
     _data["lastName"] = lastName;
     _data["phone"] = phone;
-    if(roles != null) {
+    if (roles != null) {
       _data["roles"] = roles?.map((e) => e.toJson()).toList();
     }
-    if(roleExtensions != null) {
+    if (roleExtensions != null) {
       _data["roleExtensions"] = roleExtensions?.map((e) => e.toJson()).toList();
     }
-    if(notApprovedRoles != null) {
+    if (notApprovedRoles != null) {
       _data["notApprovedRoles"] = notApprovedRoles;
     }
-    if(notApprovedRoleExtensions != null) {
+    if (notApprovedRoleExtensions != null) {
       _data["notApprovedRoleExtensions"] = notApprovedRoleExtensions;
     }
     _data["name"] = name;
@@ -271,7 +347,15 @@ class RoleExtensions1 {
   dynamic nodeId;
   dynamic accessRight;
 
-  RoleExtensions1({this.roleExtensionId, this.roleId, this.displayName, this.area, this.filter, this.rootNodeId, this.nodeId, this.accessRight});
+  RoleExtensions1(
+      {this.roleExtensionId,
+      this.roleId,
+      this.displayName,
+      this.area,
+      this.filter,
+      this.rootNodeId,
+      this.nodeId,
+      this.accessRight});
 
   RoleExtensions1.fromJson(Map<String, dynamic> json) {
     roleExtensionId = json["roleExtensionId"];
@@ -305,13 +389,22 @@ class Roles {
   List<RoleExtensions>? roleExtensions;
   String? name;
 
-  Roles({this.roleId, this.application, this.roleName, this.roleExtensions, this.name});
+  Roles(
+      {this.roleId,
+      this.application,
+      this.roleName,
+      this.roleExtensions,
+      this.name});
 
   Roles.fromJson(Map<String, dynamic> json) {
     roleId = json["roleId"];
     application = json["application"];
     roleName = json["roleName"];
-    roleExtensions = json["roleExtensions"] == null ? null : (json["roleExtensions"] as List).map((e) => RoleExtensions.fromJson(e)).toList();
+    roleExtensions = json["roleExtensions"] == null
+        ? null
+        : (json["roleExtensions"] as List)
+            .map((e) => RoleExtensions.fromJson(e))
+            .toList();
     name = json["name"];
   }
 
@@ -320,7 +413,7 @@ class Roles {
     _data["roleId"] = roleId;
     _data["application"] = application;
     _data["roleName"] = roleName;
-    if(roleExtensions != null) {
+    if (roleExtensions != null) {
       _data["roleExtensions"] = roleExtensions?.map((e) => e.toJson()).toList();
     }
     _data["name"] = name;
@@ -338,7 +431,15 @@ class RoleExtensions {
   dynamic nodeId;
   dynamic accessRight;
 
-  RoleExtensions({this.roleExtensionId, this.roleId, this.displayName, this.area, this.filter, this.rootNodeId, this.nodeId, this.accessRight});
+  RoleExtensions(
+      {this.roleExtensionId,
+      this.roleId,
+      this.displayName,
+      this.area,
+      this.filter,
+      this.rootNodeId,
+      this.nodeId,
+      this.accessRight});
 
   RoleExtensions.fromJson(Map<String, dynamic> json) {
     roleExtensionId = json["roleExtensionId"];
