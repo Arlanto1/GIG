@@ -49,16 +49,8 @@ class AppServices {
           print(responseJson);
 
           return responseJson;
-        } else if (response.statusCode == 400) {
-          //   int generateToken = await GenerateTokenService.getGenerateToken();
-          //  if (generateToken == 200) {
-          //      get(url, context);
-          //  }
-          //  else
-          //  {
-          //    Navigator.of(context).pushNamedAndRemoveUntil(loginScreenRoute, (route) => false);
-          //    return generateToken;
-          //  }
+        } else if (response.statusCode == 401) {
+          
           int refreshToken = await RefreshTokenService.getRefreshToken();
           if (refreshToken == 200) {
             counterValue = counterValue + 1;
@@ -110,6 +102,8 @@ class AppServices {
     }
   }
 
+  
+
   void showAlertMessage(String message, BuildContext context) {
    
     var dialog = CustomAlertDialog(
@@ -156,16 +150,8 @@ class AppServices {
 
         if (response.statusCode == 200) {
           return responseJson;
-        } else if (response.statusCode == 400) {
-          //   int generateToken = await GenerateTokenService.getGenerateToken();
-          //  if (generateToken == 200) {
-          //      get(url, context);
-          //  }
-          //  else
-          //  {
-          //    Navigator.of(context).pushNamedAndRemoveUntil(loginScreenRoute, (route) => false);
-          //    return generateToken;
-          //  }
+        } else if (response.statusCode == 401) {
+          
           int refreshToken = await RefreshTokenService.getRefreshToken();
           if (refreshToken == 200) {
             counterValue = counterValue + 1;
@@ -249,9 +235,7 @@ class AppServices {
         return response.statusCode;
 
       case 401:
-        final Map<String, dynamic> responseJson =
-            json.decode(response.body.toString());
-        return responseJson;
+         return response.statusCode;
 
       case 403:
         showAlertMessage('Unauthorized Access', context);

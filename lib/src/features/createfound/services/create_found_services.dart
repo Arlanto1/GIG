@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:db_atom/src/appservices/app_service_handler.dart';
 import 'package:db_atom/src/appservices/app_services.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/configurations/prod_config.dart';
@@ -19,15 +20,7 @@ import 'package:http/http.dart' as http;
 
 class CreateFoundServices {
    final endpoint = Environment().config.apiHost;
-    Future<dynamic> globalGetServiceCall(String url,BuildContext context,)
-  {
-    return AppServices().get(url, context);
-  }
-
-   Future<dynamic> globalPostServiceCall(String url,BuildContext context,Object? body)
-  {
-    return AppServices().post(url, context,body);
-  }
+    
 
 
   Future<SubmitCreateFoundModel> createFoundArticle(
@@ -50,7 +43,7 @@ class CreateFoundServices {
     // } on SocketException {
     //   throw json.decode('{"errorMessage":"Network Lost"}');
     // }
-     var value  = await globalPostServiceCall('/addFound?isSubmit=$isSubmit&userEmail=username',context,json.encode(requestBody));
+     var value  = await  AppServicesHandler().globalPostServiceCall('/addFound?isSubmit=$isSubmit&userEmail=username',context,json.encode(requestBody));
 
    return  SubmitCreateFoundModel.fromJson(value);
   }
@@ -77,7 +70,7 @@ class CreateFoundServices {
     // } on SocketException {
     //   throw json.decode('{"errorMessage":"Network Lost"}');
     // }
-    var value  = await globalPostServiceCall('/addFound?isSubmit=$isSubmit&userEmail=username',context,json.encode(requestBody));
+    var value  = await  AppServicesHandler().globalPostServiceCall('/addFound?isSubmit=$isSubmit&userEmail=username',context,json.encode(requestBody));
 
    return  SubmitCreateFoundModel.fromJson(value);
   }
