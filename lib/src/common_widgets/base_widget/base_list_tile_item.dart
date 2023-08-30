@@ -28,6 +28,7 @@ class BaseListTileItem extends StatefulWidget {
   final Function? onTap;
   final Function? onEditTap;
   final Function? onViewTap;
+  final int? guardRank;
 
   // final Item userItem;
   final int? index;
@@ -57,7 +58,7 @@ class BaseListTileItem extends StatefulWidget {
     this.dutyType,
     this.labels,
     this.isMasterGuard,
-    this.isStatus,
+    this.isStatus, this.guardRank,
   });
 
   @override
@@ -155,6 +156,10 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                 .textHandling('Guard Count : ', widget.guardCount.toString()),
           ],
         ),
+      ],
+      if (widget.guardRank != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Utils().buildGuardrank(widget.guardRank ?? 0),
       ],
       if (widget.pvcExpired != null) ...[
         CommonWidgets.verticalSpacerWidget(8),

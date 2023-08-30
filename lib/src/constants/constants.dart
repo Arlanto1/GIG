@@ -200,6 +200,7 @@ class Constants {
   static const String department = 'Department';
   static const String distributiongroups = 'Distribution Groups';
   static const String upload = 'Upload';
+  static const String uploadPhoto = 'Upload Photo';
   static const String addanothervisitingofficialdetails =
       "Add Another Visiting Official Details";
   static const String visitingofficialdetails = "Visiting Official Details";
@@ -342,4 +343,11 @@ class Constants {
   static const String editGuardingMasterData = 'Edit Guarding Master Data';
   static const String guardingPoc = 'Guarding Partner POC';
   static const String guardingAgencyEmpCode = 'Guarding Agency Employee Code';
+  static const String dbEmployeeId = 'DB Employee ID';
+  static const String mobileNum = 'Mobile Number';
+  static const String physicallyFit = 'Physically Fit?';
+  static const String dateOfBirth = 'Date of Birth';
+  static const String esicNo = 'ESIC NO';
+  static const String uanNo = 'UAN NO';
+  static const String height = 'Height(cm)';
 }

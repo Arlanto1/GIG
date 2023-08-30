@@ -49,7 +49,6 @@ class BasePopUpItems extends StatefulWidget {
   final int? guardRank;
   final int? gender;
   final int? maritalStatus;
-  final LocationRegion? locationRegionStr;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -90,14 +89,12 @@ class BasePopUpItems extends StatefulWidget {
     this.firstAidNotCertified,
     this.locationStr,
     this.dutyType,
-
-    // this.uanNo,
     this.labels,
     this.isMaterGuard,
     this.guardRank,
     this.gender,
     this.maritalStatus,
-    this.locationRegionStr,
+
   });
 }
 
@@ -256,16 +253,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().textHandling('Loaction : ', widget.locationStr.toString()),
-          ],
-        ),
-      ],
-      if (widget.locationRegionStr != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Utils()
-                .textHandling('Region : ', widget.locationRegionStr.toString()),
           ],
         ),
       ],

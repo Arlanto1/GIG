@@ -521,7 +521,6 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.04),
 
-
                           ]),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -607,20 +606,20 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                         context: context,
                         builder: (BuildContext dialogContext) {
                           return UploadAttachment(
-                              // userdetails:
-                              //state.loggedInUserDetails ?? EntrySecurity(),
-                              //getFiles: getFiles ?? [],
-                              //onImageSelected: (CreateImage data) {
-                              // log('-------function---onImageSelected---------');
-                              // List<CreateImage>? files = [];
-                              //files.add(data);
-                              // for (CreateImage image in getFiles!.toList()) {
-                              //   files.add(image);
-                              // }
-                              // BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                              //    context)
-                              //    .addAttchment(files);
-                              // },
+                             /*  userdetails:
+                              state.loggedInUserDetails ?? EntrySecurity()
+                              getFiles: getFiles ?? [],
+                              onImageSelected: (CreateImage data) {
+                               log('-------function---onImageSelected---------');
+                               List<CreateImage>? files = [];
+                              files.add(data);
+                               for (CreateImage image in getFiles!.toList()) {
+                                 files.add(image);
+                               }
+                               BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                  context)
+                                  .addAttchment(files);
+                               },*/
                               );
                         });
                   },
