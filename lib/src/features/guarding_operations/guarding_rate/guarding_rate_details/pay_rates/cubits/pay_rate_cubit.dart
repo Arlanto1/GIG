@@ -56,7 +56,7 @@ class PayRateCubit extends Cubit<PayRateState> {
 
     var userId = await SharedPrefs.getUserId();
     EntrySecurity loggedInUserDetails =
-    await commonServices.getUserDetails(userId: userId);
+        await commonServices.getUserDetails(userId: userId);
     state.rate.entrySecurity ??= loggedInUserDetails;
     GetLocations getLocationsData =
         await commonServices.getLocations(name: 'ATOM_LOCATIONS');
@@ -186,31 +186,38 @@ class PayRateCubit extends Cubit<PayRateState> {
       ),
     );
 
-    log('--total--${state.newPayRate.total}------');
-    log('--from--${state.newPayRate.fromDate}------');
+    log('--rankId--${newPayRate?.rankId}------');
 
     newPayRate ?? PayRate();
+    log('--rankId----two-${newPayRate?.rankId}------');
     switch (newPayRate?.rankId) {
       case 1:
-        state.rate.securityGuardRates ?? [].add(newPayRate);
+        state.rate.securityGuardRates ?? [];
+        state.rate.securityGuardRates?.add(newPayRate!);
         break;
       case 2:
-        state.rate.securityOfficerRates ?? [].add(newPayRate);
+        state.rate.securityOfficerRates ?? [];
+        state.rate.securityOfficerRates?.add(newPayRate!);
         break;
 
       case 3:
-        state.rate.securitySupervisorRates ?? [].add(newPayRate);
+        state.rate.securitySupervisorRates ?? [];
+        state.rate.securitySupervisorRates?.add(newPayRate!);
         break;
 
       case 4:
-        state.rate.securityFacilitatorRates ?? [].add(newPayRate);
+        state.rate.securityFacilitatorRates ?? [];
+        state.rate.securityFacilitatorRates?.add(newPayRate!);
         break;
 
       case 5:
-        state.rate.securityGunManRates ?? [].add(newPayRate);
+        log('--state.rate.securityGunManRates--${state.rate.securityGunManRates}------------');
+        state.rate.securityGunManRates ?? [];
+        state.rate.securityGunManRates?.add(newPayRate!);
         break;
 
       default:
+        log('--newPayRate--${newPayRate?.total}------------');
         state.rate.securityGuardRates ?? [].add(newPayRate);
     }
 
@@ -248,7 +255,7 @@ class PayRateCubit extends Cubit<PayRateState> {
 
     log('---response- ${response.toString()}---');
     log('---response- ${response.id}---');
-    state.rate.id = int.parse(response.id??'');
+    state.rate.id = int.parse(response.id ?? '');
 
     emit(
       state.copyWith(

@@ -44,7 +44,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
 
   @override
   Widget build(BuildContext context) {
-    log('------payRate--${widget.payRate}------');
+    log('------payRate--${widget.payRate.total}------');
     fromDateController.text = widget.payRate.fromDate ?? '';
     toDateController.text = widget.payRate.toDate ?? '';
     return SingleChildScrollView(
@@ -218,7 +218,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      buttonViews(context, width),
+                      buttonViews(widget.mainContext, width),
                     ],
                   ),
                 ),
@@ -279,6 +279,37 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
       onTap: () {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
+
+        log('-widget.title---${widget.title}----');
+
+        switch (widget.title) {
+          case Constants.createSecurityGuard:
+            widget.payRate.rankId = 1;
+
+            break;
+
+          case Constants.createSecuritySupervisor:
+            widget.payRate.rankId = 2;
+            break;
+
+          case Constants.createSecurityOfficer:
+            widget.payRate.rankId = 3;
+            break;
+
+          case Constants.createSecurityFacilitator:
+            widget.payRate.rankId = 4;
+            break;
+
+          default:
+            widget.payRate.rankId = 5;
+            break;
+        }
+        
+        
+        log('--newPayRate--total---${widget.payRate.total}------------');
+        log('--newPayRate--2222--33333--rankid-${widget.payRate.rankId}------------');
+
+        
 
         BlocProvider.of<PayRateCubit>(widget.mainContext)
             .onSave(isSubmit: false, newPayRate: widget.payRate);
