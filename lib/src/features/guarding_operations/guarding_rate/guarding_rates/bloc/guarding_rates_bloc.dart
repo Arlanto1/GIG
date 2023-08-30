@@ -38,26 +38,26 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
         return emit(
           state.copyWith(
             items: response.items,
-            hasReachedMax: false,
+            hasReachedMax: response.items!.length < event.maxPos ? true : false,
             status: LawEnforcementListStateType.success,
           ),
         );
       }
 
-      RatesResponse getMaterialMovements = await _services.getRates(
+      RatesResponse response = await _services.getRates(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '77', //TODO: make it dynamic
       );
 
-      log('-getMaterialMovements----2-----$getMaterialMovements----');
+      log('-response----2-----$response----');
 
-      if (getMaterialMovements.items?.isEmpty == true) {
+      if (response.items?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));
       }
       return emit(
         state.copyWith(
-          items: List.of(state.items)..addAll(getMaterialMovements.items ?? []),
+          items: List.of(state.items)..addAll(response.items ?? []),
           hasReachedMax: false,
         ),
       );

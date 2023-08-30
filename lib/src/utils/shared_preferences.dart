@@ -38,6 +38,8 @@ class SharedPrefs {
   static Future<void> setEmail(String value) async {
     // final SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    log('--setEmail- $value----');
+
     instance.setString(Constants.isEmailKey, value);
   }
 

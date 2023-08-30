@@ -40,6 +40,7 @@ const String guardingRateDetailsRoute = '/guardingRateDetailsRoute';
 const String guardingRatesRoute = '/guardingRatesRoute';
 const String guardingRatesGRIRoute = '/guardingRatesGRIRoute';
 const String payRateRoute = '/payRateRoute';
+const String femaleDropPickUpRoute = '/femaleDropPickUpRoute';
 
 
 
