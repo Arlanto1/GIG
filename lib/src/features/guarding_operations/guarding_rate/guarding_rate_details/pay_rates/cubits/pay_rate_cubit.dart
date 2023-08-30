@@ -20,7 +20,6 @@ import '../../../../../createfound/models/get_locations_model.dart';
 import '../../../../../createfound/models/serial_number_model.dart';
 import '../../../../../lawenforcement/models/addentities.dart';
 import '../../../../../material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
-import '../../../../../material_movement/models/material_movements_model.dart';
 import '../../../../../material_movement/models/responseModels/material_movement_response.dart';
 
 part 'pay_rate_state.dart';
@@ -177,8 +176,10 @@ class PayRateCubit extends Cubit<PayRateState> {
     ));
   }
 
-  Future<void> onSave(
-      {bool isSubmit = false, officerRank = 1, PayRate? newPayRate}) async {
+  Future<void> onSave({
+    bool isSubmit = false,
+    PayRate? newPayRate,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -189,7 +190,7 @@ class PayRateCubit extends Cubit<PayRateState> {
     log('--from--${state.newPayRate.fromDate}------');
 
     newPayRate ?? PayRate();
-    switch (officerRank) {
+    switch (newPayRate?.rankId) {
       case 1:
         state.rate.securityGuardRates ?? [].add(newPayRate);
         break;
@@ -230,16 +231,18 @@ class PayRateCubit extends Cubit<PayRateState> {
         log('$e');
       }
     } else {
+      log('--else---${state.isValid.status}-----');
       //Validating Fields
-      // if (!state.isValid.status) {
-      //   emit(
-      //     state.copyWith(
-      //       status: FormStatus.error,
-      //       message: state.isValid.message,
-      //     ),
-      //   );
-      //   return;
-      // }
+      if (!state.isValid.status) {
+        log('--if---${state.isValid.status}-----');
+        emit(
+          state.copyWith(
+            status: FormStatus.error,
+            message: state.isValid.message,
+          ),
+        );
+        return;
+      }
       response = await services.createGmRate(body: request, isSubmit: isSubmit);
     }
 
