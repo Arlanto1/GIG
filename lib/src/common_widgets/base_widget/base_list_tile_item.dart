@@ -28,13 +28,11 @@ class BaseListTileItem extends StatefulWidget {
   final Function? onTap;
   final Function? onEditTap;
   final Function? onViewTap;
-  final int? guardRank;
 
   // final Item userItem;
   final int? index;
   final bool? showEditButton;
   final bool? isMasterGuard;
-  final bool? isStatus;
 
   const BaseListTileItem({
     super.key,
@@ -58,7 +56,6 @@ class BaseListTileItem extends StatefulWidget {
     this.dutyType,
     this.labels,
     this.isMasterGuard,
-    this.isStatus, this.guardRank,
   });
 
   @override
@@ -157,10 +154,6 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
           ],
         ),
       ],
-      if (widget.guardRank != null) ...[
-        CommonWidgets.verticalSpacerWidget(5),
-        Utils().buildGuardrank(widget.guardRank ?? 0),
-      ],
       if (widget.pvcExpired != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(
@@ -218,11 +211,11 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
           ],
         ),
       ],
-      if (widget.isStatus != null) ...[
+      if (widget.isMasterGuard != null && !widget.isMasterGuard!) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildStatusRow(widget.status ?? 0),
       ],
-      if (widget.isMasterGuard != null) ...[
+      if (widget.isMasterGuard != null && widget.isMasterGuard!) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildMasterDataStatusRow(widget.status ?? 0),
       ],
