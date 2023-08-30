@@ -35,6 +35,7 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:db_atom/src/utils/network_handler.dart' as network_handler;
 
 class Createfound extends StatefulWidget {
   FoundListArticleDetails? listuser;
@@ -338,13 +339,21 @@ class _CreatefoundState extends State<Createfound> {
 
   void _getFoundArticleList() async {
     var userid = await SharedPrefs.getUserId();
-    await createFoundArticleCubit.getUserByRoleDepositor('ATOM_STATIC_USER');
-    await createFoundArticleCubit.getLocations('ATOM_LOCATIONS');
+    final bool isActive = await network_handler.networkChecking(context);
+    if (isActive)
+    {
+    await createFoundArticleCubit.getUserByRoleDepositor('ATOM_STATIC_USER',context);
+    await createFoundArticleCubit.getLocations('ATOM_LOCATIONS',context);
     await createFoundArticleCubit
-        .getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
-    await createFoundArticleCubit.getArticleType('ARTICLE_LIST');
+        .getEmployeeDepartments('EMPLOYEE_DEPARTMENTS',context);
+    await createFoundArticleCubit.getArticleType('ARTICLE_LIST',context);
     if (widget.listuser == null) {
-      await createFoundArticleCubit.getUserDetails(userid);
+      await createFoundArticleCubit.getUserDetails(userid,context);
+    }
+    }
+    else
+    {
+       Utils.showAlertMessage("No Network connection", context);
     }
   }
 

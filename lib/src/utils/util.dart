@@ -91,5 +91,20 @@ class Utils {
     final now = DateTime.now();
     return now.microsecondsSinceEpoch.toString();
   }
+
+  static showAlertMessage(String message, BuildContext context) {
+   
+    var dialog = CustomAlertDialog(
+      title: Constants.appname,
+      message: message,
+      onPostivePressed: () {
+        //ValidatorlogoutAction(context);
+        Navigator.of(context).pop();
+      },
+      positiveBtnText: Constants.ok,
+      //negativeBtnText: Constants.no
+    );
+    showDialog(context: context, builder: (BuildContext context) => dialog);
+  }
   
 }

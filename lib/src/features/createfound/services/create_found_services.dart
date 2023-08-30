@@ -76,87 +76,101 @@ class CreateFoundServices {
   }
 
   //Get Depositor users by role
-  Future<GetDepositor> getUserByRoleDepositor(String userRole) async {
+  Future<GetDepositor> getUserByRoleDepositor(String userRole,BuildContext context) async {
    
-    final url = Uri.parse('$endpoint/getUsersByRole?roleName=$userRole');
-    try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      );
-      if (response.statusCode == 200) {
-        return GetDepositor.fromJson(json.decode(response.body));
-      } else {
-        throw json.decode(response.body);
-      }
-    } on SocketException {
-      throw json.decode('{"errorMessage":"Network Lost"}');
-    }
+    // final url = Uri.parse('$endpoint/getUsersByRole?roleName=$userRole');
+    // try {
+    //   final response = await http.get(
+    //     url,
+    //     headers: {
+    //       'Content-Type': 'application/json; charset=UTF-8',
+    //     },
+    //   );
+    //   if (response.statusCode == 200) {
+    //     return GetDepositor.fromJson(json.decode(response.body));
+    //   } else {
+    //     throw json.decode(response.body);
+    //   }
+    // } on SocketException {
+    //   throw json.decode('{"errorMessage":"Network Lost"}');
+    // }
+    var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getUsersByRole?roleName=$userRole',context);
+
+   return  GetDepositor.fromJson(value);
   }
 
   //Get locations
-  Future<GetLocations> getLocations(String locationStr) async {
+  Future<GetLocations> getLocations(String locationStr,BuildContext context) async {
    
-    final url = Uri.parse('$endpoint/getOrganisation?name=$locationStr');
-    try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      );
-      if (response.statusCode == 200) {
-        return GetLocations.fromJson(json.decode(response.body));
-      } else {
-        throw json.decode(response.body);
-      }
-    } on SocketException {
-      throw json.decode('{"errorMessage":"Network Lost"}');
-    }
+    // final url = Uri.parse('$endpoint/getOrganisation?name=$locationStr');
+    // try {
+    //   final response = await http.get(
+    //     url,
+    //     headers: {
+    //       'Content-Type': 'application/json; charset=UTF-8',
+    //     },
+    //   );
+    //   if (response.statusCode == 200) {
+    //     return GetLocations.fromJson(json.decode(response.body));
+    //   } else {
+    //     throw json.decode(response.body);
+    //   }
+    // } on SocketException {
+    //   throw json.decode('{"errorMessage":"Network Lost"}');
+    // }
+
+    var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getOrganisation?name=$locationStr',context);
+
+   return  GetLocations.fromJson(value);
   }
 
   //Get Employee Departments
-  Future<EmployeeDepartments> getEmployeeDepartments(String departmentStr) async {
+  Future<EmployeeDepartments> getEmployeeDepartments(String departmentStr,BuildContext context) async {
     
-    final url = Uri.parse('$endpoint/getOrganisation?name=$departmentStr');
-    try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      );
-      if (response.statusCode == 200) {
-        return EmployeeDepartments.fromJson(json.decode(response.body));
-      } else {
-        throw json.decode(response.body);
-      }
-    } on SocketException {
-      throw json.decode('{"errorMessage":"Network Lost"}');
-    }
+    // final url = Uri.parse('$endpoint/getOrganisation?name=$departmentStr');
+    // try {
+    //   final response = await http.get(
+    //     url,
+    //     headers: {
+    //       'Content-Type': 'application/json; charset=UTF-8',
+    //     },
+    //   );
+    //   if (response.statusCode == 200) {
+    //     return EmployeeDepartments.fromJson(json.decode(response.body));
+    //   } else {
+    //     throw json.decode(response.body);
+    //   }
+    // } on SocketException {
+    //   throw json.decode('{"errorMessage":"Network Lost"}');
+    // }
+
+    var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getOrganisation?name=$departmentStr',context);
+
+   return  EmployeeDepartments.fromJson(value);
   }
 
   //Get Article Type
-  Future<GetArticleType> getArticleType(String articleTypeStr) async {
+  Future<GetArticleType> getArticleType(String articleTypeStr,BuildContext context) async {
     
-    final url = Uri.parse('$endpoint/getOrganisation?name=$articleTypeStr');
-    try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      );
-      if (response.statusCode == 200) {
-        return GetArticleType.fromJson(json.decode(response.body));
-      } else {
-        throw json.decode(response.body);
-      }
-    } on SocketException {
-      throw json.decode('{"errorMessage":"Network Lost"}');
-    }
+    // final url = Uri.parse('$endpoint/getOrganisation?name=$articleTypeStr');
+    // try {
+    //   final response = await http.get(
+    //     url,
+    //     headers: {
+    //       'Content-Type': 'application/json; charset=UTF-8',
+    //     },
+    //   );
+    //   if (response.statusCode == 200) {
+    //     return GetArticleType.fromJson(json.decode(response.body));
+    //   } else {
+    //     throw json.decode(response.body);
+    //   }
+    // } on SocketException {
+    //   throw json.decode('{"errorMessage":"Network Lost"}');
+    // }
+     var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getOrganisation?name=$articleTypeStr',context);
+
+   return  GetArticleType.fromJson(value);
   }
 
   // Create organisation api call
@@ -178,6 +192,7 @@ class CreateFoundServices {
     } on SocketException {
       throw json.decode('{"errorMessage":"Network Lost"}');
     }
+    
   }
 
   // Create user api call
@@ -204,24 +219,27 @@ class CreateFoundServices {
   }
 
   // get user Details api call
-  Future<GetUserDetails> getUserDetails(String userId) async {
+  Future<GetUserDetails> getUserDetails(String userId,BuildContext context) async {
     
-    final url = Uri.parse('$endpoint/getUserDetails?userId=$userId');
-    try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      );
-      if (response.statusCode == 200) {
-        return GetUserDetails.fromJson(json.decode(response.body));
-      } else {
-        throw json.decode(response.body);
-      }
-    } on SocketException {
-      throw json.decode('{"errorMessage":"Network Lost"}');
-    }
+    // final url = Uri.parse('$endpoint/getUserDetails?userId=$userId');
+    // try {
+    //   final response = await http.get(
+    //     url,
+    //     headers: {
+    //       'Content-Type': 'application/json; charset=UTF-8',
+    //     },
+    //   );
+    //   if (response.statusCode == 200) {
+    //     return GetUserDetails.fromJson(json.decode(response.body));
+    //   } else {
+    //     throw json.decode(response.body);
+    //   }
+    // } on SocketException {
+    //   throw json.decode('{"errorMessage":"Network Lost"}');
+    // }
+    var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getUserDetails?userId=$userId',context);
+
+   return  GetUserDetails.fromJson(value);
   }
 
   // get serailnumber Details api call
