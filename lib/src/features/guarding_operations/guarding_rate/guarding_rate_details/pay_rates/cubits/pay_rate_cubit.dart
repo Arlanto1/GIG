@@ -246,8 +246,13 @@ class PayRateCubit extends Cubit<PayRateState> {
       response = await services.createGmRate(body: request, isSubmit: isSubmit);
     }
 
+    log('---response- ${response.toString()}---');
+    log('---response- ${response.id}---');
+    state.rate.id = int.parse(response.id??'');
+
     emit(
       state.copyWith(
+        rate: state.rate,
         message: response.message,
         status: isSubmit ? FormStatus.success : FormStatus.next,
       ),

@@ -2,33 +2,33 @@ import '../../../../models/location.dart';
 import '../../../../models/location_region.dart';
 
 class DropPickUpResponse {
-  final List<DropPickUpModel>? data;
+  final List<FemaleDropPickUp>? items;
   final int? totalCount;
   final int? currentPageNo;
   final int? totalPageCount;
 
   DropPickUpResponse({
-    this.data,
+    this.items,
     this.totalCount,
     this.currentPageNo,
     this.totalPageCount,
   });
 
   DropPickUpResponse.fromJson(Map<String, dynamic> json)
-      : data = (json['data'] as List?)?.map((dynamic e) => DropPickUpModel.fromJson(e as Map<String,dynamic>)).toList(),
+      : items = (json['data'] as List?)?.map((dynamic e) => FemaleDropPickUp.fromJson(e as Map<String,dynamic>)).toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'data' : data?.map((e) => e.toJson()).toList(),
+    'data' : items?.map((e) => e.toJson()).toList(),
     'totalCount' : totalCount,
     'currentPageNo' : currentPageNo,
     'totalPageCount' : totalPageCount
   };
 }
 
-class DropPickUpModel {
+class FemaleDropPickUp {
   final int? id;
   final String? slNo;
   final int? inputDate;
@@ -38,7 +38,7 @@ class DropPickUpModel {
   final List<DropPickUp>? dropPickUp;
   final List<dynamic>? history;
 
-  DropPickUpModel({
+  FemaleDropPickUp({
     this.id,
     this.slNo,
     this.inputDate,
@@ -49,7 +49,7 @@ class DropPickUpModel {
     this.history,
   });
 
-  DropPickUpModel.fromJson(Map<String, dynamic> json)
+  FemaleDropPickUp.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
         slNo = json['slNo'] as String?,
         inputDate = json['inputDate'] as int?,

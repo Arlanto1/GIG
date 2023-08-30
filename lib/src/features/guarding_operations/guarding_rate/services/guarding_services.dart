@@ -6,6 +6,7 @@ import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/ra
 
 import '../../../../utils/shared_preferences.dart';
 import '../../../material_movement/models/responseModels/material_movement_response.dart';
+import '../models/drop_pick_up_response.dart';
 import '../models/request/gm_rate_request.dart';
 
 class Apis {
@@ -14,9 +15,16 @@ class Apis {
   static final String _getRates = '$baseUrl/getGMRates?';
   static final String _getRate = '$baseUrl/getGMRateById/';
   static final String _createRate = '$baseUrl/createGMRate';
+  static final String _getFemaleDropPickUps= '$baseUrl/getDropPickup?';
 }
 
 class GuardingServices {
+
+  Future<String> getUserEmail() async {
+    String email =  await SharedPrefs.getEmail();
+    return email;
+  }
+
   Future<RatesResponse> getRates({
     required String startPosition,
     required String maximumRecords,
@@ -45,14 +53,30 @@ class GuardingServices {
     required GMRateRequest body,
     required bool isSubmit,
   }) async {
-    var userId = await SharedPrefs.getUserId();
     final String url =
-        "${Apis._createRate}?userEmail=$userId&isSubmit=$isSubmit";
+        "${Apis._createRate}?userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),
     );
     return GenericCreateResponse.fromJson(response);
+  }
+
+
+
+  Future<DropPickUpResponse> getFemaleDropPickUps({
+    required String startPosition,
+    required String maximumRecords,
+    required String userId,
+  }) async {
+    String url =
+        '${Apis._getFemaleDropPickUps}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId';
+
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return DropPickUpResponse.fromJson(response);
   }
 }

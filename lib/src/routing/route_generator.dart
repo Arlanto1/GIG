@@ -8,8 +8,10 @@ import 'package:db_atom/src/features/createfound/views/create_found.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_attachment.dart';
 import 'package:db_atom/src/features/dashboard/views/charts/pie_chart.dart';
 import 'package:db_atom/src/features/dashboard/views/my_home_page.dart';
+import 'package:db_atom/src/features/guarding_operations/drop_pick_up/bloc/female_drop_pick_up_bloc.dart';
+import 'package:db_atom/src/features/guarding_operations/drop_pick_up/views/female_drop_pick_up_view.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart' as guarding;
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
@@ -255,9 +257,9 @@ class RouteGenerator {
               settings.arguments as Map<String, dynamic>;
         }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<GuardingRatesBloc>(
-                  create: (_) => GuardingRatesBloc()
-                    ..add(const FetchList(startPos: 0, maxPos: 20)),
+            builder: (context) => BlocProvider<guarding.GuardingRatesBloc>(
+                  create: (_) => guarding.GuardingRatesBloc()
+                    ..add(const guarding.FetchList(startPos: 0, maxPos: 20)),
                   child: const GuardingRates(),
                 ));
 
@@ -378,6 +380,18 @@ class RouteGenerator {
                     title: title,
                   ),
                 ));
+
+      case femaleDropPickUpRoute:
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+        }
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<FemaleDropPickUpBloc>(
+              create: (_) => FemaleDropPickUpBloc()
+                ..add(const FetchList(startPos: 0, maxPos: 20)),
+              child: const FemaleDropPickUpView(),
+            ));
       default:
         return MaterialPageRoute(builder: (context) => App());
     }

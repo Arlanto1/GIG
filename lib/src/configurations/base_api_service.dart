@@ -68,7 +68,6 @@ class BaseApiService {
         return _response;
       } else {
         log("$url POST response is NOT OK:${response.statusCode}");
-        log(" will 1111 logout");
         if (response.statusCode == 401) {
           log(" will logout   int");
           // logout(context);
