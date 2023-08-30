@@ -54,12 +54,10 @@ class PayRateCubit extends Cubit<PayRateState> {
       ),
     );
 
-    if (state.rate.entrySecurity == null) {
-      var userId = await SharedPrefs.getUserId();
-      EntrySecurity loggedInUserDetails =
-          await commonServices.getUserDetails(userId: userId);
-      state.rate.entrySecurity = loggedInUserDetails;
-    }
+    var userId = await SharedPrefs.getUserId();
+    EntrySecurity loggedInUserDetails =
+    await commonServices.getUserDetails(userId: userId);
+    state.rate.entrySecurity ??= loggedInUserDetails;
     GetLocations getLocationsData =
         await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
@@ -250,7 +248,7 @@ class PayRateCubit extends Cubit<PayRateState> {
 
     log('---response- ${response.toString()}---');
     log('---response- ${response.id}---');
-    state.rate.id = int.parse(response.id ?? '');
+    state.rate.id = int.parse(response.id??'');
 
     emit(
       state.copyWith(
