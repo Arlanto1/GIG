@@ -114,7 +114,8 @@ class _MaterialMovementsState
                         location: state.items[index].location,
                         locationRegion: state.items[index].locationRegion,
                         status: state.items[index].status,
-                        onTap: (selectedIndex) {
+                  isMasterGuard: false,
+                  onTap: (selectedIndex) {
                           showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {

@@ -33,7 +33,6 @@ class BaseListTileItem extends StatefulWidget {
   final int? index;
   final bool? showEditButton;
   final bool? isMasterGuard;
-  final bool? isStatus;
 
   const BaseListTileItem({
     super.key,
@@ -57,7 +56,6 @@ class BaseListTileItem extends StatefulWidget {
     this.dutyType,
     this.labels,
     this.isMasterGuard,
-    this.isStatus,
   });
 
   @override
@@ -213,11 +211,11 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
           ],
         ),
       ],
-      if (widget.isStatus != null) ...[
+      if (widget.isMasterGuard != null && !widget.isMasterGuard!) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildStatusRow(widget.status ?? 0),
       ],
-      if (widget.isMasterGuard != null) ...[
+      if (widget.isMasterGuard != null && widget.isMasterGuard!) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildMasterDataStatusRow(widget.status ?? 0),
       ],
