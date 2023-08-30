@@ -53,11 +53,11 @@ class PayRateCubit extends Cubit<PayRateState> {
         status: FormStatus.loading,
       ),
     );
+
     var userId = await SharedPrefs.getUserId();
     EntrySecurity loggedInUserDetails =
-        await commonServices.getUserDetails(userId: userId);
-    state.rate.entrySecurity = loggedInUserDetails;
-
+    await commonServices.getUserDetails(userId: userId);
+    state.rate.entrySecurity ??= loggedInUserDetails;
     GetLocations getLocationsData =
         await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
