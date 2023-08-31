@@ -313,7 +313,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               keyboardType: TextInputType.number,
                               initialValue:
                                   state.guardingMasterData.guardingPoc,
-                              textFormKey: Keys.poNumberKey,
+                              textFormKey: Keys.guardingPOCKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
                                   ? true
@@ -349,7 +349,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               keyboardType: TextInputType.number,
                               initialValue:
                                   state.guardingMasterData.employeeCode,
-                              textFormKey: Keys.poNumberKey,
+                              textFormKey: Keys.guardingAgencyKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
                                   ? true
@@ -389,7 +389,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               },
                               child: FlutterInputField(
                                 textFieldController: returnableTextController,
-                                textFormKey: Keys.returnableKey,
+                                textFormKey: Keys.rankKey,
                                 hintText: '',
                                 isEnable: false,
                                 isDisableColor:
@@ -418,7 +418,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                           keyboardType: TextInputType.number,
                           initialValue:
                           state.guardingMasterData.guardingPoc,
-                          textFormKey: Keys.poNumberKey,
+                          textFormKey: Keys.dbEmployeeIDKey,
                           hintText: '',
                           isEnable: widget.guardingMasterData == null
                               ? true
@@ -458,7 +458,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               },
                               child: FlutterInputField(
                                 textFieldController: returnableTextController,
-                                textFormKey: Keys.returnableKey,
+                                textFormKey: Keys.typeOfDutyKey,
                                 hintText: '',
                                 isEnable: false,
                                 isDisableColor:
@@ -491,7 +491,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               },
                               child: FlutterInputField(
                                 textFieldController: returnableTextController,
-                                textFormKey: Keys.returnableKey,
+                                textFormKey: Keys.genderKey,
                                 hintText: '',
                                 isEnable: false,
                                 isDisableColor:
@@ -524,7 +524,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               },
                               child: FlutterInputField(
                                 textFieldController: returnableTextController,
-                                textFormKey: Keys.returnableKey,
+                                textFormKey: Keys.maritalStatusKey,
                                 hintText: '',
                                 isEnable: false,
                                 isDisableColor:
@@ -553,7 +553,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               keyboardType: TextInputType.number,
                               initialValue:
                               state.guardingMasterData.contactNo,
-                              textFormKey: Keys.poNumberKey,
+                              textFormKey: Keys.contactNoKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
                                   ? true
@@ -629,7 +629,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               },
                               child: FlutterInputField(
                                 textFieldController: returnableTextController,
-                                textFormKey: Keys.returnableKey,
+                                textFormKey: Keys.deploymentTypeKey,
                                 hintText: '',
                                 isEnable: false,
                                 isDisableColor:
@@ -692,7 +692,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               lineHeight: 6,
                               initialValue:
                               state.guardingMasterData.securityExperience,
-                              textFormKey: Keys.securitySignKey,
+                              textFormKey: Keys.securityExperienceKey,
                               hintText: Constants.informationhere,
                               isEnable: state.guardingMasterData.status != 4,
                               isDisableColor:
@@ -735,7 +735,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               lineHeight: 6,
                               initialValue:
                               state.guardingMasterData.permanentAddress,
-                              textFormKey: Keys.securitySignKey,
+                              textFormKey: Keys.permanentAddressKey,
                               hintText: Constants.informationhere,
                               isEnable: state.guardingMasterData.status != 4,
                               isDisableColor:
@@ -780,7 +780,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               lineHeight: 6,
                               initialValue:
                               state.guardingMasterData.localAddress,
-                              textFormKey: Keys.securitySignKey,
+                              textFormKey: Keys.localAddressKey,
                               hintText: Constants.informationhere,
                               isEnable: state.guardingMasterData.status != 4,
                               isDisableColor:
@@ -950,7 +950,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               },
                               child: FlutterInputField(
                                 textFieldController: returnableTextController,
-                                textFormKey: Keys.returnableKey,
+                                textFormKey: Keys.systemAccessKey,
                                 hintText: '',
                                 isEnable: false,
                                 isDisableColor:
@@ -1015,7 +1015,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               keyboardType: TextInputType.number,
                               initialValue:
                               state.guardingMasterData.uanNo,
-                              textFormKey: Keys.poNumberKey,
+                              textFormKey: Keys.uanNoKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
                                   ? true
@@ -1147,7 +1147,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               lineHeight: 6,
                               initialValue:
                               state.guardingMasterData.additionalInitiatives,
-                              textFormKey: Keys.securitySignKey,
+                              textFormKey: Keys.additionInitiativesKey,
                               hintText: Constants.informationhere,
                               isEnable: state.guardingMasterData.status != 4,
                               isDisableColor:

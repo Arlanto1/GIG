@@ -75,7 +75,23 @@ class Keys {
   static const String commentKey = 'commentKey_gr';
   static const String vendorDepartmentKey = 'vendorDepartmentKey_gr';
 
-
+  ///Guarding Master Data
+  static const String esicKey = 'esicNoKey_gd';
+  static const String rankKey = 'rankKey_gd';
+  static const String permanentAddressKey = 'permanentAddressKey_gd';
+  static const String localAddressKey = 'localAddressKey_gd';
+  static const String contactNoKey = 'contactNoKey_gd';
+  static const String securityExperienceKey = 'securityExperienceKey_gd';
+  static const String deploymentTypeKey = 'deploymentTypeKey_gd';
+  static const String genderKey = 'genderKey_gd';
+  static const String maritalStatusKey = 'maritalStatusKey_gd';
+  static const String typeOfDutyKey = 'typeOfDutyKey_gd';
+  static const String dbEmployeeIDKey = 'dbEmployeeIDKey_gd';
+  static const String guardingPOCKey = 'guardingPOCKey_gd';
+  static const String guardingAgencyKey = 'guardingAgencyKey_gd';
+  static const String uanNoKey = 'uanNoKey_gd';
+  static const String systemAccessKey = 'systemAccessKey_gd';
+  static const String additionInitiativesKey = 'additionInitiativesKey_gd';
   //list page
   static const String searchInputField = 'search_input_field';
   static const String returnableField = 'returnableField';
