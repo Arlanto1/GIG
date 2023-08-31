@@ -1,11 +1,8 @@
-import 'package:db_atom/src/features/passmanagement/daypassregister/models/day_pass_info_response_model.dart';
-
 import '../../../../models/department.dart';
 import '../../../../models/entity.dart';
 import '../../../../models/entry_security.dart';
 import '../../../../models/location.dart';
 import '../../../../models/location_region.dart';
-import '../../../material_movement/models/material_movements_model.dart';
 
 class RatesResponse {
   List<GMRate>? items;
@@ -69,7 +66,7 @@ class GMRate {
     this.securityOfficerRates = const [],
     this.securitySupervisorRates = const [],
     this.securityFacilitatorRates = const [],
-    this.securityGunManRates,
+    this.securityGunManRates = const [],
     this.history,
   });
 

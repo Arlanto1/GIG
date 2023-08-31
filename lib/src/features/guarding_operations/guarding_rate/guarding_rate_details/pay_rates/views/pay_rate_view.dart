@@ -55,7 +55,7 @@ class _PayRateViewState extends State<PayRateView> {
         context: context,
         builder: (BuildContext dialogContext) {
           return AddSecurityGuardPopUp(
-            title: Constants.addSecurityGuard,
+            title: widget.title,
             payRate: payRate,
             mainContext: context,
             onSubmit: (PayRate payRate) {
@@ -163,8 +163,6 @@ class _PayRateViewState extends State<PayRateView> {
                           key: 'Per Hour',
                           value: '${state.items[index].perHour}'));
 
-                      log('-${state.items.length}----lenth---');
-
                       return index >= state.items.length
                           ? const Center(
                               child: CustomCircularProgressIndicator(),
@@ -185,9 +183,6 @@ class _PayRateViewState extends State<PayRateView> {
                                 );
                               },
                               onEditTap: (selectedIndex) {
-                                log('---payRate- onedit-- ${state.items[index].id}-----');
-                                log('---payRate- onedit-- ${state.items[index].total}-----');
-
                                 addSecurityGuardPopUp(
                                     context: context,
                                     payRate: state.items[index]);
@@ -265,6 +260,8 @@ class _PayRateViewState extends State<PayRateView> {
                               state.newPayRate.rankId = 5;
                               break;
                           }
+
+                          log('--newPayRate--2222-----${state.newPayRate.id}------------');
 
                           BlocProvider.of<PayRateCubit>(context).onSave(
                             isSubmit: false,

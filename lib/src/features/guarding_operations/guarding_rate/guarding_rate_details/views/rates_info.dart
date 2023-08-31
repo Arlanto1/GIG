@@ -11,7 +11,6 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/util.dart';
@@ -65,9 +64,8 @@ class _RatesInfoState extends State<RatesInfo> {
       listener: (context, state) {
         if (state.status == FormStatus.success) {
           Utils.dynamicAlert(
-              context, state.message ?? '', 'Material Movement', '');
+              context, state.message ?? '', 'Guard Rates', '');
         }
-        // TODO: Navigate to Next Page
         if (state.status == FormStatus.error) {
           Validator().showToast(
             context,
@@ -366,8 +364,6 @@ class _RatesInfoState extends State<RatesInfo> {
               return CustomExpansionListTexts(
                 getLocationsresponse: state.locations,
                 onTap: (Mumbai? list) async {
-                  log('list?.name-----${list?.name}');
-
                   Location location = Location();
                   location.id = list?.id;
                   location.name = list?.name;
