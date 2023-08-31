@@ -29,7 +29,7 @@ class GuardingMasterDataBloc
       if (state.hasReachedMax) return;
 
       if (state.status == LawEnforcementListStateType.initial) {
-        GuardingMasterDataModel getGuardingMaterialDatas =
+        GuardingMasterDataResponse getGuardingMaterialDatas =
         await _services.getGuardingMasterData(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
@@ -38,14 +38,14 @@ class GuardingMasterDataBloc
         );
         return emit(
           state.copyWith(
-            items: getGuardingMaterialDatas.data,
+            items: getGuardingMaterialDatas.items,
             hasReachedMax: false,
             status: LawEnforcementListStateType.success,
           ),
         );
       }
 
-      GuardingMasterDataModel getGuardingMasterData =
+      GuardingMasterDataResponse getGuardingMasterData =
       await _services.getGuardingMasterData(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
@@ -53,13 +53,13 @@ class GuardingMasterDataBloc
         locationId: '56',
       );
 
-      if (getGuardingMasterData.data?.isEmpty == true) {
+      if (getGuardingMasterData.items.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));
       }
       return emit(
         state.copyWith(
           items: List.of(state.list)
-            ..addAll(getGuardingMasterData.data ?? []),
+            ..addAll(getGuardingMasterData.items),
           hasReachedMax: false,
         ),
       );

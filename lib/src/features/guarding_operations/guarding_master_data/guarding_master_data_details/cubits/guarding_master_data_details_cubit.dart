@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
+import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
@@ -11,9 +12,9 @@ import 'package:intl/intl.dart';
 
 import '../../../../../constants/constants.dart';
 import '../../../../../models/base_user.dart';
+import '../../../../../models/entry_security.dart';
 import '../../../../../models/location.dart';
 import '../../../../createfound/models/serial_number_model.dart';
-import '../../../../material_movement/models/material_movements_model.dart';
 import '../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import '../../models/guarding_master_data_model.dart';
 import '../../services/guarding_master_data_services.dart';
@@ -32,7 +33,13 @@ class GuardingMasterDataDetailsCubit
     required this.model,
   }) : super(
           GuardingMasterDataDetailsState.initial(
-              model: model ?? GuardingMastersDataModel(),
+              model: model ?? GuardingMastersDataModel(
+                  deploymentOrders: [],
+                  qualifications: [],
+                  pvc: [],
+                  trainingCertificates: [],
+                  medicalCertificates: [],
+                  history: []),
               locations: GetLocations(),
               loggedInUserDetails: EntrySecurity(),
               users: const [],
@@ -64,7 +71,7 @@ class GuardingMasterDataDetailsCubit
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
       EntrySecurity loggedInUserDetails = (await commonServices.getUserDetails(
-          userId: userId)) as EntrySecurity;
+          userId: userId));
 
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
@@ -101,7 +108,7 @@ class GuardingMasterDataDetailsCubit
   Future<void> updateDropdownValues({
     Location? location,
     BaseUser? user,
-    //BaseUser? name,
+    BaseUser? entity,
   }) async {
     emit(
       state.copyWith(
@@ -115,8 +122,11 @@ class GuardingMasterDataDetailsCubit
         moduleCode: '',
       );
 
-      state.guardingMasterData.location = location;
+      state.guardingMasterData.location = location as Entity?;
       state.guardingMasterData.slNo = slNo.serialNo;
+    }
+    if (user != null) {
+      state.guardingMasterData.entity = user.name as Entity?;
     }
 
     emit(state.copyWith(

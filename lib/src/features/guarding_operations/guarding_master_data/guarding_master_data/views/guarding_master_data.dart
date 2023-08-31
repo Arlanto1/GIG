@@ -101,7 +101,7 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                       )
                     : BaseListTileItem(
                         id: state.list[index].id,
-                        guardRank: state.list[index].guardRank,
+                        //guardRank: state.list[index].guardRank,
                         inputDate: state.list[index].inputDate,
                         dutyType: state.list[index].dutyType,
                         status: state.list[index].status,
@@ -117,11 +117,11 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                                 gender: state.list[selectedIndex].gender,
                                 dutyType: state.list[selectedIndex].dutyType,
                                 maritalStatus:
-                                    state.list[selectedIndex].maritalStatus,
-                                locationRegion: state.list[selectedIndex].locationRegion,
+                                state.list[selectedIndex].maritalStatus,
+                                locationRegionEntity: state.list[selectedIndex].locationRegion,
                                 isMaterGuard:true,
                                  status: state.list[selectedIndex].status,
-                                location: state.list[selectedIndex].location,
+                                //location: state.list[selectedIndex].location,
                               );
                             },
                           );
@@ -137,8 +137,8 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                               return BasePopUpItems(
                                 id: state.list[selectedIndex].id.toString(),
                                 slNo: state.list[selectedIndex].slNo,
-                                locationRegion: state.list[selectedIndex].locationRegion,
-                                location: state.list[selectedIndex].location,
+                               locationRegionEntity: state.list[selectedIndex].locationRegion,
+                                locationEntity: state.list[selectedIndex].location,
                                 maritalStatus:
                                 state.list[selectedIndex].maritalStatus,
                                 guardRank: state.list[selectedIndex].guardRank,

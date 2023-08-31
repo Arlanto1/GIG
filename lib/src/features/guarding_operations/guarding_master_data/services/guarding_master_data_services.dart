@@ -19,7 +19,7 @@ class Apis {
 }
 
 class GuardingMasterDataServices {
-  Future<GuardingMasterDataModel> getGuardingMasterData({
+  Future<GuardingMasterDataResponse> getGuardingMasterData({
     required String startPosition,
     required String maximumRecords,
     required String userId,
@@ -30,7 +30,7 @@ class GuardingMasterDataServices {
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return GuardingMasterDataModel.fromJson(response);
+    return GuardingMasterDataResponse.fromJson(response);
   }
 
   Future<GuardingMastersDataModel> getGuardingMastersData(int id) async {

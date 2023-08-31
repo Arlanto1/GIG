@@ -1,6 +1,7 @@
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,8 @@ class BasePopUpItems extends StatefulWidget {
   final int? firstAidCertified;
   final int? firstAidNotCertified;
   final String? locationStr;
+  final Entity? locationEntity;
+  final Entity? locationRegionEntity;
   final int? dutyType;
   final List<Label>? labels;
   final bool? isMaterGuard;
@@ -93,7 +96,7 @@ class BasePopUpItems extends StatefulWidget {
     this.isMaterGuard,
     this.guardRank,
     this.gender,
-    this.maritalStatus,
+    this.maritalStatus, this.locationEntity, this.locationRegionEntity,
 
   });
 }
@@ -169,6 +172,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         Row(
           children: [
             Utils().textHandling('Location : ', widget.location?.name ?? " "),
+          ],
+        ),
+      ],
+      if (widget.locationRegionEntity != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils()
+                .textHandling('Region : ', widget.locationRegionEntity?.name ?? " "),
           ],
         ),
       ],
@@ -253,6 +265,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().textHandling('Loaction : ', widget.locationStr.toString()),
+          ],
+        ),
+      ],
+      if (widget.locationEntity != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Loaction : ', widget.locationEntity.toString()),
           ],
         ),
       ],

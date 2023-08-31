@@ -50,8 +50,26 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   List<CreateImage>? getFiles;
   List<FoundImage>? getAttachments;
   TextEditingController takenOutOnDateController = TextEditingController();
-  TextEditingController expectedDateOfReturnController =
+  TextEditingController dateOfBirth =
       TextEditingController();
+  TextEditingController dateOfJoining =
+  TextEditingController();
+  TextEditingController pvcIssuedDate =
+  TextEditingController();
+  TextEditingController pvcExpiryDate =
+  TextEditingController();
+  TextEditingController medicalCertificateValidUntil =
+  TextEditingController();
+  TextEditingController dateOfFirstCovidDose =
+  TextEditingController();
+  TextEditingController dateOfSecondCovidDose =
+  TextEditingController();
+  TextEditingController dateOfPrecautionaryCovidDose =
+  TextEditingController();
+  TextEditingController ertCertificationDate =
+  TextEditingController();
+  TextEditingController firstAidTrainingCompletionDate  =
+  TextEditingController();
   bool isDisabled = true;
 
 
@@ -190,14 +208,6 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 state.loggedInUserDetails?.name ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Location
-                            CommonWidgets.textDisplay(
-                                Constants.location, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            locationWidgetdislay(state),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
                             /// Date of creation
                             CommonWidgets.textDisplay(Constants.dateofcreation,
                                 Styles.textStyleBlack14),
@@ -206,8 +216,16 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 state.guardingMasterData.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            ///Building  Location
+                            CommonWidgets.textDisplay(
+                                Constants.buildingLocation, Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            locationWidgetdislay(state),
+
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                             /// Entity
-                            /*  if (!state.guardingMasterData.name) ...[
+                            /* if (!state.guardingMasterData.user) ...[
                                   Column(
                                     children: [
                                       CommonWidgets.textDisplay(
@@ -234,7 +252,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                                       GuardingMasterDataDetailsCubit>(
                                                       context)
                                                       .updateDropdownValues(
-                                                      name:
+                                                      user:
                                                       user);
                                                 },
                                               );
@@ -267,7 +285,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 state.guardingMasterData.slNo ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// upload
+                            /// upload Photo
                             widget.guardingMasterData == null
                                 ? CommonWidgets.textDisplay(
                                     Constants.uploadPhoto, Styles.textStyleBlack14)
@@ -427,27 +445,182 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.04),
 
-                            /// Expected Date Of Return
+                            /// Date of Birth
                             CommonWidgets.textDisplay(
-                                Constants.dateOfBirth,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
+                              Constants.dateOfBirth,
+                              Styles.textStyleBlack14,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                             BaseDate().datePickerWidgetLoading(
-                                textController:
-                                expectedDateOfReturnController,
-                                onChange: (String value) {
-                                  widget.guardingMasterData
-                                      ?.inputDate = value;
-                                  BlocProvider.of<
-                                      GuardingMasterDataDetailsCubit>(
-                                      context)
-                                      .onModelValueChange(
-                                      state.guardingMasterData);
-                                },
-                                context: context),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
+                              textController: dateOfBirth,
+                              onChange: (String value) {
+                                log('--fr-value-${dateOfBirth.text}------');
+                                //widget.guardingMasterData?.inputDate = value;
+                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                                    .onModelValueChange(state.guardingMasterData);
+                              },
+                              context: context,
+                            ),
+
+
+                            /// Date of Joining
+                            CommonWidgets.textDisplay(
+                              Constants.dateOfJoining,
+                              Styles.textStyleBlack14,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            BaseDate().datePickerWidgetLoading(
+                              textController: dateOfJoining,
+                              onChange: (String value) {
+                                log('--fr-value-${dateOfJoining.text}------');
+                                //widget.guardingMasterData?.inputDate = value;
+                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                                    .onModelValueChange(state.guardingMasterData);
+                              },
+                              context: context,
+                            ),
+                            /// upload File
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.textDisplay(
+                                Constants.uploadfile, Styles.textStyleBlack14)
+                                : Container(),
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.verticalSpacerWidget(
+                                height * 0.001)
+                                : Container(),
+                            widget.guardingMasterData == null
+                                ? uploadWidget(state)
+                                : Container(),
+
+                            // Attachments
+                            getSpaceattchment(height),
+                            getAttachement(state, height),
+                            /// upload File
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.textDisplay(
+                                Constants.uploadfile, Styles.textStyleBlack14)
+                                : Container(),
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.verticalSpacerWidget(
+                                height * 0.001)
+                                : Container(),
+                            widget.guardingMasterData == null
+                                ? uploadWidget(state)
+                                : Container(),
+
+                            // Attachments
+                            getSpaceattchment(height),
+                            getAttachement(state, height),
+
+                            /// upload File
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.textDisplay(
+                                Constants.uploadfile, Styles.textStyleBlack14)
+                                : Container(),
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.verticalSpacerWidget(
+                                height * 0.001)
+                                : Container(),
+                            widget.guardingMasterData == null
+                                ? uploadWidget(state)
+                                : Container(),
+
+                            // Attachments
+                            getSpaceattchment(height),
+                            getAttachement(state, height),
+
+                            /// PVC Issued Date
+                            CommonWidgets.textDisplay(
+                              Constants.pvcIssuedDate,
+                              Styles.textStyleBlack14,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            BaseDate().datePickerWidgetLoading(
+                              textController: pvcIssuedDate,
+                              onChange: (String value) {
+                                log('--fr-value-${pvcIssuedDate.text}------');
+                               // widget.guardingMasterData?.inputDate = value;
+                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                                    .onModelValueChange(state.guardingMasterData);
+                              },
+                              context: context,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// PVC Expiry Date
+                            CommonWidgets.textDisplay(
+                              Constants.pvcExpiryDate,
+                              Styles.textStyleBlack14,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            BaseDate().datePickerWidgetLoading(
+                              textController: pvcExpiryDate,
+                              onChange: (String value) {
+                                log('--fr-value-${pvcIssuedDate.text}------');
+                               // widget.guardingMasterData?.inputDate = value;
+                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                                    .onModelValueChange(state.guardingMasterData);
+                              },
+                              context: context,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// upload File
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.textDisplay(
+                                Constants.uploadfile, Styles.textStyleBlack14)
+                                : Container(),
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.verticalSpacerWidget(
+                                height * 0.001)
+                                : Container(),
+                            widget.guardingMasterData == null
+                                ? uploadWidget(state)
+                                : Container(),
+
+                            // Attachments
+                            getSpaceattchment(height),
+                            getAttachement(state, height),
+
+                            /// Medical Certificate Valid Until
+                            CommonWidgets.textDisplay(
+                              Constants.medicalCertificateValidUntil,
+                              Styles.textStyleBlack14,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            BaseDate().datePickerWidgetLoading(
+                              textController: medicalCertificateValidUntil,
+                              onChange: (String value) {
+                                log('--fr-value-${medicalCertificateValidUntil.text}------');
+                               // widget.guardingMasterData?.inputDate = value;
+                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                                    .onModelValueChange(state.guardingMasterData);
+                              },
+                              context: context,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// upload File
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.textDisplay(
+                                Constants.uploadfile, Styles.textStyleBlack14)
+                                : Container(),
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.verticalSpacerWidget(
+                                height * 0.001)
+                                : Container(),
+                            widget.guardingMasterData == null
+                                ? uploadWidget(state)
+                                : Container(),
+
+                            // Attachments
+                            getSpaceattchment(height),
+                            getAttachement(state, height),
 
                             /// ESIC No
                             CommonWidgets.textDisplay(
@@ -521,9 +694,105 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.04),
 
+                            /// Date of First Covid Dose
+                            CommonWidgets.textDisplay(
+                              Constants.dateOfFirstCovidDose,
+                              Styles.textStyleBlack14,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            BaseDate().datePickerWidgetLoading(
+                              textController: dateOfFirstCovidDose,
+                              onChange: (String value) {
+                                log('--fr-value-${dateOfFirstCovidDose.text}------');
+                               // widget.guardingMasterData?.inputDate = value;
+                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                                    .onModelValueChange(state.guardingMasterData);
+                              },
+                              context: context,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Date of Second Covid Dose
+                            CommonWidgets.textDisplay(
+                              Constants.dateOfSecondCovidDose,
+                              Styles.textStyleBlack14,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            BaseDate().datePickerWidgetLoading(
+                              textController: dateOfSecondCovidDose,
+                              onChange: (String value) {
+                                log('--fr-value-${dateOfSecondCovidDose.text}------');
+                               // widget.guardingMasterData?.inputDate = value;
+                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                                    .onModelValueChange(state.guardingMasterData);
+                              },
+                              context: context,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Date of Precautionary Covid Dose
+                            CommonWidgets.textDisplay(
+                              Constants.dateOfPrecautionaryCovidDose,
+                              Styles.textStyleBlack14,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            BaseDate().datePickerWidgetLoading(
+                              textController: dateOfPrecautionaryCovidDose,
+                              onChange: (String value) {
+                                log('--fr-value-${dateOfPrecautionaryCovidDose.text}------');
+                               // widget.guardingMasterData?.inputDate = value;
+                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                                    .onModelValueChange(state.guardingMasterData);
+                              },
+                              context: context,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// ERT Certification Date
+                            CommonWidgets.textDisplay(
+                              Constants.ertCertificationDate,
+                              Styles.textStyleBlack14,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            BaseDate().datePickerWidgetLoading(
+                              textController: dateOfPrecautionaryCovidDose,
+                              onChange: (String value) {
+                                log('--fr-value-${dateOfPrecautionaryCovidDose.text}------');
+                               // widget.guardingMasterData?.inputDate = value;
+                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                                    .onModelValueChange(state.guardingMasterData);
+                              },
+                              context: context,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// First Aid Training Completion Date
+                            CommonWidgets.textDisplay(
+                              Constants.firstAidTrainingCompletionDate,
+                              Styles.textStyleBlack14,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            BaseDate().datePickerWidgetLoading(
+                              textController: dateOfPrecautionaryCovidDose,
+                              onChange: (String value) {
+                                log('--fr-value-${dateOfPrecautionaryCovidDose.text}------');
+                               // widget.guardingMasterData?.inputDate = value;
+                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                                    .onModelValueChange(state.guardingMasterData);
+                              },
+                              context: context,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                           ]),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
+
 
                         /// SubmitButton
                         if (state.guardingMasterData.status != 4) ...[
@@ -686,7 +955,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                   Location location = Location();
                   location.id = list?.id;
                   location.name = list?.name;
-                  state.guardingMasterData.location = location;
+                 // state.guardingMasterData.location = location;
                 },
               );
             },
