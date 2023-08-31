@@ -48,7 +48,22 @@ class GuardingMasterDataDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
-
+    if (guardingMasterData.additionalInitiatives == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Additional Initiatives');
+    }
+    if (guardingMasterData.localAddress == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Local Address');
+    }
+    if (guardingMasterData.permanentAddress == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Permanent Address');
+    }
+    if (guardingMasterData.securityExperience == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Security Experience');
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 

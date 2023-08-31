@@ -4,28 +4,19 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:app_settings/app_settings.dart';
-import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
-import 'package:db_atom/src/common_widgets/custom_pop_menu.dart';
-import 'package:db_atom/src/common_widgets/mulltipart_image_upload.dart';
-import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
-import 'package:db_atom/src/common_widgets/pop_button.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
-import 'package:db_atom/src/features/createfound/models/attachment_model.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
-import 'package:db_atom/src/features/createfound/views/create_found_attachment.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_cubit.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
@@ -47,6 +38,7 @@ class UploadAttachment extends StatefulWidget {
       this.createpassmgmtstate,
       this.isPhotoType,
       this.inwardState,
+        this.dataState,
         this.onImageSelected,
       });
 
@@ -57,6 +49,7 @@ class UploadAttachment extends StatefulWidget {
   CreatePassMgmtState? createpassmgmtstate;
   bool? isPhotoType;
   MaterialMovementDetailsState? inwardState;
+  GuardingMasterDataDetailsState? dataState;
   Function? onImageSelected;
 
   @override
@@ -226,6 +219,11 @@ class UploadAttachmentState extends State<UploadAttachment>
       }
     }
     if (widget.inwardState != null) {
+      log('-------function------------');
+      await widget.onImageSelected!(data); // Call the callback with the image data
+      return;
+    }
+    if (widget.dataState != null) {
       log('-------function------------');
       await widget.onImageSelected!(data); // Call the callback with the image data
       return;

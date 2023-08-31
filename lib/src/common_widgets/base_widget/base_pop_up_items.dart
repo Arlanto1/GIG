@@ -184,6 +184,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
+      if (widget.locationEntity != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Building Loaction : ', widget.locationEntity?.name ?? ''),
+          ],
+        ),
+      ],
       if (widget.returnable != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(
@@ -265,15 +274,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().textHandling('Loaction : ', widget.locationStr.toString()),
-          ],
-        ),
-      ],
-      if (widget.locationEntity != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Utils().textHandling('Loaction : ', widget.locationEntity.toString()),
           ],
         ),
       ],

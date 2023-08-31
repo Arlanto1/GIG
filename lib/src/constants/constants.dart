@@ -3,7 +3,7 @@
 class Constants {
   /// Module Codes
   static const String materialMovementInwardNonReturnableModule = 'MMINN';
-
+  static const String guardingMasterDataModule = 'GM';
   static const String customFontFamily = 'Poppins';
   static const String customFontMediumFamily = 'Poppins-Medium';
   static const String customFontBoldFamily = 'Poppins-Bold';
@@ -147,6 +147,12 @@ class Constants {
   static const String claimantsignature = 'Claimant Signature';
   static const String informationhere = 'Information here';
   static const String location = 'Location';
+  static const String height = 'Height (cm)';
+  static const String weight = 'Weight (kg)';
+  static const String chest = 'Chest (inch)';
+
+
+  static const String buildinglocation = 'Building Location';
   static const String addemployeedepartment = 'Add Employee Department';
   static const String addreasonfordaypass = 'Add Reason for Day Pass';
   static const String addreasonforvendorpass = 'Add Reason for Vendor Pass';
@@ -345,6 +351,14 @@ class Constants {
   static const String editGuardingMasterData = 'Edit Guarding Master Data';
   static const String guardingPoc = 'Guarding Partner POC';
   static const String guardingAgencyEmpCode = 'Guarding Agency Employee Code';
+  static const String rank = 'Rank';
+  static const String typeOfDuty = 'Type of Duty';
+  static const String gender = 'Gender';
+  static const String maritalStatus = 'Marital Status';
+  static const String typeOfDeployment = 'Type of Deployment';
+  static const String systemAccess = 'System Access';
+  static const String deploymentOrderSubmitted = 'Deployment Order Submitted?';
+  static const String trainingCertificate = 'Training Certificate?';
   static const String dbEmployeeId = 'DB Employee ID';
   static const String buildingLocation = 'Building Location';
   static const String mobileNum = 'Mobile Number';
@@ -361,5 +375,9 @@ class Constants {
   static const String firstAidTrainingCompletionDate = ' First Aid Training Completion Date';
   static const String esicNo = 'ESIC NO';
   static const String uanNo = 'UAN NO';
-  static const String height = 'Height(cm)';
+  static const String additionalInitiativesInfo = 'Additional Initiatives Info';
+  static const String localAddress = 'Local Address';
+  static const String permanentAddress = 'Permanent Address';
+  static const String securityExperience = 'Security Experience';
+  //tatic const String height = 'Height(cm)';
 }

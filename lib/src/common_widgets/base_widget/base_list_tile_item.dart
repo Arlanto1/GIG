@@ -7,6 +7,7 @@ import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../models/entity.dart';
 import '../../models/location.dart';
 import '../../models/location_region.dart';
 
@@ -24,10 +25,12 @@ class BaseListTileItem extends StatefulWidget {
   final int? msgbExempted;
   final List<Label>? labels;
   final String? locationStr;
-  final int? dutyType;
+  final int? guardRank;
   final Function? onTap;
   final Function? onEditTap;
   final Function? onViewTap;
+  final Entity? locationEntity;
+  final Entity? locationRegionEntity;
 
   // final Item userItem;
   final int? index;
@@ -53,9 +56,9 @@ class BaseListTileItem extends StatefulWidget {
     this.returnable,
     this.showEditButton = true,
     this.locationStr,
-    this.dutyType,
+    this.guardRank,
     this.labels,
-    this.isMasterGuard,
+    this.isMasterGuard, this.locationEntity, this.locationRegionEntity,
   });
 
   @override
@@ -135,12 +138,29 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
           ],
         ),
       ],
+      if (widget.locationRegionEntity != null) ...[
+        Row(
+          children: [
+            Utils()
+                .textHandling('Region : ', widget.locationRegionEntity?.name ?? ''),
+          ],
+        ),
+      ],
       if (widget.locationStr != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().textHandling('Loaction : ', widget.locationStr.toString()),
+          ],
+        ),
+      ],
+      if (widget.locationEntity != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Building Loaction : ', widget.locationEntity?.name?? ''),
           ],
         ),
       ],
@@ -215,13 +235,13 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildStatusRow(widget.status ?? 0),
       ],
+      if (widget.guardRank != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Utils().buildGuardrank(widget.guardRank ?? 0),
+      ],
       if (widget.isMasterGuard != null && widget.isMasterGuard!) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildMasterDataStatusRow(widget.status ?? 0),
-      ],
-      if (widget.dutyType != null) ...[
-        CommonWidgets.verticalSpacerWidget(5),
-        Utils().buildDutyTypeRow(widget.dutyType ?? 0),
       ],
     ];
 

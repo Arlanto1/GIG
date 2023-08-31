@@ -4,6 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/responseModels/guarding_master_data_responses.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -13,7 +15,6 @@ import 'package:intl/intl.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../../models/entry_security.dart';
-import '../../../../../models/location.dart';
 import '../../../../createfound/models/serial_number_model.dart';
 import '../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import '../../models/guarding_master_data_model.dart';
@@ -32,22 +33,25 @@ class GuardingMasterDataDetailsCubit
     required this.commonServices,
     required this.model,
   }) : super(
-          GuardingMasterDataDetailsState.initial(
-              model: model ?? GuardingMastersDataModel(
-                  deploymentOrders: [],
-                  qualifications: [],
-                  pvc: [],
-                  trainingCertificates: [],
-                  medicalCertificates: [],
-                  history: []),
-              locations: GetLocations(),
-              loggedInUserDetails: EntrySecurity(),
-              users: const [],
-              emailUsers: const [],
-              errorMessage: '',
-              loadAttachments: const [],
-              eventId: null),
-        );
+    GuardingMasterDataDetailsState.initial(
+        model: model ?? GuardingMastersDataModel(
+          deploymentOrders: [],
+          qualifications: [],
+          pvc: [],
+          trainingCertificates: [],
+          medicalCertificates: [],
+          history: [],
+          physicallyFit: true,
+          deploymentOrderSubmitted: true,
+        ),
+        locations: GetLocations(),
+        loggedInUserDetails: EntrySecurity(),
+        users: const [],
+        emailUsers: const [],
+        errorMessage: '',
+        loadAttachments: const [],
+        eventId: null),
+  );
 
   void onModelValueChange(GuardingMastersDataModel model) {
     emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
@@ -68,19 +72,19 @@ class GuardingMasterDataDetailsCubit
     var userId = await SharedPrefs.getUserId();
     try {
       GetLocations getLocationsData =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+      await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
-      EntrySecurity loggedInUserDetails = (await commonServices.getUserDetails(
-          userId: userId));
+      EntrySecurity loggedInUserDetails =
+      await commonServices.getUserDetails(userId: userId);
 
       Analyst users =
-          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+      await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       // Get Date of Creation
       state.guardingMasterData.inputDate = _getCurrentDate();
 
       GetDepositor emailUsers =
-          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+      await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
       state.guardingMasterData.entrySecurity = loggedInUserDetails;
 
@@ -106,7 +110,7 @@ class GuardingMasterDataDetailsCubit
   }
 
   Future<void> updateDropdownValues({
-    Location? location,
+    Entity? location,
     BaseUser? user,
     BaseUser? entity,
   }) async {
@@ -119,14 +123,14 @@ class GuardingMasterDataDetailsCubit
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: '',
+        moduleCode: Constants.materialMovementInwardNonReturnableModule,
       );
 
-      state.guardingMasterData.location = location as Entity?;
+      state.guardingMasterData.location = location;
       state.guardingMasterData.slNo = slNo.serialNo;
     }
-    if (user != null) {
-      state.guardingMasterData.entity = user.name as Entity?;
+    if (entity != null) {
+      state.guardingMasterData.entity = entity.email as Entity? ;
     }
 
     emit(state.copyWith(
@@ -134,7 +138,6 @@ class GuardingMasterDataDetailsCubit
       status: FormStatus.initial,
     ));
   }
-
   void addAttchment(List<CreateImage>? data) async {
     print('--state.status-1---${state.status}----');
 
@@ -158,21 +161,24 @@ class GuardingMasterDataDetailsCubit
     print('--state.status--3--${state.status}----');
   }
 
-  void showFields(
-      {bool? isOriginalReceiverReceiving, bool? isMaterialPhysicallyChecked}) {
+  void showFields({ bool? deploymentOrderSubmitted,bool? trainingCertificateProvided}) {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
-
-    // final updatedMaterialMovement = materialMovement.copyWith(state.materialMovement.originalReceiver: isOriginalReceiverReceiving);
-
-    // emit(state.copyWith(
-    //  materialMovement: state.materialMovement,
-    //status: FormStatus.initial,
-    //));
-    //}
+    if (deploymentOrderSubmitted != null) {
+      state.guardingMasterData.deploymentOrderSubmitted =
+          deploymentOrderSubmitted;
+    }
+    if (trainingCertificateProvided != null) {
+      state.guardingMasterData.trainingCertificateProvided =
+          trainingCertificateProvided;
+    }
+    emit(state.copyWith(
+      guardingMasterData: state.guardingMasterData,
+      status: FormStatus.initial,
+    ));
   }
 
   void submitForm({bool isSaveOnly = false}) async {
@@ -181,5 +187,56 @@ class GuardingMasterDataDetailsCubit
         status: FormStatus.loading,
       ),
     );
+
+    // Setting time in milliseconds
+    state.guardingMasterData.inputDate = (DateTime
+        .now()
+        .millisecondsSinceEpoch / 1000).toString();
+
+    // Create/Update API Call
+    GuardingMasterDataRequest request =
+    GuardingMasterDataRequest(guardingMasterData: state.guardingMasterData);
+
+    try {
+      GenericCreateResponse response = GenericCreateResponse();
+      if (isSaveOnly) {
+        response = (await guardingMasterDataServices.createGuardingMasterData(
+            body: request, isSubmit: false)) as GenericCreateResponse;
+      } else {
+        //Validating Fields
+        if (!state.isValid.status) {
+          emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValid.message,
+            ),
+          );
+          return;
+        }
+        response = (await guardingMasterDataServices.createGuardingMasterData(
+            body: request, isSubmit: true)) as GenericCreateResponse;
+      }
+
+      print('---response--msg--${response.message}---');
+
+      emit(
+        state.copyWith(
+          message: response.message,
+          status: FormStatus.success,
+        ),
+      );
+
+      // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      //   Utils.dynamicAlert(
+      //       context, lawcreateFoundresponse.message ?? '', title, '');
+      // });
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
+    }
   }
 }
