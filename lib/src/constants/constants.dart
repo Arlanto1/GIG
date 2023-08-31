@@ -4,6 +4,8 @@ class Constants {
   /// Module Codes
   static const String materialMovementInwardNonReturnableModule = 'MMINN';
   static const String guardingMasterDataModule = 'GM';
+  static const String guardingRatesModule = 'GR';
+
   static const String customFontFamily = 'Poppins';
   static const String customFontMediumFamily = 'Poppins-Medium';
   static const String customFontBoldFamily = 'Poppins-Bold';
