@@ -62,11 +62,11 @@ class GMRate {
     // this.modifiedDate,
     this.modifiedBy,
     this.vendor,
-    this.securityGuardRates = const [],
-    this.securityOfficerRates = const [],
-    this.securitySupervisorRates = const [],
-    this.securityFacilitatorRates = const [],
-    this.securityGunManRates = const [],
+    this.securityGuardRates,
+    this.securityOfficerRates,
+    this.securitySupervisorRates,
+    this.securityFacilitatorRates,
+    this.securityGunManRates,
     this.history,
   });
 

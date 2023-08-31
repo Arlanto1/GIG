@@ -59,7 +59,38 @@ class _PayRateViewState extends State<PayRateView> {
             payRate: payRate,
             mainContext: context,
             onSubmit: (PayRate payRate) {
-              // BlocProvider.of<PayRateCubit>(context).onSave();
+              //loginFormKey.currentState!.validate();
+              FocusScope.of(context).unfocus();
+
+              log('-widget.title---${widget.title}----');
+
+              switch (widget.title) {
+                case Constants.createSecurityGuard:
+                  payRate.rankId = 1;
+                  break;
+
+                case Constants.createSecuritySupervisor:
+                  payRate.rankId = 2;
+                  break;
+
+                case Constants.createSecurityOfficer:
+                  payRate.rankId = 3;
+                  break;
+
+                case Constants.createSecurityFacilitator:
+                  payRate.rankId = 4;
+                  break;
+
+                default:
+                  payRate.rankId = 5;
+                  break;
+              }
+
+              log('--newPayRate--total---${payRate.total}------------');
+              log('--newPayRate--2222--33333--rankid-${payRate.rankId}------------');
+
+              BlocProvider.of<PayRateCubit>(context)
+                  .onSave(isSubmit: false, newPayRate: payRate);
             },
           );
         });
@@ -81,41 +112,42 @@ class _PayRateViewState extends State<PayRateView> {
         body: BlocConsumer<PayRateCubit, PayRateState>(
           listener: (context, state) {
             if (state.status == FormStatus.loading) {
-              String title = '';
-              List<PayRate> payRates = [];
-              switch (widget.title) {
-                case Constants.createSecurityGuard:
-                  title = Constants.createSecuritySupervisor;
-                  payRates = state.rate.securitySupervisorRates ?? [];
-                  break;
-
-                case Constants.createSecuritySupervisor:
-                  title = Constants.createSecurityOfficer;
-                  payRates = state.rate.securityOfficerRates ?? [];
-                  break;
-
-                case Constants.createSecurityOfficer:
-                  title = Constants.createSecurityFacilitator;
-                  payRates = state.rate.securityFacilitatorRates ?? [];
-                  break;
-
-                case Constants.createSecurityFacilitator:
-                  title = Constants.createGunMan;
-                  payRates = state.rate.securityGunManRates ?? [];
-                  break;
-
-                default:
-                  break;
-              }
-              Navigator.pushReplacementNamed(
-                context,
-                payRateRoute,
-                arguments: {
-                  "payRates": payRates,
-                  "gmRate": state.rate,
-                  "title": title,
-                },
-              );
+              // String title = '';
+              // List<PayRate> payRates = [];
+              // switch (widget.title) {
+              //   case Constants.createSecurityGuard:
+              //     title = Constants.createSecuritySupervisor;
+              //     payRates = state.rate.securitySupervisorRates ?? [];
+              //     break;
+              //
+              //   case Constants.createSecuritySupervisor:
+              //     title = Constants.createSecurityOfficer;
+              //     payRates = state.rate.securityOfficerRates ?? [];
+              //     break;
+              //
+              //   case Constants.createSecurityOfficer:
+              //     title = Constants.createSecurityFacilitator;
+              //     payRates = state.rate.securityFacilitatorRates ?? [];
+              //     break;
+              //
+              //   case Constants.createSecurityFacilitator:
+              //     title = Constants.createGunMan;
+              //     payRates = state.rate.securityGunManRates ?? [];
+              //     break;
+              //
+              //   default:
+              //     break;
+              // }
+              Navigator.pop(context);
+              // Navigator.pushReplacementNamed(
+              //   context,
+              //   payRateRoute,
+              //   arguments: {
+              //     "payRates": payRates,
+              //     "gmRate": state.rate,
+              //     "title": title,
+              //   },
+              // );
             }
           },
           builder: (context, state) {
@@ -213,70 +245,96 @@ class _PayRateViewState extends State<PayRateView> {
                         const SizedBox(
                           width: 50,
                         ),
-                        submitButtonDisplay(onTap: () {
-                          log('-onTapSubmit--${state.rate.vendor?.name}----');
-                          FocusScope.of(context).unfocus();
-                          // BlocProvider.of<PayRateCubit>(context).onSave(
-                          //   isSubmit: false,
-                          // );
+                        submitButtonDisplay(
+                          title: widget.title,
+                          onTap: () {
+                            log('-onTapSubmit--${state.rate.vendor?.name}----');
+                            FocusScope.of(context).unfocus();
+                            // BlocProvider.of<PayRateCubit>(context).onSave(
+                            //   isSubmit: false,
+                            // );
 
-                          // BlocProvider.of<PayRateCubit>(context).onSave(officerRank: ,
-                          //     isSubmit: false, newPayRate: state.newPayRate);
+                            // BlocProvider.of<PayRateCubit>(context).onSave(officerRank: ,
+                            //     isSubmit: false, newPayRate: state.newPayRate);
 
-                          String title = '';
-                          List<PayRate> payRates = [];
-                          switch (widget.title) {
-                            case Constants.createSecurityGuard:
-                              title = Constants.createSecuritySupervisor;
-                              payRates =
-                                  state.rate.securitySupervisorRates ?? [];
-                              state.newPayRate.rankId = 1;
+                            String title = '';
+                            List<PayRate> payRates = [];
+                            switch (widget.title) {
+                              case Constants.createSecurityGuard:
+                                title = Constants.createSecuritySupervisor;
+                                payRates =
+                                    state.rate.securitySupervisorRates ?? [];
+                                state.newPayRate.rankId = 1;
 
-                              break;
+                                break;
 
-                            case Constants.createSecuritySupervisor:
-                              title = Constants.createSecurityOfficer;
-                              payRates = state.rate.securityOfficerRates ?? [];
+                              case Constants.createSecuritySupervisor:
+                                title = Constants.createSecurityOfficer;
+                                payRates =
+                                    state.rate.securityOfficerRates ?? [];
 
-                              state.newPayRate.rankId = 2;
-                              break;
+                                state.newPayRate.rankId = 2;
+                                break;
 
-                            case Constants.createSecurityOfficer:
-                              title = Constants.createSecurityFacilitator;
-                              payRates =
-                                  state.rate.securityFacilitatorRates ?? [];
-                              state.newPayRate.rankId = 3;
-                              break;
+                              case Constants.createSecurityOfficer:
+                                title = Constants.createSecurityFacilitator;
+                                payRates =
+                                    state.rate.securityFacilitatorRates ?? [];
+                                state.newPayRate.rankId = 3;
+                                break;
 
-                            case Constants.createSecurityFacilitator:
-                              title = Constants.createGunMan;
-                              payRates = state.rate.securityGunManRates ?? [];
-                              state.newPayRate.rankId = 4;
-                              break;
+                              case Constants.createSecurityFacilitator:
+                                title = Constants.createGunMan;
+                                payRates = state.rate.securityGunManRates ?? [];
+                                state.newPayRate.rankId = 4;
+                                break;
 
-                            default:
-                              title = Constants.createGunMan;
-                              payRates = state.rate.securityGunManRates ?? [];
-                              state.newPayRate.rankId = 5;
-                              break;
-                          }
+                              default:
+                                title = Constants.createGunMan;
+                                payRates = state.rate.securityGunManRates ?? [];
+                                state.newPayRate.rankId = 5;
+                                break;
+                            }
 
-                          log('--newPayRate--2222-----${state.newPayRate.id}------------');
+                            log('--state.newPayRate.rankId-2222-----${state.newPayRate.rankId}------------');
 
-                          BlocProvider.of<PayRateCubit>(context).onSave(
-                            isSubmit: false,
-                            newPayRate: state.newPayRate,
-                          );
-                          Navigator.pushReplacementNamed(
-                            context,
-                            payRateRoute,
-                            arguments: {
-                              "payRates": payRates,
-                              "gmRate": state.rate,
-                              "title": title,
-                            },
-                          );
-                        }),
+                            log('--ifff--');
+                            if (state.newPayRate.rankId == 5) {
+                              log('--ifff-------eeeee------3333-');
+
+                              BlocProvider.of<PayRateCubit>(context).onSave(
+                                isSubmit: true,
+                                // newPayRate: state.newPayRate,
+                              );
+
+                              Navigator.pushReplacementNamed(
+                                context,
+                                guardingRateDetailsRoute,
+                                arguments: {
+                                  "title": Constants.createGuardingRatingCards,
+                                  "gmRate": state.rate,
+                                },
+                              );
+                              return;
+                            }
+                            log('--ifff-3333-');
+                            //
+                            // BlocProvider.of<PayRateCubit>(context).onSave(
+                            //   isSubmit: false,
+                            //   newPayRate: state.newPayRate,
+                            // );
+
+                            Navigator.pushReplacementNamed(
+                              context,
+                              payRateRoute,
+                              arguments: {
+                                "payRates": payRates,
+                                "gmRate": state.rate,
+                                "title": title,
+                              },
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -300,11 +358,12 @@ class _PayRateViewState extends State<PayRateView> {
     );
   }
 
-  Widget submitButtonDisplay({required Function onTap}) {
+  Widget submitButtonDisplay({required Function onTap, required String title}) {
     return AppButton(
       width: 150,
       key: const Key(Keys.submitButton),
-      buttonText: Constants.next,
+      buttonText:
+          title == Constants.createGunMan ? Constants.submit : Constants.next,
       buttonTextKey: Keys.submitButton,
       onTap: onTap,
     );

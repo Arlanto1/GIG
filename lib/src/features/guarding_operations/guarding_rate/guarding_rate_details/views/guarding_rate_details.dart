@@ -21,8 +21,11 @@ class GuardingRateDetails extends StatefulWidget {
   final String title;
   final GMRate rate;
 
-  const GuardingRateDetails(
-      {super.key, required this.title, required this.rate});
+  const GuardingRateDetails({
+    super.key,
+    required this.title,
+    required this.rate,
+  });
 
   @override
   State<GuardingRateDetails> createState() => GuardingRateDetailsState();
@@ -38,9 +41,7 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery
-        .of(context)
-        .size;
+    final size = MediaQuery.of(context).size;
     final height = size.height;
     return Scaffold(
       key: scaffoldKey,
@@ -56,7 +57,6 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
           if (state.status == FormStatus.error) {
             log('--if-ssss--${state.status}-----');
 
-
             Validator().showToast(
               context,
               state.message ?? 'Invalid Information',
@@ -64,42 +64,41 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
           }
         },
         builder: (context, state) {
-
-              return Container(
-                color: AppColors.navigationSkybluecolor,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(20.0),
-                          decoration: const ShapeDecoration(
-                              color: AppColors.backgroundWhitecolor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(20.0)),
-                              )),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                Constants.guardingOfficialRatingCards,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
-                              // GuardingRectangle(rate: widget.rate),
-
-                              buildTwoColumnLayout(),
-                            ],
+          return Container(
+            color: AppColors.navigationSkybluecolor,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(20.0),
+                      decoration: const ShapeDecoration(
+                          color: AppColors.backgroundWhitecolor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20.0)),
+                          )),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            Constants.guardingOfficialRatingCards,
+                            style: Styles.styleHeaderGreyText16,
                           ),
-                        ),
-                      ],
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
+                          // GuardingRectangle(rate: widget.rate),
+
+                          buildTwoColumnLayout(),
+                        ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              );
+              ),
+            ),
+          );
         },
       ),
     );
@@ -237,9 +236,7 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
     required String text,
     required double bottomPadding,
   }) {
-    final size = MediaQuery
-        .of(context)
-        .size;
+    final size = MediaQuery.of(context).size;
 
     return Container(
       width: size.width * 0.42,

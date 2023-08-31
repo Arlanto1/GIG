@@ -35,6 +35,39 @@ class PayRateState extends Equatable {
   @override
   List<Object?> get props => [rate, status];
 
+  ErrorResponse get isValid {
+    if (rate.entities == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Guarding Rating Information.');
+    }
+    if (rate.securityGuardRates == null || rate.securityGuardRates!.isEmpty) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Security Guard Rates');
+    }
+
+    if (rate.securitySupervisorRates == null ||
+        rate.securitySupervisorRates!.isEmpty) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Security Supervisor Rates');
+    }
+    if (rate.securityOfficerRates == null ||
+        rate.securityOfficerRates!.isEmpty) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Security Officer Rates');
+    }
+    if (rate.securityFacilitatorRates == null ||
+        rate.securityFacilitatorRates!.isEmpty) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Security Facilitator Rates');
+    }
+    if (rate.securityGunManRates == null || rate.securityGunManRates!.isEmpty) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Security Gun Man Rates');
+    }
+
+    return const ErrorResponse(status: true, message: 'Form is Valid');
+  }
+
   const PayRateState({
     required this.status,
     required this.rate,
@@ -75,38 +108,5 @@ class PayRateState extends Equatable {
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       eventId: eventId ?? this.eventId,
     );
-  }
-
-  ErrorResponse get isValid {
-    if (rate.entities == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Guarding Rating Information.');
-    }
-    if (rate.securityGuardRates == null || rate.securityGuardRates!.isEmpty) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Security Guard Rates');
-    }
-
-    if (rate.securitySupervisorRates == null ||
-        rate.securitySupervisorRates!.isEmpty) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Security Supervisor Rates');
-    }
-    if (rate.securityOfficerRates == null ||
-        rate.securityOfficerRates!.isEmpty) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Security Officer Rates');
-    }
-    if (rate.securityFacilitatorRates == null ||
-        rate.securityFacilitatorRates!.isEmpty) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Security Facilitator Rates');
-    }
-    if (rate.securityGunManRates == null || rate.securityGunManRates!.isEmpty) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Security Gun Man Rates');
-    }
-
-    return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }
