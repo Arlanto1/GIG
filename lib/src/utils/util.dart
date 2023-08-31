@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
 
-
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/utils/customalert.dart';
 import 'package:flutter/material.dart';
@@ -17,77 +16,74 @@ class Utils {
 
     return base64Url.encode(values);
   }
-   static String timestamptoDateConversion(int? timestamp , String format) {
+
+  static String timestamptoDateConversion(int? timestamp, String format) {
     // int timestampcon = int.parse(timestamp ?? '') ?? 0;
-   // var dt = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000 ?? 0);
+    // var dt = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000 ?? 0);
     //var dt = DateTime.fromMillisecondsSinceEpoch(timestamp ?? 0 * 1000);
     int length = timestamp.toString().length; // 7
     final DateTime dt;
-    if (length > 10)
-    {
+    if (length > 10) {
       dt = DateTime.fromMillisecondsSinceEpoch((timestamp ?? 0));
-  print(dt);
-    }
-    else
-    {
+      print(dt);
+    } else {
       dt = DateTime.fromMillisecondsSinceEpoch((timestamp ?? 0) * 1000);
-  print(dt);
-
+      print(dt);
     }
-     
+
     // 12 Hour format:
     //var d12 = DateFormat('MM/dd/yyyy, hh:mm a').format(dt); // 12/31/2000, 10:00 PM
 
     // 24 Hour format:
     //var d24 = DateFormat('dd/MM/yyyy, HH:mm').format(dt); // 31/12/2000, 22:00
     //var date = DateFormat('yyyy-MM-dd').format(dt);
-     var date = DateFormat(format).format(dt);
-    
+    var date = DateFormat(format).format(dt);
+
     return date;
   }
 
-  static int datetoTimestampConversion(String? date , String format) {
-  // final df = new DateFormat(Constants.fulldateFormat);
-   //df.format(new DateTime.fromMillisecondsSinceEpoch(myvalue*1000)));
-     // DateTime dt = HttpDate.parse(date ?? '');
-     DateTime? dt;
-     if ((date ?? '').isEmpty)
-     {
-       dt = DateTime.tryParse(date ?? '');
-
-     }
-     else
-     {
+  static int datetoTimestampConversion(String? date, String format) {
+    // final df = new DateFormat(Constants.fulldateFormat);
+    //df.format(new DateTime.fromMillisecondsSinceEpoch(myvalue*1000)));
+    // DateTime dt = HttpDate.parse(date ?? '');
+    DateTime? dt;
+    if ((date ?? '').isEmpty) {
+      dt = DateTime.tryParse(date ?? '');
+    } else {
       dt = DateFormat(format).parse(date ?? '');
-     }
-       
-      // Timestamp myTimeStamp = Timestamp.fromDate(dt);
-      // print(myTimeStamp.seconds);
-      //  print(myTimeStamp.nanoseconds);
-      //   print(myTimeStamp.nanoseconds);
-      double timestamp = (dt?.millisecondsSinceEpoch  ?? 0)/ 1000;
+    }
 
-  //print(dt); // 2020-01-02 03:04:05.000
-      // int timestamp = dt.second;
-      //  print(dt);
-    return timestamp.toInt();//myTimeStamp.seconds;
+    // Timestamp myTimeStamp = Timestamp.fromDate(dt);
+    // print(myTimeStamp.seconds);
+    //  print(myTimeStamp.nanoseconds);
+    //   print(myTimeStamp.nanoseconds);
+    double timestamp = (dt?.millisecondsSinceEpoch ?? 0) / 1000;
+
+    //print(dt); // 2020-01-02 03:04:05.000
+    // int timestamp = dt.second;
+    //  print(dt);
+    return timestamp.toInt(); //myTimeStamp.seconds;
   }
-  static dynamicAlert(BuildContext context, String messgae, String title, String error) {
+
+  static dynamicAlert(
+      BuildContext context, String messgae, String title, String error) {
     var dialog = CustomAlertDialog(
       title: title,
       message: messgae,
       positiveBtnText: Constants.ok,
       onPostivePressed: () {
-        if (error.isEmpty)
-        {
-           Navigator.pop(context);
+        if (error.isEmpty) {
+          Navigator.pop(context);
         }
         Navigator.pop(context);
-        
       },
     );
-    showDialog(context: context,barrierDismissible: false, builder: (BuildContext context) => dialog);
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => dialog);
   }
+
   static String idGenerator() {
     final now = DateTime.now();
     return now.microsecondsSinceEpoch.toString();
@@ -99,10 +95,12 @@ class Utils {
       int unixTimestamp = int.parse(timestampString);
 
       // Convert the Unix timestamp to a DateTime object
-      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(unixTimestamp * 1000);
+      DateTime dateTime =
+          DateTime.fromMillisecondsSinceEpoch(unixTimestamp * 1000);
 
       // Format the DateTime object as a string
-      String formattedDate = DateFormat('dd/MM/yyyy a HH:mm:ss').format(dateTime);
+      String formattedDate =
+          DateFormat('dd/MM/yyyy a HH:mm:ss').format(dateTime);
 
       return formattedDate;
     } catch (e) {
@@ -112,6 +110,11 @@ class Utils {
     }
   }
 
+  String formatTime(String dateTimeString) {
+    DateTime dateTime = DateFormat('dd/mm/yyyy a hh:mm:ss').parse(dateTimeString);
+    int unixTimestamp = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    return unixTimestamp.toString();
+  }
 
   Row buildStatusRow(int status) {
     String statusText;
@@ -143,7 +146,7 @@ class Utils {
     }
     return Row(
       children: [
-        textHandling('Status: ',statusText),
+        textHandling('Status: ', statusText),
       ],
     );
   }
@@ -169,11 +172,10 @@ class Utils {
     }
     return Row(
       children: [
-        textHandling('Status: ',statusText),
+        textHandling('Status: ', statusText),
       ],
     );
   }
-
 
   Row buildDutyTypeRow(int dutyType) {
     String dutyTypeText;
@@ -197,7 +199,7 @@ class Utils {
 
     return Row(
       children: [
-        textHandling('DutyType: ',dutyTypeText),
+        textHandling('DutyType: ', dutyTypeText),
       ],
     );
   }
@@ -230,11 +232,10 @@ class Utils {
 
     return Row(
       children: [
-        textHandling('GuardRank: ',guardRankText),
+        textHandling('GuardRank: ', guardRankText),
       ],
     );
   }
-
 
   Row buildMaritalStatus(int maritalStatus) {
     String maritalStatusText;
@@ -251,10 +252,11 @@ class Utils {
     }
     return Row(
       children: [
-        textHandling('MaritalStatus: ',maritalStatusText),
+        textHandling('MaritalStatus: ', maritalStatusText),
       ],
     );
   }
+
   Row buildGender(int gender) {
     String genderText;
 
@@ -273,10 +275,11 @@ class Utils {
     }
     return Row(
       children: [
-        textHandling('Gender: ',genderText),
+        textHandling('Gender: ', genderText),
       ],
     );
   }
+
   Widget textHandling(String title, String desc) {
     return Expanded(
       child: RichText(
@@ -293,6 +296,4 @@ class Utils {
       ),
     );
   }
-
-
 }

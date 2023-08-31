@@ -65,10 +65,14 @@ class _GuardingRatesState extends State<GuardingRates> {
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
-            Navigator.pushNamed(context, guardingRateDetailsRoute, arguments: {
-              "title": Constants.createGuardingRatingCards,
-              "gmRate": GMRate(),
-            })
+            Navigator.pushNamed(
+              context,
+              guardingRateDetailsRoute,
+              arguments: {
+                "title": Constants.createGuardingRatingCards,
+                "gmRate": GMRate(),
+              },
+            )
           },
         ),
         appBar: BaseAppBar().buildAppHeader(
@@ -98,8 +102,6 @@ class _GuardingRatesState extends State<GuardingRates> {
                   ? state.items.length
                   : state.items.length + 1,
               itemBuilder: (context, index) {
-
-                log('-con--${index >= state.items.length}-----');
                 return index >= state.items.length
                     ? const Center(
                         child: CustomCircularProgressIndicator(),
@@ -162,16 +164,22 @@ class _GuardingRatesState extends State<GuardingRates> {
 
     GMRate response = await GuardingServices().getRate(id);
 
+    log('----response sgr--------${response.securityGuardRates?.length}---');
+
     editDataLoading(response);
   }
 
   void editDataLoading(GMRate? rate) {
     dismissLoadingDialog(context);
     if (rate != null) {
-      Navigator.pushNamed(context, guardingRateDetailsRoute, arguments: {
-        "title": Constants.createGuardingRatingCards,
-        "gmRate" : rate,
-      });
+      Navigator.pushNamed(
+        context,
+        guardingRateDetailsRoute,
+        arguments: {
+          "title": Constants.createGuardingRatingCards,
+          "gmRate": rate,
+        },
+      );
     }
   }
 }

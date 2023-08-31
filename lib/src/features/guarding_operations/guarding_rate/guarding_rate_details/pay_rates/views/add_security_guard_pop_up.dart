@@ -98,9 +98,10 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                                 .onModelValueChange(widget.payRate);
 
                             if (widget.payRate.days != null) {
-                              perHourController.text = ((widget.payRate.total)! /
-                                      (widget.payRate.days as num))
-                                  .toString();
+                              perHourController.text =
+                                  ((widget.payRate.total)! /
+                                          (widget.payRate.days as num))
+                                      .toString();
                             }
                           }
                         },
@@ -120,7 +121,8 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                         textFormKey: Keys.daysKey,
                         hintText: '',
                         onChange: (String value) {
-                          if (value.isNotEmpty && widget.payRate.total != null) {
+                          if (value.isNotEmpty &&
+                              widget.payRate.total != null) {
                             widget.payRate.days = double.parse(value);
 
                             perHourController.text = ((widget.payRate.total)! /
@@ -236,7 +238,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
       child: Row(
         //mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[cancelButton(width), saveButton(width)],
+        children: <Widget>[cancelButton(width), saveButton(width, widget.onSubmit)],
       ),
     );
   }
@@ -253,20 +255,12 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
       onTap: () {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
-        try {
-          // final ValidLoginDetails validLoginDetails =
-          //     ValidLoginDetails(userName: username, password: password);
-          // widget.onValidLogin(validLoginDetails);
-          //Navigator.pushNamed(context, homePageRoute);
-          Navigator.of(context).pop();
-        } catch (e) {
-          // present userwith error message
-        }
+        Navigator.of(context).pop();
       },
     );
   }
 
-  Widget saveButton(double width) {
+  Widget saveButton(double width, Function onSubmit) {
     return PopButton(
       width: width / 3.5,
       key: const Key(Keys.saveButton),
@@ -277,42 +271,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
-        //loginFormKey.currentState!.validate();
-        FocusScope.of(context).unfocus();
-
-        log('-widget.title---${widget.title}----');
-
-        switch (widget.title) {
-          case Constants.createSecurityGuard:
-            widget.payRate.rankId = 1;
-
-            break;
-
-          case Constants.createSecuritySupervisor:
-            widget.payRate.rankId = 2;
-            break;
-
-          case Constants.createSecurityOfficer:
-            widget.payRate.rankId = 3;
-            break;
-
-          case Constants.createSecurityFacilitator:
-            widget.payRate.rankId = 4;
-            break;
-
-          default:
-            widget.payRate.rankId = 5;
-            break;
-        }
-        
-        
-        log('--newPayRate--total---${widget.payRate.total}------------');
-        log('--newPayRate--2222--33333--rankid-${widget.payRate.rankId}------------');
-
-        
-
-        BlocProvider.of<PayRateCubit>(widget.mainContext)
-            .onSave(isSubmit: false, newPayRate: widget.payRate);
+        onSubmit(widget.payRate);
       },
     );
   }
