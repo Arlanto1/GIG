@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/request/gm_rate_request.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/request/pay_rate_request.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/util.dart';
@@ -187,7 +188,7 @@ class PayRateCubit extends Cubit<PayRateState> {
       ),
     );
 
-    newPayRate ?? PayRate();
+    // newPayRate ?? PayRate();
     if (newPayRate?.fromDate != null) {
       newPayRate?.fromDate = Utils().formatTime(newPayRate.fromDate ?? '');
     }
@@ -227,26 +228,36 @@ class PayRateCubit extends Cubit<PayRateState> {
         state.rate.securityFacilitatorRates ??= [];
         state.rate.securityGunManRates ??= [];
     }
-    state.rate.inputDate ??=
-        (DateTime.now().millisecondsSinceEpoch / 1000).toString();
+    String createdDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
+    state.rate.inputDate = createdDate;
+    log('---inputDate--final-${state.rate.inputDate}--ccc-$createdDate--');
     GMRateRequest request = GMRateRequest(guardingRateInfo: state.rate);
     GenericCreateResponse response = GenericCreateResponse();
 
+
+    log('---newPayRate------$newPayRate-');
+
+    PayRateRequest payRateRequest = PayRateRequest();
+    payRateRequest.guardingRate = newPayRate;
+
     if (!isSubmit) {
       try {
+        if (newPayRate != null) {
+          PayRateRequest payRateRequest = PayRateRequest();
+          payRateRequest.guardingRate = newPayRate;
+          response = await services.createPayRate(
+              body: payRateRequest,
+              isSubmit: isSubmit,
+              griId: state.rate.id.toString() ?? '');
+          newPayRate.id = int.parse(response.id ?? '');
+        }
         response =
             await services.createGmRate(body: request, isSubmit: isSubmit);
+        state.rate.id = int.parse(response.id ?? '');
       } catch (e) {
         log('$e');
-        // emit(
-        //   state.copyWith(
-        //     rate: state.rate,
-        //     message: response.message,
-        //     status: FormStatus.error,
-        //   ),
-        // );
-
         return;
       }
     } else {
@@ -261,16 +272,26 @@ class PayRateCubit extends Cubit<PayRateState> {
         );
         return;
       }
-      response = await services.createGmRate(body: request, isSubmit: isSubmit);
+
+      if (newPayRate != null) {
+        response = await services.createPayRate(
+            body: payRateRequest,
+            isSubmit: isSubmit,
+            griId: state.rate.id.toString() ?? '');
+        newPayRate.id = int.parse(response.id ?? '');
+      } else {
+        response =
+            await services.createGmRate(body: request, isSubmit: isSubmit);
+        state.rate.id = int.parse(response.id ?? '');
+      }
     }
 
-    state.rate.id = int.parse(response.id ?? '');
     GMRate rateResponse = await services.getRate(state.rate.id!.toInt());
 
     List<PayRate>? newRates = [];
     switch (newPayRate?.rankId) {
       case 1:
-       newRates = rateResponse.securityGuardRates;
+        newRates = rateResponse.securityGuardRates;
         break;
       case 2:
         newRates = rateResponse.securityOfficerRates;
@@ -289,7 +310,6 @@ class PayRateCubit extends Cubit<PayRateState> {
         break;
 
       default:
-
     }
 
     emit(

@@ -15,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../common_widgets/app_button.dart';
 import '../../../../../../routing/router.dart';
 import '../../../../../../utils/helpers/keys/keys.dart';
+import '../../../../../../utils/validators/validator.dart';
 import '../cubits/pay_rate_cubit.dart';
 import 'add_security_guard_pop_up.dart';
 
@@ -111,43 +112,13 @@ class _PayRateViewState extends State<PayRateView> {
             }),
         body: BlocConsumer<PayRateCubit, PayRateState>(
           listener: (context, state) {
-            if (state.status == FormStatus.loading) {
-              // String title = '';
-              // List<PayRate> payRates = [];
-              // switch (widget.title) {
-              //   case Constants.createSecurityGuard:
-              //     title = Constants.createSecuritySupervisor;
-              //     payRates = state.rate.securitySupervisorRates ?? [];
-              //     break;
-              //
-              //   case Constants.createSecuritySupervisor:
-              //     title = Constants.createSecurityOfficer;
-              //     payRates = state.rate.securityOfficerRates ?? [];
-              //     break;
-              //
-              //   case Constants.createSecurityOfficer:
-              //     title = Constants.createSecurityFacilitator;
-              //     payRates = state.rate.securityFacilitatorRates ?? [];
-              //     break;
-              //
-              //   case Constants.createSecurityFacilitator:
-              //     title = Constants.createGunMan;
-              //     payRates = state.rate.securityGunManRates ?? [];
-              //     break;
-              //
-              //   default:
-              //     break;
-              // }
-              Navigator.pop(context);
-              // Navigator.pushReplacementNamed(
-              //   context,
-              //   payRateRoute,
-              //   arguments: {
-              //     "payRates": payRates,
-              //     "gmRate": state.rate,
-              //     "title": title,
-              //   },
-              // );
+            if (state.status == FormStatus.error) {
+              log('--if-ssss--${state.status}-----');
+
+              Validator().showToast(
+                context,
+                state.message ?? 'Invalid Information',
+              );
             }
           },
           builder: (context, state) {

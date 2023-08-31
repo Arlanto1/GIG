@@ -268,7 +268,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
 
     // Setting time in milliseconds
-    state.materialMovement.inputDate = (DateTime.now().millisecondsSinceEpoch/1000).toString();
+    state.materialMovement.inputDate = (DateTime.now().millisecondsSinceEpoch~/1000).toString();
 
     // Create/Update API Call
     MaterialMovementRequest request =

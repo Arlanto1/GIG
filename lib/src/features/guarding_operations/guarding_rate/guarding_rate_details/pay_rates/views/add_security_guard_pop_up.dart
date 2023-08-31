@@ -13,6 +13,9 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../utils/validators/validator.dart';
+import '../../../../../material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
+
 class AddSecurityGuardPopUp extends StatefulWidget {
   const AddSecurityGuardPopUp({
     super.key,
@@ -238,7 +241,10 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
       child: Row(
         //mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[cancelButton(width), saveButton(width, widget.onSubmit)],
+        children: <Widget>[
+          cancelButton(width),
+          saveButton(width, widget.onSubmit)
+        ],
       ),
     );
   }
@@ -271,8 +277,31 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
-        onSubmit(widget.payRate);
+        if (!isPayRateValid.status) {
+
+          Validator().showToast(
+            context,
+            isPayRateValid.message,
+          );
+          onSubmit(widget.payRate);
+        }
       },
     );
+  }
+
+  ErrorResponse get isPayRateValid {
+    if (widget.payRate.total == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Monthly Cost.');
+    }
+    if (widget.payRate.days == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter number of days.');
+    }
+    if (widget.payRate.fromDate == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter From Date.');
+    }
+    return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }

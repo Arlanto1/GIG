@@ -8,6 +8,7 @@ import '../../../../utils/shared_preferences.dart';
 import '../../../material_movement/models/responseModels/material_movement_response.dart';
 import '../models/drop_pick_up_response.dart';
 import '../models/request/gm_rate_request.dart';
+import '../models/request/pay_rate_request.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -15,6 +16,7 @@ class Apis {
   static final String _getRates = '$baseUrl/getGMRates?';
   static final String _getRate = '$baseUrl/getGMRateById/';
   static final String _createRate = '$baseUrl/createGMRate';
+  static final String _createPayRate = '$baseUrl/createGuardRankRate';
   static final String _getFemaleDropPickUps= '$baseUrl/getDropPickup?';
 }
 
@@ -55,6 +57,20 @@ class GuardingServices {
   }) async {
     final String url =
         "${Apis._createRate}?userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return GenericCreateResponse.fromJson(response);
+  }
+
+  Future<GenericCreateResponse> createPayRate({
+    required PayRateRequest body,
+    required bool isSubmit,
+    required String griId,
+  }) async {
+    final String url =
+        "${Apis._createPayRate}?userEmail=${await getUserEmail()}&isSubmit=$isSubmit&griId=$griId";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,
