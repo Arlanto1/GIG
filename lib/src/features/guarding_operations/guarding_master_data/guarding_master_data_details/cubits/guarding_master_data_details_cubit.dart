@@ -54,6 +54,11 @@ class GuardingMasterDataDetailsCubit
   );
 
   void onModelValueChange(GuardingMastersDataModel model) {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
     emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
   }
 

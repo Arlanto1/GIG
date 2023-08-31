@@ -63,7 +63,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   TextEditingController();
   TextEditingController medicalCertificateValidUntil =
   TextEditingController();
-  TextEditingController dateOfFirstCovidDose =
+  TextEditingController dateOfFirstCovidDoseController =
   TextEditingController();
   TextEditingController dateOfSecondCovidDose =
   TextEditingController();
@@ -137,7 +137,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-  getBodybuilder(state, height) {
+  getBodybuilder(GuardingMasterDataDetailsState state, height) {
     //returnableTextController.text =
     // state.materialMovement.returnable! ? 'Returnable' : 'Non Returnable';
 
@@ -663,20 +663,22 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 widget.guardingMasterData?.status == 6
                                     ? null
                                     : (val) {
+                                  state.guardingMasterData.deploymentOrderSubmitted = true;
                                   BlocProvider.of<
                                       GuardingMasterDataDetailsCubit>(
                                       context)
-                                      .showFields(
+                                      .onModelValueChange(state.guardingMasterData
                                   );
                                 },
                                 onChangedNo:
                                 widget.guardingMasterData?.status == 4
                                     ? null
                                     : (val) {
+                                  state.guardingMasterData.deploymentOrderSubmitted = false;
                                   BlocProvider.of<
                                       GuardingMasterDataDetailsCubit>(
                                       context)
-                                      .showFields(
+                                      .onModelValueChange(state.guardingMasterData
                                   );
                                 }),
 
@@ -977,7 +979,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               keyboardType: TextInputType.number,
                               initialValue:
                               state.guardingMasterData.esicNo,
-                              textFormKey: Keys.poNumberKey,
+                              textFormKey: Keys.esicKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
                                   ? true
@@ -1048,10 +1050,10 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             BaseDate().datePickerWidgetLoading(
-                              textController: dateOfFirstCovidDose,
+                              textController: dateOfFirstCovidDoseController,
                               onChange: (String value) {
-                                log('--fr-value-${dateOfFirstCovidDose.text}------');
-                               // widget.guardingMasterData?.inputDate = value;
+                                log('--fr-value-${dateOfFirstCovidDoseController.text}------');
+                               // widget.guardingMasterData?.covidFirstDoseDate = value;
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
                                     .onModelValueChange(state.guardingMasterData);
                               },
