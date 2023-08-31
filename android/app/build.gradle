@@ -28,7 +28,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 android {
     signingConfigs {
         debug {
-            storeFile file('/home/anuragdhunna/AndroidStudioProjects/Arlanto-App-Codebase/android/Atomedgekeystore/atomedge')
+            storeFile file('/Users/bacham/Desktop/ArlantoApp/Arlanto-App-Codebase-main/android/Atomedgekeystore/atomedge')
 //            C:\Users\Ashok\AndroidStudioProjects\db_atom\android\Atomedgekeystore
             ///Users/narendra/Documents/Narendra/Projects/Freelancer/db_atom/android/Atomedgekeystore/atomedge
             //storeFile file('C:\\Users\\Ashok\\AndroidStudioProjects\\db_atom\\android\\Atomedgekeystore\\atomedge')

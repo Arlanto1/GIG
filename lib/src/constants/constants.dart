@@ -147,6 +147,12 @@ class Constants {
   static const String claimantsignature = 'Claimant Signature';
   static const String informationhere = 'Information here';
   static const String location = 'Location';
+  static const String height = 'Height (cm)';
+  static const String weight = 'Weight (kg)';
+  static const String chest = 'Chest (inch)';
+
+
+  static const String buildinglocation = 'Building Location';
   static const String addemployeedepartment = 'Add Employee Department';
   static const String addreasonfordaypass = 'Add Reason for Day Pass';
   static const String addreasonforvendorpass = 'Add Reason for Vendor Pass';
@@ -200,6 +206,7 @@ class Constants {
   static const String department = 'Department';
   static const String distributiongroups = 'Distribution Groups';
   static const String upload = 'Upload';
+  static const String uploadPhoto = 'Upload Photo';
   static const String addanothervisitingofficialdetails =
       "Add Another Visiting Official Details";
   static const String visitingofficialdetails = "Visiting Official Details";
@@ -338,8 +345,27 @@ class Constants {
 
   static const String guardingMasterReportTitle = 'Guarding Master Report List';
   static const String guardingMasterDataTitle = 'Guarding Master Data List';
+
+
   static const String createGuardingMasterData = 'Create Guarding Master Data';
   static const String editGuardingMasterData = 'Edit Guarding Master Data';
   static const String guardingPoc = 'Guarding Partner POC';
   static const String guardingAgencyEmpCode = 'Guarding Agency Employee Code';
+  static const String dbEmployeeId = 'DB Employee ID';
+  static const String buildingLocation = 'Building Location';
+  static const String mobileNum = 'Mobile Number';
+  static const String physicallyFit = 'Physically Fit?';
+  static const String dateOfBirth = 'Date of Birth';
+  static const String dateOfJoining = 'Date of Joining';
+  static const String pvcIssuedDate = 'PVC Issued Date';
+  static const String pvcExpiryDate = 'PVC Expiry Date';
+  static const String medicalCertificateValidUntil = 'Medical Certificate Valid Until';
+  static const String dateOfFirstCovidDose = 'Date of First COVID Dose';
+  static const String dateOfSecondCovidDose = 'Date of Second COVID Dose';
+  static const String dateOfPrecautionaryCovidDose = 'Date of Precautionary COVID Dose';
+  static const String ertCertificationDate = 'ERT Certification Date';
+  static const String firstAidTrainingCompletionDate = ' First Aid Training Completion Date';
+  static const String esicNo = 'ESIC NO';
+  static const String uanNo = 'UAN NO';
+  //tatic const String height = 'Height(cm)';
 }
