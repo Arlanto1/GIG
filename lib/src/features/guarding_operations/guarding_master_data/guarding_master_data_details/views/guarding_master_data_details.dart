@@ -318,6 +318,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.04),
 
+
+
                             /// Guarding Agency Employee Code
                             CommonWidgets.textDisplay(
                                 Constants.guardingAgencyEmpCode,
