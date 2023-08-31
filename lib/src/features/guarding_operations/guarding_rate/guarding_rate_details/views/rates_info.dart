@@ -63,8 +63,7 @@ class _RatesInfoState extends State<RatesInfo> {
     return BlocConsumer<PayRateCubit, PayRateState>(
       listener: (context, state) {
         if (state.status == FormStatus.success) {
-          Utils.dynamicAlert(
-              context, state.message ?? '', 'Guard Rates', '');
+          Utils.dynamicAlert(context, state.message ?? '', 'Guard Rates', '');
         }
         if (state.status == FormStatus.error) {
           Validator().showToast(
@@ -112,7 +111,7 @@ class _RatesInfoState extends State<RatesInfo> {
                 color: AppColors.backgroundWhitecolor,
                 shape: RoundedRectangleBorder(
                   borderRadius:
-                  BorderRadius.vertical(top: Radius.circular(20.0)),
+                      BorderRadius.vertical(top: Radius.circular(20.0)),
                 )),
             child: Form(
               key: _formKey,
@@ -125,11 +124,9 @@ class _RatesInfoState extends State<RatesInfo> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
-                      padding:
-                      const EdgeInsets.only(left: 20.0, right: 20),
+                      padding: const EdgeInsets.only(left: 20.0, right: 20),
                       child: Column(children: [
-                        CommonWidgets.verticalSpacerWidget(
-                            height * 0.02),
+                        CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                         /// Created By
                         Row(
@@ -138,8 +135,7 @@ class _RatesInfoState extends State<RatesInfo> {
                               children: [
                                 CommonWidgets.verticalTextHandling(
                                     Constants.createdby,
-                                    state.loggedInUserDetails?.name ??
-                                        ''),
+                                    state.loggedInUserDetails?.name ?? ''),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                               ],
@@ -150,39 +146,31 @@ class _RatesInfoState extends State<RatesInfo> {
                         ),
 
                         /// Location
-                        CommonWidgets.textDisplay(Constants.location,
-                            Styles.textStyleBlack14),
-                        CommonWidgets.verticalSpacerWidget(
-                            height * 0.001),
+                        CommonWidgets.textDisplay(
+                            Constants.location, Styles.textStyleBlack14),
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
                         locationWidgetdislay(state),
 
-                        CommonWidgets.verticalSpacerWidget(
-                            height * 0.01),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Date of creation
                         CommonWidgets.textDisplay(
-                            Constants.dateofcreation,
-                            Styles.textStyleBlack14),
-                        CommonWidgets.verticalSpacerWidget(
-                            height * 0.001),
-                        datecreateWidgetdisplay(
-                            state.rate.inputDate ?? ''),
-                        CommonWidgets.verticalSpacerWidget(
-                            height * 0.01),
+                            Constants.dateofcreation, Styles.textStyleBlack14),
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        datecreateWidgetdisplay(state.rate.inputDate ?? ''),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Sl No.
                         CommonWidgets.horizentaltextHandling(
                             Constants.slno, state.rate.slNo ?? ''),
-                        CommonWidgets.verticalSpacerWidget(
-                            height * 0.01),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Entity
                         CommonWidgets.textDisplay(
                           Constants.entity,
                           Styles.textStyleBlack14,
                         ),
-                        CommonWidgets.verticalSpacerWidget(
-                            height * 0.01),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         entityaddButtonwidgetLoading(
                           context: context,
@@ -190,8 +178,7 @@ class _RatesInfoState extends State<RatesInfo> {
                           selectedValues: state.rate.entities ?? [],
                           all: state.listOfEntities ?? [],
                         ),
-                        CommonWidgets.verticalSpacerWidget(
-                            height * 0.01),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Vendor
                         CommonWidgets.textDisplay(
@@ -200,35 +187,33 @@ class _RatesInfoState extends State<RatesInfo> {
                         ),
                         widget.rate == null
                             ? FlutterInputField(
-                          initialValue: state.rate.vendor?.name,
-                          textFormKey: Keys.vendorDepartmentKey,
-                          hintText: '',
-                          isEnable: true,
-                          isDisableColor: false,
-                          onChange: (String value) {},
-                          validateTextField: (String? user) {},
-                        )
+                                initialValue: state.rate.vendor?.name,
+                                textFormKey: Keys.vendorDepartmentKey,
+                                hintText: '',
+                                isEnable: true,
+                                isDisableColor: false,
+                                onChange: (String value) {},
+                                validateTextField: (String? user) {},
+                              )
                             : TextfieldAddButton(
-                          title: state.rate.vendor?.name,
-                          height: 60,
-                          isDisableColor: false,
-                          onTap: () {
-                            BaseDialog().departmentDialog(
-                              context: context,
-                              departments: state.departments,
-                              onTap: (Department department) {
-                                BlocProvider.of<PayRateCubit>(
-                                    context)
-                                    .updateDropdownValues(
-                                    vendor: department);
-                              },
-                            );
-                          },
-                        ),
+                                title: state.rate.vendor?.name,
+                                height: 60,
+                                isDisableColor: false,
+                                onTap: () {
+                                  BaseDialog().departmentDialog(
+                                    context: context,
+                                    departments: state.departments,
+                                    onTap: (Department department) {
+                                      BlocProvider.of<PayRateCubit>(context)
+                                          .updateDropdownValues(
+                                              vendor: department);
+                                    },
+                                  );
+                                },
+                              ),
 
                         // quantityUnitPopUp(state),
-                        CommonWidgets.verticalSpacerWidget(
-                            height * 0.01),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
                       ]),
                     ),
                     CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -237,26 +222,28 @@ class _RatesInfoState extends State<RatesInfo> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         cancelButtonDisplay(),
-                        submitButtonDisplay(onTap: () {
-                          log('-onTapSubmit--${state.rate.vendor?.name}----');
-                          FocusScope.of(context).unfocus();
-                          BlocProvider.of<PayRateCubit>(context).onSave(
-                            isSubmit: false,
-                          );
+                        submitButtonDisplay(
+                          onTap: () {
+                            log('-onTapSubmit--${state.rate.vendor?.name}----');
+                            FocusScope.of(context).unfocus();
+                            BlocProvider.of<PayRateCubit>(context).onSave(
+                              isSubmit: false,
+                            );
 
-                          // BlocProvider.of<PayRateCubit>(context)
-                          //     .onModelValueChange(state.);
+                            // BlocProvider.of<PayRateCubit>(context)
+                            //     .onModelValueChange(state.);
 
-                          Navigator.pushNamed(
-                            context,
-                            payRateRoute,
-                            arguments: {
-                              "payRates": state.rate.securityGuardRates,
-                              "gmRate": state.rate,
-                              "title": Constants.createSecurityGuard,
-                            },
-                          );
-                        }),
+                            Navigator.pushReplacementNamed(
+                              context,
+                              payRateRoute,
+                              arguments: {
+                                "payRates": state.rate.securityGuardRates,
+                                "gmRate": state.rate,
+                                "title": Constants.createSecurityGuard,
+                              },
+                            );
+                          },
+                        ),
                       ],
                     )
                   ]),

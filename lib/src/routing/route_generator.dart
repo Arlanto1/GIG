@@ -11,7 +11,8 @@ import 'package:db_atom/src/features/dashboard/views/my_home_page.dart';
 import 'package:db_atom/src/features/guarding_operations/drop_pick_up/bloc/female_drop_pick_up_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/drop_pick_up/views/female_drop_pick_up_view.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart' as guarding;
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart'
+    as guarding;
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
@@ -26,6 +27,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/v
 import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../features/guarding_operations/guarding_master_data/guarding_master_data/bloc/guarding_master_data_bloc.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data/views/guarding_master_data.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_cubit.dart';
@@ -64,7 +66,8 @@ class RouteGenerator {
       case forgotPwdScreenRoute:
         return MaterialPageRoute(builder: (context) => const ForgotPwdScreen());
       case resetPwdScreenRoute:
-        return MaterialPageRoute(builder: (context) => const ResetPasswordScreen());
+        return MaterialPageRoute(
+            builder: (context) => const ResetPasswordScreen());
       case otpVerificationRoute:
         if (settings.arguments != null) {
           final userRoutes = settings.arguments as Map<String, dynamic>;
@@ -284,22 +287,22 @@ class RouteGenerator {
         CommonServices commonServices = CommonServices();
         String title;
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         title = arguments['title'];
-       GuardingMastersDataModel? guardingMastersData =
-        arguments["GuardingMastersDataModel"];
-          return MaterialPageRoute(
-              builder: (context) => BlocProvider<GuardingMasterDataDetailsCubit>(
-                create: (_) => GuardingMasterDataDetailsCubit(
-                  guardingMasterDataServices: services,
-                  model: guardingMastersData,
-                  commonServices: commonServices,
-                ),
-                child: GuardigMasterDataDetails(
-                  guardingMasterData: guardingMastersData,
-                  title: title,
-                ),
-              ));
+        GuardingMastersDataModel? guardingMastersData =
+            arguments["GuardingMastersDataModel"];
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<GuardingMasterDataDetailsCubit>(
+                  create: (_) => GuardingMasterDataDetailsCubit(
+                    guardingMasterDataServices: services,
+                    model: guardingMastersData,
+                    commonServices: commonServices,
+                  ),
+                  child: GuardigMasterDataDetails(
+                    guardingMasterData: guardingMastersData,
+                    title: title,
+                  ),
+                ));
 
       case guardingRateDetailsRoute:
         GuardingServices services = GuardingServices();
@@ -307,15 +310,16 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments['title'];
-        GMRate? rate = arguments['gmRate'];
+        GMRate rate = arguments['gmRate'];
         return MaterialPageRoute(
             builder: (context) => BlocProvider<PayRateCubit>(
                   create: (_) => PayRateCubit(
-                      services: services,
-                      rate: rate ?? GMRate(),
-                      payRates: []),
+                    services: services,
+                    rate: rate,
+                    payRates: [],
+                  ),
                   child: GuardingRateDetails(
-                    rate: rate ?? GMRate(),
+                    rate: rate,
                     title: title,
                   ),
                 ));
@@ -384,14 +388,14 @@ class RouteGenerator {
       case femaleDropPickUpRoute:
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<FemaleDropPickUpBloc>(
-              create: (_) => FemaleDropPickUpBloc()
-                ..add(const FetchList(startPos: 0, maxPos: 20)),
-              child: const FemaleDropPickUpView(),
-            ));
+                  create: (_) => FemaleDropPickUpBloc()
+                    ..add(const FetchList(startPos: 0, maxPos: 20)),
+                  child: const FemaleDropPickUpView(),
+                ));
       default:
         return MaterialPageRoute(builder: (context) => App());
     }
