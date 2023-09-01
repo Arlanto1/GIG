@@ -7,12 +7,12 @@ import 'package:db_atom/src/features/material_movement/models/material_movements
 import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
 import 'package:equatable/equatable.dart';
 
-
 part 'material_movement_event.dart';
 
 part 'material_movement_state.dart';
 
-class MaterialMovementBloc extends Bloc<MaterialMovementEvent, MaterialMovementState> {
+class MaterialMovementBloc
+    extends Bloc<MaterialMovementEvent, MaterialMovementState> {
   final bool isInward;
 
   MaterialMovementBloc({required this.isInward})
@@ -32,7 +32,7 @@ class MaterialMovementBloc extends Bloc<MaterialMovementEvent, MaterialMovementS
       if (state.hasReachedMax) return;
 
       if (state.status == LawEnforcementListStateType.initial) {
-        MaterialMovementsModel getMaterialMovements =
+        MaterialMovementsModel response =
             await _materialMovementServices.getMaterialMovements(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
@@ -42,27 +42,27 @@ class MaterialMovementBloc extends Bloc<MaterialMovementEvent, MaterialMovementS
 
         return emit(
           state.copyWith(
-            items: getMaterialMovements.items,
+            items: response.items,
             hasReachedMax: false,
             status: LawEnforcementListStateType.success,
           ),
         );
       }
 
-      MaterialMovementsModel getMaterialMovements =
+      MaterialMovementsModel response =
           await _materialMovementServices.getMaterialMovements(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '77',   //TODO: make it dynamic
+        userId: '77', //TODO: make it dynamic
         mmType: isInward ? 1 : 0,
       );
 
-      if (getMaterialMovements.items?.isEmpty == true) {
+      if (response.items?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));
       }
       return emit(
         state.copyWith(
-          items: List.of(state.items)..addAll(getMaterialMovements.items ?? []),
+          items: List.of(state.items)..addAll(response.items ?? []),
           hasReachedMax: false,
         ),
       );

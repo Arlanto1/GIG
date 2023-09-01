@@ -7,7 +7,6 @@ import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../models/entity.dart';
 import '../../models/location.dart';
 import '../../models/location_region.dart';
 
@@ -29,8 +28,6 @@ class BaseListTileItem extends StatefulWidget {
   final Function? onTap;
   final Function? onEditTap;
   final Function? onViewTap;
-  final Entity? locationEntity;
-  final Entity? locationRegionEntity;
 
   // final Item userItem;
   final int? index;
@@ -58,7 +55,7 @@ class BaseListTileItem extends StatefulWidget {
     this.locationStr,
     this.guardRank,
     this.labels,
-    this.isMasterGuard, this.locationEntity, this.locationRegionEntity,
+    this.isMasterGuard,
   });
 
   @override
@@ -138,14 +135,14 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
           ],
         ),
       ],
-      if (widget.locationRegionEntity != null) ...[
-        Row(
-          children: [
-            Utils()
-                .textHandling('Region : ', widget.locationRegionEntity?.name ?? ''),
-          ],
-        ),
-      ],
+      // if (widget.locationRegionEntity != null) ...[
+      //   Row(
+      //     children: [
+      //       Utils().textHandling(
+      //           'Region : ', widget.locationRegionEntity?.name ?? ''),
+      //     ],
+      //   ),
+      // ],
       if (widget.locationStr != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(
@@ -155,15 +152,16 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
           ],
         ),
       ],
-      if (widget.locationEntity != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Utils().textHandling('Building Loaction : ', widget.locationEntity?.name?? ''),
-          ],
-        ),
-      ],
+      // if (widget.locationEntity != null) ...[
+      //   CommonWidgets.verticalSpacerWidget(8),
+      //   Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //     children: [
+      //       Utils().textHandling(
+      //           'Building Loaction : ', widget.locationEntity?.name ?? ''),
+      //     ],
+      //   ),
+      // ],
       if (widget.guardCount != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(

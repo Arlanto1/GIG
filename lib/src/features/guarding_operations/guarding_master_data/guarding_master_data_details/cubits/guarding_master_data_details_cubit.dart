@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
@@ -8,6 +7,7 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/responseModels/guarding_master_data_responses.dart';
 import 'package:db_atom/src/models/entity.dart';
+import 'package:db_atom/src/models/location.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
@@ -15,10 +15,8 @@ import 'package:intl/intl.dart';
 
 import '../../../../../constants/constants.dart';
 import '../../../../../models/base_user.dart';
-import '../../../../../models/department.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../createfound/models/serial_number_model.dart';
-import '../../../../lawenforcement/models/addentities.dart';
 import '../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import '../../models/guarding_master_data_model.dart';
 import '../../services/guarding_master_data_services.dart';
@@ -36,73 +34,25 @@ class GuardingMasterDataDetailsCubit
     required this.commonServices,
     required this.model,
   }) : super(
-          GuardingMasterDataDetailsState.initial(
-              model: model ??
-                  GuardingMastersDataModel(
-                    deploymentOrders: [],
-                    qualifications: [],
-                    pvc: [],
-                    trainingCertificates: [],
-                    medicalCertificates: [],
-                    history: [],
-                    physicallyFit: true,
-                    deploymentOrderSubmitted: false,
-                    trainingCertificateProvided: false,
-                    onboarded: true,
-                    csrParticipation: false,
-                    specialAchievement: false,
-                  ),
-              locations: GetLocations(),
-              loggedInUserDetails: EntrySecurity(),
-              users: const [],
-              emailUsers: const [],
-              errorMessage: '',
-              loadAttachments: const [],
-              eventId: null,
-              listOfEntities: [],
-              getEntitiesResponse: null, departments: []),
-        );
-
-
-  getEntityData(List<Entity> listOfEntities) async {
-    try {
-      int eventIds = math.Random.secure().nextInt(5);
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          listOfEntities: listOfEntities,
-          status: FormStatus.initial,
+    GuardingMasterDataDetailsState.initial(
+        model: model ?? GuardingMastersDataModel(
+          deploymentOrders: [],
+          qualifications: [],
+          pvc: [],
+          trainingCertificates: [],
+          medicalCertificates: [],
+          history: [],
+          physicallyFit: true,
+          deploymentOrderSubmitted: true,
         ),
-      );
-    } catch (e) {
-      emit(
-        state.copyWith(
-          message: Constants.errorText,
-          status: FormStatus.error,
-        ),
-      );
-    }
-  }
-  // Get entities api call
-  Future<void> getEntities() async {
-    try {
-      AddEntities entities =
-          await commonServices.getEntities(name: 'ATOM_ENTITIES');
-      emit(
-        state.copyWith(
-          getEntitiesResponse: entities,
-          status: FormStatus.initial,
-        ),
-      );
-    } catch (e) {
-      emit(
-        state.copyWith(
-          message: Constants.errorText,
-          status: FormStatus.error,
-        ),
-      );
-    }
-  }
+        locations: GetLocations(),
+        loggedInUserDetails: EntrySecurity(),
+        users: const [],
+        emailUsers: const [],
+        errorMessage: '',
+        loadAttachments: const [],
+        eventId: null),
+  );
 
   void onModelValueChange(GuardingMastersDataModel model) {
     emit(
@@ -126,35 +76,30 @@ class GuardingMasterDataDetailsCubit
       ),
     );
     var userId = await SharedPrefs.getUserId();
+    try {
       GetLocations getLocationsData =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+      await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
       EntrySecurity loggedInUserDetails =
-          await commonServices.getUserDetails(userId: userId);
+      await commonServices.getUserDetails(userId: userId);
 
       Analyst users =
-          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+      await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       // Get Date of Creation
       state.guardingMasterData.inputDate = _getCurrentDate();
 
-
-      AddEntities entities =
-          await commonServices.getEntities(name: 'ATOM_ENTITIES');
-
       GetDepositor emailUsers =
-          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+      await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
       state.guardingMasterData.entrySecurity = loggedInUserDetails;
-    try {
+
       emit(
         state.copyWith(
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           guardingMasterData: state.guardingMasterData,
-          listOfEntities: entities.atomEntities,
-          getEntitiesResponse: entities,
           users: users.t1Analyst,
           emailUsers: emailUsers.atomStaticUser,
         ),
@@ -171,11 +116,9 @@ class GuardingMasterDataDetailsCubit
   }
 
   Future<void> updateDropdownValues({
-    Entity? location,
+    Location? location,
     BaseUser? user,
-    required List<Entity> entity,
-    Department? vendor,
-    EntrySecurity? guard,
+    Entity? entity,
   }) async {
     emit(
       state.copyWith(
@@ -192,24 +135,15 @@ class GuardingMasterDataDetailsCubit
       state.guardingMasterData.location = location;
       state.guardingMasterData.slNo = slNo.serialNo;
     }
-
-    if (vendor != null) {
-      state.guardingMasterData.vendor = vendor as Department? ;
-    }
     if (entity != null) {
-      state.guardingMasterData.entity = entity;
+      state.guardingMasterData.entities??[].add(entity);
     }
-    if (guard != null) {
-      state.guardingMasterData.entity = guard as List<Entity>?;
-    }
-
 
     emit(state.copyWith(
       guardingMasterData: state.guardingMasterData,
       status: FormStatus.initial,
     ));
   }
-
   void addAttchment(List<CreateImage>? data) async {
     print('--state.status-1---${state.status}----');
 
@@ -233,10 +167,7 @@ class GuardingMasterDataDetailsCubit
     print('--state.status--3--${state.status}----');
   }
 
-  void showFields(
-      {bool? deploymentOrderSubmitted,
-      bool? trainingCertificateProvided,
-      bool? specialAchievement, bool? csrParticipation}) {
+  void showFields({ bool? deploymentOrderSubmitted,bool? trainingCertificateProvided}) {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -249,12 +180,6 @@ class GuardingMasterDataDetailsCubit
     if (trainingCertificateProvided != null) {
       state.guardingMasterData.trainingCertificateProvided =
           trainingCertificateProvided;
-    }
-    if (specialAchievement != null) {
-      state.guardingMasterData.specialAchievement = specialAchievement;
-    }
-    if (csrParticipation != null) {
-      state.guardingMasterData.csrParticipation = csrParticipation;
     }
     emit(state.copyWith(
       guardingMasterData: state.guardingMasterData,
@@ -270,12 +195,13 @@ class GuardingMasterDataDetailsCubit
     );
 
     // Setting time in milliseconds
-    state.guardingMasterData.inputDate =
-        (DateTime.now().millisecondsSinceEpoch / 1000).toString();
+    state.guardingMasterData.inputDate = (DateTime
+        .now()
+        .millisecondsSinceEpoch / 1000).toString();
 
     // Create/Update API Call
     GuardingMasterDataRequest request =
-        GuardingMasterDataRequest(guardingMasterData: state.guardingMasterData);
+    GuardingMasterDataRequest(guardingMasterData: state.guardingMasterData);
 
     try {
       GenericCreateResponse response = GenericCreateResponse();
