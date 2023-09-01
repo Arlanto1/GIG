@@ -126,6 +126,7 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
           children: [
             InkWell(
               onTap: () {
+                BlocProvider.of<PayRateCubit>(context).updateModelValue();
                 Navigator.pushNamed(context, guardingRatesGRIRoute, arguments: {
                   "title": Constants.createGuardingRatingCards,
                   "gmRate": widget.rate,
@@ -139,12 +140,14 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
             ),
             const SizedBox(width: 19),
             InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, payRateRoute, arguments: {
-                  "title": Constants.createSecurityGuard,
-                  "payRates": widget.rate.securityGuardRates ?? [],
-                  "gmRate": widget.rate,
-                });
+              onTap: () async {
+                BlocProvider.of<PayRateCubit>(context).updateModelValue();
+                Navigator.pushNamed(scaffoldKey.currentContext!, payRateRoute,
+                    arguments: {
+                      "title": Constants.createSecurityGuard,
+                      "payRates": widget.rate.securityGuardRates ?? [],
+                      "gmRate": widget.rate,
+                    });
               },
               child: buildRectangleBox(
                 imageAsset: 'assets/images/security.png',
@@ -159,6 +162,7 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
           children: [
             InkWell(
               onTap: () {
+                BlocProvider.of<PayRateCubit>(context).updateModelValue();
                 Navigator.pushNamed(context, payRateRoute, arguments: {
                   "title": Constants.createSecuritySupervisor,
                   "payRates": widget.rate.securitySupervisorRates ?? [],
@@ -175,6 +179,7 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
             const SizedBox(width: 19), // Add some spacing between the boxes
             InkWell(
               onTap: () {
+                BlocProvider.of<PayRateCubit>(context).updateModelValue();
                 Navigator.pushNamed(context, payRateRoute, arguments: {
                   "title": Constants.createSecurityOfficer,
                   "payRates": widget.rate.securityGuardRates ?? [],
@@ -194,6 +199,7 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
           children: [
             InkWell(
               onTap: () {
+                BlocProvider.of<PayRateCubit>(context).updateModelValue();
                 Navigator.pushNamed(context, payRateRoute, arguments: {
                   "title": Constants.createSecurityFacilitator,
                   "payRates": widget.rate.securityFacilitatorRates ?? [],
@@ -209,6 +215,7 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
             const SizedBox(width: 19), // Add some spacing between the boxes
             InkWell(
               onTap: () {
+                BlocProvider.of<PayRateCubit>(context).updateModelValue();
                 Navigator.pushNamed(context, payRateRoute, arguments: {
                   "title": Constants.createGunMan,
                   "payRates": widget.rate.securityGunManRates ?? [],

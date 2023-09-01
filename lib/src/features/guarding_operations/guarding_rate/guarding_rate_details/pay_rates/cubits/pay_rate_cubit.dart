@@ -91,11 +91,26 @@ class PayRateCubit extends Cubit<PayRateState> {
       emit(
         state.copyWith(
           message: Constants.errorText,
-          // TODO: error message should be dynamic
           status: FormStatus.error,
         ),
       );
     }
+  }
+
+  Future<void> updateModelValue() async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    GMRate rateResponse = await services.getRate(state.rate.id!);
+    emit(
+      state.copyWith(
+        rate: rateResponse,
+        status: FormStatus.initial,
+      ),
+    );
+
   }
 
   getEntityData(List<Entity> listOfEntities) async {
@@ -250,7 +265,7 @@ class PayRateCubit extends Cubit<PayRateState> {
           response = await services.createPayRate(
               body: payRateRequest,
               isSubmit: isSubmit,
-              griId: state.rate.id.toString() ?? '');
+              griId: state.rate.id.toString());
           newPayRate.id = int.parse(response.id ?? '');
         }
         response =
@@ -277,7 +292,7 @@ class PayRateCubit extends Cubit<PayRateState> {
         response = await services.createPayRate(
             body: payRateRequest,
             isSubmit: isSubmit,
-            griId: state.rate.id.toString() ?? '');
+            griId: state.rate.id.toString());
         newPayRate.id = int.parse(response.id ?? '');
       } else {
         response =
@@ -286,7 +301,7 @@ class PayRateCubit extends Cubit<PayRateState> {
       }
     }
 
-    GMRate rateResponse = await services.getRate(state.rate.id!.toInt());
+    GMRate rateResponse = await services.getRate(state.rate.id!);
 
     List<PayRate>? newRates = [];
     switch (newPayRate?.rankId) {
