@@ -32,7 +32,7 @@ class BaseDate {
             ? Keys.founddateTextController
             : Keys.handedoverdateTextController,
         hintText: '',
-        isEnable: !isDisabled,
+        isEnable: false,
         isDisableColor: isDisabled,
         onChange: onChange,
         // Pass the onChange callback to FlutterInputField

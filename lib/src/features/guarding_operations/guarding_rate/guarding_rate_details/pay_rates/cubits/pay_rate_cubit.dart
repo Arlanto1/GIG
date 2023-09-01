@@ -87,6 +87,7 @@ class PayRateCubit extends Cubit<PayRateState> {
         ),
       );
     } catch (e) {
+      log('Caught an error', error: e);
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -236,7 +237,6 @@ class PayRateCubit extends Cubit<PayRateState> {
     GMRateRequest request = GMRateRequest(guardingRateInfo: state.rate);
     GenericCreateResponse response = GenericCreateResponse();
 
-
     log('---newPayRate------$newPayRate-');
 
     PayRateRequest payRateRequest = PayRateRequest();
@@ -291,21 +291,26 @@ class PayRateCubit extends Cubit<PayRateState> {
     List<PayRate>? newRates = [];
     switch (newPayRate?.rankId) {
       case 1:
+        log('Adding Rate for Security Guard', name: 'PayRateCubit');
         newRates = rateResponse.securityGuardRates;
         break;
       case 2:
+        log('Adding Rate for Security Officer', name: 'PayRateCubit');
         newRates = rateResponse.securityOfficerRates;
         break;
 
       case 3:
+        log('Adding Rate for Security Supervisor', name: 'PayRateCubit');
         newRates = rateResponse.securitySupervisorRates;
         break;
 
       case 4:
+        log('Adding Rate for Security Facilitator', name: 'PayRateCubit');
         newRates = rateResponse.securityFacilitatorRates;
         break;
 
       case 5:
+        log('Adding Rate for Gun Man', name: 'PayRateCubit');
         newRates = rateResponse.securityGunManRates;
         break;
 

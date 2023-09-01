@@ -71,11 +71,11 @@ class _PayRateViewState extends State<PayRateView> {
                   break;
 
                 case Constants.createSecuritySupervisor:
-                  payRate.rankId = 2;
+                  payRate.rankId = 3;
                   break;
 
                 case Constants.createSecurityOfficer:
-                  payRate.rankId = 3;
+                  payRate.rankId = 2;
                   break;
 
                 case Constants.createSecurityFacilitator:
@@ -119,6 +119,10 @@ class _PayRateViewState extends State<PayRateView> {
                 context,
                 state.message ?? 'Invalid Information',
               );
+            }
+
+            if (state.status == FormStatus.loading) {
+              Navigator.pop(context);
             }
           },
           builder: (context, state) {
@@ -221,12 +225,6 @@ class _PayRateViewState extends State<PayRateView> {
                           onTap: () {
                             log('-onTapSubmit--${state.rate.vendor?.name}----');
                             FocusScope.of(context).unfocus();
-                            // BlocProvider.of<PayRateCubit>(context).onSave(
-                            //   isSubmit: false,
-                            // );
-
-                            // BlocProvider.of<PayRateCubit>(context).onSave(officerRank: ,
-                            //     isSubmit: false, newPayRate: state.newPayRate);
 
                             String title = '';
                             List<PayRate> payRates = [];
@@ -235,7 +233,7 @@ class _PayRateViewState extends State<PayRateView> {
                                 title = Constants.createSecuritySupervisor;
                                 payRates =
                                     state.rate.securitySupervisorRates ?? [];
-                                state.newPayRate.rankId = 1;
+                                state.newPayRate.rankId = 2;
 
                                 break;
 
@@ -244,20 +242,20 @@ class _PayRateViewState extends State<PayRateView> {
                                 payRates =
                                     state.rate.securityOfficerRates ?? [];
 
-                                state.newPayRate.rankId = 2;
+                                state.newPayRate.rankId = 3;
                                 break;
 
                               case Constants.createSecurityOfficer:
                                 title = Constants.createSecurityFacilitator;
                                 payRates =
                                     state.rate.securityFacilitatorRates ?? [];
-                                state.newPayRate.rankId = 3;
+                                state.newPayRate.rankId = 4;
                                 break;
 
                               case Constants.createSecurityFacilitator:
                                 title = Constants.createGunMan;
                                 payRates = state.rate.securityGunManRates ?? [];
-                                state.newPayRate.rankId = 4;
+                                state.newPayRate.rankId = 5;
                                 break;
 
                               default:
@@ -267,12 +265,7 @@ class _PayRateViewState extends State<PayRateView> {
                                 break;
                             }
 
-                            log('--state.newPayRate.rankId-2222-----${state.newPayRate.rankId}------------');
-
-                            log('--ifff--');
                             if (state.newPayRate.rankId == 5) {
-                              log('--ifff-------eeeee------3333-');
-
                               BlocProvider.of<PayRateCubit>(context).onSave(
                                 isSubmit: true,
                                 // newPayRate: state.newPayRate,
@@ -289,11 +282,6 @@ class _PayRateViewState extends State<PayRateView> {
                               return;
                             }
                             log('--ifff-3333-');
-                            //
-                            // BlocProvider.of<PayRateCubit>(context).onSave(
-                            //   isSubmit: false,
-                            //   newPayRate: state.newPayRate,
-                            // );
 
                             Navigator.pushReplacementNamed(
                               context,
