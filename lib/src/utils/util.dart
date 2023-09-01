@@ -111,9 +111,29 @@ class Utils {
   }
 
   String formatTime(String dateTimeString) {
-    DateTime dateTime = DateFormat('dd/mm/yyyy a hh:mm:ss').parse(dateTimeString);
-    int unixTimestamp = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-    return unixTimestamp.toString();
+    // if the dateTimeString is already unixTimestamp
+    if (dateTimeString.length == 10 &&
+        dateTimeString.contains(RegExp(r'^\d+$'))) {
+      return dateTimeString;
+    }
+    final List<String> dateFormats = [
+      'dd/MM/yyyy a hh:mm:ss',
+      'yyyy-MM-ddTHH:mm:ss',
+      'dd/MM/yyyy',
+    ];
+
+    for (final format in dateFormats) {
+      try {
+        final dateTime = DateFormat(format).parse(dateTimeString);
+        final unixTimestamp = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+        return unixTimestamp.toString();
+      } catch (_) {
+        continue;
+      }
+    }
+
+    // If none of the formats match, you can handle the error or return a default value
+    throw FormatException('Unable to parse date-time: $dateTimeString');
   }
 
   Row buildStatusRow(int status) {
@@ -295,5 +315,20 @@ class Utils {
         ),
       ),
     );
+  }
+
+  String removeDecimalAndValuesAfterIt(dynamic value) {
+    if (value == null) {
+      return '';
+    }
+
+    if (value is num || value is double) {
+      return value.toStringAsFixed(0);
+    } else if (value is String) {
+      final double parsedValue = double.tryParse(value) ?? 0.0;
+      return parsedValue.toStringAsFixed(0);
+    } else {
+      throw ArgumentError('Unsupported type: ${value.runtimeType}');
+    }
   }
 }

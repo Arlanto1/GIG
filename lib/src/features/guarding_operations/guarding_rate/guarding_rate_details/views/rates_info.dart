@@ -78,12 +78,7 @@ class _RatesInfoState extends State<RatesInfo> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: true,
-            onTapSave: () {
-              FocusScope.of(context).unfocus();
-              // BlocProvider.of<PayRateCubit>(context)
-              //     .submitForm(isSaveOnly: true);
-            },
+            showSaveButton: false,
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
           body: getBody(context, state, height),

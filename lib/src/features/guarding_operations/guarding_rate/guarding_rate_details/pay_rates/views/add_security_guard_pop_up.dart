@@ -13,6 +13,7 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../utils/util.dart';
 import '../../../../../../utils/validators/validator.dart';
 import '../../../../../material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 
@@ -48,8 +49,13 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
   @override
   Widget build(BuildContext context) {
     log('------payRate--${widget.payRate.total}------');
-    fromDateController.text = widget.payRate.fromDate ?? '';
-    toDateController.text = widget.payRate.toDate ?? '';
+
+    fromDateController.text = Utils.timestamptoDateConversion(
+        int.parse(widget.payRate.fromDate ?? '0'), Constants.dateFormat);
+
+    toDateController.text = Utils.timestamptoDateConversion(
+        int.parse(widget.payRate.toDate ?? '0'), Constants.dateFormat);
+
     return AlertDialog(
       title: Align(
         alignment: Alignment.center,
@@ -103,7 +109,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                             if (widget.payRate.days != null) {
                               perHourController.text =
                                   ((widget.payRate.total)! /
-                                          (widget.payRate.days as num))
+                                          (8 * (widget.payRate.days as num)))
                                       .toString();
                             }
                           }
@@ -119,19 +125,18 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue: '${widget.payRate.days ?? ''}',
+                        initialValue: Utils().removeDecimalAndValuesAfterIt(widget.payRate.days),
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.daysKey,
                         hintText: '',
                         onChange: (String value) {
                           if (value.isNotEmpty &&
                               widget.payRate.total != null) {
-                            widget.payRate.days = double.parse(value);
+                            widget.payRate.days = num.parse(value);
 
-                            perHourController.text =
-                                ((widget.payRate.total)! /
-                                        (widget.payRate.days as num))
-                                    .toString();
+                            perHourController.text = ((widget.payRate.total)! /
+                                    (8 * (widget.payRate.days as num)))
+                                .toString();
 
                             widget.payRate.perHour =
                                 double.parse(perHourController.text);
