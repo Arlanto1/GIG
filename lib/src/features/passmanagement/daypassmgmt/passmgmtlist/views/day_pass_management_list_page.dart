@@ -166,7 +166,16 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
           Navigator.pushNamed(context, createpassmgmtRoute, arguments: {
         "passMngCreateDetails":
             CreatePassMngArguments(widget.passId ?? '', titleIdentify, true,null)
-      });
+      }).then((value) async {
+            if(value != null && value == true)
+            {
+              print(value);
+              localfoundlist?.clear();
+              pageNumber = 0;
+             _getpassFoundArticleList();
+
+            }
+          });
         },
       ),
       appBar: AppHeader(

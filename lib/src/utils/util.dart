@@ -77,11 +77,15 @@ class Utils {
       message: messgae,
       positiveBtnText: Constants.ok,
       onPostivePressed: () {
-        if (error.isEmpty)
+        if (error.isNotEmpty)
         {
            Navigator.pop(context);
         }
-        Navigator.pop(context);
+        else
+        {
+          Navigator.pop(context);
+         Navigator.pop(context,true);
+        }
         
       },
     );
