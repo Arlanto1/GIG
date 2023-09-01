@@ -1054,7 +1054,26 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                                 .onModelValueChange(
                                                     state.guardingMasterData);
                                           }),
+    if (state
+        .guardingMasterData.trainingCertificateProvided) ...[
+                            /// upload File
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.textDisplay(
+                                Constants.uploadfile,
+                                Styles.textStyleBlack14)
+                                : Container(),
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.verticalSpacerWidget(
+                                height * 0.001)
+                                : Container(),
+                            widget.guardingMasterData == null
+                                ? uploadWidget(state)
+                                : Container(),
 
+                            // Attachments
+                            getSpaceattchment(height),
+                            getAttachement(state, height),
+                            ],
                             /// Medical Certificate Valid Until
                             CommonWidgets.textDisplay(
                               Constants.medicalCertificateValidUntil,
