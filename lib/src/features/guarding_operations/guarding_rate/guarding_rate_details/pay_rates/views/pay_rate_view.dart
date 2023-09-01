@@ -253,6 +253,9 @@ class _PayRateViewState extends State<PayRateView> {
                                 break;
 
                               case Constants.createSecurityFacilitator:
+
+                                log('--case ---createSecurityFacilitator-');
+
                                 title = Constants.createGunMan;
                                 payRates = state.rate.securityGunManRates ?? [];
                                 state.newPayRate.rankId = 5;
@@ -265,7 +268,7 @@ class _PayRateViewState extends State<PayRateView> {
                                 break;
                             }
 
-                            if (state.newPayRate.rankId == 5) {
+                            if (widget.title == Constants.createGunMan) {
                               BlocProvider.of<PayRateCubit>(context).onSave(
                                 isSubmit: true,
                                 // newPayRate: state.newPayRate,

@@ -50,7 +50,7 @@ class BaseApiService {
   }) async {
     try {
       // log("requestedData - $requestedData");
-      log("requestedData - ${jsonEncode(requestedData)}");
+      // log("requestedData - ${jsonEncode(requestedData)}");
       var response = await http.post(
         Uri.parse(url),
         headers: await _getHeaders(
