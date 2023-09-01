@@ -160,6 +160,12 @@ class _CreatefoundState extends State<Createfound> {
           widget.listuser?.claimantEmployeeId !=null ? widget.listuser?.claimantEmployeeId ?? '' : '';
       claimant = widget.listuser?.claimant?.lastName !=null ? widget.listuser?.claimant?.lastName ?? '' :'';
       claimantTextController.text = widget.listuser?.claimant?.lastName !=null ? widget.listuser?.claimant?.lastName ?? '' : '';
+      selectedClaimdepartment = widget.listuser?.claimantDepartment !=null ? EmployeeDepartment(
+          id:widget.listuser?.claimantDepartment?.id ?? 0 , name: widget.listuser?.claimantDepartment?.name ?? '') : EmployeeDepartment();
+      selectedClaimList = widget.listuser?.claimant != null ? AtomStaticUser(
+          email: widget.listuser?.claimant?.email ?? "",
+          id: widget.listuser?.claimant?.userId ?? 0,
+          name: widget.listuser?.claimant?.lastName ?? "") : AtomStaticUser();   
     }
   }
 
@@ -423,7 +429,7 @@ class _CreatefoundState extends State<Createfound> {
         if (isClaimantDBEmployeeSelected == 1 &&
             ((claimant.isEmpty) ||
                 (claimantEmpIdTextController.text.isEmpty) ||
-                (claimantDepartmentName.isEmpty))) {
+                ((selectedClaimdepartment?.name ?? '').isEmpty))) {
           if (claimant.isEmpty) {
             Validator().showToast(
               context,
@@ -434,7 +440,7 @@ class _CreatefoundState extends State<Createfound> {
               context,
               "Please enter claimant employee id",
             );
-          } else if (claimantDepartmentName.isEmpty) {
+          } else if ((selectedClaimdepartment?.name ?? '').isEmpty) {
             Validator().showToast(
               context,
               "Please enter claimant department",
@@ -564,7 +570,7 @@ class _CreatefoundState extends State<Createfound> {
               context,
               "Please enter claimant employee id",
             );
-          } else if (claimantDepartmentName.isEmpty) {
+          } else if ((selectedClaimdepartment?.name ?? '').isEmpty) {
             Validator().showToast(
               context,
               "Please enter claimant department",
@@ -1303,16 +1309,16 @@ class _CreatefoundState extends State<Createfound> {
                                   )
                                 : widget.listuser != null
                                     ? TextfieldAddButton(
-                                        title: claimant,
+                                        title: selectedClaimList?.name ?? '',
                                         height: 60,
                                         isDisableColor:
                                             widget.listuser == null ||
-                                                    claimant.isEmpty
+                                                    (selectedClaimList?.name ?? '').isEmpty
                                                 ? false
                                                 : true,
                                         onTap: () {
                                           if (widget.listuser == null ||
-                                              claimant.isEmpty) {
+                                              (selectedClaimList?.name ?? '').isEmpty) {
                                             depositorDialog(
                                                 state, Constants.claimant);
                                           }
@@ -1397,15 +1403,15 @@ class _CreatefoundState extends State<Createfound> {
                             widget.listuser != null &&
                                     isClaimantDBEmployeeSelected == 1
                                 ? TextfieldAddButton(
-                                    title: claimantDepartmentName,
+                                    title: (selectedClaimdepartment?.name ?? ''),
                                     height: 60,
                                     isDisableColor: widget.listuser == null ||
-                                            claimantDepartmentName.isEmpty
+                                            (selectedClaimdepartment?.name ?? '').isEmpty
                                         ? false
                                         : true,
                                     onTap: () {
                                       if (widget.listuser == null ||
-                                          claimantDepartmentName.isEmpty) {
+                                          (selectedClaimdepartment?.name ?? '').isEmpty) {
                                         employeeDepartmentDialog(state,
                                             Constants.claimantdepartment);
                                       }
