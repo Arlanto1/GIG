@@ -728,6 +728,21 @@ class _CreatefoundState extends State<Createfound> {
         });
   }
 
+  initiallyLocationandSerialnumberdataset(CreateFoundState state)
+  async {
+    if(locationSelectedlist == null && state.getLocationsResponse != null && widget.listuser == null)
+            {
+              locationSelectedlist =  Mumbai(
+          id: 24,
+          name: "DLF Square") ;
+          locationselectedText = 'DLF Square';
+           await createFoundArticleCubit.getSerialnumberDetails(
+                      '24', 'AF');
+          
+            }
+   
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -799,6 +814,7 @@ class _CreatefoundState extends State<Createfound> {
             //     _createFoundAlert(context, createfoundResponse?.message ?? '');
             //   });
             // }
+            initiallyLocationandSerialnumberdataset(state);
             if (widget.listuser == null) {
               userDetails = state.getUserDetailsResponse ?? GetUserDetails();
               if (userDetails != null) {

@@ -141,7 +141,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             // listOfEntities = state.getEntitiesResponse;
             //leoDepartmentsResponse = state.getLeodepartmentsResponse;
             // leoPurposeVisitResponse = state.getLeopurposeResponse;
-
+    
             if (state.getSerialnumberResponse != null) {
               serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
             }
@@ -152,6 +152,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
              if (state.stateType == CreatePassMgmtStateType.photoattachment) {
               photogetFiles = state.photoAttachments ?? [];
             }
+            initiallyLocationandSerialnumberdataset(state);
             // if (widget.listuser != null) {
             //   if (state.groups != null) {
 
@@ -1142,6 +1143,26 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
     getPassmanagmentList();
     _getCurrentDate();
+  }
+  initiallyLocationandSerialnumberdataset(CreatePassMgmtState state)
+  async {
+    print(state.locationSelectedlist);
+     print(state.getLocationsResponse);
+      print(widget.listuser);
+    if(state.locationSelectedlist?.id == null && state.getLocationsResponse != null && widget.listuser == null && (serialnumber ?? '').isEmpty) 
+            {
+              
+              Mumbai list = Mumbai(
+          id: 24,
+          name: "DLF Square") ;
+          createpassmgmtCubit.getlocationsResponseData(list);
+           await createpassmgmtCubit.getSerialnumberDetails(
+                      '24', 'AF');
+           await createpassmgmtCubit.getPassnumber(
+                      widget.passId ?? '0', '24');           
+          
+            }
+   
   }
 
   editCreatefoundItems() async {
