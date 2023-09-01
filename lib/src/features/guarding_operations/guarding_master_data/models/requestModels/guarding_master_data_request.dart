@@ -1,5 +1,3 @@
-import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
-
 import '../guarding_master_data_model.dart';
 
 class GuardingMasterDataRequest {

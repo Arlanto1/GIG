@@ -1,19 +1,21 @@
+import 'package:db_atom/src/models/department.dart';
+
 import '../../../../models/entity.dart';
 import '../../../../models/entry_security.dart';
 import '../../../../models/history.dart';
 
 class GuardingMasterDataResponse {
-  GuardingMasterDataResponse({
-     required this.items,
-     this.totalCount,
-     this.currentPageNo,
-     this.totalPageCount,
-  });
+  List<GuardingMastersDataModel> items;
+  int? totalCount;
+  int? currentPageNo;
+  int? totalPageCount;
 
-   List<GuardingMastersDataModel> items;
-   int? totalCount;
-   int? currentPageNo;
-   int? totalPageCount;
+  GuardingMasterDataResponse({
+    required this.items,
+    this.totalCount,
+    this.currentPageNo,
+    this.totalPageCount,
+  });
 
   factory GuardingMasterDataResponse.fromJson(Map<String, dynamic> json) {
     return GuardingMasterDataResponse(
@@ -36,7 +38,7 @@ class GuardingMasterDataResponse {
 }
 
 class GuardingMastersDataModel {
-  GuardingMastersDataModel({
+  GuardingMastersDataModel(  {
     this.id,
     this.slNo,
     this.location,
@@ -85,20 +87,20 @@ class GuardingMastersDataModel {
     this.pvcIssuedDate,
     this.pvcExpiryDate,
     required this.pvc,
-    this.trainingCertificateProvided,
+    required this.trainingCertificateProvided,
     required this.trainingCertificates,
     this.medicalCertificateValidUntil,
     required this.medicalCertificates,
     this.systemAccess,
-    this.onboarded,
+    required this.onboarded,
     this.esicNo,
     this.uanNo,
     this.msgbExempted,
     this.msgbExemptionDate,
     this.msgbFormBSubmitted,
     this.staffMsgbCompliant,
-    this.csrParticipation,
-    this.specialAchievement,
+    required this.csrParticipation,
+    required this.specialAchievement,
     this.specialAchievementText,
     this.additionalInitiatives,
     required this.history,
@@ -117,11 +119,11 @@ class GuardingMastersDataModel {
   String? slNo;
   Entity? location;
   Entity? locationRegion;
-  Entity? entity;
+  List<Entity>? entity;
   EntrySecurity? entrySecurity;
   String? inputDate;
   int? status;
-  Entity? vendor;
+  Department? vendor;
   EntrySecurity? guard;
   int? guardRank;
   String? employeeCode;
@@ -158,35 +160,35 @@ class GuardingMastersDataModel {
   String? localAddress;
   BioData? localAddressProof;
   List<Entity> qualifications;
-  int? pvcIssuedDate;
-  int? pvcExpiryDate;
+  String? pvcIssuedDate;
+  String? pvcExpiryDate;
   List<BioData> pvc;
-  bool? trainingCertificateProvided;
+  bool trainingCertificateProvided;
   List<BioData> trainingCertificates;
-  int? medicalCertificateValidUntil;
+  String? medicalCertificateValidUntil;
   List<BioData> medicalCertificates;
   int? systemAccess;
-  bool? onboarded;
+  bool onboarded;
   String? esicNo;
   String? uanNo;
   bool? msgbExempted;
   int? msgbExemptionDate;
   int? msgbFormBSubmitted;
   int? staffMsgbCompliant;
-  bool? csrParticipation;
-  bool? specialAchievement;
+  bool csrParticipation;
+  bool specialAchievement;
   String? specialAchievementText;
   String? additionalInitiatives;
   List<History> history;
   String? guardingPoc;
   String? csrParticipationDates;
-  int? modifiedDate;
+  String? modifiedDate;
   String? modifiedBy;
-  int? covidFirstDoseDate;
-  int? covidSecondDoseDate;
-  int? covidPrecautionaryDoseDate;
-  int? ertCertificationDate;
-  int? firstAidTrainingCompletionDate;
+  String? covidFirstDoseDate;
+  String? covidSecondDoseDate;
+  String? covidPrecautionaryDoseDate;
+  String? ertCertificationDate;
+  String? firstAidTrainingCompletionDate;
 
   factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) {
     return GuardingMastersDataModel(
@@ -197,13 +199,19 @@ class GuardingMastersDataModel {
       locationRegion: json["locationRegion"] == null
           ? null
           : Entity.fromJson(json["locationRegion"]),
-      entity: json["entity"] == null ? null : Entity.fromJson(json["entity"]),
+      entity: json["entity"] == null
+          ? []
+          : List<Entity>.from(
+          json["entity"]!.map((x) => Entity.fromJson(x))),
+
       entrySecurity: json["entrySecurity"] == null
           ? null
           : EntrySecurity.fromJson(json["entrySecurity"]),
       inputDate: json["inputDate"],
       status: json["status"],
-      vendor: json["vendor"] == null ? null : Entity.fromJson(json["vendor"]),
+        vendor : (json['vendor'] as Map<String, dynamic>?) != null
+            ? Department.fromJson(json['vendor'] as Map<String, dynamic>)
+            : null,
       guard:
           json["guard"] == null ? null : EntrySecurity.fromJson(json["guard"]),
       guardRank: json["guardRank"],
@@ -302,7 +310,7 @@ class GuardingMastersDataModel {
         "slNo": slNo,
         "location": location?.toJson(),
         "locationRegion": locationRegion?.toJson(),
-        "entity": entity?.toJson(),
+        "entity": entity?.map((x) => x.toJson()).toList(),
         "entrySecurity": entrySecurity?.toJson(),
         "inputDate": inputDate,
         "status": status,
