@@ -79,152 +79,158 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
               children: <Widget>[
                 Form(
                   key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      /// Monthly Cost
-                      CommonWidgets.textDisplay(
-                        Constants.monthlyCost,
-                        Styles.textStyleBlack14,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      FlutterInputField(
-                        initialValue: '${widget.payRate.total ?? ''}',
-                        keyboardType: TextInputType.number,
-                        textFormKey: Keys.totalKey,
-                        hintText: '',
-                        onChange: (String value) {
-                          if (value.isNotEmpty) {
-                            widget.payRate.total = num.parse(value);
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        /// Monthly Cost
+                        CommonWidgets.textDisplay(
+                          Constants.monthlyCost,
+                          Styles.textStyleBlack14,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        FlutterInputField(
+                          initialValue: '${widget.payRate.total ?? ''}',
+                          keyboardType: TextInputType.number,
+                          textFormKey: Keys.totalKey,
+                          hintText: '',
+                          onChange: (String value) {
+                            if (value.isNotEmpty) {
+                              widget.payRate.total = num.parse(value);
 
-                            BlocProvider.of<PayRateCubit>(widget.mainContext)
-                                .onModelValueChange(widget.payRate);
+                              BlocProvider.of<PayRateCubit>(widget.mainContext)
+                                  .onModelValueChange(widget.payRate);
 
-                            if (widget.payRate.days != null) {
+                              if (widget.payRate.days != null) {
+                                perHourController.text =
+                                    ((widget.payRate.total)! /
+                                            (widget.payRate.days as num))
+                                        .toString();
+                              }
+                            }
+                          },
+                          validateTextField: (String? user) {},
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                        /// Days
+                        CommonWidgets.textDisplay(
+                          Constants.days,
+                          Styles.textStyleBlack14,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        FlutterInputField(
+                          initialValue: '${widget.payRate.days ?? ''}',
+                          keyboardType: TextInputType.number,
+                          textFormKey: Keys.daysKey,
+                          hintText: '',
+                          onChange: (String value) {
+                            if (value.isNotEmpty &&
+                                widget.payRate.total != null) {
+                              widget.payRate.days = double.parse(value);
+
                               perHourController.text =
                                   ((widget.payRate.total)! /
                                           (widget.payRate.days as num))
                                       .toString();
+
+                              widget.payRate.perHour =
+                                  double.parse(perHourController.text);
+                              BlocProvider.of<PayRateCubit>(widget.mainContext)
+                                  .onModelValueChange(widget.payRate);
                             }
-                          }
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          },
+                          validateTextField: (String? user) {},
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      /// Days
-                      CommonWidgets.textDisplay(
-                        Constants.days,
-                        Styles.textStyleBlack14,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      FlutterInputField(
-                        initialValue: '${widget.payRate.days ?? ''}',
-                        keyboardType: TextInputType.number,
-                        textFormKey: Keys.daysKey,
-                        hintText: '',
-                        onChange: (String value) {
-                          if (value.isNotEmpty &&
-                              widget.payRate.total != null) {
-                            widget.payRate.days = double.parse(value);
-
-                            perHourController.text = ((widget.payRate.total)! /
-                                    (widget.payRate.days as num))
-                                .toString();
-
-                            widget.payRate.perHour =
-                                double.parse(perHourController.text);
+                        /// Per Hour
+                        CommonWidgets.textDisplay(
+                          Constants.perHour,
+                          Styles.textStyleBlack14,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        FlutterInputField(
+                          textFieldController: perHourController,
+                          keyboardType: TextInputType.number,
+                          textFormKey: Keys.perHourKey,
+                          hintText: '',
+                          isEnable: false,
+                          isDisableColor: true,
+                          onChange: (String value) {
+                            widget.payRate.perHour = double.parse(value);
                             BlocProvider.of<PayRateCubit>(widget.mainContext)
                                 .onModelValueChange(widget.payRate);
-                          }
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          },
+                          validateTextField: (String? user) {},
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      /// Per Hour
-                      CommonWidgets.textDisplay(
-                        Constants.perHour,
-                        Styles.textStyleBlack14,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      FlutterInputField(
-                        textFieldController: perHourController,
-                        keyboardType: TextInputType.number,
-                        textFormKey: Keys.perHourKey,
-                        hintText: '',
-                        isEnable: false,
-                        isDisableColor: true,
-                        onChange: (String value) {
-                          widget.payRate.perHour = double.parse(value);
-                          BlocProvider.of<PayRateCubit>(widget.mainContext)
-                              .onModelValueChange(widget.payRate);
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        /// From Date
+                        CommonWidgets.textDisplay(
+                          Constants.fromDate,
+                          Styles.textStyleBlack14,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      /// From Date
-                      CommonWidgets.textDisplay(
-                        Constants.fromDate,
-                        Styles.textStyleBlack14,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        BaseDate().datePickerWidgetLoading(
+                          textController: fromDateController,
+                          onChange: (String value) {
+                            log('--fr-value-${fromDateController.text}------');
+                            widget.payRate.fromDate = value;
+                            BlocProvider.of<PayRateCubit>(widget.mainContext)
+                                .onModelValueChange(widget.payRate);
+                          },
+                          context: widget.mainContext,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      BaseDate().datePickerWidgetLoading(
-                        textController: fromDateController,
-                        onChange: (String value) {
-                          log('--fr-value-${fromDateController.text}------');
-                          widget.payRate.fromDate = value;
-                          BlocProvider.of<PayRateCubit>(widget.mainContext)
-                              .onModelValueChange(widget.payRate);
-                        },
-                        context: widget.mainContext,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        /// To Date
+                        CommonWidgets.textDisplay(
+                          Constants.toDate,
+                          Styles.textStyleBlack14,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      /// To Date
-                      CommonWidgets.textDisplay(
-                        Constants.toDate,
-                        Styles.textStyleBlack14,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        BaseDate().datePickerWidgetLoading(
+                          textController: toDateController,
+                          onChange: (String value) {
+                            widget.payRate.toDate = value;
+                            BlocProvider.of<PayRateCubit>(widget.mainContext)
+                                .onModelValueChange(widget.payRate);
+                          },
+                          context: widget.mainContext,
+                        ),
 
-                      BaseDate().datePickerWidgetLoading(
-                        textController: toDateController,
-                        onChange: (String value) {
-                          widget.payRate.toDate = value;
-                          BlocProvider.of<PayRateCubit>(widget.mainContext)
-                              .onModelValueChange(widget.payRate);
-                        },
-                        context: widget.mainContext,
-                      ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      /// To Comment
-                      CommonWidgets.textDisplay(
-                        Constants.comment,
-                        Styles.textStyleBlack14,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      FlutterInputField(
-                        initialValue: widget.payRate.comment ?? '',
-                        lineHeight: 6,
-                        textFormKey: Keys.commentKey,
-                        hintText: '',
-                        isEnable: true,
-                        isDisableColor: false,
-                        onChange: (String value) {
-                          widget.payRate.comment = value;
-                          BlocProvider.of<PayRateCubit>(widget.mainContext)
-                              .onModelValueChange(widget.payRate);
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        /// To Comment
+                        CommonWidgets.textDisplay(
+                          Constants.comment,
+                          Styles.textStyleBlack14,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        FlutterInputField(
+                          initialValue: widget.payRate.comment ?? '',
+                          lineHeight: 6,
+                          textFormKey: Keys.commentKey,
+                          hintText: '',
+                          isEnable: true,
+                          isDisableColor: false,
+                          onChange: (String value) {
+                            widget.payRate.comment = value;
+                            BlocProvider.of<PayRateCubit>(widget.mainContext)
+                                .onModelValueChange(widget.payRate);
+                          },
+                          validateTextField: (String? user) {},
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      buttonViews(widget.mainContext, width),
-                    ],
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        buttonViews(widget.mainContext, width),
+                        CommonWidgets.verticalSpacerWidget(height * 0.02),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -278,7 +284,6 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
         if (!isPayRateValid.status) {
-
           Validator().showToast(
             context,
             isPayRateValid.message,
