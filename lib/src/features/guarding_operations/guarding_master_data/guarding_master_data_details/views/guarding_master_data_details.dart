@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../main_DEV.dart';
 import '../../../../../common_widgets/app_button.dart';
 import '../../../../../common_widgets/base_widget/base_app_bar.dart';
+import '../../../../../common_widgets/base_widget/date_picker_dialog.dart';
 import '../../../../../common_widgets/base_widget/selected_tile_value_widget.dart';
 import '../../../../../common_widgets/basic_reusable_widgets.dart';
 import '../../../../../common_widgets/custom_list_expansion_pop_up.dart';
@@ -24,7 +25,6 @@ import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_locations_model.dart';
 import '../../../../createfound/models/get_user_model.dart';
 import '../../../../createfound/views/upload_attachment.dart';
-import '../../../../material_movement/models/material_movements_model.dart';
 import '../../models/guarding_master_data_model.dart';
 import '../cubits/guarding_master_data_details_cubit.dart';
 
@@ -50,9 +50,28 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   List<CreateImage>? getFiles;
   List<FoundImage>? getAttachments;
   TextEditingController takenOutOnDateController = TextEditingController();
-  TextEditingController expectedDateOfReturnController =
-      TextEditingController();
+  TextEditingController dateOfBirth =
+  TextEditingController();
+  TextEditingController dateOfJoining =
+  TextEditingController();
+  TextEditingController pvcIssuedDate =
+  TextEditingController();
+  TextEditingController pvcExpiryDate =
+  TextEditingController();
+  TextEditingController medicalCertificateValidUntil =
+  TextEditingController();
+  TextEditingController dateOfFirstCovidDose =
+  TextEditingController();
+  TextEditingController dateOfSecondCovidDose =
+  TextEditingController();
+  TextEditingController dateOfPrecautionaryCovidDose =
+  TextEditingController();
+  TextEditingController ertCertificationDate =
+  TextEditingController();
+  TextEditingController firstAidTrainingCompletionDate  =
+  TextEditingController();
   bool isDisabled = true;
+
 
   @override
   void initState() {
@@ -131,10 +150,10 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
     }
 
     return Container(
-        color: AppColors.navigationSkybluecolor,
-        child: SingleChildScrollView(
-            child: Column(children: [
-          Container(
+      color: AppColors.navigationSkybluecolor,
+      child: SingleChildScrollView(
+          child: Column(children: [
+            Container(
             height: height * 0.01,
             color: AppColors.navigationSkybluecolor,
           ),
@@ -143,7 +162,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                   color: AppColors.backgroundWhitecolor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
+                    BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: Form(
                   key: _formKey,
@@ -155,58 +174,58 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20),
-                          child: Column(children: [
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: Column(children: [
+                    Container(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      Constants.generalinformation,
+                      style: Styles.styleHeaderGreyText16,
+                    ),
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Status
-                            CommonWidgets.textDisplay(
-                                Constants.status, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              isEnable: false,
-                              isDisableColor: true,
-                              textFormKey: Keys.statusTextController,
-                              hintText: '',
-                              initialValue: getStatusString(
-                                  state.guardingMasterData.status ?? 0),
-                              onChange: (String value) {},
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  /// Status
+                  CommonWidgets.textDisplay(
+                      Constants.status, Styles.textStyleBlack14),
+                  CommonWidgets.verticalSpacerWidget(height * 0.001),
+                  FlutterInputField(
+                    isEnable: false,
+                    isDisableColor: true,
+                    textFormKey: Keys.statusTextController,
+                    hintText: '',
+                    initialValue: getStatusString(
+                        state.guardingMasterData.status ?? 0),
+                    onChange: (String value) {},
+                    validateTextField: (String? user) {},
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Created By
-                            CommonWidgets.verticalTextHandling(
-                                Constants.createdby,
-                                state.loggedInUserDetails?.name ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  /// Created By
+                  CommonWidgets.verticalTextHandling(
+                      Constants.createdby,
+                      state.loggedInUserDetails?.name ?? ''),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Location
-                            CommonWidgets.textDisplay(
-                                Constants.location, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            locationWidgetdislay(state),
+                  /// Date of creation
+                  CommonWidgets.textDisplay(Constants.dateofcreation,
+                      Styles.textStyleBlack14),
+                  CommonWidgets.verticalSpacerWidget(height * 0.001),
+                  datecreateWidgetdisplay(
+                      state.guardingMasterData.inputDate ?? ''),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  ///Building  Location
+                  CommonWidgets.textDisplay(
+                      Constants.buildingLocation, Styles.textStyleBlack14),
+                  CommonWidgets.verticalSpacerWidget(height * 0.001),
+                  locationWidgetdislay(state),
 
-                            /// Date of creation
-                            CommonWidgets.textDisplay(Constants.dateofcreation,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(
-                                state.guardingMasterData.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Entity
-                            /*  if (!state.guardingMasterData.name) ...[
+                  /// Entity
+                  /* if (!state.guardingMasterData.user) ...[
                                   Column(
                                     children: [
                                       CommonWidgets.textDisplay(
@@ -233,7 +252,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                                       GuardingMasterDataDetailsCubit>(
                                                       context)
                                                       .updateDropdownValues(
-                                                      name:
+                                                      user:
                                                       user);
                                                 },
                                               );
@@ -261,117 +280,581 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   ),
                                 ],*/
 
-                            /// Sl No.
-                            CommonWidgets.horizentaltextHandling(Constants.slno,
-                                state.guardingMasterData.slNo ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  /// Sl No.
+                  CommonWidgets.horizentaltextHandling(Constants.slno,
+                      state.guardingMasterData.slNo ?? ''),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// upload
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.textDisplay(
-                                    Constants.upload, Styles.textStyleBlack14)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? uploadWidget(state)
-                                : Container(),
+                  /// upload Photo
+                  widget.guardingMasterData == null
+                      ? CommonWidgets.textDisplay(
+                      Constants.uploadPhoto, Styles.textStyleBlack14)
+                      : Container(),
+                  widget.guardingMasterData == null
+                      ? CommonWidgets.verticalSpacerWidget(
+                      height * 0.001)
+                      : Container(),
+                  widget.guardingMasterData == null
+                      ? uploadWidget(state)
+                      : Container(),
 
-                            // Attachments
-                            getSpaceattchment(height),
-                            getAttachement(state, height),
+                  // Attachments
+                  getSpaceattchment(height),
+                  getAttachement(state, height),
 
-                            /// Guarding POC
-                            CommonWidgets.textDisplay(
-                                Constants.guardingPoc, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              initialValue:
-                                  state.guardingMasterData.guardingPoc,
-                              textFormKey: Keys.poNumberKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData
-                                                  ?.guardingPoc ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor: (widget.guardingMasterData !=
-                                          null &&
-                                      (widget.guardingMasterData?.guardingPoc !=
-                                          null))
-                                  ? true
-                                  : false,
-                              onChange: (String value) {
-                                state.guardingMasterData.guardingPoc = value;
-                                context
-                                    .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
+                  /// Guarding POC
+                  CommonWidgets.textDisplay(
+                      Constants.guardingPoc, Styles.textStyleBlack14),
+                  CommonWidgets.verticalSpacerWidget(height * 0.001),
+                  FlutterInputField(
+                    keyboardType: TextInputType.number,
+                    initialValue:
+                    state.guardingMasterData.guardingPoc,
+                    textFormKey: Keys.poNumberKey,
+                    hintText: '',
+                    isEnable: widget.guardingMasterData == null
+                        ? true
+                        : (widget.guardingMasterData != null &&
+                        (widget.guardingMasterData
+                            ?.guardingPoc ==
+                            null))
+                        ? false
+                        : true,
+                    isDisableColor: (widget.guardingMasterData !=
+                        null &&
+                        (widget.guardingMasterData?.guardingPoc !=
+                            null))
+                        ? true
+                        : false,
+                    onChange: (String value) {
+                      state.guardingMasterData.guardingPoc = value;
+                      context
+                          .read<GuardingMasterDataDetailsCubit>()
+                          .onModelValueChange(
+                          state.guardingMasterData);
+                    },
+                    validateTextField: (String? user) {},
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.04),
+
+                  /// Guarding Agency Employee Code
+                  CommonWidgets.textDisplay(
+                      Constants.guardingAgencyEmpCode,
+                      Styles.textStyleBlack14),
+                  CommonWidgets.verticalSpacerWidget(height * 0.001),
+                  FlutterInputField(
+                    keyboardType: TextInputType.number,
+                    initialValue:
+                    state.guardingMasterData.employeeCode,
+                    textFormKey: Keys.poNumberKey,
+                    hintText: '',
+                    isEnable: widget.guardingMasterData == null
+                        ? true
+                        : (widget.guardingMasterData != null &&
+                        (widget.guardingMasterData
+                            ?.employeeCode ==
+                            null))
+                        ? false
+                        : true,
+                    isDisableColor: (widget.guardingMasterData !=
+                        null &&
+                        (widget.guardingMasterData?.employeeCode !=
+                            null))
+                        ? true
+                        : false,
+                    onChange: (String value) {
+                      state.guardingMasterData.employeeCode = value;
+                      context
+                          .read<GuardingMasterDataDetailsCubit>()
+                          .onModelValueChange(
+                          state.guardingMasterData);
+                    },
+                    validateTextField: (String? user) {},
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.04),
+
+                  /// DB Employee ID
+                  CommonWidgets.textDisplay(
+                      Constants.dbEmployeeId,
+                      Styles.textStyleBlack14),
+                  CommonWidgets.verticalSpacerWidget(height * 0.001),
+                  FlutterInputField(
+                    keyboardType: TextInputType.number,
+                    initialValue:
+                    state.guardingMasterData.guardingPoc,
+                    textFormKey: Keys.poNumberKey,
+                    hintText: '',
+                    isEnable: widget.guardingMasterData == null
+                        ? true
+                        : (widget.guardingMasterData != null &&
+                        (widget.guardingMasterData
+                            ?.dbEmployeeId ==
+                            null))
+                        ? false
+                        : true,
+                    isDisableColor: (widget.guardingMasterData !=
+                        null &&
+                        (widget.guardingMasterData?.dbEmployeeId !=
+                            null))
+                        ? true
+                        : false,
+                    onChange: (String value) {
+                      state.guardingMasterData.dbEmployeeId = value;
+                      context
+                          .read<GuardingMasterDataDetailsCubit>()
+                          .onModelValueChange(
+                          state.guardingMasterData);
+                    },
+                    validateTextField: (String? user) {},
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.04),
+
+                  /// Contact Num
+                  CommonWidgets.textDisplay(
+                      Constants.mobileNum,
+                      Styles.textStyleBlack14),
+                  CommonWidgets.verticalSpacerWidget(height * 0.001),
+                  FlutterInputField(
+                    keyboardType: TextInputType.number,
+                    initialValue:
+                    state.guardingMasterData.contactNo,
+                    textFormKey: Keys.poNumberKey,
+                    hintText: '',
+                    isEnable: widget.guardingMasterData == null
+                        ? true
+                        : (widget.guardingMasterData != null &&
+                        (widget.guardingMasterData
+                            ?.contactNo ==
+                            null))
+                        ? false
+                        : true,
+                    isDisableColor: (widget.guardingMasterData !=
+                        null &&
+                        (widget.guardingMasterData?.contactNo !=
+                            null))
+                        ? true
+                        : false,
+                    onChange: (String value) {
+                      state.guardingMasterData.contactNo = value;
+                      context
+                          .read<GuardingMasterDataDetailsCubit>()
+                          .onModelValueChange(
+                          state.guardingMasterData);
+                    },
+                    validateTextField: (String? user) {},
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.04),
+
+                  /// Date of Birth
+                  CommonWidgets.textDisplay(
+                    Constants.dateOfBirth,
+                    Styles.textStyleBlack14,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  BaseDate().datePickerWidgetLoading(
+                    textController: dateOfBirth,
+                    onChange: (String value) {
+                      log('--fr-value-${dateOfBirth.text}------');
+                      //widget.guardingMasterData?.inputDate = value;
+                      BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                          .onModelValueChange(state.guardingMasterData);
+                    },
+                    context: context,
+                  ),
 
 
+                  /// Date of Joining
+                  CommonWidgets.textDisplay(
+                    Constants.dateOfJoining,
+                    Styles.textStyleBlack14,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Guarding Agency Employee Code
-                            CommonWidgets.textDisplay(
-                                Constants.guardingAgencyEmpCode,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              initialValue:
-                                  state.guardingMasterData.guardingPoc,
-                              textFormKey: Keys.poNumberKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData
-                                                  ?.guardingPoc ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor: (widget.guardingMasterData !=
-                                          null &&
-                                      (widget.guardingMasterData?.guardingPoc !=
-                                          null))
-                                  ? true
-                                  : false,
-                              onChange: (String value) {
-                                state.guardingMasterData.guardingPoc = value;
-                                context
-                                    .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
-                          ]),
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  BaseDate().datePickerWidgetLoading(
+                    textController: dateOfJoining,
+                    onChange: (String value) {
+                      log('--fr-value-${dateOfJoining.text}------');
+                      //widget.guardingMasterData?.inputDate = value;
+                      BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                          .onModelValueChange(state.guardingMasterData);
+                    },
+                    context: context,
+                  ),
+                  /// upload File
+                  widget.guardingMasterData == null
+                      ? CommonWidgets.textDisplay(
+                      Constants.uploadfile, Styles.textStyleBlack14)
+                      : Container(),
+                  widget.guardingMasterData == null
+                      ? CommonWidgets.verticalSpacerWidget(
+                      height * 0.001)
+                      : Container(),
+                  widget.guardingMasterData == null
+                      ? uploadWidget(state)
+                      : Container(),
 
-                        /// SubmitButton
-                        if (state.guardingMasterData.status != 4) ...[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              cancelButtonDisplay(),
-                              submitButtonDisplay()
-                            ],
-                          ),
-                        ],
-                        CommonWidgets.verticalSpacerWidget(height * 0.04),
-                      ])))
-        ])));
+                  // Attachments
+                  getSpaceattchment(height),
+                  getAttachement(state, height),
+                  /// upload File
+                  widget.guardingMasterData == null
+                      ? CommonWidgets.textDisplay(
+                      Constants.uploadfile, Styles.textStyleBlack14)
+                      : Container(),
+                  widget.guardingMasterData == null
+                      ? CommonWidgets.verticalSpacerWidget(
+                      height * 0.001)
+                      : Container(),
+                  widget.guardingMasterData == null
+                      ? uploadWidget(state)
+                      : Container(),
+
+                  // Attachments
+                  getSpaceattchment(height),
+                  getAttachement(state, height),
+
+                  /// upload File
+                  widget.guardingMasterData == null
+                      ? CommonWidgets.textDisplay(
+                      Constants.uploadfile, Styles.textStyleBlack14)
+                      : Container(),
+                  widget.guardingMasterData == null
+                      ? CommonWidgets.verticalSpacerWidget(
+                      height * 0.001)
+                      : Container(),
+                  widget.guardingMasterData == null
+                      ? uploadWidget(state)
+                      : Container(),
+
+                  // Attachments
+                  getSpaceattchment(height),
+                  getAttachement(state, height),
+
+                  /// PVC Issued Date
+                  CommonWidgets.textDisplay(
+                    Constants.pvcIssuedDate,
+                    Styles.textStyleBlack14,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  BaseDate().datePickerWidgetLoading(
+                    textController: pvcIssuedDate,
+                    onChange: (String value) {
+                      log('--fr-value-${pvcIssuedDate.text}------');
+                      // widget.guardingMasterData?.inputDate = value;
+                      BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                          .onModelValueChange(state.guardingMasterData);
+                    },
+                    context: context,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  /// PVC Expiry Date
+                  CommonWidgets.textDisplay(
+                    Constants.pvcExpiryDate,
+                    Styles.textStyleBlack14,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  BaseDate().datePickerWidgetLoading(
+                    textController: pvcExpiryDate,
+                    onChange: (String value) {
+                      log('--fr-value-${pvcIssuedDate.text}------');
+                      // widget.guardingMasterData?.inputDate = value;
+                      BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                          .onModelValueChange(state.guardingMasterData);
+                    },
+                    context: context,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  /// upload File
+                  widget.guardingMasterData == null
+                      ? CommonWidgets.textDisplay(
+                      Constants.uploadfile, Styles.textStyleBlack14)
+                      : Container(),
+                  widget.guardingMasterData == null
+                      ? CommonWidgets.verticalSpacerWidget(
+                      height * 0.001)
+                      : Container(),
+                  widget.guardingMasterData == null
+                      ? uploadWidget(state)
+                      : Container(),
+
+                  // Attachments
+                  getSpaceattchment(height),
+                  getAttachement(state, height),
+
+                  /// Medical Certificate Valid Until
+                  CommonWidgets.textDisplay(
+                    Constants.medicalCertificateValidUntil,
+                    Styles.textStyleBlack14,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  BaseDate().datePickerWidgetLoading(
+                    textController: medicalCertificateValidUntil,
+                    onChange: (String value) {
+                      log('--fr-value-${medicalCertificateValidUntil.text}------');
+                      // widget.guardingMasterData?.inputDate = value;
+                      BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                          .onModelValueChange(state.guardingMasterData);
+                    },
+                    context: context,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  /// upload File
+                  widget.guardingMasterData == null
+                      ? CommonWidgets.textDisplay(
+                      Constants.uploadfile, Styles.textStyleBlack14)
+                      : Container(),
+                  widget.guardingMasterData == null
+                      ? CommonWidgets.verticalSpacerWidget(
+                      height * 0.001)
+                      : Container(),
+                  widget.guardingMasterData == null
+                      ? uploadWidget(state)
+                      : Container(),
+
+                  // Attachments
+                  getSpaceattchment(height),
+                  getAttachement(state, height),
+
+                  /// ESIC No
+                  CommonWidgets.textDisplay(
+                      Constants.esicNo,
+                      Styles.textStyleBlack14),
+                  CommonWidgets.verticalSpacerWidget(height * 0.001),
+                  FlutterInputField(
+                    keyboardType: TextInputType.number,
+                    initialValue:
+                    state.guardingMasterData.esicNo,
+                    textFormKey: Keys.poNumberKey,
+                    hintText: '',
+                    isEnable: widget.guardingMasterData == null
+                        ? true
+                        : (widget.guardingMasterData != null &&
+                        (widget.guardingMasterData
+                            ?.esicNo ==
+                            null))
+                        ? false
+                        : true,
+                    isDisableColor: (widget.guardingMasterData !=
+                        null &&
+                        (widget.guardingMasterData?.esicNo !=
+                            null))
+                        ? true
+                        : false,
+                    onChange: (String value) {
+                      state.guardingMasterData.esicNo = value;
+                      context
+                          .read<GuardingMasterDataDetailsCubit>()
+                          .onModelValueChange(
+                          state.guardingMasterData);
+                    },
+                    validateTextField: (String? user) {},
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.04),
+
+                  /// UAN  No
+                  CommonWidgets.textDisplay(
+                      Constants.uanNo,
+                      Styles.textStyleBlack14),
+                  CommonWidgets.verticalSpacerWidget(height * 0.001),
+                  FlutterInputField(
+                    keyboardType: TextInputType.number,
+                    initialValue:
+                    state.guardingMasterData.uanNo,
+                    textFormKey: Keys.poNumberKey,
+                    hintText: '',
+                    isEnable: widget.guardingMasterData == null
+                        ? true
+                        : (widget.guardingMasterData != null &&
+                        (widget.guardingMasterData
+                            ?.uanNo ==
+                            null))
+                        ? false
+                        : true,
+                    isDisableColor: (widget.guardingMasterData !=
+                        null &&
+                        (widget.guardingMasterData?.uanNo !=
+                            null))
+                        ? true
+                        : false,
+                    onChange: (String value) {
+                      state.guardingMasterData.uanNo = value;
+                      context
+                          .read<GuardingMasterDataDetailsCubit>()
+                          .onModelValueChange(
+                          state.guardingMasterData);
+                    },
+                    validateTextField: (String? user) {},
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.04),
+
+                  /// Date of First Covid Dose
+                  CommonWidgets.textDisplay(
+                    Constants.dateOfFirstCovidDose,
+                    Styles.textStyleBlack14,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  BaseDate().datePickerWidgetLoading(
+                    textController: dateOfFirstCovidDose,
+                    onChange: (String value) {
+                      log('--fr-value-${dateOfFirstCovidDose.text}------');
+                      // widget.guardingMasterData?.inputDate = value;
+                      BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                          .onModelValueChange(state.guardingMasterData);
+                    },
+                    context: context,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  /// Date of Second Covid Dose
+                  CommonWidgets.textDisplay(
+                    Constants.dateOfSecondCovidDose,
+                    Styles.textStyleBlack14,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  BaseDate().datePickerWidgetLoading(
+                    textController: dateOfSecondCovidDose,
+                    onChange: (String value) {
+                      log('--fr-value-${dateOfSecondCovidDose.text}------');
+                      // widget.guardingMasterData?.inputDate = value;
+                      BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                          .onModelValueChange(state.guardingMasterData);
+                    },
+                    context: context,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  /// Date of Precautionary Covid Dose
+                  CommonWidgets.textDisplay(
+                    Constants.dateOfPrecautionaryCovidDose,
+                    Styles.textStyleBlack14,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  BaseDate().datePickerWidgetLoading(
+                    textController: dateOfPrecautionaryCovidDose,
+                    onChange: (String value) {
+                      log('--fr-value-${dateOfPrecautionaryCovidDose.text}------');
+                      // widget.guardingMasterData?.inputDate = value;
+                      BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                          .onModelValueChange(state.guardingMasterData);
+                    },
+                    context: context,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  /// ERT Certification Date
+                  CommonWidgets.textDisplay(
+                    Constants.ertCertificationDate,
+                    Styles.textStyleBlack14,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  BaseDate().datePickerWidgetLoading(
+                    textController: dateOfPrecautionaryCovidDose,
+                    onChange: (String value) {
+                      log('--fr-value-${dateOfPrecautionaryCovidDose.text}------');
+                      // widget.guardingMasterData?.inputDate = value;
+                      BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                          .onModelValueChange(state.guardingMasterData);
+                    },
+                    context: context,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  /// First Aid Training Completion Date
+                  CommonWidgets.textDisplay(
+                    Constants.firstAidTrainingCompletionDate,
+                    Styles.textStyleBlack14,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  BaseDate().datePickerWidgetLoading(
+                    textController: dateOfPrecautionaryCovidDose,
+                    onChange: (String value) {
+                      log('--fr-value-${dateOfPrecautionaryCovidDose.text}------');
+                      // widget.guardingMasterData?.inputDate = value;
+                      BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                          .onModelValueChange(state.guardingMasterData);
+                    },
+                    context: context,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                  void _updateSelection(String type) {
+          setState(() {
+          if (type == 'read') {
+          isReadSelected = true;
+          isWriteSelected = false;
+          isSpeakSelected = false;
+          } else if (type == 'write') {
+          isReadSelected = false;
+          isWriteSelected = true;
+          isSpeakSelected = false;
+          } else {
+          isReadSelected = false;
+          isWriteSelected = false;
+          isSpeakSelected = true;
+          }
+          });
+          }
+              Widget languageProficiencyWidget() {
+      return Center(
+      child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+      Checkbox(
+      value: isReadSelected,
+      onChanged: (bool? value) {
+      _updateSelection('read');
+      },
+      ),
+      Text('Read'),
+      Checkbox(
+      value: isWriteSelected,
+      onChanged: (bool? value) {
+      _updateSelection('write');
+      },
+      ),
+      Text('Write'),
+      Checkbox(
+      value: isSpeakSelected,
+      onChanged: (bool? value) {
+      _updateSelection('speak');
+      },
+      ),
+      Text('Speak'),
+      ],
+      ),
+      );
+      }
+
+          ]),
+    ),
+    CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+
+    /// SubmitButton
+    if (state.guardingMasterData.status != 4) ...[
+    Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+    cancelButtonDisplay(),
+    submitButtonDisplay()
+    ],
+    ),
+    ],
+    CommonWidgets.verticalSpacerWidget(height * 0.04),
+    ])))
+    ])));
   }
 
   String getStatusString(int status) {
@@ -419,87 +902,87 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   Widget uploadWidget(GuardingMasterDataDetailsState state) {
     return widget.guardingMasterData == null
         ? Container(
-            height: 60,
-            decoration: BoxDecoration(
-                border: Border.all(
-                  color: const Color(0xFFCACACA),
-                  width: 1.0,
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(8))),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 5.0),
-                child: ElevatedButton.icon(
-                  style:
-                      ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
-                  onPressed: () {
-                    // Navigator.pushNamed(context,
-                    //     createFoundAttachmentRoute);
-                    //UploadAttachment();
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return UploadAttachment(
-                              // userdetails:
-                              //state.loggedInUserDetails ?? EntrySecurity(),
-                              //getFiles: getFiles ?? [],
-                              //onImageSelected: (CreateImage data) {
-                              // log('-------function---onImageSelected---------');
-                              // List<CreateImage>? files = [];
-                              //files.add(data);
-                              // for (CreateImage image in getFiles!.toList()) {
-                              //   files.add(image);
-                              // }
-                              // BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                              //    context)
-                              //    .addAttchment(files);
-                              // },
-                              );
-                        });
-                  },
+      height: 60,
+      decoration: BoxDecoration(
+          border: Border.all(
+            color: const Color(0xFFCACACA),
+            width: 1.0,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(8))),
+      child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 5.0),
+          child: ElevatedButton.icon(
+            style:
+            ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
+            onPressed: () {
+              // Navigator.pushNamed(context,
+              //     createFoundAttachmentRoute);
+              //UploadAttachment();
+              showDialog(
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return UploadAttachment(
+                      /*  userdetails:
+                              state.loggedInUserDetails ?? EntrySecurity()
+                              getFiles: getFiles ?? [],
+                              onImageSelected: (CreateImage data) {
+                               log('-------function---onImageSelected---------');
+                               List<CreateImage>? files = [];
+                              files.add(data);
+                               for (CreateImage image in getFiles!.toList()) {
+                                 files.add(image);
+                               }
+                               BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                  context)
+                                  .addAttchment(files);
+                               },*/
+                    );
+                  });
+            },
 
-                  icon: SvgPicture.asset(
-                    //AppIcon.dropdownicon,
-                    AppIcon.uploadicon,
-                    //fit: BoxFit.,
-                    color: AppColors.backgroundWhitecolor,
-                    width: 13,
-                    height: 13,
-                    key: const Key(Keys.userIcon),
-                  ),
-                  // const Icon(
-                  //   // <-- Icon
-                  //   Icons.upload,
-                  //   color: AppColors.backgroundWhitecolor,
-                  //   size: 24.0,
-                  // ),
-                  label: const Text(
-                    Constants.clicktoupload,
-                    style: Styles.textStyleRegularNormalWhite12,
-                  ), // <-- Text
-                ),
-              ),
-            ]),
-          )
+            icon: SvgPicture.asset(
+              //AppIcon.dropdownicon,
+              AppIcon.uploadicon,
+              //fit: BoxFit.,
+              color: AppColors.backgroundWhitecolor,
+              width: 13,
+              height: 13,
+              key: const Key(Keys.userIcon),
+            ),
+            // const Icon(
+            //   // <-- Icon
+            //   Icons.upload,
+            //   color: AppColors.backgroundWhitecolor,
+            //   size: 24.0,
+            // ),
+            label: const Text(
+              Constants.clicktoupload,
+              style: Styles.textStyleRegularNormalWhite12,
+            ), // <-- Text
+          ),
+        ),
+      ]),
+    )
         : Container();
   }
 
   Widget getSpaceattchment(double height) {
     return getAttachments != null ||
-            getFiles != null ||
-            getFiles?.length != 0 ||
-            getAttachments?.length != 0
+        getFiles != null ||
+        getFiles?.length != 0 ||
+        getAttachments?.length != 0
         ? CommonWidgets.verticalSpacerWidget(height * 0.01)
         : Container();
   }
 
   Widget getAttachement(GuardingMasterDataDetailsState state, double height) {
     return (state.loadAttachments == null ||
-            state.loadAttachments!.isEmpty ||
-            widget.guardingMasterData == null)
+        state.loadAttachments!.isEmpty ||
+        widget.guardingMasterData == null)
         ? state.loadAttachments?.length == 0 || getFiles == null
-            ? Container()
-            : attachmentListviews(getFiles, getAttachments)
+        ? Container()
+        : attachmentListviews(getFiles, getAttachments)
         : attachmentListviews(getFiles, getAttachments);
   }
 
@@ -520,7 +1003,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                   Location location = Location();
                   location.id = list?.id;
                   location.name = list?.name;
-                  state.guardingMasterData.location = location;
+                  // state.guardingMasterData.location = location;
                 },
               );
             },
@@ -545,9 +1028,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   }
 
   Widget attachmentListviews(
-    List<CreateImage>? attachmentListviews,
-    List<FoundImage>? attachmentListviews1,
-  ) {
+      List<CreateImage>? attachmentListviews,
+      List<FoundImage>? attachmentListviews1,
+      ) {
     log('----attachmentListviews-----${attachmentListviews?.length}-----------');
     log('----attachmentListviews1-----${attachmentListviews1?.length}-----------');
 
@@ -565,7 +1048,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount:
-              attachmentListviews1?.length ?? attachmentListviews?.length ?? 0,
+          attachmentListviews1?.length ?? attachmentListviews?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
             CreateImage? imagedata;
             FoundImage? imagedata1;
@@ -580,11 +1063,11 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                 ListTile(
                   trailing: widget.guardingMasterData != null
                       ? SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground)
+                      color: AppColors.boldgreyBackground)
                       : const SizedBox(
-                          height: 0,
-                          width: 0,
-                        ),
+                    height: 0,
+                    width: 0,
+                  ),
                   onTap: () {
                     DownloadImage().saveImage(
                         context, imagedata1?.id ?? 0, imagedata1?.title ?? '');
