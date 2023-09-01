@@ -7,6 +7,7 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/responseModels/guarding_master_data_responses.dart';
 import 'package:db_atom/src/models/entity.dart';
+import 'package:db_atom/src/models/location.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
@@ -115,9 +116,9 @@ class GuardingMasterDataDetailsCubit
   }
 
   Future<void> updateDropdownValues({
-    Entity? location,
+    Location? location,
     BaseUser? user,
-    BaseUser? entity,
+    Entity? entity,
   }) async {
     emit(
       state.copyWith(
@@ -135,7 +136,7 @@ class GuardingMasterDataDetailsCubit
       state.guardingMasterData.slNo = slNo.serialNo;
     }
     if (entity != null) {
-      state.guardingMasterData.entity = entity.email as Entity? ;
+      state.guardingMasterData.entities??[].add(entity);
     }
 
     emit(state.copyWith(

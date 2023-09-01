@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/models/entity.dart';
+import 'package:db_atom/src/models/location.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../main_DEV.dart';
@@ -656,7 +656,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             RadioButtonsYesNo(
                                 status: state.guardingMasterData.status ?? 0,
                                 selectedValue: state.guardingMasterData
-                                    .deploymentOrderSubmitted
+                                    .deploymentOrderSubmitted!
                                     ? 1
                                     : 0,
                                 onChangedYes:
@@ -1325,7 +1325,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                 onTap: (Mumbai? list) async {
                   log('list?.name-----${list?.name}');
 
-                  Entity location = Entity()  ;
+                  Location location = Location()  ;
                   location.id = list?.id;
                   location.name = list?.name;
                   state.guardingMasterData.location = location;

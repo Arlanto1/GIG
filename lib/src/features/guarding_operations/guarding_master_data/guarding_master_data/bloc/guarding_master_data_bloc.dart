@@ -53,13 +53,13 @@ class GuardingMasterDataBloc
         locationId: '56',
       );
 
-      if (getGuardingMasterData.items.isEmpty == true) {
+      if (getGuardingMasterData.items?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));
       }
       return emit(
         state.copyWith(
           items: List.of(state.list)
-            ..addAll(getGuardingMasterData.items),
+            ..addAll(getGuardingMasterData.items?.toList()??[]),
           hasReachedMax: false,
         ),
       );
