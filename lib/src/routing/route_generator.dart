@@ -367,7 +367,7 @@ class RouteGenerator {
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          payRates = arguments['payRates'];
+          payRates = arguments['payRates']??[];
           rate = arguments['gmRate'];
           title = arguments['title'];
         }

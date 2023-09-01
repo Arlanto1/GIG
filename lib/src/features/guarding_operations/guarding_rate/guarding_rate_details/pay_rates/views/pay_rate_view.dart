@@ -165,7 +165,7 @@ class _PayRateViewState extends State<PayRateView> {
                           key: 'Monthly',
                           value: '${state.items[index].total}'));
                       labels.add(Label(
-                          key: 'Days', value: '${state.items[index].days}'));
+                          key: 'Days', value: '${state.items[index].days??''}'));
                       labels.add(Label(
                           key: 'Per Hour',
                           value: '${state.items[index].perHour}'));
@@ -229,20 +229,20 @@ class _PayRateViewState extends State<PayRateView> {
                             String title = '';
                             List<PayRate> payRates = [];
                             switch (widget.title) {
-                              case Constants.createSecurityGuard:
-                                title = Constants.createSecuritySupervisor;
-                                payRates =
-                                    state.rate.securitySupervisorRates ?? [];
-                                state.newPayRate.rankId = 2;
-
-                                break;
-
                               case Constants.createSecuritySupervisor:
                                 title = Constants.createSecurityOfficer;
                                 payRates =
                                     state.rate.securityOfficerRates ?? [];
 
+                                state.newPayRate.rankId = 2;
+                                break;
+
+                              case Constants.createSecurityGuard:
+                                title = Constants.createSecuritySupervisor;
+                                payRates =
+                                    state.rate.securitySupervisorRates ?? [];
                                 state.newPayRate.rankId = 3;
+
                                 break;
 
                               case Constants.createSecurityOfficer:
@@ -253,7 +253,6 @@ class _PayRateViewState extends State<PayRateView> {
                                 break;
 
                               case Constants.createSecurityFacilitator:
-
                                 log('--case ---createSecurityFacilitator-');
 
                                 title = Constants.createGunMan;

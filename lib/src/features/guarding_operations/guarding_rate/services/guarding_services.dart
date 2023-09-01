@@ -70,7 +70,7 @@ class GuardingServices {
     required String griId,
   }) async {
     final String url =
-        "${Apis._createPayRate}?userEmail=${await getUserEmail()}&isSubmit=$isSubmit&griId=$griId";
+        "${Apis._createPayRate}?userEmail=${await getUserEmail()}&griId=$griId";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,

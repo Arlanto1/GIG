@@ -98,19 +98,20 @@ class PayRateCubit extends Cubit<PayRateState> {
   }
 
   Future<void> updateModelValue() async {
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
-    GMRate rateResponse = await services.getRate(state.rate.id!);
-    emit(
-      state.copyWith(
-        rate: rateResponse,
-        status: FormStatus.initial,
-      ),
-    );
-
+    if(state.rate.id != null) {
+      emit(
+        state.copyWith(
+          status: FormStatus.loading,
+        ),
+      );
+      GMRate rateResponse = await services.getRate(state.rate.id!);
+      emit(
+        state.copyWith(
+          rate: rateResponse,
+          status: FormStatus.initial,
+        ),
+      );
+    }
   }
 
   getEntityData(List<Entity> listOfEntities) async {
@@ -204,45 +205,52 @@ class PayRateCubit extends Cubit<PayRateState> {
       ),
     );
 
-    // newPayRate ?? PayRate();
-    if (newPayRate?.fromDate != null) {
-      newPayRate?.fromDate = Utils().formatTime(newPayRate.fromDate ?? '');
-    }
-    if (newPayRate?.toDate != null) {
-      newPayRate?.toDate = Utils().formatTime(newPayRate.toDate ?? '');
-    }
 
-    switch (newPayRate?.rankId) {
-      case 1:
-        state.rate.securityGuardRates ?? [];
-        state.rate.securityGuardRates?.insert(0, newPayRate!);
-        break;
-      case 2:
-        state.rate.securityOfficerRates ?? [];
-        state.rate.securityOfficerRates?.insert(0, newPayRate!);
-        break;
+    if(newPayRate != null) {
+      if (newPayRate.fromDate != null) {
 
-      case 3:
-        state.rate.securitySupervisorRates ?? [];
-        state.rate.securitySupervisorRates?.insert(0, newPayRate!);
-        break;
+        log('--newPayRate.fromDate--${newPayRate.fromDate}--');
 
-      case 4:
-        state.rate.securityFacilitatorRates ?? [];
-        state.rate.securityFacilitatorRates?.insert(0, newPayRate!);
-        break;
+        newPayRate.fromDate = Utils().formatTime(newPayRate.fromDate ?? '');
+      }
+      if (newPayRate.toDate != null) {
+        newPayRate.toDate = Utils().formatTime(newPayRate.toDate ?? '');
+      }
 
-      case 5:
-        state.rate.securityGunManRates ?? [];
-        state.rate.securityGunManRates?.insert(0, newPayRate!);
-        break;
+      switch (newPayRate.rankId) {
+        case 1:
+          state.rate.securityGuardRates ?? [];
+          state.rate.securityGuardRates?.insert(0, newPayRate);
+          break;
+        case 2:
+          state.rate.securityOfficerRates ?? [];
+          state.rate.securityOfficerRates?.insert(0, newPayRate);
+          break;
 
-      default:
-        state.rate.securityGuardRates ??= [];
-        state.rate.securityOfficerRates ??= [];
-        state.rate.securitySupervisorRates ??= [];
-        state.rate.securityFacilitatorRates ??= [];
-        state.rate.securityGunManRates ??= [];
+        case 3:
+          state.rate.securitySupervisorRates ?? [];
+          state.rate.securitySupervisorRates?.insert(0, newPayRate);
+          break;
+
+        case 4:
+          state.rate.securityFacilitatorRates ?? [];
+          state.rate.securityFacilitatorRates?.insert(0, newPayRate);
+          break;
+
+        case 5:
+          state.rate.securityGunManRates ?? [];
+          state.rate.securityGunManRates?.insert(0, newPayRate);
+          break;
+
+        default:
+
+      }
+    } else{
+      state.rate.securityGuardRates ??= [];
+      state.rate.securityOfficerRates ??= [];
+      state.rate.securitySupervisorRates ??= [];
+      state.rate.securityFacilitatorRates ??= [];
+      state.rate.securityGunManRates ??= [];
     }
     String createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
@@ -301,36 +309,41 @@ class PayRateCubit extends Cubit<PayRateState> {
       }
     }
 
+    log('-@@@@@@-----');
     GMRate rateResponse = await services.getRate(state.rate.id!);
+    log('-@@@@2222@@---${newPayRate?.rankId}----');
 
     List<PayRate>? newRates = [];
-    switch (newPayRate?.rankId) {
-      case 1:
-        log('Adding Rate for Security Guard', name: 'PayRateCubit');
-        newRates = rateResponse.securityGuardRates;
-        break;
-      case 2:
-        log('Adding Rate for Security Officer', name: 'PayRateCubit');
-        newRates = rateResponse.securityOfficerRates;
-        break;
+    if (newPayRate != null) {
+      switch (newPayRate.rankId) {
+        case 1:
+          log('Adding Rate for Security Guard', name: 'PayRateCubit');
+          newRates = rateResponse.securityGuardRates;
+          break;
+        case 2:
+          log('Adding Rate for Security Officer', name: 'PayRateCubit');
+          newRates = rateResponse.securityOfficerRates;
+          break;
 
-      case 3:
-        log('Adding Rate for Security Supervisor', name: 'PayRateCubit');
-        newRates = rateResponse.securitySupervisorRates;
-        break;
+        case 3:
+          log('Adding Rate for Security Supervisor', name: 'PayRateCubit');
+          newRates = rateResponse.securitySupervisorRates;
+          break;
 
-      case 4:
-        log('Adding Rate for Security Facilitator', name: 'PayRateCubit');
-        newRates = rateResponse.securityFacilitatorRates;
-        break;
+        case 4:
+          log('Adding Rate for Security Facilitator', name: 'PayRateCubit');
+          newRates = rateResponse.securityFacilitatorRates;
+          break;
 
-      case 5:
-        log('Adding Rate for Gun Man', name: 'PayRateCubit');
-        newRates = rateResponse.securityGunManRates;
-        break;
+        case 5:
+          log('Adding Rate for Gun Man', name: 'PayRateCubit');
+          newRates = rateResponse.securityGunManRates;
+          break;
 
-      default:
+        default:
+      }
     }
+    log('-@@@@@@---#####--');
 
     emit(
       state.copyWith(
