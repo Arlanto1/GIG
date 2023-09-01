@@ -8,7 +8,7 @@ import '../../models/base_user.dart';
 import '../../models/department.dart';
 import '../custom_pop_list_texts.dart';
 
-class BaseDialog {
+class BaseDeparmentDialog {
   departmentDialog({
     required BuildContext context,
     required List<Department> departments,

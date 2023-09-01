@@ -18,7 +18,7 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../common_widgets/base_widget/department_dialog.dart';
+import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
 import '../../../../../common_widgets/base_widget/multiple_selection_pop_up.dart';
 import '../../../../../common_widgets/basic_reusable_widgets.dart';
 import '../../../../../common_widgets/create_fields.dart';
@@ -195,7 +195,7 @@ class _RatesInfoState extends State<RatesInfo> {
                                 height: 60,
                                 isDisableColor: false,
                                 onTap: () {
-                                  BaseDialog().departmentDialog(
+                                  BaseDeparmentDialog().departmentDialog(
                                     context: context,
                                     departments: state.departments,
                                     onTap: (Department department) {
