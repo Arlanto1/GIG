@@ -125,7 +125,8 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue: Utils().removeDecimalAndValuesAfterIt(widget.payRate.days),
+                        initialValue: Utils()
+                            .removeDecimalAndValuesAfterIt(widget.payRate.days),
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.daysKey,
                         hintText: '',
@@ -199,6 +200,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
 
                       BaseDate().datePickerWidgetLoading(
                         textController: toDateController,
+                        showBackDate: false,
                         onChange: (String value) {
                           widget.payRate.toDate = value;
                           BlocProvider.of<PayRateCubit>(widget.mainContext)

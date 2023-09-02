@@ -13,6 +13,7 @@ class BaseDate {
   Widget datePickerWidgetLoading({
     required TextEditingController textController,
     bool isDisabled = false,
+    bool? showBackDate = true,
     required Function(String) onChange,
     required BuildContext context,
   }) {
@@ -21,6 +22,7 @@ class BaseDate {
         if (!isDisabled) {
           BaseDate().datePickerDialog(
             textController: textController,
+            showBackDate: showBackDate,
             onChange: onChange,
             context: context,
           );
@@ -42,6 +44,7 @@ class BaseDate {
             if (textController.text.isEmpty) {
               textController.text = await BaseDate().datePickerDialog(
                 textController: textController,
+                showBackDate: showBackDate,
                 onChange: onChange,
                 context: context,
               );
@@ -65,11 +68,12 @@ class BaseDate {
     required TextEditingController textController,
     required Function(String) onChange,
     required BuildContext context,
+    bool? showBackDate = true,
   }) async {
     DateTime? pickedDate = await showDateTimePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
+      firstDate: showBackDate! ? DateTime(2000) : DateTime.now(),
       lastDate: DateTime(2101),
     );
 
