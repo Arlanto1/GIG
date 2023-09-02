@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:db_atom/main_DEV.dart';
 import 'dart:math';
 import 'package:db_atom/src/common_widgets/cubits.dart';
@@ -214,7 +216,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       String name, String orgName, BuildContext context) async {
     try {
       CreateOrganisation createOrganisationData =
-          await createFoundServices.createOrganisation(name, orgName);
+          await createFoundServices.createOrganisation(name, orgName,context);
       emit(
         state.copyWith(
           createOrganisationResponse: createOrganisationData,
@@ -249,7 +251,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         
     try {
       CreateOrganisation createEmployeeDeptData =
-          await createFoundServices.createOrganisation(name, orgName);
+          await createFoundServices.createOrganisation(name, orgName,context);
       emit(
         state.copyWith(
           createEmployeeDepartments: createEmployeeDeptData,
@@ -283,7 +285,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       String role, BuildContext context) async {
     try {
       CreateUserModel createUserData = await createFoundServices.createUser(
-          firstName, lastName, email, role);
+          firstName, lastName, email, role,context);
       emit(
         state.copyWith(
           createUserResponse: createUserData,
@@ -330,10 +332,10 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
 
   // Serialnumber api  call
   Future<void> getSerialnumberDetails(
-      String locationid, String modulecode) async {
+      String locationid, String modulecode,BuildContext context) async {
     try {
       SerialNumberModel getserialnumberResponse = await createFoundServices
-          .getSerialnumberDetails(locationid, modulecode);
+          .getSerialnumberDetails(locationid, modulecode,context);
       emit(
         state.copyWith(
           getSerialnumberResponse: getserialnumberResponse,
