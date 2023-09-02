@@ -155,8 +155,8 @@ class _CreatefoundState extends State<Createfound> {
       claimantDepartmentName = widget.listuser?.claimantDepartmentName !=null ? widget.listuser?.claimantDepartmentName ?? '' :'';
       itemhandoverByValue = widget.listuser?.handOverSecurityName ?? '';
       handedoverdatedateTextController.text = widget.listuser?.handoverDate != null ? Utils.timestamptoDateConversion(
-          int.parse(widget.listuser?.handoverDate ?? '0'), Constants.fulldateFormat) : '';
-      claimantEmpIdTextController.text =
+          int.parse(widget.listuser?.handoverDate ?? '0'), Constants.fulldateFormat) : handedoverdatedateTextController.text.isEmpty ? '' : handedoverdatedateTextController.text;
+      claimantEmpIdTextController.text = 
           widget.listuser?.claimantEmployeeId !=null ? widget.listuser?.claimantEmployeeId ?? '' : '';
       claimant = widget.listuser?.claimant?.lastName !=null ? widget.listuser?.claimant?.lastName ?? '' :'';
       claimantTextController.text = widget.listuser?.claimant?.lastName !=null ? widget.listuser?.claimant?.lastName ?? '' : '';
@@ -371,6 +371,7 @@ class _CreatefoundState extends State<Createfound> {
     //you can implement different kind of Date Format here according to your requirement
     dateofcreationTextController.text = formattedDate;
     statusTextController.text = 'Found';
+     handedoverdatedateTextController.text = formattedDate;
     setState(() {
       // dateinput.text = formattedDate; //set output date to TextField value.
     });
