@@ -22,6 +22,7 @@ import '../../../../../utils/app_themes/colors/app_color.dart';
 import '../../../../../utils/app_themes/styles/app_styles.dart';
 import '../../../../../utils/customalert.dart';
 import '../../../../../utils/helpers/keys/keys.dart';
+import '../../../../../utils/util.dart';
 import '../../../../../utils/validators/validator.dart';
 import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import '../../../../createfound/models/create_found_request.dart';
@@ -80,10 +81,19 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   void initState() {
     super.initState();
     BlocProvider.of<GuardingMasterDataDetailsCubit>(context).initializeValues();
+    initializeControllerValues();
+  }
+  void initializeControllerValues() {
+    dateOfFirstCovidDoseController.text = Utils.timestamptoDateConversion(
+        int.parse(widget.guardingMasterData?.covidFirstDoseDate ?? '0'), Constants.dateFormat);
+    // TODO: Add remaining Date Values here
+
   }
 
   @override
   Widget build(BuildContext context) {
+
+
     final size = MediaQuery.of(context).size;
     final height = size.height;
     return BlocConsumer<GuardingMasterDataDetailsCubit,
@@ -1429,4 +1439,5 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
       },
     );
   }
+
 }

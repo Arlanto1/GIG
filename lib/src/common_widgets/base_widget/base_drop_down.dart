@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+
+import '../../constants/app_icon.dart';
+import '../../utils/helpers/keys/keys.dart';
+import '../custom_simple_list_texts.dart';
+import '../new_search_textfield.dart';
+
+class BaseDropDown {
+  GestureDetector getDropDown({
+    required bool isDisabled,
+    required TextEditingController textController,
+    required void Function()? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: FlutterInputField(
+        textFieldController: textController,
+        textFormKey: Keys.returnableKey,
+        hintText: '',
+        isEnable: false,
+        isDisableColor: !isDisabled,
+        onChange: (String value) {},
+        validateTextField: (String? user) {},
+        suffixWidget: IconButton(
+            icon: SvgPicture.asset(
+                width: 10,
+                height: 10,
+                AppIcon.dropdownicon,
+                key: const Key('closed_eye')),
+            onPressed: () {}),
+      ),
+    );
+  }
+
+  assetTypeDialog({
+    required BuildContext context,
+    required List<String> dropDownValues,
+    required Function onTap,
+  }) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return CustomSimpleListTexts(
+          texts: dropDownValues,
+          onTap: onTap,
+        );
+      },
+    );
+  }
+}

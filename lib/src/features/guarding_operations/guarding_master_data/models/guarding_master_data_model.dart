@@ -38,6 +38,7 @@ class GuardingMastersDataModel {
   EntrySecurity? entrySecurity;
   List<Entity>? entities;
   String? inputDate;
+  String? covidFirstDoseDate;
   int? status;
   int? guardRank;
   String? employeeCode;
@@ -90,6 +91,7 @@ class GuardingMastersDataModel {
     this.locationRegion,
     this.entrySecurity,
     this.inputDate,
+    this.covidFirstDoseDate,
     this.status,
     this.guardRank,
     this.employeeCode,
@@ -144,6 +146,7 @@ class GuardingMastersDataModel {
         locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? LocationRegion.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? EntrySecurity.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         inputDate = json['inputDate'] as String?,
+        covidFirstDoseDate = json['covidFirstDoseDate'] as String?,
         guardingPoc = json['guardingPoc'] as String?,
         status = json['status'] as int?,
         guardRank = json['guardRank'] as int?,
@@ -198,6 +201,7 @@ class GuardingMastersDataModel {
     'locationRegion' : locationRegion?.toJson(),
     'entrySecurity' : entrySecurity?.toJson(),
     'inputDate' : inputDate,
+    'covidFirstDoseDate' : covidFirstDoseDate,
     'status' : status,
     'guardRank' : guardRank,
     'employeeCode' : employeeCode,

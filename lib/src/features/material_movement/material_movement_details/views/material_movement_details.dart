@@ -3,13 +3,13 @@ import 'dart:developer';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/add_button_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/department_dialog.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_drop_down.dart';
 import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/common_widgets/custom_pop_list_texts.dart';
-import 'package:db_atom/src/common_widgets/custom_simple_list_texts.dart';
 import 'package:db_atom/src/common_widgets/image_download.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
@@ -66,6 +66,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   TextEditingController expectedDateOfReturnController =
       TextEditingController();
   bool isDisabled = true;
+  List<String> returnableDropDownValues = const [
+    "Returnable",
+    "Non Returnable"
+  ];
 
   @override
   void initState() {
@@ -203,33 +207,30 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                             /// Non Returnable
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            GestureDetector(
-                              onTap: () {
-                                if (state.materialMovement.status != 6) {
-                                  assetTypeDialog(state);
-                                }
-                              },
-                              child: FlutterInputField(
-                                textFieldController: returnableTextController,
-                                textFormKey: Keys.returnableKey,
-                                hintText: '',
-                                isEnable: false,
-                                isDisableColor:
-                                    state.materialMovement.status == 6,
-                                onChange: (String value) {
-                                  log('val----$value');
-                                  // state.materialMovement.returnable = value;
-                                },
-                                validateTextField: (String? user) {},
-                                suffixWidget: IconButton(
-                                    icon: SvgPicture.asset(
-                                        width: 10,
-                                        height: 10,
-                                        AppIcon.dropdownicon,
-                                        key: const Key('closed_eye')),
-                                    onPressed: () {}),
-                              ),
-                            ),
+                            BaseDropDown().getDropDown(
+                                isDisabled: state.materialMovement.status != 6,
+                                textController: returnableTextController,
+                                onTap: () {
+                                  if (isDisabled) {
+                                    BaseDropDown().assetTypeDialog(
+                                        context: context,
+                                        dropDownValues:
+                                            returnableDropDownValues,
+                                        onTap: (String value) {
+                                          bool isReturnable =
+                                              value == 'Returnable'
+                                                  ? true
+                                                  : false;
+                                          state.materialMovement.returnable =
+                                              isReturnable;
+                                          BlocProvider.of<
+                                                      MaterialMovementDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  isReturnable: isReturnable);
+                                        });
+                                  }
+                                }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status
@@ -502,7 +503,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           onTap: () {
                                             if (widget.materialMovement ==
                                                 null) {
-                                              BaseDialog().userDialog(
+                                              BaseDeparmentDialog().userDialog(
                                                 context: context,
                                                 users: state.emailUsers!,
                                                 onTap: (BaseUser user) {
@@ -591,7 +592,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               : true,
                                       onTap: () {
                                         if (widget.materialMovement == null) {
-                                          BaseDialog().departmentDialog(
+                                          BaseDeparmentDialog()
+                                              .departmentDialog(
                                             context: context,
                                             departments: state.departments,
                                             onTap: (Department department) {
@@ -732,7 +734,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               : true,
                                       onTap: () {
                                         if (widget.materialMovement == null) {
-                                          BaseDialog().departmentDialog(
+                                          BaseDeparmentDialog()
+                                              .departmentDialog(
                                             context: context,
                                             departments: state.departments,
                                             onTap: (Department department) {
@@ -768,7 +771,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           onTap: () {
                                             if (widget.materialMovement ==
                                                 null) {
-                                              BaseDialog().userDialog(
+                                              BaseDeparmentDialog().userDialog(
                                                 context: context,
                                                 users: state.emailUsers!,
                                                 onTap: (BaseUser user) {
@@ -839,7 +842,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               ? false
                                               : true,
                                       onTap: () {
-                                        BaseDialog().departmentDialog(
+                                        BaseDeparmentDialog().departmentDialog(
                                           context: context,
                                           departments: state.departments,
                                           onTap: (Department department) {
@@ -875,7 +878,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           onTap: () {
                                             if (widget.materialMovement ==
                                                 null) {
-                                              BaseDialog().userDialog(
+                                              BaseDeparmentDialog().userDialog(
                                                 context: context,
                                                 users: state.emailUsers!,
                                                 onTap: (BaseUser user) {
@@ -937,7 +940,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               : true,
                                       onTap: () {
                                         if (widget.materialMovement == null) {
-                                          BaseDialog().departmentDialog(
+                                          BaseDeparmentDialog()
+                                              .departmentDialog(
                                             context: context,
                                             departments: state.departments,
                                             onTap: (Department department) {
@@ -1253,7 +1257,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             onTap: () {
                                               if (widget.materialMovement ==
                                                   null) {
-                                                BaseDialog().userDialog(
+                                                BaseDeparmentDialog()
+                                                    .userDialog(
                                                   context: context,
                                                   users: state.emailUsers!,
                                                   onTap: (BaseUser user) {
@@ -1351,7 +1356,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               : true,
                                       onTap: () {
                                         if (widget.materialMovement == null) {
-                                          BaseDialog().departmentDialog(
+                                          BaseDeparmentDialog()
+                                              .departmentDialog(
                                             context: context,
                                             departments: state.departments,
                                             onTap: (Department department) {
@@ -1601,22 +1607,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
       default:
         return 'Unknown Status';
     }
-  }
-
-  assetTypeDialog(MaterialMovementDetailsState state) {
-    showDialog(
-      context: context,
-      builder: (dialogContext) {
-        return CustomSimpleListTexts(
-            texts: const ["Returnable", "Non Returnable"],
-            onTap: (String value) {
-              bool isReturnable = value == 'Returnable' ? true : false;
-              state.materialMovement.returnable = isReturnable;
-              BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                  .updateDropdownValues(isReturnable: isReturnable);
-            });
-      },
-    );
   }
 
   Widget quantityUnitPopUp(MaterialMovementDetailsState state) {
