@@ -2242,9 +2242,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     PassDept? dept2 = PassDept(
         id:  (state.selectedemployeeDepartmentResponse?.id   == 0) ? 1 : state.selectedemployeeDepartmentResponse?.id ?? 1,
-        name: state.selectedemployeeDepartmentResponse?.name ?? '');
+        name: state.selectedemployeeDepartmentResponse?.name ?? '');  
     PassmgmtInfo info = PassmgmtInfo(
-        id:  (state.activePassInfoList?.id   == 0) ? 1 : state.activePassInfoList?.id ?? ((widget.passId   == "3")  ? 9151 : 1),
+        id:  (state.activePassInfoList?.id   == 0) ? 1 : state.activePassInfoList?.id ?? ((widget.passId   == "3")  ? 9151 : 1), //9151 //int.parse(sezpassinfoTextController.text ?? '1')
         passNo: state.activePassInfoList?.name ?? '');
 
     //  if (widget.passId == '3') {
@@ -2746,7 +2746,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       onTap: () {},
       textFieldController: textController,
       textFormKey: Keys.colorTextController,
-      keyboardType: textController == contactnoTextController ? TextInputType.number : TextInputType.text,
+      keyboardType: textController == contactnoTextController || textController == sezpassinfoTextController ? TextInputType.number : TextInputType.text,
       // isEnable:
       //     widget.listuser == null
       //     ? true
