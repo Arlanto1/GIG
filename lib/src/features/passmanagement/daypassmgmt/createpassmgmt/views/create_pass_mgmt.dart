@@ -427,6 +427,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     // Name
 
+                                     widget.passId == "3" ? CommonWidgets.textDisplay(
+                                        Constants.name,Styles.textStyleBlack14) : Container(),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                       widget.passId == "3" ? textfieldWidgetLoad(
+                                                nameTextController, 0, state) : Container(),
+
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),  
+                               
                                     CommonWidgets.textDisplay(
                                         widget.passId == "0"
                                             ? Constants.name
@@ -451,9 +461,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 contactnoTextController,
                                                 0,
                                                 state),
-
+          
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
+
+
 
                                     // Employee Id
                                     widget.passId == "0" &&
