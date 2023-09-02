@@ -440,7 +440,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     widget.passId == "0"
                                         ? ((state.atomCompanyType?.name ?? '')
                                                     .toLowerCase() ==
-                                                'fte'
+                                                'fte' || (state.atomCompanyType?.name == null)
                                             ? nameaddButtonwidgetLoading(state)
                                             : textfieldWidgetLoad(
                                                 nameTextController, 0, state))
