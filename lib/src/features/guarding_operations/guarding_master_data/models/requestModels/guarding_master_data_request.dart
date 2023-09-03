@@ -9,12 +9,12 @@ class GuardingMasterDataRequest {
 
   GuardingMasterDataRequest.fromJson(Map<String, dynamic> json) {
     guardingMasterData =
-        GuardingMastersDataModel.fromJson(json['guardingMasterData']);
+        GuardingMastersDataModel.fromJson(json['guardingMaster']);
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['guardingMasterData'] = guardingMasterData.toJson();
+    _data['guardingMaster'] = guardingMasterData.toJson();
     return _data;
   }
 }

@@ -330,6 +330,7 @@ class Constants {
   static const String occurrence = 'Occurrence';
 
   static const String vendor = 'Vendor';
+  static const String guardingVendor = 'Guarding Vendor';
   static const String previous = 'Previous';
   static const String next = "Next";
   static const String createSecurityGuard = 'Create Security Guard';
@@ -365,7 +366,7 @@ class Constants {
   static const String onBoarded = 'MIS Trigger(for on-boarding)';
   static const String specialAchievements = 'Special Achievements?';
   static const String csrParticipation = 'Participated in CSR';
-  static const String participationDate = 'Participation Dates';
+  static const String participationDates = 'Participation Dates';
   static const String dbEmployeeId = 'DB Employee ID';
   static const String buildingLocation = 'Building Location';
   static const String mobileNum = 'Mobile Number';

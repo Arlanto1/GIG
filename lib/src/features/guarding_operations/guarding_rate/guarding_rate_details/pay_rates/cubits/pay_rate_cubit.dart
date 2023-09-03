@@ -15,13 +15,13 @@ import '../../../../../../models/department.dart';
 import '../../../../../../models/entity.dart';
 import '../../../../../../models/entry_security.dart';
 import '../../../../../../models/location.dart';
+import '../../../../../../models/responseModels/generic_creat_response.dart';
 import '../../../../../../utils/shared_preferences.dart';
 import '../../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../../createfound/models/get_locations_model.dart';
 import '../../../../../createfound/models/serial_number_model.dart';
 import '../../../../../lawenforcement/models/addentities.dart';
 import '../../../../../material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
-import '../../../../../material_movement/models/responseModels/material_movement_response.dart';
 
 part 'pay_rate_state.dart';
 

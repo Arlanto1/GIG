@@ -8,7 +8,6 @@ import 'package:db_atom/src/features/createfound/models/serial_number_model.dart
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
-import 'package:db_atom/src/features/material_movement/models/responseModels/material_movement_response.dart';
 import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -21,6 +20,7 @@ import '../../../../models/base_user.dart';
 import '../../../../models/department.dart';
 import '../../../../models/entry_security.dart';
 import '../../../../models/location.dart';
+import '../../../../models/responseModels/generic_creat_response.dart';
 import '../../../createfound/models/emplyee_departments_model.dart';
 import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
@@ -39,23 +39,19 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     required this.isInward,
   }) : super(
           MaterialMovementDetailsState.initial(
-            model: model ?? MaterialMovementModel(),
-            locations: GetLocations(),
-            loggedInUserDetails: EntrySecurity(),
-            users: const [],
-            emailUsers: const[],
-            errorMessage: '',
-            departments: const [],
-            loadAttachments: const [],
-            quantityUnits: const [],
-            eventId: null
-          ),
+              model: model ?? MaterialMovementModel(),
+              locations: GetLocations(),
+              loggedInUserDetails: EntrySecurity(),
+              users: const [],
+              emailUsers: const [],
+              errorMessage: '',
+              departments: const [],
+              loadAttachments: const [],
+              quantityUnits: const [],
+              eventId: null),
         );
 
   void onModelValueChange(MaterialMovementModel model) {
-
-    
-    
     emit(state.copyWith(materialMovement: model, status: FormStatus.initial));
   }
 
@@ -86,19 +82,19 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.materialMovement.inputDate = _getCurrentDate();
 
       state.materialMovement.inwardMovement = isInward;
-      if(state.materialMovement.approvedDate != null) {
-        state.materialMovement.approvedDate = Utils().formatUnixTimestamp(
-            state.materialMovement.approvedDate ?? '');
+      if (state.materialMovement.approvedDate != null) {
+        state.materialMovement.approvedDate = Utils()
+            .formatUnixTimestamp(state.materialMovement.approvedDate ?? '');
       }
-      if(state.materialMovement.rejectedDate != null) {
-        state.materialMovement.rejectedDate = Utils().formatUnixTimestamp(
-            state.materialMovement.rejectedDate ?? '');
+      if (state.materialMovement.rejectedDate != null) {
+        state.materialMovement.rejectedDate = Utils()
+            .formatUnixTimestamp(state.materialMovement.rejectedDate ?? '');
       }
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
       GetDepositor emailUsers =
-      await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
       QuantityUnits quantityUnits = await commonServices.getQuantityUnits();
 
@@ -106,15 +102,14 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       emit(
         state.copyWith(
-            locations: getLocationsData,
-            loggedInUserDetails: loggedInUserDetails,
-            status: FormStatus.initial,
-            materialMovement: state.materialMovement,
-            users: users.t1Analyst,
-
+          locations: getLocationsData,
+          loggedInUserDetails: loggedInUserDetails,
+          status: FormStatus.initial,
+          materialMovement: state.materialMovement,
+          users: users.t1Analyst,
           emailUsers: emailUsers.atomStaticUser,
-            departments: departments.employeeDepartments,
-            quantityUnits: quantityUnits.units,
+          departments: departments.employeeDepartments,
+          quantityUnits: quantityUnits.units,
         ),
       );
     } catch (e) {
@@ -179,27 +174,22 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.materialMovement.requestorDepartment = requesterDepartment;
     }
     if (preparedByDepartment != null) {
-      state.materialMovement.preparedByDepartment =
-          preparedByDepartment;
+      state.materialMovement.preparedByDepartment = preparedByDepartment;
     }
     if (approver1Department != null) {
-      state.materialMovement.approver1Department =
-          approver1Department;
+      state.materialMovement.approver1Department = approver1Department;
     }
 
     if (approver2Department != null) {
-      state.materialMovement.approver2Department =
-          approver2Department;
+      state.materialMovement.approver2Department = approver2Department;
     }
     print('--depart---${receiverDepartment?.name}-----');
     if (receiverDepartment != null) {
-      state.materialMovement.receiverDepartment =
-          receiverDepartment;
+      state.materialMovement.receiverDepartment = receiverDepartment;
     }
 
     if (quantityUnit != null) {
-      state.materialMovement.unit =
-          quantityUnit;
+      state.materialMovement.unit = quantityUnit;
     }
 
     if (isReturnable != null) {
@@ -225,16 +215,14 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     print('--data----${data?.length}----');
     print('--state.status-2---${state.status}----');
 
-
     emit(state.copyWith(
-      eventId:eventIds ,
+      eventId: eventIds,
       materialMovement: state.materialMovement,
       loadAttachments: data,
       status: FormStatus.initial,
     ));
 
     print('--state.status--3--${state.status}----');
-
   }
 
   void showFields(
@@ -268,7 +256,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
 
     // Setting time in milliseconds
-    state.materialMovement.inputDate = (DateTime.now().millisecondsSinceEpoch~/1000).toString();
+    state.materialMovement.inputDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // Create/Update API Call
     MaterialMovementRequest request =

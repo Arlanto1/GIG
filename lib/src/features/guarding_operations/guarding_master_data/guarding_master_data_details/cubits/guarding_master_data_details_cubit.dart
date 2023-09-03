@@ -6,11 +6,11 @@ import 'package:db_atom/src/features/createfound/models/create_found_request.dar
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/responseModels/guarding_master_data_responses.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/location.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
+import 'package:db_atom/src/utils/util.dart';
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
@@ -18,8 +18,10 @@ import '../../../../../constants/constants.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entry_security.dart';
+import '../../../../../models/responseModels/generic_creat_response.dart';
 import '../../../../createfound/models/serial_number_model.dart';
 import '../../../../lawenforcement/models/addentities.dart';
+import '../../../../material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import '../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import '../../models/guarding_master_data_model.dart';
 import '../../services/guarding_master_data_services.dart';
@@ -50,47 +52,6 @@ class GuardingMasterDataDetailsCubit
               getEntitiesResponse: null,
               departments: const []),
         );
-
-  getEntityData(List<Entity> listOfEntities) async {
-    try {
-      int eventIds = math.Random.secure().nextInt(5);
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          listOfEntities: listOfEntities,
-          status: FormStatus.initial,
-        ),
-      );
-    } catch (e) {
-      emit(
-        state.copyWith(
-          message: Constants.errorText,
-          status: FormStatus.error,
-        ),
-      );
-    }
-  }
-
-  // Get entities api call
-  Future<void> getEntities() async {
-    try {
-      AddEntities entities =
-          await commonServices.getEntities(name: 'ATOM_ENTITIES');
-      emit(
-        state.copyWith(
-          getEntitiesResponse: entities,
-          status: FormStatus.initial,
-        ),
-      );
-    } catch (e) {
-      emit(
-        state.copyWith(
-          message: Constants.errorText,
-          status: FormStatus.error,
-        ),
-      );
-    }
-  }
 
   void onModelValueChange(GuardingMastersDataModel model) {
     emit(
@@ -136,6 +97,11 @@ class GuardingMasterDataDetailsCubit
       state.guardingMasterData.entrySecurity = loggedInUserDetails;
 
       log('-guardRank--${state.guardingMasterData.guardRank}----');
+
+      List<String> participationDates = Utils().splitStringAfterComma(
+          state.guardingMasterData.csrParticipationDates ?? '');
+      log('-participationDates---${participationDates.toString()}---');
+
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -146,6 +112,7 @@ class GuardingMasterDataDetailsCubit
           emailUsers: emailUsers.atomStaticUser,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
+          participationDates: participationDates,
         ),
       );
     } catch (e) {
@@ -280,7 +247,7 @@ class GuardingMasterDataDetailsCubit
       GenericCreateResponse response = GenericCreateResponse();
       if (isSaveOnly) {
         response = (await services.createGuardingMasterData(
-            body: request, isSubmit: false)) as GenericCreateResponse;
+            body: request, isSubmit: false));
       } else {
         //Validating Fields
         if (!state.isValid.status) {

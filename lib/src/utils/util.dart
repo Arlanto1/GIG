@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'dart:math';
+import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/utils/customalert.dart';
@@ -9,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'app_themes/styles/app_styles.dart';
 
 class Utils {
-  static final Random _random = Random.secure();
+  static final math.Random _random = math.Random.secure();
 
   static String createCryptoRandomString([int length = 32]) {
     var values = List<int>.generate(length, (i) => _random.nextInt(256));
@@ -330,5 +331,10 @@ class Utils {
     } else {
       throw ArgumentError('Unsupported type: ${value.runtimeType}');
     }
+  }
+
+  List<String> splitStringAfterComma(String inputString) {
+    log('-inputString----$inputString-');
+    return inputString.split(',');
   }
 }

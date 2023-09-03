@@ -4,8 +4,8 @@ import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 
+import '../../../../models/responseModels/generic_creat_response.dart';
 import '../../../../utils/shared_preferences.dart';
-import '../../../material_movement/models/responseModels/material_movement_response.dart';
 import '../models/drop_pick_up_response.dart';
 import '../models/request/gm_rate_request.dart';
 import '../models/request/pay_rate_request.dart';

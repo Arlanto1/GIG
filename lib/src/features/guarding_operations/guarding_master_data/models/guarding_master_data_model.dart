@@ -40,6 +40,7 @@ class GuardingMastersDataModel {
   EntrySecurity? entrySecurity;
   List<Entity>? entities;
   String? inputDate;
+  String? csrParticipationDates;
   String? medicalCertificateValidUntil;
   String? covidFirstDoseDate;
   String? covidSecondDoseDate;
@@ -101,6 +102,7 @@ class GuardingMastersDataModel {
     this.locationRegion,
     this.entrySecurity,
     this.inputDate,
+    this.csrParticipationDates,
     this.medicalCertificateValidUntil,
     this.covidFirstDoseDate,
     this.covidSecondDoseDate,
@@ -165,6 +167,7 @@ class GuardingMastersDataModel {
         locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? LocationRegion.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? EntrySecurity.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         inputDate = json['inputDate'] as String?,
+        csrParticipationDates = json['csrParticipationDates'] as String?,
         medicalCertificateValidUntil = json['medicalCertificateValidUntil'] as String?,
         covidFirstDoseDate = json['covidFirstDoseDate'] as String?,
         covidSecondDoseDate = json['covidSecondDoseDate'] as String?,
@@ -231,6 +234,7 @@ class GuardingMastersDataModel {
     'locationRegion' : locationRegion?.toJson(),
     'entrySecurity' : entrySecurity?.toJson(),
     'inputDate' : inputDate,
+    'csrParticipationDates' : csrParticipationDates,
     'medicalCertificateValidUntil' : medicalCertificateValidUntil,
     'covidFirstDoseDate' : covidFirstDoseDate,
     'covidSecondDoseDate' : covidSecondDoseDate,

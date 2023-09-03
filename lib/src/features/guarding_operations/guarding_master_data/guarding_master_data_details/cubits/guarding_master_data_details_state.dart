@@ -7,7 +7,7 @@ enum FormStatus {
   addAttachment,
   next,
   success,
-  error
+  error,
 }
 
 class GuardingMasterDataDetailsState extends Equatable {
@@ -21,6 +21,7 @@ class GuardingMasterDataDetailsState extends Equatable {
   final List<Entity>? listOfEntities;
   final List<Department> departments;
   final AddEntities? getEntitiesResponse;
+  final List<String>? participationDates;
   final int? eventId;
   final String? message;
 
@@ -36,20 +37,23 @@ class GuardingMasterDataDetailsState extends Equatable {
     required String errorMessage,
     required List<CreateImage> loadAttachments,
     required int? eventId,
+    List<String>? participationDate,
   }) {
     return GuardingMasterDataDetailsState(
-        status: FormStatus.initial,
-        guardingMasterData: model,
-        locations: locations,
-        loggedInUserDetails: loggedInUserDetails,
-        listOfEntities: listOfEntities,
-        departments: departments,
-        getEntitiesResponse: getEntitiesResponse,
-        users: users,
-        emailUsers: emailUsers,
-        message: errorMessage,
-        loadAttachments: loadAttachments,
-        eventId: eventId);
+      status: FormStatus.initial,
+      guardingMasterData: model,
+      locations: locations,
+      loggedInUserDetails: loggedInUserDetails,
+      listOfEntities: listOfEntities,
+      departments: departments,
+      getEntitiesResponse: getEntitiesResponse,
+      users: users,
+      emailUsers: emailUsers,
+      message: errorMessage,
+      loadAttachments: loadAttachments,
+      eventId: eventId,
+      participationDates: participationDate,
+    );
   }
 
   ErrorResponse get isValid {
@@ -79,7 +83,7 @@ class GuardingMasterDataDetailsState extends Equatable {
   @override
   List<Object?> get props => [guardingMasterData, status];
 
-  const GuardingMasterDataDetailsState( {
+  const GuardingMasterDataDetailsState({
     required this.status,
     required this.guardingMasterData,
     this.locations,
@@ -92,6 +96,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     this.listOfEntities,
     this.getEntitiesResponse,
     required this.departments,
+    this.participationDates,
   });
 
   GuardingMasterDataDetailsState copyWith({
@@ -99,12 +104,13 @@ class GuardingMasterDataDetailsState extends Equatable {
     GuardingMastersDataModel? guardingMasterData,
     GetLocations? locations,
     EntrySecurity? loggedInUserDetails,
-    List<Entity>? listOfEntities,
-    AddEntities? getEntitiesResponse,
-    List<Department>? departments,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<CreateImage>? loadAttachments,
+    List<Entity>? listOfEntities,
+    List<Department>? departments,
+    AddEntities? getEntitiesResponse,
+    List<String>? participationDates,
     int? eventId,
     String? message,
   }) {
@@ -113,24 +119,15 @@ class GuardingMasterDataDetailsState extends Equatable {
       guardingMasterData: guardingMasterData ?? this.guardingMasterData,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
-      listOfEntities: listOfEntities ?? this.listOfEntities,
-      getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
       loadAttachments: loadAttachments ?? this.loadAttachments,
+      listOfEntities: listOfEntities ?? this.listOfEntities,
+      departments: departments ?? this.departments,
+      getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
+      participationDates: participationDates ?? this.participationDates,
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
-      departments: departments?? this.departments,
     );
   }
-}
-
-class ErrorResponse {
-  final bool status;
-  final String message;
-
-  const ErrorResponse({
-    required this.status,
-    required this.message,
-  });
 }
