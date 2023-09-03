@@ -18,6 +18,9 @@ class GuardingMasterDataDetailsState extends Equatable {
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<CreateImage>? loadAttachments;
+  final List<Entity>? listOfEntities;
+  final List<Department> departments;
+  final AddEntities? getEntitiesResponse;
   final int? eventId;
   final String? message;
 
@@ -27,6 +30,9 @@ class GuardingMasterDataDetailsState extends Equatable {
     required EntrySecurity loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
+    required final List<Entity>? listOfEntities,
+    required final AddEntities? getEntitiesResponse,
+    required final List<Department> departments,
     required String errorMessage,
     required List<CreateImage> loadAttachments,
     required int? eventId,
@@ -36,6 +42,9 @@ class GuardingMasterDataDetailsState extends Equatable {
         guardingMasterData: model,
         locations: locations,
         loggedInUserDetails: loggedInUserDetails,
+        listOfEntities: listOfEntities,
+        departments: departments,
+        getEntitiesResponse: getEntitiesResponse,
         users: users,
         emailUsers: emailUsers,
         message: errorMessage,
@@ -70,7 +79,7 @@ class GuardingMasterDataDetailsState extends Equatable {
   @override
   List<Object?> get props => [guardingMasterData, status];
 
-  const GuardingMasterDataDetailsState({
+  const GuardingMasterDataDetailsState( {
     required this.status,
     required this.guardingMasterData,
     this.locations,
@@ -80,6 +89,9 @@ class GuardingMasterDataDetailsState extends Equatable {
     this.loadAttachments,
     this.eventId,
     this.message,
+    this.listOfEntities,
+    this.getEntitiesResponse,
+    required this.departments,
   });
 
   GuardingMasterDataDetailsState copyWith({
@@ -87,6 +99,9 @@ class GuardingMasterDataDetailsState extends Equatable {
     GuardingMastersDataModel? guardingMasterData,
     GetLocations? locations,
     EntrySecurity? loggedInUserDetails,
+    List<Entity>? listOfEntities,
+    AddEntities? getEntitiesResponse,
+    List<Department>? departments,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<CreateImage>? loadAttachments,
@@ -98,11 +113,14 @@ class GuardingMasterDataDetailsState extends Equatable {
       guardingMasterData: guardingMasterData ?? this.guardingMasterData,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
+      listOfEntities: listOfEntities ?? this.listOfEntities,
+      getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
       loadAttachments: loadAttachments ?? this.loadAttachments,
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
+      departments: departments?? this.departments,
     );
   }
 }

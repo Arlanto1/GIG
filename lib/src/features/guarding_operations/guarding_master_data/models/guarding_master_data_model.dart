@@ -1,3 +1,4 @@
+import '../../../../models/department.dart';
 import '../../../../models/entity.dart';
 import '../../../../models/entry_security.dart';
 import '../../../../models/location.dart';
@@ -35,10 +36,19 @@ class GuardingMastersDataModel {
   String? slNo;
   Location? location;
   LocationRegion? locationRegion;
+  Department? vendor;
   EntrySecurity? entrySecurity;
   List<Entity>? entities;
   String? inputDate;
   String? covidFirstDoseDate;
+  String? covidSecondDoseDate;
+  String? covidPrecautionaryDoseDate;
+  String? ertCertificationDate;
+  String? firstAidTrainingCompletionDate;
+  String? pvcIssuedDate;
+  String? pvcExpiryDate;
+  String? dateOfBirth;
+  String? dateOfJoining;
   int? status;
   int? guardRank;
   String? employeeCode;
@@ -49,9 +59,9 @@ class GuardingMastersDataModel {
   String? contactNo;
   int? maritalStatus;
   int? typeOfDeployment;
-  bool? deploymentOrderSubmitted;
+  bool deploymentOrderSubmitted;
   List<dynamic>? deploymentOrders;
-  bool? physicallyFit;
+  bool physicallyFit;
   String? localLanguage;
   bool? localLangProficiencyR;
   bool? hindiLangProficiencyR;
@@ -67,18 +77,18 @@ class GuardingMastersDataModel {
   String? localAddress;
   List<dynamic>? qualifications;
   List<dynamic>? pvc;
-  bool? trainingCertificateProvided;
+  bool trainingCertificateProvided;
   List<dynamic>? trainingCertificates;
   List<dynamic>? medicalCertificates;
   int? systemAccess;
-  bool? onboarded;
+  bool onboarded;
   String? esicNo;
   String? uanNo;
   bool? msgbExempted;
   int? msgbFormBSubmitted;
   int? staffMsgbCompliant;
-  bool? csrParticipation;
-  bool? specialAchievement;
+  bool csrParticipation;
+  bool specialAchievement;
   String? specialAchievementText;
   String? additionalInitiatives;
   List<dynamic>? history;
@@ -92,20 +102,29 @@ class GuardingMastersDataModel {
     this.entrySecurity,
     this.inputDate,
     this.covidFirstDoseDate,
+    this.covidSecondDoseDate,
+    this.covidPrecautionaryDoseDate,
+    this.ertCertificationDate,
+    this.firstAidTrainingCompletionDate,
+    this.pvcExpiryDate,
+    this.pvcIssuedDate,
+    this.dateOfBirth,
+    this.dateOfJoining,
     this.status,
     this.guardRank,
     this.employeeCode,
     this.dbEmployeeId,
     this.guardingPoc,
+    this.vendor,
     this.entities,
     this.dutyType,
     this.gender,
     this.contactNo,
     this.maritalStatus,
     this.typeOfDeployment,
-    this.deploymentOrderSubmitted,
+    this.deploymentOrderSubmitted = false,
     this.deploymentOrders,
-    this.physicallyFit,
+    this.physicallyFit =false,
     this.localLanguage,
     this.localLangProficiencyR,
     this.hindiLangProficiencyR,
@@ -121,18 +140,18 @@ class GuardingMastersDataModel {
     this.localAddress,
     this.qualifications,
     this.pvc,
-    this.trainingCertificateProvided,
+    this.trainingCertificateProvided =false,
     this.trainingCertificates,
     this.medicalCertificates,
     this.systemAccess,
-    this.onboarded,
+    this.onboarded = false,
     this.esicNo,
     this.uanNo,
     this.msgbExempted,
     this.msgbFormBSubmitted,
     this.staffMsgbCompliant,
-    this.csrParticipation,
-    this.specialAchievement,
+    this.csrParticipation= false,
+    this.specialAchievement=false,
     this.specialAchievementText,
     this.additionalInitiatives,
     this.history,
@@ -147,7 +166,18 @@ class GuardingMastersDataModel {
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? EntrySecurity.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         inputDate = json['inputDate'] as String?,
         covidFirstDoseDate = json['covidFirstDoseDate'] as String?,
+        covidSecondDoseDate = json['covidSecondDoseDate'] as String?,
+        covidPrecautionaryDoseDate = json['covidPrecautionaryDoseDate'] as String?,
+        ertCertificationDate = json['ertCertificationDate'] as String?,
+        firstAidTrainingCompletionDate = json['firstAidTrainingCompletionDate'] as String?,
+        pvcIssuedDate = json['pvcIssuedDate'] as String?,
+        pvcExpiryDate = json['pvcExpiryDate'] as String?,
+  dateOfBirth = json['dateOfBirth'] as String?,
+  dateOfJoining = json['dateOfJoinig'] as String?,
         guardingPoc = json['guardingPoc'] as String?,
+        vendor = (json['vendor'] as Map<String, dynamic>?) != null
+            ? Department.fromJson(json['vendor'] as Map<String, dynamic>)
+            : null,
         status = json['status'] as int?,
         guardRank = json['guardRank'] as int?,
         entities = (json['entities'] as List?)
@@ -159,9 +189,9 @@ class GuardingMastersDataModel {
         contactNo = json['contactNo'] as String?,
         maritalStatus = json['maritalStatus'] as int?,
         typeOfDeployment = json['typeOfDeployment'] as int?,
-        deploymentOrderSubmitted = json['deploymentOrderSubmitted'] as bool?,
+        deploymentOrderSubmitted = json['deploymentOrderSubmitted'],
         deploymentOrders = json['deploymentOrders'] as List?,
-        physicallyFit = json['physicallyFit'] as bool?,
+        physicallyFit = json['physicallyFit'],
         localLanguage = json['localLanguage'] as String?,
         localLangProficiencyR = json['localLangProficiencyR'] as bool?,
         hindiLangProficiencyR = json['hindiLangProficiencyR'] as bool?,
@@ -177,18 +207,18 @@ class GuardingMastersDataModel {
         localAddress = json['localAddress'] as String?,
         qualifications = json['qualifications'] as List?,
         pvc = json['pvc'] as List?,
-        trainingCertificateProvided = json['trainingCertificateProvided'] as bool?,
+        trainingCertificateProvided = json['trainingCertificateProvided'] ,
         trainingCertificates = json['trainingCertificates'] as List?,
         medicalCertificates = json['medicalCertificates'] as List?,
         systemAccess = json['systemAccess'] as int?,
-        onboarded = json['onboarded'] as bool?,
+        onboarded = json['onboarded'] ,
         esicNo = json['esicNo'] as String?,
         uanNo = json['uanNo'] as String?,
         msgbExempted = json['msgbExempted'] as bool?,
         msgbFormBSubmitted = json['msgbFormBSubmitted'] as int?,
         staffMsgbCompliant = json['staffMsgbCompliant'] as int?,
-        csrParticipation = json['csrParticipation'] as bool?,
-        specialAchievement = json['specialAchievement'] as bool?,
+        csrParticipation = json['csrParticipation'] ,
+        specialAchievement = json['specialAchievement'],
         specialAchievementText = json['specialAchievementText'] as String?,
         additionalInitiatives = json['additionalInitiatives'] as String?,
         history = json['history'] as List?,
@@ -202,6 +232,14 @@ class GuardingMastersDataModel {
     'entrySecurity' : entrySecurity?.toJson(),
     'inputDate' : inputDate,
     'covidFirstDoseDate' : covidFirstDoseDate,
+    'covidSecondDoseDate' : covidSecondDoseDate,
+    'covidPrecautionaryDoseDate': covidPrecautionaryDoseDate,
+    'ertCertificationDate': ertCertificationDate,
+    'firstAidTrainingCompletionDate': firstAidTrainingCompletionDate,
+    'pvcExpiryDate': pvcExpiryDate,
+    'pvcIssuedDate': pvcIssuedDate,
+    'dateOfBirth': dateOfBirth,
+    'dateOfJoinig': dateOfJoining,
     'status' : status,
     'guardRank' : guardRank,
     'employeeCode' : employeeCode,

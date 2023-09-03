@@ -1,28 +1,34 @@
+
 import 'dart:developer';
 
+import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/location.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../main_DEV.dart';
 import '../../../../../common_widgets/app_button.dart';
 import '../../../../../common_widgets/base_widget/base_app_bar.dart';
+import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
+import '../../../../../common_widgets/base_widget/base_drop_down.dart';
 import '../../../../../common_widgets/base_widget/date_picker_dialog.dart';
+import '../../../../../common_widgets/base_widget/multiple_selection_pop_up.dart';
 import '../../../../../common_widgets/base_widget/radio_buttons_yes_no.dart';
 import '../../../../../common_widgets/base_widget/selected_tile_value_widget.dart';
 import '../../../../../common_widgets/basic_reusable_widgets.dart';
+import '../../../../../common_widgets/create_fields.dart';
 import '../../../../../common_widgets/custom_list_expansion_pop_up.dart';
-import '../../../../../common_widgets/custom_simple_list_texts.dart';
 import '../../../../../common_widgets/image_download.dart';
 import '../../../../../common_widgets/new_search_textfield.dart';
+import '../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../constants/app_icon.dart';
 import '../../../../../constants/constants.dart';
+import '../../../../../models/department.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../routing/router.dart';
 import '../../../../../utils/app_themes/colors/app_color.dart';
 import '../../../../../utils/app_themes/styles/app_styles.dart';
 import '../../../../../utils/customalert.dart';
 import '../../../../../utils/helpers/keys/keys.dart';
-import '../../../../../utils/util.dart';
 import '../../../../../utils/validators/validator.dart';
 import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import '../../../../createfound/models/create_found_request.dart';
@@ -54,46 +60,60 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   List<CreateImage>? getFiles;
   List<FoundImage>? getAttachments;
   TextEditingController takenOutOnDateController = TextEditingController();
-  TextEditingController dateOfBirth =
-      TextEditingController();
-  TextEditingController dateOfJoining =
-  TextEditingController();
-  TextEditingController pvcIssuedDate =
-  TextEditingController();
-  TextEditingController pvcExpiryDate =
-  TextEditingController();
-  TextEditingController medicalCertificateValidUntil =
-  TextEditingController();
+  TextEditingController dateOfBirth = TextEditingController();
+  TextEditingController dateOfJoining = TextEditingController();
+  TextEditingController participationDate = TextEditingController();
+  TextEditingController pvcIssuedDate = TextEditingController();
+  TextEditingController pvcExpiryDate = TextEditingController();
+  TextEditingController medicalCertificateValidUntil = TextEditingController();
   TextEditingController dateOfFirstCovidDoseController =
   TextEditingController();
-  TextEditingController dateOfSecondCovidDose =
-  TextEditingController();
-  TextEditingController dateOfPrecautionaryCovidDose =
-  TextEditingController();
-  TextEditingController ertCertificationDate =
-  TextEditingController();
-  TextEditingController firstAidTrainingCompletionDate  =
+  TextEditingController dateOfSecondCovidDose = TextEditingController();
+  TextEditingController dateOfPrecautionaryCovidDose = TextEditingController();
+  TextEditingController ertCertificationDate = TextEditingController();
+  TextEditingController firstAidTrainingCompletionDate =
   TextEditingController();
   bool isDisabled = true;
-
+  List<String> systemAccessDropDownValues = const [
+    "Yes",
+    "No",
+    "Revoke"
+  ];
+  List<String> maritalStatusDropDownValues = const [
+    "Single",
+    "Married",
+  ];
+  List<String> genderDropDownValues = const [
+    "Male",
+    "Female",
+    "Transgender"
+  ];
+  List<String> dutyTypeDropDownValues = const [
+    "Building",
+    "Escort",
+    "Facility",
+    "Building & Escort"
+  ];
+  List<String> guardRankDropDownValues = const [
+    "Security Guard",
+    "Security Officer",
+    "Security Supervisor",
+    "Security Facilitator",
+    "Gun Man",
+    "Lady Security Guard"
+  ];
+  List<String> deploymentTypeDropDownValues = const [
+    "New Deployment",
+  ];
 
   @override
   void initState() {
     super.initState();
     BlocProvider.of<GuardingMasterDataDetailsCubit>(context).initializeValues();
-    initializeControllerValues();
-  }
-  void initializeControllerValues() {
-    dateOfFirstCovidDoseController.text = Utils.timestamptoDateConversion(
-        int.parse(widget.guardingMasterData?.covidFirstDoseDate ?? '0'), Constants.dateFormat);
-    // TODO: Add remaining Date Values here
-
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     final size = MediaQuery.of(context).size;
     final height = size.height;
     return BlocConsumer<GuardingMasterDataDetailsCubit,
@@ -166,1032 +186,1347 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
         color: AppColors.navigationSkybluecolor,
         child: SingleChildScrollView(
             child: Column(children: [
-          Container(
-            height: height * 0.01,
-            color: AppColors.navigationSkybluecolor,
-          ),
-          Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
+              Container(
+                height: height * 0.01,
+                color: AppColors.navigationSkybluecolor,
+              ),
+              Container(
+                  decoration: const ShapeDecoration(
+                      color: AppColors.backgroundWhitecolor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
-              child: Form(
-                  key: _formKey,
-                  autovalidateMode: state.guardingMasterData.status == 4
-                      ? AutovalidateMode.disabled
-                      : AutovalidateMode.onUserInteraction,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20),
-                          child: Column(children: [
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Status
-                            CommonWidgets.textDisplay(
-                                Constants.status, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              isEnable: false,
-                              isDisableColor: true,
-                              textFormKey: Keys.statusTextController,
-                              hintText: '',
-                              initialValue: getStatusString(
-                                  state.guardingMasterData.status ?? 0),
-                              onChange: (String value) {},
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Created By
-                            CommonWidgets.verticalTextHandling(
-                                Constants.createdby,
-                                state.loggedInUserDetails?.name ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Date of creation
-                            CommonWidgets.textDisplay(Constants.dateofcreation,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(
-                                state.guardingMasterData.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            ///Building  Location
-                            CommonWidgets.textDisplay(
-                                Constants.buildingLocation, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            locationWidgetdislay(state),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Sl No.
-                            CommonWidgets.horizentaltextHandling(Constants.slno,
-                                state.guardingMasterData.slNo ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// upload Photo
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.textDisplay(
-                                    Constants.uploadPhoto, Styles.textStyleBlack14)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? uploadWidget(state)
-                                : Container(),
-
-                            // Attachments
-                            getSpaceattchment(height),
-                            getAttachement(state, height),
-
-                            /// Received For
-                         /*   if (!state.materialMovement.originalReceiver) ...[
-                              Column(
-                                children: [
-                                  CommonWidgets.textDisplay(
-                                    Constants.receivedFor,
-                                    Styles.textStyleBlack14,
+                      )),
+                  child: Form(
+                      key: _formKey,
+                      autovalidateMode: state.guardingMasterData.status == 4
+                          ? AutovalidateMode.disabled
+                          : AutovalidateMode.onUserInteraction,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0, right: 20),
+                              child: Column(children: [
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    Constants.generalinformation,
+                                    style: Styles.styleHeaderGreyText16,
                                   ),
-                                  widget.guardingMasterData == null
-                                      ? TextfieldAddButton(
-                                      title: state
-                                          .materialMovement.receiverEmail,
-                                      height: 70,
-                                      isDisableColor:
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Status
+                                CommonWidgets.textDisplay(
+                                    Constants.status, Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                FlutterInputField(
+                                  isEnable: false,
+                                  isDisableColor: true,
+                                  textFormKey: Keys.statusTextController,
+                                  hintText: '',
+                                  initialValue: getStatusString(
+                                      state.guardingMasterData.status ?? 0),
+                                  onChange: (String value) {},
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Created By
+                                CommonWidgets.verticalTextHandling(
+                                    Constants.createdby,
+                                    state.loggedInUserDetails?.name ?? ''),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Date of creation
+                                CommonWidgets.textDisplay(Constants.dateofcreation,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                datecreateWidgetdisplay(
+                                    state.guardingMasterData.inputDate ?? ''),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                ///Building  Location
+                                CommonWidgets.textDisplay(
+                                    Constants.buildingLocation,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                locationWidgetdislay(state),
+
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Entity
+                                CommonWidgets.textDisplay(
+                                  Constants.entity,
+                                  Styles.textStyleBlack14,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                                entityaddButtonwidgetLoading(
+                                  context: context,
+                                  state: state,
+                                  selectedValues:
+                                  state.guardingMasterData.entities ?? [],
+                                  all: state.listOfEntities ?? [],
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Sl No.
+                                CommonWidgets.horizentaltextHandling(Constants.slno,
+                                    state.guardingMasterData.slNo ?? ''),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                             /// Guard Name
+                             /*   if (!state.guardingMasterData
+                                    .deploymentOrderSubmitted) ...[
+                                  Column(
+                                    children: [
+                                      CommonWidgets.textDisplay(
+                                        Constants.guardName,
+                                        Styles.textStyleBlack14,
+                                      ),
                                       widget.guardingMasterData == null
-                                          ? false
-                                          : true,
-                                      onTap: () {
-                                        if (widget.guardingMasterData ==
-                                            null) {
-                                          BaseDialog().userDialog(
+                                          ? TextfieldAddButton(
+                                        // title: state
+                                        //    .guardingMasterData.guard,
+                                          height: 60,
+                                          isDisableColor:
+                                          widget.guardingMasterData == null
+                                              ? false
+                                              : true,
+                                          onTap: () {
+                                            if (widget.guardingMasterData ==
+                                                null) {
+                                              BaseDialog().userDialog(
+                                                context: context,
+                                                users: state.emailUsers!,
+                                                onTap: (BaseUser user) {
+                                                  BlocProvider.of<
+                                                      GuardingMasterDataDetailsCubit>(
+                                                      context)
+                                                      .updateDropdownValues(
+                                                      entities: []);
+                                                },
+                                              );
+                                            }
+                                          })
+                                          : FlutterInputField(
+                                        // initialValue: state.guardingMasterData
+                                        //      .guard,
+                                        textFormKey:
+                                        Keys.depositorTextController,
+                                        hintText: '',
+                                        isEnable:
+                                        state.guardingMasterData.status !=
+                                            6,
+                                        isDisableColor:
+                                        state.guardingMasterData.status ==
+                                            6,
+                                        onChange: (String username) {},
+                                        validateTextField: (String? user) {},
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                    ],
+                                  ),
+                                ],*/
+                                /// upload Photo
+                                widget.guardingMasterData == null
+                                    ? CommonWidgets.textDisplay(
+                                    Constants.uploadPhoto,
+                                    Styles.textStyleBlack14)
+                                    : Container(),
+                                widget.guardingMasterData == null
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001)
+                                    : Container(),
+                                widget.guardingMasterData == null
+                                    ? uploadWidget(state)
+                                    : Container(),
+
+                                // Attachments
+                                getSpaceattchment(height),
+                                getAttachement(state, height),
+
+                                /// Vendor
+                                CommonWidgets.textDisplay(
+                                  Constants.vendor,
+                                  Styles.textStyleBlack14,
+                                ),
+                                widget.guardingMasterData == null
+                                    ? FlutterInputField(
+                                  initialValue: state.guardingMasterData.vendor?.name,
+                                  textFormKey: Keys.vendorDepartmentKey,
+                                  hintText: '',
+                                  isEnable: true,
+                                  isDisableColor: false,
+                                  onChange: (String value) {},
+                                  validateTextField: (String? user) {},
+                                )
+                                    : TextfieldAddButton(
+                                  title: state.guardingMasterData.vendor?.name,
+                                  height: 60,
+                                  isDisableColor: false,
+                                  onTap: () {
+                                    BaseDeparmentDialog().departmentDialog(
+                                      context: context,
+                                      departments: state.departments,
+                                      onTap: (Department department) {
+                                        BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                                            .updateDropdownValues(
+                                            vendor: department);
+                                      },
+                                    );
+                                  },
+                                ),
+
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Guarding POC
+                                CommonWidgets.textDisplay(
+                                    Constants.guardingPoc, Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                FlutterInputField(
+                                  keyboardType: TextInputType.number,
+                                  initialValue:
+                                  state.guardingMasterData.guardingPoc,
+                                  textFormKey: Keys.guardingPOCKey,
+                                  hintText: '',
+                                  isEnable: widget.guardingMasterData == null
+                                      ? true
+                                      : (widget.guardingMasterData != null &&
+                                      (widget.guardingMasterData
+                                          ?.guardingPoc ==
+                                          null))
+                                      ? false
+                                      : true,
+                                  isDisableColor: (widget.guardingMasterData !=
+                                      null &&
+                                      (widget.guardingMasterData?.guardingPoc !=
+                                          null))
+                                      ? true
+                                      : false,
+                                  onChange: (String value) {
+                                    state.guardingMasterData.guardingPoc = value;
+                                    context
+                                        .read<GuardingMasterDataDetailsCubit>()
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Guarding Agency Employee Code
+                                CommonWidgets.textDisplay(
+                                    Constants.guardingAgencyEmpCode,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                FlutterInputField(
+                                  keyboardType: TextInputType.number,
+                                  initialValue:
+                                  state.guardingMasterData.employeeCode,
+                                  textFormKey: Keys.guardingAgencyKey,
+                                  hintText: '',
+                                  isEnable: widget.guardingMasterData == null
+                                      ? true
+                                      : (widget.guardingMasterData != null &&
+                                      (widget.guardingMasterData
+                                          ?.employeeCode ==
+                                          null))
+                                      ? false
+                                      : true,
+                                  isDisableColor:
+                                  (widget.guardingMasterData != null &&
+                                      (widget.guardingMasterData
+                                          ?.employeeCode !=
+                                          null))
+                                      ? true
+                                      : false,
+                                  onChange: (String value) {
+                                    state.guardingMasterData.employeeCode = value;
+                                    context
+                                        .read<GuardingMasterDataDetailsCubit>()
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Rank
+                                CommonWidgets.textDisplay(Constants.rank,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                BaseDropDown().getDropDown(
+                                    isDisabled: state.guardingMasterData.status != 6,
+                                    textController: returnableTextController,
+                                    onTap: () {
+                                      if (isDisabled) {
+                                        BaseDropDown().assetTypeDialog(
                                             context: context,
-                                            users: state.emailUsers!,
-                                            onTap: (BaseUser user) {
+                                            dropDownValues:
+                                            guardRankDropDownValues,
+                                            onTap: (String value) {
+                                              state.guardingMasterData.guardRank;
                                               BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
                                                   context)
                                                   .updateDropdownValues(
-                                                  :
-                                                  user);
-                                            },
-                                          );
-                                        }
-                                      })
-                                      : FlutterInputField(
-                                    initialValue: state.materialMovement
-                                        .otherReceiverName,
-                                    textFormKey:
-                                    Keys.depositorTextController,
+                                                // systemAccess: systemAccess
+                                              );
+                                            });
+                                      }
+                                    }),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                /// DB Employee ID
+                                CommonWidgets.textDisplay(Constants.dbEmployeeId,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                FlutterInputField(
+                                  keyboardType: TextInputType.number,
+                                  initialValue:
+                                  state.guardingMasterData.guardingPoc,
+                                  textFormKey: Keys.dbEmployeeIDKey,
+                                  hintText: '',
+                                  isEnable: widget.guardingMasterData == null
+                                      ? true
+                                      : (widget.guardingMasterData != null &&
+                                      (widget.guardingMasterData
+                                          ?.dbEmployeeId ==
+                                          null))
+                                      ? false
+                                      : true,
+                                  isDisableColor:
+                                  (widget.guardingMasterData != null &&
+                                      (widget.guardingMasterData
+                                          ?.dbEmployeeId !=
+                                          null))
+                                      ? true
+                                      : false,
+                                  onChange: (String value) {
+                                    state.guardingMasterData.dbEmployeeId = value;
+                                    context
+                                        .read<GuardingMasterDataDetailsCubit>()
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Type of Duty
+                                CommonWidgets.textDisplay(Constants.typeOfDuty,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                BaseDropDown().getDropDown(
+                                    isDisabled: state.guardingMasterData.status != 6,
+                                    textController: returnableTextController,
+                                    onTap: () {
+                                      if (isDisabled) {
+                                        BaseDropDown().assetTypeDialog(
+                                            context: context,
+                                            dropDownValues:
+                                            dutyTypeDropDownValues,
+                                            onTap: (String value) {
+                                              state.guardingMasterData.gender;
+                                              BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                                  context)
+                                                  .updateDropdownValues(
+                                                // systemAccess: systemAccess
+                                              );
+                                            });
+                                      }
+                                    }),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Gender
+                                CommonWidgets.textDisplay(Constants.gender,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                BaseDropDown().getDropDown(
+                                    isDisabled: state.guardingMasterData.status != 6,
+                                    textController: returnableTextController,
+                                    onTap: () {
+                                      if (isDisabled) {
+                                        BaseDropDown().assetTypeDialog(
+                                            context: context,
+                                            dropDownValues:
+                                            genderDropDownValues,
+                                            onTap: (String value) {
+                                              state.guardingMasterData.gender;
+                                              BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                                  context)
+                                                  .updateDropdownValues(
+                                                // systemAccess: systemAccess
+                                              );
+                                            });
+                                      }
+                                    }),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                   /// Marital Status
+                                CommonWidgets.textDisplay(Constants.maritalStatus,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                BaseDropDown().getDropDown(
+                                    isDisabled: state.guardingMasterData.status != 6,
+                                    textController: returnableTextController,
+                                    onTap: () {
+                                      if (isDisabled) {
+                                        BaseDropDown().assetTypeDialog(
+                                            context: context,
+                                            dropDownValues:
+                                            maritalStatusDropDownValues,
+                                            onTap: (String value) {
+                                              state.guardingMasterData.maritalStatus;
+                                              BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                                  context)
+                                                  .updateDropdownValues(
+                                                // systemAccess: systemAccess
+                                              );
+                                            });
+                                      }
+                                    }),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Contact Num
+                                CommonWidgets.textDisplay(
+                                    Constants.mobileNum, Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                FlutterInputField(
+                                  keyboardType: TextInputType.number,
+                                  initialValue: state.guardingMasterData.contactNo,
+                                  textFormKey: Keys.contactNoKey,
+                                  hintText: '',
+                                  isEnable: widget.guardingMasterData == null
+                                      ? true
+                                      : (widget.guardingMasterData != null &&
+                                      (widget.guardingMasterData
+                                          ?.contactNo ==
+                                          null))
+                                      ? false
+                                      : true,
+                                  isDisableColor: (widget.guardingMasterData !=
+                                      null &&
+                                      (widget.guardingMasterData?.contactNo !=
+                                          null))
+                                      ? true
+                                      : false,
+                                  onChange: (String value) {
+                                    state.guardingMasterData.contactNo = value;
+                                    context
+                                        .read<GuardingMasterDataDetailsCubit>()
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Date of Birth
+                                CommonWidgets.textDisplay(
+                                  Constants.dateOfBirth,
+                                  Styles.textStyleBlack14,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: dateOfBirth,
+                                  onChange: (String value) {
+                                    log('--fr-value-${dateOfBirth.text}------');
+                                    //widget.guardingMasterData?.inputDate = value;
+                                    BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                        context)
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  context: context,
+                                ),
+
+                                /// Date of Joining
+                                CommonWidgets.textDisplay(
+                                  Constants.dateOfJoining,
+                                  Styles.textStyleBlack14,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: dateOfJoining,
+                                  onChange: (String value) {
+                                    log('--fr-value-${dateOfJoining.text}------');
+                                    //widget.guardingMasterData?.inputDate = value;
+                                    BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                        context)
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  context: context,
+                                ),
+                                /// Type of Deployment
+                                CommonWidgets.textDisplay(Constants.typeOfDeployment,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                BaseDropDown().getDropDown(
+                                    isDisabled: state.guardingMasterData.status != 6,
+                                    textController: returnableTextController,
+                                    onTap: () {
+                                      if (isDisabled) {
+                                        BaseDropDown().assetTypeDialog(
+                                            context: context,
+                                            dropDownValues:
+                                            deploymentTypeDropDownValues,
+                                            onTap: (String value) {
+                                              state.guardingMasterData.typeOfDeployment;
+                                              BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                                  context)
+                                                  .updateDropdownValues(
+                                                 // systemAccess: systemAccess
+                                                 );
+                                            });
+                                      }
+                                    }),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Deployment order Submitted?
+                                CommonWidgets.textDisplay(
+                                    Constants.deploymentOrderSubmitted,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.guardingMasterData.status ?? 0,
+                                    selectedValue: state.guardingMasterData
+                                        .deploymentOrderSubmitted
+                                        ? 1
+                                        : 0,
+                                    onChangedYes: widget
+                                        .guardingMasterData?.status ==
+                                        6
+                                        ? null
+                                        : (val) {
+                                      state.guardingMasterData
+                                          .deploymentOrderSubmitted = true;
+                                      BlocProvider.of<
+                                          GuardingMasterDataDetailsCubit>(
+                                          context)
+                                          .showFields(
+                                          deploymentOrderSubmitted: true);
+                                      //.onModelValueChange(state.guardingMasterData
+                                      //);
+                                    },
+                                    onChangedNo:
+                                    widget.guardingMasterData?.status == 4
+                                        ? null
+                                        : (val) {
+                                      state.guardingMasterData
+                                          .deploymentOrderSubmitted =
+                                      false;
+                                      BlocProvider.of<
+                                          GuardingMasterDataDetailsCubit>(
+                                          context)
+                                          .showFields(
+                                          deploymentOrderSubmitted:
+                                          false);
+                                      // .onModelValueChange(state.guardingMasterData
+                                      //  );
+                                    }),
+
+                                /// upload File
+                                if (state.guardingMasterData
+                                    .deploymentOrderSubmitted) ...[
+                                  widget.guardingMasterData == null
+                                      ? CommonWidgets.textDisplay(
+                                      Constants.uploadfile,
+                                      Styles.textStyleBlack14)
+                                      : Container(),
+                                  widget.guardingMasterData == null
+                                      ? CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001)
+                                      : Container(),
+                                  widget.guardingMasterData == null
+                                      ? uploadWidget(state)
+                                      : Container(),
+                                  // Attachments
+                                  getSpaceattchment(height),
+                                  getAttachement(state, height),
+                                ],
+
+                                /// Physically Fit?
+                                CommonWidgets.textDisplay(Constants.physicallyFit,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.guardingMasterData.status ?? 0,
+                                    selectedValue:
+                                    state.guardingMasterData.physicallyFit
+                                        ? 1
+                                        : 0,
+                                    onChangedYes:
+                                    widget.guardingMasterData?.status == 6
+                                        ? null
+                                        : (val) {
+                                      state.guardingMasterData
+                                          .physicallyFit = true;
+                                      BlocProvider.of<
+                                          GuardingMasterDataDetailsCubit>(
+                                          context)
+                                          .onModelValueChange(
+                                          state.guardingMasterData);
+                                    },
+                                    onChangedNo:
+                                    widget.guardingMasterData?.status == 4
+                                        ? null
+                                        : (val) {
+                                      state.guardingMasterData
+                                          .physicallyFit = false;
+                                      BlocProvider.of<
+                                          GuardingMasterDataDetailsCubit>(
+                                          context)
+                                          .onModelValueChange(
+                                          state.guardingMasterData);
+                                    }),
+
+                                /// Security Experience
+                                CommonWidgets.textDisplay(
+                                    Constants.securityExperience,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                FlutterInputField(
+                                  lineHeight: 6,
+                                  initialValue:
+                                  state.guardingMasterData.securityExperience,
+                                  textFormKey: Keys.securityExperienceKey,
+                                  hintText: Constants.informationhere,
+                                  isEnable: state.guardingMasterData.status != 4,
+                                  isDisableColor:
+                                  state.guardingMasterData.status == 4,
+                                  onChange: (String value) {
+                                    state.guardingMasterData.securityExperience =
+                                        value;
+                                    context
+                                        .read<GuardingMasterDataDetailsCubit>()
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// upload File
+                                widget.guardingMasterData == null
+                                    ? CommonWidgets.textDisplay(
+                                    Constants.uploadfile,
+                                    Styles.textStyleBlack14)
+                                    : Container(),
+                                widget.guardingMasterData == null
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001)
+                                    : Container(),
+                                widget.guardingMasterData == null
+                                    ? uploadWidget(state)
+                                    : Container(),
+                                // Attachments
+                                getSpaceattchment(height),
+                                getAttachement(state, height),
+
+                                /// permanent Address
+                                CommonWidgets.textDisplay(
+                                    Constants.permanentAddress,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                FlutterInputField(
+                                  lineHeight: 6,
+                                  initialValue:
+                                  state.guardingMasterData.permanentAddress,
+                                  textFormKey: Keys.permanentAddressKey,
+                                  hintText: Constants.informationhere,
+                                  isEnable: state.guardingMasterData.status != 4,
+                                  isDisableColor:
+                                  state.guardingMasterData.status == 4,
+                                  onChange: (String value) {
+                                    state.guardingMasterData.permanentAddress =
+                                        value;
+                                    context
+                                        .read<GuardingMasterDataDetailsCubit>()
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// upload File
+                                widget.guardingMasterData == null
+                                    ? CommonWidgets.textDisplay(
+                                    Constants.uploadfile,
+                                    Styles.textStyleBlack14)
+                                    : Container(),
+                                widget.guardingMasterData == null
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001)
+                                    : Container(),
+                                widget.guardingMasterData == null
+                                    ? uploadWidget(state)
+                                    : Container(),
+
+                                // Attachments
+                                getSpaceattchment(height),
+                                getAttachement(state, height),
+
+                                /// Local Address
+                                CommonWidgets.textDisplay(Constants.localAddress,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                FlutterInputField(
+                                  lineHeight: 6,
+                                  initialValue:
+                                  state.guardingMasterData.localAddress,
+                                  textFormKey: Keys.localAddressKey,
+                                  hintText: Constants.informationhere,
+                                  isEnable: state.guardingMasterData.status != 4,
+                                  isDisableColor:
+                                  state.guardingMasterData.status == 4,
+                                  onChange: (String value) {
+                                    state.guardingMasterData.localAddress = value;
+                                    context
+                                        .read<GuardingMasterDataDetailsCubit>()
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// upload File
+                                widget.guardingMasterData == null
+                                    ? CommonWidgets.textDisplay(
+                                    Constants.uploadfile,
+                                    Styles.textStyleBlack14)
+                                    : Container(),
+                                widget.guardingMasterData == null
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001)
+                                    : Container(),
+                                widget.guardingMasterData == null
+                                    ? uploadWidget(state)
+                                    : Container(),
+
+                                // Attachments
+                                getSpaceattchment(height),
+                                getAttachement(state, height),
+
+                                /// Qualifications
+                                CommonWidgets.textDisplay(
+                                  Constants.qualifications,
+                                  Styles.textStyleBlack14,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                                entityaddButtonwidgetLoading(
+                                  context: context,
+                                  state: state,
+                                  selectedValues:
+                                  state.guardingMasterData.entities ?? [],
+                                  all: state.listOfEntities ?? [],
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// PVC Issued Date
+                                CommonWidgets.textDisplay(
+                                  Constants.pvcIssuedDate,
+                                  Styles.textStyleBlack14,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: pvcIssuedDate,
+                                  onChange: (String value) {
+                                    log('--fr-value-${pvcIssuedDate.text}------');
+                                    // widget.guardingMasterData?.inputDate = value;
+                                    BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                        context)
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  context: context,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// PVC Expiry Date
+                                CommonWidgets.textDisplay(
+                                  Constants.pvcExpiryDate,
+                                  Styles.textStyleBlack14,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: pvcExpiryDate,
+                                  onChange: (String value) {
+                                    log('--fr-value-${pvcIssuedDate.text}------');
+                                    // widget.guardingMasterData?.inputDate = value;
+                                    BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                        context)
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  context: context,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// upload File
+                                widget.guardingMasterData == null
+                                    ? CommonWidgets.textDisplay(
+                                    Constants.uploadfile,
+                                    Styles.textStyleBlack14)
+                                    : Container(),
+                                widget.guardingMasterData == null
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001)
+                                    : Container(),
+                                widget.guardingMasterData == null
+                                    ? uploadWidget(state)
+                                    : Container(),
+
+                                // Attachments
+                                getSpaceattchment(height),
+                                getAttachement(state, height),
+
+                                /// Training Certificate
+                                CommonWidgets.textDisplay(
+                                    Constants.trainingCertificate,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.guardingMasterData.status ?? 0,
+                                    selectedValue: state.guardingMasterData
+                                        .trainingCertificateProvided
+                                        ? 1
+                                        : 0,
+                                    onChangedYes:
+                                    widget.guardingMasterData?.status == 6
+                                        ? null
+                                        : (val) {
+                                      state.guardingMasterData
+                                          .trainingCertificateProvided =
+                                      true;
+                                      BlocProvider.of<
+                                          GuardingMasterDataDetailsCubit>(
+                                          context)
+                                          .onModelValueChange(
+                                          state.guardingMasterData);
+                                    },
+                                    onChangedNo:
+                                    widget.guardingMasterData?.status == 4
+                                        ? null
+                                        : (val) {
+                                      state.guardingMasterData
+                                          .trainingCertificateProvided =
+                                      false;
+                                      BlocProvider.of<
+                                          GuardingMasterDataDetailsCubit>(
+                                          context)
+                                          .onModelValueChange(
+                                          state.guardingMasterData);
+                                    }),
+                                if (state.guardingMasterData
+                                    .trainingCertificateProvided) ...[
+                                  /// upload File
+                                  widget.guardingMasterData == null
+                                      ? CommonWidgets.textDisplay(
+                                      Constants.uploadfile,
+                                      Styles.textStyleBlack14)
+                                      : Container(),
+                                  widget.guardingMasterData == null
+                                      ? CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001)
+                                      : Container(),
+                                  widget.guardingMasterData == null
+                                      ? uploadWidget(state)
+                                      : Container(),
+
+                                  // Attachments
+                                  getSpaceattchment(height),
+                                  getAttachement(state, height),
+                                ],
+
+                                /// Medical Certificate Valid Until
+                                CommonWidgets.textDisplay(
+                                  Constants.medicalCertificateValidUntil,
+                                  Styles.textStyleBlack14,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: medicalCertificateValidUntil,
+                                  onChange: (String value) {
+                                    log('--fr-value-${medicalCertificateValidUntil.text}------');
+                                    // widget.guardingMasterData?.inputDate = value;
+                                    BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                        context)
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  context: context,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// upload File
+                                widget.guardingMasterData == null
+                                    ? CommonWidgets.textDisplay(
+                                    Constants.uploadfile,
+                                    Styles.textStyleBlack14)
+                                    : Container(),
+                                widget.guardingMasterData == null
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001)
+                                    : Container(),
+                                widget.guardingMasterData == null
+                                    ? uploadWidget(state)
+                                    : Container(),
+
+                                // Attachments
+                                getSpaceattchment(height),
+                                getAttachement(state, height),
+
+                            /*    /// System Access
+                                CommonWidgets.textDisplay(Constants.systemAccess,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                GestureDetector(
+                                  onTap: () {
+                                    if (state.guardingMasterData.status != 4) {
+                                      assetTypeDialog(state);
+                                    }
+                                  },
+                                  child: FlutterInputField(
+                                    textFieldController: returnableTextController,
+                                    textFormKey: Keys.systemAccessKey,
                                     hintText: '',
-                                    isEnable:
-                                    state.materialMovement.status !=
-                                        6,
+                                    isEnable: false,
                                     isDisableColor:
-                                    state.materialMovement.status ==
-                                        6,
-                                    onChange: (String username) {},
-                                    validateTextField:
-                                        (String? user) {},
+                                    state.guardingMasterData.status == 4,
+                                    onChange: (String value) {
+                                      log('val----$value');
+                                    },
+                                    validateTextField: (String? user) {},
+                                    suffixWidget: IconButton(
+                                        icon: SvgPicture.asset(
+                                            width: 10,
+                                            height: 10,
+                                            AppIcon.dropdownicon,
+                                            key: const Key('closed_eye')),
+                                        onPressed: () {}),
                                   ),
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+*/
+                                /// System Access
+                                 CommonWidgets.textDisplay(Constants.systemAccess,
+                                     Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                BaseDropDown().getDropDown(
+                                    isDisabled: state.guardingMasterData.status != 6,
+                                    textController: returnableTextController,
+                                    onTap: () {
+                                      if (isDisabled) {
+                                        BaseDropDown().assetTypeDialog(
+                                            context: context,
+                                            dropDownValues:
+                                            systemAccessDropDownValues,
+                                            onTap: (String value) {
+                                              int systemAccess = value == 'systemAccess' ? 1 : 2 ;
+                                              state.guardingMasterData.systemAccess;
+                                              BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                                  context)
+                                                  .updateDropdownValues(
+                                                  systemAccess: systemAccess);
+                                            });
+                                      }
+                                    }),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+
+                                /// OnBoarded
+                                CommonWidgets.textDisplay(
+                                    Constants.onBoarded, Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.guardingMasterData.status ?? 0,
+                                    selectedValue:
+                                    state.guardingMasterData.onboarded ? 1 : 0,
+                                    onChangedYes:
+                                    widget.guardingMasterData?.status == 6
+                                        ? null
+                                        : (val) {
+                                      state.guardingMasterData.onboarded =
+                                      true;
+                                      BlocProvider.of<
+                                          GuardingMasterDataDetailsCubit>(
+                                          context)
+                                          .onModelValueChange(
+                                          state.guardingMasterData);
+                                    },
+                                    onChangedNo:
+                                    widget.guardingMasterData?.status == 4
+                                        ? null
+                                        : (val) {
+                                      state.guardingMasterData.onboarded =
+                                      false;
+                                      BlocProvider.of<
+                                          GuardingMasterDataDetailsCubit>(
+                                          context)
+                                          .onModelValueChange(
+                                          state.guardingMasterData);
+                                    }),
+
+                                /// ESIC No
+                                CommonWidgets.textDisplay(
+                                    Constants.esicNo, Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                FlutterInputField(
+                                  keyboardType: TextInputType.number,
+                                  initialValue: state.guardingMasterData.esicNo,
+                                  textFormKey: Keys.esicKey,
+                                  hintText: '',
+                                  isEnable: widget.guardingMasterData == null
+                                      ? true
+                                      : (widget.guardingMasterData != null &&
+                                      (widget.guardingMasterData?.esicNo ==
+                                          null))
+                                      ? false
+                                      : true,
+                                  isDisableColor:
+                                  (widget.guardingMasterData != null &&
+                                      (widget.guardingMasterData?.esicNo !=
+                                          null))
+                                      ? true
+                                      : false,
+                                  onChange: (String value) {
+                                    state.guardingMasterData.esicNo = value;
+                                    context
+                                        .read<GuardingMasterDataDetailsCubit>()
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// UAN  No
+                                CommonWidgets.textDisplay(
+                                    Constants.uanNo, Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                FlutterInputField(
+                                  keyboardType: TextInputType.number,
+                                  initialValue: state.guardingMasterData.uanNo,
+                                  textFormKey: Keys.uanNoKey,
+                                  hintText: '',
+                                  isEnable: widget.guardingMasterData == null
+                                      ? true
+                                      : (widget.guardingMasterData != null &&
+                                      (widget.guardingMasterData?.uanNo ==
+                                          null))
+                                      ? false
+                                      : true,
+                                  isDisableColor:
+                                  (widget.guardingMasterData != null &&
+                                      (widget.guardingMasterData?.uanNo !=
+                                          null))
+                                      ? true
+                                      : false,
+                                  onChange: (String value) {
+                                    state.guardingMasterData.uanNo = value;
+                                    context
+                                        .read<GuardingMasterDataDetailsCubit>()
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Date of First Covid Dose
+                                CommonWidgets.textDisplay(
+                                  Constants.dateOfFirstCovidDose,
+                                  Styles.textStyleBlack14,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: dateOfFirstCovidDoseController,
+                                  onChange: (String value) {
+                                    log('--fr-value-${dateOfFirstCovidDoseController.text}------');
+                                    // widget.guardingMasterData?.covidFirstDoseDate = value;
+                                    BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                        context)
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  context: context,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Date of Second Covid Dose
+                                CommonWidgets.textDisplay(
+                                  Constants.dateOfSecondCovidDose,
+                                  Styles.textStyleBlack14,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: dateOfSecondCovidDose,
+                                  onChange: (String value) {
+                                    log('--fr-value-${dateOfSecondCovidDose.text}------');
+                                    // widget.guardingMasterData?.inputDate = value;
+                                    BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                        context)
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  context: context,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Date of Precautionary Covid Dose
+                                CommonWidgets.textDisplay(
+                                  Constants.dateOfPrecautionaryCovidDose,
+                                  Styles.textStyleBlack14,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: dateOfPrecautionaryCovidDose,
+                                  onChange: (String value) {
+                                    log('--fr-value-${dateOfPrecautionaryCovidDose.text}------');
+                                    // widget.guardingMasterData?.inputDate = value;
+                                    BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                        context)
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  context: context,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// ERT Certification Date
+                                CommonWidgets.textDisplay(
+                                  Constants.ertCertificationDate,
+                                  Styles.textStyleBlack14,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: ertCertificationDate,
+                                  onChange: (String value) {
+                                    log('--fr-value-${ertCertificationDate.text}------');
+                                    //widget.guardingMasterData?.inputDate = value;
+                                    BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                        context)
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  context: context,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// First Aid Training Completion Date
+                                CommonWidgets.textDisplay(
+                                  Constants.firstAidTrainingCompletionDate,
+                                  Styles.textStyleBlack14,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: firstAidTrainingCompletionDate,
+                                  onChange: (String value) {
+                                    log('--fr-value-${firstAidTrainingCompletionDate.text}------');
+                                    // widget.guardingMasterData?.inputDate = value;
+                                    BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                        context)
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  context: context,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// CSR Participation
+                                CommonWidgets.textDisplay(
+                                    Constants.csrParticipation,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.guardingMasterData.status ?? 0,
+                                    selectedValue:
+                                    state.guardingMasterData.csrParticipation
+                                        ? 1
+                                        : 0,
+                                    onChangedYes:
+                                    widget.guardingMasterData?.status == 6
+                                        ? null
+                                        : (val) {
+                                      state.guardingMasterData
+                                          .csrParticipation = true;
+                                      BlocProvider.of<
+                                          GuardingMasterDataDetailsCubit>(
+                                          context)
+                                          .showFields(
+                                          csrParticipation: true);
+                                    },
+                                    onChangedNo:
+                                    widget.guardingMasterData?.status == 4
+                                        ? null
+                                        : (val) {
+                                      state.guardingMasterData
+                                          .csrParticipation = false;
+                                      BlocProvider.of<
+                                          GuardingMasterDataDetailsCubit>(
+                                          context)
+                                          .showFields(
+                                          csrParticipation: false);
+                                    }),
+                                if (state.guardingMasterData.csrParticipation) ...[
+                                  CommonWidgets.textDisplay(
+                                      Constants.participationDate,
+                                      Styles.textStyleBlack14),
+                                  GestureDetector(
+                                    onTap: () {},
+                                    child: Row(
+                                      children: <Widget>[
+                                        // Expanded(
+                                        //child:
+                                        const SizedBox(width: 14),
+                                        SvgPicture.asset(
+                                          AppIcon.pluscircle,
+                                          //color: AppColors.navigationSkybluecolor,
+                                        ),
+                                        // ),
+                                        const SizedBox(width: 10),
+                                        const Text(
+                                          Constants.addParticipationDates,
+                                          style: TextStyle(
+                                            color: AppColors.navigationSkybluecolor,
+                                            decoration: TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+
+                                /// Special Achivements
+                                CommonWidgets.textDisplay(
+                                    Constants.specialAchievements,
+                                    Styles.textStyleBlack14),
+                                RadioButtonsYesNo(
+                                    status: state.guardingMasterData.status ?? 0,
+                                    selectedValue:
+                                    state.guardingMasterData.specialAchievement
+                                        ? 1
+                                        : 0,
+                                    onChangedYes:
+                                    widget.guardingMasterData?.status == 6
+                                        ? null
+                                        : (val) {
+                                      state.guardingMasterData
+                                          .specialAchievement = true;
+                                      BlocProvider.of<
+                                          GuardingMasterDataDetailsCubit>(
+                                          context)
+                                          .showFields(
+                                          specialAchievement: true);
+                                      // .onModelValueChange(state.guardingMasterData
+                                      // );
+                                    },
+                                    onChangedNo:
+                                    widget.guardingMasterData?.status == 4
+                                        ? null
+                                        : (val) {
+                                      state.guardingMasterData
+                                          .specialAchievement = false;
+                                      BlocProvider.of<
+                                          GuardingMasterDataDetailsCubit>(
+                                          context)
+                                          .showFields(
+                                          specialAchievement: false);
+                                    }),
+
+                                if (state
+                                    .guardingMasterData.specialAchievement) ...[
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                      height * 0.001),
+                                  FlutterInputField(
+                                    lineHeight: 6,
+                                    initialValue: state
+                                        .guardingMasterData.additionalInitiatives,
+                                    textFormKey: Keys.additionInitiativesKey,
+                                    hintText: Constants.informationhere,
+                                    isEnable: state.guardingMasterData.status != 4,
+                                    isDisableColor:
+                                    state.guardingMasterData.status == 4,
+                                    onChange: (String value) {
+                                      state.guardingMasterData
+                                          .additionalInitiatives = value;
+                                      context
+                                          .read<GuardingMasterDataDetailsCubit>()
+                                          .onModelValueChange(
+                                          state.guardingMasterData);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                ],
+
+                                /// Additional Initiatives Info
+                                CommonWidgets.textDisplay(
+                                    Constants.additionalInitiativesInfo,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                FlutterInputField(
+                                  lineHeight: 6,
+                                  initialValue: state
+                                      .guardingMasterData.additionalInitiatives,
+                                  textFormKey: Keys.additionInitiativesKey,
+                                  hintText: Constants.informationhere,
+                                  isEnable: state.guardingMasterData.status != 4,
+                                  isDisableColor:
+                                  state.guardingMasterData.status == 4,
+                                  onChange: (String value) {
+                                    state.guardingMasterData.additionalInitiatives =
+                                        value;
+                                    context
+                                        .read<GuardingMasterDataDetailsCubit>()
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              ]),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// SubmitButton
+                            if (state.guardingMasterData.status != 4) ...[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  cancelButtonDisplay(),
+                                  submitButtonDisplay()
                                 ],
                               ),
-                            ],*/
-
-                            /// Guarding POC
-                            CommonWidgets.textDisplay(
-                                Constants.guardingPoc, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              initialValue:
-                                  state.guardingMasterData.guardingPoc,
-                              textFormKey: Keys.guardingPOCKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData
-                                                  ?.guardingPoc ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor: (widget.guardingMasterData !=
-                                          null &&
-                                      (widget.guardingMasterData?.guardingPoc !=
-                                          null))
-                                  ? true
-                                  : false,
-                              onChange: (String value) {
-                                state.guardingMasterData.guardingPoc = value;
-                                context
-                                    .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
-
-                            /// Guarding Agency Employee Code
-                            CommonWidgets.textDisplay(
-                                Constants.guardingAgencyEmpCode,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              initialValue:
-                                  state.guardingMasterData.employeeCode,
-                              textFormKey: Keys.guardingAgencyKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData
-                                                  ?.employeeCode ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor: (widget.guardingMasterData !=
-                                          null &&
-                                      (widget.guardingMasterData?.employeeCode !=
-                                          null))
-                                  ? true
-                                  : false,
-                              onChange: (String value) {
-                                state.guardingMasterData.employeeCode = value;
-                                context
-                                    .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
-
-                            /// Guard Rank
-                            CommonWidgets.textDisplay(
-                                Constants.rank,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            GestureDetector(
-                              onTap: () {
-                                if (state.guardingMasterData.status != 4) {
-                                  assetTypeDialog(state);
-                                }
-                              },
-                              child: FlutterInputField(
-                                textFieldController: returnableTextController,
-                                textFormKey: Keys.rankKey,
-                                hintText: '',
-                                isEnable: false,
-                                isDisableColor:
-                                state.guardingMasterData.status == 4,
-                                onChange: (String value) {
-                                  log('val----$value');
-                                },
-                                validateTextField: (String? user) {},
-                                suffixWidget: IconButton(
-                                    icon: SvgPicture.asset(
-                                        width: 10,
-                                        height: 10,
-                                        AppIcon.dropdownicon,
-                                        key: const Key('closed_eye')),
-                                    onPressed: () {}),
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// DB Employee ID
-                        CommonWidgets.textDisplay(
-                            Constants.dbEmployeeId,
-                            Styles.textStyleBlack14),
-                        CommonWidgets.verticalSpacerWidget(height * 0.001),
-                        FlutterInputField(
-                          keyboardType: TextInputType.number,
-                          initialValue:
-                          state.guardingMasterData.guardingPoc,
-                          textFormKey: Keys.dbEmployeeIDKey,
-                          hintText: '',
-                          isEnable: widget.guardingMasterData == null
-                              ? true
-                              : (widget.guardingMasterData != null &&
-                              (widget.guardingMasterData
-                                  ?.dbEmployeeId ==
-                                  null))
-                              ? false
-                              : true,
-                          isDisableColor: (widget.guardingMasterData !=
-                              null &&
-                              (widget.guardingMasterData?.dbEmployeeId !=
-                                  null))
-                              ? true
-                              : false,
-                          onChange: (String value) {
-                            state.guardingMasterData.dbEmployeeId = value;
-                            context
-                                .read<GuardingMasterDataDetailsCubit>()
-                                .onModelValueChange(
-                                state.guardingMasterData);
-                          },
-                          validateTextField: (String? user) {},
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.04),
-
-                            /// Type Of Duty
-                            CommonWidgets.textDisplay(
-                                Constants.typeOfDuty,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            GestureDetector(
-                              onTap: () {
-                                if (state.guardingMasterData.status != 4) {
-                                  assetTypeDialog(state);
-                                }
-                              },
-                              child: FlutterInputField(
-                                textFieldController: returnableTextController,
-                                textFormKey: Keys.typeOfDutyKey,
-                                hintText: '',
-                                isEnable: false,
-                                isDisableColor:
-                                state.guardingMasterData.status == 4,
-                                onChange: (String value) {
-                                  log('val----$value');
-                                },
-                                validateTextField: (String? user) {},
-                                suffixWidget: IconButton(
-                                    icon: SvgPicture.asset(
-                                        width: 10,
-                                        height: 10,
-                                        AppIcon.dropdownicon,
-                                        key: const Key('closed_eye')),
-                                    onPressed: () {}),
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Gender
-                            CommonWidgets.textDisplay(
-                                Constants.gender,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            GestureDetector(
-                              onTap: () {
-                                if (state.guardingMasterData.status != 4) {
-                                  assetTypeDialog(state);
-                                }
-                              },
-                              child: FlutterInputField(
-                                textFieldController: returnableTextController,
-                                textFormKey: Keys.genderKey,
-                                hintText: '',
-                                isEnable: false,
-                                isDisableColor:
-                                state.guardingMasterData.status == 4,
-                                onChange: (String value) {
-                                  log('val----$value');
-                                },
-                                validateTextField: (String? user) {},
-                                suffixWidget: IconButton(
-                                    icon: SvgPicture.asset(
-                                        width: 10,
-                                        height: 10,
-                                        AppIcon.dropdownicon,
-                                        key: const Key('closed_eye')),
-                                    onPressed: () {}),
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Marital Status
-                            CommonWidgets.textDisplay(
-                                Constants.maritalStatus,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            GestureDetector(
-                              onTap: () {
-                                if (state.guardingMasterData.status != 4) {
-                                  assetTypeDialog(state);
-                                }
-                              },
-                              child: FlutterInputField(
-                                textFieldController: returnableTextController,
-                                textFormKey: Keys.maritalStatusKey,
-                                hintText: '',
-                                isEnable: false,
-                                isDisableColor:
-                                state.guardingMasterData.status == 4,
-                                onChange: (String value) {
-                                  log('val----$value');
-                                },
-                                validateTextField: (String? user) {},
-                                suffixWidget: IconButton(
-                                    icon: SvgPicture.asset(
-                                        width: 10,
-                                        height: 10,
-                                        AppIcon.dropdownicon,
-                                        key: const Key('closed_eye')),
-                                    onPressed: () {}),
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Contact Num
-                            CommonWidgets.textDisplay(
-                                Constants.mobileNum,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              initialValue:
-                              state.guardingMasterData.contactNo,
-                              textFormKey: Keys.contactNoKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                  (widget.guardingMasterData
-                                      ?.contactNo ==
-                                      null))
-                                  ? false
-                                  : true,
-                              isDisableColor: (widget.guardingMasterData !=
-                                  null &&
-                                  (widget.guardingMasterData?.contactNo !=
-                                      null))
-                                  ? true
-                                  : false,
-                              onChange: (String value) {
-                                state.guardingMasterData.contactNo = value;
-                                context
-                                    .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                    state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
-
-                            /// Date of Birth
-                            CommonWidgets.textDisplay(
-                              Constants.dateOfBirth,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: dateOfBirth,
-                              onChange: (String value) {
-                                log('--fr-value-${dateOfBirth.text}------');
-                                //widget.guardingMasterData?.inputDate = value;
-                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                                    .onModelValueChange(state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-
-
-                            /// Date of Joining
-                            CommonWidgets.textDisplay(
-                              Constants.dateOfJoining,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: dateOfJoining,
-                              onChange: (String value) {
-                                log('--fr-value-${dateOfJoining.text}------');
-                                //widget.guardingMasterData?.inputDate = value;
-                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                                    .onModelValueChange(state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            /// Type of Deployment
-                            CommonWidgets.textDisplay(
-                                Constants.typeOfDeployment,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            GestureDetector(
-                              onTap: () {
-                                if (state.guardingMasterData.status != 4) {
-                                  assetTypeDialog(state);
-                                }
-                              },
-                              child: FlutterInputField(
-                                textFieldController: returnableTextController,
-                                textFormKey: Keys.deploymentTypeKey,
-                                hintText: '',
-                                isEnable: false,
-                                isDisableColor:
-                                state.guardingMasterData.status == 4,
-                                onChange: (String value) {
-                                  log('val----$value');
-                                },
-                                validateTextField: (String? user) {},
-                                suffixWidget: IconButton(
-                                    icon: SvgPicture.asset(
-                                        width: 10,
-                                        height: 10,
-                                        AppIcon.dropdownicon,
-                                        key: const Key('closed_eye')),
-                                    onPressed: () {}),
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Deployment order Submitted?
-                            CommonWidgets.textDisplay(
-                                Constants.deploymentOrderSubmitted,
-                                Styles.textStyleBlack14),
-                            RadioButtonsYesNo(
-                                status: state.guardingMasterData.status ?? 0,
-                                selectedValue: state.guardingMasterData
-                                    .deploymentOrderSubmitted!
-                                    ? 1
-                                    : 0,
-                                onChangedYes:
-                                widget.guardingMasterData?.status == 6
-                                    ? null
-                                    : (val) {
-                                  state.guardingMasterData.deploymentOrderSubmitted = true;
-                                  BlocProvider.of<
-                                      GuardingMasterDataDetailsCubit>(
-                                      context)
-                                      .onModelValueChange(state.guardingMasterData
-                                  );
-                                },
-                                onChangedNo:
-                                widget.guardingMasterData?.status == 4
-                                    ? null
-                                    : (val) {
-                                  state.guardingMasterData.deploymentOrderSubmitted = false;
-                                  BlocProvider.of<
-                                      GuardingMasterDataDetailsCubit>(
-                                      context)
-                                      .onModelValueChange(state.guardingMasterData
-                                  );
-                                }),
-
-                            /// Security Experience
-                            CommonWidgets.textDisplay(
-                                Constants.securityExperience,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
-                            FlutterInputField(
-                              lineHeight: 6,
-                              initialValue:
-                              state.guardingMasterData.securityExperience,
-                              textFormKey: Keys.securityExperienceKey,
-                              hintText: Constants.informationhere,
-                              isEnable: state.guardingMasterData.status != 4,
-                              isDisableColor:
-                              state.guardingMasterData.status == 4,
-                              onChange: (String value) {
-                                state.guardingMasterData.securityExperience =
-                                    value;
-                                context
-                                    .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                    state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// upload File
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.textDisplay(
-                                Constants.uploadfile, Styles.textStyleBlack14)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                height * 0.001)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? uploadWidget(state)
-                                : Container(),
-                            // Attachments
-                            getSpaceattchment(height),
-                            getAttachement(state, height),
-
-                            /// permanent Address
-                            CommonWidgets.textDisplay(
-                                Constants.permanentAddress,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
-                            FlutterInputField(
-                              lineHeight: 6,
-                              initialValue:
-                              state.guardingMasterData.permanentAddress,
-                              textFormKey: Keys.permanentAddressKey,
-                              hintText: Constants.informationhere,
-                              isEnable: state.guardingMasterData.status != 4,
-                              isDisableColor:
-                              state.guardingMasterData.status == 4,
-                              onChange: (String value) {
-                                state.guardingMasterData.permanentAddress =
-                                    value;
-                                context
-                                    .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                    state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// upload File
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.textDisplay(
-                                Constants.uploadfile, Styles.textStyleBlack14)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                height * 0.001)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? uploadWidget(state)
-                                : Container(),
-
-                            // Attachments
-                            getSpaceattchment(height),
-                            getAttachement(state, height),
-
-
-                            /// Local Address
-                            CommonWidgets.textDisplay(
-                                Constants.localAddress,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
-                            FlutterInputField(
-                              lineHeight: 6,
-                              initialValue:
-                              state.guardingMasterData.localAddress,
-                              textFormKey: Keys.localAddressKey,
-                              hintText: Constants.informationhere,
-                              isEnable: state.guardingMasterData.status != 4,
-                              isDisableColor:
-                              state.guardingMasterData.status == 4,
-                              onChange: (String value) {
-                                state.guardingMasterData.localAddress =
-                                    value;
-                                context
-                                    .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                    state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// upload File
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.textDisplay(
-                                Constants.uploadfile, Styles.textStyleBlack14)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                height * 0.001)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? uploadWidget(state)
-                                : Container(),
-
-                            // Attachments
-                            getSpaceattchment(height),
-                            getAttachement(state, height),
-
-                            /// PVC Issued Date
-                            CommonWidgets.textDisplay(
-                              Constants.pvcIssuedDate,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: pvcIssuedDate,
-                              onChange: (String value) {
-                                log('--fr-value-${pvcIssuedDate.text}------');
-                               // widget.guardingMasterData?.inputDate = value;
-                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                                    .onModelValueChange(state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// PVC Expiry Date
-                            CommonWidgets.textDisplay(
-                              Constants.pvcExpiryDate,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: pvcExpiryDate,
-                              onChange: (String value) {
-                                log('--fr-value-${pvcIssuedDate.text}------');
-                               // widget.guardingMasterData?.inputDate = value;
-                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                                    .onModelValueChange(state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// upload File
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.textDisplay(
-                                Constants.uploadfile, Styles.textStyleBlack14)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                height * 0.001)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? uploadWidget(state)
-                                : Container(),
-
-                            // Attachments
-                            getSpaceattchment(height),
-                            getAttachement(state, height),
-
-                            /// Training Certificate?
-                          /*  CommonWidgets.textDisplay(
-                                Constants.trainingCertificate,
-                                Styles.textStyleBlack14),
-                            RadioButtonsYesNo(
-                                status: state.guardingMasterData.status ?? 0,
-                                selectedValue: state.guardingMasterData
-                                    .trainingCertificateProvided
-                                    ? 1
-                                    : 0,
-                                onChangedYes:
-                                widget.guardingMasterData?.status == 6
-                                    ? null
-                                    : (val) {
-                                  BlocProvider.of<
-                                      GuardingMasterDataDetailsCubit>(
-                                      context)
-                                      .showFields(
-
-                                  );
-                                },
-                                onChangedNo:
-                                widget.guardingMasterData?.status == 4
-                                    ? null
-                                    : (val) {
-                                  BlocProvider.of<
-                                      GuardingMasterDataDetailsCubit>(
-                                      context)
-                                      .showFields(
-                                  );
-                                }),*/
-
-                            /// Medical Certificate Valid Until
-                            CommonWidgets.textDisplay(
-                              Constants.medicalCertificateValidUntil,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: medicalCertificateValidUntil,
-                              onChange: (String value) {
-                                log('--fr-value-${medicalCertificateValidUntil.text}------');
-                               // widget.guardingMasterData?.inputDate = value;
-                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                                    .onModelValueChange(state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// upload File
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.textDisplay(
-                                Constants.uploadfile, Styles.textStyleBlack14)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                height * 0.001)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? uploadWidget(state)
-                                : Container(),
-
-                            // Attachments
-                            getSpaceattchment(height),
-                            getAttachement(state, height),
-
-                            /// System Access
-                            CommonWidgets.textDisplay(
-                                Constants.systemAccess,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            GestureDetector(
-                              onTap: () {
-                                if (state.guardingMasterData.status != 4) {
-                                  assetTypeDialog(state);
-                                }
-                              },
-                              child: FlutterInputField(
-                                textFieldController: returnableTextController,
-                                textFormKey: Keys.systemAccessKey,
-                                hintText: '',
-                                isEnable: false,
-                                isDisableColor:
-                                state.guardingMasterData.status == 4,
-                                onChange: (String value) {
-                                  log('val----$value');
-                                },
-                                validateTextField: (String? user) {},
-                                suffixWidget: IconButton(
-                                    icon: SvgPicture.asset(
-                                        width: 10,
-                                        height: 10,
-                                        AppIcon.dropdownicon,
-                                        key: const Key('closed_eye')),
-                                    onPressed: () {}),
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// ESIC No
-                            CommonWidgets.textDisplay(
-                                Constants.esicNo,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              initialValue:
-                              state.guardingMasterData.esicNo,
-                              textFormKey: Keys.esicKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                  (widget.guardingMasterData
-                                      ?.esicNo ==
-                                      null))
-                                  ? false
-                                  : true,
-                              isDisableColor: (widget.guardingMasterData !=
-                                  null &&
-                                  (widget.guardingMasterData?.esicNo !=
-                                      null))
-                                  ? true
-                                  : false,
-                              onChange: (String value) {
-                                state.guardingMasterData.esicNo = value;
-                                context
-                                    .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                    state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
-
-                            /// UAN  No
-                            CommonWidgets.textDisplay(
-                                Constants.uanNo,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              initialValue:
-                              state.guardingMasterData.uanNo,
-                              textFormKey: Keys.uanNoKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                  (widget.guardingMasterData
-                                      ?.uanNo ==
-                                      null))
-                                  ? false
-                                  : true,
-                              isDisableColor: (widget.guardingMasterData !=
-                                  null &&
-                                  (widget.guardingMasterData?.uanNo !=
-                                      null))
-                                  ? true
-                                  : false,
-                              onChange: (String value) {
-                                state.guardingMasterData.uanNo = value;
-                                context
-                                    .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                    state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
-
-                            /// Date of First Covid Dose
-                            CommonWidgets.textDisplay(
-                              Constants.dateOfFirstCovidDose,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: dateOfFirstCovidDoseController,
-                              onChange: (String value) {
-                                log('--fr-value-${dateOfFirstCovidDoseController.text}------');
-                               // widget.guardingMasterData?.covidFirstDoseDate = value;
-                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                                    .onModelValueChange(state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Date of Second Covid Dose
-                            CommonWidgets.textDisplay(
-                              Constants.dateOfSecondCovidDose,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: dateOfSecondCovidDose,
-                              onChange: (String value) {
-                                log('--fr-value-${dateOfSecondCovidDose.text}------');
-                               // widget.guardingMasterData?.inputDate = value;
-                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                                    .onModelValueChange(state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Date of Precautionary Covid Dose
-                            CommonWidgets.textDisplay(
-                              Constants.dateOfPrecautionaryCovidDose,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: dateOfPrecautionaryCovidDose,
-                              onChange: (String value) {
-                                log('--fr-value-${dateOfPrecautionaryCovidDose.text}------');
-                               // widget.guardingMasterData?.inputDate = value;
-                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                                    .onModelValueChange(state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// ERT Certification Date
-                            CommonWidgets.textDisplay(
-                              Constants.ertCertificationDate,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: ertCertificationDate,
-                              onChange: (String value) {
-                                log('--fr-value-${ertCertificationDate.text}------');
-                                //widget.guardingMasterData?.inputDate = value;
-                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                                    .onModelValueChange(state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// First Aid Training Completion Date
-                            CommonWidgets.textDisplay(
-                              Constants.firstAidTrainingCompletionDate,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: firstAidTrainingCompletionDate,
-                              onChange: (String value) {
-                                log('--fr-value-${firstAidTrainingCompletionDate.text}------');
-                               // widget.guardingMasterData?.inputDate = value;
-                                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                                    .onModelValueChange(state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Additional Initiatives Info
-                            CommonWidgets.textDisplay(
-                                Constants.additionalInitiativesInfo,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
-                            FlutterInputField(
-                              lineHeight: 6,
-                              initialValue:
-                              state.guardingMasterData.additionalInitiatives,
-                              textFormKey: Keys.additionInitiativesKey,
-                              hintText: Constants.informationhere,
-                              isEnable: state.guardingMasterData.status != 4,
-                              isDisableColor:
-                              state.guardingMasterData.status == 4,
-                              onChange: (String value) {
-                                state.guardingMasterData.additionalInitiatives =
-                                    value;
-                                context
-                                    .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                    state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          ]),
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-
-                        /// SubmitButton
-                        if (state.guardingMasterData.status != 4) ...[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              cancelButtonDisplay(),
-                              submitButtonDisplay()
                             ],
-                          ),
-                        ],
-                        CommonWidgets.verticalSpacerWidget(height * 0.04),
-                      ])))
-        ])));
+                            CommonWidgets.verticalSpacerWidget(height * 0.04),
+                          ])))
+            ])));
   }
 
   String getStatusString(int status) {
@@ -1239,85 +1574,79 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   Widget uploadWidget(GuardingMasterDataDetailsState state) {
     return widget.guardingMasterData == null
         ? Container(
-            height: 60,
-            decoration: BoxDecoration(
-                border: Border.all(
-                  color: const Color(0xFFCACACA),
-                  width: 1.0,
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(8))),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 5.0),
-                child: ElevatedButton.icon(
-                  style:
-                      ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return UploadAttachment(
-                               userdetails:
-                              state.loggedInUserDetails ?? EntrySecurity(),
-                              getFiles: getFiles ?? [],
-                             dataState: state,
-                              onImageSelected: (CreateImage data) {
-                               log('-------function---onImageSelected---------');
-                               List<CreateImage>? files = [];
-                              files.add(data);
-                               for (CreateImage image in getFiles!.toList()) {
-                                 files.add(image);
-                               }
-                               BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                                  context)
-                                  .addAttchment(files);
-                               },
-                              );
-                        });
-                  },
+      height: 60,
+      decoration: BoxDecoration(
+          border: Border.all(
+            color: const Color(0xFFCACACA),
+            width: 1.0,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(8))),
+      child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 5.0),
+          child: ElevatedButton.icon(
+            style:
+            ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return UploadAttachment(
+                      userdetails:
+                      state.loggedInUserDetails ?? EntrySecurity(),
+                      getFiles: getFiles ?? [],
+                      dataState: state,
+                      onImageSelected: (CreateImage data) {
+                        log('-------function---onImageSelected---------');
+                        List<CreateImage>? files = [];
+                        files.add(data);
+                        for (CreateImage image in getFiles!.toList()) {
+                          files.add(image);
+                        }
+                        BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                            context)
+                            .addAttchment(files);
+                      },
+                    );
+                  });
+            },
 
-                  icon: SvgPicture.asset(
-                    //AppIcon.dropdownicon,
-                    AppIcon.uploadicon,
-                    //fit: BoxFit.,
-                    color: AppColors.backgroundWhitecolor,
-                    width: 13,
-                    height: 13,
-                    key: const Key(Keys.userIcon),
-                  ),
-                  // const Icon(
-                  //   // <-- Icon
-                  //   Icons.upload,
-                  //   color: AppColors.backgroundWhitecolor,
-                  //   size: 24.0,
-                  // ),
-                  label: const Text(
-                    Constants.clicktoupload,
-                    style: Styles.textStyleRegularNormalWhite12,
-                  ), // <-- Text
-                ),
-              ),
-            ]),
-          )
+            icon: SvgPicture.asset(
+              //AppIcon.dropdownicon,
+              AppIcon.uploadicon,
+              //fit: BoxFit.,
+              color: AppColors.backgroundWhitecolor,
+              width: 13,
+              height: 13,
+              key: const Key(Keys.userIcon),
+            ),
+            label: const Text(
+              Constants.clicktoupload,
+              style: Styles.textStyleRegularNormalWhite12,
+            ), // <-- Text
+          ),
+        ),
+      ]),
+    )
         : Container();
   }
 
   Widget getSpaceattchment(double height) {
     return getAttachments != null ||
-            getFiles != null ||
-            getFiles?.length != 0 ||
-            getAttachments?.length != 0
+        getFiles != null ||
+        getFiles?.length != 0 ||
+        getAttachments?.length != 0
         ? CommonWidgets.verticalSpacerWidget(height * 0.01)
         : Container();
   }
 
   Widget getAttachement(GuardingMasterDataDetailsState state, double height) {
     return (state.loadAttachments == null ||
-            state.loadAttachments!.isEmpty ||
-            widget.guardingMasterData == null)
+        state.loadAttachments!.isEmpty ||
+        widget.guardingMasterData == null)
         ? state.loadAttachments?.length == 0 || getFiles == null
-            ? Container()
-            : attachmentListviews(getFiles, getAttachments)
+        ? Container()
+        : attachmentListviews(getFiles, getAttachments)
         : attachmentListviews(getFiles, getAttachments);
   }
 
@@ -1335,13 +1664,13 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                 onTap: (Mumbai? list) async {
                   log('list?.name-----${list?.name}');
 
-                  Location location = Location()  ;
+                  Location location = Location();
                   location.id = list?.id;
                   location.name = list?.name;
-                  state.guardingMasterData.location = location;
+                  state.guardingMasterData.location = location ;
 
                   BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                      .updateDropdownValues(location: location);
+                      .updateDropdownValues(location: location, entities: []);
                 },
               );
             },
@@ -1366,9 +1695,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   }
 
   Widget attachmentListviews(
-    List<CreateImage>? attachmentListviews,
-    List<FoundImage>? attachmentListviews1,
-  ) {
+      List<CreateImage>? attachmentListviews,
+      List<FoundImage>? attachmentListviews1,
+      ) {
     log('----attachmentListviews-----${attachmentListviews?.length}-----------');
     log('----attachmentListviews1-----${attachmentListviews1?.length}-----------');
 
@@ -1386,7 +1715,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount:
-              attachmentListviews1?.length ?? attachmentListviews?.length ?? 0,
+          attachmentListviews1?.length ?? attachmentListviews?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
             CreateImage? imagedata;
             FoundImage? imagedata1;
@@ -1401,11 +1730,11 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                 ListTile(
                   trailing: widget.guardingMasterData != null
                       ? SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground)
+                      color: AppColors.boldgreyBackground)
                       : const SizedBox(
-                          height: 0,
-                          width: 0,
-                        ),
+                    height: 0,
+                    width: 0,
+                  ),
                   onTap: () {
                     DownloadImage().saveImage(
                         context, imagedata1?.id ?? 0, imagedata1?.title ?? '');
@@ -1424,20 +1753,67 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
           }),
     );
   }
-  assetTypeDialog(GuardingMasterDataDetailsState state) {
-    showDialog(
-      context: context,
-      builder: (dialogContext) {
-        return CustomSimpleListTexts(
-            texts: const ["Male","Female","Transgender"],
-            onTap: (String value) {
-             // bool isReturnable = value == 'Returnable' ? true : false;
-              //state.materialMovement.returnable = isReturnable;
-             BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                 .updateDropdownValues();
-            });
+
+  Widget entityaddButtonwidgetLoading({
+    required BuildContext context,
+    required GuardingMasterDataDetailsState state,
+    required List<Entity> selectedValues,
+    required List<Entity> all,
+  }) {
+    String title = '';
+    if (selectedValues.isNotEmpty) {
+      for (int i = 0; i < selectedValues.length; i++) {
+        Entity entity = selectedValues[i];
+        log('--entity name-${entity.name}--');
+
+        String value = entity.name ?? '';
+        title = '$title  $value';
+      }
+    }
+
+    log('--title-$title--');
+    return TextfieldAddButton(
+      title: title,
+      height: (selectedValues.length) > 4
+          ? (selectedValues.length) > 9
+          ? 140
+          : 100
+          : 60,
+      isDisableColor: false,
+      onTap: () {
+        _showEntitySelectionDialog(context, state);
       },
     );
   }
 
+  void _showEntitySelectionDialog(
+      BuildContext context, GuardingMasterDataDetailsState state) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return CustomMultipleSelectionListTexts(
+          onLeftButtonTap: () {
+            Navigator.pop(context);
+            showDialog(
+                context: context,
+                builder: (BuildContext dialogContext) {
+                  return AddNewFields(
+                    title: Constants.addentitytype,
+                    // createpassmgmtstate: state,
+                  );
+                });
+          },
+          duplicateEntityList: state.listOfEntities ?? [],
+          mainSelectedEntityList: state.guardingMasterData.entities ?? [],
+          onTap: (List<Entity> selectedEntities) {
+            log('--selectedEntities----${selectedEntities.length}');
+            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                .updateDropdownValues(entities: selectedEntities);
+            Navigator.of(context).pop(); // Close the dialog
+          },
+          leftImageName: AppIcon.addicon, // Provide your left button icon
+        );
+      },
+    );
+  }
 }

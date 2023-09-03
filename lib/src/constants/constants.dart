@@ -354,6 +354,7 @@ class Constants {
   static const String guardingPoc = 'Guarding Partner POC';
   static const String guardingAgencyEmpCode = 'Guarding Agency Employee Code';
   static const String rank = 'Rank';
+  static const String guardName = 'Name';
   static const String typeOfDuty = 'Type of Duty';
   static const String gender = 'Gender';
   static const String maritalStatus = 'Marital Status';
@@ -361,10 +362,15 @@ class Constants {
   static const String systemAccess = 'System Access';
   static const String deploymentOrderSubmitted = 'Deployment Order Submitted?';
   static const String trainingCertificate = 'Training Certificate?';
+  static const String onBoarded = 'MIS Trigger(for on-boarding)';
+  static const String specialAchievements = 'Special Achievements?';
+  static const String csrParticipation = 'Participated in CSR';
+  static const String participationDate = 'Participation Dates';
   static const String dbEmployeeId = 'DB Employee ID';
   static const String buildingLocation = 'Building Location';
   static const String mobileNum = 'Mobile Number';
   static const String physicallyFit = 'Physically Fit?';
+  static const String qualifications = 'Qualifications';
   static const String dateOfBirth = 'Date of Birth';
   static const String dateOfJoining = 'Date of Joining';
   static const String pvcIssuedDate = 'PVC Issued Date';
@@ -381,5 +387,6 @@ class Constants {
   static const String localAddress = 'Local Address';
   static const String permanentAddress = 'Permanent Address';
   static const String securityExperience = 'Security Experience';
+  static const String addParticipationDates = 'Add Participation Date';
   //tatic const String height = 'Height(cm)';
 }

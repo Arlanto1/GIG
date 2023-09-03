@@ -247,7 +247,7 @@ class Utils {
         guardRankText = 'Lady Security Guard';
         break;
       default:
-        guardRankText = 'Null'; // Handle the default case if needed
+        guardRankText = ''; // Handle the default case if needed
     }
 
     return Row(

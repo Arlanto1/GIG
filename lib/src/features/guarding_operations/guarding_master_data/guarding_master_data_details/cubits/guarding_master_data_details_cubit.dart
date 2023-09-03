@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
@@ -15,8 +16,10 @@ import 'package:intl/intl.dart';
 
 import '../../../../../constants/constants.dart';
 import '../../../../../models/base_user.dart';
+import '../../../../../models/department.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../createfound/models/serial_number_model.dart';
+import '../../../../lawenforcement/models/addentities.dart';
 import '../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import '../../models/guarding_master_data_model.dart';
 import '../../services/guarding_master_data_services.dart';
@@ -36,14 +39,6 @@ class GuardingMasterDataDetailsCubit
   }) : super(
     GuardingMasterDataDetailsState.initial(
         model: model ?? GuardingMastersDataModel(
-          deploymentOrders: [],
-          qualifications: [],
-          pvc: [],
-          trainingCertificates: [],
-          medicalCertificates: [],
-          history: [],
-          physicallyFit: true,
-          deploymentOrderSubmitted: true,
         ),
         locations: GetLocations(),
         loggedInUserDetails: EntrySecurity(),
@@ -51,8 +46,48 @@ class GuardingMasterDataDetailsCubit
         emailUsers: const [],
         errorMessage: '',
         loadAttachments: const [],
-        eventId: null),
+        eventId: null, listOfEntities: const [], getEntitiesResponse: null, departments: const []),
   );
+  getEntityData(List<Entity> listOfEntities) async {
+    try {
+      int eventIds = math.Random.secure().nextInt(5);
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          listOfEntities: listOfEntities,
+          status: FormStatus.initial,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          message: Constants.errorText,
+          status: FormStatus.error,
+        ),
+      );
+    }
+  }
+
+  // Get entities api call
+  Future<void> getEntities() async {
+    try {
+      AddEntities entities =
+      await commonServices.getEntities(name: 'ATOM_ENTITIES');
+      emit(
+        state.copyWith(
+          getEntitiesResponse: entities,
+          status: FormStatus.initial,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          message: Constants.errorText,
+          status: FormStatus.error,
+        ),
+      );
+    }
+  }
 
   void onModelValueChange(GuardingMastersDataModel model) {
     emit(
@@ -89,6 +124,9 @@ class GuardingMasterDataDetailsCubit
       // Get Date of Creation
       state.guardingMasterData.inputDate = _getCurrentDate();
 
+      AddEntities entities =
+      await commonServices.getEntities(name: 'ATOM_ENTITIES');
+
       GetDepositor emailUsers =
       await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
@@ -102,6 +140,8 @@ class GuardingMasterDataDetailsCubit
           guardingMasterData: state.guardingMasterData,
           users: users.t1Analyst,
           emailUsers: emailUsers.atomStaticUser,
+          listOfEntities: entities.atomEntities,
+          getEntitiesResponse: entities,
         ),
       );
     } catch (e) {
@@ -118,7 +158,9 @@ class GuardingMasterDataDetailsCubit
   Future<void> updateDropdownValues({
     Location? location,
     BaseUser? user,
-    Entity? entity,
+    Department? vendor,
+    List<Entity>? entities,
+    int? systemAccess,
   }) async {
     emit(
       state.copyWith(
@@ -135,9 +177,17 @@ class GuardingMasterDataDetailsCubit
       state.guardingMasterData.location = location;
       state.guardingMasterData.slNo = slNo.serialNo;
     }
-    if (entity != null) {
-      state.guardingMasterData.entities??[].add(entity);
+
+    if (entities != null) {
+      state.guardingMasterData.entities = entities;
     }
+    if (vendor != null) {
+      state.guardingMasterData.vendor = vendor;
+    }
+    if (systemAccess != null) {
+      state.guardingMasterData.systemAccess = systemAccess;
+    }
+
 
     emit(state.copyWith(
       guardingMasterData: state.guardingMasterData,
@@ -167,7 +217,7 @@ class GuardingMasterDataDetailsCubit
     print('--state.status--3--${state.status}----');
   }
 
-  void showFields({ bool? deploymentOrderSubmitted,bool? trainingCertificateProvided}) {
+  void showFields({ bool? deploymentOrderSubmitted,bool? trainingCertificateProvided, bool? csrParticipation, bool? specialAchievement}) {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -180,6 +230,14 @@ class GuardingMasterDataDetailsCubit
     if (trainingCertificateProvided != null) {
       state.guardingMasterData.trainingCertificateProvided =
           trainingCertificateProvided;
+    }
+    if (csrParticipation != null) {
+      state.guardingMasterData.csrParticipation =
+          csrParticipation;
+    }
+    if (specialAchievement != null) {
+      state.guardingMasterData.specialAchievement =
+          specialAchievement;
     }
     emit(state.copyWith(
       guardingMasterData: state.guardingMasterData,
@@ -232,10 +290,6 @@ class GuardingMasterDataDetailsCubit
         ),
       );
 
-      // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      //   Utils.dynamicAlert(
-      //       context, lawcreateFoundresponse.message ?? '', title, '');
-      // });
     } on Exception catch (e) {
       emit(
         state.copyWith(
