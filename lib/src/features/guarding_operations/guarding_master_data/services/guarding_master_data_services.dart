@@ -19,6 +19,12 @@ class Apis {
 }
 
 class GuardingMasterDataServices {
+
+  Future<String> getUserEmail() async {
+    String email =  await SharedPrefs.getEmail();
+    return email;
+  }
+
   Future<GuardingMasterDataResponse> getGuardingMasterData({
     required String startPosition,
     required String maximumRecords,
@@ -47,9 +53,8 @@ class GuardingMasterDataServices {
     required GuardingMasterDataRequest body,
     required bool isSubmit,
   }) async {
-    var userId = await SharedPrefs.getUserId();
     final String url =
-        "${Apis._createGuardingMasterData}?userEmail=$userId&isSubmit=$isSubmit";
+        "${Apis._createGuardingMasterData}?userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,

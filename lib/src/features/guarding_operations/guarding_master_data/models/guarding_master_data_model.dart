@@ -40,6 +40,7 @@ class GuardingMastersDataModel {
   EntrySecurity? entrySecurity;
   List<Entity>? entities;
   String? inputDate;
+  String? medicalCertificateValidUntil;
   String? covidFirstDoseDate;
   String? covidSecondDoseDate;
   String? covidPrecautionaryDoseDate;
@@ -52,7 +53,6 @@ class GuardingMastersDataModel {
   int? status;
   int? guardRank;
   String? employeeCode;
-  String? guardingPoc;
   String? dbEmployeeId;
   int? dutyType;
   int? gender;
@@ -101,6 +101,7 @@ class GuardingMastersDataModel {
     this.locationRegion,
     this.entrySecurity,
     this.inputDate,
+    this.medicalCertificateValidUntil,
     this.covidFirstDoseDate,
     this.covidSecondDoseDate,
     this.covidPrecautionaryDoseDate,
@@ -114,7 +115,6 @@ class GuardingMastersDataModel {
     this.guardRank,
     this.employeeCode,
     this.dbEmployeeId,
-    this.guardingPoc,
     this.vendor,
     this.entities,
     this.dutyType,
@@ -165,6 +165,7 @@ class GuardingMastersDataModel {
         locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? LocationRegion.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? EntrySecurity.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         inputDate = json['inputDate'] as String?,
+        medicalCertificateValidUntil = json['medicalCertificateValidUntil'] as String?,
         covidFirstDoseDate = json['covidFirstDoseDate'] as String?,
         covidSecondDoseDate = json['covidSecondDoseDate'] as String?,
         covidPrecautionaryDoseDate = json['covidPrecautionaryDoseDate'] as String?,
@@ -174,7 +175,6 @@ class GuardingMastersDataModel {
         pvcExpiryDate = json['pvcExpiryDate'] as String?,
   dateOfBirth = json['dateOfBirth'] as String?,
   dateOfJoining = json['dateOfJoinig'] as String?,
-        guardingPoc = json['guardingPoc'] as String?,
         vendor = (json['vendor'] as Map<String, dynamic>?) != null
             ? Department.fromJson(json['vendor'] as Map<String, dynamic>)
             : null,
@@ -231,6 +231,7 @@ class GuardingMastersDataModel {
     'locationRegion' : locationRegion?.toJson(),
     'entrySecurity' : entrySecurity?.toJson(),
     'inputDate' : inputDate,
+    'medicalCertificateValidUntil' : medicalCertificateValidUntil,
     'covidFirstDoseDate' : covidFirstDoseDate,
     'covidSecondDoseDate' : covidSecondDoseDate,
     'covidPrecautionaryDoseDate': covidPrecautionaryDoseDate,
@@ -246,7 +247,6 @@ class GuardingMastersDataModel {
     'dbEmployeeId' : dbEmployeeId,
     'dutyType' : dutyType,
     'gender' : gender,
-    'guardingPoc' : guardingPoc,
     'entities': entities,
     'contactNo' : contactNo,
     'maritalStatus' : maritalStatus,

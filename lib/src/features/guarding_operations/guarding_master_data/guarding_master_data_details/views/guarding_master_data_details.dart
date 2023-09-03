@@ -1,6 +1,7 @@
 
 import 'dart:developer';
 
+import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/location.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +30,7 @@ import '../../../../../utils/app_themes/colors/app_color.dart';
 import '../../../../../utils/app_themes/styles/app_styles.dart';
 import '../../../../../utils/customalert.dart';
 import '../../../../../utils/helpers/keys/keys.dart';
+import '../../../../../utils/util.dart';
 import '../../../../../utils/validators/validator.dart';
 import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import '../../../../createfound/models/create_found_request.dart';
@@ -55,55 +57,63 @@ class GuardigMasterDataDetails extends StatefulWidget {
 
 class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController returnableTextController = TextEditingController();
   GetUserDetails? userDetails;
   List<CreateImage>? getFiles;
   List<FoundImage>? getAttachments;
-  TextEditingController takenOutOnDateController = TextEditingController();
-  TextEditingController dateOfBirth = TextEditingController();
-  TextEditingController dateOfJoining = TextEditingController();
-  TextEditingController participationDate = TextEditingController();
-  TextEditingController pvcIssuedDate = TextEditingController();
-  TextEditingController pvcExpiryDate = TextEditingController();
-  TextEditingController medicalCertificateValidUntil = TextEditingController();
+  TextEditingController dateOfBirthController = TextEditingController();
+  TextEditingController dateOfJoiningController = TextEditingController();
+  TextEditingController participationDateController = TextEditingController();
+  TextEditingController pvcIssuedDateController = TextEditingController();
+  TextEditingController pvcExpiryDateController = TextEditingController();
+  TextEditingController medicalCertificateValidUntilController = TextEditingController();
   TextEditingController dateOfFirstCovidDoseController =
   TextEditingController();
-  TextEditingController dateOfSecondCovidDose = TextEditingController();
+  TextEditingController dateOfSecondCovidDoseController = TextEditingController();
   TextEditingController dateOfPrecautionaryCovidDose = TextEditingController();
   TextEditingController ertCertificationDate = TextEditingController();
   TextEditingController firstAidTrainingCompletionDate =
   TextEditingController();
+
+  TextEditingController rankController = TextEditingController();
+  TextEditingController dutyTypeController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+  TextEditingController maritalStatusController = TextEditingController();
+  TextEditingController deploymentTypeController = TextEditingController();
+  TextEditingController systemAccessController = TextEditingController();
+
   bool isDisabled = true;
-  List<String> systemAccessDropDownValues = const [
-    "Yes",
-    "No",
-    "Revoke"
+  List<Label> systemAccessDropDownValues = const [
+    Label(key: 'Yes', value: '1'),
+    Label(key: 'No', value: '2'),
+    Label(key: 'Revoke', value: '3'),
   ];
-  List<String> maritalStatusDropDownValues = const [
-    "Single",
-    "Married",
+  List<Label> maritalStatusDropDownValues = const [
+    Label(key: 'Single', value: '1'),
+    Label(key: 'Married', value: '2'),
   ];
-  List<String> genderDropDownValues = const [
-    "Male",
-    "Female",
-    "Transgender"
+  List<Label> genderDropDownValues = const [
+    Label(key: 'Male', value: '1'),
+    Label(key: 'Female', value: '2'),
+    Label(key: 'Transgender', value: '3'),
   ];
-  List<String> dutyTypeDropDownValues = const [
-    "Building",
-    "Escort",
-    "Facility",
-    "Building & Escort"
+  List<Label> dutyTypeDropDownValues = const [
+    Label(key: 'Building', value: '1'),
+    Label(key: 'Escort', value: '2'),
+    Label(key: 'Facility', value: '3'),
+    Label(key: 'Building & Escort', value: '4'),
   ];
-  List<String> guardRankDropDownValues = const [
-    "Security Guard",
-    "Security Officer",
-    "Security Supervisor",
-    "Security Facilitator",
-    "Gun Man",
-    "Lady Security Guard"
+
+  List<Label> guardRankDropDownValues = const [
+    Label(key: 'Security Guard', value: '1'),
+    Label(key: 'Security Officer', value: '2'),
+    Label(key: 'Security Supervisor', value: '3'),
+    Label(key: 'Security Facilitator', value: '4'),
+    Label(key: 'Gun Man', value: '5'),
+    Label(key: 'Lady Security Guard', value: '6'),
   ];
-  List<String> deploymentTypeDropDownValues = const [
-    "New Deployment",
+  List<Label> deploymentTypeDropDownValues = const [
+    Label(key: 'New Deployment', value: '1'),
+    Label(key: 'Redeployment', value: '2'),
   ];
 
   @override
@@ -148,6 +158,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
         }
       },
       builder: (context, state) {
+        initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -165,6 +176,36 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
         );
       },
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
+  }
+
+  void initializeDates() {
+     dateOfBirthController.text = Utils.timestamptoDateConversion(
+        int.parse(widget.guardingMasterData?.dateOfBirth ?? '0'), Constants.dateFormat);
+
+    dateOfJoiningController.text = Utils.timestamptoDateConversion(
+        int.parse(widget.guardingMasterData?.dateOfJoining ?? '0'), Constants.dateFormat);
+
+    pvcIssuedDateController.text = Utils.timestamptoDateConversion(
+        int.parse(widget.guardingMasterData?.pvcIssuedDate ?? '0'), Constants.dateFormat);
+    pvcExpiryDateController.text = Utils.timestamptoDateConversion(
+        int.parse(widget.guardingMasterData?.pvcExpiryDate ?? '0'), Constants.dateFormat);
+
+    medicalCertificateValidUntilController.text = Utils.timestamptoDateConversion(
+        int.parse(widget.guardingMasterData?.medicalCertificateValidUntil ?? '0'), Constants.dateFormat);
+
+    dateOfFirstCovidDoseController.text = Utils.timestamptoDateConversion(
+        int.parse(widget.guardingMasterData?.covidFirstDoseDate ?? '0'), Constants.dateFormat);
+
+    dateOfSecondCovidDoseController.text = Utils.timestamptoDateConversion(
+        int.parse(widget.guardingMasterData?.covidSecondDoseDate ?? '0'), Constants.dateFormat);
+
+    dateOfPrecautionaryCovidDose.text = Utils.timestamptoDateConversion(
+        int.parse(widget.guardingMasterData?.covidPrecautionaryDoseDate ?? '0'), Constants.dateFormat);
+
+    ertCertificationDate.text = Utils.timestamptoDateConversion(
+        int.parse(widget.guardingMasterData?.ertCertificationDate ?? '0'), Constants.dateFormat);
+    firstAidTrainingCompletionDate.text = Utils.timestamptoDateConversion(
+        int.parse(widget.guardingMasterData?.firstAidTrainingCompletionDate ?? '0'), Constants.dateFormat);
   }
 
   getBodybuilder(GuardingMasterDataDetailsState state, height) {
@@ -392,25 +433,25 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 FlutterInputField(
                                   keyboardType: TextInputType.number,
                                   initialValue:
-                                  state.guardingMasterData.guardingPoc,
+                                  state.guardingMasterData.guardingPOC,
                                   textFormKey: Keys.guardingPOCKey,
                                   hintText: '',
                                   isEnable: widget.guardingMasterData == null
                                       ? true
                                       : (widget.guardingMasterData != null &&
                                       (widget.guardingMasterData
-                                          ?.guardingPoc ==
+                                          ?.guardingPOC ==
                                           null))
                                       ? false
                                       : true,
                                   isDisableColor: (widget.guardingMasterData !=
                                       null &&
-                                      (widget.guardingMasterData?.guardingPoc !=
+                                      (widget.guardingMasterData?.guardingPOC !=
                                           null))
                                       ? true
                                       : false,
                                   onChange: (String value) {
-                                    state.guardingMasterData.guardingPoc = value;
+                                    state.guardingMasterData.guardingPOC = value;
                                     context
                                         .read<GuardingMasterDataDetailsCubit>()
                                         .onModelValueChange(
@@ -464,20 +505,25 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 CommonWidgets.verticalSpacerWidget(height * 0.001),
                                 BaseDropDown().getDropDown(
                                     isDisabled: state.guardingMasterData.status != 6,
-                                    textController: returnableTextController,
+                                    textController: rankController,
+                                    items: guardRankDropDownValues,
+                                    initialValue: state.guardingMasterData.guardRank.toString(),
                                     onTap: () {
                                       if (isDisabled) {
                                         BaseDropDown().assetTypeDialog(
                                             context: context,
-                                            dropDownValues:
-                                            guardRankDropDownValues,
+                                            dropDownValues: guardRankDropDownValues.map((label) => label.key).toList(),
                                             onTap: (String value) {
-                                              state.guardingMasterData.guardRank;
+                                              Label? selectedLabel;
+                                              selectedLabel = guardRankDropDownValues.firstWhere(
+                                                    (label) => label.key == value,
+                                                orElse: () => const Label(key: '', value: ''),
+                                              );
                                               BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
                                                   context)
                                                   .updateDropdownValues(
-                                                // systemAccess: systemAccess
+                                                guardRank: int.tryParse(selectedLabel.value)
                                               );
                                             });
                                       }
@@ -490,7 +536,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 FlutterInputField(
                                   keyboardType: TextInputType.number,
                                   initialValue:
-                                  state.guardingMasterData.guardingPoc,
+                                  state.guardingMasterData.dbEmployeeId,
                                   textFormKey: Keys.dbEmployeeIDKey,
                                   hintText: '',
                                   isEnable: widget.guardingMasterData == null
@@ -526,20 +572,25 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 CommonWidgets.verticalSpacerWidget(height * 0.001),
                                 BaseDropDown().getDropDown(
                                     isDisabled: state.guardingMasterData.status != 6,
-                                    textController: returnableTextController,
+                                    textController: dutyTypeController,
+                                    items: dutyTypeDropDownValues,
+                                    initialValue: state.guardingMasterData.dutyType.toString(),
                                     onTap: () {
                                       if (isDisabled) {
                                         BaseDropDown().assetTypeDialog(
                                             context: context,
-                                            dropDownValues:
-                                            dutyTypeDropDownValues,
+                                            dropDownValues: dutyTypeDropDownValues.map((label) => label.key).toList(),
                                             onTap: (String value) {
-                                              state.guardingMasterData.gender;
+                                              Label? selectedLabel;
+                                              selectedLabel = dutyTypeDropDownValues.firstWhere(
+                                                    (label) => label.key == value,
+                                                orElse: () => const Label(key: '', value: ''),
+                                              );
                                               BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
                                                   context)
                                                   .updateDropdownValues(
-                                                // systemAccess: systemAccess
+                                                  dutyType: int.tryParse(selectedLabel.value)
                                               );
                                             });
                                       }
@@ -553,46 +604,57 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 CommonWidgets.verticalSpacerWidget(height * 0.001),
                                 BaseDropDown().getDropDown(
                                     isDisabled: state.guardingMasterData.status != 6,
-                                    textController: returnableTextController,
+                                    textController: genderController,
+                                    items: genderDropDownValues,
+                                    initialValue: state.guardingMasterData.gender.toString(),
                                     onTap: () {
                                       if (isDisabled) {
                                         BaseDropDown().assetTypeDialog(
                                             context: context,
-                                            dropDownValues:
-                                            genderDropDownValues,
+                                            dropDownValues: genderDropDownValues.map((label) => label.key).toList(),
                                             onTap: (String value) {
-                                              state.guardingMasterData.gender;
+                                              Label? selectedLabel;
+                                              selectedLabel = genderDropDownValues.firstWhere(
+                                                    (label) => label.key == value,
+                                                orElse: () => const Label(key: '', value: ''),
+                                              );
                                               BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
                                                   context)
                                                   .updateDropdownValues(
-                                                // systemAccess: systemAccess
+                                                  gender: int.tryParse(selectedLabel.value)
                                               );
                                             });
                                       }
                                     }),
                                 CommonWidgets.verticalSpacerWidget(height * 0.01),
-                   /// Marital Status
+
+                                /// Marital Status
                                 CommonWidgets.textDisplay(Constants.maritalStatus,
                                     Styles.textStyleBlack14),
                                 CommonWidgets.verticalSpacerWidget(height * 0.001),
                                 CommonWidgets.verticalSpacerWidget(height * 0.001),
                                 BaseDropDown().getDropDown(
                                     isDisabled: state.guardingMasterData.status != 6,
-                                    textController: returnableTextController,
+                                    textController: maritalStatusController,
+                                    items: maritalStatusDropDownValues,
+                                    initialValue: state.guardingMasterData.maritalStatus.toString(),
                                     onTap: () {
                                       if (isDisabled) {
                                         BaseDropDown().assetTypeDialog(
                                             context: context,
-                                            dropDownValues:
-                                            maritalStatusDropDownValues,
+                                            dropDownValues: maritalStatusDropDownValues.map((label) => label.key).toList(),
                                             onTap: (String value) {
-                                              state.guardingMasterData.maritalStatus;
+                                              Label? selectedLabel;
+                                              selectedLabel = maritalStatusDropDownValues.firstWhere(
+                                                    (label) => label.key == value,
+                                                orElse: () => const Label(key: '', value: ''),
+                                              );
                                               BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
                                                   context)
                                                   .updateDropdownValues(
-                                                // systemAccess: systemAccess
+                                                  maritalStatus: int.tryParse(selectedLabel.value)
                                               );
                                             });
                                       }
@@ -641,9 +703,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
-                                  textController: dateOfBirth,
+                                  textController: dateOfBirthController,
                                   onChange: (String value) {
-                                    log('--fr-value-${dateOfBirth.text}------');
+                                    log('--fr-value-${dateOfBirthController.text}------');
                                     //widget.guardingMasterData?.inputDate = value;
                                     BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
@@ -661,9 +723,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
-                                  textController: dateOfJoining,
+                                  textController: dateOfJoiningController,
                                   onChange: (String value) {
-                                    log('--fr-value-${dateOfJoining.text}------');
+                                    log('--fr-value-${dateOfJoiningController.text}------');
                                     //widget.guardingMasterData?.inputDate = value;
                                     BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
@@ -679,21 +741,26 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 CommonWidgets.verticalSpacerWidget(height * 0.001),
                                 BaseDropDown().getDropDown(
                                     isDisabled: state.guardingMasterData.status != 6,
-                                    textController: returnableTextController,
+                                    textController: deploymentTypeController,
+                                    items: deploymentTypeDropDownValues,
+                                    initialValue: state.guardingMasterData.typeOfDeployment.toString(),
                                     onTap: () {
                                       if (isDisabled) {
                                         BaseDropDown().assetTypeDialog(
                                             context: context,
-                                            dropDownValues:
-                                            deploymentTypeDropDownValues,
+                                            dropDownValues: deploymentTypeDropDownValues.map((label) => label.key).toList(),
                                             onTap: (String value) {
-                                              state.guardingMasterData.typeOfDeployment;
+                                              Label? selectedLabel;
+                                              selectedLabel = deploymentTypeDropDownValues.firstWhere(
+                                                    (label) => label.key == value,
+                                                orElse: () => const Label(key: '', value: ''),
+                                              );
                                               BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
                                                   context)
                                                   .updateDropdownValues(
-                                                 // systemAccess: systemAccess
-                                                 );
+                                                  typeOfDeployment: int.tryParse(selectedLabel.value)
+                                              );
                                             });
                                       }
                                     }),
@@ -948,9 +1015,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
-                                  textController: pvcIssuedDate,
+                                  textController: pvcIssuedDateController,
                                   onChange: (String value) {
-                                    log('--fr-value-${pvcIssuedDate.text}------');
+                                    log('--fr-value-${pvcIssuedDateController.text}------');
                                     // widget.guardingMasterData?.inputDate = value;
                                     BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
@@ -969,9 +1036,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
-                                  textController: pvcExpiryDate,
+                                  textController: pvcExpiryDateController,
                                   onChange: (String value) {
-                                    log('--fr-value-${pvcIssuedDate.text}------');
+                                    log('--fr-value-${pvcIssuedDateController.text}------');
                                     // widget.guardingMasterData?.inputDate = value;
                                     BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
@@ -1065,9 +1132,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
-                                  textController: medicalCertificateValidUntil,
+                                  textController: medicalCertificateValidUntilController,
                                   onChange: (String value) {
-                                    log('--fr-value-${medicalCertificateValidUntil.text}------');
+                                    log('--fr-value-${medicalCertificateValidUntilController.text}------');
                                     // widget.guardingMasterData?.inputDate = value;
                                     BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
@@ -1135,21 +1202,26 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 CommonWidgets.verticalSpacerWidget(height * 0.001),
                                 BaseDropDown().getDropDown(
                                     isDisabled: state.guardingMasterData.status != 6,
-                                    textController: returnableTextController,
+                                    textController: systemAccessController,
+                                    items: systemAccessDropDownValues,
+                                    initialValue: state.guardingMasterData.systemAccess.toString(),
                                     onTap: () {
                                       if (isDisabled) {
                                         BaseDropDown().assetTypeDialog(
                                             context: context,
-                                            dropDownValues:
-                                            systemAccessDropDownValues,
+                                            dropDownValues: systemAccessDropDownValues.map((label) => label.key).toList(),
                                             onTap: (String value) {
-                                              int systemAccess = value == 'systemAccess' ? 1 : 2 ;
-                                              state.guardingMasterData.systemAccess;
+                                              Label? selectedLabel;
+                                              selectedLabel = systemAccessDropDownValues.firstWhere(
+                                                    (label) => label.key == value,
+                                                orElse: () => const Label(key: '', value: ''),
+                                              );
                                               BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
                                                   context)
                                                   .updateDropdownValues(
-                                                  systemAccess: systemAccess);
+                                                  systemAccess: int.tryParse(selectedLabel.value)
+                                              );
                                             });
                                       }
                                     }),
@@ -1283,9 +1355,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
-                                  textController: dateOfSecondCovidDose,
+                                  textController: dateOfSecondCovidDoseController,
                                   onChange: (String value) {
-                                    log('--fr-value-${dateOfSecondCovidDose.text}------');
+                                    log('--fr-value-${dateOfSecondCovidDoseController.text}------');
                                     // widget.guardingMasterData?.inputDate = value;
                                     BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
@@ -1761,6 +1833,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
     required List<Entity> all,
   }) {
     String title = '';
+    log('--selectedValues.length-${selectedValues.length}--');
     if (selectedValues.isNotEmpty) {
       for (int i = 0; i < selectedValues.length; i++) {
         Entity entity = selectedValues[i];

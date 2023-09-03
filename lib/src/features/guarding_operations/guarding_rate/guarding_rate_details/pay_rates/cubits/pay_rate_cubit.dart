@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
@@ -109,47 +108,6 @@ class PayRateCubit extends Cubit<PayRateState> {
         state.copyWith(
           rate: rateResponse,
           status: FormStatus.initial,
-        ),
-      );
-    }
-  }
-
-  getEntityData(List<Entity> listOfEntities) async {
-    try {
-      int eventIds = math.Random.secure().nextInt(5);
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          listOfEntities: listOfEntities,
-          status: FormStatus.initial,
-        ),
-      );
-    } catch (e) {
-      emit(
-        state.copyWith(
-          message: Constants.errorText,
-          status: FormStatus.error,
-        ),
-      );
-    }
-  }
-
-  // Get entities api call
-  Future<void> getEntities() async {
-    try {
-      AddEntities entities =
-          await commonServices.getEntities(name: 'ATOM_ENTITIES');
-      emit(
-        state.copyWith(
-          getEntitiesResponse: entities,
-          status: FormStatus.initial,
-        ),
-      );
-    } catch (e) {
-      emit(
-        state.copyWith(
-          message: Constants.errorText,
-          status: FormStatus.error,
         ),
       );
     }

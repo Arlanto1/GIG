@@ -294,7 +294,7 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<GuardingMasterDataDetailsCubit>(
                   create: (_) => GuardingMasterDataDetailsCubit(
-                    guardingMasterDataServices: services,
+                    services: services,
                     model: guardingMastersData,
                     commonServices: commonServices,
                   ),
