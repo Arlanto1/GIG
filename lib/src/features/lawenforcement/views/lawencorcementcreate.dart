@@ -146,6 +146,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
             if (state.stateType == LawEnforcementStateType.addattachment) {
               getFiles = state.loadAttachments ?? [];
             }
+            initiallyLocationandSerialnumberdataset(state);
             // if (widget.listuser != null) {
             //   if (state.groups != null) {
 
@@ -623,6 +624,24 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
 
     getLawenforcementList();
     _getCurrentDate();
+  }
+  initiallyLocationandSerialnumberdataset(LawEnforcementState state)
+  async {
+    print(state.locationSelectedlist);
+     print(state.getLocationsResponse);
+      print(widget.listuser);
+    if(state.locationSelectedlist?.id == null && state.getLocationsResponse != null && widget.listuser == null && (serialnumber ?? '').isEmpty) 
+            {
+              
+              Mumbai list = Mumbai(
+          id: 24,
+          name: "DLF Square") ;
+          lawenforcementCubit.getlocationsResponseData(list);
+           await lawenforcementCubit.getSerialnumberDetails(
+                      '24', 'AF');
+          
+            }
+   
   }
 
   editCreatefoundItems() async {

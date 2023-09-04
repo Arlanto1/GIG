@@ -22,6 +22,7 @@ class LawEnforcementListServices {
       url: url,
     );
     return LawEnforcementListResponse.fromJson(response);
+
   }
 
   Future<LawEnforcementDetails> getLawEnforcementById(int lawEnforcementId) async {

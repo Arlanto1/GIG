@@ -12,8 +12,9 @@ class LoginPassword extends StatefulWidget {
   final Function(String onChangeStr) onChange;
   final FocusNode? passfocusnode;
   final Function? onfieldSubmitted;
+  TextInputAction? textInputAction;
   
-  LoginPassword({Key? key, required this.validatePassword, required this.onChange,this.passfocusnode,this.onfieldSubmitted})
+  LoginPassword({Key? key, required this.validatePassword, required this.onChange,this.passfocusnode,this.onfieldSubmitted,this.textInputAction})
       : super(key: key);
 
   @override
@@ -40,10 +41,10 @@ TextEditingController passwordTextController = TextEditingController();
       onChange: (String str) => widget.onChange(str),
       isSecure: !_showPassword,
       validateTextField: (String? pwd) => widget.validatePassword(pwd),
-      textInputAction: TextInputAction.done,
+      textInputAction: widget.textInputAction,
                                     focusnode: widget.passfocusnode,
                                   onfieldSubmitted: (value) {
-         widget.onfieldSubmitted!(value) ;
+         widget.onfieldSubmitted != null ? widget.onfieldSubmitted!(value) : null;
       },
       prefixWidget: Padding(
         padding: const EdgeInsets.all(12.0),

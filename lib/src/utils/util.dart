@@ -73,10 +73,13 @@ class Utils {
       message: messgae,
       positiveBtnText: Constants.ok,
       onPostivePressed: () {
-        if (error.isEmpty) {
+        if (error.isNotEmpty) {
           Navigator.pop(context);
         }
-        Navigator.pop(context);
+        else
+        {Navigator.pop(context);Navigator.pop(context,true);
+        }
+        
       },
     );
     showDialog(
@@ -89,6 +92,23 @@ class Utils {
     final now = DateTime.now();
     return now.microsecondsSinceEpoch.toString();
   }
+
+  static showAlertMessage(String message, BuildContext context) {
+
+    var dialog = CustomAlertDialog(
+      title: Constants.appname,
+      message: message,
+      onPostivePressed: () {
+        //ValidatorlogoutAction(context);
+        Navigator.of(context).pop();
+      },
+      positiveBtnText: Constants.ok,
+      //negativeBtnText: Constants.no
+    );
+    showDialog(context: context, builder: (BuildContext context) => dialog);
+  }
+
+}
 
   String formatUnixTimestamp(String timestampString) {
     try {

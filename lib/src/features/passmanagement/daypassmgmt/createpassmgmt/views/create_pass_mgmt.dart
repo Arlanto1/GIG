@@ -146,7 +146,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             // listOfEntities = state.getEntitiesResponse;
             //leoDepartmentsResponse = state.getLeodepartmentsResponse;
             // leoPurposeVisitResponse = state.getLeopurposeResponse;
-
+    
             if (state.getSerialnumberResponse != null) {
               serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
             }
@@ -157,6 +157,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
              if (state.stateType == CreatePassMgmtStateType.photoattachment) {
               photogetFiles = state.photoAttachments ?? [];
             }
+            initiallyLocationandSerialnumberdataset(state);
             // if (widget.listuser != null) {
             //   if (state.groups != null) {
 
@@ -431,6 +432,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     // Name
 
+                                     widget.passId == "3" ? CommonWidgets.textDisplay(
+                                        Constants.name,Styles.textStyleBlack14) : Container(),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                       widget.passId == "3" ? textfieldWidgetLoad(
+                                                nameTextController, 0, state) : Container(),
+
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),  
+                               
                                     CommonWidgets.textDisplay(
                                         widget.passId == "0"
                                             ? Constants.name
@@ -444,7 +455,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     widget.passId == "0"
                                         ? ((state.atomCompanyType?.name ?? '')
                                                     .toLowerCase() ==
-                                                'fte'
+                                                'fte' || (state.atomCompanyType?.name == null)
                                             ? nameaddButtonwidgetLoading(state)
                                             : textfieldWidgetLoad(
                                                 nameTextController, 0, state))
@@ -455,9 +466,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 contactnoTextController,
                                                 0,
                                                 state),
-
+          
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
+
+
 
                                     // Employee Id
                                     widget.passId == "0" &&
@@ -1148,6 +1161,26 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     getPassmanagmentList();
     _getCurrentDate();
   }
+  initiallyLocationandSerialnumberdataset(CreatePassMgmtState state)
+  async {
+    print(state.locationSelectedlist);
+     print(state.getLocationsResponse);
+      print(widget.listuser);
+    if(state.locationSelectedlist?.id == null && state.getLocationsResponse != null && widget.listuser == null && (serialnumber ?? '').isEmpty) 
+            {
+              
+              Mumbai list = Mumbai(
+          id: 24,
+          name: "DLF Square") ;
+          createpassmgmtCubit.getlocationsResponseData(list);
+           await createpassmgmtCubit.getSerialnumberDetails(
+                      '24', 'AF',context);
+           await createpassmgmtCubit.getPassnumber(
+                      widget.passId ?? '0', '24',context);           
+          
+            }
+   
+  }
 
   editCreatefoundItems() async {
     if (widget.listuser != null) {
@@ -1292,9 +1325,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       daypassnoTextController.text = widget.listuser?.passInfo?.passNo ?? '';
       createpassmgmtCubit.getpassListResponseData(active);
       await createpassmgmtCubit.getSerialnumberDetails(
-          (widget.listuser?.location?.id ?? 0).toString(), 'AF');
+          (widget.listuser?.location?.id ?? 0).toString(), 'AF',context);
       createpassmgmtCubit.getPassnumber(
-          '0', (widget.listuser?.location?.id ?? 0).toString());
+          '0', (widget.listuser?.location?.id ?? 0).toString(),context);
       createpassmgmtCubit.getlocationsResponseData(mumbai);
 
       if ((widget.listuser?.entities?.length ?? 0) > 0) {
@@ -1352,20 +1385,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   getPassmanagmentList() async {
-    await createpassmgmtCubit.getLocations('ATOM_LOCATIONS');
-    await createpassmgmtCubit.getEntities('ATOM_ENTITIES');
-    await createpassmgmtCubit.getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
+    await createpassmgmtCubit.getLocations('ATOM_LOCATIONS',context);
+    await createpassmgmtCubit.getEntities('ATOM_ENTITIES',context);
+    await createpassmgmtCubit.getEmployeeDepartments('EMPLOYEE_DEPARTMENTS',context);
     if (widget.listuser == null ||
         (widget.listuser?.entrySecurity?.userName ?? '').isEmpty) {
       var userid = await SharedPrefs.getUserId();
-      await createpassmgmtCubit.getUserDetails(userid);
+      await createpassmgmtCubit.getUserDetails(userid,context);
     } else {
       createdBy = widget.listuser?.entrySecurity?.userName ?? '';
     }
-    await createpassmgmtCubit.getCompanytypes('ATOM_COMPANY_TYPES');
-    await createpassmgmtCubit.getDayPassreasons('DAY_PASS_REASON');
+    await createpassmgmtCubit.getCompanytypes('ATOM_COMPANY_TYPES',context);
+    await createpassmgmtCubit.getDayPassreasons('DAY_PASS_REASON',context);
     //await createpassmgmtCubit.getAnalysts('T1_Analyst');
-    await createpassmgmtCubit.getUserByRoleDepositor('ATOM_STATIC_USER');
+    await createpassmgmtCubit.getUserByRoleDepositor('ATOM_STATIC_USER',context);
   }
 
   Widget submitButtonDisplay() {
@@ -2093,10 +2126,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 onTap: (Mumbai? list) async {
                   print(list?.name);
                   await createpassmgmtCubit.getSerialnumberDetails(
-                      list?.id.toString() ?? '', 'AF');
+                      list?.id.toString() ?? '', 'AF',context);
 
                   createpassmgmtCubit.getPassnumber(
-                      widget.passId ?? '0', list?.id.toString() ?? '');
+                      widget.passId ?? '0', list?.id.toString() ?? '',context);
                   // locationselectedText = list?.name ?? '';
                   // locationSelectedlist = list;
                   createpassmgmtCubit.getlocationsResponseData(list);
@@ -2214,9 +2247,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     PassDept? dept2 = PassDept(
         id:  (state.selectedemployeeDepartmentResponse?.id   == 0) ? 1 : state.selectedemployeeDepartmentResponse?.id ?? 1,
-        name: state.selectedemployeeDepartmentResponse?.name ?? '');
+        name: state.selectedemployeeDepartmentResponse?.name ?? '');  
     PassmgmtInfo info = PassmgmtInfo(
-        id:  (state.activePassInfoList?.id   == 0) ? 1 : state.activePassInfoList?.id ?? ((widget.passId   == "3")  ? 9151 : 1),
+        id:  (state.activePassInfoList?.id   == 0) ? 1 : state.activePassInfoList?.id ?? ((widget.passId   == "3")  ? 9151 : 1), //9151 //int.parse(sezpassinfoTextController.text ?? '1')
         passNo: state.activePassInfoList?.name ?? '');
 
     //  if (widget.passId == '3') {
@@ -2718,7 +2751,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       onTap: () {},
       textFieldController: textController,
       textFormKey: Keys.colorTextController,
-      keyboardType: textController == contactnoTextController ? TextInputType.number : TextInputType.text,
+      keyboardType: textController == contactnoTextController || textController == sezpassinfoTextController ? TextInputType.number : TextInputType.text,
       // isEnable:
       //     widget.listuser == null
       //     ? true
