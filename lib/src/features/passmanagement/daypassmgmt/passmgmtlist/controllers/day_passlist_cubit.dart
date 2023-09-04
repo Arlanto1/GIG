@@ -29,7 +29,7 @@ class DayPassListCubit extends Cubit<DayPassListState> {
       emit(state.copyWith(stateType: DayPassListStateType.loading));
     }
     try {
-      DayPassListResponse foundListModelResponse = await passListServices.getpassFoundArticleList(startPosition, maximumRecords, userId,passtype);
+      DayPassListResponse foundListModelResponse = await passListServices.getpassFoundArticleList(startPosition, maximumRecords, userId,passtype,context);
          
         //    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         //   if (startPosition != '0')
@@ -67,7 +67,7 @@ class DayPassListCubit extends Cubit<DayPassListState> {
   Future<DayPassListItemResponse?>getpassArticleById(int articleId,BuildContext context) async {
     try {
       DayPassListItemResponse foundArticleDetailsResponse =
-          await passListServices.getpassArticleById(articleId);
+          await passListServices.getpassArticleById(articleId,context);
       emit(
         state.copyWith(
           foundArticleDetails: foundArticleDetailsResponse,
