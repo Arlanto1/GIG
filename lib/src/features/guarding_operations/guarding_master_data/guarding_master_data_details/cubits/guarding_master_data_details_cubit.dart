@@ -170,7 +170,7 @@ class GuardingMasterDataDetailsCubit
     state.guardingMasterData.typeOfDeployment =
         typeOfDeployment ?? state.guardingMasterData.typeOfDeployment;
 
-    state.guardingMasterData.guard = guard?? state.guardingMasterData.guard;
+    state.guardingMasterData.guard = guard ?? state.guardingMasterData.guard;
 
     emit(state.copyWith(
       guardingMasterData: state.guardingMasterData,
@@ -178,9 +178,10 @@ class GuardingMasterDataDetailsCubit
     ));
   }
 
-  void addAttchment(List<CreateImage>? data) async {
-    print('--state.status-1---${state.status}----');
-
+  void addAttchment({
+    List<CreateImage>? data,
+    List<CreateImage>? guardImages,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -188,15 +189,27 @@ class GuardingMasterDataDetailsCubit
     );
     int eventIds = math.Random.secure().nextInt(5);
 
-    print('--data----${data?.length}----');
-    print('--state.status-2---${state.status}----');
+    log('--guardImages---${guardImages?.length}----');
+    if (guardImages != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+          guardAttachments: guardImages,
+          status: FormStatus.initial,
+        ),
+      );
+    }
 
-    emit(state.copyWith(
-      eventId: eventIds,
-      guardingMasterData: state.guardingMasterData,
-      loadAttachments: data,
-      status: FormStatus.initial,
-    ));
+    emit(
+      state.copyWith(
+        eventId: eventIds,
+        guardingMasterData: state.guardingMasterData,
+        loadAttachments: data,
+        guardAttachments: guardImages,
+        status: FormStatus.initial,
+      ),
+    );
 
     print('--state.status--3--${state.status}----');
   }

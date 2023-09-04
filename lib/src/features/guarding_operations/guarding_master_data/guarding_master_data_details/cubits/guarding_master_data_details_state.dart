@@ -18,6 +18,7 @@ class GuardingMasterDataDetailsState extends Equatable {
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<CreateImage>? loadAttachments;
+  final List<CreateImage>? guardAttachments;
   final List<Entity>? listOfEntities;
   final List<Department> departments;
   final AddEntities? getEntitiesResponse;
@@ -36,6 +37,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     required final List<Department> departments,
     required String errorMessage,
     required List<CreateImage> loadAttachments,
+     List<CreateImage>? guardAttachments,
     required int? eventId,
     List<String>? participationDate,
   }) {
@@ -51,8 +53,10 @@ class GuardingMasterDataDetailsState extends Equatable {
       emailUsers: emailUsers,
       message: errorMessage,
       loadAttachments: loadAttachments,
+      guardAttachments: guardAttachments,
       eventId: eventId,
       participationDates: participationDate,
+
     );
   }
 
@@ -91,12 +95,13 @@ class GuardingMasterDataDetailsState extends Equatable {
     this.users,
     this.emailUsers,
     this.loadAttachments,
+    this.guardAttachments,
+    this.listOfEntities,
+    required this.departments,
+    this.getEntitiesResponse,
+    this.participationDates,
     this.eventId,
     this.message,
-    this.listOfEntities,
-    this.getEntitiesResponse,
-    required this.departments,
-    this.participationDates,
   });
 
   GuardingMasterDataDetailsState copyWith({
@@ -107,6 +112,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<CreateImage>? loadAttachments,
+    List<CreateImage>? guardAttachments,
     List<Entity>? listOfEntities,
     List<Department>? departments,
     AddEntities? getEntitiesResponse,
@@ -122,6 +128,7 @@ class GuardingMasterDataDetailsState extends Equatable {
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
       loadAttachments: loadAttachments ?? this.loadAttachments,
+      guardAttachments: guardAttachments ?? this.guardAttachments,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       departments: departments ?? this.departments,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,

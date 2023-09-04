@@ -10,6 +10,7 @@ import '../../../../../common_widgets/app_button.dart';
 import '../../../../../common_widgets/base_widget/base_app_bar.dart';
 import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
 import '../../../../../common_widgets/base_widget/base_drop_down.dart';
+import '../../../../../common_widgets/base_widget/base_image_upload.dart';
 import '../../../../../common_widgets/base_widget/date_picker_dialog.dart';
 import '../../../../../common_widgets/base_widget/multiple_selection_pop_up.dart';
 import '../../../../../common_widgets/base_widget/radio_buttons_yes_no.dart';
@@ -35,7 +36,6 @@ import '../../../../article_found_register_module/foundlist/models/foundlist_art
 import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_locations_model.dart';
 import '../../../../createfound/models/get_user_model.dart';
-import '../../../../createfound/views/upload_attachment.dart';
 import '../../models/guarding_master_data_model.dart';
 import '../cubits/guarding_master_data_details_cubit.dart';
 
@@ -58,6 +58,14 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   GetUserDetails? userDetails;
   List<CreateImage>? getFiles;
+  List<CreateImage>? guardImages;
+  List<CreateImage>? bioDataFiles;
+  List<CreateImage>? deploymentFiles;
+  List<CreateImage>? getPermanentAddressFiles;
+  List<CreateImage>? getLocalAddressFiles;
+  List<CreateImage>? getPVCFiles;
+  List<CreateImage>? getTrainingFiles;
+  List<CreateImage>? getMedicalFiles;
   List<FoundImage>? getAttachments;
   TextEditingController dateOfBirthController = TextEditingController();
   TextEditingController dateOfJoiningController = TextEditingController();
@@ -234,7 +242,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
         state.status == FormStatus.initial) {
       log('---getAttachments----builder----${getAttachments?.length}-----');
       getFiles = state.loadAttachments ?? [];
-      log('---getFiles----builder----${getFiles?.length}-----');
+      log('---guardAttachments----builder----${state.guardAttachments?.length}-----');
+
+      guardImages = state.guardAttachments ?? [];
     }
 
     return Container(
@@ -417,7 +427,26 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                     height * 0.001)
                                 : Container(),
                             widget.guardingMasterData == null
-                                ? uploadWidget(state)
+                                ? BaseImageUpload().uploadWidget(
+                                    context: context,
+                                    loggedInUserDetails:
+                                        state.loggedInUserDetails ??
+                                            EntrySecurity(),
+                                    getFiles: guardImages,
+                                    onImageSelected: (CreateImage data) {
+                                      log('-------function---onImageSelected---------');
+                                      List<CreateImage>? files = [];
+                                      files.add(data);
+                                      for (CreateImage image
+                                          in guardImages!.toList()) {
+                                        files.add(image);
+                                      }
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .addAttchment(guardImages: files);
+                                    },
+                                  )
                                 : Container(),
 
                             // Attachments
@@ -886,24 +915,40 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                           }),
 
                             /// upload File
-                            if (state.guardingMasterData
-                                .deploymentOrderSubmitted) ...[
-                              widget.guardingMasterData == null
-                                  ? CommonWidgets.textDisplay(
-                                      Constants.uploadfile,
-                                      Styles.textStyleBlack14)
-                                  : Container(),
-                              widget.guardingMasterData == null
-                                  ? CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001)
-                                  : Container(),
-                              widget.guardingMasterData == null
-                                  ? uploadWidget(state)
-                                  : Container(),
-                              // Attachments
-                              getSpaceattchment(height),
-                              getAttachement(state, height),
-                            ],
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.textDisplay(
+                                    Constants.uploadfile,
+                                    Styles.textStyleBlack14)
+                                : Container(),
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001)
+                                : Container(),
+                            widget.guardingMasterData == null
+                                ? BaseImageUpload().uploadWidget(
+                                    context: context,
+                                    loggedInUserDetails:
+                                        state.loggedInUserDetails ??
+                                            EntrySecurity(),
+                                    getFiles: deploymentFiles,
+                                    onImageSelected: (CreateImage data) {
+                                      log('-------function---onImageSelected---------');
+                                      List<CreateImage>? files = [];
+                                      files.add(data);
+                                      for (CreateImage image
+                                          in deploymentFiles!.toList()) {
+                                        files.add(image);
+                                      }
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .addAttchment(data: files);
+                                    },
+                                  )
+                                : Container(),
+                            // Attachments
+                            getSpaceattchment(height),
+                            getAttachement(state, height),
 
                             /// Height
                             CommonWidgets.textDisplay(
@@ -1072,7 +1117,26 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             widget.guardingMasterData == null
-                                ? uploadWidget(state)
+                                ? BaseImageUpload().uploadWidget(
+                                    context: context,
+                                    loggedInUserDetails:
+                                        state.loggedInUserDetails ??
+                                            EntrySecurity(),
+                                    getFiles: bioDataFiles,
+                                    onImageSelected: (CreateImage data) {
+                                      log('-------function---onImageSelected---------');
+                                      List<CreateImage>? files = [];
+                                      files.add(data);
+                                      for (CreateImage image
+                                          in bioDataFiles!.toList()) {
+                                        files.add(image);
+                                      }
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .addAttchment(data: files);
+                                    },
+                                  )
                                 : Container(),
                             // Attachments
                             getSpaceattchment(height),
@@ -1115,7 +1179,27 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                     height * 0.001)
                                 : Container(),
                             widget.guardingMasterData == null
-                                ? uploadWidget(state)
+                                ? BaseImageUpload().uploadWidget(
+                                    context: context,
+                                    loggedInUserDetails:
+                                        state.loggedInUserDetails ??
+                                            EntrySecurity(),
+                                    getFiles: getPermanentAddressFiles,
+                                    onImageSelected: (CreateImage data) {
+                                      log('-------function---onImageSelected---------');
+                                      List<CreateImage>? files = [];
+                                      files.add(data);
+                                      for (CreateImage image
+                                          in getPermanentAddressFiles!
+                                              .toList()) {
+                                        files.add(image);
+                                      }
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .addAttchment(data: files);
+                                    },
+                                  )
                                 : Container(),
 
                             // Attachments
@@ -1157,7 +1241,26 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                     height * 0.001)
                                 : Container(),
                             widget.guardingMasterData == null
-                                ? uploadWidget(state)
+                                ? BaseImageUpload().uploadWidget(
+                                    context: context,
+                                    loggedInUserDetails:
+                                        state.loggedInUserDetails ??
+                                            EntrySecurity(),
+                                    getFiles: getLocalAddressFiles,
+                                    onImageSelected: (CreateImage data) {
+                                      log('-------function---onImageSelected---------');
+                                      List<CreateImage>? files = [];
+                                      files.add(data);
+                                      for (CreateImage image
+                                          in getLocalAddressFiles!.toList()) {
+                                        files.add(image);
+                                      }
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .addAttchment(data: files);
+                                    },
+                                  )
                                 : Container(),
 
                             // Attachments
@@ -1233,7 +1336,26 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                     height * 0.001)
                                 : Container(),
                             widget.guardingMasterData == null
-                                ? uploadWidget(state)
+                                ? BaseImageUpload().uploadWidget(
+                                    context: context,
+                                    loggedInUserDetails:
+                                        state.loggedInUserDetails ??
+                                            EntrySecurity(),
+                                    getFiles: getPVCFiles,
+                                    onImageSelected: (CreateImage data) {
+                                      log('-------function---onImageSelected---------');
+                                      List<CreateImage>? files = [];
+                                      files.add(data);
+                                      for (CreateImage image
+                                          in getPVCFiles!.toList()) {
+                                        files.add(image);
+                                      }
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .addAttchment(data: files);
+                                    },
+                                  )
                                 : Container(),
 
                             // Attachments
@@ -1289,7 +1411,26 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       height * 0.001)
                                   : Container(),
                               widget.guardingMasterData == null
-                                  ? uploadWidget(state)
+                                  ? BaseImageUpload().uploadWidget(
+                                      context: context,
+                                      loggedInUserDetails:
+                                          state.loggedInUserDetails ??
+                                              EntrySecurity(),
+                                      getFiles: getTrainingFiles,
+                                      onImageSelected: (CreateImage data) {
+                                        log('-------function---onImageSelected---------');
+                                        List<CreateImage>? files = [];
+                                        files.add(data);
+                                        for (CreateImage image
+                                            in getTrainingFiles!.toList()) {
+                                          files.add(image);
+                                        }
+                                        BlocProvider.of<
+                                                    GuardingMasterDataDetailsCubit>(
+                                                context)
+                                            .addAttchment(data: files);
+                                      },
+                                    )
                                   : Container(),
 
                               // Attachments
@@ -1330,7 +1471,26 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                     height * 0.001)
                                 : Container(),
                             widget.guardingMasterData == null
-                                ? uploadWidget(state)
+                                ? BaseImageUpload().uploadWidget(
+                                    context: context,
+                                    loggedInUserDetails:
+                                        state.loggedInUserDetails ??
+                                            EntrySecurity(),
+                                    getFiles: getMedicalFiles,
+                                    onImageSelected: (CreateImage data) {
+                                      log('-------function---onImageSelected---------');
+                                      List<CreateImage>? files = [];
+                                      files.add(data);
+                                      for (CreateImage image
+                                          in getMedicalFiles!.toList()) {
+                                        files.add(image);
+                                      }
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .addAttchment(data: files);
+                                    },
+                                  )
                                 : Container(),
 
                             // Attachments
@@ -1859,83 +2019,74 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
     );
   }
 
-  Widget uploadWidget(GuardingMasterDataDetailsState state) {
-    return widget.guardingMasterData == null
-        ? Container(
-            height: 60,
-            decoration: BoxDecoration(
-                border: Border.all(
-                  color: const Color(0xFFCACACA),
-                  width: 1.0,
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(8))),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 5.0),
-                child: ElevatedButton.icon(
-                  style:
-                      ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return UploadAttachment(
-                            userdetails:
-                                state.loggedInUserDetails ?? EntrySecurity(),
-                            getFiles: getFiles ?? [],
-                            dataState: state,
-                            onImageSelected: (CreateImage data) {
-                              log('-------function---onImageSelected---------');
-                              List<CreateImage>? files = [];
-                              files.add(data);
-                              for (CreateImage image in getFiles!.toList()) {
-                                files.add(image);
-                              }
-                              BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                                      context)
-                                  .addAttchment(files);
-                            },
-                          );
-                        });
-                  },
-
-                  icon: SvgPicture.asset(
-                    //AppIcon.dropdownicon,
-                    AppIcon.uploadicon,
-                    //fit: BoxFit.,
-                    color: AppColors.backgroundWhitecolor,
-                    width: 13,
-                    height: 13,
-                    key: const Key(Keys.userIcon),
-                  ),
-                  label: const Text(
-                    Constants.clicktoupload,
-                    style: Styles.textStyleRegularNormalWhite12,
-                  ), // <-- Text
-                ),
-              ),
-            ]),
-          )
-        : Container();
-  }
+  // Widget uploadWidget({
+  //   required BuildContext context,
+  //   required EntrySecurity loggedInUserDetails,
+  //   required Function onImageSelected,
+  //   // required List<CreateImage>? getFiles,
+  // }) {
+  //   return Container(
+  //     height: 60,
+  //     decoration: BoxDecoration(
+  //         border: Border.all(
+  //           color: const Color(0xFFCACACA),
+  //           width: 1.0,
+  //         ),
+  //         borderRadius: const BorderRadius.all(Radius.circular(8))),
+  //     child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+  //       Padding(
+  //         padding: const EdgeInsets.only(right: 5.0),
+  //         child: ElevatedButton.icon(
+  //           style:
+  //           ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
+  //           onPressed: () {
+  //             showDialog(
+  //                 context: context,
+  //                 builder: (BuildContext dialogContext) {
+  //                   return UploadAttachment(
+  //                     userdetails: loggedInUserDetails,
+  //                     getFiles: getFiles ?? [],
+  //                     onImageSelected: onImageSelected,
+  //                   );
+  //                 });
+  //           },
+  //
+  //           icon: SvgPicture.asset(
+  //             //AppIcon.dropdownicon,
+  //             AppIcon.uploadicon,
+  //             //fit: BoxFit.,
+  //             color: AppColors.backgroundWhitecolor,
+  //             width: 13,
+  //             height: 13,
+  //             key: const Key(Keys.userIcon),
+  //           ),
+  //           label: const Text(
+  //             Constants.clicktoupload,
+  //             style: Styles.textStyleRegularNormalWhite12,
+  //           ),
+  //         ),
+  //       ),
+  //     ]),
+  //   );
+  // }
 
   Widget getSpaceattchment(double height) {
     return getAttachments != null ||
-            getFiles != null ||
-            getFiles?.length != 0 ||
+            guardImages != null ||
+            guardImages?.length != 0 ||
             getAttachments?.length != 0
         ? CommonWidgets.verticalSpacerWidget(height * 0.01)
         : Container();
   }
 
   Widget getAttachement(GuardingMasterDataDetailsState state, double height) {
-    return (state.loadAttachments == null ||
-            state.loadAttachments!.isEmpty ||
+    return (state.guardAttachments == null ||
+            state.guardAttachments!.isEmpty ||
             widget.guardingMasterData == null)
-        ? state.loadAttachments?.length == 0 || getFiles == null
+        ? state.guardAttachments?.length == 0 || guardImages == null
             ? Container()
-            : attachmentListviews(getFiles, getAttachments)
-        : attachmentListviews(getFiles, getAttachments);
+            : attachmentListviews(guardImages, getAttachments)
+        : attachmentListviews(guardImages, getAttachments);
   }
 
   Widget locationWidgetdislay(GuardingMasterDataDetailsState state) {

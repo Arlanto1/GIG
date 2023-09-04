@@ -17,30 +17,29 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/c
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:file_picker/file_picker.dart';
 
 import '../../../models/entry_security.dart';
 
 enum FileDocumnets { Photo, Camera, Documents }
 
 class UploadAttachment extends StatefulWidget {
-  UploadAttachment(
-      {super.key,
-      this.userdetails,
-      this.getFiles,
-      this.lawstate,
-      this.createoundstate,
-      this.createpassmgmtstate,
-      this.isPhotoType,
-      this.inwardState,
-        this.dataState,
-        this.onImageSelected,
-      });
+  UploadAttachment({
+    super.key,
+    this.userdetails,
+    this.getFiles,
+    this.lawstate,
+    this.createoundstate,
+    this.createpassmgmtstate,
+    this.isPhotoType,
+    this.inwardState,
+    this.onImageSelected,
+  });
 
   EntrySecurity? userdetails;
   List<CreateImage>? getFiles;
@@ -220,12 +219,14 @@ class UploadAttachmentState extends State<UploadAttachment>
     }
     if (widget.inwardState != null) {
       log('-------function------------');
-      await widget.onImageSelected!(data); // Call the callback with the image data
+      await widget
+          .onImageSelected!(data); // Call the callback with the image data
       return;
     }
-    if (widget.dataState != null) {
+    if (widget.onImageSelected != null) {
       log('-------function------------');
-      await widget.onImageSelected!(data); // Call the callback with the image data
+      await widget
+          .onImageSelected!(data); // Call the callback with the image data
       return;
     }
     //Navigator.pop(context, textToSendBack);
