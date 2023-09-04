@@ -3,12 +3,14 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../constants/app_icon.dart';
 import '../../constants/constants.dart';
+import '../../features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import '../../features/createfound/models/create_found_request.dart';
 import '../../features/createfound/views/upload_attachment.dart';
 import '../../models/entry_security.dart';
 import '../../utils/app_themes/colors/app_color.dart';
 import '../../utils/app_themes/styles/app_styles.dart';
 import '../../utils/helpers/keys/keys.dart';
+import '../basic_reusable_widgets.dart';
 
 class BaseImageUpload {
   Widget uploadWidget({
@@ -62,4 +64,23 @@ class BaseImageUpload {
     );
   }
 
+
+  Widget getSpaceattchment({required double height, List<FoundImage>? getAttachments, List<CreateImage>? guardImages}) {
+    return getAttachments != null ||
+        guardImages != null ||
+        guardImages?.length != 0 ||
+        getAttachments?.length != 0
+        ? CommonWidgets.verticalSpacerWidget(height * 0.01)
+        : Container();
+  }
+
+  // Widget getAttachement(final List<CreateImage>? guardAttachments, double height) {
+  //   return (guardAttachments == null ||
+  //       guardAttachments.isEmpty ||
+  //       widget.guardingMasterData == null)
+  //       ? state.guardAttachments?.length == 0 || guardImages == null
+  //       ? Container()
+  //       : attachmentListviews(guardImages, getAttachments)
+  //       : attachmentListviews(guardImages, getAttachments);
+  // }
 }
