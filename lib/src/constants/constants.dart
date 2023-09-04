@@ -386,6 +386,13 @@ class Constants {
   static const String uanNo = 'UAN NO';
   static const String additionalInitiativesInfo = 'Additional Initiatives Info';
   static const String localAddress = 'Local Address';
+  static const String localLanguage = 'Local Language';
+  static const String localLanguageProficiency = 'Local Language Proficiency';
+  static const String hindiLanguageProficiency = 'Hindi Language Proficiency';
+  static const String englishLanguageProficiency = 'English Language Proficiency';
+  static const String read = 'Read';
+  static const String write = 'Write';
+  static const String speak = 'Speak';
   static const String permanentAddress = 'Permanent Address';
   static const String securityExperience = 'Security Experience';
   static const String addParticipationDates = 'Add Participation Date';

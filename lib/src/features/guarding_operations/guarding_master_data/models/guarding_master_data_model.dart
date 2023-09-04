@@ -80,7 +80,7 @@ class GuardingMastersDataModel {
   String? securityExperience;
   String? permanentAddress;
   String? localAddress;
-  List<dynamic>? qualifications;
+  List<Entity>? qualifications;
   List<dynamic>? pvc;
   bool trainingCertificateProvided;
   List<dynamic>? trainingCertificates;
@@ -220,7 +220,9 @@ class GuardingMastersDataModel {
         securityExperience = json['securityExperience'] as String?,
         permanentAddress = json['permanentAddress'] as String?,
         localAddress = json['localAddress'] as String?,
-        qualifications = json['qualifications'] as List?,
+        qualifications = (json['qualifications'] as List?)
+            ?.map((dynamic e) => Entity.fromJson(e as Map<String, dynamic>))
+            .toList(),
         pvc = json['pvc'] as List?,
         trainingCertificateProvided = json['trainingCertificateProvided'] ,
         trainingCertificates = json['trainingCertificates'] as List?,

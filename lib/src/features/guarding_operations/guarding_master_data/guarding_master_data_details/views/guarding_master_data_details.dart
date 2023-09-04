@@ -10,6 +10,7 @@ import '../../../../../common_widgets/app_button.dart';
 import '../../../../../common_widgets/base_widget/base_app_bar.dart';
 import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
 import '../../../../../common_widgets/base_widget/base_drop_down.dart';
+import '../../../../../common_widgets/base_widget/check_box.dart';
 import '../../../../../common_widgets/base_widget/date_picker_dialog.dart';
 import '../../../../../common_widgets/base_widget/multiple_selection_pop_up.dart';
 import '../../../../../common_widgets/base_widget/radio_buttons_yes_no.dart';
@@ -84,7 +85,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   TextEditingController systemAccessController = TextEditingController();
 
   bool isDisabled = true;
-  List<Label> systemAccessDropDownValues = const [
+
+   List<Label> systemAccessDropDownValues = const [
     Label(key: 'Yes', value: '1'),
     Label(key: 'No', value: '2'),
     Label(key: 'Revoke', value: '3'),
@@ -352,11 +354,10 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                     height * 0.01),
 
                                 /// Guard Name
-
                                 Column(
                                   children: [
                                     CommonWidgets.textDisplay(
-                                      Constants.requestorEmail,
+                                      Constants.name,
                                       Styles.textStyleBlack14,
                                     ),
                                     widget.guardingMasterData == null
@@ -461,16 +462,13 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
 
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
-
-                                /// Guarding POC
-                                CommonWidgets.textDisplay(
-                                    Constants.guardingPoc,
-                                    Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                FlutterInputField(
-                                  keyboardType: TextInputType.number,
-                                  initialValue:
+                            /// Guarding POC
+                            CommonWidgets.textDisplay(
+                                Constants.guardingPoc, Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              keyboardType: TextInputType.text,
+                              initialValue:
                                   state.guardingMasterData.guardingPOC,
                                   textFormKey: Keys.guardingPOCKey,
                                   hintText: '',
@@ -1066,7 +1064,62 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
-                                /// Physically Fit?
+                                /// Local Language
+                                CommonWidgets.textDisplay(
+                                    Constants.localLanguage, Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                FlutterInputField(
+                                  keyboardType: TextInputType.text,
+                                  initialValue:
+                                  state.guardingMasterData.localLanguage,
+                                  textFormKey: Keys.languageKey,
+                                  hintText: '',
+                                  isEnable: widget.guardingMasterData == null
+                                      ? true
+                                      : (widget.guardingMasterData != null &&
+                                      (widget.guardingMasterData
+                                          ?.localLanguage ==
+                                          null))
+                                      ? false
+                                      : true,
+                                  isDisableColor: (widget.guardingMasterData !=
+                                      null &&
+                                      (widget.guardingMasterData?.localLanguage !=
+                                          null))
+                                      ? true
+                                      : false,
+                                  onChange: (String value) {
+                                    state.guardingMasterData.localLanguage =
+                                        value;
+                                    context
+                                        .read<GuardingMasterDataDetailsCubit>()
+                                        .onModelValueChange(
+                                        state.guardingMasterData);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                ///Local Language Proficiency
+                                CommonWidgets.textDisplay(
+                                    Constants.localLanguageProficiency,
+                                    Styles.textStyleBlack14),
+                                const CheckBoxRow(),
+
+                                ///Hindi Language Proficiency
+                                CommonWidgets.textDisplay(
+                                    Constants.hindiLanguageProficiency,
+                                    Styles.textStyleBlack14),
+                                const CheckBoxRow(),
+
+                                ///English Language Proficiency
+                                CommonWidgets.textDisplay(
+                                    Constants.englishLanguageProficiency,
+                                    Styles.textStyleBlack14),
+                                const CheckBoxRow(),
+
+                               /// Physically Fit?
                                 CommonWidgets.textDisplay(
                                     Constants.physicallyFit,
                                     Styles.textStyleBlack14),
@@ -1102,15 +1155,14 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                           state.guardingMasterData);
                                     }),
 
-                                /// Security Experience
-                                CommonWidgets.textDisplay(
-                                    Constants.securityExperience,
-                                    Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  initialValue:
+                            /// Security Experience
+                            CommonWidgets.textDisplay(
+                                Constants.securityExperience,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              lineHeight: 6,
+                              initialValue:
                                   state.guardingMasterData.securityExperience,
                                   textFormKey: Keys.securityExperienceKey,
                                   hintText: Constants.informationhere,
@@ -1219,11 +1271,10 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                         .read<GuardingMasterDataDetailsCubit>()
                                         .onModelValueChange(
                                         state.guardingMasterData);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                                 /// upload File
                                 widget.guardingMasterData == null
