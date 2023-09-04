@@ -164,12 +164,12 @@ class _CreatefoundState extends State<Createfound> {
           widget.listuser?.claimantEmployeeId !=null ? widget.listuser?.claimantEmployeeId ?? '' : '';
       claimant = widget.listuser?.claimant?.lastName !=null ? widget.listuser?.claimant?.lastName ?? '' :'';
       claimantTextController.text = widget.listuser?.claimant?.lastName !=null ? widget.listuser?.claimant?.lastName ?? '' : '';
-      selectedClaimdepartment = widget.listuser?.claimantDepartment !=null ? EmployeeDepartment(
-          id:widget.listuser?.claimantDepartment?.id ?? 0 , name: widget.listuser?.claimantDepartment?.name ?? '') : EmployeeDepartment();
-      selectedClaimList = widget.listuser?.claimant != null ? AtomStaticUser(
+      selectedClaimdepartment = widget.listuser?.claimantDepartment !=null ? Department(
+          id:widget.listuser?.claimantDepartment?.id ?? 0 , name: widget.listuser?.claimantDepartment?.name ?? '') : Department();
+      selectedClaimList = widget.listuser?.claimant != null ? BaseUser(
           email: widget.listuser?.claimant?.email ?? "",
           id: widget.listuser?.claimant?.userId ?? 0,
-          name: widget.listuser?.claimant?.lastName ?? "") : AtomStaticUser();   
+          name: widget.listuser?.claimant?.lastName ?? "") : BaseUser();
     }
   }
 

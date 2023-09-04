@@ -38,6 +38,7 @@ class GuardingMastersDataModel {
   LocationRegion? locationRegion;
   Department? vendor;
   EntrySecurity? entrySecurity;
+  EntrySecurity? guard;
   List<Entity>? entities;
   String? inputDate;
   String? csrParticipationDates;
@@ -104,6 +105,7 @@ class GuardingMastersDataModel {
     this.location,
     this.locationRegion,
     this.entrySecurity,
+    this.guard,
     this.inputDate,
     this.csrParticipationDates,
     this.medicalCertificateValidUntil,
@@ -172,6 +174,7 @@ class GuardingMastersDataModel {
         location = (json['location'] as Map<String,dynamic>?) != null ? Location.fromJson(json['location'] as Map<String,dynamic>) : null,
         locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? LocationRegion.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? EntrySecurity.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
+        guard = (json['guard'] as Map<String,dynamic>?) != null ? EntrySecurity.fromJson(json['guard'] as Map<String,dynamic>) : null,
         inputDate = json['inputDate'] as String?,
         csrParticipationDates = json['csrParticipationDates'] as String?,
         medicalCertificateValidUntil = json['medicalCertificateValidUntil'] as String?,
@@ -242,6 +245,7 @@ class GuardingMastersDataModel {
     'location' : location?.toJson(),
     'locationRegion' : locationRegion?.toJson(),
     'entrySecurity' : entrySecurity?.toJson(),
+    'guard' : guard?.toJson(),
     'inputDate' : inputDate,
     'csrParticipationDates' : csrParticipationDates,
     'medicalCertificateValidUntil' : medicalCertificateValidUntil,

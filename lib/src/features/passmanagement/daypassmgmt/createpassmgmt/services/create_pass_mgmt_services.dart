@@ -302,7 +302,7 @@ class CreatePassMgmtService
     // }
     var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getUserDetails?userId=$userId',context);
 
-   return  GetUserDetails.fromJson(value);
+   return  EntrySecurity.fromJson(value);
   }
 
   // Create organisation api call

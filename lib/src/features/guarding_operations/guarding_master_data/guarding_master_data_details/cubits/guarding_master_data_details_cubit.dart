@@ -10,7 +10,6 @@ import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/location.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:db_atom/src/utils/util.dart';
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
@@ -19,6 +18,7 @@ import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/generic_creat_response.dart';
+import '../../../../../utils/util.dart';
 import '../../../../createfound/models/serial_number_model.dart';
 import '../../../../lawenforcement/models/addentities.dart';
 import '../../../../material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
@@ -130,6 +130,7 @@ class GuardingMasterDataDetailsCubit
     Location? location,
     BaseUser? user,
     Department? vendor,
+    EntrySecurity? guard,
     List<Entity>? entities,
     int? systemAccess,
     int? guardRank,
@@ -168,6 +169,8 @@ class GuardingMasterDataDetailsCubit
         systemAccess ?? state.guardingMasterData.systemAccess;
     state.guardingMasterData.typeOfDeployment =
         typeOfDeployment ?? state.guardingMasterData.typeOfDeployment;
+
+    state.guardingMasterData.guard = guard?? state.guardingMasterData.guard;
 
     emit(state.copyWith(
       guardingMasterData: state.guardingMasterData,

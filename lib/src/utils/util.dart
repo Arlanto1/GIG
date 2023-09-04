@@ -75,11 +75,10 @@ class Utils {
       onPostivePressed: () {
         if (error.isNotEmpty) {
           Navigator.pop(context);
+        } else {
+          Navigator.pop(context);
+          Navigator.pop(context, true);
         }
-        else
-        {Navigator.pop(context);Navigator.pop(context,true);
-        }
-        
       },
     );
     showDialog(
@@ -94,7 +93,6 @@ class Utils {
   }
 
   static showAlertMessage(String message, BuildContext context) {
-
     var dialog = CustomAlertDialog(
       title: Constants.appname,
       message: message,
@@ -108,7 +106,6 @@ class Utils {
     showDialog(context: context, builder: (BuildContext context) => dialog);
   }
 
-}
 
   String formatUnixTimestamp(String timestampString) {
     try {
@@ -117,11 +114,10 @@ class Utils {
 
       // Convert the Unix timestamp to a DateTime object
       DateTime dateTime =
-          DateTime.fromMillisecondsSinceEpoch(unixTimestamp * 1000);
+      DateTime.fromMillisecondsSinceEpoch(unixTimestamp * 1000);
 
       // Format the DateTime object as a string
-      String formattedDate =
-          DateFormat('dd/MM/yyyy a HH:mm:ss').format(dateTime);
+      String formattedDate = DateFormat('dd/MM/yyyy a HH:mm:ss').format(dateTime);
 
       return formattedDate;
     } catch (e) {
@@ -358,3 +354,4 @@ class Utils {
     return inputString.split(',');
   }
 }
+

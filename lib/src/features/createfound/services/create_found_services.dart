@@ -248,7 +248,7 @@ class CreateFoundServices {
     // }
     var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getUserDetails?userId=$userId',context);
 
-   return  GetUserDetails.fromJson(value);
+   return  EntrySecurity.fromJson(value);
   }
 
   // get serailnumber Details api call
