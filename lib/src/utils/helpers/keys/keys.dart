@@ -87,6 +87,9 @@ class Keys {
   static const String maritalStatusKey = 'maritalStatusKey_gd';
   static const String typeOfDutyKey = 'typeOfDutyKey_gd';
   static const String dbEmployeeIDKey = 'dbEmployeeIDKey_gd';
+  static const String heightKey = 'heightKey_gd';
+  static const String weightKey = 'weightKey_gd';
+  static const String chestKey = 'chestKey_gd';
   static const String guardingPOCKey = 'guardingPOCKey_gd';
   static const String guardingAgencyKey = 'guardingAgencyKey_gd';
   static const String uanNoKey = 'uanNoKey_gd';

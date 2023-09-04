@@ -888,6 +888,108 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               getAttachement(state, height),
                             ],
 
+                            /// Height
+                            CommonWidgets.textDisplay(
+                                Constants.height, Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              keyboardType: TextInputType.number,
+                              initialValue:
+                                  state.guardingMasterData.height.toString(),
+                              textFormKey: Keys.heightKey,
+                              hintText: '',
+                              isEnable: widget.guardingMasterData == null
+                                  ? true
+                                  : (widget.guardingMasterData != null &&
+                                          (widget.guardingMasterData?.height ==
+                                              null))
+                                      ? false
+                                      : true,
+                              isDisableColor:
+                                  (widget.guardingMasterData != null &&
+                                          (widget.guardingMasterData?.height !=
+                                              null))
+                                      ? true
+                                      : false,
+                              onChange: (int value) {
+                                state.guardingMasterData.height = value;
+                                context
+                                    .read<GuardingMasterDataDetailsCubit>()
+                                    .onModelValueChange(
+                                        state.guardingMasterData);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Weight
+                            CommonWidgets.textDisplay(
+                                Constants.weight, Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              keyboardType: TextInputType.number,
+                              initialValue:
+                                  state.guardingMasterData.weight.toString(),
+                              textFormKey: Keys.weightKey,
+                              hintText: '',
+                              isEnable: widget.guardingMasterData == null
+                                  ? true
+                                  : (widget.guardingMasterData != null &&
+                                          (widget.guardingMasterData?.weight ==
+                                              null))
+                                      ? false
+                                      : true,
+                              isDisableColor:
+                                  (widget.guardingMasterData != null &&
+                                          (widget.guardingMasterData?.weight !=
+                                              null))
+                                      ? true
+                                      : false,
+                              onChange: (int value) {
+                                state.guardingMasterData.height = value;
+                                context
+                                    .read<GuardingMasterDataDetailsCubit>()
+                                    .onModelValueChange(
+                                        state.guardingMasterData);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            ///Chest
+                            CommonWidgets.textDisplay(
+                                Constants.chest, Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              keyboardType: TextInputType.number,
+                              initialValue:
+                                  state.guardingMasterData.chest.toString(),
+                              textFormKey: Keys.chestKey,
+                              hintText: '',
+                              isEnable: widget.guardingMasterData == null
+                                  ? true
+                                  : (widget.guardingMasterData != null &&
+                                          (widget.guardingMasterData?.chest ==
+                                              null))
+                                      ? false
+                                      : true,
+                              isDisableColor:
+                                  (widget.guardingMasterData != null &&
+                                          (widget.guardingMasterData?.chest !=
+                                              null))
+                                      ? true
+                                      : false,
+                              onChange: (int value) {
+                                state.guardingMasterData.height = value;
+                                context
+                                    .read<GuardingMasterDataDetailsCubit>()
+                                    .onModelValueChange(
+                                        state.guardingMasterData);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                             /// Physically Fit?
                             CommonWidgets.textDisplay(Constants.physicallyFit,
                                 Styles.textStyleBlack14),
@@ -1535,6 +1637,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                                 .showFields(
                                                     csrParticipation: false);
                                           }),
+
                             if (state.guardingMasterData.csrParticipation) ...[
                               CommonWidgets.textDisplay(
                                   Constants.participationDates,

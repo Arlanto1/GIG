@@ -52,6 +52,9 @@ class GuardingMastersDataModel {
   String? dateOfBirth;
   String? dateOfJoining;
   int? status;
+  int? height;
+  int? weight;
+  int? chest;
   int? guardRank;
   String? employeeCode;
   String? dbEmployeeId;
@@ -114,6 +117,9 @@ class GuardingMastersDataModel {
     this.dateOfBirth,
     this.dateOfJoining,
     this.status,
+    this.height,
+    this.weight,
+    this.chest,
     this.guardRank,
     this.employeeCode,
     this.dbEmployeeId,
@@ -187,6 +193,9 @@ class GuardingMastersDataModel {
             ?.map((dynamic e) => Entity.fromJson(e as Map<String, dynamic>))
             .toList(),   employeeCode = json['employeeCode'] as String?,
         dbEmployeeId = json['dbEmployeeId'] as String?,
+        height = json['height'] as int?,
+        weight = json['weight'] as int?,
+        chest = json['chest'] as int?,
         dutyType = json['dutyType'] as int?,
         gender = json['gender'] as int?,
         contactNo = json['contactNo'] as String?,
@@ -246,6 +255,9 @@ class GuardingMastersDataModel {
     'dateOfBirth': dateOfBirth,
     'dateOfJoinig': dateOfJoining,
     'status' : status,
+    'height':height,
+    'weight': weight,
+    'chest': chest,
     'guardRank' : guardRank,
     'employeeCode' : employeeCode,
     'dbEmployeeId' : dbEmployeeId,
