@@ -115,7 +115,16 @@ class _FoundListState extends State<FoundList> {
         backgroundColor: AppColors.navigationSkybluecolor,
         foregroundColor: AppColors.backgroundWhitecolor,
         onPressed: () {
-          Navigator.pushNamed(context, createfoundScreenRoute);
+          Navigator.pushNamed(context, createfoundScreenRoute).then((value) async {
+            if(value != null && value == true)
+            {
+              print(value);
+              localfoundlist?.clear();
+              pageNumber = 0;
+              _getFoundArticleList();
+
+            }
+          });
         },
       ),
       appBar: AppHeader(
@@ -175,8 +184,11 @@ class _FoundListState extends State<FoundList> {
                 );
               } else {
                 if (pageNumber == 0) {
-                  localfoundlist = state.foundListModel?.list;
+                  
+                     localfoundlist = state.foundListModel?.list;
+                  
                 } else {
+                  
                   localfoundlist?.addAll(state.foundListModel?.list ?? []);
                 }
                 if ((state.foundListModel?.list?.length ?? 0) == 0 || (state.foundListModel?.totalCount ?? 0) == localfoundlist?.length)

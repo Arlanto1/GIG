@@ -1,5 +1,6 @@
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
+import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -13,14 +14,15 @@ class Validator {
     return password!.length >= 5;
   }
 
-  static logoutAction(BuildContext context) {
-    // SharedData.setLoggedIn(false);
-    // SharedData.setUserId('');
-    // SharedData.setIdentifyUserId('');
-    // SharedData.setUsername('');
-    // SharedData.setManager(false);
-    // prefs.remove(Constants.isLoggedInKey);
 
+  static logoutAction(BuildContext context) {
+    SharedPrefs.setUserId('');
+    SharedPrefs.setEmail('');
+    SharedPrefs.setToken('');
+    SharedPrefs.setUsername('');
+    SharedPrefs.setSessionToken('');
+    SharedPrefs.setLoggedIn(false);
+    SharedPrefs.setFoundId(100);
     Navigator.of(context).pushNamedAndRemoveUntil(loginScreenRoute, (route) => false);
   }
 

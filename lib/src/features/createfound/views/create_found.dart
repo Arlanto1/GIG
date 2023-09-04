@@ -35,6 +35,7 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:db_atom/src/utils/network_handler.dart' as network_handler;
 
 class Createfound extends StatefulWidget {
   FoundListArticleDetails? listuser;
@@ -154,11 +155,17 @@ class _CreatefoundState extends State<Createfound> {
       claimantDepartmentName = widget.listuser?.claimantDepartmentName !=null ? widget.listuser?.claimantDepartmentName ?? '' :'';
       itemhandoverByValue = widget.listuser?.handOverSecurityName ?? '';
       handedoverdatedateTextController.text = widget.listuser?.handoverDate != null ? Utils.timestamptoDateConversion(
-          int.parse(widget.listuser?.handoverDate ?? '0'), Constants.fulldateFormat) : '';
-      claimantEmpIdTextController.text =
+          int.parse(widget.listuser?.handoverDate ?? '0'), Constants.fulldateFormat) : handedoverdatedateTextController.text.isEmpty ? '' : handedoverdatedateTextController.text;
+      claimantEmpIdTextController.text = 
           widget.listuser?.claimantEmployeeId !=null ? widget.listuser?.claimantEmployeeId ?? '' : '';
       claimant = widget.listuser?.claimant?.lastName !=null ? widget.listuser?.claimant?.lastName ?? '' :'';
       claimantTextController.text = widget.listuser?.claimant?.lastName !=null ? widget.listuser?.claimant?.lastName ?? '' : '';
+      selectedClaimdepartment = widget.listuser?.claimantDepartment !=null ? EmployeeDepartment(
+          id:widget.listuser?.claimantDepartment?.id ?? 0 , name: widget.listuser?.claimantDepartment?.name ?? '') : EmployeeDepartment();
+      selectedClaimList = widget.listuser?.claimant != null ? AtomStaticUser(
+          email: widget.listuser?.claimant?.email ?? "",
+          id: widget.listuser?.claimant?.userId ?? 0,
+          name: widget.listuser?.claimant?.lastName ?? "") : AtomStaticUser();   
     }
   }
 
@@ -338,13 +345,21 @@ class _CreatefoundState extends State<Createfound> {
 
   void _getFoundArticleList() async {
     var userid = await SharedPrefs.getUserId();
-    await createFoundArticleCubit.getUserByRoleDepositor('ATOM_STATIC_USER');
-    await createFoundArticleCubit.getLocations('ATOM_LOCATIONS');
+    final bool isActive = await network_handler.networkChecking(context);
+    if (isActive)
+    {
+    await createFoundArticleCubit.getUserByRoleDepositor('ATOM_STATIC_USER',context);
+    await createFoundArticleCubit.getLocations('ATOM_LOCATIONS',context);
     await createFoundArticleCubit
-        .getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
-    await createFoundArticleCubit.getArticleType('ARTICLE_LIST');
+        .getEmployeeDepartments('EMPLOYEE_DEPARTMENTS',context);
+    await createFoundArticleCubit.getArticleType('ARTICLE_LIST',context);
     if (widget.listuser == null) {
-      await createFoundArticleCubit.getUserDetails(userid);
+      await createFoundArticleCubit.getUserDetails(userid,context);
+    }
+    }
+    else
+    {
+       Utils.showAlertMessage("No Network connection", context);
     }
   }
 
@@ -356,6 +371,7 @@ class _CreatefoundState extends State<Createfound> {
     //you can implement different kind of Date Format here according to your requirement
     dateofcreationTextController.text = formattedDate;
     statusTextController.text = 'Found';
+     handedoverdatedateTextController.text = formattedDate;
     setState(() {
       // dateinput.text = formattedDate; //set output date to TextField value.
     });
@@ -414,7 +430,7 @@ class _CreatefoundState extends State<Createfound> {
         if (isClaimantDBEmployeeSelected == 1 &&
             ((claimant.isEmpty) ||
                 (claimantEmpIdTextController.text.isEmpty) ||
-                (claimantDepartmentName.isEmpty))) {
+                ((selectedClaimdepartment?.name ?? '').isEmpty))) {
           if (claimant.isEmpty) {
             Validator().showToast(
               context,
@@ -425,7 +441,7 @@ class _CreatefoundState extends State<Createfound> {
               context,
               "Please enter claimant employee id",
             );
-          } else if (claimantDepartmentName.isEmpty) {
+          } else if ((selectedClaimdepartment?.name ?? '').isEmpty) {
             Validator().showToast(
               context,
               "Please enter claimant department",
@@ -555,7 +571,7 @@ class _CreatefoundState extends State<Createfound> {
               context,
               "Please enter claimant employee id",
             );
-          } else if (claimantDepartmentName.isEmpty) {
+          } else if ((selectedClaimdepartment?.name ?? '').isEmpty) {
             Validator().showToast(
               context,
               "Please enter claimant department",
@@ -719,6 +735,21 @@ class _CreatefoundState extends State<Createfound> {
         });
   }
 
+  initiallyLocationandSerialnumberdataset(CreateFoundState state)
+  async {
+    if(locationSelectedlist == null && state.getLocationsResponse != null && widget.listuser == null)
+            {
+              locationSelectedlist =  Mumbai(
+          id: 24,
+          name: "DLF Square") ;
+          locationselectedText = 'DLF Square';
+           await createFoundArticleCubit.getSerialnumberDetails(
+                      '24', 'AF',context);
+          
+            }
+   
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -790,6 +821,7 @@ class _CreatefoundState extends State<Createfound> {
             //     _createFoundAlert(context, createfoundResponse?.message ?? '');
             //   });
             // }
+            initiallyLocationandSerialnumberdataset(state);
             if (widget.listuser == null) {
               userDetails = state.getUserDetailsResponse ?? GetUserDetails();
               if (userDetails != null) {
@@ -1278,16 +1310,16 @@ class _CreatefoundState extends State<Createfound> {
                                   )
                                 : widget.listuser != null
                                     ? TextfieldAddButton(
-                                        title: claimant,
+                                        title: selectedClaimList?.name ?? '',
                                         height: 60,
                                         isDisableColor:
                                             widget.listuser == null ||
-                                                    claimant.isEmpty
+                                                    (selectedClaimList?.name ?? '').isEmpty
                                                 ? false
                                                 : true,
                                         onTap: () {
                                           if (widget.listuser == null ||
-                                              claimant.isEmpty) {
+                                              (selectedClaimList?.name ?? '').isEmpty) {
                                             depositorDialog(
                                                 state, Constants.claimant);
                                           }
@@ -1372,15 +1404,15 @@ class _CreatefoundState extends State<Createfound> {
                             widget.listuser != null &&
                                     isClaimantDBEmployeeSelected == 1
                                 ? TextfieldAddButton(
-                                    title: claimantDepartmentName,
+                                    title: (selectedClaimdepartment?.name ?? ''),
                                     height: 60,
                                     isDisableColor: widget.listuser == null ||
-                                            claimantDepartmentName.isEmpty
+                                            (selectedClaimdepartment?.name ?? '').isEmpty
                                         ? false
                                         : true,
                                     onTap: () {
                                       if (widget.listuser == null ||
-                                          claimantDepartmentName.isEmpty) {
+                                          (selectedClaimdepartment?.name ?? '').isEmpty) {
                                         employeeDepartmentDialog(state,
                                             Constants.claimantdepartment);
                                       }
@@ -1586,7 +1618,7 @@ class _CreatefoundState extends State<Createfound> {
                 onTap: (Mumbai? list) async {
                   print(list?.name);
                   await createFoundArticleCubit.getSerialnumberDetails(
-                      list?.id.toString() ?? '', 'AF');
+                      list?.id.toString() ?? '', 'AF',context);
                   locationselectedText = list?.name ?? '';
                   locationSelectedlist = list;
                   setState(() {});
