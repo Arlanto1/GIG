@@ -484,7 +484,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              /// Requester Email
+                              /// Requestor Email
                               Column(
                                 children: [
                                   CommonWidgets.textDisplay(

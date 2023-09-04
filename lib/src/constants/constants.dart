@@ -389,5 +389,9 @@ class Constants {
   static const String permanentAddress = 'Permanent Address';
   static const String securityExperience = 'Security Experience';
   static const String addParticipationDates = 'Add Participation Date';
+  static const String uploadBioData = 'Upload Bio Data';
+
+
+
   //static const String height = 'Height(cm)';
 }
