@@ -40,6 +40,7 @@ class LawEnforcementListServices {
     } on SocketException {
       throw json.decode('{"errorMessage":"Network Lost"}');
     }
+    
   }
 
   Future<LawEnforcementDetails> getLawEnforcementById(int lawEnforcementId) async {

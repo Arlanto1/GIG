@@ -1169,9 +1169,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           name: "DLF Square") ;
           createpassmgmtCubit.getlocationsResponseData(list);
            await createpassmgmtCubit.getSerialnumberDetails(
-                      '24', 'AF');
+                      '24', 'AF',context);
            await createpassmgmtCubit.getPassnumber(
-                      widget.passId ?? '0', '24');           
+                      widget.passId ?? '0', '24',context);           
           
             }
    
@@ -1320,9 +1320,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       daypassnoTextController.text = widget.listuser?.passInfo?.passNo ?? '';
       createpassmgmtCubit.getpassListResponseData(active);
       await createpassmgmtCubit.getSerialnumberDetails(
-          (widget.listuser?.location?.id ?? 0).toString(), 'AF');
+          (widget.listuser?.location?.id ?? 0).toString(), 'AF',context);
       createpassmgmtCubit.getPassnumber(
-          '0', (widget.listuser?.location?.id ?? 0).toString());
+          '0', (widget.listuser?.location?.id ?? 0).toString(),context);
       createpassmgmtCubit.getlocationsResponseData(mumbai);
 
       if ((widget.listuser?.entities?.length ?? 0) > 0) {
@@ -1380,20 +1380,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   getPassmanagmentList() async {
-    await createpassmgmtCubit.getLocations('ATOM_LOCATIONS');
-    await createpassmgmtCubit.getEntities('ATOM_ENTITIES');
-    await createpassmgmtCubit.getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
+    await createpassmgmtCubit.getLocations('ATOM_LOCATIONS',context);
+    await createpassmgmtCubit.getEntities('ATOM_ENTITIES',context);
+    await createpassmgmtCubit.getEmployeeDepartments('EMPLOYEE_DEPARTMENTS',context);
     if (widget.listuser == null ||
         (widget.listuser?.entrySecurity?.userName ?? '').isEmpty) {
       var userid = await SharedPrefs.getUserId();
-      await createpassmgmtCubit.getUserDetails(userid);
+      await createpassmgmtCubit.getUserDetails(userid,context);
     } else {
       createdBy = widget.listuser?.entrySecurity?.userName ?? '';
     }
-    await createpassmgmtCubit.getCompanytypes('ATOM_COMPANY_TYPES');
-    await createpassmgmtCubit.getDayPassreasons('DAY_PASS_REASON');
+    await createpassmgmtCubit.getCompanytypes('ATOM_COMPANY_TYPES',context);
+    await createpassmgmtCubit.getDayPassreasons('DAY_PASS_REASON',context);
     //await createpassmgmtCubit.getAnalysts('T1_Analyst');
-    await createpassmgmtCubit.getUserByRoleDepositor('ATOM_STATIC_USER');
+    await createpassmgmtCubit.getUserByRoleDepositor('ATOM_STATIC_USER',context);
   }
 
   Widget submitButtonDisplay() {
@@ -2121,10 +2121,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 onTap: (Mumbai? list) async {
                   print(list?.name);
                   await createpassmgmtCubit.getSerialnumberDetails(
-                      list?.id.toString() ?? '', 'AF');
+                      list?.id.toString() ?? '', 'AF',context);
 
                   createpassmgmtCubit.getPassnumber(
-                      widget.passId ?? '0', list?.id.toString() ?? '');
+                      widget.passId ?? '0', list?.id.toString() ?? '',context);
                   // locationselectedText = list?.name ?? '';
                   // locationSelectedlist = list;
                   createpassmgmtCubit.getlocationsResponseData(list);
