@@ -91,6 +91,7 @@ class Keys {
   static const String weightKey = 'weightKey_gd';
   static const String chestKey = 'chestKey_gd';
   static const String guardingPOCKey = 'guardingPOCKey_gd';
+  static const String languageKey = 'languageKey_gd';
   static const String guardingAgencyKey = 'guardingAgencyKey_gd';
   static const String uanNoKey = 'uanNoKey_gd';
   static const String systemAccessKey = 'systemAccessKey_gd';
