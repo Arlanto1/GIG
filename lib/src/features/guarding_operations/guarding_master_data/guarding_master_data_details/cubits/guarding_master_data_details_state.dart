@@ -19,12 +19,19 @@ class GuardingMasterDataDetailsState extends Equatable {
   final List<BaseUser>? emailUsers;
   final List<CreateImage>? loadAttachments;
   final List<CreateImage>? guardAttachments;
+  final List<CreateImage>? deploymentAttachments;
+  final List<CreateImage>? bioDataAttachments;
   final List<Entity>? listOfEntities;
   final List<Department> departments;
   final AddEntities? getEntitiesResponse;
   final List<String>? participationDates;
   final int? eventId;
   final String? message;
+  final List<CreateImage>? permanentAddressAttachments;
+  final List<CreateImage>? localAddressAttachments;
+  final List<CreateImage>? pVCAttachments;
+  final List<CreateImage>? trainingAttachments;
+  final List<CreateImage>? medicalAttachments;
 
   factory GuardingMasterDataDetailsState.initial({
     required GuardingMastersDataModel model,
@@ -37,7 +44,14 @@ class GuardingMasterDataDetailsState extends Equatable {
     required final List<Department> departments,
     required String errorMessage,
     required List<CreateImage> loadAttachments,
-     List<CreateImage>? guardAttachments,
+    List<CreateImage>? bioDataAttachments,
+    List<CreateImage>? guardAttachments,
+    List<CreateImage>? deploymentAttachments,
+    List<CreateImage>? permanentAddressAttachments,
+    List<CreateImage>? localAddressAttachments,
+    List<CreateImage>? pVCAttachments,
+    List<CreateImage>? trainingAttachments,
+    List<CreateImage>? medicalAttachments,
     required int? eventId,
     List<String>? participationDate,
   }) {
@@ -54,9 +68,15 @@ class GuardingMasterDataDetailsState extends Equatable {
       message: errorMessage,
       loadAttachments: loadAttachments,
       guardAttachments: guardAttachments,
+      deploymentAttachments: deploymentAttachments,
       eventId: eventId,
       participationDates: participationDate,
-
+      bioDataAttachments: bioDataAttachments,
+      localAddressAttachments: localAddressAttachments,
+      medicalAttachments: medicalAttachments,
+      permanentAddressAttachments: permanentAddressAttachments,
+      pVCAttachments: pVCAttachments,
+      trainingAttachments: trainingAttachments,
     );
   }
 
@@ -96,12 +116,19 @@ class GuardingMasterDataDetailsState extends Equatable {
     this.emailUsers,
     this.loadAttachments,
     this.guardAttachments,
+    this.deploymentAttachments,
+    this.bioDataAttachments,
     this.listOfEntities,
     required this.departments,
     this.getEntitiesResponse,
     this.participationDates,
     this.eventId,
     this.message,
+    this.permanentAddressAttachments,
+    this.localAddressAttachments,
+    this.pVCAttachments,
+    this.trainingAttachments,
+    this.medicalAttachments,
   });
 
   GuardingMasterDataDetailsState copyWith({
@@ -113,12 +140,19 @@ class GuardingMasterDataDetailsState extends Equatable {
     List<BaseUser>? emailUsers,
     List<CreateImage>? loadAttachments,
     List<CreateImage>? guardAttachments,
+    List<CreateImage>? deploymentAttachments,
+    List<CreateImage>? bioDataAttachments,
     List<Entity>? listOfEntities,
     List<Department>? departments,
     AddEntities? getEntitiesResponse,
     List<String>? participationDates,
     int? eventId,
     String? message,
+    List<CreateImage>? permanentAddressAttachments,
+    List<CreateImage>? localAddressAttachments,
+    List<CreateImage>? pVCAttachments,
+    List<CreateImage>? trainingAttachments,
+    List<CreateImage>? medicalAttachments,
   }) {
     return GuardingMasterDataDetailsState(
       status: status ?? this.status,
@@ -129,12 +163,21 @@ class GuardingMasterDataDetailsState extends Equatable {
       emailUsers: emailUsers ?? this.emailUsers,
       loadAttachments: loadAttachments ?? this.loadAttachments,
       guardAttachments: guardAttachments ?? this.guardAttachments,
+      deploymentAttachments:
+          deploymentAttachments ?? this.deploymentAttachments,
+      bioDataAttachments: bioDataAttachments ?? this.bioDataAttachments,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       departments: departments ?? this.departments,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       participationDates: participationDates ?? this.participationDates,
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
+      permanentAddressAttachments:
+          permanentAddressAttachments ?? this.permanentAddressAttachments,
+      localAddressAttachments: localAddressAttachments ?? this.localAddressAttachments,
+      pVCAttachments: pVCAttachments ?? this.pVCAttachments,
+      trainingAttachments: trainingAttachments ?? this.trainingAttachments,
+      medicalAttachments: medicalAttachments ?? this.medicalAttachments,
     );
   }
 }

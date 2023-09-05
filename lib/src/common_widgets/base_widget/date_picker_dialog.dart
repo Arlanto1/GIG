@@ -10,6 +10,21 @@ import '../date_time_picker.dart';
 import '../new_search_textfield.dart';
 
 class BaseDate {
+
+
+  /// Display Create Time
+  Widget creationDateDisplay(String date) {
+    return FlutterInputField(
+      textFormKey: Keys.dateofcreationTextController,
+      initialValue: date,
+      hintText: '',
+      isEnable: false,
+      isDisableColor: true,
+      onChange: (String value) {},
+      validateTextField: (String? user) {},
+    );
+  }
+
   Widget datePickerWidgetLoading({
     required TextEditingController textController,
     bool isDisabled = false,

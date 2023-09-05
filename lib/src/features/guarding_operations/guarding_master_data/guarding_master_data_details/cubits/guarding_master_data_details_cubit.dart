@@ -181,6 +181,13 @@ class GuardingMasterDataDetailsCubit
   void addAttchment({
     List<CreateImage>? data,
     List<CreateImage>? guardImages,
+    List<CreateImage>? deploymentFiles,
+    List<CreateImage>? bioDataFiles,
+    List<CreateImage>? permanentAddressFiles,
+    List<CreateImage>? localAddressFiles,
+    List<CreateImage>? pVCFiles,
+    List<CreateImage>? trainingFiles,
+    List<CreateImage>? medicalFiles,
   }) async {
     emit(
       state.copyWith(
@@ -196,6 +203,83 @@ class GuardingMasterDataDetailsCubit
           eventId: eventIds,
           guardingMasterData: state.guardingMasterData,
           guardAttachments: guardImages,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (deploymentFiles != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+          deploymentAttachments: deploymentFiles,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (bioDataFiles != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+          bioDataAttachments: bioDataFiles,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (permanentAddressFiles != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+          permanentAddressAttachments: permanentAddressFiles,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (localAddressFiles != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+          localAddressAttachments: localAddressFiles,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (pVCFiles != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+          pVCAttachments: pVCFiles,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (trainingFiles != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+        trainingAttachments: trainingFiles,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (medicalFiles != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+          medicalAttachments: medicalFiles,
           status: FormStatus.initial,
         ),
       );
