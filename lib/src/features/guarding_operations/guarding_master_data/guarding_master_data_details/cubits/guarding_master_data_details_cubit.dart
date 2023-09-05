@@ -6,6 +6,7 @@ import 'package:db_atom/src/features/createfound/models/create_found_request.dar
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
+import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/location.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
@@ -50,7 +51,7 @@ class GuardingMasterDataDetailsCubit
               eventId: null,
               listOfEntities: const [],
               getEntitiesResponse: null,
-              departments: const []),
+              departments: const [], listOfQualifications: const [], getQualificationsResponse: null),
         );
 
   void onModelValueChange(GuardingMastersDataModel model) {
@@ -91,6 +92,9 @@ class GuardingMasterDataDetailsCubit
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
+      AddQualifications qualifications =
+      await commonServices.getQualification(name: 'GUARD_QUALIFICATIONS');
+
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
@@ -112,6 +116,8 @@ class GuardingMasterDataDetailsCubit
           emailUsers: emailUsers.atomStaticUser,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
+          listOfQualifications: qualifications.guardQualifications,
+          getQualificationsResponse: qualifications,
           participationDates: participationDates,
         ),
       );
@@ -132,6 +138,8 @@ class GuardingMasterDataDetailsCubit
     Department? vendor,
     EntrySecurity? guard,
     List<Entity>? entities,
+    List<Entity>? qualifications,
+    int? status,
     int? systemAccess,
     int? guardRank,
     int? dutyType,
@@ -157,6 +165,8 @@ class GuardingMasterDataDetailsCubit
 
     state.guardingMasterData.entities =
         entities ?? state.guardingMasterData.entities;
+    state.guardingMasterData.qualifications =
+        qualifications ?? state.guardingMasterData.qualifications;
     state.guardingMasterData.vendor = vendor ?? state.guardingMasterData.vendor;
     state.guardingMasterData.guardRank =
         guardRank ?? state.guardingMasterData.guardRank;
@@ -167,6 +177,8 @@ class GuardingMasterDataDetailsCubit
         maritalStatus ?? state.guardingMasterData.maritalStatus;
     state.guardingMasterData.systemAccess =
         systemAccess ?? state.guardingMasterData.systemAccess;
+    state.guardingMasterData.status =
+        status ?? state.guardingMasterData.status;
     state.guardingMasterData.typeOfDeployment =
         typeOfDeployment ?? state.guardingMasterData.typeOfDeployment;
 
@@ -263,7 +275,7 @@ class GuardingMasterDataDetailsCubit
           return;
         }
         response = (await services.createGuardingMasterData(
-            body: request, isSubmit: true)) as GenericCreateResponse;
+            body: request, isSubmit: true));
       }
 
       print('---response--msg--${response.message}---');
