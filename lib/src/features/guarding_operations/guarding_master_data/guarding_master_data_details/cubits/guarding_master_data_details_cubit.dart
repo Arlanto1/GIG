@@ -59,9 +59,16 @@ class GuardingMasterDataDetailsCubit
         );
 
   void onModelValueChange(GuardingMastersDataModel model) {
+    log('-onModelValueChange---');
     emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
   }
 
+
+  void onCheckBoxChange(GuardingMastersDataModel model) {
+    emit(state.copyWith(guardingMasterData: model, status: FormStatus.loading));
+
+    emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
+  }
   void onAddParticipationDate(String participationDate) {
     log('-participationDate---$participationDate-');
 

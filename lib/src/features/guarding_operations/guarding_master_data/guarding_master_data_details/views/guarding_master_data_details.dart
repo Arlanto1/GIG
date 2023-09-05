@@ -963,24 +963,14 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             FlutterInputField(
                               keyboardType: TextInputType.number,
                               initialValue:
-                                  state.guardingMasterData.height.toString(),
+                                  '${state.guardingMasterData.height ?? ''}',
                               textFormKey: Keys.heightKey,
                               hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData?.height ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor:
-                                  (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData?.height !=
-                                              null))
-                                      ? true
-                                      : false,
-                              onChange: (int value) {
-                                state.guardingMasterData.height = value;
+                              isEnable: true,
+                              isDisableColor: false,
+                              onChange: (String value) {
+                                state.guardingMasterData.height =
+                                    int.tryParse(value);
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
                                     .onModelValueChange(
@@ -997,7 +987,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             FlutterInputField(
                               keyboardType: TextInputType.number,
                               initialValue:
-                                  state.guardingMasterData.weight.toString(),
+                                  '${state.guardingMasterData.weight ?? ''}',
                               textFormKey: Keys.weightKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
@@ -1013,8 +1003,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                               null))
                                       ? true
                                       : false,
-                              onChange: (int value) {
-                                state.guardingMasterData.height = value;
+                              onChange: (String value) {
+                                state.guardingMasterData.height =
+                                    int.tryParse(value);
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
                                     .onModelValueChange(
@@ -1031,7 +1022,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             FlutterInputField(
                               keyboardType: TextInputType.number,
                               initialValue:
-                                  state.guardingMasterData.chest.toString(),
+                                  '${state.guardingMasterData.chest ?? ''}',
                               textFormKey: Keys.chestKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
@@ -1047,8 +1038,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                               null))
                                       ? true
                                       : false,
-                              onChange: (int value) {
-                                state.guardingMasterData.height = value;
+                              onChange: (String value) {
+                                state.guardingMasterData.chest =
+                                    int.tryParse(value);
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
                                     .onModelValueChange(
@@ -1098,19 +1090,20 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             CommonWidgets.textDisplay(
                                 Constants.localLanguageProficiency,
                                 Styles.textStyleBlack14),
-                            const CheckBoxRow(),
+
+                            localLanguageProficiency(state),
 
                             ///Hindi Language Proficiency
                             CommonWidgets.textDisplay(
                                 Constants.hindiLanguageProficiency,
                                 Styles.textStyleBlack14),
-                            const CheckBoxRow(),
+                            hindiLanguageProficiency(state),
 
                             ///English Language Proficiency
                             CommonWidgets.textDisplay(
                                 Constants.englishLanguageProficiency,
                                 Styles.textStyleBlack14),
-                            const CheckBoxRow(),
+                            englishLanguageProficiency(state),
 
                             /// Physically Fit?
                             CommonWidgets.textDisplay(Constants.physicallyFit,
@@ -1920,20 +1913,24 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                               GestureDetector(
                                 onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return AddDatePopUp(
-                                            guardingMasterData: guardingMasterData,
-                                            mainContext: context,
-                                            onSubmit: ( GuardingMastersDataModel guardingMasterData) {
-                                              //loginFormKey.currentState!.validate();
-                                              FocusScope.of(context).unfocus();
-                                              BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                                              .submitForm(isSaveOnly: true);
-                                            },
-                                          );
-                                        });
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext dialogContext) {
+                                        return AddDatePopUp(
+                                          guardingMasterData:
+                                              guardingMasterData,
+                                          mainContext: context,
+                                          onSubmit: (GuardingMastersDataModel
+                                              guardingMasterData) {
+                                            //loginFormKey.currentState!.validate();
+                                            FocusScope.of(context).unfocus();
+                                            BlocProvider.of<
+                                                        GuardingMasterDataDetailsCubit>(
+                                                    context)
+                                                .submitForm(isSaveOnly: true);
+                                          },
+                                        );
+                                      });
                                 },
                                 child: Row(
                                   children: <Widget>[
@@ -1960,7 +1957,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             Column(
-                            children: getParticipationDates(state, height),
+                              children: getParticipationDates(state, height),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -2071,6 +2068,117 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
         ])));
   }
 
+  Row localLanguageProficiency(GuardingMasterDataDetailsState state) {
+    return Row(
+      children: [
+        LanguageCheckBox(
+          context: context,
+          label: Constants.read,
+          value: state.guardingMasterData.localLangProficiencyR ?? false,
+          onChanged: (bool? value) {
+            state.guardingMasterData.localLangProficiencyR = value;
+            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                .onCheckBoxChange(state.guardingMasterData);
+          },
+        ),
+        LanguageCheckBox(
+          context: context,
+          label: Constants.write,
+          value: state.guardingMasterData.localLangProficiencyW ?? false,
+          onChanged: (bool? value) {
+            state.guardingMasterData.localLangProficiencyW = value;
+            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                .onCheckBoxChange(state.guardingMasterData);
+          },
+        ),
+        LanguageCheckBox(
+          context: context,
+          label: Constants.speak,
+          value: state.guardingMasterData.localLangProficiencyS ?? false,
+          onChanged: (bool? value) {
+            state.guardingMasterData.localLangProficiencyS = value;
+            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                .onCheckBoxChange(state.guardingMasterData);
+          },
+        )
+      ],
+    );
+  }
+
+  Row hindiLanguageProficiency(GuardingMasterDataDetailsState state) {
+    return Row(
+      children: [
+        LanguageCheckBox(
+          context: context,
+          label: Constants.read,
+          value: state.guardingMasterData.hindiLangProficiencyR ?? false,
+          onChanged: (bool? value) {
+            state.guardingMasterData.hindiLangProficiencyR = value;
+            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                .onCheckBoxChange(state.guardingMasterData);
+          },
+        ),
+        LanguageCheckBox(
+          context: context,
+          label: Constants.write,
+          value: state.guardingMasterData.hindiLangProficiencyW ?? false,
+          onChanged: (bool? value) {
+            state.guardingMasterData.hindiLangProficiencyW = value;
+            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                .onCheckBoxChange(state.guardingMasterData);
+          },
+        ),
+        LanguageCheckBox(
+          context: context,
+          label: Constants.speak,
+          value: state.guardingMasterData.hindiLangProficiencyS ?? false,
+          onChanged: (bool? value) {
+            state.guardingMasterData.hindiLangProficiencyS = value;
+            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                .onCheckBoxChange(state.guardingMasterData);
+          },
+        )
+      ],
+    );
+  }
+
+  Row englishLanguageProficiency(GuardingMasterDataDetailsState state) {
+    return Row(
+      children: [
+        LanguageCheckBox(
+          context: context,
+          label: Constants.read,
+          value: state.guardingMasterData.englishLangProficiencyR ?? false,
+          onChanged: (bool? value) {
+            state.guardingMasterData.englishLangProficiencyR = value;
+            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                .onCheckBoxChange(state.guardingMasterData);
+          },
+        ),
+        LanguageCheckBox(
+          context: context,
+          label: Constants.write,
+          value: state.guardingMasterData.englishLangProficiencyW ?? false,
+          onChanged: (bool? value) {
+            state.guardingMasterData.englishLangProficiencyW = value;
+            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                .onCheckBoxChange(state.guardingMasterData);
+          },
+        ),
+        LanguageCheckBox(
+          context: context,
+          label: Constants.speak,
+          value: state.guardingMasterData.englishLangProficiencyS ?? false,
+          onChanged: (bool? value) {
+            state.guardingMasterData.englishLangProficiencyS = value;
+            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                .onCheckBoxChange(state.guardingMasterData);
+          },
+        )
+      ],
+    );
+  }
+
   List<Widget> getParticipationDates(
       GuardingMasterDataDetailsState state, height) {
     List<Widget> widgets = [];
@@ -2136,7 +2244,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<GuardingMasterDataDetailsCubit>(context).submitForm(isSaveOnly: true);
+        BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+            .submitForm(isSaveOnly: true);
       },
     );
   }

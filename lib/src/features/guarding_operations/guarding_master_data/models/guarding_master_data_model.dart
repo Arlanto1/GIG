@@ -53,9 +53,9 @@ class GuardingMastersDataModel {
   String? dateOfBirth;
   String? dateOfJoining;
   int? status;
-  int? height;
-  int? weight;
-  int? chest;
+  num? height;
+  num? weight;
+  num? chest;
   int? guardRank;
   String? employeeCode;
   String? dbEmployeeId;
@@ -196,9 +196,9 @@ class GuardingMastersDataModel {
             ?.map((dynamic e) => Entity.fromJson(e as Map<String, dynamic>))
             .toList(),   employeeCode = json['employeeCode'] as String?,
         dbEmployeeId = json['dbEmployeeId'] as String?,
-        height = json['height'] as int?,
-        weight = json['weight'] as int?,
-        chest = json['chest'] as int?,
+        height = json['height'] as num?,
+        weight = json['weight'] as num?,
+        chest = json['chest'] as num?,
         dutyType = json['dutyType'] as int?,
         gender = json['gender'] as int?,
         contactNo = json['contactNo'] as String?,
