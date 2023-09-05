@@ -128,6 +128,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     required this.departments,
     this.getEntitiesResponse,
     this.participationDates,
+    this.listOfQualifications, this.getQualificationsResponse,
     this.eventId,
     this.message,
     this.permanentAddressAttachments,
