@@ -40,6 +40,7 @@ import '../../../../createfound/models/get_locations_model.dart';
 import '../../../../createfound/models/get_user_model.dart';
 import '../../models/guarding_master_data_model.dart';
 import '../cubits/guarding_master_data_details_cubit.dart';
+import 'add_date_pop_up.dart';
 
 class GuardigMasterDataDetails extends StatefulWidget {
   final GuardingMastersDataModel? guardingMasterData;
@@ -93,6 +94,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   TextEditingController systemAccessController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   bool isDisabled = true;
+
+  get guardingMasterData => null;
 
   @override
   void initState() {
@@ -906,49 +909,52 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                             // .onModelValueChange(state.guardingMasterData
                                             //  );
                                           }),
-
-                            /// upload File
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.textDisplay(
-                                    Constants.uploadfile,
-                                    Styles.textStyleBlack14)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? BaseImageUpload().uploadWidget(
-                                    context: context,
-                                    loggedInUserDetails:
-                                        state.loggedInUserDetails ??
-                                            EntrySecurity(),
-                                    getFiles: deploymentFiles,
-                                    onImageSelected: (CreateImage data) {
-                                      log('-------function---onImageSelected---------');
-                                      List<CreateImage>? files = [];
-                                      files.add(data);
-                                      for (CreateImage image
-                                          in deploymentFiles ?? []) {
-                                        files.add(image);
-                                      }
-                                      BlocProvider.of<
-                                                  GuardingMasterDataDetailsCubit>(
-                                              context)
-                                          .addAttchment(deploymentFiles: files);
-                                    },
-                                  )
-                                : Container(),
-                            // Attachments
-                            BaseImageUpload().getAttachment(
-                              height: height,
-                              attachments: state.deploymentAttachments,
-                              files: deploymentFiles,
-                              showDownloadIcon:
-                                  widget.guardingMasterData != null
-                                      ? true
-                                      : false,
-                            ),
+                            if (state.guardingMasterData
+                                .deploymentOrderSubmitted) ...[
+                              /// upload File
+                              widget.guardingMasterData == null
+                                  ? CommonWidgets.textDisplay(
+                                      Constants.uploadfile,
+                                      Styles.textStyleBlack14)
+                                  : Container(),
+                              widget.guardingMasterData == null
+                                  ? CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001)
+                                  : Container(),
+                              widget.guardingMasterData == null
+                                  ? BaseImageUpload().uploadWidget(
+                                      context: context,
+                                      loggedInUserDetails:
+                                          state.loggedInUserDetails ??
+                                              EntrySecurity(),
+                                      getFiles: deploymentFiles,
+                                      onImageSelected: (CreateImage data) {
+                                        log('-------function---onImageSelected---------');
+                                        List<CreateImage>? files = [];
+                                        files.add(data);
+                                        for (CreateImage image
+                                            in deploymentFiles ?? []) {
+                                          files.add(image);
+                                        }
+                                        BlocProvider.of<
+                                                    GuardingMasterDataDetailsCubit>(
+                                                context)
+                                            .addAttchment(
+                                                deploymentFiles: files);
+                                      },
+                                    )
+                                  : Container(),
+                              // Attachments
+                              BaseImageUpload().getAttachment(
+                                height: height,
+                                attachments: state.deploymentAttachments,
+                                files: deploymentFiles,
+                                showDownloadIcon:
+                                    widget.guardingMasterData != null
+                                        ? true
+                                        : false,
+                              ),
+                            ],
 
                             /// Height
                             CommonWidgets.textDisplay(
@@ -1151,9 +1157,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   state.guardingMasterData.securityExperience,
                               textFormKey: Keys.securityExperienceKey,
                               hintText: Constants.informationhere,
-                              isEnable: state.guardingMasterData.status != 4,
+                              isEnable: state.guardingMasterData.status != 6,
                               isDisableColor:
-                                  state.guardingMasterData.status == 4,
+                                  state.guardingMasterData.status == 6,
                               onChange: (String value) {
                                 state.guardingMasterData.securityExperience =
                                     value;
@@ -1214,9 +1220,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   state.guardingMasterData.permanentAddress,
                               textFormKey: Keys.permanentAddressKey,
                               hintText: Constants.informationhere,
-                              isEnable: state.guardingMasterData.status != 4,
+                              isEnable: state.guardingMasterData.status != 6,
                               isDisableColor:
-                                  state.guardingMasterData.status == 4,
+                                  state.guardingMasterData.status == 6,
                               onChange: (String value) {
                                 state.guardingMasterData.permanentAddress =
                                     value;
@@ -1283,9 +1289,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   state.guardingMasterData.localAddress,
                               textFormKey: Keys.localAddressKey,
                               hintText: Constants.informationhere,
-                              isEnable: state.guardingMasterData.status != 4,
+                              isEnable: state.guardingMasterData.status != 6,
                               isDisableColor:
-                                  state.guardingMasterData.status == 4,
+                                  state.guardingMasterData.status == 6,
                               onChange: (String value) {
                                 state.guardingMasterData.localAddress = value;
                                 context
@@ -1909,10 +1915,25 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
 
                             if (state.guardingMasterData.csrParticipation) ...[
                               CommonWidgets.textDisplay(
-                                  Constants.participationDates,
+                                  Constants.csrParticipationDates,
                                   Styles.textStyleBlack14),
                               GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return AddDatePopUp(
+                                            guardingMasterData: guardingMasterData,
+                                            mainContext: context,
+                                            onSubmit: ( GuardingMastersDataModel guardingMasterData) {
+                                              //loginFormKey.currentState!.validate();
+                                              FocusScope.of(context).unfocus();
+                                              BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                                              .submitForm(isSaveOnly: true);
+                                            },
+                                          );
+                                        });
+                                },
                                 child: Row(
                                   children: <Widget>[
                                     // Expanded(
@@ -1936,9 +1957,10 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               ),
                             ],
 
-                            Column(
-                              children: getParticipationDates(state, height),
-                            ),
+                            // Column(
+                            // children: getParticipationDates(state, height),
+                            //),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Special Achivements
                             CommonWidgets.textDisplay(
@@ -1987,9 +2009,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                     .guardingMasterData.additionalInitiatives,
                                 textFormKey: Keys.additionInitiativesKey,
                                 hintText: Constants.informationhere,
-                                isEnable: state.guardingMasterData.status != 4,
+                                isEnable: state.guardingMasterData.status != 6,
                                 isDisableColor:
-                                    state.guardingMasterData.status == 4,
+                                    state.guardingMasterData.status == 6,
                                 onChange: (String value) {
                                   state.guardingMasterData
                                       .additionalInitiatives = value;
@@ -2014,9 +2036,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   .guardingMasterData.additionalInitiatives,
                               textFormKey: Keys.additionInitiativesKey,
                               hintText: Constants.informationhere,
-                              isEnable: state.guardingMasterData.status != 4,
+                              isEnable: state.guardingMasterData.status != 6,
                               isDisableColor:
-                                  state.guardingMasterData.status == 4,
+                                  state.guardingMasterData.status == 6,
                               onChange: (String value) {
                                 state.guardingMasterData.additionalInitiatives =
                                     value;
