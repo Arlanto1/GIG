@@ -22,7 +22,9 @@ class GuardingMasterDataDetailsState extends Equatable {
   final List<CreateImage>? deploymentAttachments;
   final List<CreateImage>? bioDataAttachments;
   final List<Entity>? listOfEntities;
+  final List<Entity>? listOfQualifications;
   final List<Department> departments;
+  final AddQualifications? getQualificationsResponse;
   final AddEntities? getEntitiesResponse;
   final List<String>? participationDates;
   final int? eventId;
@@ -40,7 +42,9 @@ class GuardingMasterDataDetailsState extends Equatable {
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required final List<Entity>? listOfEntities,
+    required final List<Entity>? listOfQualifications,
     required final AddEntities? getEntitiesResponse,
+    required final AddQualifications? getQualificationsResponse,
     required final List<Department> departments,
     required String errorMessage,
     required List<CreateImage> loadAttachments,
@@ -61,8 +65,10 @@ class GuardingMasterDataDetailsState extends Equatable {
       locations: locations,
       loggedInUserDetails: loggedInUserDetails,
       listOfEntities: listOfEntities,
+      listOfQualifications: listOfQualifications,
       departments: departments,
       getEntitiesResponse: getEntitiesResponse,
+      getQualificationsResponse:getQualificationsResponse,
       users: users,
       emailUsers: emailUsers,
       message: errorMessage,
@@ -107,7 +113,7 @@ class GuardingMasterDataDetailsState extends Equatable {
   @override
   List<Object?> get props => [guardingMasterData, status];
 
-  const GuardingMasterDataDetailsState({
+  const GuardingMasterDataDetailsState( {
     required this.status,
     required this.guardingMasterData,
     this.locations,
@@ -129,6 +135,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     this.pVCAttachments,
     this.trainingAttachments,
     this.medicalAttachments,
+    this.listOfQualifications, this.getQualificationsResponse,
   });
 
   GuardingMasterDataDetailsState copyWith({
@@ -143,8 +150,10 @@ class GuardingMasterDataDetailsState extends Equatable {
     List<CreateImage>? deploymentAttachments,
     List<CreateImage>? bioDataAttachments,
     List<Entity>? listOfEntities,
+    List<Entity>? listOfQualifications,
     List<Department>? departments,
     AddEntities? getEntitiesResponse,
+    AddQualifications? getQualificationsResponse,
     List<String>? participationDates,
     int? eventId,
     String? message,
@@ -167,8 +176,10 @@ class GuardingMasterDataDetailsState extends Equatable {
           deploymentAttachments ?? this.deploymentAttachments,
       bioDataAttachments: bioDataAttachments ?? this.bioDataAttachments,
       listOfEntities: listOfEntities ?? this.listOfEntities,
+      listOfQualifications: listOfQualifications ?? this.listOfQualifications,
       departments: departments ?? this.departments,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
+      getQualificationsResponse: getQualificationsResponse ?? this.getQualificationsResponse,
       participationDates: participationDates ?? this.participationDates,
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,

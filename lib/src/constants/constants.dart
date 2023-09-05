@@ -404,6 +404,8 @@ class Constants {
   static const String uploadBioData = 'Upload Bio Data';
 
 //static const String height = 'Height(cm)';
+  static const String addQualificationType = 'Add Qualification';
+  //static const String height = 'Height(cm)';
 }
 
 List<Label> systemAccessDropDownValues = const [

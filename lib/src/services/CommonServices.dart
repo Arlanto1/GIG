@@ -2,8 +2,8 @@ import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
+import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
@@ -20,6 +20,9 @@ class Apis {
   static final String _getUsersByRole = '$baseUrl/getUsersByRole?roleName=';
   static final String _getQuantityUnits =
       '$baseUrl/getOrganisation?name=ATOM_MATERIAL_MOVEMENT_UNIT';
+  static final String _getQualification =
+      '$baseUrl/getOrganisation?name=GUARD_QUALIFICATIONS';
+
 }
 
 class CommonServices {
@@ -101,5 +104,15 @@ class CommonServices {
       url: url,
     );
     return AddEntities.fromJson(response);
+  }
+
+ Future<AddQualifications> getQualification({
+    required String name,
+  }) async {
+    String url = Apis._getQualification;
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return AddQualifications.fromJson(response);
   }
 }
