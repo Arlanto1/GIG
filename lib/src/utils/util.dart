@@ -358,5 +358,9 @@ class Utils {
     log('-inputString----$inputString-');
     return inputString.split(',');
   }
+    String joinListWithComma(List<String> inputList) {
+      log('-inputList----${inputList.length}-');
+    return inputList.join(',');
+  }
 }
 

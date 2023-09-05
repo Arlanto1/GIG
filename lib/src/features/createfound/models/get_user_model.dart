@@ -1,154 +1,104 @@
-import 'dart:convert';
-
-GetUserDetails getUserDetailsFromJson(String str) => GetUserDetails.fromJson(json.decode(str));
-
-String getUserDetailsToJson(GetUserDetails data) => json.encode(data.toJson());
-
 class GetUserDetails {
-  int? userId;
-  String? userName;
-  String? email;
-  String? password;
-  String? firstName;
-  String? lastName;
-  String? salutation;
-  String? phone;
-  String? mobile;
-  String? fax;
-  String? location;
-  String? language;
-  String? timezone;
-  List<Role>? roles;
-  List<RoleExtension>? roleExtensions;
-  List<dynamic>? notApprovedRoles;
-  List<dynamic>? notApprovedRoleExtensions;
-  dynamic recertificationDate;
-  dynamic recertifiedBy;
-  dynamic nextRecertificationDate;
-  bool? deactivated;
-  bool? expertMode;
-  dynamic activeChange;
-  dynamic theme;
-  dynamic passwordChangedDate;
-  String? name;
-  String? userStatus;
+  final int? userId;
+  final String? userName;
+  final String? email;
+  final String? firstName;
+  final String? lastName;
+  final String? phone;
+  final List<Roles>? roles;
+  final List<RoleExtensions>? roleExtensions;
+  final List<dynamic>? notApprovedRoles;
+  final List<dynamic>? notApprovedRoleExtensions;
+  final String? name;
+  final String? userStatus;
 
   GetUserDetails({
     this.userId,
     this.userName,
     this.email,
-    this.password,
     this.firstName,
     this.lastName,
-    this.salutation,
     this.phone,
-    this.mobile,
-    this.fax,
-    this.location,
-    this.language,
-    this.timezone,
     this.roles,
     this.roleExtensions,
     this.notApprovedRoles,
     this.notApprovedRoleExtensions,
-    this.recertificationDate,
-    this.recertifiedBy,
-    this.nextRecertificationDate,
-    this.deactivated,
-    this.expertMode,
-    this.activeChange,
-    this.theme,
-    this.passwordChangedDate,
     this.name,
     this.userStatus,
   });
 
-  factory GetUserDetails.fromJson(Map<String, dynamic> json) => GetUserDetails(
-        userId: json["userId"],
-        userName: json["userName"],
-        email: json["email"],
-        password: json["password"],
-        firstName: json["firstName"],
-        lastName: json["lastName"],
-        salutation: json["salutation"],
-        phone: json["phone"],
-        mobile: json["mobile"],
-        fax: json["fax"],
-        location: json["location"],
-        language: json["language"],
-        timezone: json["timezone"],
-        roles: json["roles"] == null
-            ? []
-            : List<Role>.from(json["roles"]!.map((x) => Role.fromJson(x))),
-        roleExtensions: json["roleExtensions"] == null
-            ? []
-            : List<RoleExtension>.from(
-                json["roleExtensions"]!.map((x) => RoleExtension.fromJson(x))),
-        notApprovedRoles: json["notApprovedRoles"] == null
-            ? []
-            : List<dynamic>.from(json["notApprovedRoles"]!.map((x) => x)),
-        notApprovedRoleExtensions: json["notApprovedRoleExtensions"] == null
-            ? []
-            : List<dynamic>.from(json["notApprovedRoleExtensions"]!.map((x) => x)),
-        recertificationDate: json["recertificationDate"],
-        recertifiedBy: json["recertifiedBy"],
-        nextRecertificationDate: json["nextRecertificationDate"],
-        deactivated: json["deactivated"],
-        expertMode: json["expertMode"],
-        activeChange: json["activeChange"],
-        theme: json["theme"],
-        passwordChangedDate: json["passwordChangedDate"],
-        name: json["name"],
-        userStatus: json["userStatus"],
-      );
+  GetUserDetails.fromJson(Map<String, dynamic> json)
+      : userId = json['userId'] as int?,
+        userName = json['userName'] as String?,
+        email = json['email'] as String?,
+        firstName = json['firstName'] as String?,
+        lastName = json['lastName'] as String?,
+        phone = json['phone'] as String?,
+        roles = (json['roles'] as List?)?.map((dynamic e) => Roles.fromJson(e as Map<String,dynamic>)).toList(),
+        roleExtensions = (json['roleExtensions'] as List?)?.map((dynamic e) => RoleExtensions.fromJson(e as Map<String,dynamic>)).toList(),
+        notApprovedRoles = json['notApprovedRoles'] as List?,
+        notApprovedRoleExtensions = json['notApprovedRoleExtensions'] as List?,
+        name = json['name'] as String?,
+        userStatus = json['userStatus'] as String?;
 
   Map<String, dynamic> toJson() => {
-        "userId": userId,
-        "userName": userName,
-        "email": email,
-        "password": password,
-        "firstName": firstName,
-        "lastName": lastName,
-        "salutation": salutation,
-        "phone": phone,
-        "mobile": mobile,
-        "fax": fax,
-        "location": location,
-        "language": language,
-        "timezone": timezone,
-        "roles": roles == null ? [] : List<dynamic>.from(roles!.map((x) => x.toJson())),
-        "roleExtensions": roleExtensions == null
-            ? []
-            : List<dynamic>.from(roleExtensions!.map((x) => x.toJson())),
-        "notApprovedRoles":
-            notApprovedRoles == null ? [] : List<dynamic>.from(notApprovedRoles!.map((x) => x)),
-        "notApprovedRoleExtensions": notApprovedRoleExtensions == null
-            ? []
-            : List<dynamic>.from(notApprovedRoleExtensions!.map((x) => x)),
-        "recertificationDate": recertificationDate,
-        "recertifiedBy": recertifiedBy,
-        "nextRecertificationDate": nextRecertificationDate,
-        "deactivated": deactivated,
-        "expertMode": expertMode,
-        "activeChange": activeChange,
-        "theme": theme,
-        "passwordChangedDate": passwordChangedDate,
-        "name": name,
-        "userStatus": userStatus,
-      };
+    'userId' : userId,
+    'userName' : userName,
+    'email' : email,
+    'firstName' : firstName,
+    'lastName' : lastName,
+    'phone' : phone,
+    'roles' : roles?.map((e) => e.toJson()).toList(),
+    'roleExtensions' : roleExtensions?.map((e) => e.toJson()).toList(),
+    'notApprovedRoles' : notApprovedRoles,
+    'notApprovedRoleExtensions' : notApprovedRoleExtensions,
+    'name' : name,
+    'userStatus' : userStatus
+  };
 }
 
-class RoleExtension {
-  int? roleExtensionId;
-  int? roleId;
-  String? displayName;
-  String? area;
-  String? filter;
-  dynamic rootNodeId;
-  dynamic nodeId;
-  dynamic accessRight;
+class Roles {
+  final int? roleId;
+  final String? application;
+  final String? roleName;
+  final List<dynamic>? roleExtensions;
+  final String? name;
 
-  RoleExtension({
+  Roles({
+    this.roleId,
+    this.application,
+    this.roleName,
+    this.roleExtensions,
+    this.name,
+  });
+
+  Roles.fromJson(Map<String, dynamic> json)
+      : roleId = json['roleId'] as int?,
+        application = json['application'] as String?,
+        roleName = json['roleName'] as String?,
+        roleExtensions = json['roleExtensions'] as List?,
+        name = json['name'] as String?;
+
+  Map<String, dynamic> toJson() => {
+    'roleId' : roleId,
+    'application' : application,
+    'roleName' : roleName,
+    'roleExtensions' : roleExtensions,
+    'name' : name
+  };
+}
+
+class RoleExtensions {
+  final int? roleExtensionId;
+  final int? roleId;
+  final String? displayName;
+  final String? area;
+  final String? filter;
+  final dynamic rootNodeId;
+  final dynamic nodeId;
+  final dynamic accessRight;
+
+  RoleExtensions({
     this.roleExtensionId,
     this.roleId,
     this.displayName,
@@ -159,62 +109,24 @@ class RoleExtension {
     this.accessRight,
   });
 
-  factory RoleExtension.fromJson(Map<String, dynamic> json) => RoleExtension(
-        roleExtensionId: json["roleExtensionId"],
-        roleId: json["roleId"],
-        displayName: json["displayName"],
-        area: json["area"],
-        filter: json["filter"],
-        rootNodeId: json["rootNodeId"],
-        nodeId: json["nodeId"],
-        accessRight: json["accessRight"],
-      );
+  RoleExtensions.fromJson(Map<String, dynamic> json)
+      : roleExtensionId = json['roleExtensionId'] as int?,
+        roleId = json['roleId'] as int?,
+        displayName = json['displayName'] as String?,
+        area = json['area'] as String?,
+        filter = json['filter'] as String?,
+        rootNodeId = json['rootNodeId'],
+        nodeId = json['nodeId'],
+        accessRight = json['accessRight'];
 
   Map<String, dynamic> toJson() => {
-        "roleExtensionId": roleExtensionId,
-        "roleId": roleId,
-        "displayName": displayName,
-        "area": area,
-        "filter": filter,
-        "rootNodeId": rootNodeId,
-        "nodeId": nodeId,
-        "accessRight": accessRight,
-      };
-}
-
-class Role {
-  int? roleId;
-  String? application;
-  String? roleName;
-  List<RoleExtension>? roleExtensions;
-  String? name;
-
-  Role({
-    this.roleId,
-    this.application,
-    this.roleName,
-    this.roleExtensions,
-    this.name,
-  });
-
-  factory Role.fromJson(Map<String, dynamic> json) => Role(
-        roleId: json["roleId"],
-        application: json["application"],
-        roleName: json["roleName"],
-        roleExtensions: json["roleExtensions"] == null
-            ? []
-            : List<RoleExtension>.from(
-                json["roleExtensions"]!.map((x) => RoleExtension.fromJson(x))),
-        name: json["name"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "roleId": roleId,
-        "application": application,
-        "roleName": roleName,
-        "roleExtensions": roleExtensions == null
-            ? []
-            : List<dynamic>.from(roleExtensions!.map((x) => x.toJson())),
-        "name": name,
-      };
+    'roleExtensionId' : roleExtensionId,
+    'roleId' : roleId,
+    'displayName' : displayName,
+    'area' : area,
+    'filter' : filter,
+    'rootNodeId' : rootNodeId,
+    'nodeId' : nodeId,
+    'accessRight' : accessRight
+  };
 }

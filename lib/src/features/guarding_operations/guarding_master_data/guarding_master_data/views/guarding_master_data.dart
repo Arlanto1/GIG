@@ -97,9 +97,6 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                   ? state.list.length
                   : state.list.length + 1,
               itemBuilder: (context, index) {
-                log('--guardRank-${state.list[index].guardRank}--');
-                log('--status-${state.list[index].status}--');
-
                 return index >= state.list.length
                     ? const Center(
                         child: CustomCircularProgressIndicator(),

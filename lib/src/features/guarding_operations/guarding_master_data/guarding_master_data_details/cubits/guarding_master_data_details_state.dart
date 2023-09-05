@@ -34,7 +34,7 @@ class GuardingMasterDataDetailsState extends Equatable {
   final List<CreateImage>? pVCAttachments;
   final List<CreateImage>? trainingAttachments;
   final List<CreateImage>? medicalAttachments;
-  final List<EntrySecurity>? entrySecurities;
+  final List<GetUserDetails>? entrySecurities;
 
   factory GuardingMasterDataDetailsState.initial({
     required GuardingMastersDataModel model,
@@ -57,7 +57,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     List<CreateImage>? pVCAttachments,
     List<CreateImage>? trainingAttachments,
     List<CreateImage>? medicalAttachments,
-    List<EntrySecurity>? entrySecurities,
+    List<GetUserDetails>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,
   }) {
@@ -167,7 +167,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     List<CreateImage>? pVCAttachments,
     List<CreateImage>? trainingAttachments,
     List<CreateImage>? medicalAttachments,
-    List<EntrySecurity>? entrySecurities,
+    List<GetUserDetails>? entrySecurities,
   }) {
     return GuardingMasterDataDetailsState(
       status: status ?? this.status,

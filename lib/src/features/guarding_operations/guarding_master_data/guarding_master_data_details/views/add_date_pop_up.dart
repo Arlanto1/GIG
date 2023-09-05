@@ -57,7 +57,7 @@ class AddDatePopUpState extends State<AddDatePopUp> {
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
         return SizedBox(
-          height: height /3.9,
+          height: height /5.9,
           width: width,
           child: Stack(
             clipBehavior: Clip.none,
@@ -71,7 +71,7 @@ class AddDatePopUpState extends State<AddDatePopUp> {
 
                       ///CSR Participation Date
                       CommonWidgets.textDisplay(
-                        Constants.csrParticipationDates,
+                        Constants.csrParticipationDate,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -79,11 +79,12 @@ class AddDatePopUpState extends State<AddDatePopUp> {
                       BaseDate().datePickerWidgetLoading(
                         textController: dateController,
                         isDisabled: false,
+                        onlyDate: true,
                         onChange: (String value) {
                           log('--fr-value-${dateController.text}------');
-                          widget.guardingMasterData?.csrParticipationDates = value;
-                          BlocProvider.of<GuardingMasterDataDetailsCubit>(widget.mainContext)
-                           .onModelValueChange(widget.guardingMasterData!);
+
+                          dateController.text = value;
+
                         },
                         context: widget.mainContext,
                       ),
@@ -144,23 +145,24 @@ class AddDatePopUpState extends State<AddDatePopUp> {
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
-        if (!isParticipationDateValid.status) {
-          Validator().showToast(
-            context,
-            isParticipationDateValid.message,
-          );
-          return;
-        }
-        onSubmit(widget.guardingMasterData);
+
+        widget.guardingMasterData?.csrParticipationDates = dateController.text;
+        BlocProvider.of<GuardingMasterDataDetailsCubit>(widget.mainContext)
+            .onAddParticipationDate(dateController.text);
+        Navigator.pop(context);
+
+        // if (!isParticipationDateValid.status) {
+        //   Validator().showToast(
+        //     context,
+        //     isParticipationDateValid.message,
+        //   );
+        //   return;
+        // }
+        // onSubmit(widget.guardingMasterData);
+
       },
     );
   }
-  ErrorResponse get isParticipationDateValid {
-    if (widget.guardingMasterData?.csrParticipationDates == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter CSR Participation Date.');
-    }
-    return const ErrorResponse(status: true, message: 'Form is Valid');
-  }
+
 }
 

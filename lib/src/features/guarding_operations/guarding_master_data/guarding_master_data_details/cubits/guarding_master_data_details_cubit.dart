@@ -21,6 +21,7 @@ import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/generic_creat_response.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/emplyee_departments_model.dart';
+import '../../../../createfound/models/get_user_model.dart';
 import '../../../../createfound/models/serial_number_model.dart';
 import '../../../../lawenforcement/models/addentities.dart';
 import '../../../../material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
@@ -61,6 +62,27 @@ class GuardingMasterDataDetailsCubit
     emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
   }
 
+  void onAddParticipationDate(String participationDate) {
+    log('-participationDate---$participationDate-');
+
+    emit(state.copyWith(guardingMasterData: model, status: FormStatus.loading));
+    log('-state.participationDates---before---${state.participationDates}----');
+    List<String>? dates = state.participationDates??[];
+    dates.add(participationDate);
+
+    state.copyWith(
+      participationDates: dates,
+    );
+
+    log('-state.participationDates---after---${state.participationDates}----');
+    state.guardingMasterData.csrParticipationDates =
+        Utils().joinListWithComma(dates);
+
+    log('-state.guardingMasterData.csrParticipationDates---final---${state.guardingMasterData.csrParticipationDates}----');
+
+    emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
+  }
+
   String _getCurrentDate() {
     return DateFormat(Constants.fulldateFormat).format(DateTime.now());
   }
@@ -90,7 +112,7 @@ class GuardingMasterDataDetailsCubit
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
-      List<EntrySecurity> entrySecurities = await commonServices.getUsers();
+      List<GetUserDetails> entrySecurities = await commonServices.getUsers();
       AddQualifications qualifications =
           await commonServices.getQualification(name: 'GUARD_QUALIFICATIONS');
 
@@ -125,6 +147,7 @@ class GuardingMasterDataDetailsCubit
         ),
       );
     } catch (e) {
+      log('initialization issue', error: e, name: 'Guarding Master Data Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,

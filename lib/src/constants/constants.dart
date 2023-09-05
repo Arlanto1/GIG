@@ -367,7 +367,7 @@ class Constants {
   static const String onBoarded = 'MIS Trigger(for on-boarding)';
   static const String specialAchievements = 'Special Achievements?';
   static const String csrParticipation = 'Participated in CSR';
-  static const String csrParticipationDates = 'CSR Participation Dates';
+  static const String csrParticipationDate = 'Add CSR Participation Date';
   static const String dbEmployeeId = 'DB Employee ID';
   static const String buildingLocation = 'Building Location';
   static const String mobileNum = 'Mobile Number';

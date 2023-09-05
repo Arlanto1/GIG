@@ -1915,8 +1915,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
 
                             if (state.guardingMasterData.csrParticipation) ...[
                               CommonWidgets.textDisplay(
-                                  Constants.csrParticipationDates,
+                                  Constants.csrParticipationDate,
                                   Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
                               GestureDetector(
                                 onTap: () {
                                     showDialog(
@@ -1957,9 +1958,10 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               ),
                             ],
 
-                            // Column(
-                            // children: getParticipationDates(state, height),
-                            //),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            Column(
+                            children: getParticipationDates(state, height),
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Special Achivements
@@ -2134,7 +2136,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<GuardingMasterDataDetailsCubit>(context).submitForm();
+        BlocProvider.of<GuardingMasterDataDetailsCubit>(context).submitForm(isSaveOnly: true);
       },
     );
   }

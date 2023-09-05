@@ -12,8 +12,6 @@ import '../date_time_picker.dart';
 import '../new_search_textfield.dart';
 
 class BaseDate {
-
-
   /// Display Create Time
   Widget creationDateDisplay(String date) {
     return FlutterInputField(
@@ -30,18 +28,20 @@ class BaseDate {
   Widget datePickerWidgetLoading({
     required TextEditingController textController,
     bool isDisabled = false,
-    bool? showBackDate = true,
+    bool showBackDate = true,
+    bool onlyDate = false,
     required Function(String) onChange,
     required BuildContext context,
   }) {
     return GestureDetector(
       onTap: () async {
         if (!isDisabled) {
-          textController.text= await BaseDate().datePickerDialog(
+          textController.text = await BaseDate().datePickerDialog(
             textController: textController,
             showBackDate: showBackDate,
             onChange: onChange,
             context: context,
+            onlyDate: onlyDate
           );
           log('--textController.text-2--1--${textController.text}----');
         }
@@ -91,6 +91,7 @@ class BaseDate {
     required Function(String) onChange,
     required BuildContext context,
     bool? showBackDate = true,
+    bool onlyDate = false,
   }) async {
     DateTime? pickedDate = await showDateTimePicker(
       context: context,
@@ -99,7 +100,8 @@ class BaseDate {
       lastDate: DateTime(2101),
     );
 
-    String formattedDate = DateFormat(Constants.fulldateFormat)
+    String formattedDate = DateFormat(
+            onlyDate ? Constants.dateFormat : Constants.fulldateFormat)
         .format(pickedDate ?? DateTime.now());
 
     textController.text = formattedDate;
