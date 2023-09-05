@@ -90,7 +90,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   TextEditingController maritalStatusController = TextEditingController();
   TextEditingController deploymentTypeController = TextEditingController();
   TextEditingController systemAccessController = TextEditingController();
-
+  TextEditingController statusController = TextEditingController();
   bool isDisabled = true;
 
   @override
@@ -261,16 +261,38 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             CommonWidgets.textDisplay(
                                 Constants.status, Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              isEnable: false,
-                              isDisableColor: true,
-                              textFormKey: Keys.statusTextController,
-                              hintText: '',
-                              initialValue: getStatusString(
-                                  state.guardingMasterData.status ?? 0),
-                              onChange: (String value) {},
-                              validateTextField: (String? user) {},
-                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            BaseDropDown().getDropDown(
+                                isDisabled:
+                                state.guardingMasterData.status != 6,
+                                textController: statusController,
+                                items: statusDropDownValues,
+                                initialValue:
+                                state.guardingMasterData.status.toString(),
+                                onTap: () {
+                                  if (isDisabled) {
+                                    BaseDropDown().assetTypeDialog(
+                                        context: context,
+                                        dropDownValues: statusDropDownValues
+                                            .map((label) => label.key)
+                                            .toList(),
+                                        onTap: (String value) {
+                                          Label? selectedLabel;
+                                          selectedLabel =
+                                              statusDropDownValues.firstWhere(
+                                                    (label) => label.key == value,
+                                                orElse: () =>
+                                                const Label(key: '', value: ''),
+                                              );
+                                          BlocProvider.of<
+                                              GuardingMasterDataDetailsCubit>(
+                                              context)
+                                              .updateDropdownValues(
+                                              status: int.tryParse(
+                                                  selectedLabel.value));
+                                        });
+                                  }
+                                }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Created By
@@ -1334,12 +1356,12 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
-                            entityaddButtonwidgetLoading(
+                            qualificationAddButtonWidgetLoading(
                               context: context,
                               state: state,
                               selectedValues:
-                                  state.guardingMasterData.entities ?? [],
-                              all: state.listOfEntities ?? [],
+                              state.guardingMasterData.qualifications ?? [],
+                              all: state.listOfQualifications ?? [],
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -2310,4 +2332,67 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
       },
     );
   }
+  Widget qualificationAddButtonWidgetLoading({
+    required BuildContext context,
+    required GuardingMasterDataDetailsState state,
+    required List<Entity> selectedValues,
+    required List<Entity> all,
+  }) {
+    String title = '';
+    log('--selectedValues.length-${selectedValues.length}--');
+    if (selectedValues.isNotEmpty) {
+      for (int i = 0; i < selectedValues.length; i++) {
+        Entity qualification = selectedValues[i];
+        log('--entity name-${qualification.name}--');
+
+        String value = qualification.name ?? '';
+        title = '$title  $value';
+      }
+    }
+
+    log('--title-$title--');
+    return TextfieldAddButton(
+      title: title,
+      height: (selectedValues.length) > 4
+          ? (selectedValues.length) > 9
+          ? 140
+          : 100
+          : 60,
+      isDisableColor: false,
+      onTap: () {
+        _showQualificationSelectionDialog(context, state);
+      },
+    );
+  }
+
+  void _showQualificationSelectionDialog(
+      BuildContext context, GuardingMasterDataDetailsState state) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return CustomMultipleSelectionListTexts(
+          onLeftButtonTap: () {
+            Navigator.pop(context);
+            showDialog(
+                context: context,
+                builder: (BuildContext dialogContext) {
+                  return AddNewFields(
+                    title: Constants.addQualificationType,
+                  );
+                });
+          },
+          duplicateEntityList: state.listOfQualifications ?? [],
+          mainSelectedEntityList: state.guardingMasterData.qualifications ?? [],
+          onTap: (List<Entity> selectedQualifications) {
+            log('--selectedEntities----${selectedQualifications.length}');
+            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                .updateDropdownValues(qualifications: selectedQualifications);
+            Navigator.of(context).pop(); // Close the dialog
+          },
+          leftImageName: AppIcon.addicon, // Provide your left button icon
+        );
+      },
+    );
+  }
 }
+

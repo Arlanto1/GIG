@@ -408,8 +408,15 @@ class Constants {
   //static const String height = 'Height(cm)';
 }
 
+
 //static const String height = 'Height(cm)';
 
+List<Label> statusDropDownValues = const [
+  Label(key: 'Active', value: '1'),
+  Label(key: 'InActive', value: '2'),
+  Label(key: 'Leave', value: '3'),
+  Label(key: 'WeekOff', value: '4'),
+];
 List<Label> systemAccessDropDownValues = const [
   Label(key: 'Yes', value: '1'),
   Label(key: 'No', value: '2'),
