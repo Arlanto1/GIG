@@ -2245,7 +2245,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
       onTap: () async {
         FocusScope.of(context).unfocus();
         BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-            .submitForm(isSaveOnly: true);
+            .submitForm(isSaveOnly: false);
       },
     );
   }

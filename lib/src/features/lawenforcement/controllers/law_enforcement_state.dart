@@ -31,7 +31,7 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
   String? errorMessage;
   GetLocations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
- List<Entity>?  listOfEntities;
+  List<Entity>?  listOfEntities;
   Mumbai? locationSelectedlist;
   AtomLeoPurposeVisit? leoPurposeVisitResponse;
   AtomLeoDepartment? leoDepartmentsResponse;
@@ -49,11 +49,12 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
   EntrySecurity? getUserDetailsResponse;
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
   List<DistributionGroup>? loadGroups = [];
-   DistributionGroupModel? groups;
-   DistributionGroup? listIndividualdept;
-   CreateOrganisation? createOrganisationResponse;
+  DistributionGroupModel? groups;
+  DistributionGroup? listIndividualdept;
+  CreateOrganisation? createOrganisationResponse;
   CreateOrganisation? createEmployeeDepartments;
-    CreateUserModel? createUserResponse;
+  CreateUserModel? createUserResponse;
+  bool? isDistributed;
 
   LawEnforcementState({
     this.getEntitiesResponse,
@@ -88,7 +89,8 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
     this.createEmployeeDepartments,
     this.createOrganisationResponse,
     this.createUserResponse,
-    
+    this.isDistributed,
+
   });
   LawEnforcementState copyWith({
   AddEntities? getEntitiesResponse,
@@ -122,7 +124,8 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
   DistributionGroup? listIndividualdept,
   CreateOrganisation? createOrganisationResponse,
   CreateOrganisation? createEmployeeDepartments,
-    CreateUserModel? createUserResponse,
+  CreateUserModel? createUserResponse,
+  bool? isDistributed,
 
 
   
@@ -160,7 +163,8 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
       listIndividualdept: listIndividualdept ?? this.listIndividualdept,
       createEmployeeDepartments: createEmployeeDepartments ?? this.createEmployeeDepartments,
       createOrganisationResponse: createOrganisationResponse ?? this.createOrganisationResponse,
-      createUserResponse: createUserResponse ?? this.createUserResponse
+      createUserResponse: createUserResponse ?? this.createUserResponse,
+      isDistributed: isDistributed ?? this.isDistributed,
     );
   }
 
@@ -198,6 +202,7 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
         createEmployeeDepartments,
         createOrganisationResponse,
         createUserResponse,
+        isDistributed,
       ];
 
 }
