@@ -136,7 +136,6 @@ class GuardingMasterDataDetailsState extends Equatable {
     this.pVCAttachments,
     this.trainingAttachments,
     this.medicalAttachments,
-    this.listOfQualifications, this.getQualificationsResponse,
   });
 
   GuardingMasterDataDetailsState copyWith({
