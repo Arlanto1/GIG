@@ -39,6 +39,7 @@ import '../../../../createfound/models/get_locations_model.dart';
 import '../../../../createfound/models/get_user_model.dart';
 import '../../models/guarding_master_data_model.dart';
 import '../cubits/guarding_master_data_details_cubit.dart';
+import 'add_date_pop_up.dart';
 
 class GuardigMasterDataDetails extends StatefulWidget {
   final GuardingMastersDataModel? guardingMasterData;
@@ -92,6 +93,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   TextEditingController systemAccessController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   bool isDisabled = true;
+
+  get guardingMasterData => null;
 
   @override
   void initState() {
@@ -264,11 +267,11 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
                                 isDisabled:
-                                state.guardingMasterData.status != 6,
+                                    state.guardingMasterData.status != 6,
                                 textController: statusController,
                                 items: statusDropDownValues,
                                 initialValue:
-                                state.guardingMasterData.status.toString(),
+                                    state.guardingMasterData.status.toString(),
                                 onTap: () {
                                   if (isDisabled) {
                                     BaseDropDown().assetTypeDialog(
@@ -280,16 +283,16 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                           Label? selectedLabel;
                                           selectedLabel =
                                               statusDropDownValues.firstWhere(
-                                                    (label) => label.key == value,
-                                                orElse: () =>
+                                            (label) => label.key == value,
+                                            orElse: () =>
                                                 const Label(key: '', value: ''),
-                                              );
+                                          );
                                           BlocProvider.of<
-                                              GuardingMasterDataDetailsCubit>(
-                                              context)
+                                                      GuardingMasterDataDetailsCubit>(
+                                                  context)
                                               .updateDropdownValues(
-                                              status: int.tryParse(
-                                                  selectedLabel.value));
+                                                  status: int.tryParse(
+                                                      selectedLabel.value));
                                         });
                                   }
                                 }),
@@ -460,36 +463,24 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               Constants.guardingVendor,
                               Styles.textStyleBlack14,
                             ),
-                            widget.guardingMasterData == null
-                                ? FlutterInputField(
-                                    initialValue:
-                                        state.guardingMasterData.vendor?.name,
-                                    textFormKey: Keys.vendorDepartmentKey,
-                                    hintText: '',
-                                    isEnable: true,
-                                    isDisableColor: false,
-                                    onChange: (String value) {},
-                                    validateTextField: (String? user) {},
-                                  )
-                                : TextfieldAddButton(
-                                    title:
-                                        state.guardingMasterData.vendor?.name,
-                                    height: 60,
-                                    isDisableColor: false,
-                                    onTap: () {
-                                      BaseDeparmentDialog().departmentDialog(
-                                        context: context,
-                                        departments: state.departments,
-                                        onTap: (Department department) {
-                                          BlocProvider.of<
-                                                      GuardingMasterDataDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  vendor: department);
-                                        },
-                                      );
-                                    },
-                                  ),
+                            TextfieldAddButton(
+                              title: state.guardingMasterData.vendor?.name,
+                              height: 60,
+                              isDisableColor: false,
+                              onTap: () {
+                                BaseDeparmentDialog().departmentDialog(
+                                  context: context,
+                                  departments: state.departments,
+                                  onTap: (Department department) {
+                                    BlocProvider.of<
+                                                GuardingMasterDataDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            vendor: department);
+                                  },
+                                );
+                              },
+                            ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -915,49 +906,52 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                             // .onModelValueChange(state.guardingMasterData
                                             //  );
                                           }),
-
-                            /// upload File
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.textDisplay(
-                                    Constants.uploadfile,
-                                    Styles.textStyleBlack14)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? BaseImageUpload().uploadWidget(
-                                    context: context,
-                                    loggedInUserDetails:
-                                        state.loggedInUserDetails ??
-                                            EntrySecurity(),
-                                    getFiles: deploymentFiles,
-                                    onImageSelected: (CreateImage data) {
-                                      log('-------function---onImageSelected---------');
-                                      List<CreateImage>? files = [];
-                                      files.add(data);
-                                      for (CreateImage image
-                                          in deploymentFiles ?? []) {
-                                        files.add(image);
-                                      }
-                                      BlocProvider.of<
-                                                  GuardingMasterDataDetailsCubit>(
-                                              context)
-                                          .addAttchment(deploymentFiles: files);
-                                    },
-                                  )
-                                : Container(),
-                            // Attachments
-                            BaseImageUpload().getAttachment(
-                              height: height,
-                              attachments: state.deploymentAttachments,
-                              files: deploymentFiles,
-                              showDownloadIcon:
-                                  widget.guardingMasterData != null
-                                      ? true
-                                      : false,
-                            ),
+                            if (state.guardingMasterData
+                                .deploymentOrderSubmitted) ...[
+                              /// upload File
+                              widget.guardingMasterData == null
+                                  ? CommonWidgets.textDisplay(
+                                      Constants.uploadfile,
+                                      Styles.textStyleBlack14)
+                                  : Container(),
+                              widget.guardingMasterData == null
+                                  ? CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001)
+                                  : Container(),
+                              widget.guardingMasterData == null
+                                  ? BaseImageUpload().uploadWidget(
+                                      context: context,
+                                      loggedInUserDetails:
+                                          state.loggedInUserDetails ??
+                                              EntrySecurity(),
+                                      getFiles: deploymentFiles,
+                                      onImageSelected: (CreateImage data) {
+                                        log('-------function---onImageSelected---------');
+                                        List<CreateImage>? files = [];
+                                        files.add(data);
+                                        for (CreateImage image
+                                            in deploymentFiles ?? []) {
+                                          files.add(image);
+                                        }
+                                        BlocProvider.of<
+                                                    GuardingMasterDataDetailsCubit>(
+                                                context)
+                                            .addAttchment(
+                                                deploymentFiles: files);
+                                      },
+                                    )
+                                  : Container(),
+                              // Attachments
+                              BaseImageUpload().getAttachment(
+                                height: height,
+                                attachments: state.deploymentAttachments,
+                                files: deploymentFiles,
+                                showDownloadIcon:
+                                    widget.guardingMasterData != null
+                                        ? true
+                                        : false,
+                              ),
+                            ],
 
                             /// Height
                             CommonWidgets.textDisplay(
@@ -1160,9 +1154,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   state.guardingMasterData.securityExperience,
                               textFormKey: Keys.securityExperienceKey,
                               hintText: Constants.informationhere,
-                              isEnable: state.guardingMasterData.status != 4,
+                              isEnable: state.guardingMasterData.status != 6,
                               isDisableColor:
-                                  state.guardingMasterData.status == 4,
+                                  state.guardingMasterData.status == 6,
                               onChange: (String value) {
                                 state.guardingMasterData.securityExperience =
                                     value;
@@ -1223,9 +1217,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   state.guardingMasterData.permanentAddress,
                               textFormKey: Keys.permanentAddressKey,
                               hintText: Constants.informationhere,
-                              isEnable: state.guardingMasterData.status != 4,
+                              isEnable: state.guardingMasterData.status != 6,
                               isDisableColor:
-                                  state.guardingMasterData.status == 4,
+                                  state.guardingMasterData.status == 6,
                               onChange: (String value) {
                                 state.guardingMasterData.permanentAddress =
                                     value;
@@ -1260,8 +1254,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       List<CreateImage>? files = [];
                                       files.add(data);
                                       for (CreateImage image
-                                          in permanentAddressFiles!
-                                              .toList()) {
+                                          in permanentAddressFiles!.toList()) {
                                         files.add(image);
                                       }
                                       BlocProvider.of<
@@ -1278,10 +1271,11 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               attachments: state.permanentAddressAttachments,
                               files: permanentAddressFiles,
                               showDownloadIcon:
-                              widget.guardingMasterData != null
-                                  ? true
-                                  : false,
+                                  widget.guardingMasterData != null
+                                      ? true
+                                      : false,
                             ),
+
                             /// Local Address
                             CommonWidgets.textDisplay(Constants.localAddress,
                                 Styles.textStyleBlack14),
@@ -1292,9 +1286,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   state.guardingMasterData.localAddress,
                               textFormKey: Keys.localAddressKey,
                               hintText: Constants.informationhere,
-                              isEnable: state.guardingMasterData.status != 4,
+                              isEnable: state.guardingMasterData.status != 6,
                               isDisableColor:
-                                  state.guardingMasterData.status == 4,
+                                  state.guardingMasterData.status == 6,
                               onChange: (String value) {
                                 state.guardingMasterData.localAddress = value;
                                 context
@@ -1345,10 +1339,11 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               attachments: state.localAddressAttachments,
                               files: localAddressFiles,
                               showDownloadIcon:
-                              widget.guardingMasterData != null
-                                  ? true
-                                  : false,
+                                  widget.guardingMasterData != null
+                                      ? true
+                                      : false,
                             ),
+
                             /// Qualifications
                             CommonWidgets.textDisplay(
                               Constants.qualifications,
@@ -1360,7 +1355,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               context: context,
                               state: state,
                               selectedValues:
-                              state.guardingMasterData.qualifications ?? [],
+                                  state.guardingMasterData.qualifications ?? [],
                               all: state.listOfQualifications ?? [],
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1446,9 +1441,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               attachments: state.pVCAttachments,
                               files: pVCFiles,
                               showDownloadIcon:
-                              widget.guardingMasterData != null
-                                  ? true
-                                  : false,
+                                  widget.guardingMasterData != null
+                                      ? true
+                                      : false,
                             ),
 
                             /// Training Certificate
@@ -1528,9 +1523,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 attachments: state.trainingAttachments,
                                 files: trainingFiles,
                                 showDownloadIcon:
-                                widget.guardingMasterData != null
-                                    ? true
-                                    : false,
+                                    widget.guardingMasterData != null
+                                        ? true
+                                        : false,
                               ),
                             ],
 
@@ -1595,9 +1590,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               attachments: state.medicalAttachments,
                               files: medicalFiles,
                               showDownloadIcon:
-                              widget.guardingMasterData != null
-                                  ? true
-                                  : false,
+                                  widget.guardingMasterData != null
+                                      ? true
+                                      : false,
                             ),
 
                             /*    /// System Access
@@ -1914,10 +1909,25 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
 
                             if (state.guardingMasterData.csrParticipation) ...[
                               CommonWidgets.textDisplay(
-                                  Constants.participationDates,
+                                  Constants.csrParticipationDates,
                                   Styles.textStyleBlack14),
                               GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return AddDatePopUp(
+                                            guardingMasterData: guardingMasterData,
+                                            mainContext: context,
+                                            onSubmit: ( GuardingMastersDataModel guardingMasterData) {
+                                              //loginFormKey.currentState!.validate();
+                                              FocusScope.of(context).unfocus();
+                                              BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                                              .submitForm(isSaveOnly: true);
+                                            },  
+                                          );
+                                        });
+                                },
                                 child: Row(
                                   children: <Widget>[
                                     // Expanded(
@@ -1941,9 +1951,10 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               ),
                             ],
 
-                            Column(
-                              children: getParticipationDates(state, height),
-                            ),
+                            // Column(
+                            // children: getParticipationDates(state, height),
+                            //),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Special Achivements
                             CommonWidgets.textDisplay(
@@ -1992,9 +2003,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                     .guardingMasterData.additionalInitiatives,
                                 textFormKey: Keys.additionInitiativesKey,
                                 hintText: Constants.informationhere,
-                                isEnable: state.guardingMasterData.status != 4,
+                                isEnable: state.guardingMasterData.status != 6,
                                 isDisableColor:
-                                    state.guardingMasterData.status == 4,
+                                    state.guardingMasterData.status == 6,
                                 onChange: (String value) {
                                   state.guardingMasterData
                                       .additionalInitiatives = value;
@@ -2019,9 +2030,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   .guardingMasterData.additionalInitiatives,
                               textFormKey: Keys.additionInitiativesKey,
                               hintText: Constants.informationhere,
-                              isEnable: state.guardingMasterData.status != 4,
+                              isEnable: state.guardingMasterData.status != 6,
                               isDisableColor:
-                                  state.guardingMasterData.status == 4,
+                                  state.guardingMasterData.status == 6,
                               onChange: (String value) {
                                 state.guardingMasterData.additionalInitiatives =
                                     value;
@@ -2173,8 +2184,6 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   //   );
   // }
 
-
-
   Widget locationWidgetdislay(GuardingMasterDataDetailsState state) {
     return GestureDetector(
       onTap: () {
@@ -2206,8 +2215,6 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
           name: state.guardingMasterData.location?.name ?? ''),
     );
   }
-
-
 
   Widget attachmentListviews(
     List<CreateImage>? attachmentListviews,
@@ -2332,6 +2339,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
       },
     );
   }
+
   Widget qualificationAddButtonWidgetLoading({
     required BuildContext context,
     required GuardingMasterDataDetailsState state,
@@ -2355,8 +2363,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
       title: title,
       height: (selectedValues.length) > 4
           ? (selectedValues.length) > 9
-          ? 140
-          : 100
+              ? 140
+              : 100
           : 60,
       isDisableColor: false,
       onTap: () {
@@ -2395,4 +2403,3 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
     );
   }
 }
-
