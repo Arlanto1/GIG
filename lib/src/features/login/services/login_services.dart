@@ -84,17 +84,19 @@ class LoginService {
         } catch (e) {
           return LoginResponseModel.fromJson(json.decode(response.body));
         }
-      } else if (response.statusCode == 401) {
-        print('login failed ');
+      } 
+      // else if (response.statusCode == 401) {
+      //   print('login failed ');
 
-        int refreshToken = await RefreshTokenService.getRefreshToken();
-        if (refreshToken == 200) {
-          LoginResponseModel model = await forgotPwdAPI(data);
-          return model;
-        } else {
-          return LoginResponseModel.fromJson(json.decode(response.body));
-        }
-      } else {
+      //   int refreshToken = await RefreshTokenService.getRefreshToken();
+      //   if (refreshToken == 200) {
+      //     LoginResponseModel model = await forgotPwdAPI(data);
+      //     return model;
+      //   } else {
+      //     return LoginResponseModel.fromJson(json.decode(response.body));
+      //   }
+      // } 
+      else {
         print('login failed ');
 
         LoginResponseModel.fromJson(json.decode(response.body));
