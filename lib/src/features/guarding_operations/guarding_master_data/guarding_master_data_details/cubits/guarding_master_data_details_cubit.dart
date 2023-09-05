@@ -20,6 +20,7 @@ import '../../../../../models/department.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/generic_creat_response.dart';
 import '../../../../../utils/util.dart';
+import '../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../createfound/models/serial_number_model.dart';
 import '../../../../lawenforcement/models/addentities.dart';
 import '../../../../material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
@@ -51,15 +52,12 @@ class GuardingMasterDataDetailsCubit
               eventId: null,
               listOfEntities: const [],
               getEntitiesResponse: null,
-              departments: const [], listOfQualifications: const [], getQualificationsResponse: null),
+              departments: const [],
+              listOfQualifications: const [],
+              getQualificationsResponse: null),
         );
 
   void onModelValueChange(GuardingMastersDataModel model) {
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
     emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
   }
 
@@ -68,7 +66,7 @@ class GuardingMasterDataDetailsCubit
   }
 
   Future<void> initializeValues() async {
-    print('-status-1-${state.status}--');
+    log('-status-1-${state.status}--');
     //Show Loader and emit loading state
     emit(
       state.copyWith(
@@ -93,11 +91,13 @@ class GuardingMasterDataDetailsCubit
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
       AddQualifications qualifications =
-      await commonServices.getQualification(name: 'GUARD_QUALIFICATIONS');
+          await commonServices.getQualification(name: 'GUARD_QUALIFICATIONS');
 
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
+      EmployeeDepartments departments =
+      await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
       state.guardingMasterData.entrySecurity = loggedInUserDetails;
 
       log('-guardRank--${state.guardingMasterData.guardRank}----');
@@ -113,6 +113,7 @@ class GuardingMasterDataDetailsCubit
           status: FormStatus.initial,
           guardingMasterData: state.guardingMasterData,
           users: users.t1Analyst,
+          departments: departments.employeeDepartments,
           emailUsers: emailUsers.atomStaticUser,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
@@ -136,7 +137,7 @@ class GuardingMasterDataDetailsCubit
     Location? location,
     BaseUser? user,
     Department? vendor,
-    EntrySecurity? guard,
+    BaseUser? guard,
     List<Entity>? entities,
     List<Entity>? qualifications,
     int? status,
@@ -177,12 +178,12 @@ class GuardingMasterDataDetailsCubit
         maritalStatus ?? state.guardingMasterData.maritalStatus;
     state.guardingMasterData.systemAccess =
         systemAccess ?? state.guardingMasterData.systemAccess;
-    state.guardingMasterData.status =
-        status ?? state.guardingMasterData.status;
+    state.guardingMasterData.status = status ?? state.guardingMasterData.status;
     state.guardingMasterData.typeOfDeployment =
         typeOfDeployment ?? state.guardingMasterData.typeOfDeployment;
 
-    state.guardingMasterData.guard = guard ?? state.guardingMasterData.guard;
+    // TODO: Object issue
+    // state.guardingMasterData.guard = guard ?? state.guardingMasterData.guard;
 
     emit(state.copyWith(
       guardingMasterData: state.guardingMasterData,
@@ -280,7 +281,7 @@ class GuardingMasterDataDetailsCubit
         state.copyWith(
           eventId: eventIds,
           guardingMasterData: state.guardingMasterData,
-        trainingAttachments: trainingFiles,
+          trainingAttachments: trainingFiles,
           status: FormStatus.initial,
         ),
       );
@@ -349,7 +350,7 @@ class GuardingMasterDataDetailsCubit
 
     // Setting time in milliseconds
     state.guardingMasterData.inputDate =
-        (DateTime.now().millisecondsSinceEpoch / 1000).toString();
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // Create/Update API Call
     GuardingMasterDataRequest request =

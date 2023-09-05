@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -33,14 +35,15 @@ class BaseDate {
     required BuildContext context,
   }) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         if (!isDisabled) {
-          BaseDate().datePickerDialog(
+          textController.text= await BaseDate().datePickerDialog(
             textController: textController,
             showBackDate: showBackDate,
             onChange: onChange,
             context: context,
           );
+          log('--textController.text-2--1--${textController.text}----');
         }
       },
       child: FlutterInputField(
@@ -55,16 +58,20 @@ class BaseDate {
         // Pass the onChange callback to FlutterInputField
         validateTextField: (String? user) {},
         suffixWidget: GestureDetector(
-          onTap: () async {
-            if (textController.text.isEmpty) {
-              textController.text = await BaseDate().datePickerDialog(
-                textController: textController,
-                showBackDate: showBackDate,
-                onChange: onChange,
-                context: context,
-              );
-            }
-          },
+          // onTap: () async {
+          //
+          //   log('--textController.text---1--${textController.text}----');
+          //
+          //   if (textController.text.isEmpty) {
+          //     textController.text = await BaseDate().datePickerDialog(
+          //       textController: textController,
+          //       showBackDate: showBackDate,
+          //       onChange: onChange,
+          //       context: context,
+          //     );
+          //     log('--textController.text---2--${textController.text}----');
+          //   }
+          // },
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: SvgPicture.asset(

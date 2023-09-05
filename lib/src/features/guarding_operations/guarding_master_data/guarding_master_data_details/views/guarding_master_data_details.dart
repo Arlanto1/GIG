@@ -24,6 +24,7 @@ import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../constants/app_icon.dart';
 import '../../../../../constants/constants.dart';
+import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../routing/router.dart';
@@ -157,7 +158,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
 
   void initializeDates() {
     dateOfBirthController.text = Utils.timestamptoDateConversion(
-        int.parse(widget.guardingMasterData?.dateOfBirth ?? '0'),
+        int.tryParse(widget.guardingMasterData?.dateOfBirth ?? '0'),
         Constants.dateFormat);
 
     dateOfJoiningController.text = Utils.timestamptoDateConversion(
@@ -208,9 +209,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
 
     if (state.status == FormStatus.addAttachment ||
         state.status == FormStatus.initial) {
-      log('---getAttachments----builder----${getAttachments?.length}-----');
+      // log('---getAttachments----builder----${getAttachments?.length}-----');
       // getFiles = state.loadAttachments ?? [];
-      log('---guardAttachments----builder----${state.guardAttachments?.length}-----');
+      // log('---guardAttachments----builder----${state.guardAttachments?.length}-----');
 
       guardImages = state.guardAttachments ?? [];
       deploymentFiles = state.deploymentAttachments;
@@ -358,7 +359,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                           context: context,
                                           users: state.emailUsers!,
                                           // TODO: Need to change EntrySecurity to BaseUser
-                                          onTap: (EntrySecurity user) {
+                                          onTap: (BaseUser user) {
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
@@ -455,23 +456,12 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       : false,
                             ),
 
-                            /// Vendor
+                            /// Guarding Vendor
                             CommonWidgets.textDisplay(
                               Constants.guardingVendor,
                               Styles.textStyleBlack14,
                             ),
-                            widget.guardingMasterData == null
-                                ? FlutterInputField(
-                                    initialValue:
-                                        state.guardingMasterData.vendor?.name,
-                                    textFormKey: Keys.vendorDepartmentKey,
-                                    hintText: '',
-                                    isEnable: true,
-                                    isDisableColor: false,
-                                    onChange: (String value) {},
-                                    validateTextField: (String? user) {},
-                                  )
-                                : TextfieldAddButton(
+                           TextfieldAddButton(
                                     title:
                                         state.guardingMasterData.vendor?.name,
                                     height: 60,
@@ -1375,12 +1365,15 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             BaseDate().datePickerWidgetLoading(
                               textController: pvcIssuedDateController,
                               onChange: (String value) {
-                                log('--fr-value-${pvcIssuedDateController.text}------');
+                                log('---value-$value------');
+                                log('-----pvcIssuedDateController---value-${pvcIssuedDateController.text}------');
                                 // widget.guardingMasterData?.inputDate = value;
+                                state.guardingMasterData.pvcIssuedDate = value;
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
                                         state.guardingMasterData);
+                                // pvcIssuedDateController.text = state.guardingMasterData.pvcIssuedDate??'';
                               },
                               context: context,
                             ),
@@ -2276,18 +2269,17 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
     required List<Entity> all,
   }) {
     String title = '';
-    log('--selectedValues.length-${selectedValues.length}--');
+    // log('--selectedValues.length-${selectedValues.length}--');
     if (selectedValues.isNotEmpty) {
       for (int i = 0; i < selectedValues.length; i++) {
         Entity entity = selectedValues[i];
-        log('--entity name-${entity.name}--');
+        // log('--entity name-${entity.name}--');
 
         String value = entity.name ?? '';
         title = '$title  $value';
       }
     }
 
-    log('--title-$title--');
     return TextfieldAddButton(
       title: title,
       height: (selectedValues.length) > 4
@@ -2350,7 +2342,6 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
       }
     }
 
-    log('--title-$title--');
     return TextfieldAddButton(
       title: title,
       height: (selectedValues.length) > 4

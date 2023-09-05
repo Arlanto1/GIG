@@ -22,14 +22,19 @@ class Utils {
     // int timestampcon = int.parse(timestamp ?? '') ?? 0;
     // var dt = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000 ?? 0);
     //var dt = DateTime.fromMillisecondsSinceEpoch(timestamp ?? 0 * 1000);
+
+    if(timestamp == null || timestamp == 0) {
+      timestamp = DateTime.now().millisecondsSinceEpoch;
+    }
+
     int length = timestamp.toString().length; // 7
     final DateTime dt;
     if (length > 10) {
       dt = DateTime.fromMillisecondsSinceEpoch((timestamp ?? 0));
-      print(dt);
+      // print(dt);
     } else {
       dt = DateTime.fromMillisecondsSinceEpoch((timestamp ?? 0) * 1000);
-      print(dt);
+      // print(dt);
     }
 
     // 12 Hour format:
