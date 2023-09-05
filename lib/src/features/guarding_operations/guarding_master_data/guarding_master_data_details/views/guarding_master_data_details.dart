@@ -265,33 +265,34 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
                                 isDisabled:
-                                state.guardingMasterData.status != 6,
+                                    state.guardingMasterData.status != 6,
                                 textController: statusController,
                                 items: statusDropDownValues,
                                 initialValue:
-                                state.guardingMasterData.status.toString(),
+                                    state.guardingMasterData.status.toString(),
                                 onTap: () {
                                   if (isDisabled) {
                                     BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues: statusDropDownValues
-                                            .map((label) => label.key)
-                                            .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              statusDropDownValues.firstWhere(
-                                                    (label) => label.key == value,
-                                                orElse: () =>
-                                                const Label(key: '', value: ''),
-                                              );
-                                          BlocProvider.of<
-                                              GuardingMasterDataDetailsCubit>(
-                                              context)
-                                              .updateDropdownValues(
-                                              status: int.tryParse(
-                                                  selectedLabel.value));
-                                        });
+                                      context: context,
+                                      dropDownValues: statusDropDownValues
+                                          .map((label) => label.key)
+                                          .toList(),
+                                      onTap: (String value) {
+                                        Label? selectedLabel;
+                                        selectedLabel =
+                                            statusDropDownValues.firstWhere(
+                                          (label) => label.key == value,
+                                          orElse: () =>
+                                              const Label(key: '', value: ''),
+                                        );
+                                        BlocProvider.of<
+                                                    GuardingMasterDataDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                status: int.tryParse(
+                                                    selectedLabel.value));
+                                      },
+                                    );
                                   }
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -364,7 +365,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
                                                 .updateDropdownValues(
-                                                    guard: user);
+                                              guard: user,
+                                            );
                                           },
                                         );
                                       }
@@ -461,25 +463,24 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               Constants.guardingVendor,
                               Styles.textStyleBlack14,
                             ),
-                           TextfieldAddButton(
-                                    title:
-                                        state.guardingMasterData.vendor?.name,
-                                    height: 60,
-                                    isDisableColor: false,
-                                    onTap: () {
-                                      BaseDeparmentDialog().departmentDialog(
-                                        context: context,
-                                        departments: state.departments,
-                                        onTap: (Department department) {
-                                          BlocProvider.of<
-                                                      GuardingMasterDataDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  vendor: department);
-                                        },
-                                      );
-                                    },
-                                  ),
+                            TextfieldAddButton(
+                              title: state.guardingMasterData.vendor?.name,
+                              height: 60,
+                              isDisableColor: false,
+                              onTap: () {
+                                BaseDeparmentDialog().departmentDialog(
+                                  context: context,
+                                  departments: state.departments,
+                                  onTap: (Department department) {
+                                    BlocProvider.of<
+                                                GuardingMasterDataDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            vendor: department);
+                                  },
+                                );
+                              },
+                            ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -1250,8 +1251,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       List<CreateImage>? files = [];
                                       files.add(data);
                                       for (CreateImage image
-                                          in permanentAddressFiles!
-                                              .toList()) {
+                                          in permanentAddressFiles!.toList()) {
                                         files.add(image);
                                       }
                                       BlocProvider.of<
@@ -1268,10 +1268,11 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               attachments: state.permanentAddressAttachments,
                               files: permanentAddressFiles,
                               showDownloadIcon:
-                              widget.guardingMasterData != null
-                                  ? true
-                                  : false,
+                                  widget.guardingMasterData != null
+                                      ? true
+                                      : false,
                             ),
+
                             /// Local Address
                             CommonWidgets.textDisplay(Constants.localAddress,
                                 Styles.textStyleBlack14),
@@ -1335,10 +1336,11 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               attachments: state.localAddressAttachments,
                               files: localAddressFiles,
                               showDownloadIcon:
-                              widget.guardingMasterData != null
-                                  ? true
-                                  : false,
+                                  widget.guardingMasterData != null
+                                      ? true
+                                      : false,
                             ),
+
                             /// Qualifications
                             CommonWidgets.textDisplay(
                               Constants.qualifications,
@@ -1350,7 +1352,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               context: context,
                               state: state,
                               selectedValues:
-                              state.guardingMasterData.qualifications ?? [],
+                                  state.guardingMasterData.qualifications ?? [],
                               all: state.listOfQualifications ?? [],
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1439,9 +1441,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               attachments: state.pVCAttachments,
                               files: pVCFiles,
                               showDownloadIcon:
-                              widget.guardingMasterData != null
-                                  ? true
-                                  : false,
+                                  widget.guardingMasterData != null
+                                      ? true
+                                      : false,
                             ),
 
                             /// Training Certificate
@@ -1521,9 +1523,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 attachments: state.trainingAttachments,
                                 files: trainingFiles,
                                 showDownloadIcon:
-                                widget.guardingMasterData != null
-                                    ? true
-                                    : false,
+                                    widget.guardingMasterData != null
+                                        ? true
+                                        : false,
                               ),
                             ],
 
@@ -1588,9 +1590,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               attachments: state.medicalAttachments,
                               files: medicalFiles,
                               showDownloadIcon:
-                              widget.guardingMasterData != null
-                                  ? true
-                                  : false,
+                                  widget.guardingMasterData != null
+                                      ? true
+                                      : false,
                             ),
 
                             /*    /// System Access
@@ -2166,8 +2168,6 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   //   );
   // }
 
-
-
   Widget locationWidgetdislay(GuardingMasterDataDetailsState state) {
     return GestureDetector(
       onTap: () {
@@ -2199,8 +2199,6 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
           name: state.guardingMasterData.location?.name ?? ''),
     );
   }
-
-
 
   Widget attachmentListviews(
     List<CreateImage>? attachmentListviews,
@@ -2324,6 +2322,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
       },
     );
   }
+
   Widget qualificationAddButtonWidgetLoading({
     required BuildContext context,
     required GuardingMasterDataDetailsState state,
@@ -2346,8 +2345,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
       title: title,
       height: (selectedValues.length) > 4
           ? (selectedValues.length) > 9
-          ? 140
-          : 100
+              ? 140
+              : 100
           : 60,
       isDisableColor: false,
       onTap: () {
@@ -2386,4 +2385,3 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
     );
   }
 }
-

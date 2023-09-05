@@ -90,6 +90,7 @@ class GuardingMasterDataDetailsCubit
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
+      List<EntrySecurity> entrySecurities = await commonServices.getUsers();
       AddQualifications qualifications =
           await commonServices.getQualification(name: 'GUARD_QUALIFICATIONS');
 
@@ -97,7 +98,7 @@ class GuardingMasterDataDetailsCubit
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
       EmployeeDepartments departments =
-      await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+          await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
       state.guardingMasterData.entrySecurity = loggedInUserDetails;
 
       log('-guardRank--${state.guardingMasterData.guardRank}----');
@@ -114,6 +115,7 @@ class GuardingMasterDataDetailsCubit
           guardingMasterData: state.guardingMasterData,
           users: users.t1Analyst,
           departments: departments.employeeDepartments,
+          entrySecurities: entrySecurities,
           emailUsers: emailUsers.atomStaticUser,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
@@ -183,8 +185,11 @@ class GuardingMasterDataDetailsCubit
         typeOfDeployment ?? state.guardingMasterData.typeOfDeployment;
 
     // TODO: Object issue
-    // state.guardingMasterData.guard = guard ?? state.guardingMasterData.guard;
-
+    if (guard != null) {
+      EntrySecurity userDetails = EntrySecurity(
+          name: guard.name, userId: guard.id, userName: guard.name);
+      state.guardingMasterData.guard = userDetails;
+    }
     emit(state.copyWith(
       guardingMasterData: state.guardingMasterData,
       status: FormStatus.initial,
@@ -348,6 +353,9 @@ class GuardingMasterDataDetailsCubit
       ),
     );
 
+    if (state.guardingMasterData.status == 0) {
+      state.guardingMasterData.status = 1;
+    }
     // Setting time in milliseconds
     state.guardingMasterData.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();

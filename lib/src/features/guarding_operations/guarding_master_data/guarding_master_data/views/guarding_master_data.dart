@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
@@ -95,6 +97,9 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                   ? state.list.length
                   : state.list.length + 1,
               itemBuilder: (context, index) {
+                log('--guardRank-${state.list[index].guardRank}--');
+                log('--status-${state.list[index].status}--');
+
                 return index >= state.list.length
                     ? const Center(
                         child: CustomCircularProgressIndicator(),

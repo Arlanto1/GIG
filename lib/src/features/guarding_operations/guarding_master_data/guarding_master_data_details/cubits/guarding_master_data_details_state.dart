@@ -34,6 +34,7 @@ class GuardingMasterDataDetailsState extends Equatable {
   final List<CreateImage>? pVCAttachments;
   final List<CreateImage>? trainingAttachments;
   final List<CreateImage>? medicalAttachments;
+  final List<EntrySecurity>? entrySecurities;
 
   factory GuardingMasterDataDetailsState.initial({
     required GuardingMastersDataModel model,
@@ -56,6 +57,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     List<CreateImage>? pVCAttachments,
     List<CreateImage>? trainingAttachments,
     List<CreateImage>? medicalAttachments,
+    List<EntrySecurity>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,
   }) {
@@ -68,7 +70,7 @@ class GuardingMasterDataDetailsState extends Equatable {
       listOfQualifications: listOfQualifications,
       departments: departments,
       getEntitiesResponse: getEntitiesResponse,
-      getQualificationsResponse:getQualificationsResponse,
+      getQualificationsResponse: getQualificationsResponse,
       users: users,
       emailUsers: emailUsers,
       message: errorMessage,
@@ -83,6 +85,7 @@ class GuardingMasterDataDetailsState extends Equatable {
       permanentAddressAttachments: permanentAddressAttachments,
       pVCAttachments: pVCAttachments,
       trainingAttachments: trainingAttachments,
+      entrySecurities: entrySecurities,
     );
   }
 
@@ -113,7 +116,7 @@ class GuardingMasterDataDetailsState extends Equatable {
   @override
   List<Object?> get props => [guardingMasterData, status];
 
-  const GuardingMasterDataDetailsState( {
+  const GuardingMasterDataDetailsState({
     required this.status,
     required this.guardingMasterData,
     this.locations,
@@ -125,10 +128,11 @@ class GuardingMasterDataDetailsState extends Equatable {
     this.deploymentAttachments,
     this.bioDataAttachments,
     this.listOfEntities,
+    this.listOfQualifications,
     required this.departments,
+    this.getQualificationsResponse,
     this.getEntitiesResponse,
     this.participationDates,
-    this.listOfQualifications, this.getQualificationsResponse,
     this.eventId,
     this.message,
     this.permanentAddressAttachments,
@@ -136,6 +140,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     this.pVCAttachments,
     this.trainingAttachments,
     this.medicalAttachments,
+    this.entrySecurities,
   });
 
   GuardingMasterDataDetailsState copyWith({
@@ -152,8 +157,8 @@ class GuardingMasterDataDetailsState extends Equatable {
     List<Entity>? listOfEntities,
     List<Entity>? listOfQualifications,
     List<Department>? departments,
-    AddEntities? getEntitiesResponse,
     AddQualifications? getQualificationsResponse,
+    AddEntities? getEntitiesResponse,
     List<String>? participationDates,
     int? eventId,
     String? message,
@@ -162,6 +167,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     List<CreateImage>? pVCAttachments,
     List<CreateImage>? trainingAttachments,
     List<CreateImage>? medicalAttachments,
+    List<EntrySecurity>? entrySecurities,
   }) {
     return GuardingMasterDataDetailsState(
       status: status ?? this.status,
@@ -178,17 +184,20 @@ class GuardingMasterDataDetailsState extends Equatable {
       listOfEntities: listOfEntities ?? this.listOfEntities,
       listOfQualifications: listOfQualifications ?? this.listOfQualifications,
       departments: departments ?? this.departments,
+      getQualificationsResponse:
+          getQualificationsResponse ?? this.getQualificationsResponse,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
-      getQualificationsResponse: getQualificationsResponse ?? this.getQualificationsResponse,
       participationDates: participationDates ?? this.participationDates,
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
       permanentAddressAttachments:
           permanentAddressAttachments ?? this.permanentAddressAttachments,
-      localAddressAttachments: localAddressAttachments ?? this.localAddressAttachments,
+      localAddressAttachments:
+          localAddressAttachments ?? this.localAddressAttachments,
       pVCAttachments: pVCAttachments ?? this.pVCAttachments,
       trainingAttachments: trainingAttachments ?? this.trainingAttachments,
       medicalAttachments: medicalAttachments ?? this.medicalAttachments,
+      entrySecurities: entrySecurities ?? this.entrySecurities,
     );
   }
 }

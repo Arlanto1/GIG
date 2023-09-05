@@ -22,7 +22,7 @@ class Apis {
       '$baseUrl/getOrganisation?name=ATOM_MATERIAL_MOVEMENT_UNIT';
   static final String _getQualification =
       '$baseUrl/getOrganisation?name=GUARD_QUALIFICATIONS';
-
+  static final String _getUsers = '$baseUrl/getUsers?roleName=ATOM_STATIC_USER';
 }
 
 class CommonServices {
@@ -106,7 +106,7 @@ class CommonServices {
     return AddEntities.fromJson(response);
   }
 
- Future<AddQualifications> getQualification({
+  Future<AddQualifications> getQualification({
     required String name,
   }) async {
     String url = Apis._getQualification;
@@ -114,5 +114,13 @@ class CommonServices {
       url: url,
     );
     return AddQualifications.fromJson(response);
+  }
+
+  Future<List<EntrySecurity>> getUsers() async {
+    String url = Apis._getUsers;
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return List<EntrySecurity>.from(response!.map((x) => x.toJson()));
   }
 }
