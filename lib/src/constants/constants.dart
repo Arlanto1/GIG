@@ -1,5 +1,7 @@
 // Created by Ramesh
 
+import '../common_widgets/base_widget/base_list_tile_item.dart';
+
 class Constants {
   /// Module Codes
   static const String materialMovementInwardNonReturnableModule = 'MMINN';
@@ -152,7 +154,6 @@ class Constants {
   static const String height = 'Height (cm)';
   static const String weight = 'Weight (kg)';
   static const String chest = 'Chest (inch)';
-
 
   static const String buildinglocation = 'Building Location';
   static const String addemployeedepartment = 'Add Employee Department';
@@ -349,7 +350,7 @@ class Constants {
   static const String guardingMasterReportTitle = 'Guarding Master Report List';
   static const String guardingMasterDataTitle = 'Guarding Master Data List';
 
-
+  /// Guarding Master Data
   static const String createGuardingMasterData = 'Create Guarding Master Data';
   static const String editGuardingMasterData = 'Edit Guarding Master Data';
   static const String guardingPoc = 'Guarding Partner POC';
@@ -376,12 +377,15 @@ class Constants {
   static const String dateOfJoining = 'Date of Joining';
   static const String pvcIssuedDate = 'PVC Issued Date';
   static const String pvcExpiryDate = 'PVC Expiry Date';
-  static const String medicalCertificateValidUntil = 'Medical Certificate Valid Until';
+  static const String medicalCertificateValidUntil =
+      'Medical Certificate Valid Until';
   static const String dateOfFirstCovidDose = 'Date of First COVID Dose';
   static const String dateOfSecondCovidDose = 'Date of Second COVID Dose';
-  static const String dateOfPrecautionaryCovidDose = 'Date of Precautionary COVID Dose';
+  static const String dateOfPrecautionaryCovidDose =
+      'Date of Precautionary COVID Dose';
   static const String ertCertificationDate = 'ERT Certification Date';
-  static const String firstAidTrainingCompletionDate = ' First Aid Training Completion Date';
+  static const String firstAidTrainingCompletionDate =
+      ' First Aid Training Completion Date';
   static const String esicNo = 'ESIC NO';
   static const String uanNo = 'UAN NO';
   static const String additionalInitiativesInfo = 'Additional Initiatives Info';
@@ -389,7 +393,8 @@ class Constants {
   static const String localLanguage = 'Local Language';
   static const String localLanguageProficiency = 'Local Language Proficiency';
   static const String hindiLanguageProficiency = 'Hindi Language Proficiency';
-  static const String englishLanguageProficiency = 'English Language Proficiency';
+  static const String englishLanguageProficiency =
+      'English Language Proficiency';
   static const String read = 'Read';
   static const String write = 'Write';
   static const String speak = 'Speak';
@@ -398,4 +403,41 @@ class Constants {
   static const String addParticipationDates = 'Add Participation Date';
   static const String addQualificationType = 'Add Qualification';
   //static const String height = 'Height(cm)';
+  static const String uploadBioData = 'Upload Bio Data';
+
+//static const String height = 'Height(cm)';
 }
+
+List<Label> systemAccessDropDownValues = const [
+  Label(key: 'Yes', value: '1'),
+  Label(key: 'No', value: '2'),
+  Label(key: 'Revoke', value: '3'),
+];
+List<Label> maritalStatusDropDownValues = const [
+  Label(key: 'Single', value: '1'),
+  Label(key: 'Married', value: '2'),
+];
+List<Label> genderDropDownValues = const [
+  Label(key: 'Male', value: '1'),
+  Label(key: 'Female', value: '2'),
+  Label(key: 'Transgender', value: '3'),
+];
+List<Label> dutyTypeDropDownValues = const [
+  Label(key: 'Building', value: '1'),
+  Label(key: 'Escort', value: '2'),
+  Label(key: 'Facility', value: '3'),
+  Label(key: 'Building & Escort', value: '4'),
+];
+
+List<Label> guardRankDropDownValues = const [
+  Label(key: 'Security Guard', value: '1'),
+  Label(key: 'Security Officer', value: '2'),
+  Label(key: 'Security Supervisor', value: '3'),
+  Label(key: 'Security Facilitator', value: '4'),
+  Label(key: 'Gun Man', value: '5'),
+  Label(key: 'Lady Security Guard', value: '6'),
+];
+List<Label> deploymentTypeDropDownValues = const [
+  Label(key: 'New Deployment', value: '1'),
+  Label(key: 'Redeployment', value: '2'),
+];

@@ -182,7 +182,7 @@ class GuardingMasterDataDetailsCubit
     state.guardingMasterData.typeOfDeployment =
         typeOfDeployment ?? state.guardingMasterData.typeOfDeployment;
 
-    state.guardingMasterData.guard = guard?? state.guardingMasterData.guard;
+    state.guardingMasterData.guard = guard ?? state.guardingMasterData.guard;
 
     emit(state.copyWith(
       guardingMasterData: state.guardingMasterData,
@@ -190,9 +190,17 @@ class GuardingMasterDataDetailsCubit
     ));
   }
 
-  void addAttchment(List<CreateImage>? data) async {
-    print('--state.status-1---${state.status}----');
-
+  void addAttchment({
+    List<CreateImage>? data,
+    List<CreateImage>? guardImages,
+    List<CreateImage>? deploymentFiles,
+    List<CreateImage>? bioDataFiles,
+    List<CreateImage>? permanentAddressFiles,
+    List<CreateImage>? localAddressFiles,
+    List<CreateImage>? pVCFiles,
+    List<CreateImage>? trainingFiles,
+    List<CreateImage>? medicalFiles,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -200,15 +208,104 @@ class GuardingMasterDataDetailsCubit
     );
     int eventIds = math.Random.secure().nextInt(5);
 
-    print('--data----${data?.length}----');
-    print('--state.status-2---${state.status}----');
+    log('--guardImages---${guardImages?.length}----');
+    if (guardImages != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+          guardAttachments: guardImages,
+          status: FormStatus.initial,
+        ),
+      );
+    }
 
-    emit(state.copyWith(
-      eventId: eventIds,
-      guardingMasterData: state.guardingMasterData,
-      loadAttachments: data,
-      status: FormStatus.initial,
-    ));
+    if (deploymentFiles != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+          deploymentAttachments: deploymentFiles,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (bioDataFiles != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+          bioDataAttachments: bioDataFiles,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (permanentAddressFiles != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+          permanentAddressAttachments: permanentAddressFiles,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (localAddressFiles != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+          localAddressAttachments: localAddressFiles,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (pVCFiles != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+          pVCAttachments: pVCFiles,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (trainingFiles != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+        trainingAttachments: trainingFiles,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (medicalFiles != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+          medicalAttachments: medicalFiles,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    emit(
+      state.copyWith(
+        eventId: eventIds,
+        guardingMasterData: state.guardingMasterData,
+        loadAttachments: data,
+        guardAttachments: guardImages,
+        status: FormStatus.initial,
+      ),
+    );
 
     print('--state.status--3--${state.status}----');
   }

@@ -31,29 +31,31 @@ class LoginService {
         } catch (e) {
           return LoginResponseModel();
         }
-      } else if (response.statusCode == 401) {
-        print('login failed ');
+      } 
+      // else if (response.statusCode == 401) {
+      //   print('login failed ');
 
-        int refreshToken = await RefreshTokenService.getRefreshToken();
-        if (refreshToken == 200) {
-          LoginResponseModel model = await loginUser(data);
-          return model;
-        }
-        else if (refreshToken == 449)
-        { 
-          int generateToken = await GenerateTokenService.getGenerateToken();
-           if (generateToken == 200) {
-          LoginResponseModel model = await loginUser(data);
-          return model;
-          }
-           else {
-          return LoginResponseModel();
-        }
-        }
-         else {
-          return LoginResponseModel();
-        }
-      } else {
+        // int refreshToken = await RefreshTokenService.getRefreshToken();
+        // if (refreshToken == 200) {
+        //   LoginResponseModel model = await loginUser(data);
+        //   return model;
+        // }
+        // else if (refreshToken == 449)
+        // { 
+        //   int generateToken = await GenerateTokenService.getGenerateToken();
+        //    if (generateToken == 200) {
+        //   LoginResponseModel model = await loginUser(data);
+        //   return model;
+        //   }
+        //    else {
+        //   return LoginResponseModel();
+        // }
+        // }
+        //  else {
+        //   return LoginResponseModel();
+        // }
+     // } 
+      else {
         print('login failed ');
 
         throw json.decode(response.body);
@@ -82,17 +84,19 @@ class LoginService {
         } catch (e) {
           return LoginResponseModel.fromJson(json.decode(response.body));
         }
-      } else if (response.statusCode == 401) {
-        print('login failed ');
+      } 
+      // else if (response.statusCode == 401) {
+      //   print('login failed ');
 
-        int refreshToken = await RefreshTokenService.getRefreshToken();
-        if (refreshToken == 200) {
-          LoginResponseModel model = await forgotPwdAPI(data);
-          return model;
-        } else {
-          return LoginResponseModel.fromJson(json.decode(response.body));
-        }
-      } else {
+      //   int refreshToken = await RefreshTokenService.getRefreshToken();
+      //   if (refreshToken == 200) {
+      //     LoginResponseModel model = await forgotPwdAPI(data);
+      //     return model;
+      //   } else {
+      //     return LoginResponseModel.fromJson(json.decode(response.body));
+      //   }
+      // } 
+      else {
         print('login failed ');
 
         LoginResponseModel.fromJson(json.decode(response.body));
