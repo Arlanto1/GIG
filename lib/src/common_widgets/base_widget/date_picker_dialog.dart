@@ -96,7 +96,7 @@ class BaseDate {
     DateTime? pickedDate = await showDateTimePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: showBackDate! ? DateTime(2000) : DateTime.now(),
+      firstDate: showBackDate! ? DateTime(1900) : DateTime.now(),
       lastDate: DateTime(2101),
     );
 
