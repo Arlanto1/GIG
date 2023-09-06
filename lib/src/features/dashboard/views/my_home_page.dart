@@ -23,7 +23,8 @@ class MyHomePageState extends State<MyHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getUserDetails();
+     getUserDetails();
+      
   }
 
 
@@ -31,6 +32,10 @@ class MyHomePageState extends State<MyHomePage> {
      userName = await SharedPrefs.getUsername();
      email = await SharedPrefs.getEmail();
      print('username : ${userName} email is : ${email}');
+     //await Future.delayed(Duration(seconds: 3));
+     setState(() {
+       
+     });
   }
 //   @override
 //   Widget build(BuildContext context) {

@@ -49,7 +49,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       String name, String orgName, BuildContext context, String title) async {
     try {
       CreateOrganisation createOrganisationData =
-          await lawenforcementServices.createOrganisation(name, orgName);
+          await lawenforcementServices.createOrganisation(name, orgName,context);
       emit(
         state.copyWith(
           createOrganisationResponse: createOrganisationData,
@@ -58,15 +58,15 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       );
         if (Constants.addentitytype == title )
        {
-        await lawenforcementCubit.getEntities('ATOM_ENTITIES');
+        await lawenforcementCubit.getEntities('ATOM_ENTITIES',context);
        }
        else if (Constants.addpurposeofvisittype == title )
        {
-        await lawenforcementCubit.getLeopurposeofvisit('ATOM_LEO_PURPOSE_VISIT');
+        await lawenforcementCubit.getLeopurposeofvisit('ATOM_LEO_PURPOSE_VISIT',context);
        }
        else if (Constants.addleoofficialtype == title )
        {
-          await lawenforcementCubit.getLeodepartments('ATOM_LEO_DEPARTMENTS');
+          await lawenforcementCubit.getLeodepartments('ATOM_LEO_DEPARTMENTS',context);
        }
        
   
@@ -98,7 +98,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         
     try {
       CreateOrganisation createEmployeeDeptData =
-          await lawenforcementServices.createOrganisation(name, orgName);
+          await lawenforcementServices.createOrganisation(name, orgName,context);
       emit(
         state.copyWith(
           createEmployeeDepartments: createEmployeeDeptData,
@@ -106,7 +106,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         ),
       );
       dismissLoadingDialog(context);
-      await lawenforcementCubit.getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
+      await lawenforcementCubit.getEmployeeDepartments('EMPLOYEE_DEPARTMENTS',context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
             context, 'Added sucessfully', Constants.addemployeedepartment, '');
@@ -201,10 +201,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }      
 
   // Get locations api call
-  Future<void> getLocations(String locationsStr) async {
+  Future<void> getLocations(String locationsStr,BuildContext context) async {
     try {
       GetLocations getLocationsData =
-          await lawenforcementServices.getLocations(locationsStr);
+          await lawenforcementServices.getLocations(locationsStr,context);
       emit(
         state.copyWith(
           getLocationsResponse: getLocationsData,
@@ -223,10 +223,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
 
   // Serialnumber api  call
   Future<void> getSerialnumberDetails(
-      String locationid, String modulecode) async {
+      String locationid, String modulecode,BuildContext context) async {
     try {
       SerialNumberModel getserialnumberResponse = await lawenforcementServices
-          .getSerialnumberDetails(locationid, modulecode);
+          .getSerialnumberDetails(locationid, modulecode,context);
       emit(
         state.copyWith(
           getSerialnumberResponse: getserialnumberResponse,
@@ -244,10 +244,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // Distribution groups api  call
-  Future<void> getDistributionGroupsDetails() async {
+  Future<void> getDistributionGroupsDetails(BuildContext context) async {
     try {
       DistributionGroupModel getResponse = await lawenforcementServices
-          .getDistributiongroupDetails();
+          .getDistributiongroupDetails(context);
       emit(
         state.copyWith(
           groups: getResponse,
@@ -265,10 +265,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // Get employee departments
-  Future<void> getEmployeeDepartments(String departmentStr) async {
+  Future<void> getEmployeeDepartments(String departmentStr,BuildContext context) async {
     try {
       EmployeeDepartments getEmployeeDepartments =
-          await lawenforcementServices.getEmployeeDepartments(departmentStr);
+          await lawenforcementServices.getEmployeeDepartments(departmentStr,context);
       emit(
         state.copyWith(
           employeeDepartment: getEmployeeDepartments,
@@ -286,10 +286,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // Get compant types departments
-  Future<void> getCompanytypes(String departmentStr) async {
+  Future<void> getCompanytypes(String departmentStr,BuildContext context) async {
     try {
       EmployeeDepartments getEmployeeDepartments =
-          await lawenforcementServices.getEmployeeDepartments(departmentStr);
+          await lawenforcementServices.getEmployeeDepartments(departmentStr,context);
       emit(
         state.copyWith(
           employeeDepartment: getEmployeeDepartments,
@@ -308,9 +308,9 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
 
 
 // Get entities api call
-  Future<void> getEntities(String name) async {
+  Future<void> getEntities(String name,BuildContext context) async {
     try {
-      AddEntities entities = await lawenforcementServices.getEntities(name);
+      AddEntities entities = await lawenforcementServices.getEntities(name,context);
       emit(
         state.copyWith(
           getEntitiesResponse: entities,
@@ -349,10 +349,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
    // Get user details call
-  Future<void> getUserDetails(String userId) async {
+  Future<void> getUserDetails(String userId,BuildContext context) async {
     try {
       EntrySecurity getUserData =
-          await lawenforcementServices.getUserDetails(userId);
+          await lawenforcementServices.getUserDetails(userId,context);
       emit(
         state.copyWith(
           getUserDetailsResponse: getUserData,
@@ -393,10 +393,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
 
   
   // Get leodepartments api call
-  Future<void> getLeodepartments(String name) async {
+  Future<void> getLeodepartments(String name,BuildContext context) async {
     try {
       LeoDepartments leodepartments =
-          await lawenforcementServices.getLeodepartments(name);
+          await lawenforcementServices.getLeodepartments(name,context);
       emit(
         state.copyWith(
           getLeodepartmentsResponse: leodepartments,
@@ -418,7 +418,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       String role, BuildContext context) async {
     try {
       CreateUserModel createUserData = await lawenforcementServices.createUser(
-          firstName, lastName, email, role);
+          firstName, lastName, email, role,context);
       emit(
         state.copyWith(
           createUserResponse: createUserData,
@@ -426,7 +426,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         ),
       );
       dismissLoadingDialog(context);
-      await lawenforcementCubit.getDBofficialByRoleDepositor('ATOM_STATIC_USER');
+      await lawenforcementCubit.getDBofficialByRoleDepositor('ATOM_STATIC_USER',context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser, '');
       });
@@ -442,10 +442,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // Get leopurposeofvisit api call
-  Future<void> getLeopurposeofvisit(String name) async {
+  Future<void> getLeopurposeofvisit(String name,BuildContext context) async {
     try {
       LeoPurposeVisit leorespnose =
-          await lawenforcementServices.getLeopurposeofvisit(name);
+          await lawenforcementServices.getLeopurposeofvisit(name,context);
       emit(
         state.copyWith(
           getLeopurposeResponse: leorespnose,
@@ -463,10 +463,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // get DB Official email ID Accompanied LEO official API call
-  Future<void> getDBofficialByRoleDepositor(String userRole) async {
+  Future<void> getDBofficialByRoleDepositor(String userRole,BuildContext context) async {
     try {
       GetDepositor getDepositorData =
-          await lawenforcementServices.getDBOfficialdepartments(userRole);
+          await lawenforcementServices.getDBOfficialdepartments(userRole,context);
       emit(
         state.copyWith(
           getDepositorResponse: getDepositorData,
