@@ -51,6 +51,23 @@ class BaseApiService {
     try {
       // log("requestedData - $requestedData");
       log("requestedData - ${jsonEncode(requestedData)}");
+
+
+      // const fileName = '/Users/anurag/Documents/simple.txt'; // Specify the file name
+      //
+      // // Open the file in append mode
+      // final file = File(fileName).openWrite(mode: FileMode.append);
+      //
+      // // Write the string to the file
+      // file.write('-----s----------${jsonEncode(requestedData)}');
+      //
+      // // Close the file
+      // file.close().then((_) {
+      //   print('String appended to $fileName');
+      // }).catchError((error) {
+      //   print('Error appending to file: $error');
+      // });
+
       var response = await http.post(
         Uri.parse(url),
         headers: await _getHeaders(

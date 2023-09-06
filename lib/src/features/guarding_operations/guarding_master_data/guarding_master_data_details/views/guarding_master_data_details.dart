@@ -272,7 +272,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 textController: statusController,
                                 items: statusDropDownValues,
                                 initialValue:
-                                    state.guardingMasterData.status.toString(),
+                                    '${state.guardingMasterData.status??1}',
                                 onTap: () {
                                   if (isDisabled) {
                                     BaseDropDown().assetTypeDialog(
@@ -353,8 +353,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 ),
                                 TextfieldAddButton(
                                     title:
-                                        state.guardingMasterData.guard?.name ??
-                                            '',
+                                        '${state.guardingMasterData.guard?.firstName??''} ${state.guardingMasterData.guard?.lastName??''}',
                                     height: 70,
                                     isDisableColor: false,
                                     onTap: () {
@@ -497,20 +496,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   state.guardingMasterData.guardingPOC,
                               textFormKey: Keys.guardingPOCKey,
                               hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData
-                                                  ?.guardingPOC ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor: (widget.guardingMasterData !=
-                                          null &&
-                                      (widget.guardingMasterData?.guardingPOC !=
-                                          null))
-                                  ? true
-                                  : false,
+                              isEnable: true,
+                              isDisableColor: false,
                               onChange: (String value) {
                                 state.guardingMasterData.guardingPOC = value;
                                 context
@@ -617,12 +604,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       ? false
                                       : true,
                               isDisableColor:
-                                  (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData
-                                                  ?.dbEmployeeId !=
-                                              null))
-                                      ? true
-                                      : false,
+                                  false,
                               onChange: (String value) {
                                 state.guardingMasterData.dbEmployeeId = value;
                                 context
@@ -768,12 +750,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                               null))
                                       ? false
                                       : true,
-                              isDisableColor: (widget.guardingMasterData !=
-                                          null &&
-                                      (widget.guardingMasterData?.contactNo !=
-                                          null))
-                                  ? true
-                                  : false,
+                              isDisableColor:  false,
                               onChange: (String value) {
                                 state.guardingMasterData.contactNo = value;
                                 context
@@ -997,12 +974,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                               null))
                                       ? false
                                       : true,
-                              isDisableColor:
-                                  (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData?.weight !=
-                                              null))
-                                      ? true
-                                      : false,
+                              isDisableColor:false,
                               onChange: (String value) {
                                 state.guardingMasterData.height =
                                     int.tryParse(value);
@@ -1032,12 +1004,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                               null))
                                       ? false
                                       : true,
-                              isDisableColor:
-                                  (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData?.chest !=
-                                              null))
-                                      ? true
-                                      : false,
+                              isDisableColor:false,
                               onChange: (String value) {
                                 state.guardingMasterData.chest =
                                     int.tryParse(value);
@@ -1123,7 +1090,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
-                                                .onModelValueChange(
+                                                .onCheckBoxChange(
                                                     state.guardingMasterData);
                                           },
                                 onChangedNo:
@@ -1135,7 +1102,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
-                                                .onModelValueChange(
+                                                .onCheckBoxChange(
                                                     state.guardingMasterData);
                                           }),
 

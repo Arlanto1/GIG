@@ -249,6 +249,7 @@ class GuardingMastersDataModel {
     'entrySecurity' : entrySecurity?.toJson(),
     'guard' : guard?.toJson(),
     'inputDate' : inputDate,
+    'vendor': vendor?.toJson(),
     'csrParticipationDates' : csrParticipationDates,
     'medicalCertificateValidUntil' : medicalCertificateValidUntil,
     'covidFirstDoseDate' : covidFirstDoseDate,

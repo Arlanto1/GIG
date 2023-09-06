@@ -23,7 +23,7 @@ class Utils {
     // var dt = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000 ?? 0);
     //var dt = DateTime.fromMillisecondsSinceEpoch(timestamp ?? 0 * 1000);
 
-    if(timestamp == null || timestamp == 0) {
+    if (timestamp == null || timestamp == 0) {
       timestamp = DateTime.now().millisecondsSinceEpoch;
     }
 
@@ -111,7 +111,6 @@ class Utils {
     showDialog(context: context, builder: (BuildContext context) => dialog);
   }
 
-
   String formatUnixTimestamp(String timestampString) {
     try {
       // Parse the Unix timestamp as an int
@@ -119,10 +118,11 @@ class Utils {
 
       // Convert the Unix timestamp to a DateTime object
       DateTime dateTime =
-      DateTime.fromMillisecondsSinceEpoch(unixTimestamp * 1000);
+          DateTime.fromMillisecondsSinceEpoch(unixTimestamp * 1000);
 
       // Format the DateTime object as a string
-      String formattedDate = DateFormat('dd/MM/yyyy a HH:mm:ss').format(dateTime);
+      String formattedDate =
+          DateFormat('dd/MM/yyyy a HH:mm:ss').format(dateTime);
 
       return formattedDate;
     } catch (e) {
@@ -356,11 +356,11 @@ class Utils {
 
   List<String> splitStringAfterComma(String inputString) {
     log('-inputString----$inputString-');
-    return inputString.split(',');
+    return inputString.split(',').where((item) => item.trim().isNotEmpty).toList();
   }
-    String joinListWithComma(List<String> inputList) {
-      log('-inputList----${inputList.length}-');
+
+  String joinListWithComma(List<String> inputList) {
+    log('-inputList----${inputList.length}-');
     return inputList.join(',');
   }
 }
-
