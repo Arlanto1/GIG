@@ -258,7 +258,7 @@ class LawEnforcementService
     // }
     var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getUserDetails?userId=$userId',context);
 
-   return  GetUserDetails.fromJson(value);
+   return  EntrySecurity.fromJson(value);
   }
 
   // get distribution group Details api call
