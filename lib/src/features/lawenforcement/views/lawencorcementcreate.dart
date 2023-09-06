@@ -116,7 +116,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
                 padding: const EdgeInsets.only(right: 20.0),
                 child:  isDistrbuted ? SvgPicture.asset(
                   AppIcon.createfoundsaveicon,
-                  color: Colors.transparent.withOpacity(0.5),
+                  color: AppColors.disabletextfieldBackground.withOpacity(0.5),
                 ):  SvgPicture.asset(
                   AppIcon.createfoundsaveicon,
                  
@@ -134,7 +134,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
                 padding: const EdgeInsets.only(right: 20.0),
                 child: isDistrbuted ? Icon(
                   Icons.send,
-                  color: Colors.transparent.withOpacity(0.5),
+                  color: AppColors.disabletextfieldBackground.withOpacity(0.5),
                 ): Icon(
                   Icons.send,
                   color: AppColors.backgroundWhitecolor,
