@@ -45,6 +45,8 @@ class GuardingMastersDataModel {
   EntrySecurity? entrySecurity;
   EntrySecurity? guard;
   Proof? localAddressProof;
+  Proof? permanentAddressProof;
+  Proof? bopData;
   List<Entity>? entities;
   String? inputDate;
   String? csrParticipationDates;
@@ -72,7 +74,7 @@ class GuardingMastersDataModel {
   int? maritalStatus;
   int? typeOfDeployment;
   bool deploymentOrderSubmitted;
-  List<dynamic>? deploymentOrders;
+  List<Proof>? deploymentOrders;
   bool physicallyFit;
   String? localLanguage;
   bool? localLangProficiencyR;
@@ -88,10 +90,10 @@ class GuardingMastersDataModel {
   String? permanentAddress;
   String? localAddress;
   List<Entity>? qualifications;
-  List<dynamic>? pvc;
+  List<Proof>? pvc;
   bool trainingCertificateProvided;
-  List<dynamic>? trainingCertificates;
-  List<dynamic>? medicalCertificates;
+  List<Proof>? trainingCertificates;
+  List<Proof>? medicalCertificates;
   int? systemAccess;
   bool onboarded;
   String? esicNo;
@@ -114,6 +116,8 @@ class GuardingMastersDataModel {
     this.entrySecurity,
     this.guard,
     this.localAddressProof,
+    this.permanentAddressProof,
+    this.bopData,
     this.inputDate,
     this.csrParticipationDates,
     this.medicalCertificateValidUntil,
@@ -200,6 +204,14 @@ class GuardingMastersDataModel {
                 null
             ? Proof.fromJson(json['localAddressProof'] as Map<String, dynamic>)
             : null,
+        permanentAddressProof =
+            (json['permanentAddressProof'] as Map<String, dynamic>?) != null
+                ? Proof.fromJson(
+                    json['permanentAddressProof'] as Map<String, dynamic>)
+                : null,
+        bopData = (json['bopData'] as Map<String, dynamic>?) != null
+            ? Proof.fromJson(json['bopData'] as Map<String, dynamic>)
+            : null,
         inputDate = json['inputDate'] as String?,
         csrParticipationDates = json['csrParticipationDates'] as String?,
         medicalCertificateValidUntil =
@@ -214,7 +226,7 @@ class GuardingMastersDataModel {
         pvcIssuedDate = json['pvcIssuedDate'] as String?,
         pvcExpiryDate = json['pvcExpiryDate'] as String?,
         dateOfBirth = json['dateOfBirth'] as String?,
-        dateOfJoining = json['dateOfJoinig'] as String?,
+        dateOfJoining = json['dateOfJoining'] as String?,
         vendor = (json['vendor'] as Map<String, dynamic>?) != null
             ? Department.fromJson(json['vendor'] as Map<String, dynamic>)
             : null,
@@ -235,7 +247,9 @@ class GuardingMastersDataModel {
         maritalStatus = json['maritalStatus'] as int?,
         typeOfDeployment = json['typeOfDeployment'] as int?,
         deploymentOrderSubmitted = json['deploymentOrderSubmitted'],
-        deploymentOrders = json['deploymentOrders'] as List?,
+        deploymentOrders = (json['deploymentOrders'] as List?)
+            ?.map((dynamic e) => Proof.fromJson(e as Map<String, dynamic>))
+            .toList(),
         physicallyFit = json['physicallyFit'],
         localLanguage = json['localLanguage'] as String?,
         localLangProficiencyR = json['localLangProficiencyR'] as bool?,
@@ -253,10 +267,16 @@ class GuardingMastersDataModel {
         qualifications = (json['qualifications'] as List?)
             ?.map((dynamic e) => Entity.fromJson(e as Map<String, dynamic>))
             .toList(),
-        pvc = json['pvc'] as List?,
+        pvc = (json['pvc'] as List?)
+            ?.map((dynamic e) => Proof.fromJson(e as Map<String, dynamic>))
+            .toList(),
         trainingCertificateProvided = json['trainingCertificateProvided'],
-        trainingCertificates = json['trainingCertificates'] as List?,
-        medicalCertificates = json['medicalCertificates'] as List?,
+        trainingCertificates = (json['trainingCertificates'] as List?)
+            ?.map((dynamic e) => Proof.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        medicalCertificates = (json['medicalCertificates'] as List?)
+            ?.map((dynamic e) => Proof.fromJson(e as Map<String, dynamic>))
+            .toList(),
         systemAccess = json['systemAccess'] as int?,
         onboarded = json['onboarded'],
         esicNo = json['esicNo'] as String?,
@@ -290,7 +310,7 @@ class GuardingMastersDataModel {
         'pvcExpiryDate': pvcExpiryDate,
         'pvcIssuedDate': pvcIssuedDate,
         'dateOfBirth': dateOfBirth,
-        'dateOfJoinig': dateOfJoining,
+        'dateOfJoining': dateOfJoining,
         'status': status,
         'height': height,
         'weight': weight,

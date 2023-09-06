@@ -385,82 +385,35 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                         );
                                       }
                                     }),
-
-                                // widget.guardingMasterData == null
-                                //     ? TextfieldAddButton(
-                                //         title: state.guardingMasterData.guard
-                                //                 ?.name ??
-                                //             '',
-                                //         height: 70,
-                                //         isDisableColor: false,
-                                //         onTap: () {
-                                //           if (widget.guardingMasterData !=
-                                //               null) {
-                                //             BaseDeparmentDialog().userDialog(
-                                //               context: context,
-                                //               users: state.emailUsers!,
-                                //               // TODO: Need to change EntrySecurity to BaseUser
-                                //               onTap: (EntrySecurity user) {
-                                //                 BlocProvider.of<
-                                //                             GuardingMasterDataDetailsCubit>(
-                                //                         context)
-                                //                     .updateDropdownValues(
-                                //                         guard: user);
-                                //               },
-                                //             );
-                                //           }
-                                //         })
-                                //     : FlutterInputField(
-                                //         initialValue: state.guardingMasterData
-                                //                 .guard?.name ??
-                                //             '',
-                                //         textFormKey: Keys.requesterEmailKey,
-                                //         hintText: '',
-                                //         isEnable: true,
-                                //         isDisableColor:
-                                //             state.guardingMasterData.status ==
-                                //                 6,
-                                //         onChange: (String username) {},
-                                //         validateTextField: (String? user) {},
-                                //       ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                               ],
                             ),
 
                             /// upload Photo
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.textDisplay(
-                                    Constants.uploadPhoto,
-                                    Styles.textStyleBlack14)
-                                : Container(),
+                            CommonWidgets.textDisplay(
+                                Constants.uploadPhoto, Styles.textStyleBlack14),
                             widget.guardingMasterData == null
                                 ? CommonWidgets.verticalSpacerWidget(
                                     height * 0.001)
                                 : Container(),
-                            widget.guardingMasterData == null
-                                ? BaseImageUpload().uploadWidget(
-                                    context: context,
-                                    loggedInUserDetails:
-                                        state.loggedInUserDetails ??
-                                            EntrySecurity(),
-                                    getFiles: guardImages,
-                                    onImageSelected: (CreateImage data) {
-                                      log('-------function---onImageSelected---------');
-                                      List<CreateImage>? files = [];
-                                      files.add(data);
-                                      for (CreateImage image
-                                          in guardImages!.toList()) {
-                                        files.add(image);
-                                      }
-                                      BlocProvider.of<
-                                                  GuardingMasterDataDetailsCubit>(
-                                              context)
-                                          .addAttchment(guardImages: files);
-                                    },
-                                  )
-                                : Container(),
-
+                            BaseImageUpload().uploadWidget(
+                              context: context,
+                              loggedInUserDetails:
+                                  state.loggedInUserDetails ?? EntrySecurity(),
+                              getFiles: guardImages,
+                              onImageSelected: (CreateImage data) {
+                                log('-------function---onImageSelected---------');
+                                List<CreateImage>? files = [];
+                                files.add(data);
+                                for (CreateImage image in guardImages ?? []) {
+                                  files.add(image);
+                                }
+                                BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                        context)
+                                    .addAttchment(guardImages: files);
+                              },
+                            ),
                             // Attachments
                             BaseImageUpload().getAttachment(
                               height: height,
@@ -471,7 +424,6 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       ? true
                                       : false,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Guarding Vendor
                             CommonWidgets.textDisplay(
@@ -797,7 +749,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Date of Joining
+                            /// Date Of Joining
                             CommonWidgets.textDisplay(
                               Constants.dateOfJoining,
                               Styles.textStyleBlack14,
@@ -807,16 +759,19 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             BaseDate().datePickerWidgetLoading(
                               textController: dateOfJoiningController,
                               onChange: (String value) {
-                                log('--fr-value-${dateOfJoiningController.text}------');
+                                log('---value-$value------');
+                                log('-----pvcIssuedDateController---value-${dateOfJoiningController.text}------');
                                 state.guardingMasterData.dateOfJoining =
                                     Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
                                         state.guardingMasterData);
+                                // pvcIssuedDateController.text = state.guardingMasterData.pvcIssuedDate??'';
                               },
                               context: context,
                             ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Type of Deployment
@@ -905,8 +860,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                           }),
                             if (state.guardingMasterData
                                 .deploymentOrderSubmitted) ...[
-                              /// upload File
-                              CommonWidgets.textDisplay(Constants.uploadfile,
+                              /// upload Deployment Order File
+                              CommonWidgets.textDisplay(
+                                  Constants.uploadDeploymentOrderFile,
                                   Styles.textStyleBlack14),
                               widget.guardingMasterData == null
                                   ? CommonWidgets.verticalSpacerWidget(
@@ -1147,26 +1103,23 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             CommonWidgets.textDisplay(Constants.uploadBioData,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                           BaseImageUpload().uploadWidget(
-                                    context: context,
-                                    loggedInUserDetails:
-                                        state.loggedInUserDetails ??
-                                            EntrySecurity(),
-                                    getFiles: bioDataFiles,
-                                    onImageSelected: (CreateImage data) {
-                                      log('-------function---onImageSelected---------');
-                                      List<CreateImage>? files = [];
-                                      files.add(data);
-                                      for (CreateImage image
-                                          in bioDataFiles ?? []) {
-                                        files.add(image);
-                                      }
-                                      BlocProvider.of<
-                                                  GuardingMasterDataDetailsCubit>(
-                                              context)
-                                          .addAttchment(bioDataFiles: files);
-                                    },
-                                  ),
+                            BaseImageUpload().uploadWidget(
+                              context: context,
+                              loggedInUserDetails:
+                                  state.loggedInUserDetails ?? EntrySecurity(),
+                              getFiles: bioDataFiles,
+                              onImageSelected: (CreateImage data) {
+                                log('-------function---onImageSelected---------');
+                                List<CreateImage>? files = [];
+                                files.add(data);
+                                for (CreateImage image in bioDataFiles ?? []) {
+                                  files.add(image);
+                                }
+                                BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                        context)
+                                    .addAttchment(bioDataFiles: files);
+                              },
+                            ),
                             // Attachments
                             BaseImageUpload().getAttachment(
                               height: height,
@@ -1207,29 +1160,28 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// upload Permanent Address Proof
-                            CommonWidgets.textDisplay(Constants.uploadPermanentAddressProof,
+                            CommonWidgets.textDisplay(
+                                Constants.uploadPermanentAddressProof,
                                 Styles.textStyleBlack14),
                             widget.guardingMasterData == null
                                 ? CommonWidgets.verticalSpacerWidget(
-                                height * 0.001)
+                                    height * 0.001)
                                 : Container(),
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
-                              state.loggedInUserDetails ??
-                                  EntrySecurity(),
+                                  state.loggedInUserDetails ?? EntrySecurity(),
                               getFiles: permanentAddressFiles,
                               onImageSelected: (CreateImage data) {
                                 log('-------function---onImageSelected---------');
                                 List<CreateImage>? files = [];
                                 files.add(data);
                                 for (CreateImage image
-                                in permanentAddressFiles ?? []) {
+                                    in permanentAddressFiles ?? []) {
                                   files.add(image);
                                 }
-                                BlocProvider.of<
-                                    GuardingMasterDataDetailsCubit>(
-                                    context)
+                                BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                        context)
                                     .addAttchment(permanentAddressFiles: files);
                               },
                             ),
@@ -1239,9 +1191,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               attachments: state.permanentAddressAttachments,
                               files: permanentAddressFiles,
                               showDownloadIcon:
-                              widget.guardingMasterData != null
-                                  ? true
-                                  : false,
+                                  widget.guardingMasterData != null
+                                      ? true
+                                      : false,
                             ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1271,29 +1223,28 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// upload Local Address Proof
-                            CommonWidgets.textDisplay(Constants.uploadLocalAddressProof,
+                            CommonWidgets.textDisplay(
+                                Constants.uploadLocalAddressProof,
                                 Styles.textStyleBlack14),
                             widget.guardingMasterData == null
                                 ? CommonWidgets.verticalSpacerWidget(
-                                height * 0.001)
+                                    height * 0.001)
                                 : Container(),
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
-                              state.loggedInUserDetails ??
-                                  EntrySecurity(),
+                                  state.loggedInUserDetails ?? EntrySecurity(),
                               getFiles: localAddressFiles,
                               onImageSelected: (CreateImage data) {
                                 log('-------function---onImageSelected---------');
                                 List<CreateImage>? files = [];
                                 files.add(data);
                                 for (CreateImage image
-                                in localAddressFiles ?? []) {
+                                    in localAddressFiles ?? []) {
                                   files.add(image);
                                 }
-                                BlocProvider.of<
-                                    GuardingMasterDataDetailsCubit>(
-                                    context)
+                                BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                        context)
                                     .addAttchment(localAddressFiles: files);
                               },
                             ),
@@ -1303,9 +1254,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               attachments: state.localAddressAttachments,
                               files: localAddressFiles,
                               showDownloadIcon:
-                              widget.guardingMasterData != null
-                                  ? true
-                                  : false,
+                                  widget.guardingMasterData != null
+                                      ? true
+                                      : false,
                             ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1455,44 +1406,47 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                           }),
                             if (state.guardingMasterData
                                 .trainingCertificateProvided) ...[
-                            /// upload File
-                            CommonWidgets.textDisplay(Constants.uploadfile,
-                                Styles.textStyleBlack14),
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                height * 0.001)
-                                : Container(),
-                            BaseImageUpload().uploadWidget(
-                              context: context,
-                              loggedInUserDetails:
-                              state.loggedInUserDetails ??
-                                  EntrySecurity(),
-                              getFiles: trainingFiles,
-                              onImageSelected: (CreateImage data) {
-                                log('-------function---onImageSelected---------');
-                                List<CreateImage>? files = [];
-                                files.add(data);
-                                for (CreateImage image
-                                in trainingFiles ?? []) {
-                                  files.add(image);
-                                }
-                                BlocProvider.of<
-                                    GuardingMasterDataDetailsCubit>(
-                                    context)
-                                    .addAttchment(trainingFiles: files);
-                              },
-                            ),
-                            // Attachments
-                            BaseImageUpload().getAttachment(
-                              height: height,
-                              attachments: state.trainingAttachments,
-                              files: trainingFiles,
-                              showDownloadIcon:
-                              widget.guardingMasterData != null
-                                  ? true
-                                  : false,
-                            ),
-                          ],
+                              /// upload Training Certificate
+                              CommonWidgets.textDisplay(
+                                  Constants.uploadTrainingCertificate,
+                                  Styles.textStyleBlack14),
+                              widget.guardingMasterData == null
+                                  ? CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001)
+                                  : Container(),
+                              BaseImageUpload().uploadWidget(
+                                context: context,
+                                loggedInUserDetails:
+                                    state.loggedInUserDetails ??
+                                        EntrySecurity(),
+                                getFiles: trainingFiles,
+                                onImageSelected: (CreateImage data) {
+                                  log('-------function---onImageSelected---------');
+                                  List<CreateImage>? files = [];
+                                  files.add(data);
+                                  for (CreateImage image
+                                      in trainingFiles ?? []) {
+                                    files.add(image);
+                                  }
+                                  BlocProvider.of<
+                                              GuardingMasterDataDetailsCubit>(
+                                          context)
+                                      .addAttchment(trainingFiles: files);
+                                },
+                              ),
+                              // Attachments
+                              BaseImageUpload().getAttachment(
+                                height: height,
+                                attachments: state.trainingAttachments,
+                                files: trainingFiles,
+                                showDownloadIcon:
+                                    widget.guardingMasterData != null
+                                        ? true
+                                        : false,
+                              ),
+                            ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                             /// Medical Certificate Valid Until
                             CommonWidgets.textDisplay(
                               Constants.medicalCertificateValidUntil,
@@ -1517,39 +1471,31 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// upload File
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.textDisplay(
-                                    Constants.uploadfile,
-                                    Styles.textStyleBlack14)
-                                : Container(),
+                            /// upload Medical Certificates
+                            CommonWidgets.textDisplay(
+                                Constants.uploadMedicalCertificate,
+                                Styles.textStyleBlack14),
                             widget.guardingMasterData == null
                                 ? CommonWidgets.verticalSpacerWidget(
                                     height * 0.001)
                                 : Container(),
-                            widget.guardingMasterData == null
-                                ? BaseImageUpload().uploadWidget(
-                                    context: context,
-                                    loggedInUserDetails:
-                                        state.loggedInUserDetails ??
-                                            EntrySecurity(),
-                                    getFiles: medicalFiles,
-                                    onImageSelected: (CreateImage data) {
-                                      log('-------function---onImageSelected---------');
-                                      List<CreateImage>? files = [];
-                                      files.add(data);
-                                      for (CreateImage image
-                                          in medicalFiles ?? []) {
-                                        files.add(image);
-                                      }
-                                      BlocProvider.of<
-                                                  GuardingMasterDataDetailsCubit>(
-                                              context)
-                                          .addAttchment(medicalFiles: files);
-                                    },
-                                  )
-                                : Container(),
-
+                            BaseImageUpload().uploadWidget(
+                              context: context,
+                              loggedInUserDetails:
+                                  state.loggedInUserDetails ?? EntrySecurity(),
+                              getFiles: medicalFiles,
+                              onImageSelected: (CreateImage data) {
+                                log('-------function---onImageSelected---------');
+                                List<CreateImage>? files = [];
+                                files.add(data);
+                                for (CreateImage image in medicalFiles ?? []) {
+                                  files.add(image);
+                                }
+                                BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                        context)
+                                    .addAttchment(medicalFiles: files);
+                              },
+                            ),
                             // Attachments
                             BaseImageUpload().getAttachment(
                               height: height,
@@ -1738,7 +1684,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
 
                             if (state.guardingMasterData.msgbExempted) ...[
                               /// upload File
-                              CommonWidgets.textDisplay(Constants.mSGBExemptionDate,
+                              CommonWidgets.textDisplay(
+                                  Constants.mSGBExemptionDate,
                                   Styles.textStyleBlack14),
                               widget.guardingMasterData == null
                                   ? CommonWidgets.verticalSpacerWidget(
@@ -1754,8 +1701,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   log('-------function---onImageSelected---------');
                                   List<CreateImage>? files = [];
                                   files.add(data);
-                                  for (CreateImage image
-                                      in mSGBAFiles ?? []) {
+                                  for (CreateImage image in mSGBAFiles ?? []) {
                                     files.add(image);
                                   }
                                   BlocProvider.of<

@@ -406,10 +406,11 @@ class Constants {
   static const String securityExperience = 'Security Experience';
   static const String addParticipationDates = 'Add Participation Date';
   static const String uploadBioData = 'Upload Bio Data';
-
-//static const String height = 'Height(cm)';
+  static const String uploadMedicalCertificate = 'Upload Medical Certificate';
+  static const String uploadTrainingCertificate = 'Upload Training Certificate';
+  static const String uploadDeploymentOrderFile = 'Upload Deployment Order File';
   static const String addQualificationType = 'Add Qualification';
-  //static const String height = 'Height(cm)';
+
 }
 
 
