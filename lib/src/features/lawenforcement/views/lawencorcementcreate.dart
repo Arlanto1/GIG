@@ -881,6 +881,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
     return // Login button
         AppButton(
       //height: 50,
+      disableColor:  isDistrbuted,
       width: 150,
       key: const Key(Keys.submitButton),
       buttonText: Constants.submit,
@@ -888,11 +889,14 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
       onTap: () async {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
+        if((isDistrbuted ?? false ) == false)
+         {
         try {
            lawenforcementValidations(context, globalState);
         } catch (e) {
           // present userwith error message
         }
+         }
       },
     );
   }
