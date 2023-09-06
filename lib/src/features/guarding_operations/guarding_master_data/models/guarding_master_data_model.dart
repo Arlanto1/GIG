@@ -89,7 +89,7 @@ class GuardingMastersDataModel {
   bool onboarded;
   String? esicNo;
   String? uanNo;
-  bool? msgbExempted;
+  bool msgbExempted;
   int? msgbFormBSubmitted;
   int? staffMsgbCompliant;
   bool csrParticipation;
@@ -157,7 +157,7 @@ class GuardingMastersDataModel {
     this.onboarded = false,
     this.esicNo,
     this.uanNo,
-    this.msgbExempted,
+     this.msgbExempted = false,
     this.msgbFormBSubmitted,
     this.staffMsgbCompliant,
     this.csrParticipation= false,
@@ -231,7 +231,7 @@ class GuardingMastersDataModel {
         onboarded = json['onboarded'] ,
         esicNo = json['esicNo'] as String?,
         uanNo = json['uanNo'] as String?,
-        msgbExempted = json['msgbExempted'] as bool?,
+        msgbExempted = json['msgbExempted'] as bool,
         msgbFormBSubmitted = json['msgbFormBSubmitted'] as int?,
         staffMsgbCompliant = json['staffMsgbCompliant'] as int?,
         csrParticipation = json['csrParticipation'] ,

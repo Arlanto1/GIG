@@ -363,6 +363,7 @@ class Constants {
   static const String typeOfDeployment = 'Type of Deployment';
   static const String systemAccess = 'System Access';
   static const String deploymentOrderSubmitted = 'Deployment Order Submitted?';
+  static const String mSGBExempted = 'MSGB Exempted';
   static const String trainingCertificate = 'Training Certificate?';
   static const String onBoarded = 'MIS Trigger(for on-boarding)';
   static const String specialAchievements = 'Special Achievements?';

@@ -112,6 +112,7 @@ class Keys {
   static const String guardingAgencyKey = 'guardingAgencyKey_gd';
   static const String uanNoKey = 'uanNoKey_gd';
   static const String systemAccessKey = 'systemAccessKey_gd';
+  static const String specialAchievementsKey = 'additionInitiativesKey_gd';
   static const String additionInitiativesKey = 'additionInitiativesKey_gd';
   static const String dateOfBirthKey = 'dateOfBirthKey_gd';
   static const String dateOfJoiningKey = 'dateOfJoiningKey_gd';

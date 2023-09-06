@@ -350,7 +350,8 @@ class GuardingMasterDataDetailsCubit
       {bool? deploymentOrderSubmitted,
       bool? trainingCertificateProvided,
       bool? csrParticipation,
-      bool? specialAchievement}) {
+      bool? specialAchievement,
+      bool? msgbExempted}) {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -369,6 +370,9 @@ class GuardingMasterDataDetailsCubit
     }
     if (specialAchievement != null) {
       state.guardingMasterData.specialAchievement = specialAchievement;
+    }
+    if (msgbExempted != null) {
+      state.guardingMasterData.msgbExempted = msgbExempted;
     }
     emit(state.copyWith(
       guardingMasterData: state.guardingMasterData,
