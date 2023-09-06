@@ -237,6 +237,7 @@ class GuardingMasterDataDetailsCubit
     List<CreateImage>? trainingFiles,
     List<CreateImage>? mSGBExemptionFiles,
     List<CreateImage>? medicalFiles,
+    List<CreateImage>? mSGBAttachments,
   }) async {
     emit(
       state.copyWith(

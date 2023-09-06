@@ -1227,13 +1227,13 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       List<CreateImage>? files = [];
                                       files.add(data);
                                       for (CreateImage image
-                                          in permanentAddressFiles!.toList()) {
+                                          in permanentAddressFiles ?? []) {
                                         files.add(image);
                                       }
                                       BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
                                               context)
-                                          .addAttchment(data: files);
+                                          .addAttchment(permanentAddressFiles: files);
                                     },
                                   )
                                 : Container(),
@@ -1296,13 +1296,13 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       List<CreateImage>? files = [];
                                       files.add(data);
                                       for (CreateImage image
-                                          in localAddressFiles!.toList()) {
+                                          in localAddressFiles ?? []) {
                                         files.add(image);
                                       }
                                       BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
                                               context)
-                                          .addAttchment(data: files);
+                                          .addAttchment(localAddressFiles: files);
                                     },
                                   )
                                 : Container(),
@@ -1403,13 +1403,13 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       List<CreateImage>? files = [];
                                       files.add(data);
                                       for (CreateImage image
-                                          in pVCFiles!.toList()) {
+                                          in pVCFiles ?? []) {
                                         files.add(image);
                                       }
                                       BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
                                               context)
-                                          .addAttchment(data: files);
+                                          .addAttchment(pVCFiles: files);
                                     },
                                   )
                                 : Container(),
@@ -1486,13 +1486,13 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                         List<CreateImage>? files = [];
                                         files.add(data);
                                         for (CreateImage image
-                                            in trainingFiles!.toList()) {
+                                            in trainingFiles ?? []) {
                                           files.add(image);
                                         }
                                         BlocProvider.of<
                                                     GuardingMasterDataDetailsCubit>(
                                                 context)
-                                            .addAttchment(data: files);
+                                            .addAttchment(trainingFiles: files);
                                       },
                                     )
                                   : Container(),
@@ -1555,13 +1555,13 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       List<CreateImage>? files = [];
                                       files.add(data);
                                       for (CreateImage image
-                                          in medicalFiles!.toList()) {
+                                          in medicalFiles ?? []) {
                                         files.add(image);
                                       }
                                       BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
                                               context)
-                                          .addAttchment(data: files);
+                                          .addAttchment(medicalFiles: files);
                                     },
                                   )
                                 : Container(),
@@ -1754,34 +1754,32 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
 
                             if (state.guardingMasterData.msgbExempted) ...[
                               /// upload File
-                              CommonWidgets.textDisplay(
-                                      Constants.mSGBExemptionDate,
-                                      Styles.textStyleBlack14)
-                             , widget.guardingMasterData == null
+                              CommonWidgets.textDisplay(Constants.mSGBExemptionDate,
+                                  Styles.textStyleBlack14),
+                              widget.guardingMasterData == null
                                   ? CommonWidgets.verticalSpacerWidget(
                                       height * 0.001)
                                   : Container(),
                               BaseImageUpload().uploadWidget(
-                                      context: context,
-                                      loggedInUserDetails:
-                                          state.loggedInUserDetails ??
-                                              EntrySecurity(),
-                                      getFiles: mSGBAttachments,
-                                      onImageSelected: (CreateImage data) {
-                                        log('-------function---onImageSelected---------');
-                                        List<CreateImage>? files = [];
-                                        files.add(data);
-                                        for (CreateImage image
-                                            in mSGBAttachments!.toList()) {
-                                          files.add(image);
-                                        }
-                                        BlocProvider.of<
-                                                    GuardingMasterDataDetailsCubit>(
-                                                context)
-                                            .addAttchment(data: files);
-                                      },
-                                    )
-,
+                                context: context,
+                                loggedInUserDetails:
+                                    state.loggedInUserDetails ??
+                                        EntrySecurity(),
+                                getFiles: mSGBAttachments,
+                                onImageSelected: (CreateImage data) {
+                                  log('-------function---onImageSelected---------');
+                                  List<CreateImage>? files = [];
+                                  files.add(data);
+                                  for (CreateImage image
+                                      in mSGBAttachments ?? []) {
+                                    files.add(image);
+                                  }
+                                  BlocProvider.of<
+                                              GuardingMasterDataDetailsCubit>(
+                                          context)
+                                      .addAttchment(mSGBAttachments: files);
+                                },
+                              ),
                               // Attachments
                               BaseImageUpload().getAttachment(
                                 height: height,
