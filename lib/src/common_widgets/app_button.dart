@@ -10,6 +10,7 @@ class AppButton extends StatelessWidget {
   final String? buttonTextKey;
   final double? width;
   final double? height;
+  final bool? disableColor;
 
   const AppButton({
     Key? key,
@@ -19,6 +20,7 @@ class AppButton extends StatelessWidget {
     this.buttonTextKey,
     this.width,
     this.height,
+    this.disableColor,
   }) : super(key: key);
 
   @override
@@ -35,7 +37,7 @@ class AppButton extends StatelessWidget {
           onTap!();
         },
         style: TextButton.styleFrom(
-          backgroundColor: AppColors.navigationSkybluecolor,
+          backgroundColor: disableColor ?? false ? AppColors.disabletextfieldBackground:AppColors.navigationSkybluecolor,
           foregroundColor: Colors.white,
           textStyle: Styles.textStyleSemiBold16White,
           shape: const StadiumBorder(),

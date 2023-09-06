@@ -632,7 +632,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
     super.initState();
     if (widget.listuser != null) {
       editCreatefoundItems();
-      lawenforcementCubit.getDistributionGroupsDetails();
+      lawenforcementCubit.getDistributionGroupsDetails(context);
     } else {
       lawenforcementCubit.initalization();
     }
@@ -653,7 +653,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
           name: "DLF Square") ;
           lawenforcementCubit.getlocationsResponseData(list);
            await lawenforcementCubit.getSerialnumberDetails(
-                      '24', 'AF');
+                      '24', 'AF',context);
           
             }
    
@@ -717,7 +717,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
           widget.listuser?.slNo != null ? widget.listuser?.slNo ?? '' : '';
 
       await lawenforcementCubit.getSerialnumberDetails(
-          (widget.listuser?.location?.id ?? 0).toString(), 'AF');
+          (widget.listuser?.location?.id ?? 0).toString(), 'AF',context);
 
       lawenforcementCubit.getlocationsResponseData(mumbai);
       int isDocumentifanySelected1 =
@@ -868,19 +868,20 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
 
   getLawenforcementList() async {
     var userid = await SharedPrefs.getUserId();
-    await lawenforcementCubit.getLocations('ATOM_LOCATIONS');
-    await lawenforcementCubit.getEntities('ATOM_ENTITIES');
-    await lawenforcementCubit.getLeopurposeofvisit('ATOM_LEO_PURPOSE_VISIT');
-    await lawenforcementCubit.getLeodepartments('ATOM_LEO_DEPARTMENTS');
-    await lawenforcementCubit.getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
-    await lawenforcementCubit.getDBofficialByRoleDepositor('ATOM_STATIC_USER');
-    await lawenforcementCubit.getUserDetails(userid);
+    await lawenforcementCubit.getLocations('ATOM_LOCATIONS',context);
+    await lawenforcementCubit.getEntities('ATOM_ENTITIES',context);
+    await lawenforcementCubit.getLeopurposeofvisit('ATOM_LEO_PURPOSE_VISIT',context);
+    await lawenforcementCubit.getLeodepartments('ATOM_LEO_DEPARTMENTS',context);
+    await lawenforcementCubit.getEmployeeDepartments('EMPLOYEE_DEPARTMENTS',context);
+    await lawenforcementCubit.getDBofficialByRoleDepositor('ATOM_STATIC_USER',context);
+    await lawenforcementCubit.getUserDetails(userid,context);
   }
 
   Widget submitButtonDisplay() {
     return // Login button
         AppButton(
       //height: 50,
+      disableColor:  isDistrbuted,
       width: 150,
       key: const Key(Keys.submitButton),
       buttonText: Constants.submit,
@@ -888,11 +889,14 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
       onTap: () async {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
+        if((isDistrbuted ?? false ) == false)
+         {
         try {
            lawenforcementValidations(context, globalState);
         } catch (e) {
           // present userwith error message
         }
+         }
       },
     );
   }
@@ -1391,7 +1395,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
                 onTap: (Mumbai? list) async {
                   print(list?.name);
                   await lawenforcementCubit.getSerialnumberDetails(
-                      list?.id.toString() ?? '', 'AF');
+                      list?.id.toString() ?? '', 'AF',context);
                   // locationselectedText = list?.name ?? '';
                   // locationSelectedlist = list;
                   lawenforcementCubit.getlocationsResponseData(list);
