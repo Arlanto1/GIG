@@ -667,4 +667,23 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       );
     }
   }
+  
+  getDistributed(bool isDistributed) async {
+    try {
+      emit(
+        state.copyWith(
+          isDistributed: isDistributed,
+          stateType: LawEnforcementStateType.success,
+        ),
+      );
+    } catch (e) {
+      // emit(
+      //   state.copyWith(
+      //     errorMessage: Constants.errorText,
+      //     stateType: LawEnforcementStateType.failure,
+      //   ),
+      // );
+    }
+  }
+  
 }

@@ -82,6 +82,8 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
   List<FoundImage>? getAttachments;
   late LawEnforcementState globalState;
   String? serialnumber;
+  bool isDistrbuted = false;
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -104,23 +106,36 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
           action: [
             GestureDetector(
               onTap: () {
+                if(!isDistrbuted)
+               {
                 createLawEnforcement(
                     false, widget.listuser?.id ?? 0, globalState);
+               }
               },
               child: Padding(
                 padding: const EdgeInsets.only(right: 20.0),
-                child: SvgPicture.asset(
+                child:  isDistrbuted ? SvgPicture.asset(
                   AppIcon.createfoundsaveicon,
-                ),
+                  color: AppColors.disabletextfieldBackground.withOpacity(0.5),
+                ):  SvgPicture.asset(
+                  AppIcon.createfoundsaveicon,
+                 
+              ),
               ),
             ),
             GestureDetector(
               onTap: () {
+               if(!isDistrbuted)
+               {
                 lawenforcementValidations(context, globalState);
+               }
               },
               child: Padding(
                 padding: const EdgeInsets.only(right: 20.0),
-                child: Icon(
+                child: isDistrbuted ? Icon(
+                  Icons.send,
+                  color: AppColors.disabletextfieldBackground.withOpacity(0.5),
+                ): Icon(
                   Icons.send,
                   color: AppColors.backgroundWhitecolor,
                 ),
@@ -676,7 +691,15 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
               : widget.listuser?.status == 3
                   ? "Distributed"
                   : "Handover";
-
+       
+       if (widget.listuser?.status == 3 ||  statusTextController.text == 'Distributed')
+       {
+        lawenforcementCubit.getDistributed(true);
+        isDistrbuted = true;
+        setState(() {
+          
+        });
+       }
       //state.serialnumberResponse?.serialNo
 
       //  state.getUserDetailsResponse  =  widget.listuser?.entrySecurity != null ? GetUserDetails(
@@ -1510,6 +1533,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
                   ')')
               : '',
           dbOfficialEmail: dbofficailwanttimeetTextController.text ?? '',
+          visitPurpose: visitPurpose,
           mailList: loadGroups);
     } else {
       lawEnforcement = LawEnforcement(
@@ -1534,6 +1558,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
                   ')')
               : '',
           dbOfficialEmail: dbofficailwanttimeetTextController.text ?? '',
+          visitPurpose: visitPurpose,
           mailList: loadGroups);
     }
     showLoadingDialog(context);
