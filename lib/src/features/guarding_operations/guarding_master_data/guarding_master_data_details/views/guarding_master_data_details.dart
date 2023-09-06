@@ -161,6 +161,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   }
 
   void initializeDates() {
+    log('--widget.guardingMasterData?.dateOfBirth---${widget.guardingMasterData?.dateOfBirth}----');
+
     dateOfBirthController.text = Utils.timestamptoDateConversion(
         int.tryParse(widget.guardingMasterData?.dateOfBirth ?? '0'),
         Constants.dateFormat);
@@ -772,9 +774,11 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: dateOfBirthController,
+                              onlyDate: true,
+
                               onChange: (String value) {
                                 log('--fr-value-${dateOfBirthController.text}------');
-                                //widget.guardingMasterData?.inputDate = value;
+                                state.guardingMasterData.dateOfBirth=  Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -794,7 +798,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               textController: dateOfJoiningController,
                               onChange: (String value) {
                                 log('--fr-value-${dateOfJoiningController.text}------');
-                                //widget.guardingMasterData?.inputDate = value;
+                                state.guardingMasterData.dateOfJoining=  Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -1336,8 +1340,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               onChange: (String value) {
                                 log('---value-$value------');
                                 log('-----pvcIssuedDateController---value-${pvcIssuedDateController.text}------');
-                                // widget.guardingMasterData?.inputDate = value;
-                                state.guardingMasterData.pvcIssuedDate = value;
+                                state.guardingMasterData.pvcIssuedDate=  Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -1359,7 +1362,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               textController: pvcExpiryDateController,
                               onChange: (String value) {
                                 log('--fr-value-${pvcIssuedDateController.text}------');
-                                // widget.guardingMasterData?.inputDate = value;
+                                state.guardingMasterData.pvcExpiryDate=  Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -1510,7 +1513,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   medicalCertificateValidUntilController,
                               onChange: (String value) {
                                 log('--fr-value-${medicalCertificateValidUntilController.text}------');
-                                // widget.guardingMasterData?.inputDate = value;
+                                state.guardingMasterData.medicalCertificateValidUntil=  Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -1835,7 +1838,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               textController: dateOfFirstCovidDoseController,
                               onChange: (String value) {
                                 log('--fr-value-${dateOfFirstCovidDoseController.text}------');
-                                // widget.guardingMasterData?.covidFirstDoseDate = value;
+                                state.guardingMasterData.covidFirstDoseDate=  Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -1856,7 +1859,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               textController: dateOfSecondCovidDoseController,
                               onChange: (String value) {
                                 log('--fr-value-${dateOfSecondCovidDoseController.text}------');
-                                // widget.guardingMasterData?.inputDate = value;
+                                state.guardingMasterData.covidSecondDoseDate=  Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -1877,7 +1880,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               textController: dateOfPrecautionaryCovidDose,
                               onChange: (String value) {
                                 log('--fr-value-${dateOfPrecautionaryCovidDose.text}------');
-                                // widget.guardingMasterData?.inputDate = value;
+                                state.guardingMasterData.covidPrecautionaryDoseDate=  Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -1898,7 +1901,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               textController: ertCertificationDate,
                               onChange: (String value) {
                                 log('--fr-value-${ertCertificationDate.text}------');
-                                //widget.guardingMasterData?.inputDate = value;
+                                state.guardingMasterData.ertCertificationDate=  Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -1919,7 +1922,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               textController: firstAidTrainingCompletionDate,
                               onChange: (String value) {
                                 log('--fr-value-${firstAidTrainingCompletionDate.text}------');
-                                // widget.guardingMasterData?.inputDate = value;
+                                state.guardingMasterData.firstAidTrainingCompletionDate=  Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
