@@ -68,7 +68,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   List<CreateImage>? localAddressFiles;
   List<CreateImage>? pVCFiles;
   List<CreateImage>? trainingFiles;
-  List<CreateImage>? mSGBAttachments;
+  List<CreateImage>? mSGBAFiles;
   List<CreateImage>? medicalFiles;
   List<FoundImage>? getAttachments;
   TextEditingController dateOfBirthController = TextEditingController();
@@ -168,7 +168,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
 
   void initializeDates() {
     log('--widget.guardingMasterData?.dateOfBirth---${widget.guardingMasterData?.dateOfBirth}----');
-
+    // guardImages = widget.guardingMasterData.localLanguage
     dateOfBirthController.text = Utils.timestamptoDateConversion(
         int.tryParse(widget.guardingMasterData?.dateOfBirth ?? '0'),
         Constants.dateFormat);
@@ -228,9 +228,12 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
       guardImages = state.guardAttachments ?? [];
       deploymentFiles = state.deploymentAttachments;
       bioDataFiles = state.bioDataAttachments;
-      bioDataFiles = state.bioDataAttachments;
-      bioDataFiles = state.bioDataAttachments;
-      bioDataFiles = state.bioDataAttachments;
+      permanentAddressFiles = state.permanentAddressAttachments;
+      localAddressFiles = state.localAddressAttachments;
+      pVCFiles = state.pVCAttachments;
+      trainingFiles = state.trainingAttachments;
+      mSGBAFiles = state.mSGBAttachments;
+      medicalFiles = state.medicalAttachments;
     }
 
     return Container(
@@ -1144,8 +1147,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             CommonWidgets.textDisplay(Constants.uploadBioData,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            widget.guardingMasterData == null
-                                ? BaseImageUpload().uploadWidget(
+                           BaseImageUpload().uploadWidget(
                                     context: context,
                                     loggedInUserDetails:
                                         state.loggedInUserDetails ??
@@ -1164,8 +1166,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                               context)
                                           .addAttchment(bioDataFiles: files);
                                     },
-                                  )
-                                : Container(),
+                                  ),
                             // Attachments
                             BaseImageUpload().getAttachment(
                               height: height,
@@ -1765,13 +1766,13 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 loggedInUserDetails:
                                     state.loggedInUserDetails ??
                                         EntrySecurity(),
-                                getFiles: mSGBAttachments,
+                                getFiles: mSGBAFiles,
                                 onImageSelected: (CreateImage data) {
                                   log('-------function---onImageSelected---------');
                                   List<CreateImage>? files = [];
                                   files.add(data);
                                   for (CreateImage image
-                                      in mSGBAttachments ?? []) {
+                                      in mSGBAFiles ?? []) {
                                     files.add(image);
                                   }
                                   BlocProvider.of<
