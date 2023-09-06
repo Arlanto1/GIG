@@ -34,6 +34,7 @@ class GuardingMasterDataDetailsState extends Equatable {
   final List<CreateImage>? pVCAttachments;
   final List<CreateImage>? trainingAttachments;
   final List<CreateImage>? medicalAttachments;
+  final List<CreateImage>? mSGBAttachments;
   final List<GetUserDetails>? entrySecurities;
 
   factory GuardingMasterDataDetailsState.initial({
@@ -56,6 +57,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     List<CreateImage>? localAddressAttachments,
     List<CreateImage>? pVCAttachments,
     List<CreateImage>? trainingAttachments,
+    List<CreateImage>? mSGBAttachments,
     List<CreateImage>? medicalAttachments,
     List<GetUserDetails>? entrySecurities,
     required int? eventId,
@@ -85,6 +87,7 @@ class GuardingMasterDataDetailsState extends Equatable {
       permanentAddressAttachments: permanentAddressAttachments,
       pVCAttachments: pVCAttachments,
       trainingAttachments: trainingAttachments,
+      mSGBAttachments: mSGBAttachments,
       entrySecurities: entrySecurities,
     );
   }
@@ -116,7 +119,7 @@ class GuardingMasterDataDetailsState extends Equatable {
   @override
   List<Object?> get props => [guardingMasterData, status];
 
-  const GuardingMasterDataDetailsState({
+  const GuardingMasterDataDetailsState( {
     required this.status,
     required this.guardingMasterData,
     this.locations,
@@ -139,6 +142,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     this.localAddressAttachments,
     this.pVCAttachments,
     this.trainingAttachments,
+    this.mSGBAttachments,
     this.medicalAttachments,
     this.entrySecurities,
   });
@@ -166,6 +170,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     List<CreateImage>? localAddressAttachments,
     List<CreateImage>? pVCAttachments,
     List<CreateImage>? trainingAttachments,
+    List<CreateImage>? mSGBAttachments,
     List<CreateImage>? medicalAttachments,
     List<GetUserDetails>? entrySecurities,
   }) {
@@ -196,6 +201,7 @@ class GuardingMasterDataDetailsState extends Equatable {
           localAddressAttachments ?? this.localAddressAttachments,
       pVCAttachments: pVCAttachments ?? this.pVCAttachments,
       trainingAttachments: trainingAttachments ?? this.trainingAttachments,
+      mSGBAttachments: mSGBAttachments ?? this.mSGBAttachments,
       medicalAttachments: medicalAttachments ?? this.medicalAttachments,
       entrySecurities: entrySecurities ?? this.entrySecurities,
     );

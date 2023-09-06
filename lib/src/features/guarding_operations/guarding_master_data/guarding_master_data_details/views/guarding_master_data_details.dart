@@ -68,6 +68,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   List<CreateImage>? localAddressFiles;
   List<CreateImage>? pVCFiles;
   List<CreateImage>? trainingFiles;
+  List<CreateImage>? mSGBAttachments;
   List<CreateImage>? medicalFiles;
   List<FoundImage>? getAttachments;
   TextEditingController dateOfBirthController = TextEditingController();
@@ -1112,7 +1113,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             const CheckBoxRow(),
 
-                            /// Physically Fit?
+                            /// Physically Fit
                             CommonWidgets.textDisplay(Constants.physicallyFit,
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
@@ -1134,7 +1135,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                                     state.guardingMasterData);
                                           },
                                 onChangedNo:
-                                    widget.guardingMasterData?.status == 4
+                                    widget.guardingMasterData?.status == 6
                                         ? null
                                         : (val) {
                                             state.guardingMasterData
@@ -1472,11 +1473,12 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
-                                                .onModelValueChange(
-                                                    state.guardingMasterData);
+                                                .showFields(
+                                                    trainingCertificateProvided:
+                                                        true);
                                           },
                                 onChangedNo:
-                                    widget.guardingMasterData?.status == 4
+                                    widget.guardingMasterData?.status == 6
                                         ? null
                                         : (val) {
                                             state.guardingMasterData
@@ -1485,8 +1487,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
-                                                .onModelValueChange(
-                                                    state.guardingMasterData);
+                                                .showFields(
+                                                    trainingCertificateProvided:
+                                                        false);
                                           }),
                             if (state.guardingMasterData
                                 .trainingCertificateProvided) ...[
@@ -1695,7 +1698,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                                     state.guardingMasterData);
                                           },
                                 onChangedNo:
-                                    widget.guardingMasterData?.status == 4
+                                    widget.guardingMasterData?.status == 6
                                         ? null
                                         : (val) {
                                             state.guardingMasterData.onboarded =
@@ -1772,6 +1775,94 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            ///MSGB Exempted
+                            CommonWidgets.textDisplay(
+                                Constants.mSGBExempted,
+                                Styles.textStyleBlack14),
+                            RadioButtonsYesNo(
+                                status: state.guardingMasterData.status ?? 0,
+                                selectedValue: state.guardingMasterData
+                                    .msgbExempted
+                                    ? 1
+                                    : 0,
+                                onChangedYes: widget
+                                    .guardingMasterData?.status ==
+                                    6
+                                    ? null
+                                    : (val) {
+                                  state.guardingMasterData
+                                      .msgbExempted = true;
+                                  BlocProvider.of<
+                                      GuardingMasterDataDetailsCubit>(
+                                      context)
+                                      .showFields(
+                                      msgbExempted: true
+                                  );
+                                  //.onModelValueChange(state.guardingMasterData
+                                  //);
+                                },
+                                onChangedNo:
+                                widget.guardingMasterData?.status == 4
+                                    ? null
+                                    : (val) {
+                                  state.guardingMasterData
+                                      .msgbExempted =
+                                  false;
+                                  BlocProvider.of<
+                                      GuardingMasterDataDetailsCubit>(
+                                      context)
+                                      .showFields(
+                                      msgbExempted: false
+                                      );
+                                }),
+
+                            if (state.guardingMasterData
+                                .msgbExempted) ...[
+                              /// upload File
+                              widget.guardingMasterData == null
+                                  ? CommonWidgets.textDisplay(
+                                  Constants.uploadfile,
+                                  Styles.textStyleBlack14)
+                                  : Container(),
+                              widget.guardingMasterData == null
+                                  ? CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001)
+                                  : Container(),
+                              widget.guardingMasterData == null
+                                  ? BaseImageUpload().uploadWidget(
+                                context: context,
+                                loggedInUserDetails:
+                                state.loggedInUserDetails ??
+                                    EntrySecurity(),
+                                getFiles: mSGBAttachments,
+                                onImageSelected: (CreateImage data) {
+                                  log('-------function---onImageSelected---------');
+                                  List<CreateImage>? files = [];
+                                  files.add(data);
+                                  for (CreateImage image
+                                  in  mSGBAttachments!.toList()) {
+                                    files.add(image);
+                                  }
+                                  BlocProvider.of<
+                                      GuardingMasterDataDetailsCubit>(
+                                      context)
+                                      .addAttchment(data: files);
+                                },
+                              )
+                                  : Container(),
+
+                              // Attachments
+                              BaseImageUpload().getAttachment(
+                                height: height,
+                                attachments: state.mSGBAttachments,
+                                files: trainingFiles,
+                                showDownloadIcon:
+                                widget.guardingMasterData != null
+                                    ? true
+                                    : false,
+                              ),
+                            ],
 
                             /// Date of First Covid Dose
                             CommonWidgets.textDisplay(
@@ -1920,20 +2011,24 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                               GestureDetector(
                                 onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return AddDatePopUp(
-                                            guardingMasterData: guardingMasterData,
-                                            mainContext: context,
-                                            onSubmit: ( GuardingMastersDataModel guardingMasterData) {
-                                              //loginFormKey.currentState!.validate();
-                                              FocusScope.of(context).unfocus();
-                                              BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                                              .submitForm(isSaveOnly: true);
-                                            },
-                                          );
-                                        });
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext dialogContext) {
+                                        return AddDatePopUp(
+                                          guardingMasterData:
+                                              guardingMasterData,
+                                          mainContext: context,
+                                          onSubmit: (GuardingMastersDataModel
+                                              guardingMasterData) {
+                                            //loginFormKey.currentState!.validate();
+                                            FocusScope.of(context).unfocus();
+                                            BlocProvider.of<
+                                                        GuardingMasterDataDetailsCubit>(
+                                                    context)
+                                                .submitForm(isSaveOnly: true);
+                                          },
+                                        );
+                                      });
                                 },
                                 child: Row(
                                   children: <Widget>[
@@ -1960,7 +2055,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             Column(
-                            children: getParticipationDates(state, height),
+                              children: getParticipationDates(state, height),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -1989,7 +2084,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                             // );
                                           },
                                 onChangedNo:
-                                    widget.guardingMasterData?.status == 4
+                                    widget.guardingMasterData?.status == 6
                                         ? null
                                         : (val) {
                                             state.guardingMasterData
@@ -2008,15 +2103,15 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               FlutterInputField(
                                 lineHeight: 6,
                                 initialValue: state
-                                    .guardingMasterData.additionalInitiatives,
-                                textFormKey: Keys.additionInitiativesKey,
+                                    .guardingMasterData.specialAchievementText,
+                                textFormKey: Keys.specialAchievementsKey,
                                 hintText: Constants.informationhere,
                                 isEnable: state.guardingMasterData.status != 6,
                                 isDisableColor:
                                     state.guardingMasterData.status == 6,
                                 onChange: (String value) {
                                   state.guardingMasterData
-                                      .additionalInitiatives = value;
+                                      .specialAchievementText = value;
                                   context
                                       .read<GuardingMasterDataDetailsCubit>()
                                       .onModelValueChange(
@@ -2136,7 +2231,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<GuardingMasterDataDetailsCubit>(context).submitForm(isSaveOnly: true);
+        BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+            .submitForm(isSaveOnly: true);
       },
     );
   }
