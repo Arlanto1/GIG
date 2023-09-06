@@ -61,7 +61,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   GetUserDetails? userDetails;
   List<CreateImage>? getFiles;
-  List<CreateImage>? guardImages;
+  List<CreateImage>? guardFiles;
   List<CreateImage>? deploymentFiles;
   List<CreateImage>? bioDataFiles;
   List<CreateImage>? permanentAddressFiles;
@@ -168,7 +168,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
 
   void initializeDates() {
     log('--widget.guardingMasterData?.dateOfBirth---${widget.guardingMasterData?.dateOfBirth}----');
-    // guardImages = widget.guardingMasterData.localLanguage
+    // guardImages = widget.guardingMasterData.permanentAddressProof.localAddressProof.imageContent;
     dateOfBirthController.text = Utils.timestamptoDateConversion(
         int.tryParse(widget.guardingMasterData?.dateOfBirth ?? '0'),
         Constants.dateFormat);
@@ -225,7 +225,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
       // getFiles = state.loadAttachments ?? [];
       // log('---guardAttachments----builder----${state.guardAttachments?.length}-----');
 
-      guardImages = state.guardAttachments ?? [];
+      guardFiles = state.guardAttachments ?? [];
       deploymentFiles = state.deploymentAttachments;
       bioDataFiles = state.bioDataAttachments;
       permanentAddressFiles = state.permanentAddressAttachments;
@@ -401,12 +401,12 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               context: context,
                               loggedInUserDetails:
                                   state.loggedInUserDetails ?? EntrySecurity(),
-                              getFiles: guardImages,
+                              getFiles: guardFiles,
                               onImageSelected: (CreateImage data) {
                                 log('-------function---onImageSelected---------');
                                 List<CreateImage>? files = [];
                                 files.add(data);
-                                for (CreateImage image in guardImages ?? []) {
+                                for (CreateImage image in guardFiles ?? []) {
                                   files.add(image);
                                 }
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
@@ -417,10 +417,10 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             // Attachments
                             BaseImageUpload().getAttachment(
                               height: height,
-                              attachments: state.guardAttachments,
-                              files: guardImages,
+                              attachments: state.localAddressAttachments,
+                              files: guardFiles,
                               showDownloadIcon:
-                                  widget.guardingMasterData != null
+                                  widget.guardingMasterData?.localAddressProof?.imageContent != null
                                       ? true
                                       : false,
                             ),

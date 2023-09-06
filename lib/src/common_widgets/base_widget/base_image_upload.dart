@@ -70,6 +70,7 @@ class BaseImageUpload {
     List<CreateImage>? attachments,
     required bool showDownloadIcon,
   }) {
+    log('----attachments-----${attachments?.length}-----------');
     if (attachments != null) {
       return Column(
         children: [
@@ -89,7 +90,7 @@ class BaseImageUpload {
     List<CreateImage>? attachmentListviews,
     required bool showDownloadIcon,
   }) {
-    log('----attachmentListviews-----${attachmentListviews?.length}-----------');
+    log('----showDownloadIcon-----$showDownloadIcon-----------');
 
     return Container(
       decoration: BoxDecoration(

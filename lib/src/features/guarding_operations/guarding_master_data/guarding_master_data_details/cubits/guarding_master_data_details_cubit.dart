@@ -136,6 +136,8 @@ class GuardingMasterDataDetailsCubit
           state.guardingMasterData.csrParticipationDates ?? '');
       log('-participationDates---${participationDates.toString()}---');
 
+      log('----lenthgggg---------${state.guardingMasterData.localAddressProof}------');
+
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -151,6 +153,40 @@ class GuardingMasterDataDetailsCubit
           listOfQualifications: qualifications.guardQualifications,
           getQualificationsResponse: qualifications,
           participationDates: participationDates,
+          localAddressAttachments: state.guardingMasterData.localAddressProof !=
+                  null
+              ? [state.guardingMasterData.localAddressProof ?? CreateImage()]
+              : null,
+
+          bioDataAttachments: state.guardingMasterData.bopData !=
+              null
+              ? [state.guardingMasterData.bopData ?? CreateImage()]
+              : null,
+
+
+          // guardAttachments: state.guardingMasterData.pho !=
+          //     null
+          //     ? [state.guardingMasterData.bopData ?? CreateImage()]
+          //     : null,
+
+
+          deploymentAttachments: state.guardingMasterData.deploymentOrders,
+
+
+          permanentAddressAttachments: state.guardingMasterData.permanentAddressProof !=
+              null
+              ? [state.guardingMasterData.permanentAddressProof ?? CreateImage()]
+              : null,
+
+          pVCAttachments: state.guardingMasterData.pvc ,
+
+
+          trainingAttachments: state.guardingMasterData.trainingCertificates,
+
+          // mSGBAttachments: state.guardingMasterData.m
+
+          medicalAttachments: state.guardingMasterData.medicalCertificates,
+
         ),
       );
     } catch (e) {
