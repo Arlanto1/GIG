@@ -468,6 +468,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       ? true
                                       : false,
                             ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Guarding Vendor
                             CommonWidgets.textDisplay(
@@ -791,6 +792,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               },
                               context: context,
                             ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Date of Joining
                             CommonWidgets.textDisplay(
@@ -812,6 +814,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               },
                               context: context,
                             ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Type of Deployment
                             CommonWidgets.textDisplay(
@@ -981,7 +984,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       : true,
                               isDisableColor: false,
                               onChange: (String value) {
-                                state.guardingMasterData.height =
+                                state.guardingMasterData.weight =
                                     int.tryParse(value);
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
@@ -1137,7 +1140,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// upload File
+                            /// upload Bio Data
                             CommonWidgets.textDisplay(Constants.uploadBioData,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -1174,6 +1177,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       : false,
                             ),
 
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                             /// permanent Address
                             CommonWidgets.textDisplay(
                                 Constants.permanentAddress,
@@ -1200,10 +1205,10 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// upload File
+                            /// upload Permanent Address Proof
                             widget.guardingMasterData == null
                                 ? CommonWidgets.textDisplay(
-                                    Constants.uploadfile,
+                                    Constants.uploadPermanentAddressProof,
                                     Styles.textStyleBlack14)
                                 : Container(),
                             widget.guardingMasterData == null
@@ -1243,6 +1248,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       ? true
                                       : false,
                             ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Local Address
                             CommonWidgets.textDisplay(Constants.localAddress,
@@ -1268,10 +1274,10 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// upload File
+                            /// upload Local Address Proof
                             widget.guardingMasterData == null
                                 ? CommonWidgets.textDisplay(
-                                    Constants.uploadfile,
+                                    Constants.uploadLocalAddressProof,
                                     Styles.textStyleBlack14)
                                 : Container(),
                             widget.guardingMasterData == null
@@ -1311,6 +1317,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       ? true
                                       : false,
                             ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Qualifications
                             CommonWidgets.textDisplay(
@@ -1417,6 +1424,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       ? true
                                       : false,
                             ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Training Certificate
                             CommonWidgets.textDisplay(
@@ -1568,39 +1576,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       ? true
                                       : false,
                             ),
-
-                            /*    /// System Access
-                                CommonWidgets.textDisplay(Constants.systemAccess,
-                                    Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(height * 0.001),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (state.guardingMasterData.status != 4) {
-                                      assetTypeDialog(state);
-                                    }
-                                  },
-                                  child: FlutterInputField(
-                                    textFieldController: returnableTextController,
-                                    textFormKey: Keys.systemAccessKey,
-                                    hintText: '',
-                                    isEnable: false,
-                                    isDisableColor:
-                                    state.guardingMasterData.status == 4,
-                                    onChange: (String value) {
-                                      log('val----$value');
-                                    },
-                                    validateTextField: (String? user) {},
-                                    suffixWidget: IconButton(
-                                        icon: SvgPicture.asset(
-                                            width: 10,
-                                            height: 10,
-                                            AppIcon.dropdownicon,
-                                            key: const Key('closed_eye')),
-                                        onPressed: () {}),
-                                  ),
-                                ),
-                                CommonWidgets.verticalSpacerWidget(height * 0.01),
-*/
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// System Access
                             CommonWidgets.textDisplay(Constants.systemAccess,
@@ -1779,7 +1755,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             if (state.guardingMasterData.msgbExempted) ...[
                               /// upload File
                               CommonWidgets.textDisplay(
-                                      Constants.uploadfile,
+                                      Constants.mSGBExemptionDate,
                                       Styles.textStyleBlack14)
                              , widget.guardingMasterData == null
                                   ? CommonWidgets.verticalSpacerWidget(

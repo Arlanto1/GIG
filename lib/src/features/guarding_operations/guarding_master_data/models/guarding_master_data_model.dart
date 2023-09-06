@@ -62,6 +62,7 @@ class GuardingMastersDataModel {
   int? dutyType;
   int? gender;
   String? contactNo;
+  int? dependentsNo;
   int? maritalStatus;
   int? typeOfDeployment;
   bool deploymentOrderSubmitted;
@@ -130,6 +131,7 @@ class GuardingMastersDataModel {
     this.dutyType,
     this.gender,
     this.contactNo,
+    this.dependentsNo,
     this.maritalStatus,
     this.typeOfDeployment,
     this.deploymentOrderSubmitted = false,
@@ -202,6 +204,7 @@ class GuardingMastersDataModel {
         dutyType = json['dutyType'] as int?,
         gender = json['gender'] as int?,
         contactNo = json['contactNo'] as String?,
+        dependentsNo = json['dependentsNo'] as int?,
         maritalStatus = json['maritalStatus'] as int?,
         typeOfDeployment = json['typeOfDeployment'] as int?,
         deploymentOrderSubmitted = json['deploymentOrderSubmitted'],
@@ -272,6 +275,7 @@ class GuardingMastersDataModel {
     'gender' : gender,
     'entities': entities,
     'contactNo' : contactNo,
+    'dependentsNo': dependentsNo,
     'maritalStatus' : maritalStatus,
     'typeOfDeployment' : typeOfDeployment,
     'deploymentOrderSubmitted' : deploymentOrderSubmitted,

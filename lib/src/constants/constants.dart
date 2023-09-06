@@ -389,6 +389,7 @@ class Constants {
       ' First Aid Training Completion Date';
   static const String esicNo = 'ESIC NO';
   static const String uanNo = 'UAN NO';
+  static const String mSGBExemptionDate = 'MSGB Exemption Date';
   static const String additionalInitiativesInfo = 'Additional Initiatives Info';
   static const String localAddress = 'Local Address';
   static const String localLanguage = 'Local Language';
@@ -400,6 +401,8 @@ class Constants {
   static const String write = 'Write';
   static const String speak = 'Speak';
   static const String permanentAddress = 'Permanent Address';
+  static const String uploadPermanentAddressProof = 'Upload Permanent Address Proof';
+  static const String uploadLocalAddressProof = 'Upload Local Address Proof';
   static const String securityExperience = 'Security Experience';
   static const String addParticipationDates = 'Add Participation Date';
   static const String uploadBioData = 'Upload Bio Data';

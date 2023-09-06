@@ -235,6 +235,7 @@ class GuardingMasterDataDetailsCubit
     List<CreateImage>? localAddressFiles,
     List<CreateImage>? pVCFiles,
     List<CreateImage>? trainingFiles,
+    List<CreateImage>? mSGBExemptionFiles,
     List<CreateImage>? medicalFiles,
   }) async {
     emit(
@@ -317,6 +318,18 @@ class GuardingMasterDataDetailsCubit
           eventId: eventIds,
           guardingMasterData: state.guardingMasterData,
           trainingAttachments: trainingFiles,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+
+    if (mSGBExemptionFiles != null) {
+      emit(
+        state.copyWith(
+          eventId: eventIds,
+          guardingMasterData: state.guardingMasterData,
+          mSGBAttachments: mSGBExemptionFiles,
           status: FormStatus.initial,
         ),
       );
