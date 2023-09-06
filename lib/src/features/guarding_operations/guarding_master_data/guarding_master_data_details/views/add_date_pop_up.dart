@@ -57,7 +57,7 @@ class AddDatePopUpState extends State<AddDatePopUp> {
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
         return SizedBox(
-          height: height /5.9,
+          height: height /4.9,
           width: width,
           child: Stack(
             clipBehavior: Clip.none,

@@ -63,18 +63,18 @@ class GuardingMasterDataDetailsCubit
     emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
   }
 
-
   void onCheckBoxChange(GuardingMastersDataModel model) {
     emit(state.copyWith(guardingMasterData: model, status: FormStatus.loading));
 
     emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
   }
+
   void onAddParticipationDate(String participationDate) {
     log('-participationDate---$participationDate-');
 
     emit(state.copyWith(guardingMasterData: model, status: FormStatus.loading));
     log('-state.participationDates---before---${state.participationDates}----');
-    List<String>? dates = state.participationDates??[];
+    List<String>? dates = state.participationDates ?? [];
     dates.add(participationDate);
 
     state.copyWith(
@@ -346,12 +346,13 @@ class GuardingMasterDataDetailsCubit
     print('--state.status--3--${state.status}----');
   }
 
-  void showFields(
-      {bool? deploymentOrderSubmitted,
-      bool? trainingCertificateProvided,
-      bool? csrParticipation,
-      bool? specialAchievement,
-      bool? msgbExempted}) {
+  void showFields({
+    bool? deploymentOrderSubmitted,
+    bool? trainingCertificateProvided,
+    bool? csrParticipation,
+    bool? specialAchievement,
+    bool? msgbExempted,
+  }) {
     emit(
       state.copyWith(
         status: FormStatus.loading,
