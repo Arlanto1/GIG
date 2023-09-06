@@ -111,6 +111,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
     return BlocConsumer<GuardingMasterDataDetailsCubit,
         GuardingMasterDataDetailsState>(
       listener: (context, state) {
+        log('-state.status---${state.status}----');
+        log('-deploymentOrderSubmitted---${state.guardingMasterData.deploymentOrderSubmitted}----');
+
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Guarding Master Data',
@@ -120,8 +123,11 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
-              Navigator.popAndPushNamed(context, guardingMasterDataRoute,
-                  arguments: {});
+              Navigator.popAndPushNamed(
+                context,
+                guardingMasterDataRoute,
+                arguments: {},
+              );
             },
           );
           showDialog(
@@ -275,7 +281,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 textController: statusController,
                                 items: statusDropDownValues,
                                 initialValue:
-                                    '${state.guardingMasterData.status??1}',
+                                    '${state.guardingMasterData.status ?? 1}',
                                 onTap: () {
                                   if (isDisabled) {
                                     BaseDropDown().assetTypeDialog(
@@ -356,7 +362,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 ),
                                 TextfieldAddButton(
                                     title:
-                                        '${state.guardingMasterData.guard?.firstName??''} ${state.guardingMasterData.guard?.lastName??''}',
+                                        '${state.guardingMasterData.guard?.firstName ?? ''} ${state.guardingMasterData.guard?.lastName ?? ''}',
                                     height: 70,
                                     isDisableColor: false,
                                     onTap: () {
@@ -606,8 +612,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                               null))
                                       ? false
                                       : true,
-                              isDisableColor:
-                                  false,
+                              isDisableColor: false,
                               onChange: (String value) {
                                 state.guardingMasterData.dbEmployeeId = value;
                                 context
@@ -753,7 +758,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                               null))
                                       ? false
                                       : true,
-                              isDisableColor:  false,
+                              isDisableColor: false,
                               onChange: (String value) {
                                 state.guardingMasterData.contactNo = value;
                                 context
@@ -775,10 +780,10 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             BaseDate().datePickerWidgetLoading(
                               textController: dateOfBirthController,
                               onlyDate: true,
-
                               onChange: (String value) {
                                 log('--fr-value-${dateOfBirthController.text}------');
-                                state.guardingMasterData.dateOfBirth=  Utils().formatTime(value);
+                                state.guardingMasterData.dateOfBirth =
+                                    Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -798,7 +803,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               textController: dateOfJoiningController,
                               onChange: (String value) {
                                 log('--fr-value-${dateOfJoiningController.text}------');
-                                state.guardingMasterData.dateOfJoining=  Utils().formatTime(value);
+                                state.guardingMasterData.dateOfJoining =
+                                    Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -894,38 +900,32 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             if (state.guardingMasterData
                                 .deploymentOrderSubmitted) ...[
                               /// upload File
-                              widget.guardingMasterData == null
-                                  ? CommonWidgets.textDisplay(
-                                      Constants.uploadfile,
-                                      Styles.textStyleBlack14)
-                                  : Container(),
+                              CommonWidgets.textDisplay(Constants.uploadfile,
+                                  Styles.textStyleBlack14),
                               widget.guardingMasterData == null
                                   ? CommonWidgets.verticalSpacerWidget(
                                       height * 0.001)
                                   : Container(),
-                              widget.guardingMasterData == null
-                                  ? BaseImageUpload().uploadWidget(
-                                      context: context,
-                                      loggedInUserDetails:
-                                          state.loggedInUserDetails ??
-                                              EntrySecurity(),
-                                      getFiles: deploymentFiles,
-                                      onImageSelected: (CreateImage data) {
-                                        log('-------function---onImageSelected---------');
-                                        List<CreateImage>? files = [];
-                                        files.add(data);
-                                        for (CreateImage image
-                                            in deploymentFiles ?? []) {
-                                          files.add(image);
-                                        }
-                                        BlocProvider.of<
-                                                    GuardingMasterDataDetailsCubit>(
-                                                context)
-                                            .addAttchment(
-                                                deploymentFiles: files);
-                                      },
-                                    )
-                                  : Container(),
+                              BaseImageUpload().uploadWidget(
+                                context: context,
+                                loggedInUserDetails:
+                                    state.loggedInUserDetails ??
+                                        EntrySecurity(),
+                                getFiles: deploymentFiles,
+                                onImageSelected: (CreateImage data) {
+                                  log('-------function---onImageSelected---------');
+                                  List<CreateImage>? files = [];
+                                  files.add(data);
+                                  for (CreateImage image
+                                      in deploymentFiles ?? []) {
+                                    files.add(image);
+                                  }
+                                  BlocProvider.of<
+                                              GuardingMasterDataDetailsCubit>(
+                                          context)
+                                      .addAttchment(deploymentFiles: files);
+                                },
+                              ),
                               // Attachments
                               BaseImageUpload().getAttachment(
                                 height: height,
@@ -979,7 +979,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                               null))
                                       ? false
                                       : true,
-                              isDisableColor:false,
+                              isDisableColor: false,
                               onChange: (String value) {
                                 state.guardingMasterData.height =
                                     int.tryParse(value);
@@ -1009,7 +1009,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                               null))
                                       ? false
                                       : true,
-                              isDisableColor:false,
+                              isDisableColor: false,
                               onChange: (String value) {
                                 state.guardingMasterData.chest =
                                     int.tryParse(value);
@@ -1340,7 +1340,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               onChange: (String value) {
                                 log('---value-$value------');
                                 log('-----pvcIssuedDateController---value-${pvcIssuedDateController.text}------');
-                                state.guardingMasterData.pvcIssuedDate=  Utils().formatTime(value);
+                                state.guardingMasterData.pvcIssuedDate =
+                                    Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -1362,7 +1363,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               textController: pvcExpiryDateController,
                               onChange: (String value) {
                                 log('--fr-value-${pvcIssuedDateController.text}------');
-                                state.guardingMasterData.pvcExpiryDate=  Utils().formatTime(value);
+                                state.guardingMasterData.pvcExpiryDate =
+                                    Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -1436,9 +1438,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
-                                                .showFields(
-                                                    trainingCertificateProvided:
-                                                        true);
+                                                .onCheckBoxChange(
+                                                    state.guardingMasterData);
                                           },
                                 onChangedNo:
                                     widget.guardingMasterData?.status == 6
@@ -1450,9 +1451,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
-                                                .showFields(
-                                                    trainingCertificateProvided:
-                                                        false);
+                                                .onCheckBoxChange(
+                                                    state.guardingMasterData);
                                           }),
                             if (state.guardingMasterData
                                 .trainingCertificateProvided) ...[
@@ -1513,7 +1513,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   medicalCertificateValidUntilController,
                               onChange: (String value) {
                                 log('--fr-value-${medicalCertificateValidUntilController.text}------');
-                                state.guardingMasterData.medicalCertificateValidUntil=  Utils().formatTime(value);
+                                state.guardingMasterData
+                                        .medicalCertificateValidUntil =
+                                    Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -1740,90 +1742,79 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             ///MSGB Exempted
-                            CommonWidgets.textDisplay(
-                                Constants.mSGBExempted,
+                            CommonWidgets.textDisplay(Constants.mSGBExempted,
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                                 status: state.guardingMasterData.status ?? 0,
-                                selectedValue: state.guardingMasterData
-                                    .msgbExempted
-                                    ? 1
-                                    : 0,
-                                onChangedYes: widget
-                                    .guardingMasterData?.status ==
-                                    6
+                                selectedValue:
+                                    state.guardingMasterData.msgbExempted
+                                        ? 1
+                                        : 0,
+                                onChangedYes:
+                                    widget.guardingMasterData?.status == 6
+                                        ? null
+                                        : (val) {
+                                            state.guardingMasterData
+                                                .msgbExempted = true;
+                                            BlocProvider.of<
+                                                        GuardingMasterDataDetailsCubit>(
+                                                    context)
+                                                .showFields(msgbExempted: true);
+                                            //.onModelValueChange(state.guardingMasterData
+                                            //);
+                                          },
+                                onChangedNo: widget
+                                            .guardingMasterData?.status ==
+                                        4
                                     ? null
                                     : (val) {
-                                  state.guardingMasterData
-                                      .msgbExempted = true;
-                                  BlocProvider.of<
-                                      GuardingMasterDataDetailsCubit>(
-                                      context)
-                                      .showFields(
-                                      msgbExempted: true
-                                  );
-                                  //.onModelValueChange(state.guardingMasterData
-                                  //);
-                                },
-                                onChangedNo:
-                                widget.guardingMasterData?.status == 4
-                                    ? null
-                                    : (val) {
-                                  state.guardingMasterData
-                                      .msgbExempted =
-                                  false;
-                                  BlocProvider.of<
-                                      GuardingMasterDataDetailsCubit>(
-                                      context)
-                                      .showFields(
-                                      msgbExempted: false
-                                      );
-                                }),
+                                        state.guardingMasterData.msgbExempted =
+                                            false;
+                                        BlocProvider.of<
+                                                    GuardingMasterDataDetailsCubit>(
+                                                context)
+                                            .showFields(msgbExempted: false);
+                                      }),
 
-                            if (state.guardingMasterData
-                                .msgbExempted) ...[
+                            if (state.guardingMasterData.msgbExempted) ...[
                               /// upload File
-                              widget.guardingMasterData == null
-                                  ? CommonWidgets.textDisplay(
-                                  Constants.uploadfile,
-                                  Styles.textStyleBlack14)
-                                  : Container(),
-                              widget.guardingMasterData == null
+                              CommonWidgets.textDisplay(
+                                      Constants.uploadfile,
+                                      Styles.textStyleBlack14)
+                             , widget.guardingMasterData == null
                                   ? CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001)
+                                      height * 0.001)
                                   : Container(),
-                              widget.guardingMasterData == null
-                                  ? BaseImageUpload().uploadWidget(
-                                context: context,
-                                loggedInUserDetails:
-                                state.loggedInUserDetails ??
-                                    EntrySecurity(),
-                                getFiles: mSGBAttachments,
-                                onImageSelected: (CreateImage data) {
-                                  log('-------function---onImageSelected---------');
-                                  List<CreateImage>? files = [];
-                                  files.add(data);
-                                  for (CreateImage image
-                                  in  mSGBAttachments!.toList()) {
-                                    files.add(image);
-                                  }
-                                  BlocProvider.of<
-                                      GuardingMasterDataDetailsCubit>(
-                                      context)
-                                      .addAttchment(data: files);
-                                },
-                              )
-                                  : Container(),
-
+                              BaseImageUpload().uploadWidget(
+                                      context: context,
+                                      loggedInUserDetails:
+                                          state.loggedInUserDetails ??
+                                              EntrySecurity(),
+                                      getFiles: mSGBAttachments,
+                                      onImageSelected: (CreateImage data) {
+                                        log('-------function---onImageSelected---------');
+                                        List<CreateImage>? files = [];
+                                        files.add(data);
+                                        for (CreateImage image
+                                            in mSGBAttachments!.toList()) {
+                                          files.add(image);
+                                        }
+                                        BlocProvider.of<
+                                                    GuardingMasterDataDetailsCubit>(
+                                                context)
+                                            .addAttchment(data: files);
+                                      },
+                                    )
+,
                               // Attachments
                               BaseImageUpload().getAttachment(
                                 height: height,
                                 attachments: state.mSGBAttachments,
                                 files: trainingFiles,
                                 showDownloadIcon:
-                                widget.guardingMasterData != null
-                                    ? true
-                                    : false,
+                                    widget.guardingMasterData != null
+                                        ? true
+                                        : false,
                               ),
                             ],
 
@@ -1838,7 +1829,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               textController: dateOfFirstCovidDoseController,
                               onChange: (String value) {
                                 log('--fr-value-${dateOfFirstCovidDoseController.text}------');
-                                state.guardingMasterData.covidFirstDoseDate=  Utils().formatTime(value);
+                                state.guardingMasterData.covidFirstDoseDate =
+                                    Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -1859,7 +1851,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               textController: dateOfSecondCovidDoseController,
                               onChange: (String value) {
                                 log('--fr-value-${dateOfSecondCovidDoseController.text}------');
-                                state.guardingMasterData.covidSecondDoseDate=  Utils().formatTime(value);
+                                state.guardingMasterData.covidSecondDoseDate =
+                                    Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -1880,7 +1873,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               textController: dateOfPrecautionaryCovidDose,
                               onChange: (String value) {
                                 log('--fr-value-${dateOfPrecautionaryCovidDose.text}------');
-                                state.guardingMasterData.covidPrecautionaryDoseDate=  Utils().formatTime(value);
+                                state.guardingMasterData
+                                        .covidPrecautionaryDoseDate =
+                                    Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -1901,7 +1896,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               textController: ertCertificationDate,
                               onChange: (String value) {
                                 log('--fr-value-${ertCertificationDate.text}------');
-                                state.guardingMasterData.ertCertificationDate=  Utils().formatTime(value);
+                                state.guardingMasterData.ertCertificationDate =
+                                    Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
@@ -1922,7 +1918,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               textController: firstAidTrainingCompletionDate,
                               onChange: (String value) {
                                 log('--fr-value-${firstAidTrainingCompletionDate.text}------');
-                                state.guardingMasterData.firstAidTrainingCompletionDate=  Utils().formatTime(value);
+                                state.guardingMasterData
+                                        .firstAidTrainingCompletionDate =
+                                    Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
                                     .onModelValueChange(
