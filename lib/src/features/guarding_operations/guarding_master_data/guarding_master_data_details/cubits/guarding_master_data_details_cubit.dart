@@ -189,7 +189,7 @@ class GuardingMasterDataDetailsCubit
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.materialMovementInwardNonReturnableModule,
+        moduleCode: Constants.guardingMasterDataModule,
       );
 
       state.guardingMasterData.location = location;
@@ -226,7 +226,7 @@ class GuardingMasterDataDetailsCubit
     ));
   }
 
-  void addAttchment({
+  void addAttachment({
     List<CreateImage>? data,
     List<CreateImage>? guardImages,
     List<CreateImage>? deploymentFiles,
@@ -356,7 +356,7 @@ class GuardingMasterDataDetailsCubit
       ),
     );
 
-    print('--state.status--3--${state.status}----');
+    log('--state.status--3--${state.status}----');
   }
 
   void showFields({
@@ -432,7 +432,7 @@ class GuardingMasterDataDetailsCubit
             body: request, isSubmit: true));
       }
 
-      print('---response--msg--${response.message}---');
+      log('---response--msg--${response.message}---');
 
       emit(
         state.copyWith(
