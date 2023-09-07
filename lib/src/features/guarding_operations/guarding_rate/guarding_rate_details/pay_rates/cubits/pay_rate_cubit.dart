@@ -11,6 +11,7 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../../constants/constants.dart';
+import '../../../../../../enums/form_status.dart';
 import '../../../../../../models/department.dart';
 import '../../../../../../models/entity.dart';
 import '../../../../../../models/entry_security.dart';

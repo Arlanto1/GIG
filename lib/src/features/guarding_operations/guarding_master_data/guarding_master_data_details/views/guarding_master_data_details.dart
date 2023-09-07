@@ -24,6 +24,7 @@ import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../constants/app_icon.dart';
 import '../../../../../constants/constants.dart';
+import '../../../../../enums/form_status.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entry_security.dart';
@@ -42,22 +43,22 @@ import '../../models/guarding_master_data_model.dart';
 import '../cubits/guarding_master_data_details_cubit.dart';
 import 'add_date_pop_up.dart';
 
-class GuardigMasterDataDetails extends StatefulWidget {
+class GuardingMasterDataDetails extends StatefulWidget {
   final GuardingMastersDataModel? guardingMasterData;
   final String title;
 
-  const GuardigMasterDataDetails({
+  const GuardingMasterDataDetails({
     super.key,
     this.guardingMasterData,
     required this.title,
   });
 
   @override
-  State<GuardigMasterDataDetails> createState() =>
-      _GuardigMasterDataDetailsState();
+  State<GuardingMasterDataDetails> createState() =>
+      _GuardingMasterDataDetailsState();
 }
 
-class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
+class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   GetUserDetails? userDetails;
   List<CreateImage>? getFiles;

@@ -310,7 +310,7 @@ class RouteGenerator {
                     model: guardingMastersData,
                     commonServices: commonServices,
                   ),
-                  child: GuardigMasterDataDetails(
+                  child: GuardingMasterDataDetails(
                     guardingMasterData: guardingMastersData,
                     title: title,
                   ),
