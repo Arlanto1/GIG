@@ -97,7 +97,7 @@ class GuardingMasterDataDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Status');
     }
-    if (guardingMasterData.entities == null) {
+    if (guardingMasterData.entity == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Entity');
     }
@@ -154,18 +154,18 @@ class GuardingMasterDataDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Deployment Type');
     }
-    if (guardingMasterData.deploymentOrderSubmitted == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please Select Deployment Order Submitted? ');
-    }
+    // if (guardingMasterData.deploymentOrderSubmitted == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please Select Deployment Order Submitted? ');
+    // }
     if (guardingMasterData.height == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Height');
     }
-    if (guardingMasterData.physicallyFit == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter PhysicallyFit?');
-    }
+    // if (guardingMasterData.physicallyFit == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter PhysicallyFit?');
+    // }
     if (guardingMasterData.localLanguage == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Local language');
@@ -190,10 +190,10 @@ class GuardingMasterDataDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter PVC Issued Date');
     }
-    if (guardingMasterData.trainingCertificateProvided == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Training Certificate');
-    }
+    // if (guardingMasterData.trainingCertificateProvided == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Training Certificate');
+    // }
     if (guardingMasterData.medicalCertificateValidUntil == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Medical Certificate Valid Until');

@@ -195,7 +195,7 @@ class _RatesInfoState extends State<RatesInfo> {
                                 height: 60,
                                 isDisableColor: false,
                                 onTap: () {
-                                  BaseDeparmentDialog().departmentDialog(
+                                  BaseDepartmentDialog().departmentDialog(
                                     context: context,
                                     departments: state.departments,
                                     onTap: (Department department) {

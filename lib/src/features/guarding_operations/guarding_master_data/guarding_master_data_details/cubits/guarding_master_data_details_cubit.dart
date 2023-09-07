@@ -158,35 +158,32 @@ class GuardingMasterDataDetailsCubit
               ? [state.guardingMasterData.localAddressProof ?? CreateImage()]
               : null,
 
-          bioDataAttachments: state.guardingMasterData.bopData !=
-              null
+          bioDataAttachments: state.guardingMasterData.bopData != null
               ? [state.guardingMasterData.bopData ?? CreateImage()]
               : null,
-
 
           // guardAttachments: state.guardingMasterData.pho !=
           //     null
           //     ? [state.guardingMasterData.bopData ?? CreateImage()]
           //     : null,
 
-
           deploymentAttachments: state.guardingMasterData.deploymentOrders,
 
+          permanentAddressAttachments:
+              state.guardingMasterData.permanentAddressProof != null
+                  ? [
+                      state.guardingMasterData.permanentAddressProof ??
+                          CreateImage()
+                    ]
+                  : null,
 
-          permanentAddressAttachments: state.guardingMasterData.permanentAddressProof !=
-              null
-              ? [state.guardingMasterData.permanentAddressProof ?? CreateImage()]
-              : null,
-
-          pVCAttachments: state.guardingMasterData.pvc ,
-
+          pVCAttachments: state.guardingMasterData.pvc,
 
           trainingAttachments: state.guardingMasterData.trainingCertificates,
 
           // mSGBAttachments: state.guardingMasterData.m
 
           medicalAttachments: state.guardingMasterData.medicalCertificates,
-
         ),
       );
     } catch (e) {
@@ -206,7 +203,7 @@ class GuardingMasterDataDetailsCubit
     BaseUser? user,
     Department? vendor,
     BaseUser? guard,
-    List<Entity>? entities,
+    Entity? entity,
     List<Entity>? qualifications,
     int? status,
     int? systemAccess,
@@ -232,8 +229,7 @@ class GuardingMasterDataDetailsCubit
       state.guardingMasterData.slNo = slNo.serialNo;
     }
 
-    state.guardingMasterData.entities =
-        entities ?? state.guardingMasterData.entities;
+    state.guardingMasterData.entity = entity ?? state.guardingMasterData.entity;
     state.guardingMasterData.qualifications =
         qualifications ?? state.guardingMasterData.qualifications;
     state.guardingMasterData.vendor = vendor ?? state.guardingMasterData.vendor;
@@ -437,7 +433,8 @@ class GuardingMasterDataDetailsCubit
       ),
     );
 
-    if (state.guardingMasterData.status == 0) {
+    if (state.guardingMasterData.status == 0 ||
+        state.guardingMasterData.status == null) {
       state.guardingMasterData.status = 1;
     }
     // Setting time in milliseconds
@@ -448,8 +445,8 @@ class GuardingMasterDataDetailsCubit
     GuardingMasterDataRequest request =
         GuardingMasterDataRequest(guardingMasterData: state.guardingMasterData);
 
+    GenericCreateResponse response = GenericCreateResponse();
     try {
-      GenericCreateResponse response = GenericCreateResponse();
       if (isSaveOnly) {
         response = (await services.createGuardingMasterData(
             body: request, isSubmit: false));
@@ -467,15 +464,6 @@ class GuardingMasterDataDetailsCubit
         response = (await services.createGuardingMasterData(
             body: request, isSubmit: true));
       }
-
-      log('---response--msg--${response.message}---');
-
-      emit(
-        state.copyWith(
-          message: response.message,
-          status: FormStatus.success,
-        ),
-      );
     } on Exception catch (e) {
       emit(
         state.copyWith(
@@ -484,5 +472,14 @@ class GuardingMasterDataDetailsCubit
         ),
       );
     }
+
+    print('---response--msg--${response.message}---');
+
+    emit(
+      state.copyWith(
+        message: response.message,
+        status: FormStatus.success,
+      ),
+    );
   }
 }

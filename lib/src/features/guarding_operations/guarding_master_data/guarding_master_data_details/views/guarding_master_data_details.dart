@@ -342,13 +342,26 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
-                            entityaddButtonwidgetLoading(
-                              context: context,
-                              state: state,
-                              selectedValues:
-                                  state.guardingMasterData.entities ?? [],
-                              all: state.listOfEntities ?? [],
-                            ),
+                            TextfieldAddButton(
+                                title:
+                                    state.guardingMasterData.entity?.name ?? '',
+                                height: 70,
+                                isDisableColor: false,
+                                onTap: () {
+                                  BaseDepartmentDialog().userDialog(
+                                    context: context,
+                                    entities: state.listOfEntities,
+                                    // TODO: Need to change EntrySecurity to BaseUser
+                                    onTap: (Entity entity) {
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        entity: entity,
+                                      );
+                                    },
+                                  );
+                                }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Sl No.
@@ -364,27 +377,26 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   Styles.textStyleBlack14,
                                 ),
                                 TextfieldAddButton(
-                                    title:
-                                        '${state.guardingMasterData.guard?.firstName ?? ''} ${state.guardingMasterData.guard?.lastName ?? ''}',
-                                    height: 70,
-                                    isDisableColor: false,
-                                    onTap: () {
-                                      if (widget.guardingMasterData == null) {
-                                        BaseDeparmentDialog().userDialog(
-                                          context: context,
-                                          users: state.emailUsers!,
-                                          // TODO: Need to change EntrySecurity to BaseUser
-                                          onTap: (BaseUser user) {
-                                            BlocProvider.of<
-                                                        GuardingMasterDataDetailsCubit>(
-                                                    context)
-                                                .updateDropdownValues(
-                                              guard: user,
-                                            );
-                                          },
+                                  title:
+                                      '${state.guardingMasterData.guard?.firstName ?? ''} ${state.guardingMasterData.guard?.lastName ?? ''}',
+                                  height: 70,
+                                  isDisableColor: false,
+                                  onTap: () {
+                                    BaseDepartmentDialog().userDialog(
+                                      context: context,
+                                      users: state.emailUsers!,
+                                      // TODO: Need to change EntrySecurity to BaseUser
+                                      onTap: (BaseUser user) {
+                                        BlocProvider.of<
+                                                    GuardingMasterDataDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                          guard: user,
                                         );
-                                      }
-                                    }),
+                                      },
+                                    );
+                                  },
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                               ],
@@ -419,10 +431,11 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               height: height,
                               attachments: state.localAddressAttachments,
                               files: guardFiles,
-                              showDownloadIcon:
-                                  widget.guardingMasterData?.localAddressProof?.imageContent != null
-                                      ? true
-                                      : false,
+                              showDownloadIcon: widget.guardingMasterData
+                                          ?.localAddressProof?.imageContent !=
+                                      null
+                                  ? true
+                                  : false,
                             ),
 
                             /// Guarding Vendor
@@ -435,7 +448,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               height: 60,
                               isDisableColor: false,
                               onTap: () {
-                                BaseDeparmentDialog().departmentDialog(
+                                BaseDepartmentDialog().departmentDialog(
                                   context: context,
                                   departments: state.departments,
                                   onTap: (Department department) {
@@ -2314,7 +2327,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                   state.guardingMasterData.location = location;
 
                   BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                      .updateDropdownValues(location: location, entities: []);
+                      .updateDropdownValues(location: location);
                 },
               );
             },
@@ -2383,69 +2396,6 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
               ],
             );
           }),
-    );
-  }
-
-  Widget entityaddButtonwidgetLoading({
-    required BuildContext context,
-    required GuardingMasterDataDetailsState state,
-    required List<Entity> selectedValues,
-    required List<Entity> all,
-  }) {
-    String title = '';
-    // log('--selectedValues.length-${selectedValues.length}--');
-    if (selectedValues.isNotEmpty) {
-      for (int i = 0; i < selectedValues.length; i++) {
-        Entity entity = selectedValues[i];
-        // log('--entity name-${entity.name}--');
-
-        String value = entity.name ?? '';
-        title = '$title  $value';
-      }
-    }
-
-    return TextfieldAddButton(
-      title: title,
-      height: (selectedValues.length) > 4
-          ? (selectedValues.length) > 9
-              ? 140
-              : 100
-          : 60,
-      isDisableColor: false,
-      onTap: () {
-        _showEntitySelectionDialog(context, state);
-      },
-    );
-  }
-
-  void _showEntitySelectionDialog(
-      BuildContext context, GuardingMasterDataDetailsState state) {
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return CustomMultipleSelectionListTexts(
-          onLeftButtonTap: () {
-            Navigator.pop(context);
-            showDialog(
-                context: context,
-                builder: (BuildContext dialogContext) {
-                  return AddNewFields(
-                    title: Constants.addentitytype,
-                    // createpassmgmtstate: state,
-                  );
-                });
-          },
-          duplicateEntityList: state.listOfEntities ?? [],
-          mainSelectedEntityList: state.guardingMasterData.entities ?? [],
-          onTap: (List<Entity> selectedEntities) {
-            log('--selectedEntities----${selectedEntities.length}');
-            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                .updateDropdownValues(entities: selectedEntities);
-            Navigator.of(context).pop(); // Close the dialog
-          },
-          leftImageName: AppIcon.addicon, // Provide your left button icon
-        );
-      },
     );
   }
 

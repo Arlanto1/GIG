@@ -15,7 +15,7 @@ class Entity {
       );
 
   Map<String, dynamic> toJson() => {
-        "Id": id,
-        "Name": name,
+        "id": id,
+        "name": name,
       };
 }

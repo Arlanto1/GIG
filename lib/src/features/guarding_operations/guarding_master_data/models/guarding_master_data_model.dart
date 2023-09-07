@@ -47,7 +47,7 @@ class GuardingMastersDataModel {
   CreateImage? permanentAddressProof;
   CreateImage? bopData;
   CreateImage? photoGraph;
-  List<Entity>? entities;
+  Entity? entity;
   String? inputDate;
   String? csrParticipationDates;
   String? medicalCertificateValidUntil;
@@ -119,6 +119,7 @@ class GuardingMastersDataModel {
     this.permanentAddressProof,
     this.bopData,
     this.photoGraph,
+    this.entity,
     this.inputDate,
     this.csrParticipationDates,
     this.medicalCertificateValidUntil,
@@ -139,7 +140,6 @@ class GuardingMastersDataModel {
     this.employeeCode,
     this.dbEmployeeId,
     this.vendor,
-    this.entities,
     this.dutyType,
     this.gender,
     this.contactNo,
@@ -216,6 +216,9 @@ class GuardingMastersDataModel {
         photoGraph = (json['photoGraph'] as Map<String, dynamic>?) != null
             ? CreateImage.fromJson(json['photoGraph'] as Map<String, dynamic>)
             : null,
+        entity = (json['entity'] as Map<String, dynamic>?) != null
+            ? Entity.fromJson(json['entity'] as Map<String, dynamic>)
+            : null,
         inputDate = json['inputDate'] as String?,
         csrParticipationDates = json['csrParticipationDates'] as String?,
         medicalCertificateValidUntil =
@@ -236,9 +239,6 @@ class GuardingMastersDataModel {
             : null,
         status = json['status'] as int?,
         guardRank = json['guardRank'] as int?,
-        entities = (json['entities'] as List?)
-            ?.map((dynamic e) => Entity.fromJson(e as Map<String, dynamic>))
-            .toList(),
         employeeCode = json['employeeCode'] as String?,
         dbEmployeeId = json['dbEmployeeId'] as String?,
         height = json['height'] as num?,
@@ -313,6 +313,7 @@ class GuardingMastersDataModel {
         'localAddressProof': localAddressProof?.toJson(),
         'permanentAddressProof': permanentAddressProof?.toJson(),
         'photoGraph': photoGraph?.toJson(),
+        'entity': entity?.toJson(),
         'csrParticipationDates': csrParticipationDates,
         'medicalCertificateValidUntil': medicalCertificateValidUntil,
         'covidFirstDoseDate': covidFirstDoseDate,
@@ -333,7 +334,6 @@ class GuardingMastersDataModel {
         'dbEmployeeId': dbEmployeeId,
         'dutyType': dutyType,
         'gender': gender,
-        'entities': entities,
         'contactNo': contactNo,
         'dependentsNo': dependentsNo,
         'maritalStatus': maritalStatus,

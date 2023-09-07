@@ -503,7 +503,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           onTap: () {
                                             if (widget.materialMovement ==
                                                 null) {
-                                              BaseDeparmentDialog().userDialog(
+                                              BaseDepartmentDialog().userDialog(
                                                 context: context,
                                                 users: state.emailUsers!,
                                                 onTap: (BaseUser user) {
@@ -592,7 +592,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               : true,
                                       onTap: () {
                                         if (widget.materialMovement == null) {
-                                          BaseDeparmentDialog()
+                                          BaseDepartmentDialog()
                                               .departmentDialog(
                                             context: context,
                                             departments: state.departments,
@@ -734,7 +734,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               : true,
                                       onTap: () {
                                         if (widget.materialMovement == null) {
-                                          BaseDeparmentDialog()
+                                          BaseDepartmentDialog()
                                               .departmentDialog(
                                             context: context,
                                             departments: state.departments,
@@ -771,7 +771,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           onTap: () {
                                             if (widget.materialMovement ==
                                                 null) {
-                                              BaseDeparmentDialog().userDialog(
+                                              BaseDepartmentDialog().userDialog(
                                                 context: context,
                                                 users: state.emailUsers!,
                                                 onTap: (BaseUser user) {
@@ -842,7 +842,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               ? false
                                               : true,
                                       onTap: () {
-                                        BaseDeparmentDialog().departmentDialog(
+                                        BaseDepartmentDialog().departmentDialog(
                                           context: context,
                                           departments: state.departments,
                                           onTap: (Department department) {
@@ -878,7 +878,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           onTap: () {
                                             if (widget.materialMovement ==
                                                 null) {
-                                              BaseDeparmentDialog().userDialog(
+                                              BaseDepartmentDialog().userDialog(
                                                 context: context,
                                                 users: state.emailUsers!,
                                                 onTap: (BaseUser user) {
@@ -940,7 +940,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               : true,
                                       onTap: () {
                                         if (widget.materialMovement == null) {
-                                          BaseDeparmentDialog()
+                                          BaseDepartmentDialog()
                                               .departmentDialog(
                                             context: context,
                                             departments: state.departments,
@@ -1257,7 +1257,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             onTap: () {
                                               if (widget.materialMovement ==
                                                   null) {
-                                                BaseDeparmentDialog()
+                                                BaseDepartmentDialog()
                                                     .userDialog(
                                                   context: context,
                                                   users: state.emailUsers!,
@@ -1356,7 +1356,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               : true,
                                       onTap: () {
                                         if (widget.materialMovement == null) {
-                                          BaseDeparmentDialog()
+                                          BaseDepartmentDialog()
                                               .departmentDialog(
                                             context: context,
                                             departments: state.departments,

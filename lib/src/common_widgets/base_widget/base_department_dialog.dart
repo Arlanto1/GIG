@@ -1,3 +1,4 @@
+import 'package:db_atom/src/models/entity.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/app_icon.dart';
@@ -8,7 +9,7 @@ import '../../models/base_user.dart';
 import '../../models/department.dart';
 import '../custom_pop_list_texts.dart';
 
-class BaseDeparmentDialog {
+class BaseDepartmentDialog {
   departmentDialog({
     required BuildContext context,
     required List<Department> departments,
@@ -38,28 +39,29 @@ class BaseDeparmentDialog {
   /// Customer Dialog with Email
   userDialog({
     required BuildContext context,
-    required List<BaseUser> users,
+    List<BaseUser>? users,
+    List<Entity>? entities,
     required Function onTap,
   }) {
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicatedepostorList: users,
-            leftimagename: AppIcon.addicon,
-            onLeftButtonTap: () {
-              Navigator.pop(context);
-              showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return CreateFoundNewUser(
-                      title: Constants.createnewuser,
-                    );
-                  });
-            },
-            onTap: onTap
-          );
+              duplicatedepostorList: users,
+              duplicateentityList: entities,
+              leftimagename: AppIcon.addicon,
+              onLeftButtonTap: () {
+                Navigator.pop(context);
+                showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (BuildContext dialogContext) {
+                      return CreateFoundNewUser(
+                        title: Constants.createnewuser,
+                      );
+                    });
+              },
+              onTap: onTap);
         });
   }
 }
