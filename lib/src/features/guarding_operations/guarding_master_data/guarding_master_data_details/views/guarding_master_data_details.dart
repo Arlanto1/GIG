@@ -167,8 +167,6 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
   }
 
   void initializeDates() {
-    log('--widget.guardingMasterData?.dateOfBirth---${widget.guardingMasterData?.dateOfBirth}----');
-    // guardImages = widget.guardingMasterData.permanentAddressProof.localAddressProof.imageContent;
     dateOfBirthController.text = Utils.timestamptoDateConversion(
         int.tryParse(widget.guardingMasterData?.dateOfBirth ?? '0'),
         Constants.dateFormat);
@@ -286,7 +284,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 initialValue:
                                     '${state.guardingMasterData.status ?? 1}',
                                 onTap: () {
-                                  if (isDisabled) {
+                                  if (widget.guardingMasterData != null) {
                                     BaseDropDown().assetTypeDialog(
                                       context: context,
                                       dropDownValues: statusDropDownValues
@@ -432,7 +430,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               attachments: state.localAddressAttachments,
                               files: guardFiles,
                               showDownloadIcon: widget.guardingMasterData
-                                          ?.localAddressProof?.imageContent !=
+                                          ?.photoGraph?.imageContent !=
                                       null
                                   ? true
                                   : false,
@@ -506,13 +504,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                               null))
                                       ? false
                                       : true,
-                              isDisableColor:
-                                  (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData
-                                                  ?.employeeCode !=
-                                              null))
-                                      ? true
-                                      : false,
+                              isDisableColor:false,
                               onChange: (String value) {
                                 state.guardingMasterData.employeeCode = value;
                                 context
@@ -740,34 +732,34 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Dependents No
-                            CommonWidgets.textDisplay(
-                                Constants.dependentsNo, Styles.textStyleBlack14),
+                            CommonWidgets.textDisplay(Constants.dependentsNo,
+                                Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.number,
-                              initialValue: '${state.guardingMasterData.dependentsNo}',
+                              initialValue:
+                                  '${state.guardingMasterData.dependentsNo}',
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
                                   ? true
                                   : (widget.guardingMasterData != null &&
-                                  (widget.guardingMasterData
-                                      ?.dependentsNo ==
-                                      null))
-                                  ? false
-                                  : true,
+                                          (widget.guardingMasterData
+                                                  ?.dependentsNo ==
+                                              null))
+                                      ? false
+                                      : true,
                               isDisableColor: false,
                               onChange: (int value) {
                                 state.guardingMasterData.dependentsNo = value;
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
                                     .onModelValueChange(
-                                    state.guardingMasterData);
+                                        state.guardingMasterData);
                               },
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
 
                             /// Date of Birth
                             CommonWidgets.textDisplay(
@@ -1225,7 +1217,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 }
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .addAttachment(permanentAddressFiles: files);
+                                    .addAttachment(
+                                        permanentAddressFiles: files);
                               },
                             ),
                             // Attachments

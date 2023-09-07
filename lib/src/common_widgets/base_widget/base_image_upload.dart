@@ -6,7 +6,6 @@ import '../../constants/app_icon.dart';
 import '../../constants/constants.dart';
 import '../../features/createfound/models/create_found_request.dart';
 import '../../features/createfound/views/upload_attachment.dart';
-import '../../features/guarding_operations/guarding_master_data/models/guarding_master_data_model.dart';
 import '../../models/entry_security.dart';
 import '../../utils/app_themes/colors/app_color.dart';
 import '../../utils/app_themes/styles/app_styles.dart';
@@ -90,8 +89,6 @@ class BaseImageUpload {
     List<CreateImage>? attachmentListviews,
     required bool showDownloadIcon,
   }) {
-    log('----showDownloadIcon-----$showDownloadIcon-----------');
-
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -103,47 +100,37 @@ class BaseImageUpload {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: attachmentListviews?.length ?? 0,
-          itemBuilder: (BuildContext context, int index) {
-            CreateImage? imagedata;
-            imagedata = attachmentListviews?[index];
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: attachmentListviews?.length ?? 0,
+        itemBuilder: (BuildContext context, int index) {
+          CreateImage? imageData = attachmentListviews?[index];
 
-            return Column(
-              children: <Widget>[
-                ListTile(
-                  trailing: showDownloadIcon
-                      ? SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground)
-                      : const SizedBox(
-                          height: 0,
-                          width: 0,
-                        ),
-                  onTap: () {
-                    DownloadImage()
-                        .saveImage(context, 1230, imagedata?.title ?? '');
-                  },
-                  title: Text(imagedata?.title ?? ''),
-                ),
+          return Column(
+            children: <Widget>[
+              ListTile(
+                trailing: showDownloadIcon
+                    ? SvgPicture.asset(AppIcon.download,
+                        color: AppColors.boldgreyBackground)
+                    : const SizedBox(
+                        height: 0,
+                        width: 0,
+                      ),
+                onTap: () {
+                  DownloadImage()
+                      .saveImage(context, 1230, imageData?.title ?? '');
+                },
+                title: Text(imageData?.title ?? ''),
+              ),
 
-                const Divider(
-                  color: Color(0xFFCACACA),
-                  thickness: 1,
-                ), //
-              ],
-            );
-          }),
+              const Divider(
+                color: Color(0xFFCACACA),
+                thickness: 1,
+              ), //
+            ],
+          );
+        },
+      ),
     );
   }
-
-// Widget getAttachement(final List<CreateImage>? guardAttachments, double height) {
-//   return (guardAttachments == null ||
-//       guardAttachments.isEmpty ||
-//       widget.guardingMasterData == null)
-//       ? state.guardAttachments?.length == 0 || guardImages == null
-//       ? Container()
-//       : attachmentListviews(guardImages, getAttachments)
-//       : attachmentListviews(guardImages, getAttachments);
-// }
 }

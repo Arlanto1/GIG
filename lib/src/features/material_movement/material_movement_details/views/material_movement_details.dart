@@ -133,7 +133,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-  getBodybuilder(state, height) {
+  getBodybuilder(MaterialMovementDetailsState state, height) {
     returnableTextController.text =
         state.materialMovement.returnable! ? 'Returnable' : 'Non Returnable';
 
@@ -430,14 +430,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                               FlutterInputField(
                                 lineHeight: 6,
                                 initialValue:
-                                    state.materialMovement.materialFromAddress,
+                                    state.materialMovement.modelInfo,
                                 textFormKey: Keys.equipmentNoKey,
                                 hintText: '',
                                 isEnable: state.materialMovement.status != 6,
                                 isDisableColor:
                                     state.materialMovement.status == 6,
                                 onChange: (String value) {
-                                  state.materialMovement.modelinfo = value;
+                                  state.materialMovement.modelInfo = value;
                                   context
                                       .read<MaterialMovementDetailsCubit>()
                                       .onModelValueChange(
