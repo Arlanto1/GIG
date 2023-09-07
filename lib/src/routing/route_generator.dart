@@ -28,6 +28,8 @@ import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../features/event_protection/event_protections/bloc/event_protections_bloc.dart' as ep;
+import '../features/event_protection/event_protections/views/event_protections_view.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data/bloc/guarding_master_data_bloc.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data/views/guarding_master_data.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_cubit.dart';
@@ -194,7 +196,17 @@ class RouteGenerator {
         }
         return MaterialPageRoute(builder: (context) => CreatePassManagement());
 
-      case materialMovementInwardsOutwardsRoute:
+      case eventProtectionListRoute:
+
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<ep.EventProtectionsBloc>(
+              create: (_) => ep.EventProtectionsBloc()
+                ..add(const ep.InwardFetch(startPos: 0, maxPos: 20)),
+              child: const EventProtectionsView(
+              ),
+            ));
+
+        case materialMovementInwardsOutwardsRoute:
         bool isInward = true;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =

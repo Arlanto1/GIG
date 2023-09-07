@@ -23,6 +23,7 @@ const String lawenforcementScreenRoute = '/lawenforcementscreenroute';
 const String lawEnforcementListRoute = '/lawenforcementlist';
 const String createpassmgmtRoute = '/createpassmgmt';
 
+const String eventProtectionListRoute = '/eventProtectionListRoute';
 
 const String otpVerificationRoute = '/otpverification';
 const String forgotPwdScreenRoute = '/forgotPwdScreen';

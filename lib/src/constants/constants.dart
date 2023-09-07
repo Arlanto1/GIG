@@ -255,7 +255,7 @@ class Constants {
 // static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';
 
   /// Material Movement
-  static const String materialMovementstype = 'Material Movement Type';
+  static const String materialMovementsType = 'Material Movement Type';
   static const String materialMovementsInwardTitle =
       'Inward Material Movement List';
   static const String materialMovementsOutwardTitle =
@@ -411,6 +411,10 @@ class Constants {
   static const String uploadTrainingCertificate = 'Upload Training Certificate';
   static const String uploadDeploymentOrderFile = 'Upload Deployment Order File';
   static const String addQualificationType = 'Add Qualification';
+
+
+  // Event Protection
+  static const String eventProtectionTitle = 'Event Protection';
 
 }
 
