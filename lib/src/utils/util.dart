@@ -193,10 +193,10 @@ class Utils {
     );
   }
 
-  Row buildMasterDataStatusRow(int Status) {
+  Row buildMasterDataStatusRow(int status) {
     String statusText;
 
-    switch (Status) {
+    switch (status) {
       case 1:
         statusText = 'Active';
         break;
@@ -356,7 +356,10 @@ class Utils {
 
   List<String> splitStringAfterComma(String inputString) {
     log('-inputString----$inputString-');
-    return inputString.split(',').where((item) => item.trim().isNotEmpty).toList();
+    return inputString
+        .split(',')
+        .where((item) => item.trim().isNotEmpty)
+        .toList();
   }
 
   String joinListWithComma(List<String> inputList) {

@@ -745,20 +745,21 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.number,
-                              initialValue: '${state.guardingMasterData.dependentsNo}',
-                              textFormKey: Keys.contactNoKey,
+                              initialValue:
+                              '${state.guardingMasterData.dependentsNo ?? ''}',
+                              textFormKey: Keys.dependentsKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
                                   ? true
                                   : (widget.guardingMasterData != null &&
-                                  (widget.guardingMasterData
-                                      ?.dependentsNo ==
+                                  (widget.guardingMasterData?.dependentsNo ==
                                       null))
                                   ? false
                                   : true,
                               isDisableColor: false,
-                              onChange: (int value) {
-                                state.guardingMasterData.dependentsNo = value;
+                              onChange: (String value) {
+                                state.guardingMasterData.dependentsNo =
+                                    int.tryParse(value);
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
                                     .onModelValueChange(
@@ -767,7 +768,6 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
 
                             /// Date of Birth
                             CommonWidgets.textDisplay(
