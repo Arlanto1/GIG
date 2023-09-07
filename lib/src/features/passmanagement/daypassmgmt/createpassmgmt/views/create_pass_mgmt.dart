@@ -1354,7 +1354,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       createpassmgmtCubit.getatomCompanyTypeResponseData(emp);
 //vendorPassReason
       DayPassReasonElement day = widget.listuser != null
-          ? widget.passId == '2' ? DayPassReasonElement(
+          ? widget.listuser?.vendorPassReason?.id != null ? DayPassReasonElement(
               id: widget.listuser?.vendorPassReason?.id ?? 0,
               name: widget.listuser?.vendorPassReason?.name ?? ''): DayPassReasonElement(
               id: widget.listuser?.dayPassReason?.id ?? 0,
