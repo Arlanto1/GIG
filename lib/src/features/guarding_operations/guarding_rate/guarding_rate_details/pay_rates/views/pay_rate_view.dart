@@ -182,9 +182,11 @@ class _PayRateViewState extends State<PayRateView> {
                                   context: context,
                                   builder: (BuildContext dialogContext) {
                                     return BasePopUpItems(
+                                        isMasterGuard: false,
                                       id: state.items[selectedIndex].id
                                           .toString(),
                                       labels: labels,
+
                                     );
                                   },
                                 );
@@ -202,6 +204,7 @@ class _PayRateViewState extends State<PayRateView> {
                                       id: state.items[selectedIndex].id
                                           .toString(),
                                       labels: labels,
+                                      isMasterGuard: false,
                                     );
                                   },
                                 );

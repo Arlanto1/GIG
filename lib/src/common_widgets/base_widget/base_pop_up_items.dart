@@ -52,6 +52,7 @@ class BasePopUpItems extends StatefulWidget {
   final int? guardRank;
   final int? gender;
   final int? maritalStatus;
+  final bool isMasterGuard;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -96,8 +97,10 @@ class BasePopUpItems extends StatefulWidget {
     this.isMaterGuard,
     this.guardRank,
     this.gender,
-    this.maritalStatus, this.locationEntity, this.locationRegionEntity,
-
+    this.maritalStatus,
+    this.locationEntity,
+    this.locationRegionEntity,
+    this.isMasterGuard = true,
   });
 }
 
@@ -149,7 +152,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           Utils().textHandling('ID : ', widget.id.toString()),
         ],
       ),
-      if (widget.slNo != null) ...[
+      if (widget.slNo != null && widget.slNo!.isNotEmpty) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -167,20 +170,12 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.locationRegion != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
-        Row(
-          children: [
-            Utils().textHandling('Location : ', widget.location?.name ?? " "),
-          ],
-        ),
-      ],
       if (widget.locationRegionEntity != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(
           children: [
-            Utils()
-                .textHandling('Region : ', widget.locationRegionEntity?.name ?? " "),
+            Utils().textHandling(
+                'Region : ', widget.locationRegionEntity?.name ?? " "),
           ],
         ),
       ],
@@ -189,20 +184,12 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Utils().textHandling('Building Loaction : ', widget.locationEntity?.name ?? ''),
+            Utils().textHandling(
+                'Building Loaction : ', widget.locationEntity?.name ?? ''),
           ],
         ),
       ],
-      if (widget.returnable != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
-        Row(
-          children: [
-            Utils().textHandling('Material Movement Type : ',
-                widget.returnable == true ? 'Returnable' : 'Not Returnable'),
-          ],
-        ),
-      ],
-      if (widget.challanNo != null) ...[
+      if (widget.challanNo != null && widget.challanNo!.isNotEmpty) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -244,27 +231,37 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.status != null) ...[
+      if (widget.status != null && !widget.isMasterGuard) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildStatusRow(widget.status ?? 0),
       ],
-      if (widget.guardRank != null) ...[
+      if (widget.guardRank != 0 &&
+          widget.guardRank != null &&
+          widget.isMasterGuard) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildGuardrank(widget.guardRank ?? 0),
       ],
-      if (widget.gender != null) ...[
+      if (widget.gender != 0 &&
+          widget.gender != null &&
+          widget.isMasterGuard) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildGender(widget.gender ?? 0),
       ],
-      if (widget.dutyType != null) ...[
+      if (widget.dutyType != 0 &&
+          widget.dutyType != null &&
+          widget.isMasterGuard) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildDutyTypeRow(widget.dutyType ?? 0),
       ],
-      if (widget.maritalStatus != null) ...[
+      if (widget.maritalStatus != 0 &&
+          widget.maritalStatus != null &&
+          widget.isMasterGuard) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildMaritalStatus(widget.maritalStatus ?? 0),
       ],
-      if (widget.isMaterGuard != null) ...[
+      if (widget.status != 0 &&
+          widget.status != null &&
+          widget.isMasterGuard) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildMasterDataStatusRow(widget.status ?? 0),
       ],
@@ -273,7 +270,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Utils().textHandling('Loaction : ', widget.locationStr.toString()),
+            Utils().textHandling('Location : ', widget.locationStr.toString()),
           ],
         ),
       ],
@@ -503,16 +500,10 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
                 widget.firstAidNotCertified.toString()),
           ],
         ),
-        //CommonWidgets.verticalSpacerWidget(8),
-        // Row(
-        //   children: [
-        //     Utils().textHandling('UAN No : ', widget.uanNo.toString()),
-        //   ],
-        // ),
       ],
     ];
     for (Label label in labels ?? []) {
-      if (label.value == "null") {
+      if (label.value == 'null' || label.value.isEmpty) {
         continue;
       }
       widgets.add(CommonWidgets.verticalSpacerWidget(5));

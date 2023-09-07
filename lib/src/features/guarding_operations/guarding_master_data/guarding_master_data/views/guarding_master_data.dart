@@ -1,6 +1,3 @@
-
-import 'dart:developer';
-
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
@@ -97,15 +94,23 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                   ? state.list.length
                   : state.list.length + 1,
               itemBuilder: (context, index) {
+                List<Label> labels = [];
+                if (index < state.list.length) {
+                  labels.add(Label(
+                      key: 'Region',
+                      value: state.list[index].locationRegion?.name ?? ''));
+                  labels.add(Label(
+                      key: 'Building Location ',
+                      value: state.list[index].location?.name ?? ''));
+                }
                 return index >= state.list.length
                     ? const Center(
                         child: CustomCircularProgressIndicator(),
                       )
                     : BaseListTileItem(
                         id: state.list[index].id,
+                        labels: labels,
                         guardRank: state.list[index].guardRank,
-                         location: state.list[index].location,
-                         locationRegion: state.list[index].locationRegion,
                         status: state.list[index].status,
                         isMasterGuard: true,
                         onTap: (selectedIndex) {
@@ -119,11 +124,10 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                                 gender: state.list[selectedIndex].gender,
                                 dutyType: state.list[selectedIndex].dutyType,
                                 maritalStatus:
-                                state.list[selectedIndex].maritalStatus,
-                                 location: state.list[selectedIndex].location,
-                                locationRegion: state.list[selectedIndex].locationRegion,
-                                isMaterGuard:true,
-                                 status: state.list[selectedIndex].status,
+                                    state.list[selectedIndex].maritalStatus,
+                                labels: labels,
+                                isMaterGuard: true,
+                                status: state.list[selectedIndex].status,
                               );
                             },
                           );
@@ -139,15 +143,14 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                               return BasePopUpItems(
                                 id: state.list[selectedIndex].id.toString(),
                                 slNo: state.list[selectedIndex].slNo,
-                                 locationRegion: state.list[selectedIndex].locationRegion,
-                                 location: state.list[selectedIndex].location,
-                                maritalStatus:
-                                state.list[selectedIndex].maritalStatus,
                                 guardRank: state.list[selectedIndex].guardRank,
                                 gender: state.list[selectedIndex].gender,
                                 dutyType: state.list[selectedIndex].dutyType,
-                                isMaterGuard:true,
+                                maritalStatus:
+                                    state.list[selectedIndex].maritalStatus,
+                                labels: labels,
                                 status: state.list[selectedIndex].status,
+                                isMaterGuard: true,
                               );
                             },
                           );
@@ -174,7 +177,6 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
     if (guardingMastersDataModel != null) {
       Navigator.pushNamed(context, guardingMasterDataDetailsRoute, arguments: {
         "GuardingMastersDataModel": guardingMastersDataModel,
-        //"isInward": widget.isInward,
         "title": Constants.editGuardingMasterData
       });
     }
