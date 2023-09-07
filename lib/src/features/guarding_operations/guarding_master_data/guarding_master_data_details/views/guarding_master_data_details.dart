@@ -411,7 +411,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 }
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .addAttchment(guardImages: files);
+                                    .addAttachment(guardImages: files);
                               },
                             ),
                             // Attachments
@@ -451,7 +451,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Guarding POC
+                            /// Guarding Partner POC
                             CommonWidgets.textDisplay(
                                 Constants.guardingPoc, Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -726,6 +726,36 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            /// Dependents No
+                            CommonWidgets.textDisplay(
+                                Constants.dependentsNo, Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              keyboardType: TextInputType.number,
+                              initialValue: '${state.guardingMasterData.dependentsNo}',
+                              textFormKey: Keys.contactNoKey,
+                              hintText: '',
+                              isEnable: widget.guardingMasterData == null
+                                  ? true
+                                  : (widget.guardingMasterData != null &&
+                                  (widget.guardingMasterData
+                                      ?.dependentsNo ==
+                                      null))
+                                  ? false
+                                  : true,
+                              isDisableColor: false,
+                              onChange: (int value) {
+                                state.guardingMasterData.dependentsNo = value;
+                                context
+                                    .read<GuardingMasterDataDetailsCubit>()
+                                    .onModelValueChange(
+                                    state.guardingMasterData);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+
                             /// Date of Birth
                             CommonWidgets.textDisplay(
                               Constants.dateOfBirth,
@@ -885,7 +915,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   BlocProvider.of<
                                               GuardingMasterDataDetailsCubit>(
                                           context)
-                                      .addAttchment(deploymentFiles: files);
+                                      .addAttachment(deploymentFiles: files);
                                 },
                               ),
                               // Attachments
@@ -1117,7 +1147,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 }
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .addAttchment(bioDataFiles: files);
+                                    .addAttachment(bioDataFiles: files);
                               },
                             ),
                             // Attachments
@@ -1182,7 +1212,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 }
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .addAttchment(permanentAddressFiles: files);
+                                    .addAttachment(permanentAddressFiles: files);
                               },
                             ),
                             // Attachments
@@ -1245,7 +1275,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 }
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .addAttchment(localAddressFiles: files);
+                                    .addAttachment(localAddressFiles: files);
                               },
                             ),
                             // Attachments
@@ -1351,7 +1381,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
                                               context)
-                                          .addAttchment(pVCFiles: files);
+                                          .addAttachment(pVCFiles: files);
                                     },
                                   )
                                 : Container(),
@@ -1431,7 +1461,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   BlocProvider.of<
                                               GuardingMasterDataDetailsCubit>(
                                           context)
-                                      .addAttchment(trainingFiles: files);
+                                      .addAttachment(trainingFiles: files);
                                 },
                               ),
                               // Attachments
@@ -1493,7 +1523,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                 }
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .addAttchment(medicalFiles: files);
+                                    .addAttachment(medicalFiles: files);
                               },
                             ),
                             // Attachments
@@ -1707,7 +1737,7 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                   BlocProvider.of<
                                               GuardingMasterDataDetailsCubit>(
                                           context)
-                                      .addAttchment(mSGBAttachments: files);
+                                      .addAttachment(mSGBAttachments: files);
                                 },
                               ),
                               // Attachments
