@@ -13,7 +13,7 @@ class CustomAlertDialog extends StatelessWidget {
   final Function? onNegativePressed;
   final double? circularBorderRadius;
 
-  CustomAlertDialog({
+  const CustomAlertDialog({super.key,
     this.title,
     this.message,
     this.circularBorderRadius = 20.0,
