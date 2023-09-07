@@ -738,8 +738,8 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                             FlutterInputField(
                               keyboardType: TextInputType.number,
                               initialValue:
-                                  '${state.guardingMasterData.dependentsNo}',
-                              textFormKey: Keys.contactNoKey,
+                                  '${state.guardingMasterData.dependentsNo?? ''}',
+                              textFormKey: Keys.dependentsKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
                                   ? true
@@ -750,8 +750,9 @@ class _GuardigMasterDataDetailsState extends State<GuardigMasterDataDetails> {
                                       ? false
                                       : true,
                               isDisableColor: false,
-                              onChange: (int value) {
-                                state.guardingMasterData.dependentsNo = value;
+                              onChange: (String value) {
+                                state.guardingMasterData.dependentsNo =
+                                    int.tryParse(value);
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
                                     .onModelValueChange(
