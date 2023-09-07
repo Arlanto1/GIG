@@ -372,6 +372,7 @@ class Constants {
   static const String dbEmployeeId = 'DB Employee ID';
   static const String buildingLocation = 'Building Location';
   static const String mobileNum = 'Mobile Number';
+  static const String dependentsNo = 'Dependents';
   static const String physicallyFit = 'Physically Fit?';
   static const String qualifications = 'Qualifications';
   static const String dateOfBirth = 'Date of Birth';
