@@ -158,6 +158,29 @@ class Utils {
     throw FormatException('Unable to parse date-time: $dateTimeString');
   }
 
+  Row buildFoundStatusRow(int status) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Found';
+        break;
+      case 1:
+        statusText = 'Under Security Custody';
+        break;
+      case 2:
+        statusText = 'Handed Over';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return Row(
+      children: [
+        textHandling('Status: ', statusText),
+      ],
+    );
+  }
+
   Row buildStatusRow(int status) {
     String statusText;
 
@@ -318,6 +341,133 @@ class Utils {
     return Row(
       children: [
         textHandling('Gender: ', genderText),
+      ],
+    );
+  }
+
+  Row buildAssetType(int assetType) {
+    String assetTypeText;
+
+    switch (assetType) {
+      case 0:
+        assetTypeText = 'Personal';
+        break;
+      case 1:
+        assetTypeText = 'Company';
+        break;
+      default:
+        assetTypeText = ''; // Handle the default case if needed
+    }
+    return Row(
+      children: [
+        textHandling('Gender: ', assetTypeText),
+      ],
+    );
+  }
+
+  Row buildEventProtectionStatusRow(int status) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Draft';
+        break;
+      case 1:
+        statusText = 'Business User Review';
+        break;
+      case 2:
+        statusText = 'LSM Review';
+        break;
+      case 3:
+        statusText = 'LSM Approved';
+        break;
+      case 4:
+        statusText = 'LSM Rejected';
+        break;
+      case 5:
+        statusText = 'Vendor Review';
+        break;
+      case 6:
+        statusText = 'Vendor Approved';
+        break;
+      case 7:
+        statusText = 'Vendor Rejected';
+        break;
+      case 8:
+        statusText = 'Business User POC Review';
+        break;
+      case 9:
+        statusText = 'Business User POC Approved';
+        break;
+      case 10:
+        statusText = 'Business User POC Rejected';
+        break;
+      case 11:
+        statusText = 'Security Vendor Review';
+        break;
+      case 12:
+        statusText = 'Security Vendor Submitted';
+        break;
+      case 13:
+        statusText = 'EP Pre Review';
+        break;
+      case 14:
+        statusText = 'EP Pre Approved';
+        break;
+      case 15:
+        statusText = 'EP Pre Rejected';
+        break;
+      case 16:
+        statusText = 'SRH Review';
+        break;
+      case 17:
+        statusText = 'SRH Approved';
+        break;
+      case 18:
+        statusText = 'SRH Rejected';
+        break;
+      case 19:
+        statusText = 'EP PO Required';
+        break;
+      case 20:
+        statusText = 'EP PO Updated';
+        break;
+      case 21:
+        statusText = 'Event Started';
+        break;
+      case 22:
+        statusText = 'During Event';
+        break;
+      case 23:
+        statusText = 'Event Concluded';
+        break;
+      case 24:
+        statusText = 'EP Post Review';
+        break;
+      case 25:
+        statusText = 'EP Post Approved';
+        break;
+      case 26:
+        statusText = 'EP Post Rejected';
+        break;
+      case 27:
+        statusText = 'Invoice Requested';
+        break;
+      case 28:
+        statusText = 'Invoice Raised';
+        break;
+      case 29:
+        statusText = 'Invoice Submitted';
+        break;
+      case 30:
+        statusText = 'Closed';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return Row(
+      children: [
+        textHandling('Status: ', statusText),
       ],
     );
   }

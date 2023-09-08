@@ -87,6 +87,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
   TextEditingController ertCertificationDate = TextEditingController();
   TextEditingController firstAidTrainingCompletionDate =
       TextEditingController();
+  TextEditingController mSGBExemptionDate = TextEditingController();
 
   TextEditingController rankController = TextEditingController();
   TextEditingController dutyTypeController = TextEditingController();
@@ -331,7 +332,6 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             locationWidgetdislay(state),
-
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Entity
@@ -377,7 +377,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 ),
                                 TextfieldAddButton(
                                   title:
-                                      '${state.guardingMasterData.guard?.firstName ?? ''} ${state.guardingMasterData.guard?.lastName ?? ''}',
+                                      '${state.guardingMasterData.guard?.name}',
                                   height: 70,
                                   isDisableColor: false,
                                   onTap: () {
@@ -505,7 +505,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                               null))
                                       ? false
                                       : true,
-                              isDisableColor:false,
+                              isDisableColor: false,
                               onChange: (String value) {
                                 state.guardingMasterData.employeeCode = value;
                                 context
@@ -739,7 +739,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             FlutterInputField(
                               keyboardType: TextInputType.number,
                               initialValue:
-                                  '${state.guardingMasterData.dependentsNo?? ''}',
+                                  '${state.guardingMasterData.dependentsNo ?? ''}',
                               textFormKey: Keys.dependentsKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
@@ -1721,44 +1721,31 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                       }),
 
                             if (state.guardingMasterData.msgbExempted) ...[
-                              /// upload File
+                              /// MSGB Exemption Date
                               CommonWidgets.textDisplay(
                                   Constants.mSGBExemptionDate,
                                   Styles.textStyleBlack14),
-                              widget.guardingMasterData == null
-                                  ? CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001)
-                                  : Container(),
-                              BaseImageUpload().uploadWidget(
-                                context: context,
-                                loggedInUserDetails:
-                                    state.loggedInUserDetails ??
-                                        EntrySecurity(),
-                                getFiles: mSGBAFiles,
-                                onImageSelected: (CreateImage data) {
-                                  log('-------function---onImageSelected---------');
-                                  List<CreateImage>? files = [];
-                                  files.add(data);
-                                  for (CreateImage image in mSGBAFiles ?? []) {
-                                    files.add(image);
-                                  }
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+
+                              BaseDate().datePickerWidgetLoading(
+                                textController: mSGBExemptionDate,
+                                onChange: (String value) {
+                                  log('--fr-value-${dateOfFirstCovidDoseController.text}------');
+                                  state.guardingMasterData.inputDate =
+                                      Utils().formatTime(value);
                                   BlocProvider.of<
                                               GuardingMasterDataDetailsCubit>(
                                           context)
-                                      .addAttachment(mSGBAttachments: files);
+                                      .onModelValueChange(
+                                          state.guardingMasterData);
                                 },
+                                context: context,
                               ),
-                              // Attachments
-                              BaseImageUpload().getAttachment(
-                                height: height,
-                                attachments: state.mSGBAttachments,
-                                files: trainingFiles,
-                                showDownloadIcon:
-                                    widget.guardingMasterData != null
-                                        ? true
-                                        : false,
-                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
+
+                            if (!state.guardingMasterData.msgbExempted) ...[],
 
                             /// Date of First Covid Dose
                             CommonWidgets.textDisplay(
