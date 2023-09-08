@@ -54,7 +54,7 @@ class navigationDrawer1 extends StatelessWidget {
     const DrawerItem1(Constants.guardingRate, AppIcon.guardingMasterRatesIcon, 0),
     const DrawerItem1(Constants.femaleDropPickUp, AppIcon.femalePickUpDropIcon, 0),
     const DrawerItem1(Constants.keyManagementList, AppIcon.keyManagementListIcon, 0),
-    const DrawerItem1(Constants.occurrence, AppIcon.occurrence, 0),
+    const DrawerItem1(Constants.occurrence, AppIcon.occurence, 0),
      ];
 
   final passtiledrawerItems = [
@@ -314,8 +314,8 @@ class navigationDrawer1 extends StatelessWidget {
         ),
         child: ListTile(
           leading: SizedBox(
-              width: 10,
-              height: 10,
+              width: 20,
+              height: 20,
               child: Image.asset(drawerItem.imageName,
                   fit: BoxFit.scaleDown,
                   color: (i == _passlastSelectedItem)
@@ -383,13 +383,13 @@ class navigationDrawer1 extends StatelessWidget {
         ),
         child: ListTile(
           leading: SizedBox(
-              width: 20,
-              height: 20,
+              width: 18,
+              height: 18,
               child: Image.asset(drawerItem.imageName,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.scaleDown,
                   color: (i == _passlastSelectedItem)
                       ? AppColors.navigationSkybluecolor
-                      : AppColors.textgreyThemecolor)),
+                      : AppColors.boldgreyBackground)),
           title: Text(drawerItem.title,
               //style: Styles.textStyleBlack16,
               style: TextStyle(

@@ -54,7 +54,7 @@ class AppIcon {
   static const String guardingMasterRatesIcon = 'assets/images/guardingMasterRates.png';
   static const String femalePickUpDropIcon = 'assets/images/femalePickUpDrop.png';
   static const String keyManagementListIcon = 'assets/images/keyManagementList.png';
-  static const String occurrence = 'assets/images/occurrence.png';
+  static const String occurence = 'assets/images/occurence.png';
   static const String sGVMMListIcon = 'assets/images/sGVMMList.png';
   static const String violationPenaltyIcon = 'assets/images/violationPenalty.png';
 

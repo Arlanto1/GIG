@@ -460,3 +460,9 @@ List<Label> deploymentTypeDropDownValues = const [
   Label(key: 'New Deployment', value: '1'),
   Label(key: 'Redeployment', value: '2'),
 ];
+
+List<Label> mSGBFormBSubmittedDropDownValues = const [
+  Label(key: 'Yes', value: '1'),
+  Label(key: 'NO', value: '2'),
+  Label(key: 'Under ', value: '3'),
+];
