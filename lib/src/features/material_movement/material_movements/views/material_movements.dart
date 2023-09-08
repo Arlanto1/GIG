@@ -14,20 +14,19 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../utils/util.dart';
 import '../bloc/material_movement_bloc.dart';
 
 class MaterialMovements extends StatefulWidget {
-  const MaterialMovements({super.key, required this.isInward});
+  const MaterialMovements({super.key, required this.isInward,});
 
   final bool isInward;
 
   @override
-  State<MaterialMovements> createState() =>
-      _MaterialMovementsState();
+  State<MaterialMovements> createState() => _MaterialMovementsState();
 }
 
-class _MaterialMovementsState
-    extends State<MaterialMovements> {
+class _MaterialMovementsState extends State<MaterialMovements> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
 
@@ -69,8 +68,9 @@ class _MaterialMovementsState
                 arguments: {
                   "isInward": widget.isInward,
                   "isCreate": true,
-                  "title": widget.isInward? Constants.materialMovementInwardCreate: Constants.materialMovementOutwardCreate,
-
+                  "title": widget.isInward
+                      ? Constants.materialMovementInwardCreate
+                      : Constants.materialMovementOutwardCreate,
                 })
           },
         ),
@@ -103,37 +103,51 @@ class _MaterialMovementsState
                   ? state.items.length
                   : state.items.length + 1,
               itemBuilder: (context, index) {
+                List<Label> labels = [];
+                if (index < state.items.length) {
+                  labels.add(Label(
+                      key: 'Date',
+                      value: state.items[index].inputDate != null
+                          ? Utils.timestamptoDateConversion(
+                              int.parse(state.items[index].inputDate ?? '0'),
+                              Constants.dateFormat)
+                          : ''));
+                  labels.add(Label(
+                      key: 'Region',
+                      value: state.items[index].locationRegion?.name ?? ''));
+                  labels.add(Label(
+                      key: 'Location',
+                      value: state.items[index].location?.name ?? ''));
+                  labels.add(Label(
+                      key: 'Material Movement Type ',
+                      value: state.items[index].returnable == true
+                          ? 'Returnable'
+                          : 'Not Returnable'));
+                }
                 return index >= state.items.length
                     ? const Center(
                         child: CustomCircularProgressIndicator(),
                       )
                     : BaseListTileItem(
                         id: state.items[index].id,
-                        inputDate: state.items[index].inputDate,
-                        returnable: state.items[index].returnable,
-                        location: state.items[index].location,
-                        locationRegion: state.items[index].locationRegion,
+                        labels: labels,
                         status: state.items[index].status,
-                  isMasterGuard: false,
-                  onTap: (selectedIndex) {
+                        isMasterGuard: false,
+                        onTap: (selectedIndex) {
                           showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
                               return BasePopUpItems(
                                 id: state.items[selectedIndex].id.toString(),
-                                inputDate: state.items[selectedIndex].inputDate,
-                                location: state.items[selectedIndex].location,
-                                returnable:
-                                state.items[selectedIndex].returnable,
+                                labels: labels,
                                 quantity: state.items[selectedIndex].quantity
                                     .toString(),
                                 challanNo: state.items[selectedIndex].challanNo,
-                                locationRegion:
-                                state.items[selectedIndex].locationRegion,
-                                slNo: state.items[selectedIndex].slNo,
+                               slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
                                 entrySecurityName: state
                                     .items[selectedIndex].entrySecurityName,
+                                isMasterGuard: false,
                               );
                             },
                           );
@@ -147,21 +161,15 @@ class _MaterialMovementsState
                             builder: (BuildContext dialogContext) {
                               return BasePopUpItems(
                                 id: state.items[selectedIndex].id.toString(),
-                                inputDate: state.items[selectedIndex].inputDate,
-                                location: state.items[selectedIndex].location,
-                                returnable:
-                                    state.items[selectedIndex].returnable,
+                                labels: labels,
                                 quantity: state.items[selectedIndex].quantity
                                     .toString(),
                                 challanNo: state.items[selectedIndex].challanNo,
-                                locationRegion:
-                                    state.items[selectedIndex].locationRegion,
-                                //  securityName: state
-                                //       .items[selectedIndex].entrySecurityName,
                                 slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
                                 entrySecurityName: state
                                     .items[selectedIndex].entrySecurityName,
+                                isMasterGuard: false,
                               );
                             },
                           );
@@ -190,10 +198,10 @@ class _MaterialMovementsState
           arguments: {
             "MaterialMovementModel": materialMovementModel,
             "isInward": widget.isInward,
-            "title": widget.isInward? Constants.materialMovementInwardEdit: Constants.materialMovementOutwardEdit,
+            "title": widget.isInward
+                ? Constants.materialMovementInwardEdit
+                : Constants.materialMovementOutwardEdit,
           });
     }
   }
 }
-
-

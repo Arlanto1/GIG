@@ -1,6 +1,5 @@
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
-import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/util.dart';
@@ -32,7 +31,8 @@ class BaseListTileItem extends StatefulWidget {
   // final Item userItem;
   final int? index;
   final bool? showEditButton;
-  final bool? isMasterGuard;
+  final bool isMasterGuard;
+  final bool? isMasterGuardRank;
 
   const BaseListTileItem({
     super.key,
@@ -55,7 +55,7 @@ class BaseListTileItem extends StatefulWidget {
     this.locationStr,
     this.guardRank,
     this.labels,
-    this.isMasterGuard,
+     this.isMasterGuard =false , this.isMasterGuardRank,
   });
 
   @override
@@ -135,14 +135,6 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
           ],
         ),
       ],
-      // if (widget.locationRegionEntity != null) ...[
-      //   Row(
-      //     children: [
-      //       Utils().textHandling(
-      //           'Region : ', widget.locationRegionEntity?.name ?? ''),
-      //     ],
-      //   ),
-      // ],
       if (widget.locationStr != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(
@@ -152,16 +144,6 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
           ],
         ),
       ],
-      // if (widget.locationEntity != null) ...[
-      //   CommonWidgets.verticalSpacerWidget(8),
-      //   Row(
-      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //     children: [
-      //       Utils().textHandling(
-      //           'Building Loaction : ', widget.locationEntity?.name ?? ''),
-      //     ],
-      //   ),
-      // ],
       if (widget.guardCount != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(
@@ -190,62 +172,23 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
           ],
         ),
       ],
-      if (widget.region != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
-        Row(
-          children: [
-            Utils().textHandling('Region : ', widget.region.toString()),
-          ],
-        ),
-      ],
-      if (widget.location != null) ...[
-        CommonWidgets.verticalSpacerWidget(5),
-        Row(
-          children: [
-            Utils().textHandling('Location : ', widget.location?.name ?? ''),
-          ],
-        ),
-      ],
-      if (widget.returnable != null) ...[
-        CommonWidgets.verticalSpacerWidget(5),
-        Row(
-          children: [
-            Utils().textHandling('Material Movement Type : ',
-                widget.returnable == true ? 'Returnable' : 'Not Returnable'),
-          ],
-        ),
-      ],
-      if (widget.inputDate != null) ...[
-        CommonWidgets.verticalSpacerWidget(5),
-        Row(
-          children: [
-            Utils().textHandling(
-                'Date: ',
-                widget.inputDate != null
-                    ? Utils.timestamptoDateConversion(
-                        int.parse(widget.inputDate ?? '0'),
-                        Constants.dateFormat)
-                    : ''),
-          ],
-        ),
-      ],
-      if (widget.isMasterGuard != null && !widget.isMasterGuard!) ...[
+      if (widget.isMasterGuard != null && !widget.isMasterGuard) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildStatusRow(widget.status ?? 0),
       ],
-      if (widget.guardRank != null) ...[
+   if (widget.guardRank !=0 && widget.isMasterGuard ) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildGuardrank(widget.guardRank ?? 0),
       ],
-      if (widget.isMasterGuard != null && widget.isMasterGuard!) ...[
+      if (widget.status != 0 && widget.isMasterGuard) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildMasterDataStatusRow(widget.status ?? 0),
       ],
     ];
 
     for (Label label in labels ?? []) {
-      if (label.value == "null") {
-        continue;
+      if (label.value == 'null' || label.value.isEmpty) {
+       continue;
       }
       widgets.add(CommonWidgets.verticalSpacerWidget(5));
       widgets.add(Row(
