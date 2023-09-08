@@ -48,8 +48,15 @@ class AppIcon {
  static const String materialMovementIcon='assets/images/material_movement_icon.png';
   static const String materialMovementInwardIcon='assets/images/material_movement_inward_icon.png';
   static const String materialMovementOutwardIcon='assets/images/material_movement_outward_icon.png';
-
-
+  static const String guardingOperationIcon = 'assets/images/guardingOperation.png';
+  static const String guardingMasterDataIcon = 'assets/images/guardingMasterData.png';
+  static const String guardingMasterReportIcon = 'assets/images/guardingMasterReport.png';
+  static const String guardingMasterRatesIcon = 'assets/images/guardingMasterRates.png';
+  static const String femalePickUpDropIcon = 'assets/images/femalePickUpDrop.png';
+  static const String keyManagementListIcon = 'assets/images/keyManagementList.png';
+  static const String occurrence = 'assets/images/occurrence.png';
+  static const String sGVMMListIcon = 'assets/images/sGVMMList.png';
+  static const String violationPenaltyIcon = 'assets/images/violationPenalty.png';
 
   static const String daypassmgmticon = 'assets/images/daypassmgmt.png';
   static const String daypassregicon = 'assets/images/daypassreg.png';
