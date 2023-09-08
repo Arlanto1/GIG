@@ -5,8 +5,8 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../law_enforcement_list/controllers/law_enforcement_list_state.dart';
-import '../../../material_movement/models/material_movements_model.dart';
-import '../../../material_movement/services/material_movement_services.dart';
+import '../../models/event_protection_model.dart';
+import '../../services/event_protection_services.dart';
 
 part 'event_protections_event.dart';
 part 'event_protections_state.dart';
@@ -17,26 +17,25 @@ class EventProtectionsBloc
   EventProtectionsBloc()
       : super(const EventProtectionsState()) {
     on<InwardFetch>(
-      _fetchMaterialMovements,
+      _fetchList,
       transformer: droppable(),
     );
   }
 
-  final MaterialMovementServices _materialMovementServices =
-  MaterialMovementServices();
+  final EventProtectionServices _services =
+  EventProtectionServices();
 
-  FutureOr<void> _fetchMaterialMovements(
+  FutureOr<void> _fetchList(
       InwardFetch event, Emitter<EventProtectionsState> emit) async {
     try {
       if (state.hasReachedMax) return;
 
       if (state.status == LawEnforcementListStateType.initial) {
-        MaterialMovementsModel response =
-        await _materialMovementServices.getMaterialMovements(
+        EventProtectionResponse response =
+        await _services.getEventProtections(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '77',
-          mmType: 0,
         );
 
         return emit(
@@ -48,12 +47,11 @@ class EventProtectionsBloc
         );
       }
 
-      MaterialMovementsModel response =
-      await _materialMovementServices.getMaterialMovements(
+      EventProtectionResponse response =
+      await _services.getEventProtections(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '77', //TODO: make it dynamic
-        mmType: 0,
+        userId: '77',
       );
 
       if (response.items?.isEmpty == true) {

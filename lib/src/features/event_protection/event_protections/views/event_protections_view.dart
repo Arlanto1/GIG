@@ -14,6 +14,7 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../utils/util.dart';
 import '../bloc/event_protections_bloc.dart';
 
 class EventProtectionsView extends StatefulWidget {
@@ -96,6 +97,22 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                   ? state.items.length
                   : state.items.length + 1,
               itemBuilder: (context, index) {
+                List<Label> labels = [];
+                if (index < state.items.length) {
+                  labels.add(Label(
+                      key: 'Date',
+                      value: state.items[index].inputDate != null
+                          ? Utils.timestamptoDateConversion(
+                          int.parse(state.items[index].inputDate ?? '0'),
+                          Constants.dateFormat)
+                          : ''));
+                  labels.add(Label(
+                      key: 'Region',
+                      value: state.items[index].locationRegion?.name ?? ''));
+                  labels.add(Label(
+                      key: 'Location',
+                      value: state.items[index].location?.name ?? ''));
+                }
                 return index >= state.items.length
                     ? const Center(
                         child: CustomCircularProgressIndicator(),
@@ -103,7 +120,6 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                     : BaseListTileItem(
                         id: state.items[index].id,
                         inputDate: state.items[index].inputDate,
-                        returnable: state.items[index].returnable,
                         location: state.items[index].location,
                         locationRegion: state.items[index].locationRegion,
                         status: state.items[index].status,
@@ -114,19 +130,10 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                             builder: (BuildContext dialogContext) {
                               return BasePopUpItems(
                                 id: state.items[selectedIndex].id.toString(),
-                                inputDate: state.items[selectedIndex].inputDate,
-                                location: state.items[selectedIndex].location,
-                                returnable:
-                                    state.items[selectedIndex].returnable,
-                                quantity: state.items[selectedIndex].quantity
-                                    .toString(),
-                                challanNo: state.items[selectedIndex].challanNo,
-                                locationRegion:
-                                    state.items[selectedIndex].locationRegion,
+                                labels: labels,
                                 slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
-                                entrySecurityName: state
-                                    .items[selectedIndex].entrySecurityName,
+                                isMasterGuard: false,
                               );
                             },
                           );
@@ -142,19 +149,12 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                 id: state.items[selectedIndex].id.toString(),
                                 inputDate: state.items[selectedIndex].inputDate,
                                 location: state.items[selectedIndex].location,
-                                returnable:
-                                    state.items[selectedIndex].returnable,
-                                quantity: state.items[selectedIndex].quantity
-                                    .toString(),
-                                challanNo: state.items[selectedIndex].challanNo,
                                 locationRegion:
                                     state.items[selectedIndex].locationRegion,
                                 //  securityName: state
                                 //       .items[selectedIndex].entrySecurityName,
                                 slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
-                                entrySecurityName: state
-                                    .items[selectedIndex].entrySecurityName,
                               );
                             },
                           );

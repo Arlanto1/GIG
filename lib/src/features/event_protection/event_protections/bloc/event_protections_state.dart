@@ -1,17 +1,17 @@
 part of 'event_protections_bloc.dart';
 
 class EventProtectionsState extends Equatable {
-  final List<MaterialMovementModel> items;
+  final List<EventProtectionModel> items;
   final bool hasReachedMax;
   final LawEnforcementListStateType status;
 
   const EventProtectionsState(
-      {this.items = const <MaterialMovementModel>[],
+      {this.items = const <EventProtectionModel>[],
         this.hasReachedMax = false,
         this.status = LawEnforcementListStateType.initial});
 
   EventProtectionsState copyWith({
-    List<MaterialMovementModel>? items,
+    List<EventProtectionModel>? items,
     bool? hasReachedMax,
     LawEnforcementListStateType? status,
   }) {
