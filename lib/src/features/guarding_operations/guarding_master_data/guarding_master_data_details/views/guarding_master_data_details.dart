@@ -377,7 +377,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 ),
                                 TextfieldAddButton(
                                   title:
-                                      '${state.guardingMasterData.guard?.name}',
+                                      state.guardingMasterData.guard?.name,
                                   height: 70,
                                   isDisableColor: false,
                                   onTap: () {
