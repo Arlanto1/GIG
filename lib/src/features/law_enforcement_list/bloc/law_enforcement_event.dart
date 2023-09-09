@@ -11,8 +11,9 @@ abstract class LawEnforcementEvent extends Equatable {
 class LawEnforcementFetch extends LawEnforcementEvent {
   final int startPos;
   final int maxPos;
+  final BuildContext cont;
 
-  const LawEnforcementFetch({required this.startPos, required this.maxPos});
+  const LawEnforcementFetch({required this.startPos, required this.maxPos,required this.cont});
 }
 
 class LawEnforcementRefresh extends LawEnforcementEvent {
