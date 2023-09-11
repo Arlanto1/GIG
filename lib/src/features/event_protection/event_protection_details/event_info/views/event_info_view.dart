@@ -18,10 +18,11 @@ import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/customalert.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 
-import '../../../../../../main_DEV.dart';
+import '../../../../../constants/app_icon.dart';
 import '../cubits/event_info_cubit.dart';
 
 class EventInfoView extends StatefulWidget {
@@ -38,8 +39,7 @@ class EventInfoView extends StatefulWidget {
 
 class _EventInfoViewState extends State<EventInfoView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  QuillController _controller = QuillController.basic();
-
+  final quill.QuillController _controller = quill.QuillController.basic();
 
   GetUserDetails? userDetails;
   List<CreateImage>? getFiles;
@@ -149,57 +149,81 @@ class _EventInfoViewState extends State<EventInfoView> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0, right: 20),
-                        child: Column(children: [
-
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          CommonWidgets.textDisplay(
-                            Constants.eventStartedAt,
-                            Styles.textStyleBlack14,
-                          ),
-                          BaseDate().datePickerWidgetLoading(
-                            textController: dateController,
-                            isDisabled: false,
-                            onlyDate: true,
-                            onChange: (String value) {
-
-                              dateController.text = value;
-
-                            },
-                            context: context,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          CommonWidgets.textDisplay(
-                            Constants.csrParticipationDate,
-                            Styles.textStyleBlack14,
-                          ),
-                          BaseDate().datePickerWidgetLoading(
-                            textController: dateController,
-                            isDisabled: false,
-                            onlyDate: true,
-                            onChange: (String value) {
-
-                              dateController.text = value;
-
-                            },
-                            context: context,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          QuillToolbar.basic(controller: _controller),
-                          SizedBox(
-                            height: height *0.5,
-                            width: double.infinity,
-                            child: QuillEditor.basic(
-                              controller: _controller,
-                              readOnly: false, // true for view only mode
+                        child: Column(
+                          children: [
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.textDisplay(
+                              Constants.eventStartedAt,
+                              Styles.textStyleBlack14,
                             ),
-                          ),
-
-
-                        ],),
+                            BaseDate().datePickerWidgetLoading(
+                              textController: dateController,
+                              isDisabled: false,
+                              onlyDate: true,
+                              onChange: (String value) {
+                                dateController.text = value;
+                              },
+                              context: context,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.textDisplay(
+                                Constants.csrParticipationDate,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            GestureDetector(
+                              onTap: () {
+                                // showDialog(
+                                //     context: context,
+                                //     builder: (BuildContext dialogContext) {
+                                //       return AddDatePopUp(
+                                //         guardingMasterData: model,
+                                //         mainContext: context,
+                                //         onSubmit: (GuardingMastersDataModel
+                                //             guardingMasterData) {
+                                //           //loginFormKey.currentState!.validate();
+                                //           FocusScope.of(context).unfocus();
+                                //           BlocProvider.of<
+                                //                       GuardingMasterDataDetailsCubit>(
+                                //                   context)
+                                //               .submitForm(isSaveOnly: true);
+                                //         },
+                                //       );
+                                //     });
+                              },
+                              child: Row(
+                                children: <Widget>[
+                                  // Expanded(
+                                  //child:
+                                  const SizedBox(width: 14),
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                    //color: AppColors.navigationSkybluecolor,
+                                  ),
+                                  // ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    Constants.addParticipationDates,
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            quill.QuillToolbar.basic(controller: _controller),
+                            SizedBox(
+                              height: height * 0.5,
+                              width: double.infinity,
+                              child: quill.QuillEditor.basic(
+                                controller: _controller,
+                                readOnly: false, // true for view only mode
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-
 
                       /// SubmitButton
                       if (state.model.status != 4) ...[
