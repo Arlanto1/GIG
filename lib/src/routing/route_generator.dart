@@ -10,6 +10,8 @@ import 'package:db_atom/src/features/createfound/views/create_found.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_attachment.dart';
 import 'package:db_atom/src/features/dashboard/views/charts/pie_chart.dart';
 import 'package:db_atom/src/features/dashboard/views/my_home_page.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/cubits/contact_info_cubit.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/views/contact_info_view.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/views/event_protection_details.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/views/gereral_info_tiles_view.dart';
 import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
@@ -251,6 +253,23 @@ class RouteGenerator {
                 commonServices: CommonServices(), model: model,
               ),
               child:  const GeneralInfoView(
+              ),
+            ));
+
+      case generalInfoCIRoute:
+        EventProtectionModel model = EventProtectionModel();
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          model = arguments['model'];
+        }
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<ContactInfoCubit>(
+              create: (_) => ContactInfoCubit(
+                services: EventProtectionServices(),
+                commonServices: CommonServices(), model: model,
+              ),
+              child:  const ContactInfoView(
               ),
             ));
 
