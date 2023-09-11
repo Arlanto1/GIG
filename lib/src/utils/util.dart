@@ -366,4 +366,8 @@ class Utils {
     log('-inputList----${inputList.length}-');
     return inputList.join(',');
   }
+
+  String getCurrentDate() {
+    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
+  }
 }

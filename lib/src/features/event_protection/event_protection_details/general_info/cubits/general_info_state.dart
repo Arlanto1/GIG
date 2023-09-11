@@ -2,7 +2,7 @@ part of 'general_info_cubit.dart';
 
 class GeneralInfoState extends Equatable {
   final FormStatus status;
-  final GuardingMastersDataModel guardingMasterData;
+  final EventProtectionModel model;
   final GetLocations? locations;
   final EntrySecurity? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -28,7 +28,7 @@ class GeneralInfoState extends Equatable {
   final List<GetUserDetails>? entrySecurities;
 
   factory GeneralInfoState.initial({
-    required GuardingMastersDataModel model,
+    required EventProtectionModel model,
     required GetLocations locations,
     required EntrySecurity loggedInUserDetails,
     required List<BaseUser>? users,
@@ -55,7 +55,7 @@ class GeneralInfoState extends Equatable {
   }) {
     return GeneralInfoState(
       status: FormStatus.initial,
-      guardingMasterData: model,
+      model: model,
       locations: locations,
       loggedInUserDetails: loggedInUserDetails,
       listOfEntities: listOfEntities,
@@ -83,150 +83,19 @@ class GeneralInfoState extends Equatable {
   }
 
   ErrorResponse get isValid {
-    if (guardingMasterData.status == null) {
+    if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-    if (guardingMasterData.entity == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Entity');
-    }
-    if (guardingMasterData.vendor == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Vendor');
-    }
-    if (guardingMasterData.guard == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Name');
-    }
-    if (guardingMasterData.guardRank == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Rank');
-    }
-    if (guardingMasterData.guardingPOC == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Guarding Partner POC');
-    }
 
-    if (guardingMasterData.employeeCode == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Guarding Agency Employee Code');
-    }
-    if (guardingMasterData.dutyType == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Type of Duty');
-    }
-    if (guardingMasterData.gender == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Gender');
-    }
-    if (guardingMasterData.maritalStatus == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Marital Status');
-    }
-    if (guardingMasterData.contactNo == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Mobile Number ');
-    }
-    if (guardingMasterData.dateOfBirth == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Date of Birth');
-    }
-    if (guardingMasterData.dateOfJoining == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Date of Joining');
-    }
-    if (guardingMasterData.dependentsNo == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Dependents');
-    }
-    if (guardingMasterData.typeOfDeployment == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Deployment Type');
-    }
-    // if (guardingMasterData.deploymentOrderSubmitted == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please Select Deployment Order Submitted? ');
-    // }
-    if (guardingMasterData.height == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Height');
-    }
-    // if (guardingMasterData.physicallyFit == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter PhysicallyFit?');
-    // }
-    if (guardingMasterData.localLanguage == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Local language');
-    }
-    if (guardingMasterData.securityExperience == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Security Experience');
-    }
-    if (guardingMasterData.permanentAddress == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Permanent Address');
-    }
-    if (guardingMasterData.localAddress == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Local Address');
-    }
-    if (guardingMasterData.qualifications == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Qualification');
-    }
-    if (guardingMasterData.pvcIssuedDate == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter PVC Issued Date');
-    }
-    // if (guardingMasterData.trainingCertificateProvided == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Training Certificate');
-    // }
-    if (guardingMasterData.medicalCertificateValidUntil == null) {
-      return const ErrorResponse(
-          status: false,
-          message: 'Please enter Medical Certificate Valid Until');
-    }
-    if (guardingMasterData.systemAccess == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter System Access');
-    }
-    if (guardingMasterData.covidFirstDoseDate == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Date of First Covid Dose');
-    }
-    if (guardingMasterData.covidSecondDoseDate == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Date of Second Covid Dose');
-    }
-    if (guardingMasterData.additionalInitiatives == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Additional Initiatives');
-    }
-    if (guardingMasterData.location == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Location');
-    }
-    if (guardingMasterData.additionalInitiatives == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Additional Initiatives');
-    }
-    if (guardingMasterData.localAddress == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Local Address');
-    }
-    if (guardingMasterData.permanentAddress == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Permanent Address');
-    }
-    if (guardingMasterData.securityExperience == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Security Experience');
-    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
   @override
-  List<Object?> get props => [guardingMasterData, status];
+  List<Object?> get props => [model, status];
 
   const GeneralInfoState({
     required this.status,
-    required this.guardingMasterData,
+    required this.model,
     this.locations,
     this.loggedInUserDetails,
     this.users,
@@ -254,7 +123,7 @@ class GeneralInfoState extends Equatable {
 
   GeneralInfoState copyWith({
     FormStatus? status,
-    GuardingMastersDataModel? guardingMasterData,
+    EventProtectionModel? guardingMasterData,
     GetLocations? locations,
     EntrySecurity? loggedInUserDetails,
     List<BaseUser>? users,
@@ -281,7 +150,7 @@ class GeneralInfoState extends Equatable {
   }) {
     return GeneralInfoState(
       status: status ?? this.status,
-      guardingMasterData: guardingMasterData ?? this.guardingMasterData,
+      model: guardingMasterData ?? this.model,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,

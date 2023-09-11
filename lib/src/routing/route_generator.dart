@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/app.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -8,6 +10,9 @@ import 'package:db_atom/src/features/createfound/views/create_found.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_attachment.dart';
 import 'package:db_atom/src/features/dashboard/views/charts/pie_chart.dart';
 import 'package:db_atom/src/features/dashboard/views/my_home_page.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/views/event_protection_details.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/views/gereral_info_tiles_view.dart';
+import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
 import 'package:db_atom/src/features/guarding_operations/drop_pick_up/bloc/female_drop_pick_up_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/drop_pick_up/views/female_drop_pick_up_view.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
@@ -28,8 +33,11 @@ import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../features/event_protection/event_protections/bloc/event_protections_bloc.dart' as ep;
+import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
+import '../features/event_protection/event_protections/bloc/event_protections_bloc.dart'
+    as ep;
 import '../features/event_protection/event_protections/views/event_protections_view.dart';
+import '../features/event_protection/services/event_protection_services.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data/bloc/guarding_master_data_bloc.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data/views/guarding_master_data.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_cubit.dart';
@@ -197,16 +205,38 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => CreatePassManagement());
 
       case eventProtectionListRoute:
-
         return MaterialPageRoute(
             builder: (context) => BlocProvider<ep.EventProtectionsBloc>(
-              create: (_) => ep.EventProtectionsBloc()
-                ..add(const ep.InwardFetch(startPos: 0, maxPos: 20)),
-              child: const EventProtectionsView(
+                  create: (_) => ep.EventProtectionsBloc()
+                    ..add(const ep.InwardFetch(startPos: 0, maxPos: 20)),
+                  child: const EventProtectionsView(),
+                ));
+
+      case eventProtectionDetailsTabRoute:
+        return MaterialPageRoute(
+            builder: (context) => const EventProtectionDetails());
+      case generalInfoTilesViewRoute:
+        return MaterialPageRoute(
+            builder: (context) => const GeneralInfoTilesView());
+
+
+      case generalInfoRoute:
+        EventProtectionModel model = EventProtectionModel();
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          model = arguments['model'];
+        }
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<GeneralInfoCubit>(
+              create: (_) => GeneralInfoCubit(
+                services: EventProtectionServices(),
+                commonServices: CommonServices(), model: model,
               ),
+              child: const GeneralInfoTilesView(),
             ));
 
-        case materialMovementInwardsOutwardsRoute:
+      case materialMovementInwardsOutwardsRoute:
         bool isInward = true;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -379,7 +409,7 @@ class RouteGenerator {
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          payRates = arguments['payRates']??[];
+          payRates = arguments['payRates'] ?? [];
           rate = arguments['gmRate'];
           title = arguments['title'];
         }

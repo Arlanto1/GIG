@@ -56,6 +56,7 @@ class Mainconfig {
         debugShowCheckedModeBanner: false,
         initialRoute: splashScreenRoute,
         onGenerateRoute: RouteGenerator.generateRoute,
+
         locale: locale,
         supportedLocales: LocaleSupportedMethod.supportedLocale,
         localizationsDelegates: LocaleSupportedMethod.getLocalizationsDelegates(),

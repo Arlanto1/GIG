@@ -18,10 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
-import '../../../../../common_widgets/base_widget/multiple_selection_pop_up.dart';
+import '../../../../../common_widgets/base_widget/base_entities_dropdown.dart';
 import '../../../../../common_widgets/basic_reusable_widgets.dart';
-import '../../../../../common_widgets/create_fields.dart';
-import '../../../../../constants/app_icon.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
@@ -167,11 +165,16 @@ class _RatesInfoState extends State<RatesInfo> {
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                        entityaddButtonwidgetLoading(
+                        BaseEntitiesSelection().entityDropDownSelection(
                           context: context,
-                          state: state,
                           selectedValues: state.rate.entities ?? [],
                           all: state.listOfEntities ?? [],
+                          onTap: (List<Entity> selectedEntities) {
+                            log('--selectedEntities----${selectedEntities.length}');
+                            BlocProvider.of<PayRateCubit>(context)
+                                .updateDropdownValues(entities: selectedEntities);
+                            Navigator.of(context).pop(); // Close the dialog
+                          }
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -246,69 +249,6 @@ class _RatesInfoState extends State<RatesInfo> {
           ),
         ]),
       ),
-    );
-  }
-
-  Widget entityaddButtonwidgetLoading({
-    required BuildContext context,
-    required PayRateState state,
-    required List<Entity> selectedValues,
-    required List<Entity> all,
-  }) {
-    String title = '';
-    if (selectedValues.isNotEmpty) {
-      for (int i = 0; i < selectedValues.length; i++) {
-        Entity entity = selectedValues[i];
-        log('--entity name-${entity.name}--');
-
-        String value = entity.name ?? '';
-        title = '$title  $value';
-      }
-    }
-
-    log('--title-$title--');
-    return TextfieldAddButton(
-      title: title,
-      height: (selectedValues.length) > 4
-          ? (selectedValues.length) > 9
-              ? 140
-              : 100
-          : 60,
-      isDisableColor: false,
-      onTap: () {
-        _showEntitySelectionDialog(context, state);
-      },
-    );
-  }
-
-  void _showEntitySelectionDialog(BuildContext context, PayRateState state) {
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return CustomMultipleSelectionListTexts(
-          onLeftButtonTap: () {
-            Navigator.pop(context);
-            showDialog(
-                context: context,
-                builder: (BuildContext dialogContext) {
-                  return AddNewFields(
-                    title: Constants.addentitytype,
-                    // TODO: Need to make it functional
-                    // createpassmgmtstate: state,
-                  );
-                });
-          },
-          duplicateEntityList: state.listOfEntities ?? [],
-          mainSelectedEntityList: state.rate.entities ?? [],
-          onTap: (List<Entity> selectedEntities) {
-            log('--selectedEntities----${selectedEntities.length}');
-            BlocProvider.of<PayRateCubit>(context)
-                .updateDropdownValues(entities: selectedEntities);
-            Navigator.of(context).pop(); // Close the dialog
-          },
-          leftImageName: AppIcon.addicon, // Provide your left button icon
-        );
-      },
     );
   }
 

@@ -24,6 +24,9 @@ const String lawEnforcementListRoute = '/lawenforcementlist';
 const String createpassmgmtRoute = '/createpassmgmt';
 
 const String eventProtectionListRoute = '/eventProtectionListRoute';
+const String eventProtectionDetailsTabRoute = '/eventProtectionDetailsTabRoute';
+const String generalInfoTilesViewRoute = '/generalInfoTilesViewRoute';
+const String generalInfoRoute = '/generalInfoRoute';
 
 const String otpVerificationRoute = '/otpverification';
 const String forgotPwdScreenRoute = '/forgotPwdScreen';

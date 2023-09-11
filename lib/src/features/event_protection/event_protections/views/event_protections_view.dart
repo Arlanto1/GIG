@@ -6,6 +6,8 @@ import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_p
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
+import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
+import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
@@ -66,7 +68,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
           onPressed: () => {
             Navigator.pushNamed(
               context,
-              materialMovementInwardDetailsRoute,
+              eventProtectionDetailsTabRoute,
             )
           },
         ),
@@ -171,7 +173,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
     showLoadingDialog(context);
 
     MaterialMovementModel materialMovementModel =
-        await MaterialMovementServices().getMaterialMovement(id);
+        await EventProtectionServices().getMaterialMovement(id);
 
     editDataLoading(materialMovementModel);
   }
@@ -181,7 +183,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
     if (materialMovementModel != null) {
       Navigator.pushNamed(
         context,
-        materialMovementInwardDetailsRoute,
+        eventProtectionDetailsTabRoute,
       );
     }
   }

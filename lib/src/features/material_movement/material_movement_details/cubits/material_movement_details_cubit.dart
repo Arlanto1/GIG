@@ -56,9 +56,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     emit(state.copyWith(materialMovement: model, status: FormStatus.initial));
   }
 
-  String _getCurrentDate() {
-    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
-  }
 
   Future<void> initializeValues() async {
     print('-status-1-${state.status}--');
@@ -80,7 +77,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       // Get Date of Creation
-      state.materialMovement.inputDate = _getCurrentDate();
+      state.materialMovement.inputDate = Utils().getCurrentDate();
 
       state.materialMovement.inwardMovement = isInward;
       if (state.materialMovement.approvedDate != null) {

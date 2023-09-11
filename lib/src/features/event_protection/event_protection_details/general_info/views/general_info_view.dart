@@ -2,32 +2,20 @@ import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_drop_down.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_image_upload.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_entities_dropdown.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
-import 'package:db_atom/src/common_widgets/base_widget/check_box.dart';
 import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
-import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/create_fields.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
-import 'package:db_atom/src/common_widgets/image_download.dart';
-import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
-import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/add_date_pop_up.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/guarding_master_data_model.dart';
-import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/department.dart';
 import 'package:db_atom/src/models/entity.dart';
-import 'package:db_atom/src/models/entry_security.dart';
 import 'package:db_atom/src/models/location.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -39,26 +27,24 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../main_DEV.dart';
-import '../../../../../common_widgets/base_widget/multiple_selection_pop_up.dart';
 import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import '../cubits/general_info_cubit.dart';
 
-class GenearalInfoView extends StatefulWidget {
+class GeneralInfoView extends StatefulWidget {
   final GuardingMastersDataModel? guardingMasterData;
   final String title;
 
-  const GenearalInfoView({
+  const GeneralInfoView({
     super.key,
     this.guardingMasterData,
     required this.title,
   });
 
   @override
-  State<GenearalInfoView> createState() =>
-      _GenearalInfoViewState();
+  State<GeneralInfoView> createState() => _GeneralInfoViewState();
 }
 
-class _GenearalInfoViewState extends State<GenearalInfoView> {
+class _GeneralInfoViewState extends State<GeneralInfoView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   GetUserDetails? userDetails;
   List<CreateImage>? getFiles;
@@ -109,11 +95,9 @@ class _GenearalInfoViewState extends State<GenearalInfoView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    return BlocConsumer<GeneralInfoCubit,
-        GeneralInfoState>(
+    return BlocConsumer<GeneralInfoCubit, GeneralInfoState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
-        log('-deploymentOrderSubmitted---${state.guardingMasterData.deploymentOrderSubmitted}----');
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -153,7 +137,7 @@ class _GenearalInfoViewState extends State<GenearalInfoView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.guardingMasterData.status != 4 ? true : false,
+            showSaveButton: state.model.status != 4 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<GeneralInfoCubit>(context)
@@ -236,14 +220,15 @@ class _GenearalInfoViewState extends State<GenearalInfoView> {
     }
 
     return Container(
-        color: AppColors.navigationSkybluecolor,
-        child: SingleChildScrollView(
-            child: Column(children: [
-          Container(
-            height: height * 0.01,
-            color: AppColors.navigationSkybluecolor,
-          ),
-          Container(
+      color: AppColors.navigationSkybluecolor,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: height * 0.01,
+              color: AppColors.navigationSkybluecolor,
+            ),
+            Container(
               decoration: const ShapeDecoration(
                   color: AppColors.backgroundWhitecolor,
                   shape: RoundedRectangleBorder(
@@ -251,1977 +236,132 @@ class _GenearalInfoViewState extends State<GenearalInfoView> {
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: Form(
-                  key: _formKey,
-                  autovalidateMode: state.guardingMasterData.status == 4
-                      ? AutovalidateMode.disabled
-                      : AutovalidateMode.onUserInteraction,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20),
-                          child: Column(children: [
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
+                key: _formKey,
+                autovalidateMode: state.model.status == 4
+                    ? AutovalidateMode.disabled
+                    : AutovalidateMode.onUserInteraction,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20),
+                        child: Column(children: [
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              Constants.generalinformation,
+                              style: Styles.styleHeaderGreyText16,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Status
-                            CommonWidgets.textDisplay(
-                                Constants.status, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                                isDisabled:
-                                    state.guardingMasterData.status != 6,
-                                textController: statusController,
-                                items: statusDropDownValues,
-                                initialValue:
-                                    '${state.guardingMasterData.status ?? 1}',
-                                onTap: () {
-                                  if (widget.guardingMasterData != null) {
-                                    BaseDropDown().assetTypeDialog(
-                                      context: context,
-                                      dropDownValues: statusDropDownValues
-                                          .map((label) => label.key)
-                                          .toList(),
-                                      onTap: (String value) {
-                                        Label? selectedLabel;
-                                        selectedLabel =
-                                            statusDropDownValues.firstWhere(
-                                          (label) => label.key == value,
-                                          orElse: () =>
-                                              const Label(key: '', value: ''),
-                                        );
-                                        BlocProvider.of<
-                                                    GeneralInfoCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                                status: int.tryParse(
-                                                    selectedLabel.value));
-                                      },
-                                    );
-                                  }
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Created By
-                            CommonWidgets.verticalTextHandling(
-                                Constants.createdby,
-                                state.loggedInUserDetails?.name ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Date of creation
-                            CommonWidgets.textDisplay(Constants.dateofcreation,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDate().creationDateDisplay(
-                                state.guardingMasterData.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            ///Building  Location
-                            CommonWidgets.textDisplay(
-                                Constants.buildingLocation,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            locationWidgetdislay(state),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Entity
-                            CommonWidgets.textDisplay(
-                              Constants.entity,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            TextfieldAddButton(
-                                title:
-                                    state.guardingMasterData.entity?.name ?? '',
-                                height: 70,
-                                isDisableColor: false,
-                                onTap: () {
-                                  BaseDepartmentDialog().userDialog(
+                          /// Status
+                          CommonWidgets.textDisplay(
+                              Constants.status, Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          BaseDropDown().getDropDown(
+                              isDisabled: state.model.status != 6,
+                              textController: statusController,
+                              items: statusDropDownValues,
+                              initialValue: '${state.model.status ?? 1}',
+                              onTap: () {
+                                if (widget.guardingMasterData != null) {
+                                  BaseDropDown().assetTypeDialog(
                                     context: context,
-                                    entities: state.listOfEntities,
-                                    // TODO: Need to change EntrySecurity to BaseUser
-                                    onTap: (Entity entity) {
-                                      BlocProvider.of<
-                                                  GeneralInfoCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                        entity: entity,
+                                    dropDownValues: statusDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          statusDropDownValues.firstWhere(
+                                        (label) => label.key == value,
+                                        orElse: () =>
+                                            const Label(key: '', value: ''),
                                       );
+                                      BlocProvider.of<GeneralInfoCubit>(context)
+                                          .updateDropdownValues(
+                                              status: int.tryParse(
+                                                  selectedLabel.value));
                                     },
                                   );
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Sl No.
-                            CommonWidgets.horizentaltextHandling(Constants.slno,
-                                state.guardingMasterData.slNo ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Guard Name
-                            Column(
-                              children: [
-                                CommonWidgets.textDisplay(
-                                  Constants.name,
-                                  Styles.textStyleBlack14,
-                                ),
-                                TextfieldAddButton(
-                                  title:
-                                      '${state.guardingMasterData.guard?.firstName ?? ''} ${state.guardingMasterData.guard?.lastName ?? ''}',
-                                  height: 70,
-                                  isDisableColor: false,
-                                  onTap: () {
-                                    BaseDepartmentDialog().userDialog(
-                                      context: context,
-                                      users: state.emailUsers!,
-                                      // TODO: Need to change EntrySecurity to BaseUser
-                                      onTap: (BaseUser user) {
-                                        BlocProvider.of<
-                                                    GeneralInfoCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                          guard: user,
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-                              ],
-                            ),
-
-                            /// upload Photo
-                            CommonWidgets.textDisplay(
-                                Constants.uploadPhoto, Styles.textStyleBlack14),
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                : Container(),
-                            BaseImageUpload().uploadWidget(
-                              context: context,
-                              loggedInUserDetails:
-                                  state.loggedInUserDetails ?? EntrySecurity(),
-                              getFiles: guardFiles,
-                              onImageSelected: (CreateImage data) {
-                                log('-------function---onImageSelected---------');
-                                List<CreateImage>? files = [];
-                                files.add(data);
-                                for (CreateImage image in guardFiles ?? []) {
-                                  files.add(image);
                                 }
-                                BlocProvider.of<GeneralInfoCubit>(
-                                        context)
-                                    .addAttachment(guardImages: files);
-                              },
-                            ),
-                            // Attachments
-                            BaseImageUpload().getAttachment(
-                              height: height,
-                              attachments: state.localAddressAttachments,
-                              files: guardFiles,
-                              showDownloadIcon: widget.guardingMasterData
-                                          ?.photoGraph?.imageContent !=
-                                      null
-                                  ? true
-                                  : false,
-                            ),
-
-                            /// Guarding Vendor
-                            CommonWidgets.textDisplay(
-                              Constants.guardingVendor,
-                              Styles.textStyleBlack14,
-                            ),
-                            TextfieldAddButton(
-                              title: state.guardingMasterData.vendor?.name,
-                              height: 60,
-                              isDisableColor: false,
-                              onTap: () {
-                                BaseDepartmentDialog().departmentDialog(
-                                  context: context,
-                                  departments: state.departments,
-                                  onTap: (Department department) {
-                                    BlocProvider.of<
-                                                GeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            vendor: department);
-                                  },
-                                );
-                              },
-                            ),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Guarding Partner POC
-                            CommonWidgets.textDisplay(
-                                Constants.guardingPoc, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.text,
-                              initialValue:
-                                  state.guardingMasterData.guardingPOC,
-                              textFormKey: Keys.guardingPOCKey,
-                              hintText: '',
-                              isEnable: true,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                state.guardingMasterData.guardingPOC = value;
-                                context
-                                    .read<GeneralInfoCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Guarding Agency Employee Code
-                            CommonWidgets.textDisplay(
-                                Constants.guardingAgencyEmpCode,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              initialValue:
-                                  state.guardingMasterData.employeeCode,
-                              textFormKey: Keys.guardingAgencyKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData
-                                                  ?.employeeCode ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                state.guardingMasterData.employeeCode = value;
-                                context
-                                    .read<GeneralInfoCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Rank
-                            CommonWidgets.textDisplay(
-                                Constants.rank, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                                isDisabled:
-                                    state.guardingMasterData.status != 6,
-                                textController: rankController,
-                                items: guardRankDropDownValues,
-                                initialValue: state.guardingMasterData.guardRank
-                                    .toString(),
-                                onTap: () {
-                                  if (isDisabled) {
-                                    BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues: guardRankDropDownValues
-                                            .map((label) => label.key)
-                                            .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              guardRankDropDownValues
-                                                  .firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<
-                                                      GeneralInfoCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  guardRank: int.tryParse(
-                                                      selectedLabel.value));
-                                        });
-                                  }
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// DB Employee ID
-                            CommonWidgets.textDisplay(Constants.dbEmployeeId,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              initialValue:
-                                  state.guardingMasterData.dbEmployeeId,
-                              textFormKey: Keys.dbEmployeeIDKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData
-                                                  ?.dbEmployeeId ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                state.guardingMasterData.dbEmployeeId = value;
-                                context
-                                    .read<GeneralInfoCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Type of Duty
-                            CommonWidgets.textDisplay(
-                                Constants.typeOfDuty, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                                isDisabled:
-                                    state.guardingMasterData.status != 6,
-                                textController: dutyTypeController,
-                                items: dutyTypeDropDownValues,
-                                initialValue: state.guardingMasterData.dutyType
-                                    .toString(),
-                                onTap: () {
-                                  if (isDisabled) {
-                                    BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues: dutyTypeDropDownValues
-                                            .map((label) => label.key)
-                                            .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              dutyTypeDropDownValues.firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<
-                                                      GeneralInfoCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  dutyType: int.tryParse(
-                                                      selectedLabel.value));
-                                        });
-                                  }
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Gender
-                            CommonWidgets.textDisplay(
-                                Constants.gender, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                                isDisabled:
-                                    state.guardingMasterData.status != 6,
-                                textController: genderController,
-                                items: genderDropDownValues,
-                                initialValue:
-                                    state.guardingMasterData.gender.toString(),
-                                onTap: () {
-                                  if (isDisabled) {
-                                    BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues: genderDropDownValues
-                                            .map((label) => label.key)
-                                            .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              genderDropDownValues.firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<
-                                                      GeneralInfoCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  gender: int.tryParse(
-                                                      selectedLabel.value));
-                                        });
-                                  }
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Marital Status
-                            CommonWidgets.textDisplay(Constants.maritalStatus,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                                isDisabled:
-                                    state.guardingMasterData.status != 6,
-                                textController: maritalStatusController,
-                                items: maritalStatusDropDownValues,
-                                initialValue: state
-                                    .guardingMasterData.maritalStatus
-                                    .toString(),
-                                onTap: () {
-                                  if (isDisabled) {
-                                    BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues:
-                                            maritalStatusDropDownValues
-                                                .map((label) => label.key)
-                                                .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              maritalStatusDropDownValues
-                                                  .firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<
-                                                      GeneralInfoCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  maritalStatus: int.tryParse(
-                                                      selectedLabel.value));
-                                        });
-                                  }
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Contact Num
-                            CommonWidgets.textDisplay(
-                                Constants.mobileNum, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              initialValue: state.guardingMasterData.contactNo,
-                              textFormKey: Keys.contactNoKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData
-                                                  ?.contactNo ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                state.guardingMasterData.contactNo = value;
-                                context
-                                    .read<GeneralInfoCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Dependents No
-                            CommonWidgets.textDisplay(Constants.dependentsNo,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              initialValue:
-                                  '${state.guardingMasterData.dependentsNo ?? ''}',
-                              textFormKey: Keys.dependentsKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData
-                                                  ?.dependentsNo ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                state.guardingMasterData.dependentsNo =
-                                    int.tryParse(value);
-                                context
-                                    .read<GeneralInfoCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Date of Birth
-                            CommonWidgets.textDisplay(
-                              Constants.dateOfBirth,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: dateOfBirthController,
-                              onlyDate: true,
-                              onChange: (String value) {
-                                log('--fr-value-${dateOfBirthController.text}------');
-                                state.guardingMasterData.dateOfBirth =
-                                    Utils().formatTime(value);
-                                BlocProvider.of<GeneralInfoCubit>(
-                                        context)
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Date Of Joining
-                            CommonWidgets.textDisplay(
-                              Constants.dateOfJoining,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: dateOfJoiningController,
-                              onChange: (String value) {
-                                log('---value-$value------');
-                                log('-----pvcIssuedDateController---value-${dateOfJoiningController.text}------');
-                                state.guardingMasterData.dateOfJoining =
-                                    Utils().formatTime(value);
-                                BlocProvider.of<GeneralInfoCubit>(
-                                        context)
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                                // pvcIssuedDateController.text = state.guardingMasterData.pvcIssuedDate??'';
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Type of Deployment
-                            CommonWidgets.textDisplay(
-                                Constants.typeOfDeployment,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                                isDisabled:
-                                    state.guardingMasterData.status != 6,
-                                textController: deploymentTypeController,
-                                items: deploymentTypeDropDownValues,
-                                initialValue: state
-                                    .guardingMasterData.typeOfDeployment
-                                    .toString(),
-                                onTap: () {
-                                  if (isDisabled) {
-                                    BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues:
-                                            deploymentTypeDropDownValues
-                                                .map((label) => label.key)
-                                                .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              deploymentTypeDropDownValues
-                                                  .firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<
-                                                      GeneralInfoCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  typeOfDeployment:
-                                                      int.tryParse(
-                                                          selectedLabel.value));
-                                        });
-                                  }
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Deployment order Submitted?
-                            CommonWidgets.textDisplay(
-                                Constants.deploymentOrderSubmitted,
-                                Styles.textStyleBlack14),
-                            RadioButtonsYesNo(
-                                status: state.guardingMasterData.status ?? 0,
-                                selectedValue: state.guardingMasterData
-                                        .deploymentOrderSubmitted
-                                    ? 1
-                                    : 0,
-                                onChangedYes: widget
-                                            .guardingMasterData?.status ==
-                                        6
-                                    ? null
-                                    : (val) {
-                                        state.guardingMasterData
-                                            .deploymentOrderSubmitted = true;
-                                        BlocProvider.of<
-                                                    GeneralInfoCubit>(
-                                                context)
-                                            .showFields(
-                                                deploymentOrderSubmitted: true);
-                                        //.onModelValueChange(state.guardingMasterData
-                                        //);
-                                      },
-                                onChangedNo:
-                                    widget.guardingMasterData?.status == 4
-                                        ? null
-                                        : (val) {
-                                            state.guardingMasterData
-                                                    .deploymentOrderSubmitted =
-                                                false;
-                                            BlocProvider.of<
-                                                        GeneralInfoCubit>(
-                                                    context)
-                                                .showFields(
-                                                    deploymentOrderSubmitted:
-                                                        false);
-                                            // .onModelValueChange(state.guardingMasterData
-                                            //  );
-                                          }),
-                            if (state.guardingMasterData
-                                .deploymentOrderSubmitted) ...[
-                              /// upload Deployment Order File
-                              CommonWidgets.textDisplay(
-                                  Constants.uploadDeploymentOrderFile,
-                                  Styles.textStyleBlack14),
-                              widget.guardingMasterData == null
-                                  ? CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001)
-                                  : Container(),
-                              BaseImageUpload().uploadWidget(
-                                context: context,
-                                loggedInUserDetails:
-                                    state.loggedInUserDetails ??
-                                        EntrySecurity(),
-                                getFiles: deploymentFiles,
-                                onImageSelected: (CreateImage data) {
-                                  log('-------function---onImageSelected---------');
-                                  List<CreateImage>? files = [];
-                                  files.add(data);
-                                  for (CreateImage image
-                                      in deploymentFiles ?? []) {
-                                    files.add(image);
-                                  }
-                                  BlocProvider.of<
-                                              GeneralInfoCubit>(
-                                          context)
-                                      .addAttachment(deploymentFiles: files);
-                                },
-                              ),
-                              // Attachments
-                              BaseImageUpload().getAttachment(
-                                height: height,
-                                attachments: state.deploymentAttachments,
-                                files: deploymentFiles,
-                                showDownloadIcon:
-                                    widget.guardingMasterData != null
-                                        ? true
-                                        : false,
-                              ),
-                            ],
-
-                            /// Height
-                            CommonWidgets.textDisplay(
-                                Constants.height, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              initialValue:
-                                  '${state.guardingMasterData.height ?? ''}',
-                              textFormKey: Keys.heightKey,
-                              hintText: '',
-                              isEnable: true,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                state.guardingMasterData.height =
-                                    int.tryParse(value);
-                                context
-                                    .read<GeneralInfoCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Weight
-                            CommonWidgets.textDisplay(
-                                Constants.weight, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              initialValue:
-                                  '${state.guardingMasterData.weight ?? ''}',
-                              textFormKey: Keys.weightKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData?.weight ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                state.guardingMasterData.weight =
-                                    int.tryParse(value);
-                                context
-                                    .read<GeneralInfoCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            ///Chest
-                            CommonWidgets.textDisplay(
-                                Constants.chest, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              initialValue:
-                                  '${state.guardingMasterData.chest ?? ''}',
-                              textFormKey: Keys.chestKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData?.chest ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                state.guardingMasterData.chest =
-                                    int.tryParse(value);
-                                context
-                                    .read<GeneralInfoCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Local Language
-                            CommonWidgets.textDisplay(Constants.localLanguage,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.text,
-                              initialValue:
-                                  state.guardingMasterData.localLanguage,
-                              textFormKey: Keys.languageKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData
-                                                  ?.localLanguage ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor:
-                                  (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData
-                                                  ?.localLanguage !=
-                                              null))
-                                      ? true
-                                      : false,
-                              onChange: (String value) {
-                                state.guardingMasterData.localLanguage = value;
-                                context
-                                    .read<GeneralInfoCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            ///Local Language Proficiency
-                            CommonWidgets.textDisplay(
-                                Constants.localLanguageProficiency,
-                                Styles.textStyleBlack14),
-
-                            localLanguageProficiency(state),
-
-                            ///Hindi Language Proficiency
-                            CommonWidgets.textDisplay(
-                                Constants.hindiLanguageProficiency,
-                                Styles.textStyleBlack14),
-                            hindiLanguageProficiency(state),
-
-                            ///English Language Proficiency
-                            CommonWidgets.textDisplay(
-                                Constants.englishLanguageProficiency,
-                                Styles.textStyleBlack14),
-                            englishLanguageProficiency(state),
-
-                            /// Physically Fit
-                            CommonWidgets.textDisplay(Constants.physicallyFit,
-                                Styles.textStyleBlack14),
-                            RadioButtonsYesNo(
-                                status: state.guardingMasterData.status ?? 0,
-                                selectedValue:
-                                    state.guardingMasterData.physicallyFit
-                                        ? 1
-                                        : 0,
-                                onChangedYes:
-                                    widget.guardingMasterData?.status == 6
-                                        ? null
-                                        : (val) {
-                                            state.guardingMasterData
-                                                .physicallyFit = true;
-                                            BlocProvider.of<
-                                                        GeneralInfoCubit>(
-                                                    context)
-                                                .onCheckBoxChange(
-                                                    state.guardingMasterData);
-                                          },
-                                onChangedNo:
-                                    widget.guardingMasterData?.status == 6
-                                        ? null
-                                        : (val) {
-                                            state.guardingMasterData
-                                                .physicallyFit = false;
-                                            BlocProvider.of<
-                                                        GeneralInfoCubit>(
-                                                    context)
-                                                .onCheckBoxChange(
-                                                    state.guardingMasterData);
-                                          }),
-
-                            /// Security Experience
-                            CommonWidgets.textDisplay(
-                                Constants.securityExperience,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              lineHeight: 6,
-                              initialValue:
-                                  state.guardingMasterData.securityExperience,
-                              textFormKey: Keys.securityExperienceKey,
-                              hintText: Constants.informationhere,
-                              isEnable: state.guardingMasterData.status != 6,
-                              isDisableColor:
-                                  state.guardingMasterData.status == 6,
-                              onChange: (String value) {
-                                state.guardingMasterData.securityExperience =
-                                    value;
-                                context
-                                    .read<GeneralInfoCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// upload Bio Data
-                            CommonWidgets.textDisplay(Constants.uploadBioData,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseImageUpload().uploadWidget(
-                              context: context,
-                              loggedInUserDetails:
-                                  state.loggedInUserDetails ?? EntrySecurity(),
-                              getFiles: bioDataFiles,
-                              onImageSelected: (CreateImage data) {
-                                log('-------function---onImageSelected---------');
-                                List<CreateImage>? files = [];
-                                files.add(data);
-                                for (CreateImage image in bioDataFiles ?? []) {
-                                  files.add(image);
-                                }
-                                BlocProvider.of<GeneralInfoCubit>(
-                                        context)
-                                    .addAttachment(bioDataFiles: files);
-                              },
-                            ),
-                            // Attachments
-                            BaseImageUpload().getAttachment(
-                              height: height,
-                              attachments: state.bioDataAttachments,
-                              files: bioDataFiles,
-                              showDownloadIcon:
-                                  widget.guardingMasterData != null
-                                      ? true
-                                      : false,
-                            ),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// permanent Address
-                            CommonWidgets.textDisplay(
-                                Constants.permanentAddress,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              lineHeight: 6,
-                              initialValue:
-                                  state.guardingMasterData.permanentAddress,
-                              textFormKey: Keys.permanentAddressKey,
-                              hintText: Constants.informationhere,
-                              isEnable: state.guardingMasterData.status != 6,
-                              isDisableColor:
-                                  state.guardingMasterData.status == 6,
-                              onChange: (String value) {
-                                state.guardingMasterData.permanentAddress =
-                                    value;
-                                context
-                                    .read<GeneralInfoCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// upload Permanent Address Proof
-                            CommonWidgets.textDisplay(
-                                Constants.uploadPermanentAddressProof,
-                                Styles.textStyleBlack14),
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                : Container(),
-                            BaseImageUpload().uploadWidget(
-                              context: context,
-                              loggedInUserDetails:
-                                  state.loggedInUserDetails ?? EntrySecurity(),
-                              getFiles: permanentAddressFiles,
-                              onImageSelected: (CreateImage data) {
-                                log('-------function---onImageSelected---------');
-                                List<CreateImage>? files = [];
-                                files.add(data);
-                                for (CreateImage image
-                                    in permanentAddressFiles ?? []) {
-                                  files.add(image);
-                                }
-                                BlocProvider.of<GeneralInfoCubit>(
-                                        context)
-                                    .addAttachment(
-                                        permanentAddressFiles: files);
-                              },
-                            ),
-                            // Attachments
-                            BaseImageUpload().getAttachment(
-                              height: height,
-                              attachments: state.permanentAddressAttachments,
-                              files: permanentAddressFiles,
-                              showDownloadIcon:
-                                  widget.guardingMasterData != null
-                                      ? true
-                                      : false,
-                            ),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Local Address
-                            CommonWidgets.textDisplay(Constants.localAddress,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              lineHeight: 6,
-                              initialValue:
-                                  state.guardingMasterData.localAddress,
-                              textFormKey: Keys.localAddressKey,
-                              hintText: Constants.informationhere,
-                              isEnable: state.guardingMasterData.status != 6,
-                              isDisableColor:
-                                  state.guardingMasterData.status == 6,
-                              onChange: (String value) {
-                                state.guardingMasterData.localAddress = value;
-                                context
-                                    .read<GeneralInfoCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// upload Local Address Proof
-                            CommonWidgets.textDisplay(
-                                Constants.uploadLocalAddressProof,
-                                Styles.textStyleBlack14),
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                : Container(),
-                            BaseImageUpload().uploadWidget(
-                              context: context,
-                              loggedInUserDetails:
-                                  state.loggedInUserDetails ?? EntrySecurity(),
-                              getFiles: localAddressFiles,
-                              onImageSelected: (CreateImage data) {
-                                log('-------function---onImageSelected---------');
-                                List<CreateImage>? files = [];
-                                files.add(data);
-                                for (CreateImage image
-                                    in localAddressFiles ?? []) {
-                                  files.add(image);
-                                }
-                                BlocProvider.of<GeneralInfoCubit>(
-                                        context)
-                                    .addAttachment(localAddressFiles: files);
-                              },
-                            ),
-                            // Attachments
-                            BaseImageUpload().getAttachment(
-                              height: height,
-                              attachments: state.localAddressAttachments,
-                              files: localAddressFiles,
-                              showDownloadIcon:
-                                  widget.guardingMasterData != null
-                                      ? true
-                                      : false,
-                            ),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Qualifications
-                            CommonWidgets.textDisplay(
-                              Constants.qualifications,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            qualificationAddButtonWidgetLoading(
-                              context: context,
-                              state: state,
-                              selectedValues:
-                                  state.guardingMasterData.qualifications ?? [],
-                              all: state.listOfQualifications ?? [],
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// PVC Issued Date
-                            CommonWidgets.textDisplay(
-                              Constants.pvcIssuedDate,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: pvcIssuedDateController,
-                              onChange: (String value) {
-                                log('---value-$value------');
-                                log('-----pvcIssuedDateController---value-${pvcIssuedDateController.text}------');
-                                state.guardingMasterData.pvcIssuedDate =
-                                    Utils().formatTime(value);
-                                BlocProvider.of<GeneralInfoCubit>(
-                                        context)
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                                // pvcIssuedDateController.text = state.guardingMasterData.pvcIssuedDate??'';
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// PVC Expiry Date
-                            CommonWidgets.textDisplay(
-                              Constants.pvcExpiryDate,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: pvcExpiryDateController,
-                              onChange: (String value) {
-                                log('--fr-value-${pvcIssuedDateController.text}------');
-                                state.guardingMasterData.pvcExpiryDate =
-                                    Utils().formatTime(value);
-                                BlocProvider.of<GeneralInfoCubit>(
-                                        context)
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// upload File
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.textDisplay(
-                                    Constants.uploadfile,
-                                    Styles.textStyleBlack14)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                : Container(),
-                            widget.guardingMasterData == null
-                                ? BaseImageUpload().uploadWidget(
-                                    context: context,
-                                    loggedInUserDetails:
-                                        state.loggedInUserDetails ??
-                                            EntrySecurity(),
-                                    getFiles: pVCFiles,
-                                    onImageSelected: (CreateImage data) {
-                                      log('-------function---onImageSelected---------');
-                                      List<CreateImage>? files = [];
-                                      files.add(data);
-                                      for (CreateImage image
-                                          in pVCFiles ?? []) {
-                                        files.add(image);
-                                      }
-                                      BlocProvider.of<
-                                                  GeneralInfoCubit>(
-                                              context)
-                                          .addAttachment(pVCFiles: files);
-                                    },
-                                  )
-                                : Container(),
-
-                            // Attachments
-                            BaseImageUpload().getAttachment(
-                              height: height,
-                              attachments: state.pVCAttachments,
-                              files: pVCFiles,
-                              showDownloadIcon:
-                                  widget.guardingMasterData != null
-                                      ? true
-                                      : false,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Training Certificate
-                            CommonWidgets.textDisplay(
-                                Constants.trainingCertificate,
-                                Styles.textStyleBlack14),
-                            RadioButtonsYesNo(
-                                status: state.guardingMasterData.status ?? 0,
-                                selectedValue: state.guardingMasterData
-                                        .trainingCertificateProvided
-                                    ? 1
-                                    : 0,
-                                onChangedYes:
-                                    widget.guardingMasterData?.status == 6
-                                        ? null
-                                        : (val) {
-                                            state.guardingMasterData
-                                                    .trainingCertificateProvided =
-                                                true;
-                                            BlocProvider.of<
-                                                        GeneralInfoCubit>(
-                                                    context)
-                                                .onCheckBoxChange(
-                                                    state.guardingMasterData);
-                                          },
-                                onChangedNo:
-                                    widget.guardingMasterData?.status == 6
-                                        ? null
-                                        : (val) {
-                                            state.guardingMasterData
-                                                    .trainingCertificateProvided =
-                                                false;
-                                            BlocProvider.of<
-                                                        GeneralInfoCubit>(
-                                                    context)
-                                                .onCheckBoxChange(
-                                                    state.guardingMasterData);
-                                          }),
-                            if (state.guardingMasterData
-                                .trainingCertificateProvided) ...[
-                              /// upload Training Certificate
-                              CommonWidgets.textDisplay(
-                                  Constants.uploadTrainingCertificate,
-                                  Styles.textStyleBlack14),
-                              widget.guardingMasterData == null
-                                  ? CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001)
-                                  : Container(),
-                              BaseImageUpload().uploadWidget(
-                                context: context,
-                                loggedInUserDetails:
-                                    state.loggedInUserDetails ??
-                                        EntrySecurity(),
-                                getFiles: trainingFiles,
-                                onImageSelected: (CreateImage data) {
-                                  log('-------function---onImageSelected---------');
-                                  List<CreateImage>? files = [];
-                                  files.add(data);
-                                  for (CreateImage image
-                                      in trainingFiles ?? []) {
-                                    files.add(image);
-                                  }
-                                  BlocProvider.of<
-                                              GeneralInfoCubit>(
-                                          context)
-                                      .addAttachment(trainingFiles: files);
-                                },
-                              ),
-                              // Attachments
-                              BaseImageUpload().getAttachment(
-                                height: height,
-                                attachments: state.trainingAttachments,
-                                files: trainingFiles,
-                                showDownloadIcon:
-                                    widget.guardingMasterData != null
-                                        ? true
-                                        : false,
-                              ),
-                            ],
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Medical Certificate Valid Until
-                            CommonWidgets.textDisplay(
-                              Constants.medicalCertificateValidUntil,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController:
-                                  medicalCertificateValidUntilController,
-                              onChange: (String value) {
-                                log('--fr-value-${medicalCertificateValidUntilController.text}------');
-                                state.guardingMasterData
-                                        .medicalCertificateValidUntil =
-                                    Utils().formatTime(value);
-                                BlocProvider.of<GeneralInfoCubit>(
-                                        context)
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// upload Medical Certificates
-                            CommonWidgets.textDisplay(
-                                Constants.uploadMedicalCertificate,
-                                Styles.textStyleBlack14),
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                : Container(),
-                            BaseImageUpload().uploadWidget(
-                              context: context,
-                              loggedInUserDetails:
-                                  state.loggedInUserDetails ?? EntrySecurity(),
-                              getFiles: medicalFiles,
-                              onImageSelected: (CreateImage data) {
-                                log('-------function---onImageSelected---------');
-                                List<CreateImage>? files = [];
-                                files.add(data);
-                                for (CreateImage image in medicalFiles ?? []) {
-                                  files.add(image);
-                                }
-                                BlocProvider.of<GeneralInfoCubit>(
-                                        context)
-                                    .addAttachment(medicalFiles: files);
-                              },
-                            ),
-                            // Attachments
-                            BaseImageUpload().getAttachment(
-                              height: height,
-                              attachments: state.medicalAttachments,
-                              files: medicalFiles,
-                              showDownloadIcon:
-                                  widget.guardingMasterData != null
-                                      ? true
-                                      : false,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// System Access
-                            CommonWidgets.textDisplay(Constants.systemAccess,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                                isDisabled:
-                                    state.guardingMasterData.status != 6,
-                                textController: systemAccessController,
-                                items: systemAccessDropDownValues,
-                                initialValue: state
-                                    .guardingMasterData.systemAccess
-                                    .toString(),
-                                onTap: () {
-                                  if (isDisabled) {
-                                    BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues:
-                                            systemAccessDropDownValues
-                                                .map((label) => label.key)
-                                                .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              systemAccessDropDownValues
-                                                  .firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<
-                                                      GeneralInfoCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  systemAccess: int.tryParse(
-                                                      selectedLabel.value));
-                                        });
-                                  }
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// OnBoarded
-                            CommonWidgets.textDisplay(
-                                Constants.onBoarded, Styles.textStyleBlack14),
-                            RadioButtonsYesNo(
-                                status: state.guardingMasterData.status ?? 0,
-                                selectedValue:
-                                    state.guardingMasterData.onboarded ? 1 : 0,
-                                onChangedYes:
-                                    widget.guardingMasterData?.status == 6
-                                        ? null
-                                        : (val) {
-                                            state.guardingMasterData.onboarded =
-                                                true;
-                                            BlocProvider.of<
-                                                        GeneralInfoCubit>(
-                                                    context)
-                                                .onCheckBoxChange(
-                                                    state.guardingMasterData);
-                                          },
-                                onChangedNo:
-                                    widget.guardingMasterData?.status == 6
-                                        ? null
-                                        : (val) {
-                                            state.guardingMasterData.onboarded =
-                                                false;
-                                            BlocProvider.of<
-                                                        GeneralInfoCubit>(
-                                                    context)
-                                                .onCheckBoxChange(
-                                                    state.guardingMasterData);
-                                          }),
-
-                            /// ESIC No
-                            CommonWidgets.textDisplay(
-                                Constants.esicNo, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              initialValue: state.guardingMasterData.esicNo,
-                              textFormKey: Keys.esicKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData?.esicNo ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor:
-                                  (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData?.esicNo !=
-                                              null))
-                                      ? true
-                                      : false,
-                              onChange: (String value) {
-                                state.guardingMasterData.esicNo = value;
-                                context
-                                    .read<GeneralInfoCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// UAN  No
-                            CommonWidgets.textDisplay(
-                                Constants.uanNo, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              initialValue: state.guardingMasterData.uanNo,
-                              textFormKey: Keys.uanNoKey,
-                              hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData?.uanNo ==
-                                              null))
-                                      ? false
-                                      : true,
-                              isDisableColor:
-                                  (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData?.uanNo !=
-                                              null))
-                                      ? true
-                                      : false,
-                              onChange: (String value) {
-                                state.guardingMasterData.uanNo = value;
-                                context
-                                    .read<GeneralInfoCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            ///MSGB Exempted
-                            CommonWidgets.textDisplay(Constants.mSGBExempted,
-                                Styles.textStyleBlack14),
-                            RadioButtonsYesNo(
-                                status: state.guardingMasterData.status ?? 0,
-                                selectedValue:
-                                    state.guardingMasterData.msgbExempted
-                                        ? 1
-                                        : 0,
-                                onChangedYes:
-                                    widget.guardingMasterData?.status == 6
-                                        ? null
-                                        : (val) {
-                                            state.guardingMasterData
-                                                .msgbExempted = true;
-                                            BlocProvider.of<
-                                                        GeneralInfoCubit>(
-                                                    context)
-                                                .showFields(msgbExempted: true);
-                                            //.onModelValueChange(state.guardingMasterData
-                                            //);
-                                          },
-                                onChangedNo: widget
-                                            .guardingMasterData?.status ==
-                                        4
-                                    ? null
-                                    : (val) {
-                                        state.guardingMasterData.msgbExempted =
-                                            false;
-                                        BlocProvider.of<
-                                                    GeneralInfoCubit>(
-                                                context)
-                                            .showFields(msgbExempted: false);
-                                      }),
-
-                            if (state.guardingMasterData.msgbExempted) ...[
-                              /// upload File
-                              CommonWidgets.textDisplay(
-                                  Constants.mSGBExemptionDate,
-                                  Styles.textStyleBlack14),
-                              widget.guardingMasterData == null
-                                  ? CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001)
-                                  : Container(),
-                              BaseImageUpload().uploadWidget(
-                                context: context,
-                                loggedInUserDetails:
-                                    state.loggedInUserDetails ??
-                                        EntrySecurity(),
-                                getFiles: mSGBAFiles,
-                                onImageSelected: (CreateImage data) {
-                                  log('-------function---onImageSelected---------');
-                                  List<CreateImage>? files = [];
-                                  files.add(data);
-                                  for (CreateImage image in mSGBAFiles ?? []) {
-                                    files.add(image);
-                                  }
-                                  BlocProvider.of<
-                                              GeneralInfoCubit>(
-                                          context)
-                                      .addAttachment(mSGBAttachments: files);
-                                },
-                              ),
-                              // Attachments
-                              BaseImageUpload().getAttachment(
-                                height: height,
-                                attachments: state.mSGBAttachments,
-                                files: trainingFiles,
-                                showDownloadIcon:
-                                    widget.guardingMasterData != null
-                                        ? true
-                                        : false,
-                              ),
-                            ],
-
-                            /// Date of First Covid Dose
-                            CommonWidgets.textDisplay(
-                              Constants.dateOfFirstCovidDose,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: dateOfFirstCovidDoseController,
-                              onChange: (String value) {
-                                log('--fr-value-${dateOfFirstCovidDoseController.text}------');
-                                state.guardingMasterData.covidFirstDoseDate =
-                                    Utils().formatTime(value);
-                                BlocProvider.of<GeneralInfoCubit>(
-                                        context)
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Date of Second Covid Dose
-                            CommonWidgets.textDisplay(
-                              Constants.dateOfSecondCovidDose,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: dateOfSecondCovidDoseController,
-                              onChange: (String value) {
-                                log('--fr-value-${dateOfSecondCovidDoseController.text}------');
-                                state.guardingMasterData.covidSecondDoseDate =
-                                    Utils().formatTime(value);
-                                BlocProvider.of<GeneralInfoCubit>(
-                                        context)
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Date of Precautionary Covid Dose
-                            CommonWidgets.textDisplay(
-                              Constants.dateOfPrecautionaryCovidDose,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: dateOfPrecautionaryCovidDose,
-                              onChange: (String value) {
-                                log('--fr-value-${dateOfPrecautionaryCovidDose.text}------');
-                                state.guardingMasterData
-                                        .covidPrecautionaryDoseDate =
-                                    Utils().formatTime(value);
-                                BlocProvider.of<GeneralInfoCubit>(
-                                        context)
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// ERT Certification Date
-                            CommonWidgets.textDisplay(
-                              Constants.ertCertificationDate,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: ertCertificationDate,
-                              onChange: (String value) {
-                                log('--fr-value-${ertCertificationDate.text}------');
-                                state.guardingMasterData.ertCertificationDate =
-                                    Utils().formatTime(value);
-                                BlocProvider.of<GeneralInfoCubit>(
-                                        context)
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// First Aid Training Completion Date
-                            CommonWidgets.textDisplay(
-                              Constants.firstAidTrainingCompletionDate,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: firstAidTrainingCompletionDate,
-                              onChange: (String value) {
-                                log('--fr-value-${firstAidTrainingCompletionDate.text}------');
-                                state.guardingMasterData
-                                        .firstAidTrainingCompletionDate =
-                                    Utils().formatTime(value);
-                                BlocProvider.of<GeneralInfoCubit>(
-                                        context)
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// CSR Participation
-                            CommonWidgets.textDisplay(
-                                Constants.csrParticipation,
-                                Styles.textStyleBlack14),
-                            RadioButtonsYesNo(
-                                status: state.guardingMasterData.status ?? 0,
-                                selectedValue:
-                                    state.guardingMasterData.csrParticipation
-                                        ? 1
-                                        : 0,
-                                onChangedYes:
-                                    widget.guardingMasterData?.status == 6
-                                        ? null
-                                        : (val) {
-                                            state.guardingMasterData
-                                                .csrParticipation = true;
-                                            BlocProvider.of<
-                                                        GeneralInfoCubit>(
-                                                    context)
-                                                .showFields(
-                                                    csrParticipation: true);
-                                          },
-                                onChangedNo:
-                                    widget.guardingMasterData?.status == 4
-                                        ? null
-                                        : (val) {
-                                            state.guardingMasterData
-                                                .csrParticipation = false;
-                                            BlocProvider.of<
-                                                        GeneralInfoCubit>(
-                                                    context)
-                                                .showFields(
-                                                    csrParticipation: false);
-                                          }),
-
-                            if (state.guardingMasterData.csrParticipation) ...[
-                              CommonWidgets.textDisplay(
-                                  Constants.csrParticipationDate,
-                                  Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext dialogContext) {
-                                        return AddDatePopUp(
-                                          guardingMasterData:
-                                              guardingMasterData,
-                                          mainContext: context,
-                                          onSubmit: (GuardingMastersDataModel
-                                              guardingMasterData) {
-                                            //loginFormKey.currentState!.validate();
-                                            FocusScope.of(context).unfocus();
-                                            BlocProvider.of<
-                                                        GeneralInfoCubit>(
-                                                    context)
-                                                .submitForm(isSaveOnly: true);
-                                          },
-                                        );
-                                      });
-                                },
-                                child: Row(
-                                  children: <Widget>[
-                                    // Expanded(
-                                    //child:
-                                    const SizedBox(width: 14),
-                                    SvgPicture.asset(
-                                      AppIcon.pluscircle,
-                                      //color: AppColors.navigationSkybluecolor,
-                                    ),
-                                    // ),
-                                    const SizedBox(width: 10),
-                                    const Text(
-                                      Constants.addParticipationDates,
-                                      style: TextStyle(
-                                        color: AppColors.navigationSkybluecolor,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            Column(
-                              children: getParticipationDates(state, height),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Special Achivements
-                            CommonWidgets.textDisplay(
-                                Constants.specialAchievements,
-                                Styles.textStyleBlack14),
-                            RadioButtonsYesNo(
-                                status: state.guardingMasterData.status ?? 0,
-                                selectedValue:
-                                    state.guardingMasterData.specialAchievement
-                                        ? 1
-                                        : 0,
-                                onChangedYes:
-                                    widget.guardingMasterData?.status == 6
-                                        ? null
-                                        : (val) {
-                                            state.guardingMasterData
-                                                .specialAchievement = true;
-                                            BlocProvider.of<
-                                                        GeneralInfoCubit>(
-                                                    context)
-                                                .showFields(
-                                                    specialAchievement: true);
-                                            // .onModelValueChange(state.guardingMasterData
-                                            // );
-                                          },
-                                onChangedNo:
-                                    widget.guardingMasterData?.status == 6
-                                        ? null
-                                        : (val) {
-                                            state.guardingMasterData
-                                                .specialAchievement = false;
-                                            BlocProvider.of<
-                                                        GeneralInfoCubit>(
-                                                    context)
-                                                .showFields(
-                                                    specialAchievement: false);
-                                          }),
-
-                            if (state
-                                .guardingMasterData.specialAchievement) ...[
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              FlutterInputField(
-                                lineHeight: 6,
-                                initialValue: state
-                                    .guardingMasterData.specialAchievementText,
-                                textFormKey: Keys.specialAchievementsKey,
-                                hintText: Constants.informationhere,
-                                isEnable: state.guardingMasterData.status != 6,
-                                isDisableColor:
-                                    state.guardingMasterData.status == 6,
-                                onChange: (String value) {
-                                  state.guardingMasterData
-                                      .specialAchievementText = value;
-                                  context
-                                      .read<GeneralInfoCubit>()
-                                      .onModelValueChange(
-                                          state.guardingMasterData);
-                                },
-                                validateTextField: (String? user) {},
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
-
-                            /// Additional Initiatives Info
-                            CommonWidgets.textDisplay(
-                                Constants.additionalInitiativesInfo,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              lineHeight: 6,
-                              initialValue: state
-                                  .guardingMasterData.additionalInitiatives,
-                              textFormKey: Keys.additionInitiativesKey,
-                              hintText: Constants.informationhere,
-                              isEnable: state.guardingMasterData.status != 6,
-                              isDisableColor:
-                                  state.guardingMasterData.status == 6,
-                              onChange: (String value) {
-                                state.guardingMasterData.additionalInitiatives =
-                                    value;
-                                context
-                                    .read<GeneralInfoCubit>()
-                                    .onModelValueChange(
-                                        state.guardingMasterData);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          ]),
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                        /// SubmitButton
-                        if (state.guardingMasterData.status != 4) ...[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              cancelButtonDisplay(),
-                              submitButtonDisplay()
-                            ],
+                              }),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Created By
+                          CommonWidgets.verticalTextHandling(
+                              Constants.createdby,
+                              state.loggedInUserDetails?.name ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Date of creation
+                          CommonWidgets.textDisplay(Constants.dateofcreation,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          BaseDate()
+                              .creationDateDisplay(state.model.inputDate ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Location
+                          CommonWidgets.textDisplay(
+                              Constants.location, Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          locationWidgetdislay(state),
+
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Entity
+                          CommonWidgets.textDisplay(
+                            Constants.entity,
+                            Styles.textStyleBlack14,
                           ),
-                        ],
-                        CommonWidgets.verticalSpacerWidget(height * 0.04),
-                      ])))
-        ])));
-  }
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
 
-  Row localLanguageProficiency(GeneralInfoState state) {
-    return Row(
-      children: [
-        LanguageCheckBox(
-          context: context,
-          label: Constants.read,
-          value: state.guardingMasterData.localLangProficiencyR ?? false,
-          onChanged: (bool? value) {
-            state.guardingMasterData.localLangProficiencyR = value;
-            BlocProvider.of<GeneralInfoCubit>(context)
-                .onCheckBoxChange(state.guardingMasterData);
-          },
+                          BaseEntitiesSelection().entityDropDownSelection(
+                              context: context,
+                              selectedValues: state.model.entities ?? [],
+                              all: state.listOfEntities ?? [],
+                              onTap: (List<Entity> selectedEntities) {
+                                log('--selectedEntities----${selectedEntities.length}');
+                                BlocProvider.of<GeneralInfoCubit>(context)
+                                    .updateDropdownValues(
+                                        entities: selectedEntities);
+                                Navigator.of(context).pop(); // Close the dialog
+                              }),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Sl No.
+                          CommonWidgets.horizentaltextHandling(
+                              Constants.slno, state.model.slNo ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        ]),
+                      ),
+
+                      /// SubmitButton
+                      if (state.model.status != 4) ...[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            cancelButtonDisplay(),
+                            submitButtonDisplay()
+                          ],
+                        ),
+                      ],
+                      CommonWidgets.verticalSpacerWidget(height * 0.04),
+                    ]),
+              ),
+            ),
+          ],
         ),
-        LanguageCheckBox(
-          context: context,
-          label: Constants.write,
-          value: state.guardingMasterData.localLangProficiencyW ?? false,
-          onChanged: (bool? value) {
-            state.guardingMasterData.localLangProficiencyW = value;
-            BlocProvider.of<GeneralInfoCubit>(context)
-                .onCheckBoxChange(state.guardingMasterData);
-          },
-        ),
-        LanguageCheckBox(
-          context: context,
-          label: Constants.speak,
-          value: state.guardingMasterData.localLangProficiencyS ?? false,
-          onChanged: (bool? value) {
-            state.guardingMasterData.localLangProficiencyS = value;
-            BlocProvider.of<GeneralInfoCubit>(context)
-                .onCheckBoxChange(state.guardingMasterData);
-          },
-        )
-      ],
+      ),
     );
   }
 
-  Row hindiLanguageProficiency(GeneralInfoState state) {
-    return Row(
-      children: [
-        LanguageCheckBox(
-          context: context,
-          label: Constants.read,
-          value: state.guardingMasterData.hindiLangProficiencyR ?? false,
-          onChanged: (bool? value) {
-            state.guardingMasterData.hindiLangProficiencyR = value;
-            BlocProvider.of<GeneralInfoCubit>(context)
-                .onCheckBoxChange(state.guardingMasterData);
-          },
-        ),
-        LanguageCheckBox(
-          context: context,
-          label: Constants.write,
-          value: state.guardingMasterData.hindiLangProficiencyW ?? false,
-          onChanged: (bool? value) {
-            state.guardingMasterData.hindiLangProficiencyW = value;
-            BlocProvider.of<GeneralInfoCubit>(context)
-                .onCheckBoxChange(state.guardingMasterData);
-          },
-        ),
-        LanguageCheckBox(
-          context: context,
-          label: Constants.speak,
-          value: state.guardingMasterData.hindiLangProficiencyS ?? false,
-          onChanged: (bool? value) {
-            state.guardingMasterData.hindiLangProficiencyS = value;
-            BlocProvider.of<GeneralInfoCubit>(context)
-                .onCheckBoxChange(state.guardingMasterData);
-          },
-        )
-      ],
-    );
-  }
 
-  Row englishLanguageProficiency(GeneralInfoState state) {
-    return Row(
-      children: [
-        LanguageCheckBox(
-          context: context,
-          label: Constants.read,
-          value: state.guardingMasterData.englishLangProficiencyR ?? false,
-          onChanged: (bool? value) {
-            state.guardingMasterData.englishLangProficiencyR = value;
-            BlocProvider.of<GeneralInfoCubit>(context)
-                .onCheckBoxChange(state.guardingMasterData);
-          },
-        ),
-        LanguageCheckBox(
-          context: context,
-          label: Constants.write,
-          value: state.guardingMasterData.englishLangProficiencyW ?? false,
-          onChanged: (bool? value) {
-            state.guardingMasterData.englishLangProficiencyW = value;
-            BlocProvider.of<GeneralInfoCubit>(context)
-                .onCheckBoxChange(state.guardingMasterData);
-          },
-        ),
-        LanguageCheckBox(
-          context: context,
-          label: Constants.speak,
-          value: state.guardingMasterData.englishLangProficiencyS ?? false,
-          onChanged: (bool? value) {
-            state.guardingMasterData.englishLangProficiencyS = value;
-            BlocProvider.of<GeneralInfoCubit>(context)
-                .onCheckBoxChange(state.guardingMasterData);
-          },
-        )
-      ],
-    );
-  }
-
-  List<Widget> getParticipationDates(
-      GeneralInfoState state, height) {
-    List<Widget> widgets = [];
-
-    log('-state.participationDates---${state.participationDates?.length}---');
-    for (String date in state.participationDates ?? []) {
-      TextEditingController dateController = TextEditingController();
-      // dateController.text = Utils.timestamptoDateConversion(
-      //     int.parse(widget.guardingMasterData?.dateOfBirth ?? '0'),
-      //     Constants.dateFormat);
-      dateController.text = date;
-      widgets.add(
-        BaseDate().datePickerWidgetLoading(
-          textController: dateController,
-          onChange: (String value) {
-            log('--fr-value-${dateController.text}------');
-            // widget.guardingMasterData?.inputDate = value;
-            BlocProvider.of<GeneralInfoCubit>(context)
-                .onModelValueChange(state.guardingMasterData);
-          },
-          context: context,
-        ),
-      );
-      widgets.add(CommonWidgets.verticalSpacerWidget(height * 0.01));
-    }
-    return widgets;
-  }
-
-  String getStatusString(int status) {
-    switch (status) {
-      case 1:
-        return 'Active';
-      case 2:
-        return 'InActive';
-      case 3:
-        return 'Leave';
-      case 4:
-        return 'Week Off ';
-      default:
-        return 'Unknown Status';
-    }
-  }
 
   Widget cancelButtonDisplay() {
     return AppButton(
@@ -2251,62 +391,11 @@ class _GenearalInfoViewState extends State<GenearalInfoView> {
     );
   }
 
-  // Widget uploadWidget({
-  //   required BuildContext context,
-  //   required EntrySecurity loggedInUserDetails,
-  //   required Function onImageSelected,
-  //   // required List<CreateImage>? getFiles,
-  // }) {
-  //   return Container(
-  //     height: 60,
-  //     decoration: BoxDecoration(
-  //         border: Border.all(
-  //           color: const Color(0xFFCACACA),
-  //           width: 1.0,
-  //         ),
-  //         borderRadius: const BorderRadius.all(Radius.circular(8))),
-  //     child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-  //       Padding(
-  //         padding: const EdgeInsets.only(right: 5.0),
-  //         child: ElevatedButton.icon(
-  //           style:
-  //           ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
-  //           onPressed: () {
-  //             showDialog(
-  //                 context: context,
-  //                 builder: (BuildContext dialogContext) {
-  //                   return UploadAttachment(
-  //                     userdetails: loggedInUserDetails,
-  //                     getFiles: getFiles ?? [],
-  //                     onImageSelected: onImageSelected,
-  //                   );
-  //                 });
-  //           },
-  //
-  //           icon: SvgPicture.asset(
-  //             //AppIcon.dropdownicon,
-  //             AppIcon.uploadicon,
-  //             //fit: BoxFit.,
-  //             color: AppColors.backgroundWhitecolor,
-  //             width: 13,
-  //             height: 13,
-  //             key: const Key(Keys.userIcon),
-  //           ),
-  //           label: const Text(
-  //             Constants.clicktoupload,
-  //             style: Styles.textStyleRegularNormalWhite12,
-  //           ),
-  //         ),
-  //       ),
-  //     ]),
-  //   );
-  // }
-
   Widget locationWidgetdislay(GeneralInfoState state) {
     return GestureDetector(
       onTap: () {
         if (widget.guardingMasterData == null ||
-            (state.guardingMasterData.location?.name ?? '').isEmpty) {
+            (state.model.location?.name ?? '').isEmpty) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
@@ -2319,7 +408,7 @@ class _GenearalInfoViewState extends State<GenearalInfoView> {
                   Location location = Location();
                   location.id = list?.id;
                   location.name = list?.name;
-                  state.guardingMasterData.location = location;
+                  state.model.location = location;
 
                   BlocProvider.of<GeneralInfoCubit>(context)
                       .updateDropdownValues(location: location);
@@ -2329,130 +418,8 @@ class _GenearalInfoViewState extends State<GenearalInfoView> {
           );
         }
       },
-      child: SelectedTileValueWidget(
-          name: state.guardingMasterData.location?.name ?? ''),
+      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
   }
 
-  Widget attachmentListviews(
-    List<CreateImage>? attachmentListviews,
-    List<FoundImage>? attachmentListviews1,
-  ) {
-    log('----attachmentListviews---cc--${attachmentListviews?.length}-----------');
-    log('----attachmentListviews1----found-${attachmentListviews1?.length}-----------');
-
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: const Color(0xFFCACACA),
-          style: BorderStyle.solid,
-          width: 1.0,
-        ),
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount:
-              attachmentListviews1?.length ?? attachmentListviews?.length ?? 0,
-          itemBuilder: (BuildContext context, int index) {
-            CreateImage? imagedata;
-            FoundImage? imagedata1;
-            if (widget.guardingMasterData != null) {
-              imagedata1 = attachmentListviews1?[index];
-            } else {
-              imagedata = attachmentListviews?[index];
-            }
-
-            return Column(
-              children: <Widget>[
-                ListTile(
-                  trailing: widget.guardingMasterData != null
-                      ? SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground)
-                      : const SizedBox(
-                          height: 0,
-                          width: 0,
-                        ),
-                  onTap: () {
-                    DownloadImage().saveImage(
-                        context, imagedata1?.id ?? 0, imagedata1?.title ?? '');
-                  },
-                  title: widget.guardingMasterData != null
-                      ? Text(imagedata1?.title ?? '')
-                      : Text(imagedata?.title ?? ''),
-                ),
-
-                const Divider(
-                  color: Color(0xFFCACACA),
-                  thickness: 1,
-                ), //
-              ],
-            );
-          }),
-    );
-  }
-
-  Widget qualificationAddButtonWidgetLoading({
-    required BuildContext context,
-    required GeneralInfoState state,
-    required List<Entity> selectedValues,
-    required List<Entity> all,
-  }) {
-    String title = '';
-    log('--selectedValues.length-${selectedValues.length}--');
-    if (selectedValues.isNotEmpty) {
-      for (int i = 0; i < selectedValues.length; i++) {
-        Entity qualification = selectedValues[i];
-        log('--entity name-${qualification.name}--');
-
-        String value = qualification.name ?? '';
-        title = '$title  $value';
-      }
-    }
-
-    return TextfieldAddButton(
-      title: title,
-      height: (selectedValues.length) > 4
-          ? (selectedValues.length) > 9
-              ? 140
-              : 100
-          : 60,
-      isDisableColor: false,
-      onTap: () {
-        _showQualificationSelectionDialog(context, state);
-      },
-    );
-  }
-
-  void _showQualificationSelectionDialog(
-      BuildContext context, GeneralInfoState state) {
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return CustomMultipleSelectionListTexts(
-          onLeftButtonTap: () {
-            Navigator.pop(context);
-            showDialog(
-                context: context,
-                builder: (BuildContext dialogContext) {
-                  return AddNewFields(
-                    title: Constants.addQualificationType,
-                  );
-                });
-          },
-          duplicateEntityList: state.listOfQualifications ?? [],
-          mainSelectedEntityList: state.guardingMasterData.qualifications ?? [],
-          onTap: (List<Entity> selectedQualifications) {
-            log('--selectedEntities----${selectedQualifications.length}');
-            BlocProvider.of<GeneralInfoCubit>(context)
-                .updateDropdownValues(qualifications: selectedQualifications);
-            Navigator.of(context).pop(); // Close the dialog
-          },
-          leftImageName: AppIcon.addicon, // Provide your left button icon
-        );
-      },
-    );
-  }
 }

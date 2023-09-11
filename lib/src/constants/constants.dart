@@ -415,6 +415,7 @@ class Constants {
 
   // Event Protection
   static const String eventProtectionTitle = 'Event Protection';
+  static const String generalInformation = 'General Information';
 
 }
 
