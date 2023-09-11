@@ -35,7 +35,7 @@ class _GeneralInfoTilesViewState extends State<GeneralInfoTilesView> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, generalInfoTilesViewRoute);
+                    Navigator.pushNamed(context, generalInfoGIRoute);
                   },
                   child: Tile(
                     label: 'Info',

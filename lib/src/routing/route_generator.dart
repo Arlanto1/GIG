@@ -34,6 +34,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
+import '../features/event_protection/event_protection_details/general_info/views/general_info_view.dart';
 import '../features/event_protection/event_protections/bloc/event_protections_bloc.dart'
     as ep;
 import '../features/event_protection/event_protections/views/event_protections_view.dart';
@@ -234,6 +235,23 @@ class RouteGenerator {
                 commonServices: CommonServices(), model: model,
               ),
               child: const GeneralInfoTilesView(),
+            ));
+
+      case generalInfoGIRoute:
+        EventProtectionModel model = EventProtectionModel();
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          model = arguments['model'];
+        }
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<GeneralInfoCubit>(
+              create: (_) => GeneralInfoCubit(
+                services: EventProtectionServices(),
+                commonServices: CommonServices(), model: model,
+              ),
+              child:  const GeneralInfoView(
+              ),
             ));
 
       case materialMovementInwardsOutwardsRoute:

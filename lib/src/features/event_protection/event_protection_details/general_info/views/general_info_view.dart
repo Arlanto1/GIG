@@ -14,7 +14,6 @@ import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/guarding_master_data_model.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/location.dart';
 import 'package:db_atom/src/routing/router.dart';
@@ -22,22 +21,17 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/customalert.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/util.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../main_DEV.dart';
+import '../../../../../common_widgets/base_widget/radio_buttons_yes_no.dart';
 import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import '../cubits/general_info_cubit.dart';
 
 class GeneralInfoView extends StatefulWidget {
-  final GuardingMastersDataModel? guardingMasterData;
-  final String title;
-
   const GeneralInfoView({
     super.key,
-    this.guardingMasterData,
-    required this.title,
   });
 
   @override
@@ -131,11 +125,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
         }
       },
       builder: (context, state) {
-        initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: widget.title,
+            title: Constants.generalInformation,
             showPopUp: false,
             showSaveButton: state.model.status != 4 ? true : false,
             onTapSave: () {
@@ -151,72 +144,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-  void initializeDates() {
-    dateOfBirthController.text = Utils.timestamptoDateConversion(
-        int.tryParse(widget.guardingMasterData?.dateOfBirth ?? '0'),
-        Constants.dateFormat);
-
-    dateOfJoiningController.text = Utils.timestamptoDateConversion(
-        int.parse(widget.guardingMasterData?.dateOfJoining ?? '0'),
-        Constants.dateFormat);
-
-    pvcIssuedDateController.text = Utils.timestamptoDateConversion(
-        int.parse(widget.guardingMasterData?.pvcIssuedDate ?? '0'),
-        Constants.dateFormat);
-    pvcExpiryDateController.text = Utils.timestamptoDateConversion(
-        int.parse(widget.guardingMasterData?.pvcExpiryDate ?? '0'),
-        Constants.dateFormat);
-
-    medicalCertificateValidUntilController.text =
-        Utils.timestamptoDateConversion(
-            int.parse(
-                widget.guardingMasterData?.medicalCertificateValidUntil ?? '0'),
-            Constants.dateFormat);
-
-    dateOfFirstCovidDoseController.text = Utils.timestamptoDateConversion(
-        int.parse(widget.guardingMasterData?.covidFirstDoseDate ?? '0'),
-        Constants.dateFormat);
-
-    dateOfSecondCovidDoseController.text = Utils.timestamptoDateConversion(
-        int.parse(widget.guardingMasterData?.covidSecondDoseDate ?? '0'),
-        Constants.dateFormat);
-
-    dateOfPrecautionaryCovidDose.text = Utils.timestamptoDateConversion(
-        int.parse(widget.guardingMasterData?.covidPrecautionaryDoseDate ?? '0'),
-        Constants.dateFormat);
-
-    ertCertificationDate.text = Utils.timestamptoDateConversion(
-        int.parse(widget.guardingMasterData?.ertCertificationDate ?? '0'),
-        Constants.dateFormat);
-    firstAidTrainingCompletionDate.text = Utils.timestamptoDateConversion(
-        int.parse(
-            widget.guardingMasterData?.firstAidTrainingCompletionDate ?? '0'),
-        Constants.dateFormat);
-  }
-
   getBodybuilder(GeneralInfoState state, height) {
-    //returnableTextController.text =
-    // state.materialMovement.returnable! ? 'Returnable' : 'Non Returnable';
-
     if (state.status == FormStatus.loading) {
       return const Center(child: CircularProgressIndicator());
-    }
-
-    if (state.status == FormStatus.addAttachment ||
-        state.status == FormStatus.initial) {
-      // log('---getAttachments----builder----${getAttachments?.length}-----');
-      // getFiles = state.loadAttachments ?? [];
-      // log('---guardAttachments----builder----${state.guardAttachments?.length}-----');
-
-      guardFiles = state.guardAttachments ?? [];
-      deploymentFiles = state.deploymentAttachments;
-      bioDataFiles = state.bioDataAttachments;
-      permanentAddressFiles = state.permanentAddressAttachments;
-      localAddressFiles = state.localAddressAttachments;
-      pVCFiles = state.pVCAttachments;
-      trainingFiles = state.trainingAttachments;
-      mSGBAFiles = state.mSGBAttachments;
-      medicalFiles = state.medicalAttachments;
     }
 
     return Container(
@@ -268,7 +198,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               items: statusDropDownValues,
                               initialValue: '${state.model.status ?? 1}',
                               onTap: () {
-                                if (widget.guardingMasterData != null) {
+                                if (state.model.id != null) {
                                   BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: statusDropDownValues
@@ -341,6 +271,39 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                         ]),
                       ),
 
+                      /// Deployment order Submitted?
+                      CommonWidgets.textDisplay(
+                          Constants.deploymentOrderSubmitted,
+                          Styles.textStyleBlack14),
+                      RadioButtonsYesNo(
+                          status: state.model.status ?? 0,
+                          selectedValue:
+                              state.model.annualPowerShutdown ?? false ? 1 : 0,
+                          onChangedYes: state.model.status == 6
+                              ? null
+                              : (val) {
+                                  state.model.annualPowerShutdown = true;
+                                  BlocProvider.of<
+                                              GeneralInfoCubit>(
+                                          context)
+                                      .onCheckBoxChange(state.model
+                                      );
+                                  //.onModelValueChange(state.guardingMasterData
+                                  //);
+                                },
+                          onChangedNo: state.model.status == 4
+                              ? null
+                              : (val) {
+                                  state.model.annualPowerShutdown = false;
+                                  BlocProvider.of<
+                                      GeneralInfoCubit>(
+                                          context)
+                                      .onCheckBoxChange(
+                                      state.model);
+                                  // .onModelValueChange(state.guardingMasterData
+                                  //  );
+                                }),
+
                       /// SubmitButton
                       if (state.model.status != 4) ...[
                         Row(
@@ -360,8 +323,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
       ),
     );
   }
-
-
 
   Widget cancelButtonDisplay() {
     return AppButton(
@@ -394,7 +355,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
   Widget locationWidgetdislay(GeneralInfoState state) {
     return GestureDetector(
       onTap: () {
-        if (widget.guardingMasterData == null ||
+        if (state.model.id == null ||
             (state.model.location?.name ?? '').isEmpty) {
           showDialog(
             context: context,
@@ -421,5 +382,4 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
   }
-
 }
