@@ -27,6 +27,7 @@ const String eventProtectionListRoute = '/eventProtectionListRoute';
 const String eventProtectionDetailsTabRoute = '/eventProtectionDetailsTabRoute';
 const String generalInfoTilesViewRoute = '/generalInfoTilesViewRoute';
 const String generalInfoRoute = '/generalInfoRoute';
+const String generalInfoGIRoute = '/generalInfoGIRoute';
 
 const String otpVerificationRoute = '/otpverification';
 const String forgotPwdScreenRoute = '/forgotPwdScreen';
