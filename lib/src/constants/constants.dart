@@ -421,6 +421,7 @@ class Constants {
   static const String duringEventInformation = 'During the Event Information';
   static const String afterEventInformation = 'After the Event Information';
   static const String eventStartedAt = 'Event Started at';
+  static const String additionalEmails = 'Additional Emails';
 
 }
 
