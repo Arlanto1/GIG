@@ -105,8 +105,8 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                       key: 'Date',
                       value: state.items[index].inputDate != null
                           ? Utils.timestamptoDateConversion(
-                          int.parse(state.items[index].inputDate ?? '0'),
-                          Constants.dateFormat)
+                              int.parse(state.items[index].inputDate ?? '0'),
+                              Constants.dateFormat)
                           : ''));
                   labels.add(Label(
                       key: 'Region',

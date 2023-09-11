@@ -18,7 +18,10 @@ import '../../../../utils/util.dart';
 import '../bloc/material_movement_bloc.dart';
 
 class MaterialMovements extends StatefulWidget {
-  const MaterialMovements({super.key, required this.isInward,});
+  const MaterialMovements({
+    super.key,
+    required this.isInward,
+  });
 
   final bool isInward;
 
@@ -133,6 +136,7 @@ class _MaterialMovementsState extends State<MaterialMovements> {
                         labels: labels,
                         status: state.items[index].status,
                         isMasterGuard: false,
+                        isEventProtectionStatus: false,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,
@@ -143,7 +147,7 @@ class _MaterialMovementsState extends State<MaterialMovements> {
                                 quantity: state.items[selectedIndex].quantity
                                     .toString(),
                                 challanNo: state.items[selectedIndex].challanNo,
-                               slNo: state.items[selectedIndex].slNo,
+                                slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
                                 entrySecurityName: state
                                     .items[selectedIndex].entrySecurityName,

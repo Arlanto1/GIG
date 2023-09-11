@@ -213,6 +213,7 @@ class GuardingMasterDataDetailsCubit
     int? gender,
     int? maritalStatus,
     int? typeOfDeployment,
+    int? msgbFormBSubmitted,
   }) async {
     emit(
       state.copyWith(
@@ -246,6 +247,8 @@ class GuardingMasterDataDetailsCubit
     state.guardingMasterData.status = status ?? state.guardingMasterData.status;
     state.guardingMasterData.typeOfDeployment =
         typeOfDeployment ?? state.guardingMasterData.typeOfDeployment;
+    state.guardingMasterData.msgbFormBSubmitted =
+        msgbFormBSubmitted ?? state.guardingMasterData.msgbFormBSubmitted;
 
     // TODO: Object issue
     if (guard != null) {

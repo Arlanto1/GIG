@@ -33,6 +33,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool? showEditButton;
   final bool isMasterGuard;
   final bool? isMasterGuardRank;
+  final bool isEventProtectionStatus;
 
   const BaseListTileItem({
     super.key,
@@ -55,7 +56,9 @@ class BaseListTileItem extends StatefulWidget {
     this.locationStr,
     this.guardRank,
     this.labels,
-     this.isMasterGuard =false , this.isMasterGuardRank,
+    this.isMasterGuard = false,
+    this.isMasterGuardRank,
+    this.isEventProtectionStatus = true,
   });
 
   @override
@@ -172,11 +175,13 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
           ],
         ),
       ],
-      if (widget.isMasterGuard != null && !widget.isMasterGuard) ...[
+      if (widget.status != null &&
+          !widget.isMasterGuard &&
+          !widget.isEventProtectionStatus) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildStatusRow(widget.status ?? 0),
       ],
-   if (widget.guardRank !=0 && widget.isMasterGuard ) ...[
+      if (widget.guardRank != 0 && widget.isMasterGuard) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildGuardrank(widget.guardRank ?? 0),
       ],
@@ -184,11 +189,17 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildMasterDataStatusRow(widget.status ?? 0),
       ],
+      if (widget.status != null &&
+          widget.isEventProtectionStatus &&
+          !widget.isMasterGuard) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Utils().buildEventProtectionStatusRow(widget.status ?? 0),
+      ],
     ];
 
     for (Label label in labels ?? []) {
       if (label.value == 'null' || label.value.isEmpty) {
-       continue;
+        continue;
       }
       widgets.add(CommonWidgets.verticalSpacerWidget(5));
       widgets.add(Row(

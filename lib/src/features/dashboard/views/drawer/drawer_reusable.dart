@@ -40,7 +40,7 @@ class navigationDrawer1 extends StatelessWidget {
     const DrawerItem1(Constants.eventprotectionlist, AppIcon.tasklist, 0),
     const DrawerItem1(Constants.materialMovement, AppIcon.materialMovement, 1),
     const DrawerItem1(Constants.passmanagement, AppIcon.passmanagement, 1),
-    const DrawerItem1(Constants.guarding, AppIcon.clipboardImage, 1),
+    const DrawerItem1(Constants.guarding, AppIcon.guardingOperationIcon, 1),
   ];
 
   final materialMovementDrawerItems = [
@@ -49,12 +49,12 @@ class navigationDrawer1 extends StatelessWidget {
   ];
 
   final guardingOperationDrawerItems = [
-    const DrawerItem1(Constants.guardingMasterData, AppIcon.settings, 0),
-    const DrawerItem1(Constants.guardingMasterReport, AppIcon.settings, 0),
-    const DrawerItem1(Constants.guardingRate, AppIcon.settings, 0),
-    const DrawerItem1(Constants.femaleDropPickUp, AppIcon.settings, 0),
-    const DrawerItem1(Constants.keyManagementList, AppIcon.settings, 0),
-    const DrawerItem1(Constants.occurrence, AppIcon.settings, 0),
+    const DrawerItem1(Constants.guardingMasterData, AppIcon.guardingMasterDataIcon, 0),
+    const DrawerItem1(Constants.guardingMasterReport, AppIcon.guardingMasterReportIcon, 0),
+    const DrawerItem1(Constants.guardingRate, AppIcon.guardingMasterRatesIcon, 0),
+    const DrawerItem1(Constants.femaleDropPickUp, AppIcon.femalePickUpDropIcon, 0),
+    const DrawerItem1(Constants.keyManagementList, AppIcon.keyManagementListIcon, 0),
+    const DrawerItem1(Constants.occurrence, AppIcon.occurence, 0),
      ];
 
   final passtiledrawerItems = [
@@ -317,10 +317,10 @@ class navigationDrawer1 extends StatelessWidget {
               width: 20,
               height: 20,
               child: Image.asset(drawerItem.imageName,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.scaleDown,
                   color: (i == _passlastSelectedItem)
                       ? AppColors.navigationSkybluecolor
-                      : AppColors.textgreyThemecolor)),
+                      : AppColors.boldgreyBackground)),
           title: Text(drawerItem.title,
               //style: Styles.textStyleBlack16,
               style: TextStyle(
@@ -383,13 +383,13 @@ class navigationDrawer1 extends StatelessWidget {
         ),
         child: ListTile(
           leading: SizedBox(
-              width: 20,
-              height: 20,
+              width: 18,
+              height: 18,
               child: Image.asset(drawerItem.imageName,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.scaleDown,
                   color: (i == _passlastSelectedItem)
                       ? AppColors.navigationSkybluecolor
-                      : AppColors.textgreyThemecolor)),
+                      : AppColors.boldgreyBackground)),
           title: Text(drawerItem.title,
               //style: Styles.textStyleBlack16,
               style: TextStyle(

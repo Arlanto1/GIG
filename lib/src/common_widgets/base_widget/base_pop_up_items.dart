@@ -53,6 +53,9 @@ class BasePopUpItems extends StatefulWidget {
   final int? gender;
   final int? maritalStatus;
   final bool isMasterGuard;
+  final bool? eventType;
+  final bool isEventProtectionStatus;
+  final String? epManager1Name;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -101,10 +104,15 @@ class BasePopUpItems extends StatefulWidget {
     this.locationEntity,
     this.locationRegionEntity,
     this.isMasterGuard = true,
+    this.eventType,
+    this.isEventProtectionStatus = true,
+    this.epManager1Name,
   });
 }
 
 class _BasePopUpItemsState extends State<BasePopUpItems> {
+  final bool isBasePopUpField = false;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -231,7 +239,9 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.status != null && !widget.isMasterGuard) ...[
+      if (widget.status != null &&
+          !widget.isMasterGuard &&
+          !widget.isEventProtectionStatus) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildStatusRow(widget.status ?? 0),
       ],
@@ -289,6 +299,30 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Utils().textHandling('Region : ', widget.region.toString()),
           ],
         ),
+      ],
+      if (widget.epManager1Name !=null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils().textHandling('Event protection Manager 1 : ',
+                widget.epManager1Name.toString()),
+          ],
+        ),
+      ],
+      if (widget.eventType != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils().textHandling('Event Type : ',
+                widget.eventType == true ? 'Internal' : 'External'),
+          ],
+        )
+      ],
+      if (widget.status != null &&
+          widget.isEventProtectionStatus &&
+          !widget.isMasterGuard) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Utils().buildEventProtectionStatusRow(widget.status ?? 0),
       ],
       if (widget.guardCount != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
@@ -503,7 +537,9 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
       ],
     ];
     for (Label label in labels ?? []) {
-      if (label.value == 'null' || label.value.isEmpty) {
+      if (label.value == 'null' ||
+          label.value.isEmpty ||
+          isBasePopUpField == true) {
         continue;
       }
       widgets.add(CommonWidgets.verticalSpacerWidget(5));

@@ -1,21 +1,20 @@
 class GenericCreateResponse {
   GenericCreateResponse({
+     this.id,
      this.message,
-     this.materialMovementID,
   });
-  String? message;
-  String? materialMovementID;
-  String? id;
+ String? id;
+ String? message;
 
   GenericCreateResponse.fromJson(Map<String, dynamic> json){
-    message = json['Message']?? json['message'];
-    materialMovementID = json['Material Movement ID']??json['Guarding Rate Info ID']??json['id'];
+    id = json['id'];
+    message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['Message'] = message;
-    _data['Material Movement ID'] = materialMovementID;
+    _data['id'] = id;
+    _data['message'] = message;
     return _data;
   }
 }

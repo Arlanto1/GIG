@@ -361,6 +361,7 @@ class Constants {
   static const String gender = 'Gender';
   static const String maritalStatus = 'Marital Status';
   static const String typeOfDeployment = 'Type of Deployment';
+  static const String mSGBFormBSubmitted = 'MSGB Form B Submitted';
   static const String systemAccess = 'System Access';
   static const String deploymentOrderSubmitted = 'Deployment Order Submitted?';
   static const String mSGBExempted = 'MSGB Exempted';
@@ -460,4 +461,10 @@ List<Label> guardRankDropDownValues = const [
 List<Label> deploymentTypeDropDownValues = const [
   Label(key: 'New Deployment', value: '1'),
   Label(key: 'Redeployment', value: '2'),
+];
+
+List<Label> mSGBFormBSubmittedDropDownValues = const [
+  Label(key: 'Yes', value: '1'),
+  Label(key: 'No', value: '2'),
+  Label(key: 'Under ', value: '3'),
 ];
