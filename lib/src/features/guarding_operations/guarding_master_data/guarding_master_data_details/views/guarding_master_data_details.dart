@@ -96,6 +96,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
   TextEditingController deploymentTypeController = TextEditingController();
   TextEditingController systemAccessController = TextEditingController();
   TextEditingController statusController = TextEditingController();
+  TextEditingController mSGbFormBSubmittedController = TextEditingController();
   bool isDisabled = true;
 
   get guardingMasterData => null;
@@ -1745,8 +1746,49 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
 
-                            if (!state.guardingMasterData.msgbExempted) ...[],
-
+                            if (!state.guardingMasterData.msgbExempted) ...[
+                              CommonWidgets.textDisplay(
+                                  Constants.mSGBFormBSubmitted,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              BaseDropDown().getDropDown(
+                                  isDisabled:
+                                  state.guardingMasterData.status != 6,
+                                  textController: mSGbFormBSubmittedController,
+                                  items: mSGBFormBSubmittedDropDownValues,
+                                  initialValue: state
+                                      .guardingMasterData.msgbFormBSubmitted
+                                      .toString(),
+                                  onTap: () {
+                                    if (isDisabled) {
+                                      BaseDropDown().assetTypeDialog(
+                                          context: context,
+                                          dropDownValues:
+                                          mSGBFormBSubmittedDropDownValues
+                                              .map((label) => label.key)
+                                              .toList(),
+                                          onTap: (String value) {
+                                            Label? selectedLabel;
+                                            selectedLabel =
+                                                mSGBFormBSubmittedDropDownValues
+                                                    .firstWhere(
+                                                      (label) => label.key == value,
+                                                  orElse: () =>
+                                                  const Label(key: '', value: ''),
+                                                );
+                                            BlocProvider.of<
+                                                GuardingMasterDataDetailsCubit>(
+                                                context)
+                                                .updateDropdownValues(
+                                                msgbFormBSubmitted:
+                                                int.tryParse(
+                                                    selectedLabel.value));
+                                          });
+                                    }
+                                  }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
                             /// Date of First Covid Dose
                             CommonWidgets.textDisplay(
                               Constants.dateOfFirstCovidDose,

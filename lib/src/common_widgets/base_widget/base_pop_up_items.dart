@@ -300,7 +300,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.epManager1Name!.isNotEmpty) ...[
+      if (widget.epManager1Name !=null) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(
           children: [
