@@ -6,11 +6,9 @@ import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_p
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
-import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
@@ -102,7 +100,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                 List<Label> labels = [];
                 if (index < state.items.length) {
                   labels.add(Label(
-                      key: 'Date',
+                      key: 'Date of Creation',
                       value: state.items[index].inputDate != null
                           ? Utils.timestamptoDateConversion(
                               int.parse(state.items[index].inputDate ?? '0'),
@@ -115,15 +113,14 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                       key: 'Location',
                       value: state.items[index].location?.name ?? ''));
                 }
+
                 return index >= state.items.length
                     ? const Center(
                         child: CustomCircularProgressIndicator(),
                       )
                     : BaseListTileItem(
                         id: state.items[index].id,
-                        inputDate: state.items[index].inputDate,
-                        location: state.items[index].location,
-                        locationRegion: state.items[index].locationRegion,
+                        labels: labels,
                         status: state.items[index].status,
                         isMasterGuard: false,
                         onTap: (selectedIndex) {
@@ -136,6 +133,8 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                 slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
                                 isMasterGuard: false,
+                                epManager1Name: state.items[selectedIndex].epManager1Name,
+                                eventType: state.items[selectedIndex].eventType,
                               );
                             },
                           );
@@ -149,14 +148,11 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                             builder: (BuildContext dialogContext) {
                               return BasePopUpItems(
                                 id: state.items[selectedIndex].id.toString(),
-                                inputDate: state.items[selectedIndex].inputDate,
-                                location: state.items[selectedIndex].location,
-                                locationRegion:
-                                    state.items[selectedIndex].locationRegion,
-                                //  securityName: state
-                                //       .items[selectedIndex].entrySecurityName,
+                                labels: labels,
                                 slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
+                                epManager1Name: state.items[selectedIndex].epManager1Name,
+                                eventType: state.items[selectedIndex].eventType,
                               );
                             },
                           );
