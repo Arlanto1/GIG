@@ -96,7 +96,7 @@ dependencies:
   path_provider: ^2.0.15
   mime: ^1.0.4
   # cloud_firestore: ^4.8.3
-
+  flutter_quill:
   bloc_concurrency: ^0.2.0
 
 dev_dependencies:
