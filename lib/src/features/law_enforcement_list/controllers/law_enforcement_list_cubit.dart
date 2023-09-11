@@ -30,7 +30,7 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
     try {
       LawEnforcementListResponse foundListModelResponse =
           await lawEnforcementListServices.getLawEnforcementList(
-              startPosition, maximumRecords, userId);
+              startPosition, maximumRecords, userId,context);
 
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         if (startPosition != '0') {
@@ -68,7 +68,7 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
       int articleId, BuildContext context) async {
     try {
       LawEnforcementDetails foundArticleDetailsResponse =
-          await lawEnforcementListServices.getLawEnforcementById(articleId);
+          await lawEnforcementListServices.getLawEnforcementById(articleId,context);
       emit(
         state.copyWith(
           lawEnforcementDetails: foundArticleDetailsResponse,

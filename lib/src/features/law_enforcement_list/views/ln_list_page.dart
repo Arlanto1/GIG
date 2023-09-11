@@ -27,7 +27,7 @@ class LnListPageList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<LawEnforcementBloc>(
       create: (_) => LawEnforcementBloc()
-        ..add(const LawEnforcementFetch(startPos: 0, maxPos: 20)),
+        ..add( LawEnforcementFetch(startPos: 0, maxPos: 20,cont: context)),
       child: const LnPage(),
     );
   }
@@ -66,19 +66,30 @@ class _LnPageState extends State<LnPage> {
       pageNumber = pageNumber + 20;
       context
           .read<LawEnforcementBloc>()
-          .add(LawEnforcementFetch(startPos: pageNumber, maxPos: 20));
+          .add(LawEnforcementFetch(startPos: pageNumber, maxPos: 20,cont: context));
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<LawEnforcementBloc>(context);
     return Scaffold(
       backgroundColor: AppColors.cardBgColor,
       floatingActionButton: Flutterfloatingbutton(
         backgroundColor: AppColors.navigationSkybluecolor,
         foregroundColor: AppColors.backgroundWhitecolor,
         onPressed: () {
-          Navigator.pushNamed(context, lawenforcementScreenRoute);
+         // Navigator.pushNamed(context, lawenforcementScreenRoute);
+          Navigator.pushNamed(context, lawenforcementScreenRoute).then((value) async {
+            if(value != null && value == true)
+            {
+              print(value);
+              //localfoundlist?.clear();
+              pageNumber = 0;
+          bloc.add( LawEnforcementFetch(startPos: 0, maxPos: 20,cont: context));
+
+            }
+          });
         },
       ),
       appBar: AppHeader(
