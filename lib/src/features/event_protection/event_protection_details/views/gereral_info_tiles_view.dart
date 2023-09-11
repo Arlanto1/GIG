@@ -42,9 +42,14 @@ class _GeneralInfoTilesViewState extends State<GeneralInfoTilesView> {
                     height: height,
                   ),
                 ),
-                Tile(
-                  label: 'Contact Info',
-                  height: height,
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, generalInfoCIRoute);
+                  },
+                  child: Tile(
+                    label: 'Contact Info',
+                    height: height,
+                  ),
                 ),
               ],
             ),
