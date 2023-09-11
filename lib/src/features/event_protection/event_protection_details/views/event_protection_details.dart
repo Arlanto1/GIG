@@ -34,17 +34,43 @@ class _EventProtectionDetailsState extends State<EventProtectionDetails> {
             child: Wrap(
               children: [
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     Navigator.pushNamed(context, generalInfoTilesViewRoute);
                   },
                   child: Tile(
-                    label: 'General Info',
+                    label: 'General\nInformation',
                     height: height,
                   ),
                 ),
-                Tile(
-                  label: 'Before the Event Information',
-                  height: height,
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, eventInfoRoute,
+                        arguments: {'title': Constants.beforeEventInformation});
+                  },
+                  child: Tile(
+                    label: 'Before the Event\nInformation',
+                    height: height,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, eventInfoRoute,
+                        arguments: {'title': Constants.duringEventInformation});
+                  },
+                  child: Tile(
+                    label: 'During the Event\nInformation',
+                    height: height,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, eventInfoRoute,
+                        arguments: {'title': Constants.afterEventInformation});
+                  },
+                  child: Tile(
+                    label: 'After the Event\nInformation',
+                    height: height,
+                  ),
                 ),
               ],
             ),

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:db_atom/app.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -12,6 +10,7 @@ import 'package:db_atom/src/features/dashboard/views/charts/pie_chart.dart';
 import 'package:db_atom/src/features/dashboard/views/my_home_page.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/cubits/contact_info_cubit.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/views/contact_info_view.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/event_info/views/event_info_view.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/views/event_protection_details.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/views/gereral_info_tiles_view.dart';
 import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
@@ -35,6 +34,7 @@ import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/views/general_info_view.dart';
 import '../features/event_protection/event_protections/bloc/event_protections_bloc.dart'
@@ -222,56 +222,77 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => const GeneralInfoTilesView());
 
-
       case generalInfoRoute:
         EventProtectionModel model = EventProtectionModel();
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
           model = arguments['model'];
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<GeneralInfoCubit>(
-              create: (_) => GeneralInfoCubit(
-                services: EventProtectionServices(),
-                commonServices: CommonServices(), model: model,
-              ),
-              child: const GeneralInfoTilesView(),
-            ));
+                  create: (_) => GeneralInfoCubit(
+                    services: EventProtectionServices(),
+                    commonServices: CommonServices(),
+                    model: model,
+                  ),
+                  child: const GeneralInfoTilesView(),
+                ));
 
       case generalInfoGIRoute:
         EventProtectionModel model = EventProtectionModel();
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
           model = arguments['model'];
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<GeneralInfoCubit>(
-              create: (_) => GeneralInfoCubit(
-                services: EventProtectionServices(),
-                commonServices: CommonServices(), model: model,
-              ),
-              child:  const GeneralInfoView(
-              ),
-            ));
+                  create: (_) => GeneralInfoCubit(
+                    services: EventProtectionServices(),
+                    commonServices: CommonServices(),
+                    model: model,
+                  ),
+                  child: const GeneralInfoView(),
+                ));
 
       case generalInfoCIRoute:
         EventProtectionModel model = EventProtectionModel();
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
           model = arguments['model'];
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<ContactInfoCubit>(
-              create: (_) => ContactInfoCubit(
-                services: EventProtectionServices(),
-                commonServices: CommonServices(), model: model,
-              ),
-              child:  const ContactInfoView(
-              ),
-            ));
+                  create: (_) => ContactInfoCubit(
+                    services: EventProtectionServices(),
+                    commonServices: CommonServices(),
+                    model: model,
+                  ),
+                  child: const ContactInfoView(),
+                ));
+
+      case eventInfoRoute:
+        EventProtectionModel model = EventProtectionModel();
+        String title = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          model = arguments['model'] ?? EventProtectionModel();
+          title = arguments['title'] ?? '';
+        }
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<EventInfoCubit>(
+                  create: (_) => EventInfoCubit(
+                    services: EventProtectionServices(),
+                    commonServices: CommonServices(),
+                    model: model,
+                  ),
+                  child: EventInfoView(
+                    title: title,
+                  ),
+                ));
 
       case materialMovementInwardsOutwardsRoute:
         bool isInward = true;

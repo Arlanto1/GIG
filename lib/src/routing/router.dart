@@ -29,6 +29,7 @@ const String generalInfoTilesViewRoute = '/generalInfoTilesViewRoute';
 const String generalInfoRoute = '/generalInfoRoute';
 const String generalInfoGIRoute = '/generalInfoGIRoute';
 const String generalInfoCIRoute = '/generalInfoCIRoute';
+const String eventInfoRoute = '/eventInfoRoute';
 
 const String otpVerificationRoute = '/otpverification';
 const String forgotPwdScreenRoute = '/forgotPwdScreen';
