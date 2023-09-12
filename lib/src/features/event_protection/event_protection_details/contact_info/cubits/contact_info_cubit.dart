@@ -134,10 +134,18 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
     List<Entity>? entities,
     Location? location,
     BaseUser? user,
-    Department? vendor,
-    BaseUser? guard,
-    Entity? entity,
-    List<Entity>? qualifications,
+    Department? requesterDepartment,
+    Department? bu1Dept,
+    Department? bu2Dept,
+    Department? proposedVendors,
+    BaseUser? subRegionalHead1,
+    BaseUser? subRegionalHead2,
+    BaseUser? locationSecurityManager1,
+    BaseUser? locationSecurityManager2,
+    BaseUser? bu1Name,
+    BaseUser? bu2Name,
+    BaseUser? epOfficers,
+   // List<Entity>? qualifications,
     int? status,
   }) async {
     emit(
@@ -155,13 +163,38 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
+
+    state.model.bu1Dept = bu1Dept ?? state.model.bu1Dept;
+    state.model.bu2Dept = bu2Dept ?? state.model.bu2Dept;
+    state.model.proposedVendors = proposedVendors ?? state.model.proposedVendors;
+    state.model.requesterDepartment = requesterDepartment ?? state.model.requesterDepartment;
     state.model.status = status ?? state.model.status;
 
     if (entities != null) {
       state.model.entities = entities;
     }
+    if (subRegionalHead1 != null) {
+      state.model.srh1Name = subRegionalHead1.email;
+    }
+    if (subRegionalHead2 != null) {
+      state.model.srh2Name = subRegionalHead2.email;
+    }
+    if (locationSecurityManager1 != null) {
+      state.model.lsm1Name = locationSecurityManager1.email;
+    }
+    if (locationSecurityManager2 != null) {
+      state.model.lsm2Name = locationSecurityManager2.email;
+    }
 
-
+    if (bu1Name != null) {
+      state.model.bu1Name = bu1Name.email;
+    }
+    if (bu2Name != null) {
+      state.model.bu1Name = bu2Name.email;
+    }
+    if (epOfficers != null) {
+      state.model.epOfficers = epOfficers.email;
+    }
     emit(state.copyWith(
       guardingMasterData: state.model,
       status: FormStatus.initial,

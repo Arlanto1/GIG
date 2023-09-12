@@ -2,10 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_drop_down.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_entities_dropdown.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
-import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
@@ -14,7 +10,7 @@ import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
-import 'package:db_atom/src/models/entity.dart';
+import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
 import 'package:db_atom/src/models/location.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -25,12 +21,19 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../main_DEV.dart';
-import '../../../../../common_widgets/base_widget/radio_buttons_yes_no.dart';
+import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
+import '../../../../../common_widgets/new_search_textfield.dart';
+import '../../../../../common_widgets/textfiled_addbutton.dart';
+import '../../../../../models/base_user.dart';
+import '../../../../../models/department.dart';
 import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import '../cubits/contact_info_cubit.dart';
 
 class ContactInfoView extends StatefulWidget {
+  final EventProtectionModel? model;
+
   const ContactInfoView({
+    this.model,
     super.key,
   });
 
@@ -52,6 +55,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
   List<CreateImage>? mSGBAFiles;
   List<CreateImage>? medicalFiles;
   List<FoundImage>? getAttachments;
+  bool isExtraSecurityDeployed = false;
   TextEditingController dateOfBirthController = TextEditingController();
   TextEditingController dateOfJoiningController = TextEditingController();
   TextEditingController participationDateController = TextEditingController();
@@ -187,122 +191,1077 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Status
+                          /// Sub Regional Head (SRH) 1
                           CommonWidgets.textDisplay(
-                              Constants.status, Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseDropDown().getDropDown(
-                              isDisabled: state.model.status != 6,
-                              textController: statusController,
-                              items: statusDropDownValues,
-                              initialValue: '${state.model.status ?? 1}',
-                              onTap: () {
-                                if (state.model.id != null) {
-                                  BaseDropDown().assetTypeDialog(
-                                    context: context,
-                                    dropDownValues: statusDropDownValues
-                                        .map((label) => label.key)
-                                        .toList(),
-                                    onTap: (String value) {
-                                      Label? selectedLabel;
-                                      selectedLabel =
-                                          statusDropDownValues.firstWhere(
-                                        (label) => label.key == value,
-                                        orElse: () =>
-                                            const Label(key: '', value: ''),
-                                      );
-                                      BlocProvider.of<ContactInfoCubit>(context)
-                                          .updateDropdownValues(
-                                              status: int.tryParse(
-                                                  selectedLabel.value));
-                                    },
-                                  );
-                                }
-                              }),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Created By
-                          CommonWidgets.verticalTextHandling(
-                              Constants.createdby,
-                              state.loggedInUserDetails?.name ?? ''),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Date of creation
-                          CommonWidgets.textDisplay(Constants.dateofcreation,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseDate()
-                              .creationDateDisplay(state.model.inputDate ?? ''),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Location
-                          CommonWidgets.textDisplay(
-                              Constants.location, Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          locationWidgetdislay(state),
-
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Entity
-                          CommonWidgets.textDisplay(
-                            Constants.entity,
+                            Constants.subRegionalHead1,
                             Styles.textStyleBlack14,
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                          BaseEntitiesSelection().entityDropDownSelection(
-                              context: context,
-                              selectedValues: state.model.entities ?? [],
-                              all: state.listOfEntities ?? [],
-                              onTap: (List<Entity> selectedEntities) {
-                                log('--selectedEntities----${selectedEntities.length}');
-                                BlocProvider.of<ContactInfoCubit>(context)
-                                    .updateDropdownValues(
-                                        entities: selectedEntities);
-                                Navigator.of(context).pop(); // Close the dialog
-                              }),
+                          TextfieldAddButton(
+                            title: state.model.srh1Name,
+                            height: 60,
+                            isDisableColor: false,
+                            onTap: () {
+                              BaseDepartmentDialog().userDialog(
+                                context: context,
+                                users: state.emailUsers!,
+                                onTap: (BaseUser user) {
+                                  BlocProvider.of<ContactInfoCubit>(context)
+                                      .updateDropdownValues(
+                                    subRegionalHead1: user,
+                                  );
+                                },
+                              );
+                            },
+                          ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Sl No.
+                          /// Sub Regional Head (SRH) 2
+                          CommonWidgets.textDisplay(
+                            Constants.subRegionalHead2,
+                            Styles.textStyleBlack14,
+                          ),
+                          TextfieldAddButton(
+                            title: state.model.srh2Name,
+                            height: 60,
+                            isDisableColor: false,
+                            onTap: () {
+                              BaseDepartmentDialog().userDialog(
+                                context: context,
+                                users: state.emailUsers!,
+                                onTap: (BaseUser user) {
+                                  BlocProvider.of<ContactInfoCubit>(context)
+                                      .updateDropdownValues(
+                                    subRegionalHead2: user,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Location Security  Manager 1
+                          CommonWidgets.textDisplay(
+                            Constants.locationSecurityManager1,
+                            Styles.textStyleBlack14,
+                          ),
+                          TextfieldAddButton(
+                            title: state.model.lsm1Name,
+                            height: 60,
+                            isDisableColor: false,
+                            onTap: () {
+                              BaseDepartmentDialog().userDialog(
+                                context: context,
+                                users: state.emailUsers!,
+                                onTap: (BaseUser user) {
+                                  BlocProvider.of<ContactInfoCubit>(context)
+                                      .updateDropdownValues(
+                                    locationSecurityManager1: user,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///LSM 1 Contact No
+                          CommonWidgets.textDisplay(
+                              Constants.lsm1ContactNo, Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue: state.model.lsm1ContactNo,
+                            textFormKey: Keys.lsm1ContactNOKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.lsm1ContactNo == null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.lsm1ContactNo != null))
+                                ? true
+                                : false,
+                            onChange: (String value) {
+                              state.model.lsm1ContactNo = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Location Security  Manager 2
+                          CommonWidgets.textDisplay(
+                            Constants.locationSecurityManager2,
+                            Styles.textStyleBlack14,
+                          ),
+                          TextfieldAddButton(
+                            title: state.model.lsm2Name,
+                            height: 60,
+                            isDisableColor: false,
+                            onTap: () {
+                              BaseDepartmentDialog().userDialog(
+                                context: context,
+                                users: state.emailUsers!,
+                                onTap: (BaseUser user) {
+                                  BlocProvider.of<ContactInfoCubit>(context)
+                                      .updateDropdownValues(
+                                    locationSecurityManager2: user,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///LSM 2 Contact No
+                          CommonWidgets.textDisplay(
+                              Constants.lsm2ContactNo, Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue: state.model.lsm2ContactNo,
+                            textFormKey: Keys.lsm2ContactNOKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.lsm2ContactNo == null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.lsm2ContactNo != null))
+                                ? true
+                                : false,
+                            onChange: (String value) {
+                              state.model.lsm2ContactNo = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Business POC 1
+                          CommonWidgets.textDisplay(
+                            Constants.businessPoc1,
+                            Styles.textStyleBlack14,
+                          ),
+                          TextfieldAddButton(
+                            title: state.model.bu1Name,
+                            height: 60,
+                            isDisableColor: false,
+                            onTap: () {
+                              BaseDepartmentDialog().userDialog(
+                                context: context,
+                                users: state.emailUsers!,
+                                onTap: (BaseUser user) {
+                                  BlocProvider.of<ContactInfoCubit>(context)
+                                      .updateDropdownValues(
+                                    bu1Name: user,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Business POC 1 Contact No
+                          CommonWidgets.textDisplay(
+                              Constants.businessPoc1ContactNo,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue: state.model.bu1ContactNo,
+                            textFormKey: Keys.bu1ContactNOKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.bu1ContactNo == null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.bu1ContactNo != null))
+                                ? true
+                                : false,
+                            onChange: (String value) {
+                              state.model.bu1ContactNo = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Business POC 2
+
+                          CommonWidgets.textDisplay(
+                            Constants.businessPoc2,
+                            Styles.textStyleBlack14,
+                          ),
+                          TextfieldAddButton(
+                            title: state.model.bu2Name,
+                            height: 60,
+                            isDisableColor: false,
+                            onTap: () {
+                              BaseDepartmentDialog().userDialog(
+                                context: context,
+                                users: state.emailUsers!,
+                                onTap: (BaseUser user) {
+                                  BlocProvider.of<ContactInfoCubit>(context)
+                                      .updateDropdownValues(
+                                    bu2Name: user,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Business POC 2 Contact No
+                          CommonWidgets.textDisplay(
+                              Constants.businessPoc2ContactNo,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue: state.model.bu2ContactNo,
+                            textFormKey: Keys.bu2ContactNOKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.bu2ContactNo == null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.bu2ContactNo != null))
+                                ? true
+                                : false,
+                            onChange: (String value) {
+                              state.model.bu2ContactNo = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Business POC 1Department
+                          CommonWidgets.textDisplay(
+                            Constants.businessPoc1Department,
+                            Styles.textStyleBlack14,
+                          ),
+                          TextfieldAddButton(
+                            title: state.model.bu1Dept?.name,
+                            height: 60,
+                            isDisableColor: false,
+                            onTap: () {
+                              BaseDepartmentDialog().departmentDialog(
+                                context: context,
+                                departments: state.departments,
+                                onTap: (Department department) {
+                                  BlocProvider.of<ContactInfoCubit>(context)
+                                      .updateDropdownValues(
+                                          bu1Dept: department);
+                                },
+                              );
+                            },
+                          ),
+
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Business POC 2 Department
+                          CommonWidgets.textDisplay(
+                            Constants.businessPoc2Department,
+                            Styles.textStyleBlack14,
+                          ),
+                          TextfieldAddButton(
+                            title: state.model.bu2Dept?.name,
+                            height: 60,
+                            isDisableColor: false,
+                            onTap: () {
+                              BaseDepartmentDialog().departmentDialog(
+                                context: context,
+                                departments: state.departments,
+                                onTap: (Department department) {
+                                  BlocProvider.of<ContactInfoCubit>(context)
+                                      .updateDropdownValues(
+                                          bu2Dept: department);
+                                },
+                              );
+                            },
+                          ),
+
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///System Vendor 1 Email
+                          CommonWidgets.textDisplay(
+                              Constants.systemVendor1Email,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.text,
+                            initialValue: state.model.systemVendor1,
+                            textFormKey: Keys.systemVendor1EmailKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.systemVendor1 == null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.systemVendor1 != null))
+                                ? true
+                                : false,
+                            onChange: (String value) {
+                              state.model.systemVendor1 = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///System Vendor 1 Email
+                          CommonWidgets.textDisplay(
+                              Constants.systemVendor1Email,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.text,
+                            initialValue: state.model.systemVendor1,
+                            textFormKey: Keys.systemVendor1EmailKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.systemVendor1 == null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.systemVendor1 != null))
+                                ? true
+                                : false,
+                            onChange: (String value) {
+                              state.model.systemVendor1 = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Vendor 1 Contact No
+                          CommonWidgets.textDisplay(Constants.vendor1ContactNO,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.text,
+                            initialValue: state.model.systemVendor1ContactNo,
+                            textFormKey: Keys.vendor1Contact1Key,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.systemVendor1ContactNo ==
+                                            null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.systemVendor1ContactNo !=
+                                        null))
+                                ? true
+                                : false,
+                            onChange: (String value) {
+                              state.model.systemVendor1ContactNo = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Primary Service Engineer Name
                           CommonWidgets.horizentaltextHandling(
-                              Constants.slno, state.model.slNo ?? ''),
+                              Constants.primaryServiceEngineerName,
+                              state.model.vendor1Primary ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Primary Service Engineer Contact
+                          CommonWidgets.horizentaltextHandling(
+                              Constants.primaryServiceEngineerContact,
+                              state.model.vendor1PrimaryContact ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Secondary Service Engineer Name
+                          CommonWidgets.horizentaltextHandling(
+                              Constants.secondaryServiceEngineerName,
+                              state.model.vendor1Secondary ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Secondary Service Engineer Contact
+                          CommonWidgets.horizentaltextHandling(
+                              Constants.secondaryServiceEngineerContact,
+                              state.model.vendor1SecondaryContact ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///System Vendor 2 Email
+                          CommonWidgets.textDisplay(
+                              Constants.systemVendor2Email,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.text,
+                            initialValue: state.model.systemVendor2,
+                            textFormKey: Keys.systemVendor2EmailKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.systemVendor2 == null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.systemVendor2 != null))
+                                ? true
+                                : false,
+                            onChange: (String value) {
+                              state.model.systemVendor2 = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Vendor 2 Contact No
+                          CommonWidgets.textDisplay(Constants.vendor2ContactNO,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.text,
+                            initialValue: state.model.systemVendor2ContactNo,
+                            textFormKey: Keys.vendor2ContactKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.systemVendor2ContactNo ==
+                                            null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.systemVendor2ContactNo !=
+                                        null))
+                                ? true
+                                : false,
+                            onChange: (String value) {
+                              state.model.systemVendor2ContactNo = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Primary Service Engineer Contact
+                          CommonWidgets.horizentaltextHandling(
+                              Constants.primaryServiceEngineerContact,
+                              state.model.vendor2PrimaryContact ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Primary Service Engineer Contact
+                          CommonWidgets.horizentaltextHandling(
+                              Constants.primaryServiceEngineerContact,
+                              state.model.vendor2PrimaryContact ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Secondary Service Engineer Name
+                          CommonWidgets.horizentaltextHandling(
+                              Constants.secondaryServiceEngineerName,
+                              state.model.vendor2Secondary ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Secondary Service Engineer Contact
+                          CommonWidgets.horizentaltextHandling(
+                              Constants.secondaryServiceEngineerContact,
+                              state.model.vendor2SecondaryContact ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///System Vendor 3 Email
+                          CommonWidgets.textDisplay(
+                              Constants.systemVendor3Email,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.text,
+                            initialValue: state.model.systemVendor3,
+                            textFormKey: Keys.systemVendor2EmailKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.systemVendor3 == null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.systemVendor3 != null))
+                                ? true
+                                : false,
+                            onChange: (String value) {
+                              state.model.systemVendor3 = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Vendor 2 Contact No
+                          CommonWidgets.textDisplay(Constants.vendor3ContactNO,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.text,
+                            initialValue: state.model.systemVendor2ContactNo,
+                            textFormKey: Keys.vendor2ContactKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.systemVendor2ContactNo ==
+                                            null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.systemVendor2ContactNo !=
+                                        null))
+                                ? true
+                                : false,
+                            onChange: (String value) {
+                              state.model.systemVendor2ContactNo = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Primary Service Engineer Contact
+                          CommonWidgets.horizentaltextHandling(
+                              Constants.primaryServiceEngineerContact,
+                              state.model.vendor3PrimaryContact ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Primary Service Engineer Contact
+                          CommonWidgets.horizentaltextHandling(
+                              Constants.primaryServiceEngineerContact,
+                              state.model.vendor3PrimaryContact ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Secondary Service Engineer Name
+                          CommonWidgets.horizentaltextHandling(
+                              Constants.secondaryServiceEngineerName,
+                              state.model.vendor3Secondary ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Secondary Service Engineer Contact
+                          CommonWidgets.horizentaltextHandling(
+                              Constants.secondaryServiceEngineerContact,
+                              state.model.vendor3SecondaryContact ?? ''),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Requester Department
+                          CommonWidgets.textDisplay(
+                            Constants.requesterDepartment,
+                            Styles.textStyleBlack14,
+                          ),
+                          TextfieldAddButton(
+                            title: state.model.requesterDepartment?.name,
+                            height: 60,
+                            isDisableColor: false,
+                            onTap: () {
+                              BaseDepartmentDialog().departmentDialog(
+                                context: context,
+                                departments: state.departments,
+                                onTap: (Department department) {
+                                  BlocProvider.of<ContactInfoCubit>(context)
+                                      .updateDropdownValues(
+                                          requesterDepartment: department);
+                                },
+                              );
+                            },
+                          ),
+
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Event Protection Officer
+                          Column(
+                            children: [
+                              CommonWidgets.textDisplay(
+                                Constants.eventProtectionOfficers,
+                                Styles.textStyleBlack14,
+                              ),
+                              TextfieldAddButton(
+                                title: state.model.epOfficers,
+                                height: 60,
+                                isDisableColor: false,
+                                onTap: () {
+                                  BaseDepartmentDialog().userDialog(
+                                    context: context,
+                                    users: state.emailUsers!,
+                                    onTap: (BaseUser user) {
+                                      BlocProvider.of<ContactInfoCubit>(context)
+                                          .updateDropdownValues(
+                                        epOfficers: user,
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
+                          ),
+
+                          ///Is Extra Security Deployment Required
+                          CommonWidgets.textDisplay(
+                            Constants.isExtraSecurityDeploymentRequired,
+                            Styles.textStyleBlack14,
+                          ),
+
+                          /// is Extra Security Deployed?
+                          CommonWidgets.textDisplay(
+                              Constants.isExtraSecurityDeployed,
+                              Styles.textStyleBlack14),
+                          Checkbox(
+                              value: isExtraSecurityDeployed,
+                              onChanged: (bool? value) {}),
+
+                          ///Guarding Vendor Id
+                          CommonWidgets.textDisplay(Constants.guardingVendorId,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue: state.model.vendorId,
+                            textFormKey: Keys.vendorIdKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.vendorId == null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.vendorId != null))
+                                ? true
+                                : false,
+                            onChange: (String value) {
+                              state.model.vendorId = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Guarding Agency POC
+                          CommonWidgets.textDisplay(Constants.guardingAgencyPOC,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue: state.model.guardingVendorPoc,
+                            textFormKey: Keys.vendorAgencyPOCKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.guardingVendorPoc ==
+                                            null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.guardingVendorPoc != null))
+                                ? true
+                                : false,
+                            onChange: (String value) {
+                              state.model.guardingVendorPoc = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///No. Of Security Officers
+                          CommonWidgets.textDisplay(
+                              Constants.numOfSecurityOfficers,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue:
+                                '${state.model.securityOfficerCount ?? ''}',
+                            textFormKey: Keys.noOfSecurityOfficersKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.securityOfficerCount ==
+                                            null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.securityOfficerCount !=
+                                        null))
+                                ? true
+                                : false,
+                            onChange: (int value) {
+                              state.model.securityOfficerCount = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Total Duty Hours
+                          CommonWidgets.textDisplay(Constants.totalDutyHours,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue:
+                                '${state.model.securityOfficerCountHrs ?? ''}',
+                            textFormKey: Keys.noOfSecurityOfficersHrsKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model
+                                                ?.securityOfficerCountHrs ==
+                                            null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.securityOfficerCountHrs !=
+                                        null))
+                                ? true
+                                : false,
+                            onChange: (int value) {
+                              state.model.securityOfficerCountHrs = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///No. Of Security Supervisors
+                          CommonWidgets.textDisplay(
+                              Constants.numOfSecuritySupervisor,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue:
+                                '${state.model.securitySupervisorCount ?? ''}',
+                            textFormKey: Keys.noOfSecuritySupervisorsKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model
+                                                ?.securitySupervisorCount ==
+                                            null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.securitySupervisorCount !=
+                                        null))
+                                ? true
+                                : false,
+                            onChange: (int value) {
+                              state.model.securitySupervisorCount = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Total Duty Hours
+                          CommonWidgets.textDisplay(Constants.totalDutyHours,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue:
+                                '${state.model.securitySupervisorCountHrs ?? ''}',
+                            textFormKey: Keys.noOfSecuritySupervisorsHrsKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model
+                                                ?.securitySupervisorCountHrs ==
+                                            null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.securitySupervisorCountHrs !=
+                                        null))
+                                ? true
+                                : false,
+                            onChange: (int value) {
+                              state.model.securitySupervisorCountHrs = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///No. Of Security Guards
+                          CommonWidgets.textDisplay(
+                              Constants.numOfSecurityGuards,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue:
+                                '${state.model.securityGuardCount ?? ''}',
+                            textFormKey: Keys.noOfSecurityGuardsKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.securityGuardCount ==
+                                            null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.securityGuardCount != null))
+                                ? true
+                                : false,
+                            onChange: (int value) {
+                              state.model.securityGuardCount = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Total Duty Hours
+                          CommonWidgets.textDisplay(Constants.totalDutyHours,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue:
+                                '${state.model.securityGuardCountHrs ?? ''}',
+                            textFormKey: Keys.noOfSecurityGuardsHrsKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.securityGuardCountHrs ==
+                                            null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.securityGuardCountHrs !=
+                                        null))
+                                ? true
+                                : false,
+                            onChange: (int value) {
+                              state.model.securityGuardCountHrs = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///No. Of Security Facilitators
+                          CommonWidgets.textDisplay(
+                              Constants.numOfSecurityFacilitators,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue:
+                                '${state.model.securityFacilitatorCount ?? ''}',
+                            textFormKey: Keys.noOfSecurityGuardsKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model
+                                                ?.securityFacilitatorCount ==
+                                            null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.securityFacilitatorCount !=
+                                        null))
+                                ? true
+                                : false,
+                            onChange: (int value) {
+                              state.model.securityFacilitatorCount = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Total Duty Hours
+                          CommonWidgets.textDisplay(Constants.totalDutyHours,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue:
+                                '${state.model.securityFacilitatorCountHrs ?? ''}',
+                            textFormKey: Keys.noOfSecurityFacilitatorHrsKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model
+                                                ?.securityFacilitatorCountHrs ==
+                                            null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model
+                                            ?.securityFacilitatorCountHrs !=
+                                        null))
+                                ? true
+                                : false,
+                            onChange: (int value) {
+                              state.model.securityFacilitatorCountHrs = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Proposed Vendor
+
+                          CommonWidgets.textDisplay(
+                            Constants.proposedVendors,
+                            Styles.textStyleBlack14,
+                          ),
+                          TextfieldAddButton(
+                            title: state.model.proposedVendors?.name,
+                            height: 60,
+                            isDisableColor: false,
+                            onTap: () {
+                              BaseDepartmentDialog().departmentDialog(
+                                context: context,
+                                departments: state.departments,
+                                onTap: (Department department) {
+                                  BlocProvider.of<ContactInfoCubit>(context)
+                                      .updateDropdownValues(
+                                          proposedVendors: department);
+                                },
+                              );
+                            },
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///Budget Costs
+                          CommonWidgets.textDisplay(
+                              Constants.budget, Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue: '${state.model.budget ?? ''}',
+                            textFormKey: Keys.budgetKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.budget == null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.budget != null))
+                                ? true
+                                : false,
+                            onChange: (double value) {
+                              state.model.budget = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///PO NUmber
+                          CommonWidgets.textDisplay(
+                              Constants.pONumber, Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          FlutterInputField(
+                            keyboardType: TextInputType.number,
+                            initialValue: state.model.poNumber,
+                            textFormKey: Keys.pONumberKey,
+                            hintText: '',
+                            isEnable: widget.model == null
+                                ? true
+                                : (widget.model != null &&
+                                        (widget.model?.poNumber == null))
+                                    ? false
+                                    : true,
+                            isDisableColor: (widget.model != null &&
+                                    (widget.model?.poNumber != null))
+                                ? true
+                                : false,
+                            onChange: (String value) {
+                              state.model.poNumber = value;
+                              context
+                                  .read<ContactInfoCubit>()
+                                  .onModelValueChange(state.model);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ]),
                       ),
-
-                      /// Deployment order Submitted?
-                      CommonWidgets.textDisplay(
-                          Constants.deploymentOrderSubmitted,
-                          Styles.textStyleBlack14),
-                      RadioButtonsYesNo(
-                          status: state.model.status ?? 0,
-                          selectedValue:
-                              state.model.annualPowerShutdown ?? false ? 1 : 0,
-                          onChangedYes: state.model.status == 6
-                              ? null
-                              : (val) {
-                                  state.model.annualPowerShutdown = true;
-                                  BlocProvider.of<
-                                              ContactInfoCubit>(
-                                          context)
-                                      .onCheckBoxChange(state.model
-                                      );
-                                  //.onModelValueChange(state.guardingMasterData
-                                  //);
-                                },
-                          onChangedNo: state.model.status == 4
-                              ? null
-                              : (val) {
-                                  state.model.annualPowerShutdown = false;
-                                  BlocProvider.of<
-                                      ContactInfoCubit>(
-                                          context)
-                                      .onCheckBoxChange(
-                                      state.model);
-                                  // .onModelValueChange(state.guardingMasterData
-                                  //  );
-                                }),
 
                       /// SubmitButton
                       if (state.model.status != 4) ...[

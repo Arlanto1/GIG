@@ -133,4 +133,26 @@ class Keys {
   //list page
   static const String searchInputField = 'search_input_field';
   static const String returnableField = 'returnableField';
+
+  //Event Protection
+  static const String vendorIdKey = 'vendorIdKey_gd';
+  static const String noOfSecurityOfficersKey = 'noOfSecurityOfficersKey_gd';
+  static const String noOfSecuritySupervisorsKey = 'noOfSecuritySupervisorsKey_gd';
+  static const String noOfSecurityGuardsKey = 'noOfSecurityGuardsKey_gd';
+  static const String noOfSecurityFacilitatorKey = 'noOfSecurityFacilitatorKey_gd';
+  static const String noOfSecurityOfficersHrsKey = 'noOfSecurityOfficersHrsKey_gd';
+  static const String noOfSecuritySupervisorsHrsKey = 'noOfSecuritySupervisorsHrsKey_gd';
+  static const String noOfSecurityGuardsHrsKey = 'noOfSecurityGuardsHrsKey_gd';
+  static const String noOfSecurityFacilitatorHrsKey = 'noOfSecurityFacilitatorHrsKey_gd';
+  static const String pONumberKey = 'pONumberKey_gd';
+  static const String budgetKey = 'budgetKey_gd';
+  static const String vendorAgencyPOCKey = 'vendorAgencyPOCKey_gd';
+  static const String lsm1ContactNOKey = 'lsm1ContactNOKey_gd';
+  static const String lsm2ContactNOKey = 'lsm2ContactNOKey_gd';
+  static const String bu1ContactNOKey = 'bu1ContactNOKey_gd';
+  static const String bu2ContactNOKey = 'bu2ContactNOKey_gd';
+  static const String systemVendor1EmailKey = 'systemVendor1EmailKey_gd';
+  static const String systemVendor2EmailKey = 'systemVendor2EmailKey_gd';
+  static const String vendor1Contact1Key = 'vendor1ContactKey_gd';
+  static const String vendor2ContactKey = 'vendor2ContactKey_gd';
 }

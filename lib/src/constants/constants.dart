@@ -422,7 +422,44 @@ class Constants {
   static const String afterEventInformation = 'After the Event Information';
   static const String eventStartedAt = 'Event Started at';
   static const String additionalEmails = 'Additional Emails';
-
+  static const String eventProtectionManager1 = 'Event protection Manager 1';
+  static const String eventProtectionManager2 = 'Event protection Manager 2';
+  static const String locationSecurityManager1 = 'Location Security Manager 1';
+  static const String locationSecurityManager2 = 'Location Security Manager 2';
+  static const String lsm1ContactNo = 'LSM 1 Contact No';
+  static const String lsm2ContactNo = 'LSM 2 Contact No';
+  static const String businessPoc1 = 'Business POC 1';
+  static const String businessPoc2 = 'Business POC 2';
+  static const String pONumber = 'PO Number';
+  static const String budget = 'Budget Costs (in INR)';
+  static const String isExtraSecurityDeployed = 'Is Extra Security Deployed';
+  static const String totalDutyHours = 'Total Duty Hours';
+  static const String numOfSecurityOfficers = 'No. Of Security Officers';
+  static const String numOfSecuritySupervisor = 'No. Of Security Supervisor';
+  static const String numOfSecurityGuards = 'No. Of Security Guards';
+  static const String numOfSecurityFacilitators = 'No. Of Security Facilitators';
+  static const String guardingVendorId = 'Guarding Vendor Id';
+  static const String guardingAgencyPOC = 'Guarding Agency POC';
+  static const String subRegionalHead1 = 'Sub Regional Head (SRH) 1';
+  static const String subRegionalHead2 = 'Sub Regional Head (SRH) 2';
+  static const String businessPoc1ContactNo = 'Business POC 1 Contact No';
+  static const String businessPoc2ContactNo = 'Business POC 2 Contact No';
+  static const String requesterDepartment = 'Requester Department';
+  static const String isExtraSecurityDeploymentRequired = 'Is Extra Security Deployment Required';
+  static const String systemVendor1Email = 'System Vendor 1 Email';
+  static const String systemVendor2Email = 'System Vendor 2 Email';
+  static const String vendor1ContactNO = 'Vendor 1 Contact No';
+  static const String vendor2ContactNO = 'Vendor 2 Contact No';
+  static const String systemVendor3Email = 'System Vendor 3 Email';
+  static const String vendor3ContactNO = 'Vendor 3 Contact No';
+  static const String primaryServiceEngineerName = 'Primary Service Engineer Name';
+  static const String secondaryServiceEngineerName = 'Secondary Service Engineer Name';
+  static const String primaryServiceEngineerContact = 'Primary Service Engineer Contact';
+  static const String secondaryServiceEngineerContact = 'Secondary Service Engineer Contact';
+  static const String businessPoc1Department = 'Business POC 1 Department';
+  static const String businessPoc2Department = 'Business POC 2 Department';
+  static const String eventProtectionOfficers = 'Event protection Officer(s)';
+  static const String proposedVendors = 'Proposed Vendors';
 }
 
 
