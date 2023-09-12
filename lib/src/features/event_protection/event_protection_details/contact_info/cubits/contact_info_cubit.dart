@@ -7,8 +7,7 @@ import 'package:db_atom/src/features/createfound/models/emplyee_departments_mode
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/models/ci_model.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
@@ -26,22 +25,21 @@ import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../utils/util.dart';
 
 part 'contact_info_state.dart';
 
 class ContactInfoCubit extends Cubit<ContactInfoState> {
   final EventProtectionServices services;
-  final EventProtectionModel? model;
+  final int id;
   final CommonServices commonServices;
 
   ContactInfoCubit({
     required this.services,
     required this.commonServices,
-    required this.model,
+    required this.id,
   }) : super(
           ContactInfoState.initial(
-              model: model ?? EventProtectionModel(),
+              model: CiModel(),
               locations: GetLocations(),
               loggedInUserDetails: EntrySecurity(),
               users: const [],
@@ -56,15 +54,15 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
               getQualificationsResponse: null),
         );
 
-  void onModelValueChange(EventProtectionModel model) {
+  void onModelValueChange(CiModel model) {
     log('-onModelValueChange---');
-    emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
+    emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(EventProtectionModel model) {
-    emit(state.copyWith(guardingMasterData: model, status: FormStatus.loading));
+  void onCheckBoxChange(CiModel model) {
+    emit(state.copyWith(model: model, status: FormStatus.loading));
 
-    emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
+    emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
   Future<void> initializeValues() async {
@@ -77,6 +75,8 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
+      CiModel model = await services.getCI(id);
+
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
@@ -86,8 +86,6 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
-      // Get Date of Creation
-      state.model.inputDate = Utils().getCurrentDate();
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
@@ -104,10 +102,10 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
 
       emit(
         state.copyWith(
+          model: model,
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          guardingMasterData: state.model,
           users: users.t1Analyst,
           departments: departments.employeeDepartments,
           entrySecurities: entrySecurities,
@@ -145,7 +143,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
     BaseUser? bu1Name,
     BaseUser? bu2Name,
     BaseUser? epOfficers,
-   // List<Entity>? qualifications,
+    // List<Entity>? qualifications,
     int? status,
   }) async {
     emit(
@@ -153,50 +151,39 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
         status: FormStatus.loading,
       ),
     );
-    ////Get Sl No from API
-    if (location != null) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.guardingMasterDataModule,
-      );
-
-      state.model.location = location;
-      state.model.slNo = slNo.serialNo;
-    }
 
     state.model.bu1Dept = bu1Dept ?? state.model.bu1Dept;
     state.model.bu2Dept = bu2Dept ?? state.model.bu2Dept;
-    state.model.proposedVendors = proposedVendors ?? state.model.proposedVendors;
-    state.model.requesterDepartment = requesterDepartment ?? state.model.requesterDepartment;
-    state.model.status = status ?? state.model.status;
+    state.model.requesterDepartment =
+        requesterDepartment ?? state.model.requesterDepartment;
 
-    if (entities != null) {
-      state.model.entities = entities;
-    }
-    if (subRegionalHead1 != null) {
-      state.model.srh1Name = subRegionalHead1.email;
-    }
-    if (subRegionalHead2 != null) {
-      state.model.srh2Name = subRegionalHead2.email;
-    }
-    if (locationSecurityManager1 != null) {
-      state.model.lsm1Name = locationSecurityManager1.email;
-    }
-    if (locationSecurityManager2 != null) {
-      state.model.lsm2Name = locationSecurityManager2.email;
-    }
+    // if (entities != null) {
+    //   state.model.entities = entities;
+    // }
+    // if (subRegionalHead1 != null) {
+    //   state.model.srh1Name = subRegionalHead1.email;
+    // }
+    // if (subRegionalHead2 != null) {
+    //   state.model.srh2Name = subRegionalHead2.email;
+    // }
+    // if (locationSecurityManager1 != null) {
+    //   state.model.lsm1Name = locationSecurityManager1.email;
+    // }
+    // if (locationSecurityManager2 != null) {
+    //   state.model.lsm2Name = locationSecurityManager2.email;
+    // }
 
-    if (bu1Name != null) {
-      state.model.bu1Name = bu1Name.email;
-    }
-    if (bu2Name != null) {
-      state.model.bu1Name = bu2Name.email;
-    }
+    // if (bu1Name != null) {
+    //   state.model.bu1Name = bu1Name.email;
+    // }
+    // if (bu2Name != null) {
+    //   state.model.bu1Name = bu2Name.email;
+    // }
     if (epOfficers != null) {
       state.model.epOfficers = epOfficers.email;
     }
     emit(state.copyWith(
-      guardingMasterData: state.model,
+      model: state.model,
       status: FormStatus.initial,
     ));
   }
@@ -226,7 +213,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           guardAttachments: guardImages,
           status: FormStatus.initial,
         ),
@@ -237,7 +224,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           deploymentAttachments: deploymentFiles,
           status: FormStatus.initial,
         ),
@@ -248,7 +235,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           bioDataAttachments: bioDataFiles,
           status: FormStatus.initial,
         ),
@@ -259,7 +246,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           permanentAddressAttachments: permanentAddressFiles,
           status: FormStatus.initial,
         ),
@@ -270,7 +257,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           localAddressAttachments: localAddressFiles,
           status: FormStatus.initial,
         ),
@@ -281,7 +268,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           pVCAttachments: pVCFiles,
           status: FormStatus.initial,
         ),
@@ -292,7 +279,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           trainingAttachments: trainingFiles,
           status: FormStatus.initial,
         ),
@@ -303,7 +290,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           mSGBAttachments: mSGBExemptionFiles,
           status: FormStatus.initial,
         ),
@@ -314,7 +301,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           medicalAttachments: medicalFiles,
           status: FormStatus.initial,
         ),
@@ -324,7 +311,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
     emit(
       state.copyWith(
         eventId: eventIds,
-        guardingMasterData: state.model,
+        model: state.model,
         loadAttachments: data,
         guardAttachments: guardImages,
         status: FormStatus.initial,
@@ -340,13 +327,6 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
         status: FormStatus.loading,
       ),
     );
-
-    if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 1;
-    }
-    // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // Create/Update API Call
     // GuardingMasterDataRequest request =

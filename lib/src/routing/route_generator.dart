@@ -274,18 +274,18 @@ class RouteGenerator {
                 ));
 
       case generalInfoCIRoute:
-        EventProtectionModel model = EventProtectionModel();
+        int id = 0;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          model = arguments['model'];
+          id = arguments['id'];
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<ContactInfoCubit>(
                   create: (_) => ContactInfoCubit(
                     services: EventProtectionServices(),
                     commonServices: CommonServices(),
-                    model: model,
+                    id: id,
                   ),
                   child: const ContactInfoView(),
                 ));

@@ -47,7 +47,9 @@ class GeneralInfoTilesView extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, generalInfoCIRoute);
+                    Navigator.pushNamed(context, generalInfoCIRoute,
+                      arguments: {'id': id},
+                    );
                   },
                   child: Tile(
                     label: 'Contact Info',

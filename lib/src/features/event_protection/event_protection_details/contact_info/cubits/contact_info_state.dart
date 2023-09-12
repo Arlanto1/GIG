@@ -2,7 +2,7 @@ part of 'contact_info_cubit.dart';
 
 class ContactInfoState extends Equatable {
   final FormStatus status;
-  final EventProtectionModel model;
+  final CiModel model;
   final GetLocations? locations;
   final EntrySecurity? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -28,7 +28,7 @@ class ContactInfoState extends Equatable {
   final List<GetUserDetails>? entrySecurities;
 
   factory ContactInfoState.initial({
-    required EventProtectionModel model,
+    required CiModel model,
     required GetLocations locations,
     required EntrySecurity loggedInUserDetails,
     required List<BaseUser>? users,
@@ -83,9 +83,9 @@ class ContactInfoState extends Equatable {
   }
 
   ErrorResponse get isValid {
-    if (model.status == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Status');
-    }
+    // if (model.status == null) {
+    //   return const ErrorResponse(status: false, message: 'Please enter Status');
+    // }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
@@ -123,7 +123,7 @@ class ContactInfoState extends Equatable {
 
   ContactInfoState copyWith({
     FormStatus? status,
-    EventProtectionModel? guardingMasterData,
+    CiModel? model,
     GetLocations? locations,
     EntrySecurity? loggedInUserDetails,
     List<BaseUser>? users,
@@ -150,7 +150,7 @@ class ContactInfoState extends Equatable {
   }) {
     return ContactInfoState(
       status: status ?? this.status,
-      model: guardingMasterData ?? this.model,
+      model: model ?? this.model,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
