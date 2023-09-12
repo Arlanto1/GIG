@@ -1,3 +1,4 @@
+import 'dart:core';
 import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_button.dart';
@@ -22,6 +23,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 
+import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../constants/app_icon.dart';
 import '../cubits/event_info_cubit.dart';
 
@@ -167,29 +169,11 @@ class _EventInfoViewState extends State<EventInfoView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             CommonWidgets.textDisplay(
-                                Constants.csrParticipationDate,
+                                Constants.additionalEmails,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             GestureDetector(
-                              onTap: () {
-                                // showDialog(
-                                //     context: context,
-                                //     builder: (BuildContext dialogContext) {
-                                //       return AddDatePopUp(
-                                //         guardingMasterData: model,
-                                //         mainContext: context,
-                                //         onSubmit: (GuardingMastersDataModel
-                                //             guardingMasterData) {
-                                //           //loginFormKey.currentState!.validate();
-                                //           FocusScope.of(context).unfocus();
-                                //           BlocProvider.of<
-                                //                       GuardingMasterDataDetailsCubit>(
-                                //                   context)
-                                //               .submitForm(isSaveOnly: true);
-                                //         },
-                                //       );
-                                //     });
-                              },
+                              onTap: addEmail,
                               child: Row(
                                 children: <Widget>[
                                   // Expanded(
@@ -202,7 +186,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                   // ),
                                   const SizedBox(width: 10),
                                   const Text(
-                                    Constants.addParticipationDates,
+                                    Constants.additionalEmails,
                                     style: TextStyle(
                                       color: AppColors.navigationSkybluecolor,
                                       decoration: TextDecoration.underline,
@@ -211,6 +195,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                 ],
                               ),
                             ),
+                            getEmail(state.additionalEmails??[]),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             quill.QuillToolbar.basic(controller: _controller),
                             SizedBox(
@@ -243,6 +228,50 @@ class _EventInfoViewState extends State<EventInfoView> {
         ),
       ),
     );
+  }
+
+  void addEmail() {
+    showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return AlertDialog(
+            backgroundColor: AppColors.backgroundWhitecolor,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            content: Builder(builder: (context) {
+              var height = MediaQuery.of(context).size.height;
+              var width = MediaQuery.of(context).size.width;
+              return SizedBox(
+                height: height * 0.15,
+                width: width,
+                child: Center(
+                  child: Column(
+                    children: [
+                      CommonWidgets.textDisplay(
+                          Constants.additionalEmails, Styles.textStyleBlack14),
+                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+                      FlutterInputField(
+                        lineHeight: 1,
+                        initialValue: '',
+                        textFormKey: Keys.equipmentNoKey,
+                        hintText: '',
+                        isEnable: true,
+                        isDisableColor: false,
+                        onChange: (String value) {
+                          // TODO:
+                        },
+                        validateTextField: (String? user) {},
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      const Spacer(),
+                      submitButtonDisplay(),
+                    ],
+                  ),
+                ),
+              );
+            }),
+          );
+        });
   }
 
   Widget cancelButtonDisplay() {
@@ -300,6 +329,26 @@ class _EventInfoViewState extends State<EventInfoView> {
         }
       },
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
+    );
+  }
+
+  Widget getEmail(List<String> emails) {
+    List<Widget> widgets = [];
+
+    for (String email in emails) {
+      widgets.add(Row(
+        children: [
+          Text(email, textAlign: TextAlign.start,),
+          const Icon(Icons.delete),
+        ],
+      ));
+      widgets.add(const SizedBox(height: 2));
+    }
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: widgets,
     );
   }
 }

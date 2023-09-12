@@ -8,24 +8,10 @@ class EventInfoState extends Equatable {
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<CreateImage>? loadAttachments;
-  final List<CreateImage>? guardAttachments;
-  final List<CreateImage>? deploymentAttachments;
-  final List<CreateImage>? bioDataAttachments;
-  final List<Entity>? listOfEntities;
-  final List<Entity>? listOfQualifications;
-  final List<Department> departments;
-  final AddQualifications? getQualificationsResponse;
-  final AddEntities? getEntitiesResponse;
-  final List<String>? participationDates;
+
+  final List<String>? additionalEmails;
   final int? eventId;
   final String? message;
-  final List<CreateImage>? permanentAddressAttachments;
-  final List<CreateImage>? localAddressAttachments;
-  final List<CreateImage>? pVCAttachments;
-  final List<CreateImage>? trainingAttachments;
-  final List<CreateImage>? medicalAttachments;
-  final List<CreateImage>? mSGBAttachments;
-  final List<GetUserDetails>? entrySecurities;
 
   factory EventInfoState.initial({
     required EventProtectionModel model,
@@ -51,34 +37,19 @@ class EventInfoState extends Equatable {
     List<CreateImage>? medicalAttachments,
     List<GetUserDetails>? entrySecurities,
     required int? eventId,
-    List<String>? participationDate,
+    List<String>? additionalEmails,
   }) {
     return EventInfoState(
       status: FormStatus.initial,
       model: model,
       locations: locations,
       loggedInUserDetails: loggedInUserDetails,
-      listOfEntities: listOfEntities,
-      listOfQualifications: listOfQualifications,
-      departments: departments,
-      getEntitiesResponse: getEntitiesResponse,
-      getQualificationsResponse: getQualificationsResponse,
       users: users,
       emailUsers: emailUsers,
       message: errorMessage,
       loadAttachments: loadAttachments,
-      guardAttachments: guardAttachments,
-      deploymentAttachments: deploymentAttachments,
       eventId: eventId,
-      participationDates: participationDate,
-      bioDataAttachments: bioDataAttachments,
-      localAddressAttachments: localAddressAttachments,
-      medicalAttachments: medicalAttachments,
-      permanentAddressAttachments: permanentAddressAttachments,
-      pVCAttachments: pVCAttachments,
-      trainingAttachments: trainingAttachments,
-      mSGBAttachments: mSGBAttachments,
-      entrySecurities: entrySecurities,
+      additionalEmails: additionalEmails,
     );
   }
 
@@ -101,82 +72,34 @@ class EventInfoState extends Equatable {
     this.users,
     this.emailUsers,
     this.loadAttachments,
-    this.guardAttachments,
-    this.deploymentAttachments,
-    this.bioDataAttachments,
-    this.listOfEntities,
-    this.listOfQualifications,
-    required this.departments,
-    this.getQualificationsResponse,
-    this.getEntitiesResponse,
-    this.participationDates,
+    this.additionalEmails,
     this.eventId,
     this.message,
-    this.permanentAddressAttachments,
-    this.localAddressAttachments,
-    this.pVCAttachments,
-    this.trainingAttachments,
-    this.medicalAttachments,
-    this.entrySecurities,
-    this.mSGBAttachments,
   });
 
   EventInfoState copyWith({
     FormStatus? status,
-    EventProtectionModel? guardingMasterData,
+    EventProtectionModel? model,
     GetLocations? locations,
     EntrySecurity? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<CreateImage>? loadAttachments,
-    List<CreateImage>? guardAttachments,
-    List<CreateImage>? deploymentAttachments,
-    List<CreateImage>? bioDataAttachments,
-    List<Entity>? listOfEntities,
-    List<Entity>? listOfQualifications,
-    List<Department>? departments,
-    AddQualifications? getQualificationsResponse,
-    AddEntities? getEntitiesResponse,
-    List<String>? participationDates,
+    List<String>? additionalEmails,
     int? eventId,
     String? message,
-    List<CreateImage>? permanentAddressAttachments,
-    List<CreateImage>? localAddressAttachments,
-    List<CreateImage>? pVCAttachments,
-    List<CreateImage>? trainingAttachments,
-    List<CreateImage>? medicalAttachments,
-    List<CreateImage>? mSGBAttachments,
-    List<GetUserDetails>? entrySecurities,
   }) {
     return EventInfoState(
       status: status ?? this.status,
-      model: guardingMasterData ?? this.model,
+      model: model ?? this.model,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
       loadAttachments: loadAttachments ?? this.loadAttachments,
-      guardAttachments: guardAttachments ?? this.guardAttachments,
-      deploymentAttachments:
-          deploymentAttachments ?? this.deploymentAttachments,
-      bioDataAttachments: bioDataAttachments ?? this.bioDataAttachments,
-      listOfEntities: listOfEntities ?? this.listOfEntities,
-      listOfQualifications: listOfQualifications ?? this.listOfQualifications,
-      departments: departments ?? this.departments,
-      getQualificationsResponse:
-          getQualificationsResponse ?? this.getQualificationsResponse,
-      getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
-      participationDates: participationDates ?? this.participationDates,
+      additionalEmails: additionalEmails ?? this.additionalEmails,
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
-      permanentAddressAttachments:
-          permanentAddressAttachments ?? this.permanentAddressAttachments,
-      localAddressAttachments:
-          localAddressAttachments ?? this.localAddressAttachments,
-      pVCAttachments: pVCAttachments ?? this.pVCAttachments,
-      trainingAttachments: trainingAttachments ?? this.trainingAttachments,
-      medicalAttachments: medicalAttachments ?? this.medicalAttachments,
-      entrySecurities: entrySecurities ?? this.entrySecurities,
     );
   }
 }

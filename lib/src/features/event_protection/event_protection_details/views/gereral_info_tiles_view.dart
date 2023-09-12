@@ -6,14 +6,11 @@ import '../../../../constants/constants.dart';
 import '../../../../routing/router.dart';
 import '../../../../utils/app_themes/colors/app_color.dart';
 
-class GeneralInfoTilesView extends StatefulWidget {
-  const GeneralInfoTilesView({super.key});
+class GeneralInfoTilesView extends StatelessWidget {
+  const GeneralInfoTilesView({super.key, required this.id});
 
-  @override
-  State<GeneralInfoTilesView> createState() => _GeneralInfoTilesViewState();
-}
+  final String id;
 
-class _GeneralInfoTilesViewState extends State<GeneralInfoTilesView> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

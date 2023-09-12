@@ -216,28 +216,40 @@ class RouteGenerator {
                 ));
 
       case eventProtectionDetailsTabRoute:
-        return MaterialPageRoute(
-            builder: (context) => const EventProtectionDetails());
-      case generalInfoTilesViewRoute:
-        return MaterialPageRoute(
-            builder: (context) => const GeneralInfoTilesView());
-
-      case generalInfoRoute:
-        EventProtectionModel model = EventProtectionModel();
+        String id = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          model = arguments['model'];
+          id = arguments['id'].toString();
         }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<GeneralInfoCubit>(
-                  create: (_) => GeneralInfoCubit(
-                    services: EventProtectionServices(),
-                    commonServices: CommonServices(),
-                    model: model,
-                  ),
-                  child: const GeneralInfoTilesView(),
-                ));
+            builder: (context) =>  EventProtectionDetails(id: id,));
+      case generalInfoTilesViewRoute:
+        String id = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          id = arguments['id'].toString();
+        }
+        return MaterialPageRoute(
+            builder: (context) =>  GeneralInfoTilesView(id: id,));
+
+      // case generalInfoRoute:
+      //   EventProtectionModel model = EventProtectionModel();
+      //   if (settings.arguments != null) {
+      //     Map<String, dynamic> arguments =
+      //         settings.arguments as Map<String, dynamic>;
+      //     model = arguments['model'];
+      //   }
+      //   return MaterialPageRoute(
+      //       builder: (context) => BlocProvider<GeneralInfoCubit>(
+      //             create: (_) => GeneralInfoCubit(
+      //               services: EventProtectionServices(),
+      //               commonServices: CommonServices(),
+      //               model: model,
+      //             ),
+      //             child: const GeneralInfoTilesView(),
+      //           ));
 
       case generalInfoGIRoute:
         EventProtectionModel model = EventProtectionModel();

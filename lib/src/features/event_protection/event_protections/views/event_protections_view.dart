@@ -140,7 +140,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                           );
                         },
                         onEditTap: (selectedIndex) {
-                          getLawEnforcementId(state.items[index].id ?? 0);
+                          getId(state.items[index].id ?? 0);
                         },
                         onViewTap: (selectedIndex) {
                           showDialog(
@@ -165,22 +165,12 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
         }));
   }
 
-  getLawEnforcementId(int id) async {
-    showLoadingDialog(context);
+  getId(int id) async {
 
-    MaterialMovementModel materialMovementModel =
-        await EventProtectionServices().getMaterialMovement(id);
-
-    editDataLoading(materialMovementModel);
-  }
-
-  void editDataLoading(MaterialMovementModel? materialMovementModel) {
-    dismissLoadingDialog(context);
-    if (materialMovementModel != null) {
-      Navigator.pushNamed(
-        context,
-        eventProtectionDetailsTabRoute,
-      );
-    }
+    Navigator.pushNamed(
+      context,
+      eventProtectionDetailsTabRoute,
+      arguments: {'id': id},
+    );
   }
 }
