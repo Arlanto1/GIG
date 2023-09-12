@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/models/ci_model.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/guard_info_model.dart';
 import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
@@ -18,8 +18,9 @@ class Apis {
 
   static final String _getGI = '$baseUrl/getEPGIById';
   static final String _getCI = '$baseUrl/getEPCIById';
+  static final String _getGuardInfo = '$baseUrl/getEPGuardInfoById';
 
-  static final String _createMaterialMovement = '$baseUrl/createMtrlMvmt';
+  static final String _createEventGeneralInformation = '$baseUrl/createEventGi?';
 }
 
 class EventProtectionServices {
@@ -62,6 +63,14 @@ class EventProtectionServices {
     return CiModel.fromJson(response);
   }
 
+  Future<GuardInfoModel> getEPGuardInfo(int id) async {
+    final String url = '${Apis._getGuardInfo}/$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return GuardInfoModel.fromJson(response);
+  }
+
   Future<bool> showGuardInfo(int id) async {
     final String url = '${Apis._getCI}/$id';
     final response = await BaseApiService().getRequest(
@@ -72,13 +81,13 @@ class EventProtectionServices {
 
   /// Create Services
 
-  Future<GenericCreateResponse> createMaterialMovement({
-    required MaterialMovementRequest body,
+  Future<GenericCreateResponse> createEventGeneralInformation({
+     required MaterialMovementRequest body,
     required bool isSubmit,
   }) async {
     var userId = await SharedPrefs.getUserId();
     final String url =
-        "${Apis._createMaterialMovement}?userEmail=$userId&isSubmit=$isSubmit";
+        "${Apis._createEventGeneralInformation}?userEmail=$userId&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,

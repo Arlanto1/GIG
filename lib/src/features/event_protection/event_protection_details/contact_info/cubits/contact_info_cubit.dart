@@ -131,12 +131,12 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
   Future<void> updateDropdownValues({
     List<Entity>? entities,
     Location? location,
-    BaseUser? user,
+    GetUserDetails? user,
     Department? requesterDepartment,
     Department? bu1Dept,
     Department? bu2Dept,
     Department? proposedVendors,
-    BaseUser? subRegionalHead1,
+    GetUserDetails? subRegionalHead1,
     BaseUser? subRegionalHead2,
     BaseUser? locationSecurityManager1,
     BaseUser? locationSecurityManager2,
@@ -160,24 +160,24 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
     // if (entities != null) {
     //   state.model.entities = entities;
     // }
-    // if (subRegionalHead1 != null) {
-    //   state.model.srh1Name = subRegionalHead1.email;
+     //if (subRegionalHead1 != null) {
+    //   state.model.srh1 = subRegionalHead1.email as GetUserDetails?;
     // }
     // if (subRegionalHead2 != null) {
-    //   state.model.srh2Name = subRegionalHead2.email;
+    //   state.model.srh2 = subRegionalHead2.email;
     // }
     // if (locationSecurityManager1 != null) {
-    //   state.model.lsm1Name = locationSecurityManager1.email;
+    //   state.model.lsm1= locationSecurityManager1.email;
     // }
     // if (locationSecurityManager2 != null) {
-    //   state.model.lsm2Name = locationSecurityManager2.email;
+    //   state.model.lsm2 = locationSecurityManager2.email;
     // }
 
     // if (bu1Name != null) {
-    //   state.model.bu1Name = bu1Name.email;
+    //   state.model.bu1 = bu1Name.email;
     // }
     // if (bu2Name != null) {
-    //   state.model.bu1Name = bu2Name.email;
+    //   state.model.bu1 = bu2Name.email;
     // }
     if (epOfficers != null) {
       state.model.epOfficers = epOfficers.email;

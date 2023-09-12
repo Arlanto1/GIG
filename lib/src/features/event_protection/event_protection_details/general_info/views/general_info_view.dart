@@ -26,7 +26,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../main_DEV.dart';
 import '../../../../../common_widgets/base_widget/radio_buttons_yes_no.dart';
-import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
+import '../../../../../utils/util.dart';
 import '../cubits/general_info_cubit.dart';
 
 class GeneralInfoView extends StatefulWidget {
@@ -47,33 +47,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
   List<CreateImage>? bioDataFiles;
   List<CreateImage>? permanentAddressFiles;
   List<CreateImage>? localAddressFiles;
-  List<CreateImage>? pVCFiles;
-  List<CreateImage>? trainingFiles;
-  List<CreateImage>? mSGBAFiles;
-  List<CreateImage>? medicalFiles;
-  List<FoundImage>? getAttachments;
-  TextEditingController dateOfBirthController = TextEditingController();
-  TextEditingController dateOfJoiningController = TextEditingController();
-  TextEditingController participationDateController = TextEditingController();
-  TextEditingController pvcIssuedDateController = TextEditingController();
-  TextEditingController pvcExpiryDateController = TextEditingController();
-  TextEditingController medicalCertificateValidUntilController =
-      TextEditingController();
-  TextEditingController dateOfFirstCovidDoseController =
-      TextEditingController();
-  TextEditingController dateOfSecondCovidDoseController =
-      TextEditingController();
-  TextEditingController dateOfPrecautionaryCovidDose = TextEditingController();
-  TextEditingController ertCertificationDate = TextEditingController();
-  TextEditingController firstAidTrainingCompletionDate =
-      TextEditingController();
-
-  TextEditingController rankController = TextEditingController();
-  TextEditingController dutyTypeController = TextEditingController();
-  TextEditingController genderController = TextEditingController();
-  TextEditingController maritalStatusController = TextEditingController();
-  TextEditingController deploymentTypeController = TextEditingController();
-  TextEditingController systemAccessController = TextEditingController();
+  TextEditingController eventStartDateController = TextEditingController();
+  TextEditingController eventEndDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   bool isDisabled = true;
 
@@ -104,7 +79,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
               Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
-                guardingMasterDataRoute,
+                generalInfoGIRoute,
                 arguments: {},
               );
             },
@@ -193,21 +168,21 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDropDown().getDropDown(
-                              isDisabled: state.model.status != 6,
+                              isDisabled: state.model.status != 0,
                               textController: statusController,
-                              items: statusDropDownValues,
-                              initialValue: '${state.model.status ?? 1}',
+                              items: eventProtectionGiStatus,
+                              initialValue: '${state.model.status ?? 0}',
                               onTap: () {
                                 if (state.model.id != null) {
                                   BaseDropDown().assetTypeDialog(
                                     context: context,
-                                    dropDownValues: statusDropDownValues
+                                    dropDownValues: eventProtectionGiStatus
                                         .map((label) => label.key)
                                         .toList(),
                                     onTap: (String value) {
                                       Label? selectedLabel;
                                       selectedLabel =
-                                          statusDropDownValues.firstWhere(
+                                          eventProtectionGiStatus.firstWhere(
                                         (label) => label.key == value,
                                         orElse: () =>
                                             const Label(key: '', value: ''),
@@ -222,18 +197,18 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Created By
-                          CommonWidgets.verticalTextHandling(
-                              Constants.createdby,
-                              state.loggedInUserDetails?.name ?? ''),
+                          /// Sl No.
+                          CommonWidgets.horizentaltextHandling(
+                              Constants.slno, state.model.slNo ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
+
 
                           /// Date of creation
                           CommonWidgets.textDisplay(Constants.dateofcreation,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseDate()
-                              .creationDateDisplay(state.model.inputDate ?? ''),
+                          BaseDate().creationDateDisplay(
+                              state.model.inputDate ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Location
@@ -264,45 +239,75 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Sl No.
-                          CommonWidgets.horizentaltextHandling(
-                              Constants.slno, state.model.slNo ?? ''),
+                          /// Is Annual Power Shutdown?
+                          CommonWidgets.textDisplay(
+                              Constants.isAnnualPowerShutdown,
+                              Styles.textStyleBlack14),
+                          RadioButtonsYesNo(
+                              status: state.model.status ?? 0,
+                              selectedValue:
+                                  state.model.annualPowerShutdown ?? false
+                                      ? 1
+                                      : 0,
+                              onChangedYes: state.model.status == 6
+                                  ? null
+                                  : (val) {
+                                      state.model.annualPowerShutdown = true;
+                                      BlocProvider.of<GeneralInfoCubit>(context)
+                                          .onCheckBoxChange(state.model);
+                                    },
+                              onChangedNo: state.model.status == 4
+                                  ? null
+                                  : (val) {
+                                      state.model.annualPowerShutdown = false;
+                                      BlocProvider.of<GeneralInfoCubit>(context)
+                                          .onCheckBoxChange(state.model);
+                                    }),
+
+                    /// Event Start Date
+                          CommonWidgets.textDisplay(
+                            Constants.eventStartDate,
+                            Styles.textStyleBlack14,
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                          BaseDate().datePickerWidgetLoading(
+                            textController: eventStartDateController,
+                            onlyDate: true,
+                            onChange: (String value) {
+                              log('---value-$value------');
+                              state.model.eventStartDate =
+                                  Utils().formatTime(value);
+                              BlocProvider.of<GeneralInfoCubit>(context)
+                                  .onModelValueChange(state.model);
+                            },
+                            context: context,
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Event End Date
+                          CommonWidgets.textDisplay(
+                            Constants.eventEndDate,
+                            Styles.textStyleBlack14,
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                          BaseDate().datePickerWidgetLoading(
+                            textController: eventEndDateController,
+                            onlyDate: true,
+                            onChange: (String value) {
+                              state.model.eventEndDate =
+                                  Utils().formatTime(value);
+                              BlocProvider.of<GeneralInfoCubit>(context)
+                                  .onModelValueChange(state.model);
+                            },
+                            context: context,
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ]),
                       ),
-
-                      /// Deployment order Submitted?
-                      CommonWidgets.textDisplay(
-                          Constants.deploymentOrderSubmitted,
-                          Styles.textStyleBlack14),
-                      RadioButtonsYesNo(
-                          status: state.model.status ?? 0,
-                          selectedValue:
-                              state.model.annualPowerShutdown ?? false ? 1 : 0,
-                          onChangedYes: state.model.status == 6
-                              ? null
-                              : (val) {
-                                  state.model.annualPowerShutdown = true;
-                                  BlocProvider.of<
-                                              GeneralInfoCubit>(
-                                          context)
-                                      .onCheckBoxChange(state.model
-                                      );
-                                  //.onModelValueChange(state.guardingMasterData
-                                  //);
-                                },
-                          onChangedNo: state.model.status == 4
-                              ? null
-                              : (val) {
-                                  state.model.annualPowerShutdown = false;
-                                  BlocProvider.of<
-                                      GeneralInfoCubit>(
-                                          context)
-                                      .onCheckBoxChange(
-                                      state.model);
-                                  // .onModelValueChange(state.guardingMasterData
-                                  //  );
-                                }),
 
                       /// SubmitButton
                       if (state.model.status != 4) ...[

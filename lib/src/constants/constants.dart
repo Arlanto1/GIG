@@ -403,16 +403,17 @@ class Constants {
   static const String write = 'Write';
   static const String speak = 'Speak';
   static const String permanentAddress = 'Permanent Address';
-  static const String uploadPermanentAddressProof = 'Upload Permanent Address Proof';
+  static const String uploadPermanentAddressProof =
+      'Upload Permanent Address Proof';
   static const String uploadLocalAddressProof = 'Upload Local Address Proof';
   static const String securityExperience = 'Security Experience';
   static const String addParticipationDates = 'Add Participation Date';
   static const String uploadBioData = 'Upload Bio Data';
   static const String uploadMedicalCertificate = 'Upload Medical Certificate';
   static const String uploadTrainingCertificate = 'Upload Training Certificate';
-  static const String uploadDeploymentOrderFile = 'Upload Deployment Order File';
+  static const String uploadDeploymentOrderFile =
+      'Upload Deployment Order File';
   static const String addQualificationType = 'Add Qualification';
-
 
   // Event Protection
   static const String eventProtectionTitle = 'Event Protection';
@@ -438,7 +439,8 @@ class Constants {
   static const String numOfSecurityOfficers = 'No. Of Security Officers';
   static const String numOfSecuritySupervisor = 'No. Of Security Supervisor';
   static const String numOfSecurityGuards = 'No. Of Security Guards';
-  static const String numOfSecurityFacilitators = 'No. Of Security Facilitators';
+  static const String numOfSecurityFacilitators =
+      'No. Of Security Facilitators';
   static const String guardingVendorId = 'Guarding Vendor Id';
   static const String guardingAgencyPOC = 'Guarding Agency POC';
   static const String subRegionalHead1 = 'Sub Regional Head (SRH) 1';
@@ -446,23 +448,30 @@ class Constants {
   static const String businessPoc1ContactNo = 'Business POC 1 Contact No';
   static const String businessPoc2ContactNo = 'Business POC 2 Contact No';
   static const String requesterDepartment = 'Requester Department';
-  static const String isExtraSecurityDeploymentRequired = 'Is Extra Security Deployment Required';
+  static const String isExtraSecurityDeploymentRequired =
+      'Is Extra Security Deployment Required';
   static const String systemVendor1Email = 'System Vendor 1 Email';
   static const String systemVendor2Email = 'System Vendor 2 Email';
   static const String vendor1ContactNO = 'Vendor 1 Contact No';
   static const String vendor2ContactNO = 'Vendor 2 Contact No';
   static const String systemVendor3Email = 'System Vendor 3 Email';
   static const String vendor3ContactNO = 'Vendor 3 Contact No';
-  static const String primaryServiceEngineerName = 'Primary Service Engineer Name';
-  static const String secondaryServiceEngineerName = 'Secondary Service Engineer Name';
-  static const String primaryServiceEngineerContact = 'Primary Service Engineer Contact';
-  static const String secondaryServiceEngineerContact = 'Secondary Service Engineer Contact';
+  static const String primaryServiceEngineerName =
+      'Primary Service Engineer Name :';
+  static const String secondaryServiceEngineerName =
+      'Secondary Service Engineer Name :';
+  static const String primaryServiceEngineerContact =
+      'Primary Service Engineer Contact :';
+  static const String secondaryServiceEngineerContact =
+      'Secondary Service Engineer Contact :';
   static const String businessPoc1Department = 'Business POC 1 Department';
   static const String businessPoc2Department = 'Business POC 2 Department';
   static const String eventProtectionOfficers = 'Event protection Officer(s)';
   static const String proposedVendors = 'Proposed Vendors';
+  static const String eventStartDate = 'Event Start Date';
+  static const String eventEndDate = 'Event End Date';
+  static const String isAnnualPowerShutdown = 'Is Annual Power Shutdown';
 }
-
 
 //static const String height = 'Height(cm)';
 
@@ -491,6 +500,40 @@ List<Label> dutyTypeDropDownValues = const [
   Label(key: 'Escort', value: '2'),
   Label(key: 'Facility', value: '3'),
   Label(key: 'Building & Escort', value: '4'),
+];
+
+
+List<Label> eventProtectionGiStatus = const [
+  Label(key: 'Draft', value: '0'),
+  Label(key: 'Business Review', value: '1'),
+  Label(key: 'LSM Review', value: '2'),
+  Label(key: 'LSM Approved', value: '3'),
+  Label(key: 'LSM Rejected', value: '4'),
+  Label(key: 'Vendor Review', value: '5'),
+  Label(key: 'Vendor Approved', value: '6'),
+  Label(key: 'Vendor Rejected', value: '7'),
+  Label(key: 'Business POC Review', value: '8'),
+  Label(key: 'Business POC Approved', value: '9'),
+  Label(key: 'Business POC Rejected', value: '10'),
+  Label(key: 'Security Vendor Review', value: '11'),
+  Label(key: 'Security Vendor Submitted', value: '12'),
+  Label(key: 'EP Pre Review', value: '13'),
+  Label(key: 'EP Pre Approved', value: '14'),
+  Label(key: 'EP Pre Rejected', value: '15'),
+  Label(key: 'SRH Review', value: '16'),
+  Label(key: 'SRH Approved', value: '17'),
+  Label(key: 'SRH Rejected', value: '18'),
+  Label(key: 'EP PO Required', value: '19'),
+  Label(key: 'EP PO Updated', value: '20'),
+  Label(key: 'Event Started', value: '21'),
+  Label(key: 'During Event', value: '22'),
+  Label(key: 'Event Concluded', value: '23'),
+  Label(key: 'EP Post Approve', value: '25'),
+  Label(key: 'EP Post Reject', value: '26'),
+  Label(key: 'Invoice Requested', value: '27'),
+  Label(key: 'Invoice Raised', value: '28'),
+  Label(key: 'Invoice Submitted', value: '29'),
+  Label(key: 'Closed', value: '30'),
 ];
 
 List<Label> guardRankDropDownValues = const [

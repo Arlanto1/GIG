@@ -8,7 +8,6 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
@@ -19,12 +18,12 @@ import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../utils/util.dart';
 import '../models/gi_model.dart';
 
 part 'general_info_state.dart';
@@ -42,7 +41,6 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           GeneralInfoState.initial(
               model: GiModel(),
               locations: GetLocations(),
-              loggedInUserDetails: EntrySecurity(),
               users: const [],
               emailUsers: const [],
               errorMessage: '',
@@ -50,9 +48,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
               eventId: null,
               listOfEntities: const [],
               getEntitiesResponse: null,
-              departments: const [],
-              listOfQualifications: const [],
-              getQualificationsResponse: null),
+              departments: const [], loggedInUserDetails: null,
+              ),
         );
 
   void onModelValueChange(GiModel model) {
@@ -65,7 +62,9 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
-
+  String _getCurrentDate() {
+    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
+  }
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     //Show Loader and emit loading state
@@ -88,7 +87,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       // Get Date of Creation
-      state.model.inputDate = Utils().getCurrentDate();
+      state.model.inputDate = _getCurrentDate();
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
@@ -128,9 +127,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     Location? location,
     BaseUser? user,
     Department? vendor,
-    BaseUser? guard,
     Entity? entity,
-    List<Entity>? qualifications,
     int? status,
   }) async {
     emit(
@@ -148,6 +145,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
     }
+
     state.model.status = status ?? state.model.status;
 
     if (entities != null) {
@@ -163,15 +161,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   void addAttachment({
     List<CreateImage>? data,
     List<CreateImage>? guardImages,
-    List<CreateImage>? deploymentFiles,
-    List<CreateImage>? bioDataFiles,
-    List<CreateImage>? permanentAddressFiles,
-    List<CreateImage>? localAddressFiles,
-    List<CreateImage>? pVCFiles,
-    List<CreateImage>? trainingFiles,
-    List<CreateImage>? mSGBExemptionFiles,
-    List<CreateImage>? medicalFiles,
-    List<CreateImage>? mSGBAttachments,
+
   }) async {
     emit(
       state.copyWith(
@@ -186,95 +176,6 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         state.copyWith(
           eventId: eventIds,
           model: state.model,
-          guardAttachments: guardImages,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (deploymentFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          deploymentAttachments: deploymentFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (bioDataFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          bioDataAttachments: bioDataFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (permanentAddressFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          permanentAddressAttachments: permanentAddressFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (localAddressFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          localAddressAttachments: localAddressFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (pVCFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          pVCAttachments: pVCFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (trainingFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          trainingAttachments: trainingFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (mSGBExemptionFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          mSGBAttachments: mSGBExemptionFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (medicalFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          medicalAttachments: medicalFiles,
           status: FormStatus.initial,
         ),
       );
@@ -284,8 +185,6 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.copyWith(
         eventId: eventIds,
         model: state.model,
-        loadAttachments: data,
-        guardAttachments: guardImages,
         status: FormStatus.initial,
       ),
     );
@@ -314,8 +213,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     GenericCreateResponse response = GenericCreateResponse();
     try {
       if (isSaveOnly) {
-        // response = (await services.createGuardingMasterData(
-        //     body: request, isSubmit: false));
+       // response = (await services.createEventGeneralInformation(
+         //  body: request, isSubmit: false));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -327,7 +226,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           );
           return;
         }
-        // response = (await services.createGuardingMasterData(
+        // response = (await services.createEventGeneralInformation(
         //     body: request, isSubmit: true));
       }
     } on Exception catch (e) {

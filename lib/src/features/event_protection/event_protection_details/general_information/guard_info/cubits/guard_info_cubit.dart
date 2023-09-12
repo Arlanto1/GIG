@@ -5,15 +5,11 @@ import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/gi_model.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/department.dart';
 import 'package:db_atom/src/models/entity.dart';
@@ -21,11 +17,11 @@ import 'package:db_atom/src/models/location.dart';
 import 'package:db_atom/src/models/responseModels/error_response_validation.dart';
 import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:db_atom/src/utils/util.dart';
+
 import 'package:equatable/equatable.dart';
 
 import '../../../../../../models/entry_security.dart';
+import '../models/guard_info_model.dart';
 
 part 'guard_info_state.dart';
 
@@ -40,7 +36,7 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
     required this.id,
   }) : super(
           GuardInfoState.initial(
-              model: GiModel(),
+              guardInfoModel: GuardInfoModel(),
               locations: GetLocations(),
               loggedInUserDetails: EntrySecurity(),
               users: const [],
@@ -48,22 +44,19 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
               errorMessage: '',
               loadAttachments: const [],
               eventId: null,
-              listOfEntities: const [],
-              getEntitiesResponse: null,
               departments: const [],
-              listOfQualifications: const [],
-              getQualificationsResponse: null),
+          ),
         );
 
-  void onModelValueChange(GiModel model) {
+  void onModelValueChange(GuardInfoModel guardInfoModel) {
     log('-onModelValueChange---');
-    emit(state.copyWith(model: model, status: FormStatus.initial));
+    emit(state.copyWith(guardInfoModel: guardInfoModel, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(GiModel model) {
-    emit(state.copyWith(model: model, status: FormStatus.loading));
+  void onCheckBoxChange(GuardInfoModel guardInfoModel) {
+    emit(state.copyWith(guardInfoModel: guardInfoModel, status: FormStatus.loading));
 
-    emit(state.copyWith(model: model, status: FormStatus.initial));
+    emit(state.copyWith(guardInfoModel: guardInfoModel, status: FormStatus.initial));
   }
 
   Future<void> initializeValues() async {
@@ -74,45 +67,36 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
         status: FormStatus.loading,
       ),
     );
-    var userId = await SharedPrefs.getUserId();
+   // var userId = await SharedPrefs.getUserId();
     try {
-      GiModel model = await services.getGI(id);
+      GuardInfoModel guardInfoModel = await services.getEPGuardInfo(id);
 
-      GetLocations getLocationsData =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
-      EntrySecurity loggedInUserDetails =
-          await commonServices.getUserDetails(userId: userId);
+     // EntrySecurity loggedInUserDetails =
+     //     await commonServices.getUserDetails(userId: userId);
 
-      Analyst users =
-          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       // Get Date of Creation
-      state.model.inputDate = Utils().getCurrentDate();
+      //state.guardInfoModel.inputDate = Utils().getCurrentDate();
 
-      AddEntities entities =
-          await commonServices.getEntities(name: 'ATOM_ENTITIES');
+      //AddEntities entities =
+      //    await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
-      List<GetUserDetails> entrySecurities = await commonServices.getUsers();
+     // List<GetUserDetails> entrySecurities = await commonServices.getUsers();
 
-      EmployeeDepartments departments =
-          await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+     // EmployeeDepartments departments =
+     //     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
       emit(
         state.copyWith(
-          model: model,
-          locations: getLocationsData,
-          loggedInUserDetails: loggedInUserDetails,
+          guardInfoModel: guardInfoModel,
+         // loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          users: users.t1Analyst,
-          departments: departments.employeeDepartments,
-          entrySecurities: entrySecurities,
-          listOfEntities: entities.atomEntities,
-          getEntitiesResponse: entities,
+          //departments: departments.employeeDepartments,
         ),
       );
     } catch (e) {
-      log('initialization issue', error: e, name: 'Guarding Master Data Cubit');
+      log('initialization issue', error: e, name: 'Guard Info Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -124,14 +108,14 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
   }
 
   Future<void> updateDropdownValues({
-    List<Entity>? entities,
+    //List<Entity>? entities,
     Location? location,
     BaseUser? user,
-    Department? vendor,
     BaseUser? guard,
-    Entity? entity,
-    List<Entity>? qualifications,
+   // Entity? entity,
+  //  List<Entity>? qualifications,
     int? status,
+    List<ProposedVendors>? proposedVendors,
   }) async {
     emit(
       state.copyWith(
@@ -139,23 +123,21 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
       ),
     );
     ////Get Sl No from API
-    if (location != null) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.guardingMasterDataModule,
-      );
+    //if (location != null) {
+    //  SerialNumberModel slNo = await commonServices.getSlNo(
+     //   locationId: location.id.toString(),
+     //   moduleCode: Constants.guardingMasterDataModule,
+      //);
+   // }
+   // state.model.status = status ?? state.model.status;
+  state.guardInfoModel.proposedVendors = proposedVendors ?? state.guardInfoModel.proposedVendors;
 
-      state.model.location = location;
-      state.model.slNo = slNo.serialNo ?? '';
-    }
-    state.model.status = status ?? state.model.status;
-
-    if (entities != null) {
-      state.model.entities = entities;
-    }
+    //if (entities != null) {
+   //   state.model.entities = entities;
+  //  }
 
     emit(state.copyWith(
-      model: state.model,
+      guardInfoModel: state.guardInfoModel,
       status: FormStatus.initial,
     ));
   }
@@ -163,15 +145,7 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
   void addAttachment({
     List<CreateImage>? data,
     List<CreateImage>? guardImages,
-    List<CreateImage>? deploymentFiles,
-    List<CreateImage>? bioDataFiles,
-    List<CreateImage>? permanentAddressFiles,
-    List<CreateImage>? localAddressFiles,
-    List<CreateImage>? pVCFiles,
-    List<CreateImage>? trainingFiles,
-    List<CreateImage>? mSGBExemptionFiles,
-    List<CreateImage>? medicalFiles,
-    List<CreateImage>? mSGBAttachments,
+
   }) async {
     emit(
       state.copyWith(
@@ -185,105 +159,18 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          model: state.model,
+          guardInfoModel: state.guardInfoModel,
           guardAttachments: guardImages,
           status: FormStatus.initial,
         ),
       );
     }
 
-    if (deploymentFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          deploymentAttachments: deploymentFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (bioDataFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          bioDataAttachments: bioDataFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (permanentAddressFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          permanentAddressAttachments: permanentAddressFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (localAddressFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          localAddressAttachments: localAddressFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (pVCFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          pVCAttachments: pVCFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (trainingFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          trainingAttachments: trainingFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (mSGBExemptionFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          mSGBAttachments: mSGBExemptionFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (medicalFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          model: state.model,
-          medicalAttachments: medicalFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
 
     emit(
       state.copyWith(
         eventId: eventIds,
-        model: state.model,
+        guardInfoModel: state.guardInfoModel,
         loadAttachments: data,
         guardAttachments: guardImages,
         status: FormStatus.initial,
@@ -300,12 +187,12 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
       ),
     );
 
-    if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 1;
+    if (state.guardInfoModel.status == 0 || state.guardInfoModel.status == null) {
+      state.guardInfoModel.status = 1;
     }
     // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+   // state.guardInfoModel.inputDate =
+    //    (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // Create/Update API Call
     // GuardingMasterDataRequest request =
@@ -339,7 +226,7 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
       );
     }
 
-    print('---response--msg--${response.message}---');
+    log('---response--msg--${response.message}---');
 
     emit(
       state.copyWith(

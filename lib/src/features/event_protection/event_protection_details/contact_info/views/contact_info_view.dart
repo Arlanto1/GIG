@@ -41,39 +41,10 @@ class _ContactInfoViewState extends State<ContactInfoView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   GetUserDetails? userDetails;
   List<CreateImage>? getFiles;
-  List<CreateImage>? guardFiles;
-  List<CreateImage>? deploymentFiles;
-  List<CreateImage>? bioDataFiles;
-  List<CreateImage>? permanentAddressFiles;
-  List<CreateImage>? localAddressFiles;
-  List<CreateImage>? pVCFiles;
-  List<CreateImage>? trainingFiles;
-  List<CreateImage>? mSGBAFiles;
-  List<CreateImage>? medicalFiles;
   List<FoundImage>? getAttachments;
   bool isExtraSecurityDeployed = false;
   TextEditingController dateOfBirthController = TextEditingController();
   TextEditingController dateOfJoiningController = TextEditingController();
-  TextEditingController participationDateController = TextEditingController();
-  TextEditingController pvcIssuedDateController = TextEditingController();
-  TextEditingController pvcExpiryDateController = TextEditingController();
-  TextEditingController medicalCertificateValidUntilController =
-      TextEditingController();
-  TextEditingController dateOfFirstCovidDoseController =
-      TextEditingController();
-  TextEditingController dateOfSecondCovidDoseController =
-      TextEditingController();
-  TextEditingController dateOfPrecautionaryCovidDose = TextEditingController();
-  TextEditingController ertCertificationDate = TextEditingController();
-  TextEditingController firstAidTrainingCompletionDate =
-      TextEditingController();
-
-  TextEditingController rankController = TextEditingController();
-  TextEditingController dutyTypeController = TextEditingController();
-  TextEditingController genderController = TextEditingController();
-  TextEditingController maritalStatusController = TextEditingController();
-  TextEditingController deploymentTypeController = TextEditingController();
-  TextEditingController systemAccessController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   bool isDisabled = true;
 
@@ -194,14 +165,14 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
-                            title: state.model.srh1?.name,
+                            title:'${ state.model.srh1?.firstName} ${ state.model.srh1?.lastName}',
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
                               BaseDepartmentDialog().userDialog(
                                 context: context,
                                 users: state.emailUsers!,
-                                onTap: (BaseUser user) {
+                                onTap: (GetUserDetails user) {
                                   BlocProvider.of<ContactInfoCubit>(context)
                                       .updateDropdownValues(
                                     subRegionalHead1: user,
@@ -218,7 +189,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
-                            title: state.model.srh2?.name,
+                            title: '${ state.model.srh2?.firstName} ${ state.model.srh2?.lastName}',
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
@@ -242,7 +213,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
-                            title: state.model.lsm1?.name,
+                            title: '${ state.model.lsm1?.firstName} ${ state.model.lsm1?.lastName}',
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
@@ -295,7 +266,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
-                            title: state.model.lsm2?.name,
+                            title: '${ state.model.lsm2?.firstName} ${ state.model.lsm2?.lastName}',
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
@@ -348,7 +319,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
-                            title: '${state.model.bu1?.name}',
+                            title: '${state.model.bu1?.firstName} ${state.model.bu1?.lastName}',
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
@@ -403,7 +374,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
-                            title: state.model.bu2?.name,
+                            title: '${state.model.bu2?.firstName} ${state.model.bu2?.lastName}',
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
@@ -809,46 +780,41 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Event Protection Officer
-                          Column(
-                            children: [
-                              CommonWidgets.textDisplay(
-                                Constants.eventProtectionOfficers,
-                                Styles.textStyleBlack14,
-                              ),
-                              TextfieldAddButton(
-                                title: state.model.epOfficers,
-                                height: 60,
-                                isDisableColor: false,
-                                onTap: () {
-                                  BaseDepartmentDialog().userDialog(
-                                    context: context,
-                                    users: state.emailUsers!,
-                                    onTap: (BaseUser user) {
-                                      BlocProvider.of<ContactInfoCubit>(context)
-                                          .updateDropdownValues(
-                                        epOfficers: user,
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
-                          ),
-
-                          ///Is Extra Security Deployment Required
                           CommonWidgets.textDisplay(
-                            Constants.isExtraSecurityDeploymentRequired,
+                            Constants.eventProtectionOfficers,
                             Styles.textStyleBlack14,
                           ),
+                          TextfieldAddButton(
+                            title: state.model.epOfficers,
+                            height: 70,
+                            isDisableColor: false,
+                            onTap: () {
+                              BaseDepartmentDialog().userDialog(
+                                context: context,
+                                users: state.emailUsers!,
+                                onTap: (BaseUser user) {
+                                  BlocProvider.of<ContactInfoCubit>(context)
+                                      .updateDropdownValues(
+                                    epOfficers: user,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// is Extra Security Deployed?
-                          CommonWidgets.textDisplay(
-                              Constants.isExtraSecurityDeployed,
-                              Styles.textStyleBlack14),
-                          Checkbox(
-                              value: isExtraSecurityDeployed,
-                              onChanged: (bool? value) {}),
+                          ///Is Extra Security Deployment Required
+                          Row(children: [
+                            CommonWidgets.textDisplay(
+                              Constants.isExtraSecurityDeploymentRequired,
+                              Styles.textStyleBlack14,
+                            ),
+                            Checkbox(
+                                value: isExtraSecurityDeployed,
+                                onChanged: (bool? value) {
+                                state.model.extraSecurityDeployed =value ;
+                                })
+                          ]),
 
                           // ///Guarding Vendor Id
                           // CommonWidgets.textDisplay(Constants.guardingVendorId,
@@ -1227,35 +1193,6 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                           // ),
                           // CommonWidgets.verticalSpacerWidget(height * 0.01),
                           //
-                          // ///PO NUmber
-                          // CommonWidgets.textDisplay(
-                          //     Constants.pONumber, Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   keyboardType: TextInputType.number,
-                          //   initialValue: state.model.poNumber,
-                          //   textFormKey: Keys.pONumberKey,
-                          //   hintText: '',
-                          //   isEnable: widget.model == null
-                          //       ? true
-                          //       : (widget.model != null &&
-                          //               (widget.model?.poNumber == null))
-                          //           ? false
-                          //           : true,
-                          //   isDisableColor: (widget.model != null &&
-                          //           (widget.model?.poNumber != null))
-                          //       ? true
-                          //       : false,
-                          //   onChange: (String value) {
-                          //     state.model.poNumber = value;
-                          //     context
-                          //         .read<ContactInfoCubit>()
-                          //         .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ]),
                       ),
