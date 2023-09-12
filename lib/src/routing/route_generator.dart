@@ -11,6 +11,8 @@ import 'package:db_atom/src/features/dashboard/views/my_home_page.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/cubits/contact_info_cubit.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/views/contact_info_view.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/event_info/views/event_info_view.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/cubits/guard_info_cubit.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/views/general_info_view.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/views/event_protection_details.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/views/gereral_info_tiles_view.dart';
 import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
@@ -228,33 +230,20 @@ class RouteGenerator {
                 ));
       case generalInfoTilesViewRoute:
         int id = 0;
+        bool showGuardInfo = true;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments['id'];
+          showGuardInfo = arguments['showGuardInfo'];
         }
         return MaterialPageRoute(
           builder: (context) => GeneralInfoTilesView(
             id: id,
+            showGuardInfo: showGuardInfo,
           ),
         );
 
-      // case generalInfoRoute:
-      //   EventProtectionModel model = EventProtectionModel();
-      //   if (settings.arguments != null) {
-      //     Map<String, dynamic> arguments =
-      //         settings.arguments as Map<String, dynamic>;
-      //     model = arguments['model'];
-      //   }
-      //   return MaterialPageRoute(
-      //       builder: (context) => BlocProvider<GeneralInfoCubit>(
-      //             create: (_) => GeneralInfoCubit(
-      //               services: EventProtectionServices(),
-      //               commonServices: CommonServices(),
-      //               model: model,
-      //             ),
-      //             child: const GeneralInfoTilesView(),
-      //           ));
 
       case generalInfoGIRoute:
         int id = 0;
@@ -289,6 +278,24 @@ class RouteGenerator {
                   ),
                   child: const ContactInfoView(),
                 ));
+
+      case guardInfoRoute:
+        int id = 0;
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          id = arguments['id'];
+        }
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<GuardInfoCubit>(
+              create: (_) => GuardInfoCubit(
+                services: EventProtectionServices(),
+                commonServices: CommonServices(),
+                id: id,
+              ),
+              child: const GuardInfoView(),
+            ));
+
 
       case eventInfoRoute:
         EventProtectionModel model = EventProtectionModel();

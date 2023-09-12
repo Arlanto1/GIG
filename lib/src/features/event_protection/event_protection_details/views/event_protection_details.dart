@@ -34,11 +34,12 @@ class EventProtectionDetails extends StatelessWidget {
             child: Wrap(
               children: [
                 InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
+                  onTap: () async {
+                    NavigatorState nav = Navigator.of(context);
+                    bool showGuardInfo = await services.showGuardInfo(id);
+                    nav.pushNamed(
                       generalInfoTilesViewRoute,
-                      arguments: {'id': id},
+                      arguments: {'id': id, 'showGuardInfo': showGuardInfo},
                     );
                   },
                   child: Tile(

@@ -62,6 +62,14 @@ class EventProtectionServices {
     return CiModel.fromJson(response);
   }
 
+  Future<bool> showGuardInfo(int id) async {
+    final String url = '${Apis._getCI}/$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return true; // TODO: Need to check
+  }
+
   /// Create Services
 
   Future<GenericCreateResponse> createMaterialMovement({
@@ -78,4 +86,5 @@ class EventProtectionServices {
     );
     return GenericCreateResponse.fromJson(response);
   }
+
 }

@@ -417,6 +417,7 @@ class Constants {
   // Event Protection
   static const String eventProtectionTitle = 'Event Protection';
   static const String generalInformation = 'General Information';
+  static const String guardInformation = 'Guard Information';
   static const String beforeEventInformation = 'Before the Event Information';
   static const String duringEventInformation = 'During the Event Information';
   static const String afterEventInformation = 'After the Event Information';

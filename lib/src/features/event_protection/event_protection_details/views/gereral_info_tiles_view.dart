@@ -8,9 +8,14 @@ import '../../../../routing/router.dart';
 import '../../../../utils/app_themes/colors/app_color.dart';
 
 class GeneralInfoTilesView extends StatelessWidget {
-  GeneralInfoTilesView({super.key, required this.id});
+  GeneralInfoTilesView({
+    super.key,
+    required this.id,
+    required this.showGuardInfo,
+  });
 
   final int id;
+  final bool showGuardInfo;
   final EventProtectionServices services = EventProtectionServices();
 
   @override
@@ -47,7 +52,9 @@ class GeneralInfoTilesView extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, generalInfoCIRoute,
+                    Navigator.pushNamed(
+                      context,
+                      generalInfoCIRoute,
                       arguments: {'id': id},
                     );
                   },
@@ -56,6 +63,21 @@ class GeneralInfoTilesView extends StatelessWidget {
                     height: height,
                   ),
                 ),
+                if (showGuardInfo) ...[
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        guardInfoRoute,
+                        arguments: {'id': id},
+                      );
+                    },
+                    child: Tile(
+                      label: 'Guard Info',
+                      height: height,
+                    ),
+                  )
+                ],
               ],
             ),
           ),
