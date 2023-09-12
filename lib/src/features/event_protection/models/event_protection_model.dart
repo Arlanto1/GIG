@@ -520,8 +520,7 @@ class EventProtectionModel {
       this.securityFacilitatorCount,
       this.securityFacilitatorCountHrs,
       this.budget,
-        this.proposedVendors
-      });
+      this.proposedVendors});
 
   EventProtectionModel.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
@@ -789,10 +788,10 @@ class EventProtectionModel {
             json['securityFacilitatorCountHrs'] as int?,
         srh2Name = json['srh2Name'] as String?,
         proposedVendors =
-        (json['proposedVendors'] as Map<String, dynamic>?) != null
-            ? Department.fromJson(
-            json['proposedVendors'] as Map<String, dynamic>)
-            : null;
+            (json['proposedVendors'] as Map<String, dynamic>?) != null
+                ? Department.fromJson(
+                    json['proposedVendors'] as Map<String, dynamic>)
+                : null;
 
   Map<String, dynamic> toJson() => {
         'id': id,
