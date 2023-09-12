@@ -3,7 +3,6 @@ import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart'
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
@@ -166,7 +165,6 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
   }
 
   getId(int id) async {
-
     Navigator.pushNamed(
       context,
       eventProtectionDetailsTabRoute,

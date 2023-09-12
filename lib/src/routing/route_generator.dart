@@ -216,23 +216,28 @@ class RouteGenerator {
                 ));
 
       case eventProtectionDetailsTabRoute:
-        String id = '';
+        int id = 0;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          id = arguments['id'].toString();
+          id = arguments['id'];
         }
         return MaterialPageRoute(
-            builder: (context) =>  EventProtectionDetails(id: id,));
+            builder: (context) => EventProtectionDetails(
+                  id: id,
+                ));
       case generalInfoTilesViewRoute:
-        String id = '';
+        int id =0;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
-          id = arguments['id'].toString();
+              settings.arguments as Map<String, dynamic>;
+          id = arguments['id'];
         }
         return MaterialPageRoute(
-            builder: (context) =>  GeneralInfoTilesView(id: id,));
+          builder: (context) => GeneralInfoTilesView(
+            id: id,
+          ),
+        );
 
       // case generalInfoRoute:
       //   EventProtectionModel model = EventProtectionModel();

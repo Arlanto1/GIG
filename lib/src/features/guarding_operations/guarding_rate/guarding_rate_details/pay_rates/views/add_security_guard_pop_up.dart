@@ -13,9 +13,9 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../../utils/util.dart';
 import '../../../../../../utils/validators/validator.dart';
-import '../../../../../material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 
 class AddSecurityGuardPopUp extends StatefulWidget {
   const AddSecurityGuardPopUp({
