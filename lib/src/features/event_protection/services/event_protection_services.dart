@@ -8,6 +8,7 @@ import 'package:db_atom/src/features/material_movement/models/requestModels/mate
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
 import '../../../models/responseModels/generic_creat_response.dart';
+import '../event_protection_details/general_info/models/gi_model.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -44,12 +45,12 @@ class EventProtectionServices {
     return EventProtectionResponse.fromJson(response);
   }
 
-  Future<MaterialMovementModel> getGI(int id) async {
+  Future<GiModel> getGI(int id) async {
     final String url = '${Apis._getGI}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return MaterialMovementModel.fromJson(response);
+    return GiModel.fromJson(response);
   }
 
   /// Create Services

@@ -227,7 +227,7 @@ class RouteGenerator {
                   id: id,
                 ));
       case generalInfoTilesViewRoute:
-        int id =0;
+        int id = 0;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -257,18 +257,18 @@ class RouteGenerator {
       //           ));
 
       case generalInfoGIRoute:
-        EventProtectionModel model = EventProtectionModel();
+        int id = 0;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          model = arguments['model'];
+          id = arguments['id'];
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<GeneralInfoCubit>(
                   create: (_) => GeneralInfoCubit(
                     services: EventProtectionServices(),
                     commonServices: CommonServices(),
-                    model: model,
+                    id: id,
                   ),
                   child: const GeneralInfoView(),
                 ));
