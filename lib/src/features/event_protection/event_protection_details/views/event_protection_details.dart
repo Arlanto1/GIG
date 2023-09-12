@@ -8,7 +8,7 @@ import '../../../../routing/router.dart';
 import '../../../../utils/app_themes/colors/app_color.dart';
 
 class EventProtectionDetails extends StatelessWidget {
-  final String id;
+  final int id;
 
   EventProtectionDetails({super.key, required this.id});
 

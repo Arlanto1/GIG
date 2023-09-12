@@ -1,3 +1,4 @@
+import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common_widgets/base_widget/base_app_bar.dart';
@@ -7,9 +8,10 @@ import '../../../../routing/router.dart';
 import '../../../../utils/app_themes/colors/app_color.dart';
 
 class GeneralInfoTilesView extends StatelessWidget {
-  const GeneralInfoTilesView({super.key, required this.id});
+  GeneralInfoTilesView({super.key, required this.id});
 
-  final String id;
+  final int id;
+  final EventProtectionServices services = EventProtectionServices();
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,8 @@ class GeneralInfoTilesView extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
+
+                    services.getGI(id);
                     Navigator.pushNamed(context, generalInfoGIRoute);
                   },
                   child: Tile(

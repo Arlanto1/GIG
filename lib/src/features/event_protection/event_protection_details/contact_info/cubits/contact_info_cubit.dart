@@ -12,7 +12,6 @@ import 'package:db_atom/src/features/event_protection/models/event_protection_mo
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/department.dart';
@@ -26,6 +25,7 @@ import 'package:equatable/equatable.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/entry_security.dart';
+import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
 
 part 'contact_info_state.dart';
