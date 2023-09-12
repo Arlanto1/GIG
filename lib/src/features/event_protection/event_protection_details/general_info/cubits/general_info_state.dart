@@ -2,7 +2,7 @@ part of 'general_info_cubit.dart';
 
 class GeneralInfoState extends Equatable {
   final FormStatus status;
-  final EventProtectionModel model;
+  final GiModel model;
   final GetLocations? locations;
   final EntrySecurity? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -28,7 +28,7 @@ class GeneralInfoState extends Equatable {
   final List<GetUserDetails>? entrySecurities;
 
   factory GeneralInfoState.initial({
-    required EventProtectionModel model,
+    required GiModel model,
     required GetLocations locations,
     required EntrySecurity loggedInUserDetails,
     required List<BaseUser>? users,
@@ -123,7 +123,7 @@ class GeneralInfoState extends Equatable {
 
   GeneralInfoState copyWith({
     FormStatus? status,
-    EventProtectionModel? guardingMasterData,
+    GiModel? model,
     GetLocations? locations,
     EntrySecurity? loggedInUserDetails,
     List<BaseUser>? users,
@@ -150,7 +150,7 @@ class GeneralInfoState extends Equatable {
   }) {
     return GeneralInfoState(
       status: status ?? this.status,
-      model: guardingMasterData ?? this.model,
+      model: model ?? this.model,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,

@@ -4,11 +4,9 @@ import 'dart:math' as math;
 import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
@@ -27,21 +25,22 @@ import '../../../../../enums/form_status.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
+import '../models/gi_model.dart';
 
 part 'general_info_state.dart';
 
 class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   final EventProtectionServices services;
-  final EventProtectionModel? model;
+  final int id;
   final CommonServices commonServices;
 
   GeneralInfoCubit({
     required this.services,
     required this.commonServices,
-    required this.model,
+    required this.id,
   }) : super(
           GeneralInfoState.initial(
-              model: model ?? EventProtectionModel(),
+              model: GiModel(),
               locations: GetLocations(),
               loggedInUserDetails: EntrySecurity(),
               users: const [],
@@ -56,15 +55,15 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
               getQualificationsResponse: null),
         );
 
-  void onModelValueChange(EventProtectionModel model) {
+  void onModelValueChange(GiModel model) {
     log('-onModelValueChange---');
-    emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
+    emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(EventProtectionModel model) {
-    emit(state.copyWith(guardingMasterData: model, status: FormStatus.loading));
+  void onCheckBoxChange(GiModel model) {
+    emit(state.copyWith(model: model, status: FormStatus.loading));
 
-    emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
+    emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
   Future<void> initializeValues() async {
@@ -77,6 +76,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
+      GiModel model = await services.getGI(id);
+
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
@@ -93,29 +94,21 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
       List<GetUserDetails> entrySecurities = await commonServices.getUsers();
-      AddQualifications qualifications =
-          await commonServices.getQualification(name: 'GUARD_QUALIFICATIONS');
-
-      GetDepositor emailUsers =
-          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
       emit(
         state.copyWith(
+          model: model,
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          guardingMasterData: state.model,
           users: users.t1Analyst,
           departments: departments.employeeDepartments,
           entrySecurities: entrySecurities,
-          emailUsers: emailUsers.atomStaticUser,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
-          listOfQualifications: qualifications.guardQualifications,
-          getQualificationsResponse: qualifications,
         ),
       );
     } catch (e) {
@@ -153,7 +146,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       );
 
       state.model.location = location;
-      state.model.slNo = slNo.serialNo;
+      state.model.slNo = slNo.serialNo ?? '';
     }
     state.model.status = status ?? state.model.status;
 
@@ -161,9 +154,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.entities = entities;
     }
 
-
     emit(state.copyWith(
-      guardingMasterData: state.model,
+      model: state.model,
       status: FormStatus.initial,
     ));
   }
@@ -193,7 +185,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           guardAttachments: guardImages,
           status: FormStatus.initial,
         ),
@@ -204,7 +196,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           deploymentAttachments: deploymentFiles,
           status: FormStatus.initial,
         ),
@@ -215,7 +207,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           bioDataAttachments: bioDataFiles,
           status: FormStatus.initial,
         ),
@@ -226,7 +218,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           permanentAddressAttachments: permanentAddressFiles,
           status: FormStatus.initial,
         ),
@@ -237,7 +229,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           localAddressAttachments: localAddressFiles,
           status: FormStatus.initial,
         ),
@@ -248,7 +240,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           pVCAttachments: pVCFiles,
           status: FormStatus.initial,
         ),
@@ -259,7 +251,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           trainingAttachments: trainingFiles,
           status: FormStatus.initial,
         ),
@@ -270,7 +262,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           mSGBAttachments: mSGBExemptionFiles,
           status: FormStatus.initial,
         ),
@@ -281,7 +273,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
+          model: state.model,
           medicalAttachments: medicalFiles,
           status: FormStatus.initial,
         ),
@@ -291,7 +283,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     emit(
       state.copyWith(
         eventId: eventIds,
-        guardingMasterData: state.model,
+        model: state.model,
         loadAttachments: data,
         guardAttachments: guardImages,
         status: FormStatus.initial,
