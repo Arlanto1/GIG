@@ -3,8 +3,6 @@ import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
@@ -56,17 +54,6 @@ class EventInfoCubit extends Cubit<EventInfoState> {
               getQualificationsResponse: null),
         );
 
-  void onModelValueChange(EventProtectionModel model) {
-    log('-onModelValueChange---');
-    emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
-  }
-
-  void onCheckBoxChange(EventProtectionModel model) {
-    emit(state.copyWith(guardingMasterData: model, status: FormStatus.loading));
-
-    emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
-  }
-
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     //Show Loader and emit loading state
@@ -89,37 +76,21 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
 
-      AddEntities entities =
-          await commonServices.getEntities(name: 'ATOM_ENTITIES');
-
-      List<GetUserDetails> entrySecurities = await commonServices.getUsers();
-      AddQualifications qualifications =
-          await commonServices.getQualification(name: 'GUARD_QUALIFICATIONS');
-
-      GetDepositor emailUsers =
-          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
-
-      EmployeeDepartments departments =
-          await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+      List<String> emails =
+          Utils().splitStringAfterComma(state.model.addEventEmails ?? '');
 
       emit(
         state.copyWith(
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          guardingMasterData: state.model,
+          model: state.model,
           users: users.t1Analyst,
-          departments: departments.employeeDepartments,
-          entrySecurities: entrySecurities,
-          emailUsers: emailUsers.atomStaticUser,
-          listOfEntities: entities.atomEntities,
-          getEntitiesResponse: entities,
-          listOfQualifications: qualifications.guardQualifications,
-          getQualificationsResponse: qualifications,
+          additionalEmails: emails,
         ),
       );
     } catch (e) {
-      log('initialization issue', error: e, name: 'Guarding Master Data Cubit');
+      log('initialization issue', error: e, name: (EventInfoCubit).toString());
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -161,9 +132,8 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       state.model.entities = entities;
     }
 
-
     emit(state.copyWith(
-      guardingMasterData: state.model,
+      model: state.model,
       status: FormStatus.initial,
     ));
   }
@@ -188,117 +158,27 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     );
     int eventIds = math.Random.secure().nextInt(5);
 
-    log('--guardImages---${guardImages?.length}----');
-    if (guardImages != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          guardingMasterData: state.model,
-          guardAttachments: guardImages,
-          status: FormStatus.initial,
-        ),
-      );
-    }
+    // log('--guardImages---${guardImages?.length}----');
+    // if (guardImages != null) {
+    //   emit(
+    //     state.copyWith(
+    //       eventId: eventIds,
+    //       model: state.model,
+    //       guardAttachments: guardImages,
+    //       status: FormStatus.initial,
+    //     ),
+    //   );
+    // }
 
     if (deploymentFiles != null) {
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.model,
-          deploymentAttachments: deploymentFiles,
+          model: state.model,
           status: FormStatus.initial,
         ),
       );
     }
-
-    if (bioDataFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          guardingMasterData: state.model,
-          bioDataAttachments: bioDataFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (permanentAddressFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          guardingMasterData: state.model,
-          permanentAddressAttachments: permanentAddressFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (localAddressFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          guardingMasterData: state.model,
-          localAddressAttachments: localAddressFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (pVCFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          guardingMasterData: state.model,
-          pVCAttachments: pVCFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (trainingFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          guardingMasterData: state.model,
-          trainingAttachments: trainingFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (mSGBExemptionFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          guardingMasterData: state.model,
-          mSGBAttachments: mSGBExemptionFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (medicalFiles != null) {
-      emit(
-        state.copyWith(
-          eventId: eventIds,
-          guardingMasterData: state.model,
-          medicalAttachments: medicalFiles,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    emit(
-      state.copyWith(
-        eventId: eventIds,
-        guardingMasterData: state.model,
-        loadAttachments: data,
-        guardAttachments: guardImages,
-        status: FormStatus.initial,
-      ),
-    );
-
-    log('--state.status--3--${state.status}----');
   }
 
   void submitForm({bool isSaveOnly = false}) async {
@@ -317,7 +197,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
 
     // Create/Update API Call
     // GuardingMasterDataRequest request =
-    //     GuardingMasterDataRequest(guardingMasterData: state.model);
+    //     GuardingMasterDataRequest(model: state.model);
 
     GenericCreateResponse response = GenericCreateResponse();
     try {

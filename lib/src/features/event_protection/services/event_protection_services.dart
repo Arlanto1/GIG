@@ -14,7 +14,8 @@ class Apis {
 
   static final String _getEventProtections = '$baseUrl/getEPLists?';
 
-  static final String _getMaterialMovement = '$baseUrl/getMMById';
+  static final String _getGI = '$baseUrl/getEPGIById';
+  static final String _getCI = '$baseUrl/getEPCIById';
 
   static final String _createMaterialMovement = '$baseUrl/createMtrlMvmt';
 }
@@ -43,8 +44,8 @@ class EventProtectionServices {
     return EventProtectionResponse.fromJson(response);
   }
 
-  Future<MaterialMovementModel> getMaterialMovement(int id) async {
-    final String url = '${Apis._getMaterialMovement}/$id';
+  Future<MaterialMovementModel> getGI(int id) async {
+    final String url = '${Apis._getGI}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );

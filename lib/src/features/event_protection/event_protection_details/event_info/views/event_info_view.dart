@@ -195,7 +195,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                 ],
                               ),
                             ),
-                            getEmail(['asdfa', 'asdfas']),
+                            getEmail(state.additionalEmails??[]),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             quill.QuillToolbar.basic(controller: _controller),
                             SizedBox(

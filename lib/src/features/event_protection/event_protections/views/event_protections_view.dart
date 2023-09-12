@@ -6,11 +6,7 @@ import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_p
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
-import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
-import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
@@ -141,7 +137,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                           );
                         },
                         onEditTap: (selectedIndex) {
-                          getLawEnforcementId(state.items[index].id ?? 0);
+                          getId(state.items[index].id ?? 0);
                         },
                         onViewTap: (selectedIndex) {
                           showDialog(
@@ -169,22 +165,12 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
         }));
   }
 
-  getLawEnforcementId(int id) async {
-    showLoadingDialog(context);
+  getId(int id) async {
 
-    MaterialMovementModel materialMovementModel =
-        await EventProtectionServices().getMaterialMovement(id);
-
-    editDataLoading(materialMovementModel);
-  }
-
-  void editDataLoading(MaterialMovementModel? materialMovementModel) {
-    dismissLoadingDialog(context);
-    if (materialMovementModel != null) {
-      Navigator.pushNamed(
-        context,
-        eventProtectionDetailsTabRoute,
-      );
-    }
+    Navigator.pushNamed(
+      context,
+      eventProtectionDetailsTabRoute,
+      arguments: {'id': id},
+    );
   }
 }

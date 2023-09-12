@@ -1,3 +1,4 @@
+import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common_widgets/base_widget/base_app_bar.dart';
@@ -6,14 +7,13 @@ import '../../../../constants/constants.dart';
 import '../../../../routing/router.dart';
 import '../../../../utils/app_themes/colors/app_color.dart';
 
-class EventProtectionDetails extends StatefulWidget {
-  const EventProtectionDetails({super.key});
+class EventProtectionDetails extends StatelessWidget {
+  final String id;
 
-  @override
-  State<EventProtectionDetails> createState() => _EventProtectionDetailsState();
-}
+  EventProtectionDetails({super.key, required this.id});
 
-class _EventProtectionDetailsState extends State<EventProtectionDetails> {
+  final EventProtectionServices services = EventProtectionServices();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -35,7 +35,11 @@ class _EventProtectionDetailsState extends State<EventProtectionDetails> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, generalInfoTilesViewRoute);
+                    Navigator.pushNamed(
+                      context,
+                      generalInfoTilesViewRoute,
+                      arguments: {'id': id},
+                    );
                   },
                   child: Tile(
                     label: 'General\nInformation',
