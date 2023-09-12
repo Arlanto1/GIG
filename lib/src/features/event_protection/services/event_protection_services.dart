@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/models/ci_model.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/show_guard_info_response.dart';
 import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
@@ -62,12 +63,12 @@ class EventProtectionServices {
     return CiModel.fromJson(response);
   }
 
-  Future<bool> showGuardInfo(int id) async {
+  Future<ShowGuardInfoResponse> showGuardInfo(int id) async {
     final String url = '${Apis._getCI}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return true; // TODO: Need to check
+    return ShowGuardInfoResponse.fromJson(response);
   }
 
   /// Create Services

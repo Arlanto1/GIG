@@ -21,11 +21,13 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:quill_html_editor/quill_html_editor.dart';
+// import 'package:flutter_quill/flutter_quill.dart' as quill;
 
 import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../constants/app_icon.dart';
 import '../cubits/event_info_cubit.dart';
+import 'editor.dart';
 
 class EventInfoView extends StatefulWidget {
   const EventInfoView({
@@ -41,7 +43,8 @@ class EventInfoView extends StatefulWidget {
 
 class _EventInfoViewState extends State<EventInfoView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final quill.QuillController _controller = quill.QuillController.basic();
+  // final quill.QuillController _controller = quill.QuillController.basic();
+  final QuillEditorController controller = QuillEditorController();
 
   GetUserDetails? userDetails;
   List<CreateImage>? getFiles;
@@ -63,6 +66,7 @@ class _EventInfoViewState extends State<EventInfoView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
+
     return BlocConsumer<EventInfoCubit, EventInfoState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
@@ -195,20 +199,70 @@ class _EventInfoViewState extends State<EventInfoView> {
                                 ],
                               ),
                             ),
-                            getEmail(state.additionalEmails??[]),
+                            getEmail(state.additionalEmails ?? []),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            quill.QuillToolbar.basic(controller: _controller),
-                            SizedBox(
-                              height: height * 0.5,
+                            Container(
+                              height: 700,
                               width: double.infinity,
-                              child: quill.QuillEditor.basic(
-                                controller: _controller,
-                                readOnly: false, // true for view only mode
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                border: Border.all(
+                                  color: Colors.grey, // Border color
+                                  width: .7, // Bor
+                                  // der width
+                                ),
+                              ),
+                              child: const Column(
+                                children: [
+
+
+                                  EditorHtml(),
+                                  // QuillHtmlEditor(
+                                  //   text: "<h1>Hello</h1>This is a quill html editor example 😊",
+                                  //   hintText: 'Hint text goes here',
+                                  //   controller: controller,
+                                  //   isEnabled: true,
+                                  //   minHeight: 300,
+                                  //   // textStyle: _editorTextStyle,
+                                  //   // hintTextStyle: _hintTextStyle,
+                                  //   hintTextAlign: TextAlign.start,
+                                  //   padding: const EdgeInsets.only(left: 10, top: 5),
+                                  //   hintTextPadding: EdgeInsets.zero,
+                                  //   backgroundColor: _backgroundColor,
+                                  //   onFocusChanged: (hasFocus) => debugPrint('has focus $hasFocus'),
+                                  //   onTextChanged: (text) => debugPrint('widget text change $text'),
+                                  //   onEditorCreated: () => debugPrint('Editor has been loaded'),
+                                  //   onEditingComplete: (s) => debugPrint('Editing completed $s'),
+                                  //   onEditorResized: (height) =>
+                                  //       debugPrint('Editor resized $height'),
+                                  //   onSelectionChanged: (sel) =>
+                                  //       debugPrint('${sel.index},${sel.length}'),
+                                  //   loadingBuilder: (context) {
+                                  //     return const Center(
+                                  //         child: CircularProgressIndicator(
+                                  //           strokeWidth: 0.4,
+                                  //         ));},
+                                  // ),
+                                  //
+                                  // QuillToolbar.basic(
+                                  //     controller: _controller),
+                                  // const Divider(thickness: 1.1),
+                                  // SizedBox(
+                                  //   height: height * 0.5,
+                                  //   width: double.infinity,
+                                  //   child: quill.QuillEditor.basic(
+                                  //     controller: _controller,
+                                  //     readOnly:
+                                  //         false, // true for view only mode
+                                  //   ),
+                                  // ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                       /// SubmitButton
                       if (state.model.status != 4) ...[
@@ -338,7 +392,10 @@ class _EventInfoViewState extends State<EventInfoView> {
     for (String email in emails) {
       widgets.add(Row(
         children: [
-          Text(email, textAlign: TextAlign.start,),
+          Text(
+            email,
+            textAlign: TextAlign.start,
+          ),
           const Icon(Icons.delete),
         ],
       ));
