@@ -2,14 +2,13 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-      const MaterialApp(debugShowCheckedModeBanner: false, home: EditorHtml()));
-}
-
 class EditorHtml extends StatefulWidget {
-  const EditorHtml({super.key});
+  const EditorHtml({
+    super.key,
+    required this.text,
+  });
+
+  final String text;
 
   @override
   State<EditorHtml> createState() => _EditorHtmlState();
@@ -68,6 +67,7 @@ class _EditorHtmlState extends State<EditorHtml> {
 
   @override
   Widget build(BuildContext context) {
+    enableEditor(true);
     return Column(
       children: [
         ToolBar(
@@ -110,7 +110,7 @@ class _EditorHtmlState extends State<EditorHtml> {
           height: 450,
           width: double.infinity,
           child: QuillHtmlEditor(
-            text: htmlSample,
+            text: widget.text,
             hintText: 'Hint text goes here',
             controller: controller,
             isEnabled: false,
@@ -133,7 +133,8 @@ class _EditorHtmlState extends State<EditorHtml> {
               ));
             },
             onFocusChanged: (focus) {
-              debugPrint('has focus $focus');
+              debugPrint('has focus-----SSSS---- $focus');
+
               setState(() {
                 _hasFocus = focus;
               });
@@ -145,7 +146,7 @@ class _EditorHtmlState extends State<EditorHtml> {
             },
             onEditorResized: (height) => debugPrint('Editor resized $height'),
             onSelectionChanged: (sel) =>
-                debugPrint('index ${sel.index}, range ${sel.length}'),
+                debugPrint('index---- ${sel.index}, range ${sel.length}'),
           ),
         ),
       ],

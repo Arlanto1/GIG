@@ -2,14 +2,15 @@ import 'dart:developer';
 
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
+import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/models/ci_model.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/show_guard_info_response.dart';
 import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
 import '../../../models/responseModels/generic_creat_response.dart';
+import '../event_protection_details/event_info/models/event_info_response.dart';
 import '../event_protection_details/general_info/models/gi_model.dart';
 
 class Apis {
@@ -19,6 +20,10 @@ class Apis {
 
   static final String _getGI = '$baseUrl/getEPGIById';
   static final String _getCI = '$baseUrl/getEPCIById';
+  static final String _getEventInfo = '$baseUrl/getEPEmailInfoById';
+  static final String _showGuardInfo = '$baseUrl/showGuardInfo';
+
+  static final String _getArticleFounds = '$baseUrl/getArticleFound';
 
   static final String _createMaterialMovement = '$baseUrl/createMtrlMvmt';
 }
@@ -63,15 +68,25 @@ class EventProtectionServices {
     return CiModel.fromJson(response);
   }
 
+  Future<EventInfoResponse> getEventInfo(int id, int eventDuration) async {
+    final String url = "${Apis._getEventInfo}?id=$id&event=$eventDuration";
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    EventInfoResponse aa = EventInfoResponse.fromJson(response);
+
+
+    log('-----aa-----${aa.id}-');
+    return EventInfoResponse.fromJson(response);
+  }
+
   Future<ShowGuardInfoResponse> showGuardInfo(int id) async {
-    final String url = '${Apis._getCI}/$id';
+    final String url = '${Apis._showGuardInfo}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
     return ShowGuardInfoResponse.fromJson(response);
   }
-
-  /// Create Services
 
   Future<GenericCreateResponse> createMaterialMovement({
     required MaterialMovementRequest body,
@@ -88,4 +103,16 @@ class EventProtectionServices {
     return GenericCreateResponse.fromJson(response);
   }
 
+  Future<FoundListModel> getFoundArticleList({
+    required String startPosition,
+    required String maximumRecords,
+    required String eventId,
+  }) async {
+    String url =
+        '${Apis._getArticleFounds}?startPos=$startPosition&maxResults=$maximumRecords&eventId=$eventId&userId=${await getUserId()}';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return FoundListModel.fromJson(response);
+  }
 }
