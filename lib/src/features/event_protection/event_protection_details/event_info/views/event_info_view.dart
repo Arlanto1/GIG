@@ -4,15 +4,11 @@ import 'dart:developer';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
-import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
-import 'package:db_atom/src/models/location.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -21,11 +17,13 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:quill_html_editor/quill_html_editor.dart';
 
 import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../constants/app_icon.dart';
+import '../../../../../utils/util.dart';
 import '../cubits/event_info_cubit.dart';
+import 'editor.dart';
 
 class EventInfoView extends StatefulWidget {
   const EventInfoView({
@@ -41,17 +39,14 @@ class EventInfoView extends StatefulWidget {
 
 class _EventInfoViewState extends State<EventInfoView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final quill.QuillController _controller = quill.QuillController.basic();
+
+  // final quill.QuillController _controller = quill.QuillController.basic();
+  final QuillEditorController controller = QuillEditorController();
 
   GetUserDetails? userDetails;
-  List<CreateImage>? getFiles;
   List<CreateImage>? guardFiles;
-  List<CreateImage>? deploymentFiles;
   TextEditingController dateController = TextEditingController();
-
-  TextEditingController dateOfBirthController = TextEditingController();
-
-  TextEditingController statusController = TextEditingController();
+  TextEditingController addEmailController = TextEditingController();
 
   @override
   void initState() {
@@ -99,6 +94,8 @@ class _EventInfoViewState extends State<EventInfoView> {
         }
       },
       builder: (context, state) {
+        dateController.text = Utils.timestamptoDateConversion(
+            int.tryParse(state.model.date ?? '0'), Constants.dateFormat);
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -141,7 +138,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                   )),
               child: Form(
                 key: _formKey,
-                autovalidateMode: state.model.status == 4
+                autovalidateMode: state.model.status == 30
                     ? AutovalidateMode.disabled
                     : AutovalidateMode.onUserInteraction,
                 child: Column(
@@ -195,20 +192,29 @@ class _EventInfoViewState extends State<EventInfoView> {
                                 ],
                               ),
                             ),
-                            getEmail(state.additionalEmails??[]),
+                            getEmail(state.additionalEmails ?? []),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            quill.QuillToolbar.basic(controller: _controller),
-                            SizedBox(
-                              height: height * 0.5,
+                            Container(
+                              height: 700,
                               width: double.infinity,
-                              child: quill.QuillEditor.basic(
-                                controller: _controller,
-                                readOnly: false, // true for view only mode
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                border: Border.all(
+                                  color: Colors.grey, // Border color
+                                  width: .7, // Bor
+                                  // der width
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  EditorHtml(text: state.model.email ?? ''),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                       /// SubmitButton
                       if (state.model.status != 4) ...[
@@ -216,7 +222,13 @@ class _EventInfoViewState extends State<EventInfoView> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             cancelButtonDisplay(),
-                            submitButtonDisplay()
+                            submitButtonDisplay(
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                BlocProvider.of<EventInfoCubit>(context)
+                                    .submitForm(isSaveOnly: false);
+                              },
+                            ),
                           ],
                         ),
                       ],
@@ -252,19 +264,23 @@ class _EventInfoViewState extends State<EventInfoView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
                       FlutterInputField(
                         lineHeight: 1,
-                        initialValue: '',
+                        textFieldController: addEmailController,
                         textFormKey: Keys.equipmentNoKey,
                         hintText: '',
                         isEnable: true,
                         isDisableColor: false,
-                        onChange: (String value) {
-                          // TODO:
-                        },
+                        onChange: (String value) {},
                         validateTextField: (String? user) {},
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       const Spacer(),
-                      submitButtonDisplay(),
+                      submitButtonDisplay(
+                        onTap: () {
+                          BlocProvider.of<EventInfoCubit>(this.context)
+                              .onAddEmail(addEmailController.text);
+                          Navigator.pop(context);
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -288,57 +304,27 @@ class _EventInfoViewState extends State<EventInfoView> {
     );
   }
 
-  Widget submitButtonDisplay() {
+  Widget submitButtonDisplay({required Function onTap}) {
     return AppButton(
       width: 150,
       key: const Key(Keys.submitButton),
       buttonText: Constants.submit,
       buttonTextKey: Keys.submitButton,
-      onTap: () async {
-        FocusScope.of(context).unfocus();
-        BlocProvider.of<EventInfoCubit>(context).submitForm(isSaveOnly: false);
-      },
-    );
-  }
-
-  Widget locationWidgetdislay(EventInfoState state) {
-    return GestureDetector(
-      onTap: () {
-        if (state.model.id == null ||
-            (state.model.location?.name ?? '').isEmpty) {
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              // print(state.getLocationsResponse);
-              return CustomExpansionListTexts(
-                getLocationsresponse: state.locations,
-                onTap: (Mumbai? list) async {
-                  log('list?.name-----${list?.name}');
-
-                  Location location = Location();
-                  location.id = list?.id;
-                  location.name = list?.name;
-                  state.model.location = location;
-
-                  BlocProvider.of<EventInfoCubit>(context)
-                      .updateDropdownValues(location: location);
-                },
-              );
-            },
-          );
-        }
-      },
-      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
+      onTap: onTap,
     );
   }
 
   Widget getEmail(List<String> emails) {
+    log('-getEmail---${emails.toString()}--');
     List<Widget> widgets = [];
 
     for (String email in emails) {
       widgets.add(Row(
         children: [
-          Text(email, textAlign: TextAlign.start,),
+          Text(
+            email,
+            textAlign: TextAlign.start,
+          ),
           const Icon(Icons.delete),
         ],
       ));

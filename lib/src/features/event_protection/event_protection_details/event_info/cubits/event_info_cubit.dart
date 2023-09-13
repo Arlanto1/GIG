@@ -2,19 +2,17 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
+import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/event_info/models/event_info_response.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/department.dart';
 import 'package:db_atom/src/models/entity.dart';
-import 'package:db_atom/src/models/location.dart';
 import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -30,16 +28,18 @@ part 'event_info_state.dart';
 
 class EventInfoCubit extends Cubit<EventInfoState> {
   final EventProtectionServices services;
-  final EventProtectionModel? model;
+  final int id;
+  final int eventDuration;
   final CommonServices commonServices;
 
   EventInfoCubit({
     required this.services,
     required this.commonServices,
-    required this.model,
+    required this.id,
+    required this.eventDuration,
   }) : super(
           EventInfoState.initial(
-              model: model ?? EventProtectionModel(),
+              model: EventInfoResponse(),
               locations: GetLocations(),
               loggedInUserDetails: EntrySecurity(),
               users: const [],
@@ -64,28 +64,20 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      GetLocations getLocationsData =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+      EventInfoResponse model = await services.getEventInfo(id, eventDuration);
 
-      EntrySecurity loggedInUserDetails =
-          await commonServices.getUserDetails(userId: userId);
-
-      Analyst users =
-          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-
-      // Get Date of Creation
-      state.model.inputDate = Utils().getCurrentDate();
+      // FoundListModel foundArticles = await services.getFoundArticleList(
+      //     startPosition: '0', maximumRecords: '50', eventId: id.toString());
+      log('--state.model.emails--${model.emails}-');
 
       List<String> emails =
-          Utils().splitStringAfterComma(state.model.addEventEmails ?? '');
+          Utils().splitStringAfterComma(model.emails ?? '');
+      log('--state.model.toString--${emails.toString()}-');
 
       emit(
         state.copyWith(
-          locations: getLocationsData,
-          loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          model: state.model,
-          users: users.t1Analyst,
+          model: model,
           additionalEmails: emails,
         ),
       );
@@ -99,43 +91,6 @@ class EventInfoCubit extends Cubit<EventInfoState> {
         ),
       );
     }
-  }
-
-  Future<void> updateDropdownValues({
-    List<Entity>? entities,
-    Location? location,
-    BaseUser? user,
-    Department? vendor,
-    BaseUser? guard,
-    Entity? entity,
-    List<Entity>? qualifications,
-    int? status,
-  }) async {
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
-    ////Get Sl No from API
-    if (location != null) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.guardingMasterDataModule,
-      );
-
-      state.model.location = location;
-      state.model.slNo = slNo.serialNo;
-    }
-    state.model.status = status ?? state.model.status;
-
-    if (entities != null) {
-      state.model.entities = entities;
-    }
-
-    emit(state.copyWith(
-      model: state.model,
-      status: FormStatus.initial,
-    ));
   }
 
   void addAttachment({
@@ -188,13 +143,6 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       ),
     );
 
-    if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 1;
-    }
-    // Setting time in milliseconds
-    state.model.inputDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-
     // Create/Update API Call
     // GuardingMasterDataRequest request =
     //     GuardingMasterDataRequest(model: state.model);
@@ -227,7 +175,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       );
     }
 
-    print('---response--msg--${response.message}---');
+    log('---response--msg--${response.message}---');
 
     emit(
       state.copyWith(
@@ -236,4 +184,24 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       ),
     );
   }
-}
+
+  void onAddEmail(String email) {
+    log('-email---$email-');
+
+    emit(state.copyWith(status: FormStatus.loading));
+    log('-state.additionalEmails---before---${state.additionalEmails}----');
+    List<String>? dates = state.additionalEmails ?? [];
+    dates.add(email);
+
+    state.copyWith(
+      additionalEmails: dates,
+    );
+
+    log('-state.additionalEmails---after---${state.additionalEmails}----');
+    state.model.emails =
+        Utils().joinListWithComma(dates);
+
+    log('-state.model.emails--final---${state.model.emails}----');
+
+    emit(state.copyWith(model: state.model, status: FormStatus.initial));
+  }}

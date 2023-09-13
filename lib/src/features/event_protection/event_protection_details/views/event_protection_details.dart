@@ -6,6 +6,7 @@ import '../../../../common_widgets/base_widget/base_tile.dart';
 import '../../../../constants/constants.dart';
 import '../../../../routing/router.dart';
 import '../../../../utils/app_themes/colors/app_color.dart';
+import '../general_information/guard_info/models/show_guard_info_response.dart';
 
 class EventProtectionDetails extends StatelessWidget {
   final int id;
@@ -36,10 +37,14 @@ class EventProtectionDetails extends StatelessWidget {
                 InkWell(
                   onTap: () async {
                     NavigatorState nav = Navigator.of(context);
-                    bool showGuardInfo = await services.showGuardInfo(id);
+                    ShowGuardInfoResponse showGuardInfo =
+                        await services.showGuardInfo(id);
                     nav.pushNamed(
                       generalInfoTilesViewRoute,
-                      arguments: {'id': id, 'showGuardInfo': showGuardInfo},
+                      arguments: {
+                        'id': id,
+                        'showGuardInfo': showGuardInfo.showGuardInfo
+                      },
                     );
                   },
                   child: Tile(
@@ -49,8 +54,15 @@ class EventProtectionDetails extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, eventInfoRoute,
-                        arguments: {'title': Constants.beforeEventInformation});
+                    Navigator.pushNamed(
+                      context,
+                      eventInfoRoute,
+                      arguments: {
+                        'title': Constants.beforeEventInformation,
+                        'id': id,
+                        'eventDuration': 0,
+                      },
+                    );
                   },
                   child: Tile(
                     label: 'Before the Event\nInformation',
@@ -59,8 +71,15 @@ class EventProtectionDetails extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, eventInfoRoute,
-                        arguments: {'title': Constants.duringEventInformation});
+                    Navigator.pushNamed(
+                      context,
+                      eventInfoRoute,
+                      arguments: {
+                        'title': Constants.duringEventInformation,
+                        'id': id,
+                        'eventDuration': 1,
+                      },
+                    );
                   },
                   child: Tile(
                     label: 'During the Event\nInformation',
@@ -69,8 +88,15 @@ class EventProtectionDetails extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, eventInfoRoute,
-                        arguments: {'title': Constants.afterEventInformation});
+                    Navigator.pushNamed(
+                      context,
+                      eventInfoRoute,
+                      arguments: {
+                        'title': Constants.afterEventInformation,
+                        'id': id,
+                        'eventDuration': 2,
+                      },
+                    );
                   },
                   child: Tile(
                     label: 'After the Event\nInformation',

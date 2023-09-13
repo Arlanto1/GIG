@@ -298,23 +298,27 @@ class RouteGenerator {
 
 
       case eventInfoRoute:
-        EventProtectionModel model = EventProtectionModel();
+        int id = 0;
+        int eventDuration = 0;
         String title = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          model = arguments['model'] ?? EventProtectionModel();
           title = arguments['title'] ?? '';
+          id = arguments['id'];
+          eventDuration = arguments['eventDuration'];
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<EventInfoCubit>(
                   create: (_) => EventInfoCubit(
                     services: EventProtectionServices(),
                     commonServices: CommonServices(),
-                    model: model,
+                    id: id,
+                    eventDuration:eventDuration,
                   ),
                   child: EventInfoView(
                     title: title,
+
                   ),
                 ));
 
