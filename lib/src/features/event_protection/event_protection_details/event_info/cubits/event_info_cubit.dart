@@ -66,8 +66,10 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      EventInfoResponse model = await services.getEventInfo(id, eventDuration);
-
+      EventInfoResponse model = EventInfoResponse();
+      if(id.isNotEmpty) {
+        model = await services.getEventInfo(id, eventDuration);
+      }
       FoundListModel foundArticles = await services.getFoundArticleList(
           startPosition: '0', maximumRecords: '50', eventId: id.toString());
       log('--state.model.emails--${model.emails}-');
