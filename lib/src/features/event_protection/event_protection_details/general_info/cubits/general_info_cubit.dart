@@ -18,12 +18,12 @@ import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
+import '../../../../../utils/util.dart';
 import '../models/gi_model.dart';
 
 part 'general_info_state.dart';
@@ -62,9 +62,6 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
-  String _getCurrentDate() {
-    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
-  }
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     //Show Loader and emit loading state
@@ -87,7 +84,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       // Get Date of Creation
-      state.model.inputDate = _getCurrentDate();
+      state.model.inputDate = Utils().getCurrentDate() ;
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
@@ -238,7 +235,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       );
     }
 
-    print('---response--msg--${response.message}---');
+    log('---response--msg--${response.message}---');
 
     emit(
       state.copyWith(

@@ -28,9 +28,12 @@ import '../../../../../../main_DEV.dart';
 import '../../../../../common_widgets/base_widget/radio_buttons_yes_no.dart';
 import '../../../../../utils/util.dart';
 import '../cubits/general_info_cubit.dart';
+import '../models/gi_model.dart';
 
 class GeneralInfoView extends StatefulWidget {
+  final GiModel? model;
   const GeneralInfoView({
+    this.model,
     super.key,
   });
 
@@ -118,7 +121,15 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
       },
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
+  void initializeDates() {
+    eventStartDateController.text = Utils.timestamptoDateConversion(
+        int.tryParse(widget.model?.eventStartDate ?? '0'),
+        Constants.dateFormat);
 
+    eventEndDateController.text = Utils.timestamptoDateConversion(
+        int.tryParse(widget.model?.eventEndDate ?? '0'),
+        Constants.dateFormat);
+  }
   getBodybuilder(GeneralInfoState state, height) {
     if (state.status == FormStatus.loading) {
       return const Center(child: CircularProgressIndicator());
@@ -202,13 +213,12 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               Constants.slno, state.model.slNo ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
                           /// Date of creation
                           CommonWidgets.textDisplay(Constants.dateofcreation,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseDate().creationDateDisplay(
-                              state.model.inputDate ?? ''),
+                        BaseDate().creationDateDisplay(
+                              state.model.inputDate??'0'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Location
@@ -216,7 +226,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               Constants.location, Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           locationWidgetdislay(state),
-
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Entity
@@ -278,6 +287,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               log('---value-$value------');
                               state.model.eventStartDate =
                                   Utils().formatTime(value);
+                          log('---value11-${state.model.eventStartDate}------');
                               BlocProvider.of<GeneralInfoCubit>(context)
                                   .onModelValueChange(state.model);
                             },
@@ -300,6 +310,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   Utils().formatTime(value);
                               BlocProvider.of<GeneralInfoCubit>(context)
                                   .onModelValueChange(state.model);
+                              log('---value22-${state.model.eventEndDate}------');
                             },
                             context: context,
                           ),

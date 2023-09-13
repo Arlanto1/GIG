@@ -36,7 +36,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
   GetUserDetails? userDetails;
   List<CreateImage>? getFiles;
   List<CreateImage>? guardFiles;
-  TextEditingController dateOfBirthController = TextEditingController();
+  TextEditingController eventStartDateController = TextEditingController();
   TextEditingController dateOfJoiningController = TextEditingController();
 
   TextEditingController statusController = TextEditingController();
