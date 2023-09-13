@@ -218,7 +218,7 @@ class RouteGenerator {
                 ));
 
       case eventProtectionDetailsTabRoute:
-        int id = 0;
+        String id = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -229,7 +229,7 @@ class RouteGenerator {
                   id: id,
                 ));
       case generalInfoTilesViewRoute:
-        int id = 0;
+        String id = '';
         bool showGuardInfo = true;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -246,7 +246,7 @@ class RouteGenerator {
 
 
       case generalInfoGIRoute:
-        int id = 0;
+        String id = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -280,7 +280,7 @@ class RouteGenerator {
                 ));
 
       case guardInfoRoute:
-        int id = 0;
+        String id = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
           settings.arguments as Map<String, dynamic>;

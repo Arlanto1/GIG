@@ -53,7 +53,7 @@ class EventProtectionServices {
     return EventProtectionResponse.fromJson(response);
   }
 
-  Future<GiModel> getGI(int id) async {
+  Future<GiModel> getGI(String id) async {
     final String url = '${Apis._getGI}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -81,7 +81,7 @@ class EventProtectionServices {
     return EventInfoResponse.fromJson(response);
   }
 
-  Future<ShowGuardInfoResponse> showGuardInfo(int id) async {
+  Future<ShowGuardInfoResponse> showGuardInfo(String id) async {
     final String url = '${Apis._showGuardInfo}/$id';
     final response = await BaseApiService().getRequest(
       url: url,

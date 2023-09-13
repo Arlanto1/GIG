@@ -9,7 +9,7 @@ import '../../../../utils/app_themes/colors/app_color.dart';
 import '../general_information/guard_info/models/show_guard_info_response.dart';
 
 class EventProtectionDetails extends StatelessWidget {
-  final int id;
+  final String id;
 
   EventProtectionDetails({super.key, required this.id});
 
@@ -37,13 +37,17 @@ class EventProtectionDetails extends StatelessWidget {
                 InkWell(
                   onTap: () async {
                     NavigatorState nav = Navigator.of(context);
-                    ShowGuardInfoResponse showGuardInfo =
-                        await services.showGuardInfo(id);
+                    bool? showGuardInfo = false;
+                    if (id.isNotEmpty) {
+                      ShowGuardInfoResponse showGuardInfoResponse =
+                          await services.showGuardInfo(id);
+                      showGuardInfo = showGuardInfoResponse.showGuardInfo;
+                    }
                     nav.pushNamed(
                       generalInfoTilesViewRoute,
                       arguments: {
                         'id': id,
-                        'showGuardInfo': showGuardInfo.showGuardInfo
+                        'showGuardInfo': showGuardInfo,
                       },
                     );
                   },
@@ -67,6 +71,7 @@ class EventProtectionDetails extends StatelessWidget {
                   child: Tile(
                     label: 'Before the Event\nInformation',
                     height: height,
+                    icon: Icons.event,
                   ),
                 ),
                 InkWell(
@@ -84,6 +89,7 @@ class EventProtectionDetails extends StatelessWidget {
                   child: Tile(
                     label: 'During the Event\nInformation',
                     height: height,
+                    icon: Icons.event,
                   ),
                 ),
                 InkWell(
@@ -101,6 +107,7 @@ class EventProtectionDetails extends StatelessWidget {
                   child: Tile(
                     label: 'After the Event\nInformation',
                     height: height,
+                    icon: Icons.event_available,
                   ),
                 ),
               ],

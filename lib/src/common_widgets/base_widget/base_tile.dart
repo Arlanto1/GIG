@@ -5,10 +5,12 @@ class Tile extends StatelessWidget {
     super.key,
     required this.height,
     required this.label,
+    this.icon = Icons.info,
   });
 
   final double height;
   final String label;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +44,12 @@ class Tile extends StatelessWidget {
                     color: Colors.blue,
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(28.0),
-                    child: Icon(Icons.add),
+                  child:  Padding(
+                    padding: const EdgeInsets.all(28.0),
+                    child: Icon(
+                      icon,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
