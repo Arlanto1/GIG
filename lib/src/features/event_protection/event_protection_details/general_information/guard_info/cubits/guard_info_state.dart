@@ -9,7 +9,6 @@ class GuardInfoState extends Equatable {
   final int? eventId;
   final String? message;
 
-
   factory GuardInfoState.initial({
     required GuardInfoModel guardInfoModel,
     required GetLocations locations,
@@ -19,7 +18,6 @@ class GuardInfoState extends Equatable {
     required final List<Department> departments,
     required String errorMessage,
     required List<CreateImage> loadAttachments,
-
     required int? eventId,
     List<String>? participationDate,
   }) {
@@ -28,10 +26,8 @@ class GuardInfoState extends Equatable {
       guardInfoModel: guardInfoModel,
       locations: locations,
       loggedInUserDetails: loggedInUserDetails,
-            departments: departments,
-
+      departments: departments,
       message: errorMessage,
-
     );
   }
 
@@ -51,12 +47,9 @@ class GuardInfoState extends Equatable {
     required this.guardInfoModel,
     this.locations,
     this.loggedInUserDetails,
-
     required this.departments,
-
     this.eventId,
     this.message,
-
   });
 
   GuardInfoState copyWith({
@@ -91,12 +84,9 @@ class GuardInfoState extends Equatable {
       guardInfoModel: guardInfoModel ?? this.guardInfoModel,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
-
       departments: departments ?? this.departments,
-
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
-
     );
   }
 }
