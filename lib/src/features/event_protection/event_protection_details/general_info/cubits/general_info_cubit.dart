@@ -30,7 +30,7 @@ part 'general_info_state.dart';
 
 class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   final EventProtectionServices services;
-  final int id;
+  final String id;
   final CommonServices commonServices;
 
   GeneralInfoCubit({
@@ -72,8 +72,10 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      GiModel model = await services.getGI(id);
-
+      GiModel model = GiModel();
+      if(id.isNotEmpty) {
+        model = await services.getGI(id);
+      }
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 

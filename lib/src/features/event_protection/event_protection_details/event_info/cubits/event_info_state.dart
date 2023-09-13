@@ -11,7 +11,9 @@ class EventInfoState extends Equatable {
 
   final List<String>? additionalEmails;
   final int? eventId;
+  final int? eventDuration;
   final String? message;
+  final List<FoundModel>? foundArticles;
 
   factory EventInfoState.initial({
     required EventInfoResponse model,
@@ -38,6 +40,8 @@ class EventInfoState extends Equatable {
     List<GetUserDetails>? entrySecurities,
     required int? eventId,
     List<String>? additionalEmails,
+    List<FoundModel>? foundArticles,
+    required int eventDuration,
   }) {
     return EventInfoState(
       status: FormStatus.initial,
@@ -50,6 +54,8 @@ class EventInfoState extends Equatable {
       loadAttachments: loadAttachments,
       eventId: eventId,
       additionalEmails: additionalEmails,
+      eventDuration: eventDuration,
+      foundArticles: foundArticles,
     );
   }
 
@@ -74,7 +80,9 @@ class EventInfoState extends Equatable {
     this.loadAttachments,
     this.additionalEmails,
     this.eventId,
+    this.eventDuration,
     this.message,
+    this.foundArticles,
   });
 
   EventInfoState copyWith({
@@ -87,7 +95,9 @@ class EventInfoState extends Equatable {
     List<CreateImage>? loadAttachments,
     List<String>? additionalEmails,
     int? eventId,
+    int? eventDuration,
     String? message,
+    List<FoundModel>? foundArticles,
   }) {
     return EventInfoState(
       status: status ?? this.status,
@@ -99,7 +109,9 @@ class EventInfoState extends Equatable {
       loadAttachments: loadAttachments ?? this.loadAttachments,
       additionalEmails: additionalEmails ?? this.additionalEmails,
       eventId: eventId ?? this.eventId,
+      eventDuration: eventDuration ?? this.eventDuration,
       message: message ?? this.message,
+      foundArticles: foundArticles ?? this.foundArticles,
     );
   }
 }

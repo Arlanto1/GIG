@@ -18,7 +18,7 @@ class FoundListItem extends StatefulWidget {
   final Function? onTap;
   final Function? oneditTap;
   final Function? onviewTap;
-  ListElement userItem;
+  FoundModel userItem;
   int? index;
   FoundListItem({
     Key? key,

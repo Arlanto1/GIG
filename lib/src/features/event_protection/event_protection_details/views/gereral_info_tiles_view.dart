@@ -14,7 +14,7 @@ class GeneralInfoTilesView extends StatelessWidget {
     required this.showGuardInfo,
   });
 
-  final int id;
+  final String id;
   final bool showGuardInfo;
   final EventProtectionServices services = EventProtectionServices();
 
@@ -61,6 +61,7 @@ class GeneralInfoTilesView extends StatelessWidget {
                   child: Tile(
                     label: 'Contact Info',
                     height: height,
+                    icon: Icons.contact_phone_outlined,
                   ),
                 ),
                 if (showGuardInfo) ...[
@@ -75,6 +76,7 @@ class GeneralInfoTilesView extends StatelessWidget {
                     child: Tile(
                       label: 'Guard Info',
                       height: height,
+                      icon: Icons.security,
                     ),
                   )
                 ],

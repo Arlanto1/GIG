@@ -12,6 +12,7 @@ import 'package:db_atom/src/utils/shared_preferences.dart';
 
 import '../../../models/responseModels/generic_creat_response.dart';
 import '../event_protection_details/event_info/models/event_info_response.dart';
+import '../event_protection_details/event_info/models/request_models/event_into_request.dart';
 import '../event_protection_details/general_info/models/gi_model.dart';
 
 class Apis {
@@ -28,6 +29,7 @@ class Apis {
   static final String _getArticleFounds = '$baseUrl/getArticleFound';
 
   static final String _createEventGeneralInformation = '$baseUrl/createEventGi?';
+  static final String _createEventEi = '$baseUrl/createEventEi';
 }
 
 class EventProtectionServices {
@@ -54,7 +56,7 @@ class EventProtectionServices {
     return EventProtectionResponse.fromJson(response);
   }
 
-  Future<GiModel> getGI(int id) async {
+  Future<GiModel> getGI(String id) async {
     final String url = '${Apis._getGI}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -90,7 +92,7 @@ class EventProtectionServices {
     return EventInfoResponse.fromJson(response);
   }
 
-  Future<ShowGuardInfoResponse> showGuardInfo(int id) async {
+  Future<ShowGuardInfoResponse> showGuardInfo(String id) async {
     final String url = '${Apis._showGuardInfo}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -100,11 +102,15 @@ class EventProtectionServices {
 
   Future<GenericCreateResponse> createEventGeneralInformation({
      required MaterialMovementRequest body,
+  Future<GenericCreateResponse> createEventEi({
+    required EventInfoRequest body,
     required bool isSubmit,
+    required int eventDuration,
   }) async {
     var userId = await SharedPrefs.getUserId();
     final String url =
         "${Apis._createEventGeneralInformation}?userEmail=$userId&isSubmit=$isSubmit";
+        "${Apis._createEventEi}?userEmail=$userId&isSubmit=$isSubmit&event=$eventDuration";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,

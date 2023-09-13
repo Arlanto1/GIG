@@ -1,7 +1,5 @@
 // Created by Ramesh
 
-import 'dart:ffi';
-
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
@@ -16,14 +14,12 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/controllers/foundlist_cubit.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/controllers/foundlist_state.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/controllers/foundlist_state.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/views/found_list_item.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/customalert.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -40,10 +36,10 @@ class _FoundListState extends State<FoundList> {
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
   int pageNumber = 0;
-  List<ListElement>? localfoundlist;
+  List<FoundModel>? localfoundlist;
   late ScrollController scrollController;
   bool isPaginationLoading = false;
-  
+
   @override
   void initState() {
     super.initState();
@@ -54,20 +50,15 @@ class _FoundListState extends State<FoundList> {
   }
 
   _loadMore() {
-    
     if (scrollController.position.maxScrollExtent ==
         scrollController.position.pixels) {
-     
-      if ((localfoundlist?.length ?? 0) > 0)
-      {
-         pageNumber =  ((localfoundlist?.length ?? 0));
-      }
-      else
-      {
-      pageNumber = pageNumber + 20;
+      if ((localfoundlist?.length ?? 0) > 0) {
+        pageNumber = ((localfoundlist?.length ?? 0));
+      } else {
+        pageNumber = pageNumber + 20;
       }
       isPaginationLoading = true;
-       //showLoadingDialog(context);
+      //showLoadingDialog(context);
       print(pageNumber);
       // Perform event when user reach at the end of list (e.g. do Api call)
       _getFoundArticleList();
@@ -77,23 +68,25 @@ class _FoundListState extends State<FoundList> {
   }
 
   void _getFoundArticleList() async {
-     String userid = await SharedPrefs.getUserId();
-    await foundListArticleCubit.getFoundList(pageNumber.toString(), '20', userid,context);
+    String userid = await SharedPrefs.getUserId();
+    await foundListArticleCubit.getFoundList(
+        pageNumber.toString(), '20', userid, context);
   }
-   getFoundArticleListId(int articleid) async {
-      showLoadingDialog(context);
-    FoundListArticleDetails? foundArticleDetailsResponse = await foundListArticleCubit.getArticleById(articleid,context);
-     
-       editDataLoading(foundArticleDetailsResponse);
-     
+
+  getFoundArticleListId(int articleid) async {
+    showLoadingDialog(context);
+    FoundListArticleDetails? foundArticleDetailsResponse =
+        await foundListArticleCubit.getArticleById(articleid, context);
+
+    editDataLoading(foundArticleDetailsResponse);
   }
-  void editDataLoading( FoundListArticleDetails? foundArticleDetailsResponse)
-  {
+
+  void editDataLoading(FoundListArticleDetails? foundArticleDetailsResponse) {
     dismissLoadingDialog(context);
-    if (foundArticleDetailsResponse != null)
-     {
-    Navigator.pushNamed(context, createfoundScreenRoute,arguments:{"UserElement" : foundArticleDetailsResponse}  );
-     }
+    if (foundArticleDetailsResponse != null) {
+      Navigator.pushNamed(context, createfoundScreenRoute,
+          arguments: {"UserElement": foundArticleDetailsResponse});
+    }
   }
 
   @override
@@ -115,14 +108,13 @@ class _FoundListState extends State<FoundList> {
         backgroundColor: AppColors.navigationSkybluecolor,
         foregroundColor: AppColors.backgroundWhitecolor,
         onPressed: () {
-          Navigator.pushNamed(context, createfoundScreenRoute).then((value) async {
-            if(value != null && value == true)
-            {
+          Navigator.pushNamed(context, createfoundScreenRoute)
+              .then((value) async {
+            if (value != null && value == true) {
               print(value);
               localfoundlist?.clear();
               pageNumber = 0;
               _getFoundArticleList();
-
             }
           });
         },
@@ -138,7 +130,6 @@ class _FoundListState extends State<FoundList> {
               color: AppColors.backgroundWhitecolor),
         ),
         action: [
-         
           CustomPopmenu(
             //itemList :[],
             itemList: const [
@@ -148,20 +139,15 @@ class _FoundListState extends State<FoundList> {
               PopMenuItems("Close", AppIcon.close),
             ],
             itemTap: (value) async {
-               String userid = await SharedPrefs.getUserId();
+              String userid = await SharedPrefs.getUserId();
               print(value);
-              if (value == 0)
-              {
-                
-                  DownloadImage().exportExcel(
-                        context,int.parse(userid), 'export.xslx',0,pageNumber, '/exportFoundExcel');
+              if (value == 0) {
+                DownloadImage().exportExcel(context, int.parse(userid),
+                    'export.xslx', 0, pageNumber, '/exportFoundExcel');
+              } else if (value == 1) {
+                DownloadImage().exportPdf(context, int.parse(userid),
+                    'export.pdf', 0, pageNumber, '/exportFoundPDF');
               }
-             else if (value == 1)
-              {
-                DownloadImage().exportPdf(
-                        context,int.parse(userid), 'export.pdf',0,pageNumber, '/exportFoundPDF');
-              }
-              
             },
             popupimagename: AppIcon.morewhiteicon,
           ),
@@ -184,19 +170,15 @@ class _FoundListState extends State<FoundList> {
                 );
               } else {
                 if (pageNumber == 0) {
-                  
-                     localfoundlist = state.foundListModel?.list;
-                  
+                  localfoundlist = state.foundListModel?.list;
                 } else {
-                  
                   localfoundlist?.addAll(state.foundListModel?.list ?? []);
                 }
-                if ((state.foundListModel?.list?.length ?? 0) == 0 || (state.foundListModel?.totalCount ?? 0) == localfoundlist?.length)
-                {
+                if ((state.foundListModel?.list?.length ?? 0) == 0 ||
+                    (state.foundListModel?.totalCount ?? 0) ==
+                        localfoundlist?.length) {
                   isPaginationLoading = false;
-                }
-                else
-                {
+                } else {
                   isPaginationLoading = true;
                 }
                 return listWidgetLoading(
@@ -222,7 +204,6 @@ class _FoundListState extends State<FoundList> {
                 localfoundlist = state.foundListModel?.list;
               } else {
                 localfoundlist?.addAll(state.foundListModel?.list ?? []);
-                
               }
               return listWidgetLoading(
                   height, state, scrollController, localfoundlist);
@@ -232,7 +213,7 @@ class _FoundListState extends State<FoundList> {
   }
 
   Widget listWidgetLoading(double height, FoundListState state,
-      ScrollController? scrollController, List<ListElement>? foundList) {
+      ScrollController? scrollController, List<FoundModel>? foundList) {
     return Container(
         color: AppColors.navigationSkybluecolor,
         child: SingleChildScrollView(
@@ -255,7 +236,7 @@ class _FoundListState extends State<FoundList> {
                   // searchWidget(),
                   (foundList != null)
                       ? _userFoundListWidget(
-                          foundList, context, scrollController,state)
+                          foundList, context, scrollController, state)
                       : const SizedBox()
                 ],
               ),
@@ -295,7 +276,7 @@ class _FoundListState extends State<FoundList> {
   }
 
   // List view builder
-  Widget _userFoundListWidget(List<ListElement>? userList, BuildContext cont,
+  Widget _userFoundListWidget(List<FoundModel>? userList, BuildContext cont,
       ScrollController? scrollController, FoundListState state) {
     return Container(
       padding: allMargin16,
@@ -303,44 +284,41 @@ class _FoundListState extends State<FoundList> {
         visible: userList!.isNotEmpty,
         child: ListView.builder(
           //controller: scrollController,
-          itemCount: isPaginationLoading ? userList.length + 1 : userList.length,
+          itemCount:
+              isPaginationLoading ? userList.length + 1 : userList.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
+            if (index >= userList.length) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              FoundModel user = userList[index];
 
-            if (index >= userList.length)
-            {
-              return const Center(child:  CircularProgressIndicator());
-            }
-            else
-            {
-            ListElement user = userList[index];
-
-            return FoundListItem(
-              userItem: user,
-              onTap: (selectedIndex) {
-              showDialog(
-                context: context,
-                builder: (BuildContext dialogContext) {
-                  return CustomPopUpList(userList[selectedIndex]);
+              return FoundListItem(
+                userItem: user,
+                onTap: (selectedIndex) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext dialogContext) {
+                      return CustomPopUpList(userList[selectedIndex]);
+                    },
+                  );
+                  //do the detail edit of user found
                 },
+                oneditTap: (selectedIndex) {
+                  getFoundArticleListId(userList[selectedIndex].id ?? 0);
+                },
+                onviewTap: (selectedIndex) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext dialogContext) {
+                      return CustomPopUpList(userList[selectedIndex]);
+                    },
+                  );
+                },
+                index: index,
               );
-              //do the detail edit of user found
-              },
-              oneditTap: (selectedIndex) {
-                getFoundArticleListId(userList[selectedIndex].id ?? 0);
-              },
-              onviewTap: (selectedIndex) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return CustomPopUpList(userList[selectedIndex]);
-                  },
-                );
-              },
-              index: index,
-            );
-          }
+            }
           },
         ),
       ),
