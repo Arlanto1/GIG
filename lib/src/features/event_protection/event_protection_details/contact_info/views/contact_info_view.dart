@@ -7,7 +7,7 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/models/ci_model.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/models/contact_info_model.dart';
 import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -27,11 +27,11 @@ import '../../../../article_found_register_module/foundlist/models/foundlist_art
 import '../cubits/contact_info_cubit.dart';
 
 class ContactInfoView extends StatefulWidget {
-  final EventProtectionModel? model;
- final bool? annualPowerShutdown;
-  const ContactInfoView({
+  final ContactInfoModel? model;
+  final bool? isAnnualPowerShutDown;
+   const ContactInfoView({
     this.model,
-    super.key, this.annualPowerShutdown,
+    super.key,  this.isAnnualPowerShutDown,
   });
 
   @override
@@ -43,7 +43,8 @@ class _ContactInfoViewState extends State<ContactInfoView> {
   GetUserDetails? userDetails;
   List<CreateImage>? getFiles;
   List<FoundImage>? getAttachments;
-  bool isExtraSecurityDeployed = false;
+  //bool isExtraSecurityDeployed = true;
+ bool annualPowerShutDown = true;
   TextEditingController dateOfBirthController = TextEditingController();
   TextEditingController dateOfJoiningController = TextEditingController();
   TextEditingController statusController = TextEditingController();
@@ -159,13 +160,14 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                        if(annualPowerShutDown== false)...[
                           /// Sub Regional Head (SRH) 1
                           CommonWidgets.textDisplay(
                             Constants.subRegionalHead1,
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
-                            title:state.model.srh1?.firstName,
+                            title: state.model.srh1?.name,
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
@@ -189,7 +191,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
-                            title: '${ state.model.srh2?.firstName} ${ state.model.srh2?.lastName}',
+                            title: state.model.srh2?.name,
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
@@ -206,15 +208,16 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             },
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
+                     ],
 
-                          if(state.model.annualPowerShutdown == false)...[
+                           if(annualPowerShutDown== true)...[
                           /// Event Protection Manager 1
                           CommonWidgets.textDisplay(
                             Constants.eventProtectionManager1,
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
-                            title:'${ state.model.epManager1?.firstName} ${ state.model.epManager1?.lastName}',
+                            title: state.model.epManager1?.name,
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
@@ -238,7 +241,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
-                            title: state.model.epManager2?.firstName,
+                            title: state.model.epManager2?.name,
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
@@ -255,14 +258,14 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             },
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-],
+                       ],
                           /// Location Security  Manager 1
                           CommonWidgets.textDisplay(
                             Constants.locationSecurityManager1,
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
-                            title: '${ state.model.lsm1?.firstName} ${ state.model.lsm1?.lastName}',
+                            title: state.model.lsm1?.name,
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
@@ -315,7 +318,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
-                            title: '${ state.model.lsm2?.firstName} ${ state.model.lsm2?.lastName}',
+                            title: state.model.lsm2?.name,
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
@@ -368,7 +371,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
-                            title: '${state.model.bu1?.firstName} ${state.model.bu1?.lastName}',
+                            title: state.model.bu1?.name,
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
@@ -423,7 +426,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
-                            title: '${state.model.bu2?.firstName} ${state.model.bu2?.lastName}',
+                            title: state.model.bu2?.name,
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
@@ -853,395 +856,24 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Is Extra Security Deployment Required
+                          if(annualPowerShutDown== false)...[
                           Row(children: [
                             CommonWidgets.textDisplay(
                               Constants.isExtraSecurityDeploymentRequired,
                               Styles.textStyleBlack14,
                             ),
                             Checkbox(
-                                value: isExtraSecurityDeployed,
+                                activeColor: AppColors.navigationSkybluecolor,
+                                focusColor: AppColors.navigationSkybluecolor,
+                                value: state.model.extraSecurityDeployed ?? false,
                                 onChanged: (bool? value) {
-                                state.model.extraSecurityDeployed =value ;
+                                  state.model.extraSecurityDeployed = value;
+                                  BlocProvider.of<ContactInfoCubit>(context)
+                                      .onCheckBoxChange(state.model);
                                 })
                           ]),
+],
 
-                          // ///Guarding Vendor Id
-                          // CommonWidgets.textDisplay(Constants.guardingVendorId,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   keyboardType: TextInputType.number,
-                          //   initialValue: state.model.vendorId,
-                          //   textFormKey: Keys.vendorIdKey,
-                          //   hintText: '',
-                          //   isEnable: widget.model == null
-                          //       ? true
-                          //       : (widget.model != null &&
-                          //               (widget.model?.vendorId == null))
-                          //           ? false
-                          //           : true,
-                          //   isDisableColor: (widget.model != null &&
-                          //           (widget.model?.vendorId != null))
-                          //       ? true
-                          //       : false,
-                          //   onChange: (String value) {
-                          //     state.model.vendorId = value;
-                          //     context
-                          //         .read<ContactInfoCubit>()
-                          //         .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
-                          // ///Guarding Agency POC
-                          // CommonWidgets.textDisplay(Constants.guardingAgencyPOC,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   keyboardType: TextInputType.number,
-                          //   initialValue: state.model.guardingVendorPoc,
-                          //   textFormKey: Keys.vendorAgencyPOCKey,
-                          //   hintText: '',
-                          //   isEnable: widget.model == null
-                          //       ? true
-                          //       : (widget.model != null &&
-                          //               (widget.model?.guardingVendorPoc ==
-                          //                   null))
-                          //           ? false
-                          //           : true,
-                          //   isDisableColor: (widget.model != null &&
-                          //           (widget.model?.guardingVendorPoc != null))
-                          //       ? true
-                          //       : false,
-                          //   onChange: (String value) {
-                          //     state.model.guardingVendorPoc = value;
-                          //     context
-                          //         .read<ContactInfoCubit>()
-                          //         .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
-                          // ///No. Of Security Officers
-                          // CommonWidgets.textDisplay(
-                          //     Constants.numOfSecurityOfficers,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   keyboardType: TextInputType.number,
-                          //   initialValue:
-                          //       '${state.model.securityOfficerCount ?? ''}',
-                          //   textFormKey: Keys.noOfSecurityOfficersKey,
-                          //   hintText: '',
-                          //   isEnable: widget.model == null
-                          //       ? true
-                          //       : (widget.model != null &&
-                          //               (widget.model?.securityOfficerCount ==
-                          //                   null))
-                          //           ? false
-                          //           : true,
-                          //   isDisableColor: (widget.model != null &&
-                          //           (widget.model?.securityOfficerCount !=
-                          //               null))
-                          //       ? true
-                          //       : false,
-                          //   onChange: (int value) {
-                          //     state.model.securityOfficerCount = value;
-                          //     context
-                          //         .read<ContactInfoCubit>()
-                          //         .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
-                          // ///Total Duty Hours
-                          // CommonWidgets.textDisplay(Constants.totalDutyHours,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   keyboardType: TextInputType.number,
-                          //   initialValue:
-                          //       '${state.model.securityOfficerCountHrs ?? ''}',
-                          //   textFormKey: Keys.noOfSecurityOfficersHrsKey,
-                          //   hintText: '',
-                          //   isEnable: widget.model == null
-                          //       ? true
-                          //       : (widget.model != null &&
-                          //               (widget.model
-                          //                       ?.securityOfficerCountHrs ==
-                          //                   null))
-                          //           ? false
-                          //           : true,
-                          //   isDisableColor: (widget.model != null &&
-                          //           (widget.model?.securityOfficerCountHrs !=
-                          //               null))
-                          //       ? true
-                          //       : false,
-                          //   onChange: (int value) {
-                          //     state.model.securityOfficerCountHrs = value;
-                          //     context
-                          //         .read<ContactInfoCubit>()
-                          //         .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
-                          // ///No. Of Security Supervisors
-                          // CommonWidgets.textDisplay(
-                          //     Constants.numOfSecuritySupervisor,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   keyboardType: TextInputType.number,
-                          //   initialValue:
-                          //       '${state.model.securitySupervisorCount ?? ''}',
-                          //   textFormKey: Keys.noOfSecuritySupervisorsKey,
-                          //   hintText: '',
-                          //   isEnable: widget.model == null
-                          //       ? true
-                          //       : (widget.model != null &&
-                          //               (widget.model
-                          //                       ?.securitySupervisorCount ==
-                          //                   null))
-                          //           ? false
-                          //           : true,
-                          //   isDisableColor: (widget.model != null &&
-                          //           (widget.model?.securitySupervisorCount !=
-                          //               null))
-                          //       ? true
-                          //       : false,
-                          //   onChange: (int value) {
-                          //     state.model.securitySupervisorCount = value;
-                          //     context
-                          //         .read<ContactInfoCubit>()
-                          //         .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
-                          // ///Total Duty Hours
-                          // CommonWidgets.textDisplay(Constants.totalDutyHours,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   keyboardType: TextInputType.number,
-                          //   initialValue:
-                          //       '${state.model.securitySupervisorCountHrs ?? ''}',
-                          //   textFormKey: Keys.noOfSecuritySupervisorsHrsKey,
-                          //   hintText: '',
-                          //   isEnable: widget.model == null
-                          //       ? true
-                          //       : (widget.model != null &&
-                          //               (widget.model
-                          //                       ?.securitySupervisorCountHrs ==
-                          //                   null))
-                          //           ? false
-                          //           : true,
-                          //   isDisableColor: (widget.model != null &&
-                          //           (widget.model?.securitySupervisorCountHrs !=
-                          //               null))
-                          //       ? true
-                          //       : false,
-                          //   onChange: (int value) {
-                          //     state.model.securitySupervisorCountHrs = value;
-                          //     context
-                          //         .read<ContactInfoCubit>()
-                          //         .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
-                          // ///No. Of Security Guards
-                          // CommonWidgets.textDisplay(
-                          //     Constants.numOfSecurityGuards,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   keyboardType: TextInputType.number,
-                          //   initialValue:
-                          //       '${state.model.securityGuardCount ?? ''}',
-                          //   textFormKey: Keys.noOfSecurityGuardsKey,
-                          //   hintText: '',
-                          //   isEnable: widget.model == null
-                          //       ? true
-                          //       : (widget.model != null &&
-                          //               (widget.model?.securityGuardCount ==
-                          //                   null))
-                          //           ? false
-                          //           : true,
-                          //   isDisableColor: (widget.model != null &&
-                          //           (widget.model?.securityGuardCount != null))
-                          //       ? true
-                          //       : false,
-                          //   onChange: (int value) {
-                          //     state.model.securityGuardCount = value;
-                          //     context
-                          //         .read<ContactInfoCubit>()
-                          //         .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
-                          // ///Total Duty Hours
-                          // CommonWidgets.textDisplay(Constants.totalDutyHours,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   keyboardType: TextInputType.number,
-                          //   initialValue:
-                          //       '${state.model.securityGuardCountHrs ?? ''}',
-                          //   textFormKey: Keys.noOfSecurityGuardsHrsKey,
-                          //   hintText: '',
-                          //   isEnable: widget.model == null
-                          //       ? true
-                          //       : (widget.model != null &&
-                          //               (widget.model?.securityGuardCountHrs ==
-                          //                   null))
-                          //           ? false
-                          //           : true,
-                          //   isDisableColor: (widget.model != null &&
-                          //           (widget.model?.securityGuardCountHrs !=
-                          //               null))
-                          //       ? true
-                          //       : false,
-                          //   onChange: (int value) {
-                          //     state.model.securityGuardCountHrs = value;
-                          //     context
-                          //         .read<ContactInfoCubit>()
-                          //         .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
-                          // ///No. Of Security Facilitators
-                          // CommonWidgets.textDisplay(
-                          //     Constants.numOfSecurityFacilitators,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   keyboardType: TextInputType.number,
-                          //   initialValue:
-                          //       '${state.model.securityFacilitatorCount ?? ''}',
-                          //   textFormKey: Keys.noOfSecurityGuardsKey,
-                          //   hintText: '',
-                          //   isEnable: widget.model == null
-                          //       ? true
-                          //       : (widget.model != null &&
-                          //               (widget.model
-                          //                       ?.securityFacilitatorCount ==
-                          //                   null))
-                          //           ? false
-                          //           : true,
-                          //   isDisableColor: (widget.model != null &&
-                          //           (widget.model?.securityFacilitatorCount !=
-                          //               null))
-                          //       ? true
-                          //       : false,
-                          //   onChange: (int value) {
-                          //     state.model.securityFacilitatorCount = value;
-                          //     context
-                          //         .read<ContactInfoCubit>()
-                          //         .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
-                          // ///Total Duty Hours
-                          // CommonWidgets.textDisplay(Constants.totalDutyHours,
-                          //     Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   keyboardType: TextInputType.number,
-                          //   initialValue:
-                          //       '${state.model.securityFacilitatorCountHrs ?? ''}',
-                          //   textFormKey: Keys.noOfSecurityFacilitatorHrsKey,
-                          //   hintText: '',
-                          //   isEnable: widget.model == null
-                          //       ? true
-                          //       : (widget.model != null &&
-                          //               (widget.model
-                          //                       ?.securityFacilitatorCountHrs ==
-                          //                   null))
-                          //           ? false
-                          //           : true,
-                          //   isDisableColor: (widget.model != null &&
-                          //           (widget.model
-                          //                   ?.securityFacilitatorCountHrs !=
-                          //               null))
-                          //       ? true
-                          //       : false,
-                          //   onChange: (int value) {
-                          //     state.model.securityFacilitatorCountHrs = value;
-                          //     context
-                          //         .read<ContactInfoCubit>()
-                          //         .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
-                          // /// Proposed Vendor
-                          //
-                          // CommonWidgets.textDisplay(
-                          //   Constants.proposedVendors,
-                          //   Styles.textStyleBlack14,
-                          // ),
-                          // TextfieldAddButton(
-                          //   title: state.model.proposedVendors?.name,
-                          //   height: 60,
-                          //   isDisableColor: false,
-                          //   onTap: () {
-                          //     BaseDepartmentDialog().departmentDialog(
-                          //       context: context,
-                          //       departments: state.departments,
-                          //       onTap: (Department department) {
-                          //         BlocProvider.of<ContactInfoCubit>(context)
-                          //             .updateDropdownValues(
-                          //                 proposedVendors: department);
-                          //       },
-                          //     );
-                          //   },
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
-                          // ///Budget Costs
-                          // CommonWidgets.textDisplay(
-                          //     Constants.budget, Styles.textStyleBlack14),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // FlutterInputField(
-                          //   keyboardType: TextInputType.number,
-                          //   initialValue: '${state.model.budget ?? ''}',
-                          //   textFormKey: Keys.budgetKey,
-                          //   hintText: '',
-                          //   isEnable: widget.model == null
-                          //       ? true
-                          //       : (widget.model != null &&
-                          //               (widget.model?.budget == null))
-                          //           ? false
-                          //           : true,
-                          //   isDisableColor: (widget.model != null &&
-                          //           (widget.model?.budget != null))
-                          //       ? true
-                          //       : false,
-                          //   onChange: (double value) {
-                          //     state.model.budget = value;
-                          //     context
-                          //         .read<ContactInfoCubit>()
-                          //         .onModelValueChange(state.model);
-                          //   },
-                          //   validateTextField: (String? user) {},
-                          // ),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ]),
                       ),

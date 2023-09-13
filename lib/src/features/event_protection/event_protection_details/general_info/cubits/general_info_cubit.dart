@@ -24,7 +24,7 @@ import '../../../../../enums/form_status.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
-import '../models/gi_model.dart';
+import '../models/general_info_model.dart';
 
 part 'general_info_state.dart';
 
@@ -39,7 +39,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     required this.id,
   }) : super(
           GeneralInfoState.initial(
-              model: GiModel(),
+              model: GeneralInfoModel(),
               locations: GetLocations(),
               users: const [],
               emailUsers: const [],
@@ -52,12 +52,12 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
               ),
         );
 
-  void onModelValueChange(GiModel model) {
+  void onModelValueChange(GeneralInfoModel model) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(GiModel model) {
+  void onCheckBoxChange(GeneralInfoModel model) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
@@ -72,7 +72,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      GiModel model = GiModel();
+      GeneralInfoModel model = GeneralInfoModel();
       if(id.isNotEmpty) {
         model = await services.getGI(id);
       }

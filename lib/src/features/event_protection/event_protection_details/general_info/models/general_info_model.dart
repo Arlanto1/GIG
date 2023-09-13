@@ -2,8 +2,8 @@ import '../../../../../models/entity.dart';
 import '../../../../../models/location.dart';
 import '../../../../../models/location_region.dart';
 
-class GiModel {
-  GiModel({
+class GeneralInfoModel {
+  GeneralInfoModel({
     this.id,
     this.status,
     this.location,
@@ -27,7 +27,7 @@ class GiModel {
   String? eventStartDate;
   String? eventEndDate;
 
-  GiModel.fromJson(Map<String, dynamic> json) {
+  GeneralInfoModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     status = json['status'];
     location = Location.fromJson(json['location']);

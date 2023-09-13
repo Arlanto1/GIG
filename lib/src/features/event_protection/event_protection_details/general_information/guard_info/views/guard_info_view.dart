@@ -26,6 +26,7 @@ class GuardInfoView extends StatefulWidget {
   final GuardInfoModel? guardInfoModel;
 
   const GuardInfoView({
+    super.key,
     this.guardInfoModel,
   });
 
@@ -435,7 +436,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                           FlutterInputField(
                             keyboardType: TextInputType.number,
                             initialValue:
-                                '${state.guardInfoModel.securityGuardCountHrs ?? ''}',
+                            '${state.guardInfoModel.securityGuardCountHrs??''}',
                             textFormKey: Keys.noOfSecurityGuardsHrsKey,
                             hintText: '',
                             isEnable: widget.guardInfoModel == null
@@ -499,6 +500,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+
                           ///Total Duty Hours
                           CommonWidgets.textDisplay(Constants.totalDutyHours,
                               Styles.textStyleBlack14),
@@ -506,21 +508,21 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                           FlutterInputField(
                             keyboardType: TextInputType.number,
                             initialValue:
-                                '${state.guardInfoModel.securityFacilitatorCountHrs ?? ''}',
+                            '${state.guardInfoModel.securityFacilitatorCountHrs ?? ''}',
                             textFormKey: Keys.noOfSecurityFacilitatorHrsKey,
                             hintText: '',
                             isEnable: widget.guardInfoModel == null
                                 ? true
                                 : (widget.guardInfoModel != null &&
-                                        (widget.guardInfoModel
-                                                ?.securityFacilitatorCountHrs ==
-                                            null))
-                                    ? false
-                                    : true,
+                                (widget.guardInfoModel
+                                    ?.securityFacilitatorCountHrs ==
+                                    null))
+                                ? false
+                                : true,
                             isDisableColor: (widget.guardInfoModel != null &&
-                                    (widget.guardInfoModel
-                                            ?.securityFacilitatorCountHrs !=
-                                        null))
+                                (widget.guardInfoModel
+                                    ?.securityFacilitatorCountHrs !=
+                                    null))
                                 ? true
                                 : false,
                             onChange: (int value) {
@@ -534,13 +536,14 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+
                      /// Proposed Vendor
                           CommonWidgets.textDisplay(
                             Constants.proposedVendors,
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
-                            title: '${state.guardInfoModel.proposedVendors ?? []}',
+                            title:'${state.guardInfoModel.proposedVendors??''}',
                             height: 60,
                             isDisableColor: false,
                             onTap: () {

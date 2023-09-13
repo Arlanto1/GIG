@@ -1,8 +1,8 @@
 import '../../../../../models/department.dart';
 import '../../../../material_movement/models/material_movements_model.dart';
 
-class CiModel {
-  CiModel({
+class ContactInfoModel {
+  ContactInfoModel({
     this.id,
     this.status,
     this.lsm1,
@@ -78,7 +78,7 @@ class CiModel {
   String? vendor3SecondaryContact;
   bool? extraSecurityDeployed;
 
-  CiModel.fromJson(Map<String, dynamic> json) {
+  ContactInfoModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     status = json['status'];
     lsm1 = Lsm1.fromJson(json['lsm1']);

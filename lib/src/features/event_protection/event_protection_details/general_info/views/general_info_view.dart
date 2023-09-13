@@ -28,10 +28,10 @@ import '../../../../../../main_DEV.dart';
 import '../../../../../common_widgets/base_widget/radio_buttons_yes_no.dart';
 import '../../../../../utils/util.dart';
 import '../cubits/general_info_cubit.dart';
-import '../models/gi_model.dart';
+import '../models/general_info_model.dart';
 
 class GeneralInfoView extends StatefulWidget {
-  final GiModel? model;
+  final GeneralInfoModel? model;
   const GeneralInfoView({
     this.model,
     super.key,

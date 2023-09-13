@@ -7,7 +7,8 @@ import 'package:db_atom/src/features/createfound/models/emplyee_departments_mode
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/models/ci_model.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/models/contact_info_model.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/guard_info_model.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
@@ -39,7 +40,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
     required this.id,
   }) : super(
           ContactInfoState.initial(
-              model: CiModel(),
+              model: ContactInfoModel(),
               locations: GetLocations(),
               loggedInUserDetails: EntrySecurity(),
               users: const [],
@@ -54,12 +55,12 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
               getQualificationsResponse: null),
         );
 
-  void onModelValueChange(CiModel model) {
+  void onModelValueChange(ContactInfoModel model) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(CiModel model) {
+  void onCheckBoxChange(ContactInfoModel model) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
@@ -75,7 +76,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      CiModel model = CiModel();
+      ContactInfoModel model = ContactInfoModel();
       if(id.isNotEmpty) {
         model = await services.getCI(id);
       }
@@ -139,7 +140,6 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
     Bu2? bu2,
     Department? bu1Dept,
     Department? bu2Dept,
-    Department? proposedVendors,
     Srh1? subRegionalHead1,
     Srh2? subRegionalHead2,
     EpManager1? epManager1,
@@ -164,6 +164,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
     // if (entities != null) {
     //   state.model.entities = entities;
     // }
+
    if (subRegionalHead1 != null) {
        state.model.srh1 = subRegionalHead1.email as Srh1?;
      }
@@ -181,7 +182,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
        state.model.bu1 = bu1.email as Bu1?;
      }
      if (bu2 != null) {
-       state.model.bu1 = bu2.email as Bu1?;
+       state.model.bu2 = bu2.email as Bu2?;
      }
 
     if (epManager1 != null) {
