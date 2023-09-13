@@ -55,7 +55,7 @@ class GeneralInfoTilesView extends StatelessWidget {
                     Navigator.pushNamed(
                       context,
                       generalInfoCIRoute,
-                      arguments: {'id': id},
+                      arguments: {'id': id.toString()},
                     );
                   },
                   child: Tile(
