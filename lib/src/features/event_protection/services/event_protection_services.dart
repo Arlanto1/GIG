@@ -11,6 +11,7 @@ import 'package:db_atom/src/utils/shared_preferences.dart';
 
 import '../../../models/responseModels/generic_creat_response.dart';
 import '../event_protection_details/event_info/models/event_info_response.dart';
+import '../event_protection_details/event_info/models/request_models/event_into_request.dart';
 import '../event_protection_details/general_info/models/gi_model.dart';
 
 class Apis {
@@ -25,7 +26,7 @@ class Apis {
 
   static final String _getArticleFounds = '$baseUrl/getArticleFound';
 
-  static final String _createMaterialMovement = '$baseUrl/createMtrlMvmt';
+  static final String _createEventEi = '$baseUrl/createEventEi';
 }
 
 class EventProtectionServices {
@@ -88,13 +89,14 @@ class EventProtectionServices {
     return ShowGuardInfoResponse.fromJson(response);
   }
 
-  Future<GenericCreateResponse> createMaterialMovement({
-    required MaterialMovementRequest body,
+  Future<GenericCreateResponse> createEventEi({
+    required EventInfoRequest body,
     required bool isSubmit,
+    required int eventDuration,
   }) async {
     var userId = await SharedPrefs.getUserId();
     final String url =
-        "${Apis._createMaterialMovement}?userEmail=$userId&isSubmit=$isSubmit";
+        "${Apis._createEventEi}?userEmail=$userId&isSubmit=$isSubmit&event=$eventDuration";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,

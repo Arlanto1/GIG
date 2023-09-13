@@ -63,28 +63,8 @@ class _EventInfoViewState extends State<EventInfoView> {
         log('-state.status---${state.status}----');
 
         if (state.status == FormStatus.success) {
-          var dialog = CustomAlertDialog(
-            title: 'Guarding Master Data',
-            message: state.message ?? '',
-            positiveBtnText: Constants.ok,
-            onPostivePressed: () {
-              // TODO: Need to improve this code
-              Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.popAndPushNamed(
-                context,
-                guardingMasterDataRoute,
-                arguments: {},
-              );
-            },
-          );
-          showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (BuildContext context) => dialog);
-
-          // Utils.dynamicAlert(
-          //     context, state.message ?? '', 'Material Movement', '');
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Saved Successfully')));
+          Navigator.pop(context);
         }
         if (state.status == FormStatus.error) {
           Validator().showToast(
@@ -226,7 +206,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                               onTap: () {
                                 FocusScope.of(context).unfocus();
                                 BlocProvider.of<EventInfoCubit>(context)
-                                    .submitForm(isSaveOnly: false);
+                                    .submitForm(isSaveOnly: true);
                               },
                             ),
                           ],
