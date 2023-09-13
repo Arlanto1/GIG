@@ -263,7 +263,7 @@ class RouteGenerator {
                 ));
 
       case generalInfoCIRoute:
-        int id = 0;
+        String id ='';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;

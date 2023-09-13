@@ -30,7 +30,7 @@ part 'contact_info_state.dart';
 
 class ContactInfoCubit extends Cubit<ContactInfoState> {
   final EventProtectionServices services;
-  final int id;
+  final String id;
   final CommonServices commonServices;
 
   ContactInfoCubit({
@@ -75,8 +75,10 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      CiModel model = await services.getCI(id);
-
+      CiModel model = CiModel();
+      if(id.isNotEmpty) {
+        model = await services.getCI(id);
+      }
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 

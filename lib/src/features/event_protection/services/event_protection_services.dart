@@ -64,7 +64,7 @@ class EventProtectionServices {
     return GiModel.fromJson(response);
   }
 
-  Future<CiModel> getCI(int id) async {
+  Future<CiModel> getCI(String id) async {
     final String url = '${Apis._getCI}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
