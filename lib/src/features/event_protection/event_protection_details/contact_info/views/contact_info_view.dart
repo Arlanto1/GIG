@@ -7,6 +7,7 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/models/ci_model.dart';
 import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -27,10 +28,10 @@ import '../cubits/contact_info_cubit.dart';
 
 class ContactInfoView extends StatefulWidget {
   final EventProtectionModel? model;
-
+ final bool? annualPowerShutdown;
   const ContactInfoView({
     this.model,
-    super.key,
+    super.key, this.annualPowerShutdown,
   });
 
   @override
@@ -120,7 +121,6 @@ class _ContactInfoViewState extends State<ContactInfoView> {
     if (state.status == FormStatus.loading) {
       return const Center(child: CircularProgressIndicator());
     }
-
     return Container(
       color: AppColors.navigationSkybluecolor,
       child: SingleChildScrollView(
@@ -165,14 +165,14 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
-                            title:'${ state.model.srh1?.firstName} ${ state.model.srh1?.lastName}',
+                            title:state.model.srh1?.firstName,
                             height: 60,
                             isDisableColor: false,
                             onTap: () {
                               BaseDepartmentDialog().userDialog(
                                 context: context,
                                 users: state.emailUsers!,
-                                onTap: (GetUserDetails user) {
+                                onTap: (Srh1 user) {
                                   BlocProvider.of<ContactInfoCubit>(context)
                                       .updateDropdownValues(
                                     subRegionalHead1: user,
@@ -196,7 +196,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               BaseDepartmentDialog().userDialog(
                                 context: context,
                                 users: state.emailUsers!,
-                                onTap: (BaseUser user) {
+                                onTap: (Srh2 user) {
                                   BlocProvider.of<ContactInfoCubit>(context)
                                       .updateDropdownValues(
                                     subRegionalHead2: user,
@@ -207,6 +207,55 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                          if(state.model.annualPowerShutdown == false)...[
+                          /// Event Protection Manager 1
+                          CommonWidgets.textDisplay(
+                            Constants.eventProtectionManager1,
+                            Styles.textStyleBlack14,
+                          ),
+                          TextfieldAddButton(
+                            title:'${ state.model.epManager1?.firstName} ${ state.model.epManager1?.lastName}',
+                            height: 60,
+                            isDisableColor: false,
+                            onTap: () {
+                              BaseDepartmentDialog().userDialog(
+                                context: context,
+                                users: state.emailUsers!,
+                                onTap: (EpManager1 user) {
+                                  BlocProvider.of<ContactInfoCubit>(context)
+                                      .updateDropdownValues(
+                                    epManager1: user,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Event Protection Manager 2
+                          CommonWidgets.textDisplay(
+                            Constants.eventProtectionManager2,
+                            Styles.textStyleBlack14,
+                          ),
+                          TextfieldAddButton(
+                            title: state.model.epManager2?.firstName,
+                            height: 60,
+                            isDisableColor: false,
+                            onTap: () {
+                              BaseDepartmentDialog().userDialog(
+                                context: context,
+                                users: state.emailUsers!,
+                                onTap: (EpManager2 user) {
+                                  BlocProvider.of<ContactInfoCubit>(context)
+                                      .updateDropdownValues(
+                                    epManager2: user,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+],
                           /// Location Security  Manager 1
                           CommonWidgets.textDisplay(
                             Constants.locationSecurityManager1,
@@ -220,7 +269,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               BaseDepartmentDialog().userDialog(
                                 context: context,
                                 users: state.emailUsers!,
-                                onTap: (BaseUser user) {
+                                onTap: (Lsm1 user) {
                                   BlocProvider.of<ContactInfoCubit>(context)
                                       .updateDropdownValues(
                                     locationSecurityManager1: user,
@@ -273,7 +322,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               BaseDepartmentDialog().userDialog(
                                 context: context,
                                 users: state.emailUsers!,
-                                onTap: (BaseUser user) {
+                                onTap: (Lsm2 user) {
                                   BlocProvider.of<ContactInfoCubit>(context)
                                       .updateDropdownValues(
                                     locationSecurityManager2: user,
@@ -326,10 +375,10 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               BaseDepartmentDialog().userDialog(
                                 context: context,
                                 users: state.emailUsers!,
-                                onTap: (BaseUser user) {
+                                onTap: (Bu1 user) {
                                   BlocProvider.of<ContactInfoCubit>(context)
                                       .updateDropdownValues(
-                                    bu1Name: user,
+                                    bu1: user,
                                   );
                                 },
                               );
@@ -381,10 +430,10 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               BaseDepartmentDialog().userDialog(
                                 context: context,
                                 users: state.emailUsers!,
-                                onTap: (BaseUser user) {
+                                onTap: (Bu2 user) {
                                   BlocProvider.of<ContactInfoCubit>(context)
                                       .updateDropdownValues(
-                                    bu2Name: user,
+                                    bu2: user,
                                   );
                                 },
                               );

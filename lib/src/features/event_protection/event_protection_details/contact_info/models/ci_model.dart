@@ -1,9 +1,10 @@
 import '../../../../../models/department.dart';
-import '../../../../createfound/models/get_user_model.dart';
+import '../../../../material_movement/models/material_movements_model.dart';
 
 class CiModel {
   CiModel({
     this.id,
+    this.status,
     this.lsm1,
     this.lsm1ContactNo,
     this.lsm2,
@@ -40,20 +41,23 @@ class CiModel {
   });
 
   int? id;
-  GetUserDetails? lsm1;
+  int? status;
+  Lsm1? lsm1;
   String? lsm1ContactNo;
-  GetUserDetails? lsm2;
+  Lsm2? lsm2;
   String? lsm2ContactNo;
-  GetUserDetails? bu1;
+  Bu1? bu1;
   String? bu1ContactNo;
-  GetUserDetails? bu2;
+  Bu2? bu2;
   String? bu2ContactNo;
-  Department? requesterDepartment;
+  RequesterDepartment? requesterDepartment;
   String? epOfficers;
-  GetUserDetails? srh1;
-  GetUserDetails? srh2;
+  Srh1? srh1;
+  Srh2? srh2;
   Department? bu1Dept;
   Department? bu2Dept;
+  EpManager1? epManager1;
+  EpManager2? epManager2;
   String? systemVendor1;
   String? systemVendor2;
   String? systemVendor3;
@@ -76,18 +80,22 @@ class CiModel {
 
   CiModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    lsm1 = GetUserDetails.fromJson(json['lsm1']);
+    status = json['status'];
+    lsm1 = Lsm1.fromJson(json['lsm1']);
     lsm1ContactNo = json['lsm1ContactNo'];
-    lsm2 = GetUserDetails.fromJson(json['lsm2']);
+    lsm2 = Lsm2.fromJson(json['lsm2']);
     lsm2ContactNo = json['lsm2ContactNo'];
-    bu1 = GetUserDetails.fromJson(json['bu1']);
+    bu1 = Bu1.fromJson(json['bu1']);
     bu1ContactNo = json['bu1ContactNo'];
-    bu2 = GetUserDetails.fromJson(json['bu2']);
+    bu2 = Bu2.fromJson(json['bu2']);
     bu2ContactNo = json['bu2ContactNo'];
-    requesterDepartment = Department.fromJson(json['requesterDepartment']);
+    epManager1 = EpManager1.fromJson(json['lsm1']);
+    epManager2 = EpManager2.fromJson(json['lsm1']);
+    requesterDepartment =
+        RequesterDepartment.fromJson(json['requesterDepartment']);
     epOfficers = json['epOfficers'];
-    srh1 = GetUserDetails.fromJson(json['srh1']);
-    srh2 = GetUserDetails.fromJson(json['srh2']);
+    srh1 = Srh1.fromJson(json['srh1']);
+    srh2 = Srh2.fromJson(json['srh2']);
     bu1Dept = Department.fromJson(json['bu1Dept']);
     bu2Dept = Department.fromJson(json['bu2Dept']);
     systemVendor1 = json['systemVendor1'];
@@ -111,9 +119,12 @@ class CiModel {
     extraSecurityDeployed = json['extraSecurityDeployed'];
   }
 
+  get annualPowerShutdown => null;
+
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
+    _data['status'] = status;
     _data['lsm1'] = lsm1?.toJson();
     _data['lsm1ContactNo'] = lsm1ContactNo;
     _data['lsm2'] = lsm2?.toJson();
@@ -126,6 +137,8 @@ class CiModel {
     _data['epOfficers'] = epOfficers;
     _data['srh1'] = srh1?.toJson();
     _data['srh2'] = srh2?.toJson();
+    _data['epManager1'] = epManager1?.toJson();
+    _data['epManager2'] = epManager2?.toJson();
     _data['bu1Dept'] = bu1Dept?.toJson();
     _data['bu2Dept'] = bu2Dept?.toJson();
     _data['systemVendor1'] = systemVendor1;
@@ -147,6 +160,545 @@ class CiModel {
     _data['vendor3Secondary'] = vendor3Secondary;
     _data['vendor3SecondaryContact'] = vendor3SecondaryContact;
     _data['extraSecurityDeployed'] = extraSecurityDeployed;
+    return _data;
+  }
+}
+
+class Lsm1 {
+  Lsm1({
+    required this.userId,
+    required this.userName,
+    required this.email,
+    required this.firstName,
+    required this.lastName,
+    required this.phone,
+    required this.roles,
+    required this.roleExtensions,
+    required this.notApprovedRoles,
+    required this.notApprovedRoleExtensions,
+    required this.name,
+    required this.userStatus,
+  });
+
+  late final int userId;
+  late final String userName;
+  late final String email;
+  late final String firstName;
+  late final String lastName;
+  late final String phone;
+  late final List<Roles> roles;
+  late final List<RoleExtensions> roleExtensions;
+  late final List<dynamic> notApprovedRoles;
+  late final List<dynamic> notApprovedRoleExtensions;
+  late final String name;
+  late final String userStatus;
+
+  Lsm1.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
+    userName = json['userName'];
+    email = json['email'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    phone = json['phone'];
+    roles = List.from(json['roles']).map((e) => Roles.fromJson(e)).toList();
+    roleExtensions = List.from(json['roleExtensions'])
+        .map((e) => RoleExtensions.fromJson(e))
+        .toList();
+    notApprovedRoles =
+        List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
+    notApprovedRoleExtensions =
+        List.castFrom<dynamic, dynamic>(json['notApprovedRoleExtensions']);
+    name = json['name'];
+    userStatus = json['userStatus'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['userId'] = userId;
+    _data['userName'] = userName;
+    _data['email'] = email;
+    _data['firstName'] = firstName;
+    _data['lastName'] = lastName;
+    _data['phone'] = phone;
+    _data['roles'] = roles.map((e) => e.toJson()).toList();
+    _data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
+    _data['notApprovedRoles'] = notApprovedRoles;
+    _data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
+    _data['name'] = name;
+    _data['userStatus'] = userStatus;
+    return _data;
+  }
+}
+
+class Lsm2 {
+  Lsm2({
+    required this.userId,
+    required this.userName,
+    required this.email,
+    required this.firstName,
+    required this.lastName,
+    required this.phone,
+    required this.roles,
+    required this.roleExtensions,
+    required this.notApprovedRoles,
+    required this.notApprovedRoleExtensions,
+    required this.name,
+    required this.userStatus,
+  });
+
+  late final int userId;
+  late final String userName;
+  late final String email;
+  late final String firstName;
+  late final String lastName;
+  late final String phone;
+  late final List<Roles> roles;
+  late final List<RoleExtensions> roleExtensions;
+  late final List<dynamic> notApprovedRoles;
+  late final List<dynamic> notApprovedRoleExtensions;
+  late final String name;
+  late final String userStatus;
+
+  Lsm2.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
+    userName = json['userName'];
+    email = json['email'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    phone = json['phone'];
+    roles = List.from(json['roles']).map((e) => Roles.fromJson(e)).toList();
+    roleExtensions = List.from(json['roleExtensions'])
+        .map((e) => RoleExtensions.fromJson(e))
+        .toList();
+    notApprovedRoles =
+        List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
+    notApprovedRoleExtensions =
+        List.castFrom<dynamic, dynamic>(json['notApprovedRoleExtensions']);
+    name = json['name'];
+    userStatus = json['userStatus'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['userId'] = userId;
+    _data['userName'] = userName;
+    _data['email'] = email;
+    _data['firstName'] = firstName;
+    _data['lastName'] = lastName;
+    _data['phone'] = phone;
+    _data['roles'] = roles.map((e) => e.toJson()).toList();
+    _data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
+    _data['notApprovedRoles'] = notApprovedRoles;
+    _data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
+    _data['name'] = name;
+    _data['userStatus'] = userStatus;
+    return _data;
+  }
+}
+
+class Bu1 {
+  Bu1({
+    required this.userId,
+    required this.userName,
+    required this.email,
+    required this.firstName,
+    required this.lastName,
+    required this.phone,
+    required this.roles,
+    required this.roleExtensions,
+    required this.notApprovedRoles,
+    required this.notApprovedRoleExtensions,
+    required this.name,
+    required this.userStatus,
+  });
+
+  late final int userId;
+  late final String userName;
+  late final String email;
+  late final String firstName;
+  late final String lastName;
+  late final String phone;
+  late final List<Roles> roles;
+  late final List<RoleExtensions> roleExtensions;
+  late final List<dynamic> notApprovedRoles;
+  late final List<dynamic> notApprovedRoleExtensions;
+  late final String name;
+  late final String userStatus;
+
+  Bu1.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
+    userName = json['userName'];
+    email = json['email'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    phone = json['phone'];
+    roles = List.from(json['roles']).map((e) => Roles.fromJson(e)).toList();
+    roleExtensions = List.from(json['roleExtensions'])
+        .map((e) => RoleExtensions.fromJson(e))
+        .toList();
+    notApprovedRoles =
+        List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
+    notApprovedRoleExtensions =
+        List.castFrom<dynamic, dynamic>(json['notApprovedRoleExtensions']);
+    name = json['name'];
+    userStatus = json['userStatus'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['userId'] = userId;
+    _data['userName'] = userName;
+    _data['email'] = email;
+    _data['firstName'] = firstName;
+    _data['lastName'] = lastName;
+    _data['phone'] = phone;
+    _data['roles'] = roles.map((e) => e.toJson()).toList();
+    _data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
+    _data['notApprovedRoles'] = notApprovedRoles;
+    _data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
+    _data['name'] = name;
+    _data['userStatus'] = userStatus;
+    return _data;
+  }
+}
+
+class Bu2 {
+  Bu2({
+    required this.userId,
+    required this.userName,
+    required this.email,
+    required this.firstName,
+    required this.lastName,
+    required this.phone,
+    required this.roles,
+    required this.roleExtensions,
+    required this.notApprovedRoles,
+    required this.notApprovedRoleExtensions,
+    required this.name,
+    required this.userStatus,
+  });
+
+  late final int userId;
+  late final String userName;
+  late final String email;
+  late final String firstName;
+  late final String lastName;
+  late final String phone;
+  late final List<Roles> roles;
+  late final List<RoleExtensions> roleExtensions;
+  late final List<dynamic> notApprovedRoles;
+  late final List<dynamic> notApprovedRoleExtensions;
+  late final String name;
+  late final String userStatus;
+
+  Bu2.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
+    userName = json['userName'];
+    email = json['email'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    phone = json['phone'];
+    roles = List.from(json['roles']).map((e) => Roles.fromJson(e)).toList();
+    roleExtensions = List.from(json['roleExtensions'])
+        .map((e) => RoleExtensions.fromJson(e))
+        .toList();
+    notApprovedRoles =
+        List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
+    notApprovedRoleExtensions =
+        List.castFrom<dynamic, dynamic>(json['notApprovedRoleExtensions']);
+    name = json['name'];
+    userStatus = json['userStatus'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['userId'] = userId;
+    _data['userName'] = userName;
+    _data['email'] = email;
+    _data['firstName'] = firstName;
+    _data['lastName'] = lastName;
+    _data['phone'] = phone;
+    _data['roles'] = roles.map((e) => e.toJson()).toList();
+    _data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
+    _data['notApprovedRoles'] = notApprovedRoles;
+    _data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
+    _data['name'] = name;
+    _data['userStatus'] = userStatus;
+    return _data;
+  }
+}
+
+class RequesterDepartment {
+  RequesterDepartment({
+    required this.id,
+    required this.name,
+  });
+
+  late final int id;
+  late final String name;
+
+  RequesterDepartment.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['id'] = id;
+    _data['name'] = name;
+    return _data;
+  }
+}
+
+class Srh1 {
+  Srh1({
+    required this.userId,
+    required this.userName,
+    required this.email,
+    required this.firstName,
+    required this.lastName,
+    required this.phone,
+    required this.roles,
+    required this.roleExtensions,
+    required this.notApprovedRoles,
+    required this.notApprovedRoleExtensions,
+    required this.name,
+    required this.userStatus,
+  });
+
+  late final int userId;
+  late final String userName;
+  late final String email;
+  late final String firstName;
+  late final String lastName;
+  late final String phone;
+  late final List<Roles> roles;
+  late final List<RoleExtensions> roleExtensions;
+  late final List<dynamic> notApprovedRoles;
+  late final List<dynamic> notApprovedRoleExtensions;
+  late final String name;
+  late final String userStatus;
+
+  Srh1.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
+    userName = json['userName'];
+    email = json['email'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    phone = json['phone'];
+    roles = List.from(json['roles']).map((e) => Roles.fromJson(e)).toList();
+    roleExtensions = List.from(json['roleExtensions'])
+        .map((e) => RoleExtensions.fromJson(e))
+        .toList();
+    notApprovedRoles =
+        List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
+    notApprovedRoleExtensions =
+        List.castFrom<dynamic, dynamic>(json['notApprovedRoleExtensions']);
+    name = json['name'];
+    userStatus = json['userStatus'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['userId'] = userId;
+    _data['userName'] = userName;
+    _data['email'] = email;
+    _data['firstName'] = firstName;
+    _data['lastName'] = lastName;
+    _data['phone'] = phone;
+    _data['roles'] = roles.map((e) => e.toJson()).toList();
+    _data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
+    _data['notApprovedRoles'] = notApprovedRoles;
+    _data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
+    _data['name'] = name;
+    _data['userStatus'] = userStatus;
+    return _data;
+  }
+}
+
+class Srh2 {
+  Srh2({
+    required this.userId,
+    required this.userName,
+    required this.email,
+    required this.firstName,
+    required this.lastName,
+    required this.phone,
+    required this.roles,
+    required this.roleExtensions,
+    required this.notApprovedRoles,
+    required this.notApprovedRoleExtensions,
+    required this.name,
+    required this.userStatus,
+  });
+
+  late final int userId;
+  late final String userName;
+  late final String email;
+  late final String firstName;
+  late final String lastName;
+  late final String phone;
+  late final List<Roles> roles;
+  late final List<RoleExtensions> roleExtensions;
+  late final List<dynamic> notApprovedRoles;
+  late final List<dynamic> notApprovedRoleExtensions;
+  late final String name;
+  late final String userStatus;
+
+  Srh2.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
+    userName = json['userName'];
+    email = json['email'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    phone = json['phone'];
+    roles = List.from(json['roles']).map((e) => Roles.fromJson(e)).toList();
+    roleExtensions = List.from(json['roleExtensions'])
+        .map((e) => RoleExtensions.fromJson(e))
+        .toList();
+    notApprovedRoles =
+        List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
+    notApprovedRoleExtensions =
+        List.castFrom<dynamic, dynamic>(json['notApprovedRoleExtensions']);
+    name = json['name'];
+    userStatus = json['userStatus'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['userId'] = userId;
+    _data['userName'] = userName;
+    _data['email'] = email;
+    _data['firstName'] = firstName;
+    _data['lastName'] = lastName;
+    _data['phone'] = phone;
+    _data['roles'] = roles.map((e) => e.toJson()).toList();
+    _data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
+    _data['notApprovedRoles'] = notApprovedRoles;
+    _data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
+    _data['name'] = name;
+    _data['userStatus'] = userStatus;
+    return _data;
+  }
+}
+
+class EpManager1 {
+  EpManager1({
+    required this.userId,
+    required this.userName,
+    required this.email,
+    required this.firstName,
+    required this.lastName,
+    required this.phone,
+    required this.roles,
+    required this.roleExtensions,
+    required this.notApprovedRoles,
+    required this.notApprovedRoleExtensions,
+    required this.name,
+    required this.userStatus,
+  });
+  late final int userId;
+  late final String userName;
+  late final String email;
+  late final String firstName;
+  late final String lastName;
+  late final String phone;
+  late final List<Roles> roles;
+  late final List<RoleExtensions> roleExtensions;
+  late final List<dynamic> notApprovedRoles;
+  late final List<dynamic> notApprovedRoleExtensions;
+  late final String name;
+  late final String userStatus;
+
+  EpManager1.fromJson(Map<String, dynamic> json){
+    userId = json['userId'];
+    userName = json['userName'];
+    email = json['email'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    phone = json['phone'];
+    roles = List.from(json['roles']).map((e)=>Roles.fromJson(e)).toList();
+    roleExtensions = List.from(json['roleExtensions']).map((e)=>RoleExtensions.fromJson(e)).toList();
+    notApprovedRoles = List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
+    notApprovedRoleExtensions = List.castFrom<dynamic, dynamic>(json['notApprovedRoleExtensions']);
+    name = json['name'];
+    userStatus = json['userStatus'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['userId'] = userId;
+    _data['userName'] = userName;
+    _data['email'] = email;
+    _data['firstName'] = firstName;
+    _data['lastName'] = lastName;
+    _data['phone'] = phone;
+    _data['roles'] = roles.map((e)=>e.toJson()).toList();
+    _data['roleExtensions'] = roleExtensions.map((e)=>e.toJson()).toList();
+    _data['notApprovedRoles'] = notApprovedRoles;
+    _data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
+    _data['name'] = name;
+    _data['userStatus'] = userStatus;
+    return _data;
+  }
+}
+class EpManager2 {
+  EpManager2({
+    required this.userId,
+    required this.userName,
+    required this.email,
+    required this.firstName,
+    required this.lastName,
+    required this.phone,
+    required this.roles,
+    required this.roleExtensions,
+    required this.notApprovedRoles,
+    required this.notApprovedRoleExtensions,
+    required this.name,
+    required this.userStatus,
+  });
+  late final int userId;
+  late final String userName;
+  late final String email;
+  late final String firstName;
+  late final String lastName;
+  late final String phone;
+  late final List<Roles> roles;
+  late final List<RoleExtensions> roleExtensions;
+  late final List<dynamic> notApprovedRoles;
+  late final List<dynamic> notApprovedRoleExtensions;
+  late final String name;
+  late final String userStatus;
+
+  EpManager2.fromJson(Map<String, dynamic> json){
+    userId = json['userId'];
+    userName = json['userName'];
+    email = json['email'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    phone = json['phone'];
+    roles = List.from(json['roles']).map((e)=>Roles.fromJson(e)).toList();
+    roleExtensions = List.from(json['roleExtensions']).map((e)=>RoleExtensions.fromJson(e)).toList();
+    notApprovedRoles = List.castFrom<dynamic, dynamic>(json['notApprovedRoles']);
+    notApprovedRoleExtensions = List.castFrom<dynamic, dynamic>(json['notApprovedRoleExtensions']);
+    name = json['name'];
+    userStatus = json['userStatus'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['userId'] = userId;
+    _data['userName'] = userName;
+    _data['email'] = email;
+    _data['firstName'] = firstName;
+    _data['lastName'] = lastName;
+    _data['phone'] = phone;
+    _data['roles'] = roles.map((e)=>e.toJson()).toList();
+    _data['roleExtensions'] = roleExtensions.map((e)=>e.toJson()).toList();
+    _data['notApprovedRoles'] = notApprovedRoles;
+    _data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
+    _data['name'] = name;
+    _data['userStatus'] = userStatus;
     return _data;
   }
 }

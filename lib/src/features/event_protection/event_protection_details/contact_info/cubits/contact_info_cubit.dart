@@ -133,15 +133,17 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
     Location? location,
     GetUserDetails? user,
     Department? requesterDepartment,
+    Bu1? bu1,
+    Bu2? bu2,
     Department? bu1Dept,
     Department? bu2Dept,
     Department? proposedVendors,
-    GetUserDetails? subRegionalHead1,
-    BaseUser? subRegionalHead2,
-    BaseUser? locationSecurityManager1,
-    BaseUser? locationSecurityManager2,
-    BaseUser? bu1Name,
-    BaseUser? bu2Name,
+    Srh1? subRegionalHead1,
+    Srh2? subRegionalHead2,
+    EpManager1? epManager1,
+    EpManager2? epManager2,
+    Lsm1? locationSecurityManager1,
+    Lsm2? locationSecurityManager2,
     BaseUser? epOfficers,
     // List<Entity>? qualifications,
     int? status,
@@ -152,33 +154,42 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       ),
     );
 
-    state.model.bu1Dept = bu1Dept ?? state.model.bu1Dept;
-    state.model.bu2Dept = bu2Dept ?? state.model.bu2Dept;
-    state.model.requesterDepartment =
-        requesterDepartment ?? state.model.requesterDepartment;
+    state.model.bu1 = bu1 ?? state.model.bu1;
+    state.model.bu2 = bu2 ?? state.model.bu2;
+ //   state.model.requesterDepartment =
+   //     requesterDepartment ?? state.model.requesterDepartment;
 
     // if (entities != null) {
     //   state.model.entities = entities;
     // }
-     //if (subRegionalHead1 != null) {
-    //   state.model.srh1 = subRegionalHead1.email as GetUserDetails?;
-    // }
-    // if (subRegionalHead2 != null) {
-    //   state.model.srh2 = subRegionalHead2.email;
-    // }
-    // if (locationSecurityManager1 != null) {
-    //   state.model.lsm1= locationSecurityManager1.email;
-    // }
-    // if (locationSecurityManager2 != null) {
-    //   state.model.lsm2 = locationSecurityManager2.email;
-    // }
+   if (subRegionalHead1 != null) {
+       state.model.srh1 = subRegionalHead1.email as Srh1?;
+     }
+     if (subRegionalHead2 != null) {
+       state.model.srh2 = subRegionalHead2.name as Srh2?;
+     }
+     if (locationSecurityManager1 != null) {
+       state.model.lsm1= locationSecurityManager1.email as Lsm1?;
+     }
+     if (locationSecurityManager2 != null) {
+      state.model.lsm2 = locationSecurityManager2.email as Lsm2?;
+     }
 
-    // if (bu1Name != null) {
-    //   state.model.bu1 = bu1Name.email;
-    // }
-    // if (bu2Name != null) {
-    //   state.model.bu1 = bu2Name.email;
-    // }
+     if (bu1 != null) {
+       state.model.bu1 = bu1.email as Bu1?;
+     }
+     if (bu2 != null) {
+       state.model.bu1 = bu2.email as Bu1?;
+     }
+
+    if (epManager1 != null) {
+      state.model.epManager1 = epManager1.email as EpManager1?;
+    }
+
+    if (epManager2 != null) {
+      state.model.epManager2 = epManager2.email as EpManager2?;
+    }
+
     if (epOfficers != null) {
       state.model.epOfficers = epOfficers.email;
     }
@@ -360,7 +371,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       );
     }
 
-    print('---response--msg--${response.message}---');
+    log('---response--msg--${response.message}---');
 
     emit(
       state.copyWith(

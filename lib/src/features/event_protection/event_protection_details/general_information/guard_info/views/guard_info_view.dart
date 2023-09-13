@@ -17,7 +17,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/guard_info_model.dart';
 
+import '../../../../../../common_widgets/base_widget/base_department_dialog.dart';
 import '../../../../../../common_widgets/new_search_textfield.dart';
+import '../../../../../../common_widgets/textfiled_addbutton.dart';
 import '../cubits/guard_info_cubit.dart';
 
 class GuardInfoView extends StatefulWidget {
@@ -532,7 +534,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                        /*  /// Proposed Vendor
+                     /// Proposed Vendor
                           CommonWidgets.textDisplay(
                             Constants.proposedVendors,
                             Styles.textStyleBlack14,
@@ -545,16 +547,18 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                               BaseDepartmentDialog().departmentDialog(
                                 context: context,
                                 departments: state.departments,
-                                onTap: (Department department) {
+                                onTap: (List<ProposedVendors> proposedVendors) {
                                   BlocProvider.of<GuardInfoCubit>(context)
                                       .updateDropdownValues(
-                                      proposedVendors: department
+                                      proposedVendors: proposedVendors
                                           );
                                 },
                               );
                             },
-                          ),*/
+                          ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+
 
                           ///Budget Costs
                           CommonWidgets.textDisplay(

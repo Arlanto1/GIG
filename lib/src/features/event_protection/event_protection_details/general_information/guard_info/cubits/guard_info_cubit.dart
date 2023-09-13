@@ -69,12 +69,12 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
     );
    // var userId = await SharedPrefs.getUserId();
     try {
-      GuardInfoModel guardInfoModel = await services.getEPGuardInfo(id);
+      GuardInfoModel guardInfoModel = await services.getEPGuardInfo(id as int);
 
-      GiModel model = GiModel();
-      if(id.isNotEmpty) {
-        model = await services.getGI(id);
-      }
+    //  GiModel model = GiModel();
+     // if(id.isNotEmpty) {
+    //    model = await services.getGI(id);
+    //  }
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
@@ -118,10 +118,8 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
     Location? location,
     BaseUser? user,
     BaseUser? guard,
-   // Entity? entity,
-  //  List<Entity>? qualifications,
-    int? status,
     List<ProposedVendors>? proposedVendors,
+    int? status,
   }) async {
     emit(
       state.copyWith(
@@ -136,11 +134,11 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
       //);
    // }
    // state.model.status = status ?? state.model.status;
-  state.guardInfoModel.proposedVendors = proposedVendors ?? state.guardInfoModel.proposedVendors;
+ state.guardInfoModel.proposedVendors = proposedVendors ?? state.guardInfoModel.proposedVendors;
 
-    //if (entities != null) {
-   //   state.model.entities = entities;
-  //  }
+   // if (proposedVendors != null) {
+    //  state.guardInfoModel.proposedVendors = proposedVendors;
+    //}
 
     emit(state.copyWith(
       guardInfoModel: state.guardInfoModel,
