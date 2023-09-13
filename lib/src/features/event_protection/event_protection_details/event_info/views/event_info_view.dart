@@ -9,10 +9,9 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
-import 'package:db_atom/src/routing/router.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/event_info/views/article_dialog.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/customalert.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +62,8 @@ class _EventInfoViewState extends State<EventInfoView> {
         log('-state.status---${state.status}----');
 
         if (state.status == FormStatus.success) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Saved Successfully')));
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Saved Successfully')));
           Navigator.pop(context);
         }
         if (state.status == FormStatus.error) {
@@ -196,6 +196,23 @@ class _EventInfoViewState extends State<EventInfoView> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                      if (state.eventDuration == 2) ...[
+                        Center(
+                          child: submitButtonDisplay(
+                              label: 'Articles Found',
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return ArticleDialog(
+                                        articles: state.foundArticles ?? []);
+                                  },
+                                );
+                              }),
+                        ),
+                      ],
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                       /// SubmitButton
                       if (state.model.status != 4) ...[
                         Row(
@@ -284,11 +301,11 @@ class _EventInfoViewState extends State<EventInfoView> {
     );
   }
 
-  Widget submitButtonDisplay({required Function onTap}) {
+  Widget submitButtonDisplay(
+      {required Function onTap, String? label = Constants.submit}) {
     return AppButton(
       width: 150,
-      key: const Key(Keys.submitButton),
-      buttonText: Constants.submit,
+      buttonText: label,
       buttonTextKey: Keys.submitButton,
       onTap: onTap,
     );

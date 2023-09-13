@@ -11,7 +11,7 @@ FoundListModel foundListModelFromJson(String str) => FoundListModel.fromJson(jso
 String foundListModelToJson(FoundListModel data) => json.encode(data.toJson());
 
 class FoundListModel {
-  List<ListElement>? list;
+  List<FoundModel>? list;
   int? totalCount;
   int? currentPageNo;
   int? totalPageCount;
@@ -26,7 +26,7 @@ class FoundListModel {
   factory FoundListModel.fromJson(Map<String, dynamic> json) => FoundListModel(
         list: json["list"] == null
             ? []
-            : List<ListElement>.from(json["list"]!.map((x) => ListElement.fromJson(x))),
+            : List<FoundModel>.from(json["list"]!.map((x) => FoundModel.fromJson(x))),
         totalCount: json["totalCount"],
         currentPageNo: json["currentPageNo"],
         totalPageCount: json["totalPageCount"],
@@ -40,7 +40,7 @@ class FoundListModel {
       };
 }
 
-class ListElement {
+class FoundModel {
   String? foundId;
   int? id;
   String? slNo;
@@ -76,7 +76,7 @@ class ListElement {
   DepartmentName? depositorDepartmentName;
   DepartmentName? claimantDepartmentName;
 
-  ListElement({
+  FoundModel({
     this.foundId,
     this.id,
     this.slNo,
@@ -113,7 +113,7 @@ class ListElement {
     this.claimantDepartmentName,
   });
 
-  factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
+  factory FoundModel.fromJson(Map<String, dynamic> json) => FoundModel(
         foundId: json["foundId"],
         id: json["id"],
         slNo: json["slNo"],

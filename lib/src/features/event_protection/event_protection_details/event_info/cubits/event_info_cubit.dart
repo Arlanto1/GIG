@@ -23,6 +23,7 @@ import '../../../../../enums/form_status.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
+import '../../../../article_found_register_module/foundlist/models/foundlist_model.dart';
 
 part 'event_info_state.dart';
 
@@ -43,6 +44,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
               locations: GetLocations(),
               loggedInUserDetails: EntrySecurity(),
               users: const [],
+              eventDuration: eventDuration,
               emailUsers: const [],
               errorMessage: '',
               loadAttachments: const [],
@@ -66,8 +68,8 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     try {
       EventInfoResponse model = await services.getEventInfo(id, eventDuration);
 
-      // FoundListModel foundArticles = await services.getFoundArticleList(
-      //     startPosition: '0', maximumRecords: '50', eventId: id.toString());
+      FoundListModel foundArticles = await services.getFoundArticleList(
+          startPosition: '0', maximumRecords: '50', eventId: id.toString());
       log('--state.model.emails--${model.emails}-');
 
       List<String> emails = Utils().splitStringAfterComma(model.emails ?? '');
@@ -75,10 +77,10 @@ class EventInfoCubit extends Cubit<EventInfoState> {
 
       emit(
         state.copyWith(
-          status: FormStatus.initial,
-          model: model,
-          additionalEmails: emails,
-        ),
+            status: FormStatus.initial,
+            model: model,
+            additionalEmails: emails,
+            foundArticles: foundArticles.list),
       );
     } catch (e) {
       log('initialization issue', error: e, name: (EventInfoCubit).toString());
@@ -144,7 +146,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
 
     /// Create/Update API Call
     EventInfoRequest request =
-    EventInfoRequest(eventProtectionInfo: state.model);
+        EventInfoRequest(eventProtectionInfo: state.model);
 
     GenericCreateResponse response = GenericCreateResponse();
     try {
