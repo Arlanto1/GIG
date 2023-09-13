@@ -29,7 +29,7 @@ part 'event_info_state.dart';
 
 class EventInfoCubit extends Cubit<EventInfoState> {
   final EventProtectionServices services;
-  final int id;
+  final String id;
   final int eventDuration;
   final CommonServices commonServices;
 
@@ -97,40 +97,21 @@ class EventInfoCubit extends Cubit<EventInfoState> {
   void addAttachment({
     List<CreateImage>? data,
     List<CreateImage>? guardImages,
-    List<CreateImage>? deploymentFiles,
-    List<CreateImage>? bioDataFiles,
-    List<CreateImage>? permanentAddressFiles,
-    List<CreateImage>? localAddressFiles,
-    List<CreateImage>? pVCFiles,
-    List<CreateImage>? trainingFiles,
-    List<CreateImage>? mSGBExemptionFiles,
-    List<CreateImage>? medicalFiles,
-    List<CreateImage>? mSGBAttachments,
   }) async {
     emit(
       state.copyWith(
-        status: FormStatus.loading,
+        status: FormStatus.addAttachment,
       ),
     );
     int eventIds = math.Random.secure().nextInt(5);
 
-    // log('--guardImages---${guardImages?.length}----');
-    // if (guardImages != null) {
-    //   emit(
-    //     state.copyWith(
-    //       eventId: eventIds,
-    //       model: state.model,
-    //       guardAttachments: guardImages,
-    //       status: FormStatus.initial,
-    //     ),
-    //   );
-    // }
-
-    if (deploymentFiles != null) {
+    log('--guardImages---${guardImages?.length}----');
+    if (guardImages != null) {
       emit(
         state.copyWith(
           eventId: eventIds,
           model: state.model,
+          guardAttachments: guardImages,
           status: FormStatus.initial,
         ),
       );

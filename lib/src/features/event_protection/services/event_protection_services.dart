@@ -80,7 +80,7 @@ class EventProtectionServices {
     return GuardInfoModel.fromJson(response);
   }
 
-  Future<EventInfoResponse> getEventInfo(int id, int eventDuration) async {
+  Future<EventInfoResponse> getEventInfo(String id, int eventDuration) async {
     final String url = "${Apis._getEventInfo}?id=$id&event=$eventDuration";
     final response = await BaseApiService().getRequest(
       url: url,

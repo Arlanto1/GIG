@@ -18,8 +18,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
+import '../../../../../common_widgets/base_widget/base_image_upload.dart';
 import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../constants/app_icon.dart';
+import '../../../../../models/entry_security.dart';
 import '../../../../../utils/util.dart';
 import '../cubits/event_info_cubit.dart';
 import 'editor.dart';
@@ -100,6 +102,14 @@ class _EventInfoViewState extends State<EventInfoView> {
       return const Center(child: CircularProgressIndicator());
     }
 
+    if (state.status == FormStatus.addAttachment ||
+        state.status == FormStatus.initial) {
+      // log('---getAttachments----builder----${getAttachments?.length}-----');
+      // getFiles = state.loadAttachments ?? [];
+      // log('---guardAttachments----builder----${state.guardAttachments?.length}-----');
+
+      guardFiles = state.guardAttachments ?? [];
+    }
     return Container(
       color: AppColors.navigationSkybluecolor,
       child: SingleChildScrollView(
@@ -191,28 +201,64 @@ class _EventInfoViewState extends State<EventInfoView> {
                                 ],
                               ),
                             ),
+
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            if (state.eventDuration == 2) ...[
+                              Center(
+                                child: submitButtonDisplay(
+                                    label: 'Articles Found',
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return ArticleDialog(
+                                              articles: state.foundArticles ?? []);
+                                        },
+                                      );
+                                    }),
+                              ),
+                            ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            /// upload Photo
+                            CommonWidgets.textDisplay(
+                                Constants.uploadPhoto, Styles.textStyleBlack14),
+                            state.model.image == null
+                                ? CommonWidgets.verticalSpacerWidget(
+                                height * 0.001)
+                                : Container(),
+                            BaseImageUpload().uploadWidget(
+                              context: context,
+                              loggedInUserDetails:
+                              state.loggedInUserDetails ?? EntrySecurity(),
+                              getFiles: guardFiles,
+                              onImageSelected: (CreateImage data) {
+                                log('-------function---onImageSelected---------');
+                                List<CreateImage>? files = [];
+                                files.add(data);
+                                for (CreateImage image in guardFiles ?? []) {
+                                  files.add(image);
+                                }
+                                BlocProvider.of<EventInfoCubit>(
+                                    context)
+                                    .addAttachment(guardImages: files);
+                              },
+                            ),
+                            // Attachments
+                            BaseImageUpload().getAttachment(
+                              height: height,
+                              attachments: state.guardAttachments,
+                              files: guardFiles,
+                              showDownloadIcon: state.model.image!= null
+                                  ? true
+                                  : false,
+                            ),
                           ],
                         ),
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      if (state.eventDuration == 2) ...[
-                        Center(
-                          child: submitButtonDisplay(
-                              label: 'Articles Found',
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return ArticleDialog(
-                                        articles: state.foundArticles ?? []);
-                                  },
-                                );
-                              }),
-                        ),
-                      ],
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
                       /// SubmitButton
                       if (state.model.status != 4) ...[
                         Row(
@@ -230,7 +276,8 @@ class _EventInfoViewState extends State<EventInfoView> {
                         ),
                       ],
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
-                    ]),
+                    ],
+                ),
               ),
             ),
           ],

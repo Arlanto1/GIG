@@ -298,7 +298,7 @@ class RouteGenerator {
 
 
       case eventInfoRoute:
-        int id = 0;
+        String id ='';
         int eventDuration = 0;
         String title = '';
         if (settings.arguments != null) {

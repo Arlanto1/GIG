@@ -8,6 +8,7 @@ class EventInfoState extends Equatable {
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<CreateImage>? loadAttachments;
+  final List<CreateImage>? guardAttachments;
 
   final List<String>? additionalEmails;
   final int? eventId;
@@ -78,6 +79,7 @@ class EventInfoState extends Equatable {
     this.users,
     this.emailUsers,
     this.loadAttachments,
+    this.guardAttachments,
     this.additionalEmails,
     this.eventId,
     this.eventDuration,
@@ -93,6 +95,7 @@ class EventInfoState extends Equatable {
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<CreateImage>? loadAttachments,
+    List<CreateImage>? guardAttachments,
     List<String>? additionalEmails,
     int? eventId,
     int? eventDuration,
@@ -107,6 +110,7 @@ class EventInfoState extends Equatable {
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
       loadAttachments: loadAttachments ?? this.loadAttachments,
+      guardAttachments: guardAttachments ?? this.guardAttachments,
       additionalEmails: additionalEmails ?? this.additionalEmails,
       eventId: eventId ?? this.eventId,
       eventDuration: eventDuration ?? this.eventDuration,
