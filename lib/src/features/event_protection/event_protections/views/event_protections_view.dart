@@ -168,7 +168,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
     Navigator.pushNamed(
       context,
       eventProtectionDetailsTabRoute,
-      arguments: {'id': id},
+      arguments: {'id': id.toString()},
     );
   }
 }
