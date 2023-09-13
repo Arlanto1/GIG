@@ -12,7 +12,7 @@ import 'package:db_atom/src/features/event_protection/event_protection_details/c
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/views/contact_info_view.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/event_info/views/event_info_view.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/cubits/guard_info_cubit.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/views/general_info_view.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/views/guard_info_view.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/views/event_protection_details.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/views/gereral_info_tiles_view.dart';
 import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';

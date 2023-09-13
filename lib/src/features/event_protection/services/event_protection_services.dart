@@ -100,8 +100,6 @@ class EventProtectionServices {
     return ShowGuardInfoResponse.fromJson(response);
   }
 
-  Future<GenericCreateResponse> createEventGeneralInformation({
-     required MaterialMovementRequest body,
   Future<GenericCreateResponse> createEventEi({
     required EventInfoRequest body,
     required bool isSubmit,
@@ -109,7 +107,6 @@ class EventProtectionServices {
   }) async {
     var userId = await SharedPrefs.getUserId();
     final String url =
-        "${Apis._createEventGeneralInformation}?userEmail=$userId&isSubmit=$isSubmit";
         "${Apis._createEventEi}?userEmail=$userId&isSubmit=$isSubmit&event=$eventDuration";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
