@@ -110,9 +110,9 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                     : BaseListTileItem(
                         id: state.list[index].id,
                         labels: labels,
-                        guardRank: state.list[index].guardRank,
                         status: state.list[index].status,
                         isMasterGuard: true,
+                        guardRank: state.list[index].guardRank,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,

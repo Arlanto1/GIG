@@ -158,7 +158,7 @@ class Utils {
     throw FormatException('Unable to parse date-time: $dateTimeString');
   }
 
-  Row buildFoundStatusRow(int status) {
+  Widget buildFoundStatusRow(int status) {
     String statusText;
 
     switch (status) {
@@ -174,14 +174,16 @@ class Utils {
       default:
         statusText = ''; // Handle the default case if needed
     }
-    return Row(
-      children: [
-        textHandling('Status: ', statusText),
-      ],
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
     );
   }
 
-  Row buildStatusRow(int status) {
+  Widget buildStatusRow(int status) {
     String statusText;
 
     switch (status) {
@@ -209,14 +211,17 @@ class Utils {
       default:
         statusText = ''; // Handle the default case if needed
     }
-    return Row(
-      children: [
-        textHandling('Status: ', statusText),
-      ],
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
     );
   }
 
-  Row buildMasterDataStatusRow(int status) {
+  Widget buildMasterDataStatusRow(int status) {
+    log('--buildMasterDataStatusRow----');
     String statusText;
 
     switch (status) {
@@ -235,10 +240,12 @@ class Utils {
       default:
         statusText = ''; // Handle the default case if needed
     }
-    return Row(
-      children: [
-        textHandling('Status: ', statusText),
-      ],
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
     );
   }
 
@@ -269,7 +276,7 @@ class Utils {
     );
   }
 
-  Row buildGuardrank(int guardRank) {
+  Widget buildGuardrank(int guardRank) {
     String guardRankText;
 
     switch (guardRank) {
@@ -295,14 +302,16 @@ class Utils {
         guardRankText = ''; // Handle the default case if needed
     }
 
-    return Row(
-      children: [
-        textHandling('GuardRank: ', guardRankText),
-      ],
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('GuardRank: ', guardRankText),
+        ],
+      ),
     );
   }
 
-  Row buildMaritalStatus(int maritalStatus) {
+  Widget buildMaritalStatus(int maritalStatus) {
     String maritalStatusText;
 
     switch (maritalStatus) {
@@ -315,14 +324,16 @@ class Utils {
       default:
         maritalStatusText = ''; // Handle the default case if needed
     }
-    return Row(
-      children: [
-        textHandling('MaritalStatus: ', maritalStatusText),
-      ],
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('MaritalStatus: ', maritalStatusText),
+        ],
+      ),
     );
   }
 
-  Row buildGender(int gender) {
+  Widget buildGender(int gender) {
     String genderText;
 
     switch (gender) {
@@ -338,14 +349,16 @@ class Utils {
       default:
         genderText = ''; // Handle the default case if needed
     }
-    return Row(
-      children: [
-        textHandling('Gender: ', genderText),
-      ],
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Gender: ', genderText),
+        ],
+      ),
     );
   }
 
-  Row buildAssetType(int assetType) {
+  Widget buildAssetType(int assetType) {
     String assetTypeText;
 
     switch (assetType) {
@@ -358,14 +371,16 @@ class Utils {
       default:
         assetTypeText = ''; // Handle the default case if needed
     }
-    return Row(
-      children: [
-        textHandling('Gender: ', assetTypeText),
-      ],
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Gender: ', assetTypeText),
+        ],
+      ),
     );
   }
 
-  Row buildEventProtectionStatusRow(int status) {
+  Widget buildEventProtectionStatusRow(int status) {
     String statusText;
 
     switch (status) {
@@ -465,26 +480,26 @@ class Utils {
       default:
         statusText = ''; // Handle the default case if needed
     }
-    return Row(
-      children: [
-        textHandling('Status: ', statusText),
-      ],
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
     );
   }
 
   Widget textHandling(String title, String desc) {
-    return Expanded(
-      child: RichText(
-        text: TextSpan(
-          style: Styles.textStyleRegularNormalGrey14,
-          children: <TextSpan>[
-            TextSpan(text: title),
-            TextSpan(
-              text: desc,
-              style: Styles.textStyleBoldGrey14,
-            ),
-          ],
-        ),
+    return RichText(
+      text: TextSpan(
+        style: Styles.textStyleRegularNormalGrey14,
+        children: <TextSpan>[
+          TextSpan(text: title),
+          TextSpan(
+            text: desc,
+            style: Styles.textStyleBoldGrey14,
+          ),
+        ],
       ),
     );
   }
