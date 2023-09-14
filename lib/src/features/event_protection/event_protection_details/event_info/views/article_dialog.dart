@@ -8,8 +8,10 @@ import '../../../../article_found_register_module/foundlist/models/foundlist_art
 
 class ArticleDialog extends StatelessWidget {
   final List<FoundModel> articles;
+  final void Function()? leftButtonTap;
 
-  const ArticleDialog({super.key, required this.articles});
+  const ArticleDialog(
+      {super.key, required this.articles, required this.leftButtonTap});
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +37,7 @@ class ArticleDialog extends StatelessWidget {
               elevation: 0,
               leading: IconButton(
                 icon: const Icon(Icons.add, color: Colors.blue),
-                onPressed: () {
-                  Navigator.pushNamed(context, createfoundScreenRoute);
-                  // Navigate to another page here
-                  // Navigator.of(context).pop(); // Close the dialog
-                },
+                onPressed: leftButtonTap,
               ),
               actions: [
                 IconButton(

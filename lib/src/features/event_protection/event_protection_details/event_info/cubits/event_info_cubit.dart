@@ -72,10 +72,8 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       }
       FoundListModel foundArticles = await services.getFoundArticleList(
           startPosition: '0', maximumRecords: '50', eventId: id.toString());
-      log('--state.model.emails--${model.emails}-');
 
       List<String> emails = Utils().splitStringAfterComma(model.emails ?? '');
-      log('--state.model.toString--${emails.toString()}-');
 
       emit(
         state.copyWith(
@@ -94,6 +92,11 @@ class EventInfoCubit extends Cubit<EventInfoState> {
         ),
       );
     }
+  }
+
+  void onModelValueChange(EventInfoResponse model) {
+    log('-onModelValueChange--${model.email}-');
+    emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
   void addAttachment({

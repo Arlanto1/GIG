@@ -7,4 +7,5 @@ enum FormStatus {
   next,
   success,
   error,
+  createArticleFound,
 }

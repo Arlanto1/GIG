@@ -1,14 +1,17 @@
-import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
 class EditorHtml extends StatefulWidget {
   const EditorHtml({
     super.key,
-    required this.text,
+    required this.text, required this.eventInfoState, required this.mainContext,
   });
 
+  final BuildContext mainContext;
   final String text;
+  final EventInfoState eventInfoState;
 
   @override
   State<EditorHtml> createState() => _EditorHtmlState();
@@ -55,18 +58,22 @@ class _EditorHtmlState extends State<EditorHtml> {
     controller.onEditorLoaded(() {
       debugPrint('Editor Loaded :)');
     });
+    enableEditor(true);
     super.initState();
   }
 
   @override
-  void dispose() {
-    /// please do not forget to dispose the controller
+  Future<void> dispose() async {
+    // var cubit = BlocProvider.of<EventInfoCubit>(widget.mainContext);
+    // widget.eventInfoState.model.email = await controller.getText();
+    // cubit.onModelValueChange(widget.eventInfoState.model);
     controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    controller.setText(widget.text);
     enableEditor(true);
     return Column(
       children: [
@@ -79,44 +86,44 @@ class _EditorHtmlState extends State<EditorHtml> {
           controller: controller,
           crossAxisAlignment: WrapCrossAlignment.start,
           direction: Axis.horizontal,
-          customButtons: [
-            Container(
-              width: 25,
-              height: 25,
-              decoration: BoxDecoration(
-                  color: _hasFocus ? Colors.green : Colors.grey,
-                  borderRadius: BorderRadius.circular(15)),
-            ),
-            InkWell(
-                onTap: () => unFocusEditor(),
-                child: const Icon(
-                  Icons.favorite,
-                  color: Colors.black,
-                )),
-            InkWell(
-                onTap: () async {
-                  var selectedText = await controller.getSelectedText();
-                  debugPrint('selectedText $selectedText');
-                  var selectedHtmlText = await controller.getSelectedHtmlText();
-                  debugPrint('selectedHtmlText $selectedHtmlText');
-                },
-                child: const Icon(
-                  Icons.add_circle,
-                  color: Colors.black,
-                )),
-          ],
+          // customButtons: [
+          //   Container(
+          //     width: 25,
+          //     height: 25,
+          //     decoration: BoxDecoration(
+          //         color: _hasFocus ? Colors.green : Colors.grey,
+          //         borderRadius: BorderRadius.circular(15)),
+          //   ),
+          //   InkWell(
+          //       onTap: () => unFocusEditor(),
+          //       child: const Icon(
+          //         Icons.favorite,
+          //         color: Colors.black,
+          //       )),
+          //   InkWell(
+          //       onTap: () async {
+          //         var selectedText = await controller.getSelectedText();
+          //         debugPrint('selectedText $selectedText');
+          //         var selectedHtmlText = await controller.getSelectedHtmlText();
+          //         debugPrint('selectedHtmlText $selectedHtmlText');
+          //       },
+          //       child: const Icon(
+          //         Icons.add_circle,
+          //         color: Colors.black,
+          //       )),
+          // ],
         ),
         SizedBox(
           height: 450,
           width: double.infinity,
           child: QuillHtmlEditor(
-            text: widget.text,
+            // text: widget.text,
             hintText: 'Hint text goes here',
             controller: controller,
-            isEnabled: false,
+            isEnabled: true,
             ensureVisible: false,
             minHeight: 500,
-            autoFocus: false,
+            autoFocus: true,
             textStyle: _editorTextStyle,
             hintTextStyle: _hintTextStyle,
             hintTextAlign: TextAlign.start,
@@ -124,7 +131,12 @@ class _EditorHtmlState extends State<EditorHtml> {
             hintTextPadding: const EdgeInsets.only(left: 20),
             backgroundColor: _backgroundColor,
             inputAction: InputAction.newline,
-            onEditingComplete: (s) => debugPrint('Editing completed $s'),
+            onEditingComplete: (s) async {
+              debugPrint('Editing completed $s');
+              var cubit = BlocProvider.of<EventInfoCubit>(widget.mainContext);
+              widget.eventInfoState.model.email = await getHtmlText();
+              cubit.onModelValueChange(widget.eventInfoState.model);
+            },
             loadingBuilder: (context) {
               return const Center(
                   child: CircularProgressIndicator(
@@ -141,11 +153,13 @@ class _EditorHtmlState extends State<EditorHtml> {
             },
             onTextChanged: (text) => debugPrint('widget text change $text'),
             onEditorCreated: () {
-              debugPrint('Editor has been loaded');
-              setHtmlText(htmlSample);
+              debugPrint('Editor has been loaded--------');
+              // setHtmlText(widget.text);
+              controller.setText(widget.text);
             },
-            onEditorResized: (height) => debugPrint('Editor resized $height'),
+            onEditorResized: (height) => debugPrint('Editor resized----------- $height'),
             onSelectionChanged: (sel) =>
+
                 debugPrint('index---- ${sel.index}, range ${sel.length}'),
           ),
         ),
@@ -261,9 +275,10 @@ class _EditorHtmlState extends State<EditorHtml> {
   }
 
   ///[getHtmlText] to get the html text from editor
-  void getHtmlText() async {
+  Future<String> getHtmlText() async {
     String? htmlText = await controller.getText();
     debugPrint(htmlText);
+    return htmlText;
   }
 
   ///[setHtmlText] to set the html text to editor

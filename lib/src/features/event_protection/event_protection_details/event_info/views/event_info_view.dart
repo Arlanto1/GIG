@@ -22,6 +22,7 @@ import '../../../../../common_widgets/base_widget/base_image_upload.dart';
 import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../constants/app_icon.dart';
 import '../../../../../models/entry_security.dart';
+import '../../../../../routing/router.dart';
 import '../../../../../utils/util.dart';
 import '../cubits/event_info_cubit.dart';
 import 'editor.dart';
@@ -54,6 +55,7 @@ class _EventInfoViewState extends State<EventInfoView> {
     super.initState();
     BlocProvider.of<EventInfoCubit>(context).initializeValues();
   }
+  bool hasFocus = false;
 
   @override
   Widget build(BuildContext context) {
@@ -132,151 +134,257 @@ class _EventInfoViewState extends State<EventInfoView> {
                     ? AutovalidateMode.disabled
                     : AutovalidateMode.onUserInteraction,
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 20),
-                        child: Column(
-                          children: [
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            CommonWidgets.textDisplay(
-                              Constants.eventStartedAt,
-                              Styles.textStyleBlack14,
-                            ),
-                            BaseDate().datePickerWidgetLoading(
-                              textController: dateController,
-                              isDisabled: false,
-                              onlyDate: true,
-                              onChange: (String value) {
-                                dateController.text = value;
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            CommonWidgets.textDisplay(
-                                Constants.additionalEmails,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            GestureDetector(
-                              onTap: addEmail,
-                              child: Row(
-                                children: <Widget>[
-                                  // Expanded(
-                                  //child:
-                                  const SizedBox(width: 14),
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    //color: AppColors.navigationSkybluecolor,
-                                  ),
-                                  // ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    Constants.additionalEmails,
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            getEmail(state.additionalEmails ?? []),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            Container(
-                              height: 700,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(7),
-                                border: Border.all(
-                                  color: Colors.grey, // Border color
-                                  width: .7, // Bor
-                                  // der width
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 20),
+                      child: Column(
+                        children: [
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.textDisplay(
+                            Constants.eventStartedAt,
+                            Styles.textStyleBlack14,
+                          ),
+                          BaseDate().datePickerWidgetLoading(
+                            textController: dateController,
+                            isDisabled: false,
+                            onlyDate: true,
+                            onChange: (String value) {
+                              dateController.text = value;
+                            },
+                            context: context,
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.textDisplay(Constants.additionalEmails,
+                              Styles.textStyleBlack14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          GestureDetector(
+                            onTap: addEmail,
+                            child: Row(
+                              children: <Widget>[
+                                // Expanded(
+                                //child:
+                                const SizedBox(width: 14),
+                                SvgPicture.asset(
+                                  AppIcon.pluscircle,
+                                  //color: AppColors.navigationSkybluecolor,
                                 ),
-                              ),
-                              child: Column(
-                                children: [
-                                  EditorHtml(text: state.model.email ?? ''),
-                                ],
+                                // ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  Constants.additionalEmails,
+                                  style: TextStyle(
+                                    color: AppColors.navigationSkybluecolor,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          getEmail(state.additionalEmails ?? []),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          Container(
+                            height: 700,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              border: Border.all(
+                                color: Colors.grey, // Border color
+                                width: .7, // Bor
+                                // der width
                               ),
                             ),
+                            child:
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            // Column(
+                            //   children: [
+                            //     EditorHtml(
+                            //       mainContext: context,
+                            //       text: state.model.email ?? '',
+                            //       eventInfoState: state,
+                            //     ),
+                            //   ],
+                            // ),
 
-                            if (state.eventDuration == 2) ...[
-                              Center(
-                                child: submitButtonDisplay(
-                                    label: 'Articles Found',
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return ArticleDialog(
-                                              articles: state.foundArticles ?? []);
-                                        },
-                                      );
-                                    }),
-                              ),
-                            ],
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            /// upload Photo
-                            CommonWidgets.textDisplay(
-                                Constants.uploadPhoto, Styles.textStyleBlack14),
-                            state.model.image == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                height * 0.001)
-                                : Container(),
-                            BaseImageUpload().uploadWidget(
-                              context: context,
-                              loggedInUserDetails:
-                              state.loggedInUserDetails ?? EntrySecurity(),
-                              getFiles: guardFiles,
-                              onImageSelected: (CreateImage data) {
-                                log('-------function---onImageSelected---------');
-                                List<CreateImage>? files = [];
-                                files.add(data);
-                                for (CreateImage image in guardFiles ?? []) {
-                                  files.add(image);
-                                }
-                                BlocProvider.of<EventInfoCubit>(
-                                    context)
-                                    .addAttachment(guardImages: files);
-                              },
+                            Column(
+                              children: [
+                                ToolBar(
+                                  toolBarColor: toolbarColor,
+                                  padding: const EdgeInsets.all(8),
+                                  iconSize: 25,
+                                  iconColor: toolbarIconColor,
+                                  activeIconColor: Colors.greenAccent.shade400,
+                                  controller: controller,
+                                  crossAxisAlignment: WrapCrossAlignment.start,
+                                  direction: Axis.horizontal,
+                                  // customButtons: [
+                                  //   Container(
+                                  //     width: 25,
+                                  //     height: 25,
+                                  //     decoration: BoxDecoration(
+                                  //         color: _hasFocus ? Colors.green : Colors.grey,
+                                  //         borderRadius: BorderRadius.circular(15)),
+                                  //   ),
+                                  //   InkWell(
+                                  //       onTap: () => unFocusEditor(),
+                                  //       child: const Icon(
+                                  //         Icons.favorite,
+                                  //         color: Colors.black,
+                                  //       )),
+                                  //   InkWell(
+                                  //       onTap: () async {
+                                  //         var selectedText = await controller.getSelectedText();
+                                  //         debugPrint('selectedText $selectedText');
+                                  //         var selectedHtmlText = await controller.getSelectedHtmlText();
+                                  //         debugPrint('selectedHtmlText $selectedHtmlText');
+                                  //       },
+                                  //       child: const Icon(
+                                  //         Icons.add_circle,
+                                  //         color: Colors.black,
+                                  //       )),
+                                  // ],
+                                ),
+                                SizedBox(
+                                  height: 450,
+                                  width: double.infinity,
+                                  child: QuillHtmlEditor(
+                                    // text: widget.text,
+                                    hintText: 'Hint text goes here',
+                                    controller: controller,
+                                    isEnabled: true,
+                                    ensureVisible: false,
+                                    minHeight: 500,
+                                    autoFocus: true,
+                                    textStyle: editorTextStyle,
+                                    hintTextStyle: hintTextStyle,
+                                    hintTextAlign: TextAlign.start,
+                                    padding: const EdgeInsets.only(left: 10, top: 10),
+                                    hintTextPadding: const EdgeInsets.only(left: 20),
+                                    backgroundColor: backgroundColor,
+                                    inputAction: InputAction.newline,
+                                    onEditingComplete: (s) async {
+                                      debugPrint('Editing completed $s');
+                                      var cubit = BlocProvider.of<EventInfoCubit>(context);
+                                      state.model.email = await getHtmlText();
+                                      cubit.onModelValueChange(state.model);
+                                    },
+                                    loadingBuilder: (context) {
+                                      return const Center(
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 1,
+                                            color: Colors.red,
+                                          ));
+                                    },
+                                    onFocusChanged: (focus) {
+                                      debugPrint('has focus-----SSSS---- $focus');
+
+                                      setState(() {
+                                        hasFocus = focus;
+                                      });
+                                    },
+                                    onTextChanged: (text) => debugPrint('widget text change $text'),
+                                    onEditorCreated: () {
+                                      debugPrint('Editor has been loaded--------');
+                                      // setHtmlText(widget.text);
+                                      controller.setText(state.model.email??'');
+                                    },
+                                    onEditorResized: (height) => debugPrint('Editor resized----------- $height'),
+                                    onSelectionChanged: (sel) =>
+
+                                        debugPrint('index---- ${sel.index}, range ${sel.length}'),
+                                  ),
+                                ),
+                              ],
                             ),
-                            // Attachments
-                            BaseImageUpload().getAttachment(
-                              height: height,
-                              attachments: state.guardAttachments,
-                              files: guardFiles,
-                              showDownloadIcon: state.model.image!= null
-                                  ? true
-                                  : false,
+                          ),
+
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          if (state.eventDuration == 2) ...[
+                            Center(
+                              child: submitButtonDisplay(
+                                  label: 'Articles Found',
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return ArticleDialog(
+                                          articles: state.foundArticles ?? [],
+                                          leftButtonTap: () {
+                                            // TODO: Call Save API
+                                            BlocProvider.of<EventInfoCubit>(
+                                                    context)
+                                                .submitForm(isSaveOnly: true);
+                                            Navigator.pushNamed(context,
+                                                createfoundScreenRoute);
+                                            // Navigate to another page here
+                                            // Navigator.of(context).pop(); // Close the dialog
+                                          },
+                                        );
+                                      },
+                                    );
+                                  }),
                             ),
                           ],
-                        ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// upload Photo
+                          CommonWidgets.textDisplay(
+                              Constants.uploadPhoto, Styles.textStyleBlack14),
+                          state.model.image == null
+                              ? CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001)
+                              : Container(),
+                          BaseImageUpload().uploadWidget(
+                            context: context,
+                            loggedInUserDetails:
+                                state.loggedInUserDetails ?? EntrySecurity(),
+                            getFiles: guardFiles,
+                            onImageSelected: (CreateImage data) {
+                              log('-------function---onImageSelected---------');
+                              List<CreateImage>? files = [];
+                              files.add(data);
+                              for (CreateImage image in guardFiles ?? []) {
+                                files.add(image);
+                              }
+                              BlocProvider.of<EventInfoCubit>(context)
+                                  .addAttachment(guardImages: files);
+                            },
+                          ),
+                          // Attachments
+                          BaseImageUpload().getAttachment(
+                            height: height,
+                            attachments: state.guardAttachments,
+                            files: guardFiles,
+                            showDownloadIcon:
+                                state.model.image != null ? true : false,
+                          ),
+                        ],
                       ),
+                    ),
 
+                    CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      /// SubmitButton
-                      if (state.model.status != 4) ...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            cancelButtonDisplay(),
-                            submitButtonDisplay(
-                              onTap: () {
-                                FocusScope.of(context).unfocus();
-                                BlocProvider.of<EventInfoCubit>(context)
-                                    .submitForm(isSaveOnly: true);
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                      CommonWidgets.verticalSpacerWidget(height * 0.04),
+                    /// SubmitButton
+                    if (state.model.status != 4) ...[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          cancelButtonDisplay(),
+                          submitButtonDisplay(
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                              BlocProvider.of<EventInfoCubit>(context)
+                                  .submitForm(isSaveOnly: true);
+                            },
+                          ),
+                        ],
+                      ),
                     ],
+                    CommonWidgets.verticalSpacerWidget(height * 0.04),
+                  ],
                 ),
               ),
             ),
@@ -381,4 +489,42 @@ class _EventInfoViewState extends State<EventInfoView> {
       children: widgets,
     );
   }
-}
+
+  ///[getHtmlText] to get the html text from editor
+  Future<String> getHtmlText() async {
+    String? htmlText = await controller.getText();
+    debugPrint(htmlText);
+    return htmlText;
+  }
+
+  ///[setHtmlText] to set the html text to editor
+  void setHtmlText(String text) async {
+    await controller.setText(text);
+  }
+
+  ///[insertNetworkImage] to set the html text to editor
+  void insertNetworkImage(String url) async {
+    await controller.embedImage(url);
+  }
+
+  ///[insertVideoURL] to set the video url to editor
+  ///this method recognises the inserted url and sanitize to make it embeddable url
+  ///eg: converts youtube video to embed video, same for vimeo
+  void insertVideoURL(String url) async {
+    await controller.embedVideo(url);
+  }
+
+  /// to set the html text to editor
+  /// if index is not set, it will be inserted at the cursor postion
+  void insertHtmlText(String text, {int? index}) async {
+    await controller.insertText(text, index: index);
+  }
+
+  /// to clear the editor
+  void clearEditor() => controller.clear();
+
+  /// to enable/disable the editor
+  void enableEditor(bool enable) => controller.enableEditor(enable);
+
+  /// method to un focus editor
+  void unFocusEditor() => controller.unFocus();}
