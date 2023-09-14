@@ -99,7 +99,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
   List<Widget> getChildren(List<Label>? labels, width) {
     List<Widget> widgets = [];
 
-    log('--width------$width-------tab--${width*.78}---------------${width/2}-');
+    log('--width------$width-------tab--${width * .78}---------------${width / 2}-');
 
     widgets = [
       Container(
@@ -111,7 +111,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
             Container(
               // color: Colors.purpleAccent,
               child: SizedBox(
-                width: width> 430? width*.78: width*.60,
+                width: width > 430 ? width * .78 : width * .60,
                 // height: 90,
                 child: Wrap(
                   // mainAxisAlignment: MainAxisAlignment.start,
@@ -133,8 +133,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           if (widget.locationStr != null) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Utils().textHandling('Location : ',
                                     widget.locationStr.toString()),
@@ -144,8 +143,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           if (widget.guardCount != null) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Utils().textHandling('Guard Count : ',
                                     widget.guardCount.toString()),
@@ -155,8 +153,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           if (widget.pvcExpired != null) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Utils().textHandling(
                                     'Total No of Staff PVC Expired : ',
