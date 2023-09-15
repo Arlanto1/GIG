@@ -10,14 +10,17 @@ import '../general_information/guard_info/models/show_guard_info_response.dart';
 
 class EventProtectionDetails extends StatelessWidget {
   final String id;
+  final int eventStatus;
 
-  EventProtectionDetails({super.key, required this.id});
+  EventProtectionDetails(
+      {super.key, required this.id, required this.eventStatus});
 
   final EventProtectionServices services = EventProtectionServices();
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     final height = size.height;
     return Scaffold(
       backgroundColor: AppColors.cardBgColor,
@@ -56,60 +59,66 @@ class EventProtectionDetails extends StatelessWidget {
                     height: height,
                   ),
                 ),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      eventInfoRoute,
-                      arguments: {
-                        'title': Constants.beforeEventInformation,
-                        'id': id,
-                        'eventDuration': 0,
-                      },
-                    );
-                  },
-                  child: Tile(
-                    label: 'Before the Event\nInformation',
-                    height: height,
-                    icon: Icons.event,
+                if (eventStatus >= 0/*21*/) ...[
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        eventInfoRoute,
+                        arguments: {
+                          'title': Constants.beforeEventInformation,
+                          'id': id,
+                          'eventDuration': 0,
+                        },
+                      );
+                    },
+                    child: Tile(
+                      label: 'Before the Event\nInformation',
+                      height: height,
+                      icon: Icons.event,
+                    ),
                   ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      eventInfoRoute,
-                      arguments: {
-                        'title': Constants.duringEventInformation,
-                        'id': id,
-                        'eventDuration': 1,
-                      },
-                    );
-                  },
-                  child: Tile(
-                    label: 'During the Event\nInformation',
-                    height: height,
-                    icon: Icons.event,
+                ],
+                if (eventStatus >= 0/*22*/) ...[
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        eventInfoRoute,
+                        arguments: {
+                          'title': Constants.duringEventInformation,
+                          'id': id,
+                          'eventDuration': 1,
+                        },
+                      );
+                    },
+                    child: Tile(
+                      label: 'During the Event\nInformation',
+                      height: height,
+                      icon: Icons.event,
+                    ),
                   ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      eventInfoRoute,
-                      arguments: {
-                        'title': Constants.afterEventInformation,
-                        'id': id,
-                        'eventDuration': 2,
-                      },
-                    );
-                  },
-                  child: Tile(
-                    label: 'After the Event\nInformation',
-                    height: height,
-                    icon: Icons.event_available,
+                ],
+                if (eventStatus >= 0/*23*/) ...[
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        eventInfoRoute,
+                        arguments: {
+                          'title': Constants.afterEventInformation,
+                          'id': id,
+                          'eventDuration': 2,
+                        },
+                      );
+                    },
+                    child: Tile(
+                      label: 'After the Event\nInformation',
+                      height: height,
+                      icon: Icons.event_available,
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ),

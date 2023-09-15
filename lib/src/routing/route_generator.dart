@@ -218,14 +218,17 @@ class RouteGenerator {
 
       case eventProtectionDetailsTabRoute:
         String id = '';
+        int eventStatus = 0;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments['id'];
+          eventStatus = arguments['eventStatus'];
         }
         return MaterialPageRoute(
             builder: (context) => EventProtectionDetails(
                   id: id,
+                eventStatus:eventStatus,
                 ));
       case generalInfoTilesViewRoute:
         String id = '';

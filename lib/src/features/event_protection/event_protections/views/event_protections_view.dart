@@ -5,9 +5,7 @@ import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +40,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
       ..dispose();
     super.dispose();
   }
+
   void _onScroll() {
     if (!_scrollController.hasClients) return;
     final maxScroll = _scrollController.position.maxScrollExtent;
@@ -135,14 +134,17 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                 slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
                                 isMasterGuard: false,
-                                epManager1Name: state.items[selectedIndex].epManager1Name,
+                                epManager1Name:
+                                    state.items[selectedIndex].epManager1Name,
                                 eventType: state.items[selectedIndex].eventType,
                               );
                             },
                           );
                         },
                         onEditTap: (selectedIndex) {
-                          getId(state.items[index].id ?? 0);
+                          getId(
+                              id: state.items[index].id ?? 0,
+                              eventStatus: state.items[index].status ?? 0);
                         },
                         onViewTap: (selectedIndex) {
                           showDialog(
@@ -153,7 +155,8 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                 labels: labels,
                                 slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
-                                epManager1Name: state.items[selectedIndex].epManager1Name,
+                                epManager1Name:
+                                    state.items[selectedIndex].epManager1Name,
                                 eventType: state.items[selectedIndex].eventType,
                               );
                             },
@@ -167,11 +170,14 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
         }));
   }
 
-  getId(int id) async {
+  getId({required int id, required int eventStatus}) async {
     Navigator.pushNamed(
       context,
       eventProtectionDetailsTabRoute,
-      arguments: {'id': id.toString()},
+      arguments: {
+        'id': id.toString(),
+        'eventStatus': eventStatus,
+      },
     );
   }
 }
