@@ -70,6 +70,7 @@ class _EventInfoViewState extends State<EventInfoView> {
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Saved Successfully')));
           Navigator.pop(context);
+          Navigator.pop(context);
         }
         if (state.status == FormStatus.error) {
           Validator().showToast(
@@ -145,24 +146,26 @@ class _EventInfoViewState extends State<EventInfoView> {
                         children: [
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          if(state.eventDuration != 1)...[
-                          CommonWidgets.textDisplay(
-                            state.eventDuration == 0?
-                            Constants.eventStartedAt:Constants.eventConcludedAt,
-                            Styles.textStyleBlack14,
-                          ),
-                          BaseDate().datePickerWidgetLoading(
-                            context: context,
-                            textController: dateController,
-                            isDisabled: false,
-                            onlyDate: true,
-                            onChange: (String value) {
-                              dateController.text = value;
-                              state.model.date = value;
-                              BlocProvider.of<EventInfoCubit>(context).onModelValueChange(state.model);
-                            },
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          if (state.eventDuration != 1) ...[
+                            CommonWidgets.textDisplay(
+                              state.eventDuration == 0
+                                  ? Constants.eventStartedAt
+                                  : Constants.eventConcludedAt,
+                              Styles.textStyleBlack14,
+                            ),
+                            BaseDate().datePickerWidgetLoading(
+                              context: context,
+                              textController: dateController,
+                              isDisabled: false,
+                              onlyDate: true,
+                              onChange: (String value) {
+                                dateController.text = value;
+                                state.model.date = value;
+                                BlocProvider.of<EventInfoCubit>(context)
+                                    .onModelValueChange(state.model);
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],
                           CommonWidgets.textDisplay(Constants.additionalEmails,
                               Styles.textStyleBlack14),
@@ -294,9 +297,9 @@ class _EventInfoViewState extends State<EventInfoView> {
                                       debugPrint(
                                           'has focus-----SSSS---- $focus');
 
-                                      setState(() {
-                                        hasFocus = focus;
-                                      });
+                                      // setState(() {
+                                      //   hasFocus = focus;
+                                      // });
                                     },
                                     onTextChanged: (text) =>
                                         debugPrint('widget text change $text'),
@@ -445,8 +448,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                               isEnable: true,
                               isDisableColor: false,
                               onChange: (String value) {},
-                              validateTextField: (String value) {
-                              },
+                              validateTextField: (String value) {},
                             ),
                             if (state.status == FormStatus.invalidEmail) ...[
                               const Text(
@@ -460,7 +462,8 @@ class _EventInfoViewState extends State<EventInfoView> {
                               onTap: () {
                                 BlocProvider.of<EventInfoCubit>(this.context)
                                     .onAddEmail(addEmailController.text);
-                                if (EmailValidator.validate(addEmailController.text)) {
+                                if (EmailValidator.validate(
+                                    addEmailController.text)) {
                                   Navigator.pop(context);
                                 }
                               },
