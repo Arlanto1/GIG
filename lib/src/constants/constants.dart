@@ -426,6 +426,7 @@ import '../common_widgets/base_widget/base_list_tile_item.dart';
   static const String duringEventInformation = 'During the Event Information';
   static const String afterEventInformation = 'After the Event Information';
   static const String eventStartedAt = 'Event Started at';
+  static const String eventConcludedAt = 'Event Concluded at';
   static const String additionalEmails = 'Additional Emails';
   static const String eventProtectionManager1 = 'Event protection Manager 1';
   static const String eventProtectionManager2 = 'Event protection Manager 2';

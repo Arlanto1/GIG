@@ -111,7 +111,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
             Container(
               // color: Colors.purpleAccent,
               child: SizedBox(
-                width: width > 430 ? width * .78 : width * .60,
+                width: width > 390 ? width * .78 : width * .55,
                 // height: 90,
                 child: Wrap(
                   // mainAxisAlignment: MainAxisAlignment.start,

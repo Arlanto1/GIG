@@ -144,20 +144,26 @@ class _EventInfoViewState extends State<EventInfoView> {
                       child: Column(
                         children: [
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          if(state.eventDuration != 1)...[
                           CommonWidgets.textDisplay(
-                            Constants.eventStartedAt,
+                            state.eventDuration == 0?
+                            Constants.eventStartedAt:Constants.eventConcludedAt,
                             Styles.textStyleBlack14,
                           ),
                           BaseDate().datePickerWidgetLoading(
+                            context: context,
                             textController: dateController,
                             isDisabled: false,
                             onlyDate: true,
                             onChange: (String value) {
                               dateController.text = value;
+                              state.model.date = value;
+                              BlocProvider.of<EventInfoCubit>(context).onModelValueChange(state.model);
                             },
-                            context: context,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ],
                           CommonWidgets.textDisplay(Constants.additionalEmails,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),

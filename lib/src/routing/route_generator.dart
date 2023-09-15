@@ -15,7 +15,6 @@ import 'package:db_atom/src/features/event_protection/event_protection_details/g
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/views/guard_info_view.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/views/event_protection_details.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/views/gereral_info_tiles_view.dart';
-import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
 import 'package:db_atom/src/features/guarding_operations/drop_pick_up/bloc/female_drop_pick_up_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/drop_pick_up/views/female_drop_pick_up_view.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
@@ -244,7 +243,6 @@ class RouteGenerator {
           ),
         );
 
-
       case generalInfoGIRoute:
         String id = '';
         if (settings.arguments != null) {
@@ -263,7 +261,7 @@ class RouteGenerator {
                 ));
 
       case generalInfoCIRoute:
-        String id ='';
+        String id = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -283,22 +281,22 @@ class RouteGenerator {
         String id = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
           id = arguments['id'];
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<GuardInfoCubit>(
-              create: (_) => GuardInfoCubit(
-                services: EventProtectionServices(),
-                commonServices: CommonServices(),
-                id: id,
-              ),
-              child: const GuardInfoView(),
-            ));
-
+                  create: (_) => GuardInfoCubit(
+                    services: EventProtectionServices(),
+                    commonServices: CommonServices(),
+                    id: id,
+                  ),
+                  child: const GuardInfoView(),
+                ));
 
       case eventInfoRoute:
-        String id ='';
+        String id = '';
+
         int eventDuration = 0;
         String title = '';
         if (settings.arguments != null) {
@@ -314,11 +312,10 @@ class RouteGenerator {
                     services: EventProtectionServices(),
                     commonServices: CommonServices(),
                     id: id,
-                    eventDuration:eventDuration,
+                    eventDuration: eventDuration,
                   ),
                   child: EventInfoView(
                     title: title,
-
                   ),
                 ));
 
