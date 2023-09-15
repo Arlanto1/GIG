@@ -1,58 +1,55 @@
-import '../../../../../models/entity.dart';
+import 'package:db_atom/src/models/entity.dart';
+
 import '../../../../../models/location.dart';
 import '../../../../../models/location_region.dart';
 
-class GeneralInfoModel {
-  GeneralInfoModel({
-    this.id,
-    this.status,
+class EventProtectionGi {
+  EventProtectionGi({
+    this.slNo,
+    this.inputDate,
     this.location,
     this.locationRegion,
-    this.inputDate,
-    this.slNo,
-    this.annualPowerShutdown,
     this.entities,
-    this.eventStartDate,
-    this.eventEndDate,
+    this.status,
+    this.modifiedBy,
+    this.annualPowerShutdown,
+    this.id,
   });
 
   int? id;
-  int? status;
+  String? slNo;
+  String? inputDate;
   Location? location;
   LocationRegion? locationRegion;
-  String? inputDate;
-  String? slNo;
-  bool? annualPowerShutdown;
   List<Entity>? entities;
-  String? eventStartDate;
-  String? eventEndDate;
+  int? status;
+  String? modifiedBy;
+  bool? annualPowerShutdown;
 
-  GeneralInfoModel.fromJson(Map<String, dynamic> json) {
+  EventProtectionGi.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    status = json['status'];
+    slNo = json['slNo'];
+    inputDate = json['inputDate'];
     location = Location.fromJson(json['location']);
     locationRegion = LocationRegion.fromJson(json['locationRegion']);
-    inputDate = json['inputDate'];
-    slNo = json['slNo'];
-    annualPowerShutdown = json['annualPowerShutdown'];
     entities =
         List.from(json['entities']).map((e) => Entity.fromJson(e)).toList();
-    eventStartDate = json['eventStartDate'];
-    eventEndDate = json['eventEndDate'];
+    status = json['status'];
+    modifiedBy = json['modifiedBy'];
+    annualPowerShutdown = json['annualPowerShutdown'];
   }
 
   Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['id'] = id;
-    data['status'] = status;
-    data['location'] = location?.toJson();
-    data['locationRegion'] = locationRegion?.toJson();
-    data['inputDate'] = inputDate;
-    data['slNo'] = slNo;
-    data['annualPowerShutdown'] = annualPowerShutdown;
-    data['entities'] = entities?.map((e) => e.toJson()).toList();
-    data['eventStartDate'] = eventStartDate;
-    data['eventEndDate'] = eventEndDate;
-    return data;
+    final _data = <String, dynamic>{};
+    _data['id'] = id;
+    _data['slNo'] = slNo;
+    _data['inputDate'] = inputDate;
+    _data['location'] = location?.toJson();
+    _data['locationRegion'] = locationRegion?.toJson();
+    _data['entities'] = entities?.map((e) => e.toJson()).toList();
+    _data['status'] = status;
+    _data['modifiedBy'] = modifiedBy;
+    _data['annualPowerShutdown'] = annualPowerShutdown;
+    return _data;
   }
 }

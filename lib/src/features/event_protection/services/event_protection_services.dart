@@ -4,6 +4,7 @@ import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/models/contact_info_model.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/requestModel/general_info_request.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/show_guard_info_response.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/guard_info_model.dart';
 import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
@@ -56,12 +57,13 @@ class EventProtectionServices {
     return EventProtectionResponse.fromJson(response);
   }
 
-  Future<GeneralInfoModel> getGI(String id) async {
+  Future<EventProtectionGi> getGI(String id) async {
+
     final String url = '${Apis._getGI}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return GeneralInfoModel.fromJson(response);
+    return EventProtectionGi.fromJson(response);
   }
 
   Future<ContactInfoModel> getCI(String id) async {
@@ -98,6 +100,23 @@ class EventProtectionServices {
       url: url,
     );
     return ShowGuardInfoResponse.fromJson(response);
+  }
+
+
+  Future<GenericCreateResponse> createEventGeneralInfo({
+    required GeneralInfoRequest body,
+    required bool isSubmit,
+   // required int eventDuration,
+  }) async {
+    var userId = await SharedPrefs.getUserId();
+    final String url =
+        "${Apis._createEventGeneralInformation}?userEmail=$userId&isSubmit=$isSubmit";
+    log("API URL------2-2-2-2-2-: $url");
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return GenericCreateResponse.fromJson(response);
   }
 
   Future<GenericCreateResponse> createEventEi({

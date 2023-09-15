@@ -2,7 +2,7 @@ part of 'general_info_cubit.dart';
 
 class GeneralInfoState extends Equatable {
   final FormStatus status;
-  final GeneralInfoModel model;
+  final EventProtectionGi eventProtectionGi;
   final GetLocations? locations;
   final EntrySecurity? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -16,7 +16,7 @@ class GeneralInfoState extends Equatable {
   final List<GetUserDetails>? entrySecurities;
 
   factory GeneralInfoState.initial({
-    required GeneralInfoModel model,
+    required EventProtectionGi eventProtectionGi,
     required GetLocations locations,
     required List<BaseUser>? users,
     required EntrySecurity? loggedInUserDetails,
@@ -32,7 +32,7 @@ class GeneralInfoState extends Equatable {
   }) {
     return GeneralInfoState(
       status: FormStatus.initial,
-      model: model,
+      eventProtectionGi: eventProtectionGi,
       locations: locations,
       listOfEntities: listOfEntities,
       departments: departments,
@@ -47,7 +47,7 @@ class GeneralInfoState extends Equatable {
   }
 
   ErrorResponse get isValid {
-    if (model.status == null) {
+  if (eventProtectionGi.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
 
@@ -55,11 +55,11 @@ class GeneralInfoState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [model, status];
+  List<Object?> get props => [eventProtectionGi, status];
 
   const GeneralInfoState({
     required this.status,
-    required this.model,
+    required this.eventProtectionGi,
     this.locations,
     this.users,
     this.emailUsers,
@@ -75,7 +75,7 @@ class GeneralInfoState extends Equatable {
 
   GeneralInfoState copyWith({
     FormStatus? status,
-    GeneralInfoModel? model,
+    EventProtectionGi? eventProtectionGi,
     GetLocations? locations,
     EntrySecurity? loggedInUserDetails,
     List<BaseUser>? users,
@@ -90,7 +90,7 @@ class GeneralInfoState extends Equatable {
   }) {
     return GeneralInfoState(
       status: status ?? this.status,
-      model: model ?? this.model,
+      eventProtectionGi: eventProtectionGi ?? this.eventProtectionGi,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,

@@ -25,6 +25,7 @@ import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
 import '../models/general_info_model.dart';
+import '../models/requestModel/general_info_request.dart';
 
 part 'general_info_state.dart';
 
@@ -39,7 +40,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     required this.id,
   }) : super(
           GeneralInfoState.initial(
-              model: GeneralInfoModel(),
+            eventProtectionGi: EventProtectionGi(),
               locations: GetLocations(),
               users: const [],
               emailUsers: const [],
@@ -52,15 +53,15 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
               ),
         );
 
-  void onModelValueChange(GeneralInfoModel model) {
+  void onModelValueChange(EventProtectionGi eventProtectionGi) {
     log('-onModelValueChange---');
-    emit(state.copyWith(model: model, status: FormStatus.initial));
+    emit(state.copyWith(eventProtectionGi: eventProtectionGi, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(GeneralInfoModel model) {
-    emit(state.copyWith(model: model, status: FormStatus.loading));
+  void onCheckBoxChange(EventProtectionGi eventProtectionGi) {
+    emit(state.copyWith(eventProtectionGi: eventProtectionGi, status: FormStatus.loading));
 
-    emit(state.copyWith(model: model, status: FormStatus.initial));
+    emit(state.copyWith(eventProtectionGi: eventProtectionGi, status: FormStatus.initial));
   }
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
@@ -72,9 +73,9 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      GeneralInfoModel model = GeneralInfoModel();
+      EventProtectionGi eventProtectionGi = EventProtectionGi();
       if(id.isNotEmpty) {
-        model = await services.getGI(id);
+        eventProtectionGi = await services.getGI(id);
       }
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
@@ -86,7 +87,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       // Get Date of Creation
-      state.model.inputDate = Utils().getCurrentDate() ;
+      state.eventProtectionGi.inputDate = Utils().getCurrentDate() ;
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
@@ -98,7 +99,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
 
       emit(
         state.copyWith(
-          model: model,
+          eventProtectionGi: eventProtectionGi,
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
@@ -110,7 +111,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         ),
       );
     } catch (e) {
-      log('initialization issue', error: e, name: 'Guarding Master Data Cubit');
+      log('initialization issue', error: e, name: 'General Information Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -141,18 +142,18 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         moduleCode: Constants.guardingMasterDataModule,
       );
 
-      state.model.location = location;
-      state.model.slNo = slNo.serialNo ?? '';
+      state.eventProtectionGi.location = location;
+      state.eventProtectionGi.slNo = slNo.serialNo ?? '';
     }
 
-    state.model.status = status ?? state.model.status;
+    state.eventProtectionGi.status = status ?? state.eventProtectionGi.status;
 
     if (entities != null) {
-      state.model.entities = entities;
+      state.eventProtectionGi.entities = entities;
     }
 
     emit(state.copyWith(
-      model: state.model,
+      eventProtectionGi: state.eventProtectionGi,
       status: FormStatus.initial,
     ));
   }
@@ -174,7 +175,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          model: state.model,
+          eventProtectionGi: state.eventProtectionGi,
           status: FormStatus.initial,
         ),
       );
@@ -183,7 +184,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     emit(
       state.copyWith(
         eventId: eventIds,
-        model: state.model,
+        eventProtectionGi: state.eventProtectionGi,
         status: FormStatus.initial,
       ),
     );
@@ -198,22 +199,22 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       ),
     );
 
-    if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 1;
+    if (state.eventProtectionGi.status == 0 || state.eventProtectionGi.status == null) {
+      state.eventProtectionGi.status = 1;
     }
     // Setting time in milliseconds
-    state.model.inputDate =
+    state.eventProtectionGi.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-    // Create/Update API Call
-    // GuardingMasterDataRequest request =
-    //     GuardingMasterDataRequest(guardingMasterData: state.model);
+    /// Create/Update API Call
+    GeneralInfoRequest request =
+    GeneralInfoRequest(eventProtectionGi:state.eventProtectionGi);
 
     GenericCreateResponse response = GenericCreateResponse();
     try {
       if (isSaveOnly) {
-       // response = (await services.createEventGeneralInformation(
-         //  body: request, isSubmit: false));
+        response = (await services.createEventGeneralInfo(
+           body: request, isSubmit: false, ));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -225,8 +226,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           );
           return;
         }
-        // response = (await services.createEventGeneralInformation(
-        //     body: request, isSubmit: true));
+         response = (await services.createEventGeneralInfo(
+             body: request, isSubmit: true));
       }
     } on Exception catch (e) {
       emit(
