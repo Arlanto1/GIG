@@ -99,6 +99,7 @@ dependencies:
 #  flutter_quill:
   quill_html_editor:
   bloc_concurrency: ^0.2.0
+  email_validator:
 
 dev_dependencies:
   flutter_test:
