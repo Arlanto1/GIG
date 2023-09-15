@@ -14,6 +14,7 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
@@ -25,7 +26,6 @@ import '../../../../../models/entry_security.dart';
 import '../../../../../routing/router.dart';
 import '../../../../../utils/util.dart';
 import '../cubits/event_info_cubit.dart';
-import 'editor.dart';
 
 class EventInfoView extends StatefulWidget {
   const EventInfoView({
@@ -55,6 +55,7 @@ class _EventInfoViewState extends State<EventInfoView> {
     super.initState();
     BlocProvider.of<EventInfoCubit>(context).initializeValues();
   }
+
   bool hasFocus = false;
 
   @override
@@ -161,7 +162,9 @@ class _EventInfoViewState extends State<EventInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                           GestureDetector(
-                            onTap: addEmail,
+                            onTap: () {
+                              addEmail();
+                            },
                             child: Row(
                               children: <Widget>[
                                 // Expanded(
@@ -198,17 +201,17 @@ class _EventInfoViewState extends State<EventInfoView> {
                             ),
                             child:
 
-                            // Column(
-                            //   children: [
-                            //     EditorHtml(
-                            //       mainContext: context,
-                            //       text: state.model.email ?? '',
-                            //       eventInfoState: state,
-                            //     ),
-                            //   ],
-                            // ),
+                                // Column(
+                                //   children: [
+                                //     EditorHtml(
+                                //       mainContext: context,
+                                //       text: state.model.email ?? '',
+                                //       eventInfoState: state,
+                                //     ),
+                                //   ],
+                                // ),
 
-                            Column(
+                                Column(
                               children: [
                                 ToolBar(
                                   toolBarColor: toolbarColor,
@@ -260,40 +263,48 @@ class _EventInfoViewState extends State<EventInfoView> {
                                     textStyle: editorTextStyle,
                                     hintTextStyle: hintTextStyle,
                                     hintTextAlign: TextAlign.start,
-                                    padding: const EdgeInsets.only(left: 10, top: 10),
-                                    hintTextPadding: const EdgeInsets.only(left: 20),
+                                    padding: const EdgeInsets.only(
+                                        left: 10, top: 10),
+                                    hintTextPadding:
+                                        const EdgeInsets.only(left: 20),
                                     backgroundColor: backgroundColor,
                                     inputAction: InputAction.newline,
                                     onEditingComplete: (s) async {
                                       debugPrint('Editing completed $s');
-                                      var cubit = BlocProvider.of<EventInfoCubit>(context);
+                                      var cubit =
+                                          BlocProvider.of<EventInfoCubit>(
+                                              context);
                                       state.model.email = await getHtmlText();
                                       cubit.onModelValueChange(state.model);
                                     },
                                     loadingBuilder: (context) {
                                       return const Center(
                                           child: CircularProgressIndicator(
-                                            strokeWidth: 1,
-                                            color: Colors.red,
-                                          ));
+                                        strokeWidth: 1,
+                                        color: Colors.red,
+                                      ));
                                     },
                                     onFocusChanged: (focus) {
-                                      debugPrint('has focus-----SSSS---- $focus');
+                                      debugPrint(
+                                          'has focus-----SSSS---- $focus');
 
                                       setState(() {
                                         hasFocus = focus;
                                       });
                                     },
-                                    onTextChanged: (text) => debugPrint('widget text change $text'),
+                                    onTextChanged: (text) =>
+                                        debugPrint('widget text change $text'),
                                     onEditorCreated: () {
-                                      debugPrint('Editor has been loaded--------');
+                                      debugPrint(
+                                          'Editor has been loaded--------');
                                       // setHtmlText(widget.text);
-                                      controller.setText(state.model.email??'');
+                                      controller
+                                          .setText(state.model.email ?? '');
                                     },
-                                    onEditorResized: (height) => debugPrint('Editor resized----------- $height'),
-                                    onSelectionChanged: (sel) =>
-
-                                        debugPrint('index---- ${sel.index}, range ${sel.length}'),
+                                    onEditorResized: (height) => debugPrint(
+                                        'Editor resized----------- $height'),
+                                    onSelectionChanged: (sel) => debugPrint(
+                                        'index---- ${sel.index}, range ${sel.length}'),
                                   ),
                                 ),
                               ],
@@ -395,49 +406,67 @@ class _EventInfoViewState extends State<EventInfoView> {
   }
 
   void addEmail() {
+    final exampleCubit = context.read<EventInfoCubit>();
     showDialog(
         context: context,
-        builder: (BuildContext dialogContext) {
-          return AlertDialog(
-            backgroundColor: AppColors.backgroundWhitecolor,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            content: Builder(builder: (context) {
-              var height = MediaQuery.of(context).size.height;
-              var width = MediaQuery.of(context).size.width;
-              return SizedBox(
-                height: height * 0.15,
-                width: width,
-                child: Center(
-                  child: Column(
-                    children: [
-                      CommonWidgets.textDisplay(
-                          Constants.additionalEmails, Styles.textStyleBlack14),
-                      CommonWidgets.verticalSpacerWidget(height * 0.001),
-                      FlutterInputField(
-                        lineHeight: 1,
-                        textFieldController: addEmailController,
-                        textFormKey: Keys.equipmentNoKey,
-                        hintText: '',
-                        isEnable: true,
-                        isDisableColor: false,
-                        onChange: (String value) {},
-                        validateTextField: (String? user) {},
+        builder: (context) {
+          return BlocProvider<EventInfoCubit>.value(
+            value: exampleCubit,
+            child: BlocBuilder<EventInfoCubit, EventInfoState>(
+              builder: (context, state) {
+                return AlertDialog(
+                  backgroundColor: AppColors.backgroundWhitecolor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  content: Builder(builder: (context) {
+                    var height = MediaQuery.of(context).size.height;
+                    var width = MediaQuery.of(context).size.width;
+                    return SizedBox(
+                      height: height * 0.19,
+                      width: width,
+                      child: Center(
+                        child: Column(
+                          children: [
+                            CommonWidgets.textDisplay(
+                                Constants.additionalEmails,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              lineHeight: 1,
+                              textFieldController: addEmailController,
+                              textFormKey: Keys.equipmentNoKey,
+                              hintText: '',
+                              isEnable: true,
+                              isDisableColor: false,
+                              onChange: (String value) {},
+                              validateTextField: (String value) {
+                              },
+                            ),
+                            if (state.status == FormStatus.invalidEmail) ...[
+                              const Text(
+                                'Please enter valid email',
+                                style: TextStyle(color: Colors.red),
+                              )
+                            ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            const Spacer(),
+                            submitButtonDisplay(
+                              onTap: () {
+                                BlocProvider.of<EventInfoCubit>(this.context)
+                                    .onAddEmail(addEmailController.text);
+                                if (EmailValidator.validate(addEmailController.text)) {
+                                  Navigator.pop(context);
+                                }
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      const Spacer(),
-                      submitButtonDisplay(
-                        onTap: () {
-                          BlocProvider.of<EventInfoCubit>(this.context)
-                              .onAddEmail(addEmailController.text);
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }),
+                    );
+                  }),
+                );
+              },
+            ),
           );
         });
   }
@@ -527,4 +556,5 @@ class _EventInfoViewState extends State<EventInfoView> {
   void enableEditor(bool enable) => controller.enableEditor(enable);
 
   /// method to un focus editor
-  void unFocusEditor() => controller.unFocus();}
+  void unFocusEditor() => controller.unFocus();
+}

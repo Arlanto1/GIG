@@ -16,6 +16,7 @@ import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../../constants/constants.dart';
@@ -174,8 +175,15 @@ class EventInfoCubit extends Cubit<EventInfoState> {
 
   void onAddEmail(String email) {
     log('-email---$email-');
-
     emit(state.copyWith(status: FormStatus.loading));
+
+
+    if (!EmailValidator.validate(email)) {
+      emit(state.copyWith(status: FormStatus.invalidEmail));
+      return;
+    }
+
+
     log('-state.additionalEmails---before---${state.additionalEmails}----');
     List<String>? dates = state.additionalEmails ?? [];
     dates.add(email);

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 
@@ -91,6 +93,7 @@ class FlutterInputField extends StatelessWidget {
         onChange(str);
       },
       validator: (String? value) {
+        log('-value--sds-$value----');
         return validateTextField!(value);
       },
       onTap: () {
