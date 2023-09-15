@@ -68,7 +68,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     var userId = await SharedPrefs.getUserId();
     try {
       EventInfoResponse model = EventInfoResponse();
-      if(id.isNotEmpty) {
+      if (id.isNotEmpty) {
         model = await services.getEventInfo(id, eventDuration);
       }
       FoundListModel foundArticles = await services.getFoundArticleList(
@@ -177,12 +177,10 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     log('-email---$email-');
     emit(state.copyWith(status: FormStatus.loading));
 
-
     if (!EmailValidator.validate(email)) {
       emit(state.copyWith(status: FormStatus.invalidEmail));
       return;
     }
-
 
     log('-state.additionalEmails---before---${state.additionalEmails}----');
     List<String>? dates = state.additionalEmails ?? [];
@@ -200,20 +198,17 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     emit(state.copyWith(model: state.model, status: FormStatus.initial));
   }
 
-  void onDeleteEmail(String email) {
-    log('-email to delete---${state.additionalEmails}-');
-    List<String> emails = List<String>.from(state.additionalEmails ?? []);
+  void removeEmail(String email) {
+    log('-email to be removed---$email-');
+    List<String> updatedEmails = List.from(state.additionalEmails ?? []);
+    updatedEmails.remove(email);
 
-    // Remove the specified email from the list
-    emails.remove(email);
+    state.copyWith(additionalEmails: updatedEmails);
 
-    // Update the state with the modified list of emails
+    log('-state.additionalEmails---after---${state.additionalEmails}----');
+    state.model.emails = Utils().joinListWithComma(updatedEmails);
 
-      state.copyWith(
-        additionalEmails: emails,
-      );
-      
+    log('-state.model.emails--final---${state.model.emails}----');
     emit(state.copyWith(model: state.model, status: FormStatus.initial));
   }
-
 }
