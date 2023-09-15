@@ -217,7 +217,7 @@ class _RatesInfoState extends State<RatesInfo> {
                     CommonWidgets.verticalSpacerWidget(height * 0.01),
                     CommonWidgets.verticalSpacerWidget(height * 0.04),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         cancelButtonDisplay(),
                         submitButtonDisplay(

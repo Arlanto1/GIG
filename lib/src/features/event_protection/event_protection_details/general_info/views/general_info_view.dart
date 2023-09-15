@@ -31,9 +31,9 @@ import '../cubits/general_info_cubit.dart';
 import '../models/general_info_model.dart';
 
 class GeneralInfoView extends StatefulWidget {
-  final GeneralInfoModel? model;
+  final EventProtectionGi? eventProtectionGi;
   const GeneralInfoView({
-    this.model,
+    this.eventProtectionGi,
     super.key,
   });
 
@@ -73,7 +73,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
-            title: 'Guarding Master Data',
+            title: 'General Information',
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
             onPostivePressed: () {
@@ -108,7 +108,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
             context: context,
             title: Constants.generalInformation,
             showPopUp: false,
-            showSaveButton: state.model.status != 4 ? true : false,
+            showSaveButton: state.eventProtectionGi.status != 4 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<GeneralInfoCubit>(context)
@@ -121,15 +121,15 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
       },
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
-  void initializeDates() {
+  /*void initializeDates() {
     eventStartDateController.text = Utils.timestamptoDateConversion(
-        int.tryParse(widget.model?.eventStartDate ?? '0'),
+        int.tryParse(widget.eventProtectionGi?.eventStartDate ?? '0'),
         Constants.dateFormat);
 
     eventEndDateController.text = Utils.timestamptoDateConversion(
-        int.tryParse(widget.model?.eventEndDate ?? '0'),
+        int.tryParse(widget.eventProtectionGi?.eventEndDate ?? '0'),
         Constants.dateFormat);
-  }
+  }*/
   getBodybuilder(GeneralInfoState state, height) {
     if (state.status == FormStatus.loading) {
       return const Center(child: CircularProgressIndicator());
@@ -153,7 +153,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                   )),
               child: Form(
                 key: _formKey,
-                autovalidateMode: state.model.status == 4
+                autovalidateMode: state.eventProtectionGi.status == 4
                     ? AutovalidateMode.disabled
                     : AutovalidateMode.onUserInteraction,
                 child: Column(
@@ -179,12 +179,12 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDropDown().getDropDown(
-                              isDisabled: state.model.status != 0,
+                              isDisabled: state.eventProtectionGi.status != 0,
                               textController: statusController,
                               items: eventProtectionGiStatus,
-                              initialValue: '${state.model.status ?? 0}',
+                              initialValue: '${state.eventProtectionGi.status ?? 0}',
                               onTap: () {
-                                if (state.model.id != null) {
+                                if (state.eventProtectionGi.id != null) {
                                   BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: eventProtectionGiStatus
@@ -210,7 +210,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                           /// Sl No.
                           CommonWidgets.horizentaltextHandling(
-                              Constants.slno, state.model.slNo ?? ''),
+                              Constants.slno, state.eventProtectionGi.slNo ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Date of creation
@@ -218,7 +218,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                         BaseDate().creationDateDisplay(
-                              state.model.inputDate??'0'),
+                              state.eventProtectionGi.inputDate??''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Location
@@ -237,7 +237,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                           BaseEntitiesSelection().entityDropDownSelection(
                               context: context,
-                              selectedValues: state.model.entities ?? [],
+                              selectedValues: state.eventProtectionGi.entities ?? [],
                               all: state.listOfEntities ?? [],
                               onTap: (List<Entity> selectedEntities) {
                                 log('--selectedEntities----${selectedEntities.length}');
@@ -253,27 +253,27 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               Constants.isAnnualPowerShutdown,
                               Styles.textStyleBlack14),
                           RadioButtonsYesNo(
-                              status: state.model.status ?? 0,
+                              status: state.eventProtectionGi.status ?? 0,
                               selectedValue:
-                                  state.model.annualPowerShutdown ?? false
+                                  state.eventProtectionGi.annualPowerShutdown ?? false
                                       ? 1
                                       : 0,
-                              onChangedYes: state.model.status == 6
+                              onChangedYes: state.eventProtectionGi.status == 6
                                   ? null
                                   : (val) {
-                                      state.model.annualPowerShutdown = true;
+                                      state.eventProtectionGi.annualPowerShutdown = true;
                                       BlocProvider.of<GeneralInfoCubit>(context)
-                                          .onCheckBoxChange(state.model);
+                                          .onCheckBoxChange(state.eventProtectionGi);
                                     },
-                              onChangedNo: state.model.status == 4
+                              onChangedNo: state.eventProtectionGi.status == 4
                                   ? null
                                   : (val) {
-                                      state.model.annualPowerShutdown = false;
+                                      state.eventProtectionGi.annualPowerShutdown = false;
                                       BlocProvider.of<GeneralInfoCubit>(context)
-                                          .onCheckBoxChange(state.model);
+                                          .onCheckBoxChange(state.eventProtectionGi);
                                     }),
 
-                    /// Event Start Date
+                 /*   /// Event Start Date
                           CommonWidgets.textDisplay(
                             Constants.eventStartDate,
                             Styles.textStyleBlack14,
@@ -285,11 +285,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             onlyDate: true,
                             onChange: (String value) {
                               log('---value-$value------');
-                              state.model.eventStartDate =
+                              state.eventProtectionGi.eventStartDate =
                                   Utils().formatTime(value);
-                          log('---value11-${state.model.eventStartDate}------');
+                          log('---value11-${state.eventProtectionGi.eventStartDate}------');
                               BlocProvider.of<GeneralInfoCubit>(context)
-                                  .onModelValueChange(state.model);
+                                  .onModelValueChange(state.eventProtectionGi);
                             },
                             context: context,
                           ),
@@ -315,13 +315,13 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             context: context,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+*/
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ]),
                       ),
 
                       /// SubmitButton
-                      if (state.model.status != 4) ...[
+                      if (state.eventProtectionGi.status != 4) ...[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -371,8 +371,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
   Widget locationWidgetdislay(GeneralInfoState state) {
     return GestureDetector(
       onTap: () {
-        if (state.model.id == null ||
-            (state.model.location?.name ?? '').isEmpty) {
+        if (state.eventProtectionGi.id == null ||
+            (state.eventProtectionGi.location?.name ?? '').isEmpty) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
@@ -385,7 +385,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                   Location location = Location();
                   location.id = list?.id;
                   location.name = list?.name;
-                  state.model.location = location;
+                  state.eventProtectionGi.location = location;
 
                   BlocProvider.of<GeneralInfoCubit>(context)
                       .updateDropdownValues(location: location);
@@ -395,7 +395,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
           );
         }
       },
-      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
+      child: SelectedTileValueWidget(name: state.eventProtectionGi.location?.name ?? ''),
     );
   }
 }

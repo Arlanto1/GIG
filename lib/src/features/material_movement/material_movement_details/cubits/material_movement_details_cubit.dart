@@ -13,7 +13,6 @@ import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:equatable/equatable.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../constants/constants.dart';
 import '../../../../enums/form_status.dart';
@@ -32,13 +31,13 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   final MaterialMovementServices materialMovementServices;
   final MaterialMovementModel? model;
   final CommonServices commonServices;
-  final bool isInward;
+  final bool? isInward;
 
   MaterialMovementDetailsCubit({
     required this.materialMovementServices,
     required this.commonServices,
-    required this.model,
-    required this.isInward,
+     this.model,
+     this.isInward,
   }) : super(
           MaterialMovementDetailsState.initial(
               model: model ?? MaterialMovementModel(),
@@ -186,10 +185,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     if (receiverDepartment != null) {
       state.materialMovement.receiverDepartment = receiverDepartment;
     }
-
     if (quantityUnit != null) {
       state.materialMovement.unit = quantityUnit;
     }
+    print('-quantityUnit---${state.materialMovement.unit?.name}');
 
     if (isReturnable != null) {
       state.materialMovement.returnable = isReturnable;
@@ -267,6 +266,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       if (isSaveOnly) {
         response = await materialMovementServices.createMaterialMovement(
             body: request, isSubmit: false);
+
       } else {
         //Validating Fields
         if (!state.isValid.status) {

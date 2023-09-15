@@ -49,7 +49,7 @@ class _EventInfoViewState extends State<EventInfoView> {
   List<CreateImage>? guardFiles;
   TextEditingController dateController = TextEditingController();
   TextEditingController addEmailController = TextEditingController();
-
+  TextEditingController deleteEmailController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -506,7 +506,12 @@ class _EventInfoViewState extends State<EventInfoView> {
             email,
             textAlign: TextAlign.start,
           ),
-          const Icon(Icons.delete),
+          IconButton(
+            icon: const Icon(Icons.delete),
+          onPressed: (){
+           BlocProvider.of<EventInfoCubit>(context)
+               .onDeleteEmail(deleteEmailController.text);
+        }, ),
         ],
       ));
       widgets.add(const SizedBox(height: 2));

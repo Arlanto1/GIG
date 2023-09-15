@@ -199,4 +199,21 @@ class EventInfoCubit extends Cubit<EventInfoState> {
 
     emit(state.copyWith(model: state.model, status: FormStatus.initial));
   }
+
+  void onDeleteEmail(String email) {
+    log('-email to delete---${state.additionalEmails}-');
+    List<String> emails = List<String>.from(state.additionalEmails ?? []);
+
+    // Remove the specified email from the list
+    emails.remove(email);
+
+    // Update the state with the modified list of emails
+
+      state.copyWith(
+        additionalEmails: emails,
+      );
+      
+    emit(state.copyWith(model: state.model, status: FormStatus.initial));
+  }
+
 }
