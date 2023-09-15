@@ -1,3 +1,5 @@
+import '../../../../../../models/department.dart';
+
 class GuardInfoModel {
   GuardInfoModel({
     this.id,
@@ -29,7 +31,7 @@ class GuardInfoModel {
   int? securityGuardCountHrs;
   int? securityFacilitatorCount;
   int? securityFacilitatorCountHrs;
-  List<ProposedVendors>? proposedVendors;
+  List<Department>? proposedVendors;
   double? budget;
   String? poNumber;
 
@@ -47,7 +49,7 @@ class GuardInfoModel {
     securityFacilitatorCount = json['securityFacilitatorCount'];
     securityFacilitatorCountHrs = json['securityFacilitatorCountHrs'];
     proposedVendors = List.from(json['proposedVendors'])
-        .map((e) => ProposedVendors.fromJson(e))
+        .map((e) => Department.fromJson(e))
         .toList();
     budget = json['budget'];
     poNumber = json['poNumber'];
@@ -74,24 +76,3 @@ class GuardInfoModel {
   }
 }
 
-class ProposedVendors {
-  ProposedVendors({
-    required this.id,
-    required this.name,
-  });
-
-  late final int id;
-  late final String name;
-
-  ProposedVendors.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['name'] = name;
-    return _data;
-  }
-}

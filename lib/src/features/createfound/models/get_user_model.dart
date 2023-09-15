@@ -1,16 +1,16 @@
 class GetUserDetails {
-  final int? userId;
-  final String? userName;
-  final String? email;
-  final String? firstName;
-  final String? lastName;
-  final String? phone;
-  final List<Roles>? roles;
-  final List<RoleExtensions>? roleExtensions;
-  final List<dynamic>? notApprovedRoles;
-  final List<dynamic>? notApprovedRoleExtensions;
-  final String? name;
-  final String? userStatus;
+  int? userId;
+  String? userName;
+  String? email;
+  String? firstName;
+  String? lastName;
+  String? phone;
+  List<Roles>? roles;
+  List<RoleExtensions>? roleExtensions;
+  List<dynamic>? notApprovedRoles;
+  List<dynamic>? notApprovedRoleExtensions;
+  String? name;
+  String? userStatus;
 
   GetUserDetails({
     this.userId,
@@ -58,11 +58,11 @@ class GetUserDetails {
 }
 
 class Roles {
-  final int? roleId;
-  final String? application;
-  final String? roleName;
-  final List<dynamic>? roleExtensions;
-  final String? name;
+  int? roleId;
+  String? application;
+  String? roleName;
+  List<dynamic>? roleExtensions;
+  String? name;
 
   Roles({
     this.roleId,
@@ -89,14 +89,14 @@ class Roles {
 }
 
 class RoleExtensions {
-  final int? roleExtensionId;
-  final int? roleId;
-  final String? displayName;
-  final String? area;
-  final String? filter;
-  final dynamic rootNodeId;
-  final dynamic nodeId;
-  final dynamic accessRight;
+  int? roleExtensionId;
+  int? roleId;
+  String? displayName;
+  String? area;
+  String? filter;
+  dynamic rootNodeId;
+  dynamic nodeId;
+  dynamic accessRight;
 
   RoleExtensions({
     this.roleExtensionId,

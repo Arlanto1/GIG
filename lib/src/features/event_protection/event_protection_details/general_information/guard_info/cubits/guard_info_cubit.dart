@@ -114,7 +114,7 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
     Location? location,
     BaseUser? user,
     BaseUser? guard,
-    List<ProposedVendors>? proposedVendors,
+    List<Department>? proposedVendors,
     int? status,
   }) async {
     emit(

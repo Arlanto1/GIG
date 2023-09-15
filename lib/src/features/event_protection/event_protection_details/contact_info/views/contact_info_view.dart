@@ -8,7 +8,6 @@ import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/models/contact_info_model.dart';
-import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -29,9 +28,11 @@ import '../cubits/contact_info_cubit.dart';
 class ContactInfoView extends StatefulWidget {
   final ContactInfoModel? model;
   final bool? isAnnualPowerShutDown;
-   const ContactInfoView({
+
+  const ContactInfoView({
     this.model,
-    super.key,  this.isAnnualPowerShutDown,
+    super.key,
+    this.isAnnualPowerShutDown,
   });
 
   @override
@@ -43,8 +44,9 @@ class _ContactInfoViewState extends State<ContactInfoView> {
   GetUserDetails? userDetails;
   List<CreateImage>? getFiles;
   List<FoundImage>? getAttachments;
+
   //bool isExtraSecurityDeployed = true;
- bool annualPowerShutDown = true;
+  bool annualPowerShutDown = true;
   TextEditingController dateOfBirthController = TextEditingController();
   TextEditingController dateOfJoiningController = TextEditingController();
   TextEditingController statusController = TextEditingController();
@@ -160,105 +162,106 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                        if(annualPowerShutDown== false)...[
-                          /// Sub Regional Head (SRH) 1
-                          CommonWidgets.textDisplay(
-                            Constants.subRegionalHead1,
-                            Styles.textStyleBlack14,
-                          ),
-                          TextfieldAddButton(
-                            title: state.model.srh1?.name,
-                            height: 60,
-                            isDisableColor: false,
-                            onTap: () {
-                              BaseDepartmentDialog().userDialog(
-                                context: context,
-                                users: state.emailUsers!,
-                                onTap: (Srh1 user) {
-                                  BlocProvider.of<ContactInfoCubit>(context)
-                                      .updateDropdownValues(
-                                    subRegionalHead1: user,
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          if (annualPowerShutDown == false) ...[
+                            /// Sub Regional Head (SRH) 1
+                            CommonWidgets.textDisplay(
+                              Constants.subRegionalHead1,
+                              Styles.textStyleBlack14,
+                            ),
+                            TextfieldAddButton(
+                              title: state.model.srh1?.name,
+                              height: 60,
+                              isDisableColor: false,
+                              onTap: () {
+                                BaseDepartmentDialog().userDialog(
+                                  context: context,
+                                  users: state.emailUsers!,
+                                  onTap: (Srh1 user) {
+                                    BlocProvider.of<ContactInfoCubit>(context)
+                                        .updateDropdownValues(
+                                      subRegionalHead1: user,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Sub Regional Head (SRH) 2
-                          CommonWidgets.textDisplay(
-                            Constants.subRegionalHead2,
-                            Styles.textStyleBlack14,
-                          ),
-                          TextfieldAddButton(
-                            title: state.model.srh2?.name,
-                            height: 60,
-                            isDisableColor: false,
-                            onTap: () {
-                              BaseDepartmentDialog().userDialog(
-                                context: context,
-                                users: state.emailUsers!,
-                                onTap: (Srh2 user) {
-                                  BlocProvider.of<ContactInfoCubit>(context)
-                                      .updateDropdownValues(
-                                    subRegionalHead2: user,
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                     ],
+                            /// Sub Regional Head (SRH) 2
+                            CommonWidgets.textDisplay(
+                              Constants.subRegionalHead2,
+                              Styles.textStyleBlack14,
+                            ),
+                            TextfieldAddButton(
+                              title: state.model.srh2?.name,
+                              height: 60,
+                              isDisableColor: false,
+                              onTap: () {
+                                BaseDepartmentDialog().userDialog(
+                                  context: context,
+                                  users: state.emailUsers!,
+                                  onTap: (Srh2 user) {
+                                    BlocProvider.of<ContactInfoCubit>(context)
+                                        .updateDropdownValues(
+                                      subRegionalHead2: user,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ],
 
-                           if(annualPowerShutDown== true)...[
-                          /// Event Protection Manager 1
-                          CommonWidgets.textDisplay(
-                            Constants.eventProtectionManager1,
-                            Styles.textStyleBlack14,
-                          ),
-                          TextfieldAddButton(
-                            title: state.model.epManager1?.name,
-                            height: 60,
-                            isDisableColor: false,
-                            onTap: () {
-                              BaseDepartmentDialog().userDialog(
-                                context: context,
-                                users: state.emailUsers!,
-                                onTap: (EpManager1 user) {
-                                  BlocProvider.of<ContactInfoCubit>(context)
-                                      .updateDropdownValues(
-                                    epManager1: user,
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          if (annualPowerShutDown == true) ...[
+                            /// Event Protection Manager 1
+                            CommonWidgets.textDisplay(
+                              Constants.eventProtectionManager1,
+                              Styles.textStyleBlack14,
+                            ),
+                            TextfieldAddButton(
+                              title: state.model.epManager1?.name,
+                              height: 60,
+                              isDisableColor: false,
+                              onTap: () {
+                                BaseDepartmentDialog().userDialog(
+                                  context: context,
+                                  users: state.emailUsers!,
+                                  onTap: (EpManager1 user) {
+                                    BlocProvider.of<ContactInfoCubit>(context)
+                                        .updateDropdownValues(
+                                      epManager1: user,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Event Protection Manager 2
-                          CommonWidgets.textDisplay(
-                            Constants.eventProtectionManager2,
-                            Styles.textStyleBlack14,
-                          ),
-                          TextfieldAddButton(
-                            title: state.model.epManager2?.name,
-                            height: 60,
-                            isDisableColor: false,
-                            onTap: () {
-                              BaseDepartmentDialog().userDialog(
-                                context: context,
-                                users: state.emailUsers!,
-                                onTap: (EpManager2 user) {
-                                  BlocProvider.of<ContactInfoCubit>(context)
-                                      .updateDropdownValues(
-                                    epManager2: user,
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                       ],
+                            /// Event Protection Manager 2
+                            CommonWidgets.textDisplay(
+                              Constants.eventProtectionManager2,
+                              Styles.textStyleBlack14,
+                            ),
+                            TextfieldAddButton(
+                              title: state.model.epManager2?.name,
+                              height: 60,
+                              isDisableColor: false,
+                              onTap: () {
+                                BaseDepartmentDialog().userDialog(
+                                  context: context,
+                                  users: state.emailUsers!,
+                                  onTap: (EpManager2 user) {
+                                    BlocProvider.of<ContactInfoCubit>(context)
+                                        .updateDropdownValues(
+                                      epManager2: user,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ],
+
                           /// Location Security  Manager 1
                           CommonWidgets.textDisplay(
                             Constants.locationSecurityManager1,
@@ -856,23 +859,24 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Is Extra Security Deployment Required
-                          if(annualPowerShutDown== false)...[
-                          Row(children: [
-                            CommonWidgets.textDisplay(
-                              Constants.isExtraSecurityDeploymentRequired,
-                              Styles.textStyleBlack14,
-                            ),
-                            Checkbox(
-                                activeColor: AppColors.navigationSkybluecolor,
-                                focusColor: AppColors.navigationSkybluecolor,
-                                value: state.model.extraSecurityDeployed ?? false,
-                                onChanged: (bool? value) {
-                                  state.model.extraSecurityDeployed = value;
-                                  BlocProvider.of<ContactInfoCubit>(context)
-                                      .onCheckBoxChange(state.model);
-                                })
-                          ]),
-],
+                          if (annualPowerShutDown == false) ...[
+                            Row(children: [
+                              CommonWidgets.textDisplay(
+                                Constants.isExtraSecurityDeploymentRequired,
+                                Styles.textStyleBlack14,
+                              ),
+                              Checkbox(
+                                  activeColor: AppColors.navigationSkybluecolor,
+                                  focusColor: AppColors.navigationSkybluecolor,
+                                  value: state.model.extraSecurityDeployed ??
+                                      false,
+                                  onChanged: (bool? value) {
+                                    state.model.extraSecurityDeployed = value;
+                                    BlocProvider.of<ContactInfoCubit>(context)
+                                        .onCheckBoxChange(state.model);
+                                  })
+                            ]),
+                          ],
 
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ]),

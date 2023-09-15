@@ -40,7 +40,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     required this.id,
   }) : super(
           GeneralInfoState.initial(
-            eventProtectionGi: EventProtectionGi(),
+            model: EventProtectionGi(),
               locations: GetLocations(),
               users: const [],
               emailUsers: const [],
@@ -55,13 +55,13 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
 
   void onModelValueChange(EventProtectionGi eventProtectionGi) {
     log('-onModelValueChange---');
-    emit(state.copyWith(eventProtectionGi: eventProtectionGi, status: FormStatus.initial));
+    emit(state.copyWith(model: eventProtectionGi, status: FormStatus.initial));
   }
 
   void onCheckBoxChange(EventProtectionGi eventProtectionGi) {
-    emit(state.copyWith(eventProtectionGi: eventProtectionGi, status: FormStatus.loading));
+    emit(state.copyWith(model: eventProtectionGi, status: FormStatus.loading));
 
-    emit(state.copyWith(eventProtectionGi: eventProtectionGi, status: FormStatus.initial));
+    emit(state.copyWith(model: eventProtectionGi, status: FormStatus.initial));
   }
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
@@ -87,7 +87,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       // Get Date of Creation
-      state.eventProtectionGi.inputDate = Utils().getCurrentDate() ;
+      state.model.inputDate = Utils().getCurrentDate() ;
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
@@ -99,7 +99,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
 
       emit(
         state.copyWith(
-          eventProtectionGi: eventProtectionGi,
+          model: eventProtectionGi,
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
@@ -129,6 +129,21 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     Department? vendor,
     Entity? entity,
     int? status,
+    // GetUserDetails? user,
+    Department? requesterDepartment,
+    GetUserDetails? bu1,
+    GetUserDetails? bu2,
+    Department? bu1Dept,
+    Department? bu2Dept,
+    GetUserDetails? subRegionalHead1,
+    GetUserDetails? subRegionalHead2,
+    GetUserDetails? epManager1,
+    GetUserDetails? epManager2,
+    GetUserDetails? locationSecurityManager1,
+    GetUserDetails? locationSecurityManager2,
+    BaseUser? epOfficers,
+    List<Department>? proposedVendors,
+
   }) async {
     emit(
       state.copyWith(
@@ -142,18 +157,59 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         moduleCode: Constants.guardingMasterDataModule,
       );
 
-      state.eventProtectionGi.location = location;
-      state.eventProtectionGi.slNo = slNo.serialNo ?? '';
+      state.model.location = location;
+      state.model.slNo = slNo.serialNo ?? '';
     }
 
-    state.eventProtectionGi.status = status ?? state.eventProtectionGi.status;
+    state.model.status = status ?? state.model.status;
 
     if (entities != null) {
-      state.eventProtectionGi.entities = entities;
+      state.model.entities = entities;
+    }
+
+    state.model.bu1 = bu1 ?? state.model.bu1;
+    state.model.bu2 = bu2 ?? state.model.bu2;
+    //   state.model.requesterDepartment =
+    //     requesterDepartment ?? state.model.requesterDepartment;
+
+    // if (entities != null) {
+    //   state.model.entities = entities;
+    // }
+
+    if (subRegionalHead1 != null) {
+      state.model.srh1?.email = subRegionalHead1.email;
+    }
+    if (subRegionalHead2 != null) {
+      state.model.srh2?.name = subRegionalHead2.name;
+    }
+    if (locationSecurityManager1 != null) {
+      state.model.lsm1?.email= locationSecurityManager1.email ;
+    }
+    if (locationSecurityManager2 != null) {
+      state.model.lsm2?.email = locationSecurityManager2.email ;
+    }
+
+    if (bu1 != null) {
+      state.model.bu1?.email = bu1.email ;
+    }
+    if (bu2 != null) {
+      state.model.bu2?.email = bu2.email;
+    }
+
+    if (epManager1 != null) {
+      state.model.epManager1?.email = epManager1.email;
+    }
+
+    if (epManager2 != null) {
+      state.model.epManager2?.email = epManager2.email;
+    }
+
+    if (epOfficers != null) {
+      state.model.epOfficers = epOfficers.email;
     }
 
     emit(state.copyWith(
-      eventProtectionGi: state.eventProtectionGi,
+      model: state.model,
       status: FormStatus.initial,
     ));
   }
@@ -175,7 +231,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       emit(
         state.copyWith(
           eventId: eventIds,
-          eventProtectionGi: state.eventProtectionGi,
+          model: state.model,
           status: FormStatus.initial,
         ),
       );
@@ -184,7 +240,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     emit(
       state.copyWith(
         eventId: eventIds,
-        eventProtectionGi: state.eventProtectionGi,
+        model: state.model,
         status: FormStatus.initial,
       ),
     );
@@ -199,16 +255,16 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       ),
     );
 
-    if (state.eventProtectionGi.status == 0 || state.eventProtectionGi.status == null) {
-      state.eventProtectionGi.status = 1;
+    if (state.model.status == 0 || state.model.status == null) {
+      state.model.status = 1;
     }
     // Setting time in milliseconds
-    state.eventProtectionGi.inputDate =
+    state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     /// Create/Update API Call
     GeneralInfoRequest request =
-    GeneralInfoRequest(eventProtectionGi:state.eventProtectionGi);
+    GeneralInfoRequest(eventProtectionGi:state.model);
 
     GenericCreateResponse response = GenericCreateResponse();
     try {
