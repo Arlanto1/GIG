@@ -221,7 +221,7 @@ class _PayRateViewState extends State<PayRateView> {
                       children: [
                         cancelButtonDisplay(),
                         const SizedBox(
-                          width: 50,
+                          width: 30,
                         ),
                         submitButtonDisplay(
                           title: widget.title,
