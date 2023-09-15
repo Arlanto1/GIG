@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
@@ -24,6 +23,8 @@ import '../../../../../enums/form_status.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
+import '../../../../createfound/models/create_found_request.dart';
+import '../../../../createfound/models/get_depositor_model.dart';
 import '../models/general_info_model.dart';
 import '../models/requestModel/general_info_request.dart';
 
@@ -86,6 +87,10 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
+      GetDepositor emailUsers =
+      await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+
+
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate() ;
 
@@ -95,7 +100,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       List<GetUserDetails> entrySecurities = await commonServices.getUsers();
 
       EmployeeDepartments departments =
-          await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+      await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
       emit(
         state.copyWith(
@@ -104,6 +109,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           users: users.t1Analyst,
+          emailUsers: emailUsers.atomStaticUser,
           departments: departments.employeeDepartments,
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
@@ -125,11 +131,11 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   Future<void> updateDropdownValues({
     List<Entity>? entities,
     Location? location,
-    BaseUser? user,
+   // BaseUser? user,
     Department? vendor,
     Entity? entity,
     int? status,
-    // GetUserDetails? user,
+    //GetUserDetails? user,
     Department? requesterDepartment,
     GetUserDetails? bu1,
     GetUserDetails? bu2,
@@ -167,46 +173,54 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.entities = entities;
     }
 
+       state.model.requesterDepartment =
+         requesterDepartment ?? state.model.requesterDepartment;
+
+
     state.model.bu1 = bu1 ?? state.model.bu1;
     state.model.bu2 = bu2 ?? state.model.bu2;
-    //   state.model.requesterDepartment =
-    //     requesterDepartment ?? state.model.requesterDepartment;
+    state.model.bu1Dept =
+        bu1Dept ?? state.model.bu1Dept;
 
-    // if (entities != null) {
-    //   state.model.entities = entities;
-    // }
+    state.model.bu2Dept =
+        bu2Dept ?? state.model.bu2Dept;
 
     if (subRegionalHead1 != null) {
-      state.model.srh1?.email = subRegionalHead1.email;
+      GetUserDetails userDetails = GetUserDetails(
+          name: subRegionalHead1.name, userId: subRegionalHead1.userId, userName: subRegionalHead1.name);
+      state.model.srh1 = userDetails;
     }
     if (subRegionalHead2 != null) {
-      state.model.srh2?.name = subRegionalHead2.name;
+      GetUserDetails userDetails = GetUserDetails(
+          name: subRegionalHead2.name, userId: subRegionalHead2.userId, userName: subRegionalHead2.name);
+      state.model.srh2 = userDetails;
     }
     if (locationSecurityManager1 != null) {
-      state.model.lsm1?.email= locationSecurityManager1.email ;
+      GetUserDetails userDetails = GetUserDetails(
+          name: locationSecurityManager1.name, userId: locationSecurityManager1.userId, userName: locationSecurityManager1.name);
+      state.model.lsm1 = userDetails;
     }
     if (locationSecurityManager2 != null) {
-      state.model.lsm2?.email = locationSecurityManager2.email ;
+      GetUserDetails userDetails = GetUserDetails(
+          name: locationSecurityManager2.name, userId: locationSecurityManager2.userId, userName: locationSecurityManager2.name);
+      state.model.lsm2 = userDetails;
     }
 
     if (bu1 != null) {
-      state.model.bu1?.email = bu1.email ;
+      GetUserDetails userDetails = GetUserDetails(
+          name: bu1.name, userId: bu1.userId, userName: bu1.name);
+      state.model.bu1 = userDetails;
     }
     if (bu2 != null) {
-      state.model.bu2?.email = bu2.email;
-    }
-
-    if (epManager1 != null) {
-      state.model.epManager1?.email = epManager1.email;
-    }
-
-    if (epManager2 != null) {
-      state.model.epManager2?.email = epManager2.email;
+      GetUserDetails userDetails = GetUserDetails(
+          name: bu2.name, userId: bu2.userId, userName: bu2.name);
+      state.model.bu2 = userDetails;
     }
 
     if (epOfficers != null) {
       state.model.epOfficers = epOfficers.email;
     }
+
 
     emit(state.copyWith(
       model: state.model,
@@ -246,6 +260,25 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     );
 
     log('--state.status--3--${state.status}----');
+  }
+
+  void showFields({
+     bool? annualPowerShutdown,
+
+  }) {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    if (annualPowerShutdown != null) {
+      state.model.annualPowerShutdown =
+          annualPowerShutdown;
+    }
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
   }
 
   void submitForm({bool isSaveOnly = false}) async {

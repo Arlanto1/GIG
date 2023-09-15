@@ -32,14 +32,13 @@ import '../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
 import '../../../../../utils/util.dart';
-import '../../general_information/guard_info/models/guard_info_model.dart';
 import '../cubits/general_info_cubit.dart';
 import '../models/general_info_model.dart';
 
 class GeneralInfoView extends StatefulWidget {
-  final EventProtectionGi? eventProtectionGi;
+  final EventProtectionGi? model;
   const GeneralInfoView({
-    this.eventProtectionGi,
+    this.model,
     super.key,
   });
 
@@ -60,9 +59,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
   TextEditingController eventEndDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   bool isDisabled = true;
-
-  get guardingMasterData => null;
-  bool annualPowerShutDown = true;
 
   @override
   void initState() {
@@ -128,15 +124,15 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
       },
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
-  /*void initializeDates() {
+  void initializeDates() {
     eventStartDateController.text = Utils.timestamptoDateConversion(
-        int.tryParse(widget.eventProtectionGi?.eventStartDate ?? '0'),
+        int.tryParse(widget.model?.eventStartDate ?? '0'),
         Constants.dateFormat);
 
     eventEndDateController.text = Utils.timestamptoDateConversion(
-        int.tryParse(widget.eventProtectionGi?.eventEndDate ?? '0'),
+        int.tryParse(widget.model?.eventEndDate ?? '0'),
         Constants.dateFormat);
-  }*/
+  }
   getBodybuilder(GeneralInfoState state, height) {
     if (state.status == FormStatus.loading) {
       return const Center(child: CircularProgressIndicator());
@@ -255,33 +251,91 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Is Annual Power Shutdown?
+                            /// Event Start Date
+                          CommonWidgets.textDisplay(
+                            Constants.eventStartDate,
+                            Styles.textStyleBlack14,
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                          BaseDate().datePickerWidgetLoading(
+                            textController: eventStartDateController,
+                            onlyDate: true,
+                            onChange: (String value) {
+                              log('---value-$value------');
+                              state.model.eventStartDate =
+                                  Utils().formatTime(value);
+                          log('---value11-${state.model.eventStartDate}------');
+                              BlocProvider.of<GeneralInfoCubit>(context)
+                                  .onModelValueChange(state.model);
+                            },
+                            context: context,
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          /// Event End Date
+                          CommonWidgets.textDisplay(
+                            Constants.eventEndDate,
+                            Styles.textStyleBlack14,
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                          BaseDate().datePickerWidgetLoading(
+                            textController: eventEndDateController,
+                            onlyDate: true,
+                            onChange: (String value) {
+                              state.model.eventEndDate =
+                                  Utils().formatTime(value);
+                              BlocProvider.of<GeneralInfoCubit>(context)
+                                  .onModelValueChange(state.model);
+                              log('---value22-${state.model.eventEndDate}------');
+                            },
+                            context: context,
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ///  Is Annual Power Shutdown?
                           CommonWidgets.textDisplay(
                               Constants.isAnnualPowerShutdown,
                               Styles.textStyleBlack14),
                           RadioButtonsYesNo(
                               status: state.model.status ?? 0,
-                              selectedValue:
-                                  state.model.annualPowerShutdown ?? false
-                                      ? 1
-                                      : 0,
-                              onChangedYes: state.model.status == 6
+                              selectedValue: state.model
+                                  .annualPowerShutdown
+                                  ? 1
+                                  : 0,
+                              onChangedYes: widget
+                                  .model?.status ==
+                                  6
                                   ? null
                                   : (val) {
-                                      state.model.annualPowerShutdown = true;
-                                      BlocProvider.of<GeneralInfoCubit>(context)
-                                          .onCheckBoxChange(state.model);
-                                    },
-                              onChangedNo: state.model.status == 4
+                                state.model
+                                    .annualPowerShutdown = true;
+                                BlocProvider.of<
+                                    GeneralInfoCubit>(
+                                    context)
+                                    .showFields(
+                                    annualPowerShutdown: true);
+                                //.onModelValueChange(state.guardingMasterData
+                                //);
+                              },
+                              onChangedNo:
+                              widget.model?.status == 4
                                   ? null
                                   : (val) {
-                                      state.model.annualPowerShutdown = false;
-                                      BlocProvider.of<GeneralInfoCubit>(context)
-                                          .onCheckBoxChange(state.model);
-                                    }),
-
-                 ///
-                          if(annualPowerShutDown== false)...[
+                                state.model
+                                    .annualPowerShutdown =
+                                false;
+                                BlocProvider.of<
+                                    GeneralInfoCubit>(
+                                    context)
+                                    .showFields(
+                                    annualPowerShutdown:
+                                    false);
+                                // .onModelValueChange(state.guardingMasterData
+                                //  );
+                              }),
+                          if(state.model.annualPowerShutdown)...[
                             /// Sub Regional Head (SRH) 1
                             CommonWidgets.textDisplay(
                               Constants.subRegionalHead1,
@@ -330,7 +384,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],
-                          if (annualPowerShutDown == true) ...[
+if(!state.model.annualPowerShutdown)...[
                             /// Event Protection Manager 1
                             CommonWidgets.textDisplay(
                               Constants.eventProtectionManager1,
@@ -378,8 +432,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          ],
 
+],
 
 
                           /// Location Security  Manager 1
@@ -587,7 +641,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             },
                           ),
 
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Business POC 2 Department
                           CommonWidgets.textDisplay(
@@ -612,7 +665,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                           ),
 
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+if(state.model.annualPowerShutdown)...[
                           ///System Vendor 1 Email
                           CommonWidgets.textDisplay(
                               Constants.systemVendor1Email,
@@ -625,28 +678,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             hintText: '',
                             isEnable: true,
                             isDisableColor:  false,
-                            onChange: (String value) {
-                              state.model.systemVendor1 = value;
-                              context
-                                  .read<GeneralInfoCubit>()
-                                  .onModelValueChange(state.model);
-                            },
-                            validateTextField: (String? user) {},
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          ///System Vendor 1 Email
-                          CommonWidgets.textDisplay(
-                              Constants.systemVendor1Email,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          FlutterInputField(
-                            keyboardType: TextInputType.text,
-                            initialValue: state.model.systemVendor1,
-                            textFormKey: Keys.systemVendor1EmailKey,
-                            hintText: '',
-                            isEnable: true,
-                            isDisableColor: false,
                             onChange: (String value) {
                               state.model.systemVendor1 = value;
                               context
@@ -835,7 +866,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                           //     Constants.secondaryServiceEngineerContact,
                           //     state.model.vendor3SecondaryContact ?? ''),
                           // CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+],
                           ///Requester Department
                           CommonWidgets.textDisplay(
                             Constants.requesterDepartment,
@@ -884,9 +915,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
+if(state.model.annualPowerShutdown)...[
                           ///Is Extra Security Deployment Required
-                          if (annualPowerShutDown == false) ...[
                             Row(children: [
                               CommonWidgets.textDisplay(
                                 Constants.isExtraSecurityDeploymentRequired,
@@ -895,83 +925,41 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               Checkbox(
                                   activeColor: AppColors.navigationSkybluecolor,
                                   focusColor: AppColors.navigationSkybluecolor,
-                                  value: state.model.extraSecurityDeployed ??
-                                      false,
+                                  value: state.model.extraSecurityDeployed,
                                   onChanged: (bool? value) {
-                                    state.model.extraSecurityDeployed = value;
+                                    state.model.extraSecurityDeployed = value!;
                                     BlocProvider.of<GeneralInfoCubit>(context)
                                         .onCheckBoxChange(state.model);
                                   })
                             ]),
-                          ],
-
-                          /*   /// Event Start Date
-                          CommonWidgets.textDisplay(
-                            Constants.eventStartDate,
-                            Styles.textStyleBlack14,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                          BaseDate().datePickerWidgetLoading(
-                            textController: eventStartDateController,
-                            onlyDate: true,
-                            onChange: (String value) {
-                              log('---value-$value------');
-                              state.eventProtectionGi.eventStartDate =
-                                  Utils().formatTime(value);
-                          log('---value11-${state.eventProtectionGi.eventStartDate}------');
-                              BlocProvider.of<GeneralInfoCubit>(context)
-                                  .onModelValueChange(state.eventProtectionGi);
-                            },
-                            context: context,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Event End Date
-                          CommonWidgets.textDisplay(
-                            Constants.eventEndDate,
-                            Styles.textStyleBlack14,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                          BaseDate().datePickerWidgetLoading(
-                            textController: eventEndDateController,
-                            onlyDate: true,
-                            onChange: (String value) {
-                              state.model.eventEndDate =
-                                  Utils().formatTime(value);
-                              BlocProvider.of<GeneralInfoCubit>(context)
-                                  .onModelValueChange(state.model);
-                              log('---value22-${state.model.eventEndDate}------');
-                            },
-                            context: context,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-*/
 
 
-                          ///Guarding Vendor Id
-                          CommonWidgets.textDisplay(Constants.guardingVendorId,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          FlutterInputField(
-                            keyboardType: TextInputType.number,
-                            initialValue: state.model.vendorId,
-                            textFormKey: Keys.vendorIdKey,
-                            hintText: '',
-                            isEnable: true,
-                            isDisableColor:false,
-                            onChange: (String value) {
-                              state.model.vendorId = value;
-                              context
-                                  .read<GeneralInfoCubit>()
-                                  .onModelValueChange(state.model);
-                            },
-                            validateTextField: (String? user) {},
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+],
 
-                          ///Guarding Agency POC
+                          if(state.model.extraSecurityDeployed)...[
+                            ///Vendor Id
+                            CommonWidgets.textDisplay(Constants.guardingVendorId,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              keyboardType: TextInputType.number,
+                              initialValue:
+                              state.model.vendorId,
+                              textFormKey: Keys.vendorIdKey,
+                              hintText: '',
+                              isEnable: true,
+                              isDisableColor:false,
+                              onChange: (String value) {
+                                state.model.vendorId = value;
+                                context
+                                    .read<GeneralInfoCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            ///Guarding Agency POC
                           CommonWidgets.textDisplay(Constants.guardingAgencyPOC,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -1227,9 +1215,31 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             },
                             validateTextField: (String? user) {},
                           ),
+                          ],
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
+                      //     ///Po Number
+                      //     CommonWidgets.textDisplay(Constants.poNumber,
+                      //         Styles.textStyleBlack14),
+                      //     CommonWidgets.verticalSpacerWidget(height * 0.001),
+                      //     FlutterInputField(
+                      //       keyboardType: TextInputType.number,
+                      //       initialValue:
+                      //       state.model.poNumber,
+                      //       textFormKey: Keys.poNumberKey,
+                      //       hintText: '',
+                      //       isEnable: true,
+                      //       isDisableColor:false,
+                      //       onChange: (String value) {
+                      //         state.model.poNumber = value;
+                      //         context
+                      //             .read<GeneralInfoCubit>()
+                      //             .onModelValueChange(state.model);
+                      //       },
+                      //       validateTextField: (String? user) {},
+                      //     ),
+                      //     CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      //
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ]),
                       ),

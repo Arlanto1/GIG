@@ -3,10 +3,8 @@ import 'package:db_atom/src/models/entity.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/location.dart';
 import '../../../../../models/location_region.dart';
-import '../../../../../models/role.dart';
-import '../../../../../models/role_extension.dart';
 import '../../../../createfound/models/get_user_model.dart';
-import '../../contact_info/models/contact_info_model.dart';
+
 
 // class EventProtectionGi {
 //   EventProtectionGi({
@@ -119,7 +117,7 @@ class EventProtectionGi {
  List<Entity>? entities;
  int? status;
  String? modifiedBy;
- bool? annualPowerShutdown;
+ bool annualPowerShutdown;
  String? eventStartDate;
  String? eventEndDate;
  GetUserDetails? epManager1;
@@ -144,7 +142,7 @@ class EventProtectionGi {
  String? systemVendor1ContactNo;
  String? systemVendor2ContactNo;
  String? systemVendor3ContactNo;
- bool? extraSecurityDeployed;
+ bool extraSecurityDeployed;
  String? vendorId;
  String? guardingVendorPoc;
  int? securityOfficerCount;
@@ -168,7 +166,7 @@ class EventProtectionGi {
     this.entities,
     this.status,
     this.modifiedBy,
-    this.annualPowerShutdown,
+    this.annualPowerShutdown = false,
     this.eventStartDate,
     this.eventEndDate,
     this.epManager1,
@@ -193,7 +191,7 @@ class EventProtectionGi {
     this.systemVendor1ContactNo,
     this.systemVendor2ContactNo,
     this.systemVendor3ContactNo,
-    this.extraSecurityDeployed,
+    this.extraSecurityDeployed =false,
     this.vendorId,
     this.guardingVendorPoc,
     this.securityOfficerCount,
@@ -218,7 +216,7 @@ class EventProtectionGi {
         entities = (json['entities'] as List?)?.map((dynamic e) => Entity.fromJson(e as Map<String,dynamic>)).toList(),
         status = json['status'] as int?,
         modifiedBy = json['modifiedBy'] as String?,
-        annualPowerShutdown = json['annualPowerShutdown'] as bool?,
+        annualPowerShutdown = json['annualPowerShutdown'] as bool,
         eventStartDate = json['eventStartDate'] as String?,
         eventEndDate = json['eventEndDate'] as String?,
         epManager1 = (json['epManager1'] as Map<String,dynamic>?) != null ? GetUserDetails.fromJson(json['epManager1'] as Map<String,dynamic>) : null,
@@ -243,7 +241,7 @@ class EventProtectionGi {
         systemVendor1ContactNo = json['systemVendor1ContactNo'] as String?,
         systemVendor2ContactNo = json['systemVendor2ContactNo'] as String?,
         systemVendor3ContactNo = json['systemVendor3ContactNo'] as String?,
-        extraSecurityDeployed = json['extraSecurityDeployed'] as bool?,
+        extraSecurityDeployed = json['extraSecurityDeployed'] as bool,
         vendorId = json['vendorId'] as String?,
         guardingVendorPoc = json['guardingVendorPoc'] as String?,
         securityOfficerCount = json['securityOfficerCount'] as int?,
