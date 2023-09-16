@@ -47,7 +47,7 @@ class EventProtectionDetails extends StatelessWidget {
                       showGuardInfo = showGuardInfoResponse.showGuardInfo;
                     }
                     nav.pushNamed(
-                      generalInfoTilesViewRoute,
+                      generalInfoGIRoute, // change it
                       arguments: {
                         'id': id,
                         'showGuardInfo': showGuardInfo,

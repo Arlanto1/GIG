@@ -47,9 +47,38 @@ class GeneralInfoState extends Equatable {
   }
 
   ErrorResponse get isValid {
-  if (model.status == null) {
+    if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
+    if (model.entities == null || model.entities!.isEmpty) {
+      return const ErrorResponse(status: false, message: 'Please add Entities');
+    }
+
+    if (model.lsm1 == null) {
+      return const ErrorResponse(
+          status: false, message: 'Event Location Security Manager 1');
+    }
+
+    if (model.lsm2 == null) {
+      return const ErrorResponse(
+          status: false, message: 'Event Location Security Manager 2');
+    }
+
+    if (model.bu1 == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter Event Business POC 1');
+    }
+
+    if (model.bu2 == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter Event Business POC 2');
+    }
+
+    if (model.requesterDepartment == null) {
+      return const ErrorResponse(
+          status: false, message: 'Enter Requester Department');
+    }
+
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }

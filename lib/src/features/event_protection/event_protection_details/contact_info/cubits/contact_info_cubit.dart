@@ -78,7 +78,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
     try {
       ContactInfoModel model = ContactInfoModel();
       if(id.isNotEmpty) {
-        model = await services.getCI(id);
+        // model = await services.getCI(id);
       }
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');

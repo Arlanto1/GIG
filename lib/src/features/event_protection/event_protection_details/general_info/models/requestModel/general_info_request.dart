@@ -11,12 +11,12 @@ class GeneralInfoRequest {
 
   GeneralInfoRequest.fromJson(Map<String, dynamic> json) {
     eventProtectionGi =
-        EventProtectionGi.fromJson(json['eventProtectionGi']);
+        EventProtectionGi.fromJson(json['epGi']);
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['eventProtectionGi'] = eventProtectionGi.toJson();
+    _data['epGi'] = eventProtectionGi.toJson();
     return _data;
   }
 }

@@ -42,16 +42,17 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   }) : super(
           GeneralInfoState.initial(
             model: EventProtectionGi(),
-              locations: GetLocations(),
-              users: const [],
-              emailUsers: const [],
-              errorMessage: '',
-              loadAttachments: const [],
-              eventId: null,
-              listOfEntities: const [],
-              getEntitiesResponse: null,
-              departments: const [], loggedInUserDetails: null,
-              ),
+            locations: GetLocations(),
+            users: const [],
+            emailUsers: const [],
+            errorMessage: '',
+            loadAttachments: const [],
+            eventId: null,
+            listOfEntities: const [],
+            getEntitiesResponse: null,
+            departments: const [],
+            loggedInUserDetails: null,
+          ),
         );
 
   void onModelValueChange(EventProtectionGi eventProtectionGi) {
@@ -64,6 +65,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
 
     emit(state.copyWith(model: eventProtectionGi, status: FormStatus.initial));
   }
+
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     //Show Loader and emit loading state
@@ -75,7 +77,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     var userId = await SharedPrefs.getUserId();
     try {
       EventProtectionGi eventProtectionGi = EventProtectionGi();
-      if(id.isNotEmpty) {
+      if (id.isNotEmpty) {
         eventProtectionGi = await services.getGI(id);
       }
       GetLocations getLocationsData =
@@ -88,11 +90,10 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       GetDepositor emailUsers =
-      await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
-
+          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
       // Get Date of Creation
-      state.model.inputDate = Utils().getCurrentDate() ;
+      state.model.inputDate = Utils().getCurrentDate();
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
@@ -100,7 +101,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       List<GetUserDetails> entrySecurities = await commonServices.getUsers();
 
       EmployeeDepartments departments =
-      await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+          await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
       emit(
         state.copyWith(
@@ -131,31 +132,49 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   Future<void> updateDropdownValues({
     List<Entity>? entities,
     Location? location,
-   // BaseUser? user,
+    // BaseUser? user,
     Department? vendor,
     Entity? entity,
     int? status,
     //GetUserDetails? user,
     Department? requesterDepartment,
-    GetUserDetails? bu1,
-    GetUserDetails? bu2,
+    BaseUser? bu1,
+    BaseUser? bu2,
     Department? bu1Dept,
     Department? bu2Dept,
     GetUserDetails? subRegionalHead1,
     GetUserDetails? subRegionalHead2,
-    GetUserDetails? epManager1,
-    GetUserDetails? epManager2,
-    GetUserDetails? locationSecurityManager1,
-    GetUserDetails? locationSecurityManager2,
+    BaseUser? epManager1,
+    BaseUser? epManager2,
+    BaseUser? locationSecurityManager1,
+    BaseUser? locationSecurityManager2,
     BaseUser? epOfficers,
     List<Department>? proposedVendors,
-
   }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
+
+    if (epManager1 != null) {
+      GetUserDetails userDetails = GetUserDetails(
+        name: epManager1.name,
+        userId: epManager1.id,
+        userName: epManager1.name,
+      );
+      state.model.epManager1 = userDetails;
+    }
+
+    if (epManager2 != null) {
+      GetUserDetails userDetails = GetUserDetails(
+        name: epManager2.name,
+        userId: epManager2.id,
+        userName: epManager2.name,
+      );
+      state.model.epManager2 = userDetails;
+    }
+
     ////Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -173,55 +192,66 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.entities = entities;
     }
 
-       state.model.requesterDepartment =
-         requesterDepartment ?? state.model.requesterDepartment;
+    state.model.requesterDepartment =
+        requesterDepartment ?? state.model.requesterDepartment;
 
+    if (bu1 != null) {
+      GetUserDetails userDetails = GetUserDetails(
+        name: bu1.name,
+        userId: bu1.id,
+        userName: bu1.name,
+      );
+      state.model.bu1 = userDetails;
+    }
 
-    state.model.bu1 = bu1 ?? state.model.bu1;
-    state.model.bu2 = bu2 ?? state.model.bu2;
-    state.model.bu1Dept =
-        bu1Dept ?? state.model.bu1Dept;
+    if (bu2 != null) {
+      GetUserDetails userDetails = GetUserDetails(
+        name: bu2.name,
+        userId: bu2.id,
+        userName: bu2.name,
+      );
+      state.model.bu2 = userDetails;
+    }
+    // state.model.bu1 = bu1 ?? state.model.bu1;
+    // state.model.bu2 = bu2 ?? state.model.bu2;
+    state.model.bu1Dept = bu1Dept ?? state.model.bu1Dept;
 
-    state.model.bu2Dept =
-        bu2Dept ?? state.model.bu2Dept;
+    state.model.bu2Dept = bu2Dept ?? state.model.bu2Dept;
 
     if (subRegionalHead1 != null) {
       GetUserDetails userDetails = GetUserDetails(
-          name: subRegionalHead1.name, userId: subRegionalHead1.userId, userName: subRegionalHead1.name);
+          name: subRegionalHead1.name,
+          userId: subRegionalHead1.userId,
+          userName: subRegionalHead1.name);
       state.model.srh1 = userDetails;
     }
     if (subRegionalHead2 != null) {
       GetUserDetails userDetails = GetUserDetails(
-          name: subRegionalHead2.name, userId: subRegionalHead2.userId, userName: subRegionalHead2.name);
+          name: subRegionalHead2.name,
+          userId: subRegionalHead2.userId,
+          userName: subRegionalHead2.name);
       state.model.srh2 = userDetails;
     }
     if (locationSecurityManager1 != null) {
       GetUserDetails userDetails = GetUserDetails(
-          name: locationSecurityManager1.name, userId: locationSecurityManager1.userId, userName: locationSecurityManager1.name);
+          name: locationSecurityManager1.name,
+          userId: locationSecurityManager1.id,
+          userName: locationSecurityManager1.name);
       state.model.lsm1 = userDetails;
     }
     if (locationSecurityManager2 != null) {
       GetUserDetails userDetails = GetUserDetails(
-          name: locationSecurityManager2.name, userId: locationSecurityManager2.userId, userName: locationSecurityManager2.name);
+          name: locationSecurityManager2.name,
+          userId: locationSecurityManager2.id,
+          userName: locationSecurityManager2.name);
       state.model.lsm2 = userDetails;
-    }
-
-    if (bu1 != null) {
-      GetUserDetails userDetails = GetUserDetails(
-          name: bu1.name, userId: bu1.userId, userName: bu1.name);
-      state.model.bu1 = userDetails;
-    }
-    if (bu2 != null) {
-      GetUserDetails userDetails = GetUserDetails(
-          name: bu2.name, userId: bu2.userId, userName: bu2.name);
-      state.model.bu2 = userDetails;
     }
 
     if (epOfficers != null) {
       state.model.epOfficers = epOfficers.email;
     }
 
-
+    log('-state.model.epManager1.name--${state.model.epManager1?.name}-------');
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
@@ -231,7 +261,6 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   void addAttachment({
     List<CreateImage>? data,
     List<CreateImage>? guardImages,
-
   }) async {
     emit(
       state.copyWith(
@@ -263,8 +292,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   }
 
   void showFields({
-     bool? annualPowerShutdown,
-
+    bool? annualPowerShutdown,
   }) {
     emit(
       state.copyWith(
@@ -272,8 +300,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       ),
     );
     if (annualPowerShutdown != null) {
-      state.model.annualPowerShutdown =
-          annualPowerShutdown;
+      state.model.annualPowerShutdown = annualPowerShutdown;
     }
     emit(state.copyWith(
       model: state.model,
@@ -297,16 +324,19 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
 
     /// Create/Update API Call
     GeneralInfoRequest request =
-    GeneralInfoRequest(eventProtectionGi:state.model);
+        GeneralInfoRequest(eventProtectionGi: state.model);
 
+    log('--isSaveOnly----$isSaveOnly--');
     GenericCreateResponse response = GenericCreateResponse();
     try {
       if (isSaveOnly) {
         response = (await services.createEventGeneralInfo(
-           body: request, isSubmit: false, ));
+          body: request,
+          isSubmit: false,
+        ));
       } else {
-        //Validating Fields
         if (!state.isValid.status) {
+          log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -315,8 +345,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           );
           return;
         }
-         response = (await services.createEventGeneralInfo(
-             body: request, isSubmit: true));
+        response = (await services.createEventGeneralInfo(
+            body: request, isSubmit: true));
       }
     } on Exception catch (e) {
       emit(
