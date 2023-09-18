@@ -92,10 +92,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
-      log('-Utils().getCurrentDate()----${Utils().getCurrentDate()}----');
       // Get Date of Creation
       model.inputDate = Utils().getCurrentDate();
-      log('-Utils().getCurrentDate()---cubit inputdate-${model.inputDate}----');
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');

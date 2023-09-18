@@ -41,15 +41,27 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
     super.dispose();
   }
 
+  // void _onScroll() {
+  //   if (!_scrollController.hasClients) return;
+  //   final maxScroll = _scrollController.position.maxScrollExtent;
+  //   final currentScroll = _scrollController.position.pixels;
+  //
+  //   // Set a threshold value, e.g., 100 pixels from the end
+  //   const threshold = 1000.0;
+  //
+  //   if (maxScroll - currentScroll <= threshold) {
+  //     pageNumber = pageNumber + 20;
+  //     context
+  //         .read<EventProtectionsBloc>()
+  //         .add(InwardFetch(startPos: pageNumber, maxPos: 20));
+  //   }
+  // }
+
   void _onScroll() {
     if (!_scrollController.hasClients) return;
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
-
-    // Set a threshold value, e.g., 100 pixels from the end
-    const threshold = 1500.0;
-
-    if (maxScroll - currentScroll <= threshold) {
+    if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context
           .read<EventProtectionsBloc>()

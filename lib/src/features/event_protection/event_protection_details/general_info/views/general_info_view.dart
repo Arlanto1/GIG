@@ -35,10 +35,7 @@ import '../../../../../utils/util.dart';
 import '../cubits/general_info_cubit.dart';
 
 class GeneralInfoView extends StatefulWidget {
-  // final EventProtectionGi? model;
-
   const GeneralInfoView({
-    // this.model,
     super.key,
   });
 
@@ -83,9 +80,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
+              Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
-                generalInfoGIRoute,
+                eventProtectionListRoute,
                 arguments: {},
               );
             },
@@ -138,8 +136,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
           int.tryParse(state.model.eventEndDate ?? '0'), Constants.dateFormat);
     }
   }
-  getBodybuilder(GeneralInfoState state, height) {
 
+  getBodybuilder(GeneralInfoState state, height) {
     log('--creation Date-${state.model.inputDate}----------');
     initializeDates(state);
     if (state.status == FormStatus.loading) {

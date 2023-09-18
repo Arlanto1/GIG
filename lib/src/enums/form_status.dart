@@ -10,3 +10,9 @@ enum FormStatus {
   createArticleFound,
   invalidEmail,
 }
+
+enum NavPop {
+  none,
+  onePop,
+  doublePop,
+}
