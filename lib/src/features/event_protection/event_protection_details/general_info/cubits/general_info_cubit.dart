@@ -76,9 +76,9 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      EventProtectionGi eventProtectionGi = EventProtectionGi();
+      EventProtectionGi model = EventProtectionGi();
       if (id.isNotEmpty) {
-        eventProtectionGi = await services.getGI(id);
+        model = await services.getGI(id);
       }
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
@@ -92,8 +92,10 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
+      log('-Utils().getCurrentDate()----${Utils().getCurrentDate()}----');
       // Get Date of Creation
-      state.model.inputDate = Utils().getCurrentDate();
+      model.inputDate = Utils().getCurrentDate();
+      log('-Utils().getCurrentDate()---cubit inputdate-${model.inputDate}----');
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
@@ -105,7 +107,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
 
       emit(
         state.copyWith(
-          model: eventProtectionGi,
+          model: model,
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,

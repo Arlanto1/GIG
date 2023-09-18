@@ -33,13 +33,12 @@ import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
 import '../../../../../utils/util.dart';
 import '../cubits/general_info_cubit.dart';
-import '../models/general_info_model.dart';
 
 class GeneralInfoView extends StatefulWidget {
-  final EventProtectionGi? model;
+  // final EventProtectionGi? model;
 
   const GeneralInfoView({
-    this.model,
+    // this.model,
     super.key,
   });
 
@@ -126,19 +125,23 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-  void initializeDates() {
-    log('--sdd--${widget.model?.eventStartDate}-------');
-    log('--sdd-eventEndDate-${widget.model?.eventEndDate}-------');
-    eventStartDateController.text = Utils.timestamptoDateConversion(
-        int.tryParse(widget.model?.eventStartDate ?? '0'),
-        Constants.dateFormat);
-
-    eventEndDateController.text = Utils.timestamptoDateConversion(
-        int.tryParse(widget.model?.eventEndDate ?? '0'), Constants.dateFormat);
+  void initializeDates(GeneralInfoState state) {
+    log('--sdd--${state.model.eventStartDate}-------');
+    log('--sdd-eventEndDate-${state.model.eventEndDate}-------');
+    if (state.model.eventStartDate != null) {
+      eventStartDateController.text = Utils.timestamptoDateConversion(
+          int.tryParse(state.model.eventStartDate ?? '0'),
+          Constants.dateFormat);
+    }
+    if (state.model.eventEndDate != null) {
+      eventEndDateController.text = Utils.timestamptoDateConversion(
+          int.tryParse(state.model.eventEndDate ?? '0'), Constants.dateFormat);
+    }
   }
-
   getBodybuilder(GeneralInfoState state, height) {
-    initializeDates();
+
+    log('--creation Date-${state.model.inputDate}----------');
+    initializeDates(state);
     if (state.status == FormStatus.loading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -307,7 +310,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               status: state.model.status ?? 0,
                               selectedValue:
                                   state.model.annualPowerShutdown ? 1 : 0,
-                              onChangedYes: widget.model?.status == 6
+                              onChangedYes: state.model.status == 6
                                   ? null
                                   : (val) {
                                       state.model.annualPowerShutdown = true;
@@ -317,7 +320,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       //.onModelValueChange(state.guardingMasterData
                                       //);
                                     },
-                              onChangedNo: widget.model?.status == 4
+                              onChangedNo: state.model.status == 4
                                   ? null
                                   : (val) {
                                       state.model.annualPowerShutdown = false;

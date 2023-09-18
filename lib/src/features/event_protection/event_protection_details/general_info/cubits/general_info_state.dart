@@ -54,6 +54,14 @@ class GeneralInfoState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please add Entities');
     }
 
+    if (model.eventStartDate == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Event Start Date');
+    }
+
+    if (model.eventEndDate == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Event End Date');
+    }
+
     if (model.lsm1 == null) {
       return const ErrorResponse(
           status: false, message: 'Event Location Security Manager 1');
