@@ -59,7 +59,7 @@ class EventProtectionDetails extends StatelessWidget {
                     height: height,
                   ),
                 ),
-                if (eventStatus >= 0/*21*/) ...[
+                if (eventStatus >= 21) ...[
                   InkWell(
                     onTap: () {
                       Navigator.pushNamed(
@@ -79,7 +79,7 @@ class EventProtectionDetails extends StatelessWidget {
                     ),
                   ),
                 ],
-                if (eventStatus >= 0/*22*/) ...[
+                if (eventStatus >= 22) ...[
                   InkWell(
                     onTap: () {
                       Navigator.pushNamed(
@@ -99,7 +99,7 @@ class EventProtectionDetails extends StatelessWidget {
                     ),
                   ),
                 ],
-                if (eventStatus >= 0/*23*/) ...[
+                if (eventStatus >= 23) ...[
                   InkWell(
                     onTap: () {
                       Navigator.pushNamed(
