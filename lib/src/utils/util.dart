@@ -481,16 +481,13 @@ class Utils {
         statusText = ''; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status: ', statusText),
-        ],
-      ),
+      child: textHandling('Status: ', statusText),
     );
   }
 
   Widget textHandling(String title, String desc) {
     return RichText(
+      overflow: TextOverflow.ellipsis,
       text: TextSpan(
         style: Styles.textStyleRegularNormalGrey14,
         children: <TextSpan>[
