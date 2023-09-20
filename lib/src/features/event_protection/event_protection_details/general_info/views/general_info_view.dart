@@ -941,7 +941,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             ]),
                           ],
 
-                          if (state.model.extraSecurityDeployed) ...[
+                          if (state.model.annualPowerShutdown && state.model.extraSecurityDeployed) ...[
                             ///Vendor Id
                             CommonWidgets.textDisplay(
                                 Constants.guardingVendorId,
