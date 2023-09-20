@@ -88,6 +88,8 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
           title: Constants.eventProtectionTitle,
           showPopUp: true,
           showSaveButton: false,
+          excelAPIName: 'exportEPExcel',
+          pdfAPIName: 'exportEPPDF',
         ),
         body: BlocBuilder<EventProtectionsBloc, EventProtectionsState>(
             builder: (context, state) {

@@ -17,6 +17,8 @@ class BaseAppBar {
     Function? onTapSave,
     bool? showAddButton,
     Function? onTapAddButton,
+    String? excelAPIName,
+    String? pdfAPIName,
   }) {
     return AppHeader(
       isTitleCenter: false,
@@ -42,10 +44,10 @@ class BaseAppBar {
               print(value);
               if (value == 0) {
                 DownloadImage().exportExcel(context, int.parse(userid),
-                    'export.xslx', 0, 20, '/exportLEOExcel');
+                    'export.xslx', 0, 20, '/$excelAPIName');
               } else if (value == 1) {
                 DownloadImage().exportPdf(context, int.parse(userid),
-                    'export.pdf', 0, 20, '/exportLEOPDF');
+                    'export.pdf', 0, 20, '/$pdfAPIName');
               }
             },
             popupimagename: AppIcon.morewhiteicon,

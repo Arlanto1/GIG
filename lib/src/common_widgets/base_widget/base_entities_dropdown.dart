@@ -15,6 +15,7 @@ class BaseEntitiesSelection {
     required List<Entity> selectedValues,
     required List<Entity> all,
     required dynamic Function(List<Entity>) onTap,
+    bool enabled= true,
   }) {
     String title = '';
     if (selectedValues.isNotEmpty) {
@@ -35,14 +36,16 @@ class BaseEntitiesSelection {
           ? 140
           : 100
           : 60,
-      isDisableColor: false,
+      isDisableColor: !enabled,
       onTap: () {
-        _showEntitySelectionDialog(
-          context: context,
-          all: all,
-          selectedValues: selectedValues,
-          onTap: onTap,
-        );
+        if(enabled) {
+          _showEntitySelectionDialog(
+            context: context,
+            all: all,
+            selectedValues: selectedValues,
+            onTap: onTap,
+          );
+        }
       },
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/models/entity.dart';
 import 'package:flutter/material.dart';
 
@@ -42,10 +44,15 @@ class BaseDepartmentDialog {
     List<BaseUser>? users,
     List<Entity>? entities,
     required Function onTap,
+    bool enabled= true,
+
   }) {
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
+
+
+          log('-enabled--$enabled-');
           return CustomListTexts(
               duplicatedepostorList: users,
               duplicateentityList: entities,
@@ -61,7 +68,7 @@ class BaseDepartmentDialog {
                       );
                     });
               },
-              onTap: onTap);
+              onTap:enabled? onTap:null);
         });
   }
 }

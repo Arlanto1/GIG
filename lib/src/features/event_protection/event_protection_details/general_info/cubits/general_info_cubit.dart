@@ -64,6 +64,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     emit(state.copyWith(model: eventProtectionGi, status: FormStatus.loading));
 
     emit(state.copyWith(model: eventProtectionGi, status: FormStatus.initial));
+    log('--eventProtectionGi---${eventProtectionGi.epOfficers}-');
   }
 
   Future<void> initializeValues() async {
@@ -149,7 +150,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     BaseUser? locationSecurityManager1,
     BaseUser? locationSecurityManager2,
     BaseUser? epOfficers,
-    List<Department>? proposedVendors,
+    Department? proposedVendor,
   }) async {
     emit(
       state.copyWith(
@@ -175,6 +176,10 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.epManager2 = userDetails;
     }
 
+    if(proposedVendor != null) {
+      state.model.proposedVendors??=[];
+      state.model.proposedVendors?.add(proposedVendor);
+    }
     ////Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -245,10 +250,6 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           userId: locationSecurityManager2.id,
           userName: locationSecurityManager2.name);
       state.model.lsm2 = userDetails;
-    }
-
-    if (epOfficers != null) {
-      state.model.epOfficers = epOfficers.email;
     }
 
     log('-state.model.epManager1.name--${state.model.epManager1?.name}-------');

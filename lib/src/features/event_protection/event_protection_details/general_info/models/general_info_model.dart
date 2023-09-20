@@ -131,7 +131,7 @@ class EventProtectionGi {
  GetUserDetails? bu2;
  String? bu2ContactNo;
  Department? requesterDepartment;
- String? epOfficers;
+ List<String>? epOfficers;
  GetUserDetails? srh1;
  GetUserDetails? srh2;
  Department? bu1Dept;
@@ -230,7 +230,7 @@ class EventProtectionGi {
         bu2 = (json['bu2'] as Map<String,dynamic>?) != null ? GetUserDetails.fromJson(json['bu2'] as Map<String,dynamic>) : null,
         bu2ContactNo = json['bu2ContactNo'] as String?,
         requesterDepartment = (json['requesterDepartment'] as Map<String,dynamic>?) != null ? Department.fromJson(json['requesterDepartment'] as Map<String,dynamic>) : null,
-        epOfficers = json['epOfficers'] as String?,
+        epOfficers = (json['epOfficers'] as List?)?.map((dynamic e) => e as String).toList(),
         srh1 = (json['srh1'] as Map<String,dynamic>?) != null ? GetUserDetails.fromJson(json['srh1'] as Map<String,dynamic>) : null,
         srh2 = (json['srh2'] as Map<String,dynamic>?) != null ? GetUserDetails.fromJson(json['srh2'] as Map<String,dynamic>) : null,
         bu1Dept = (json['bu1Dept'] as Map<String,dynamic>?) != null ? Department.fromJson(json['bu1Dept'] as Map<String,dynamic>) : null,

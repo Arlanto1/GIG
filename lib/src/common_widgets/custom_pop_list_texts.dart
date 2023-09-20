@@ -500,7 +500,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: VisualDensity(vertical: 0),
+                  visualDensity: const VisualDensity(vertical: 0),
                   leading: (widget.imagename != null && widget.imagename != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
@@ -538,7 +538,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  visualDensity: const VisualDensity(vertical: 0), // to expand
                   leading: (widget.imagename != null && widget.imagename != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
@@ -576,7 +576,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  visualDensity: const VisualDensity(vertical: 0), // to expand
                   leading: (widget.imagename != null && widget.imagename != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
@@ -618,7 +618,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  visualDensity: const VisualDensity(vertical: 0), // to expand
                   leading: (widget.imagename != null && widget.imagename != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
@@ -657,7 +657,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  visualDensity: const VisualDensity(vertical: 0), // to expand
                   leading: (widget.imagename != null && widget.imagename != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
@@ -695,7 +695,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  visualDensity: const VisualDensity(vertical: 0), // to expand
                   leading: (widget.imagename != null && widget.imagename != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
@@ -736,7 +736,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                       ? 20
                       : 0,
                   dense: true,
-                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  visualDensity: const VisualDensity(vertical: 0), // to expand
                   leading: (widget.imagename != null && widget.imagename != '')
                       ? SvgPicture.asset(
                     //AppIcon.dropdownicon,
@@ -777,7 +777,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  visualDensity: const VisualDensity(vertical: 0), // to expand
                   leading: (widget.imagename != null && widget.imagename != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
@@ -816,7 +816,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  visualDensity: const VisualDensity(vertical: 0), // to expand
                   leading: (widget.imagename != null && widget.imagename != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
@@ -855,7 +855,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  visualDensity: const VisualDensity(vertical: 0), // to expand
                   leading: (widget.imagename != null && widget.imagename != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
@@ -894,7 +894,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  visualDensity: const VisualDensity(vertical: 0), // to expand
                   leading: (widget.imagename != null && widget.imagename != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
@@ -934,7 +934,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  visualDensity: const VisualDensity(vertical: 0), // to expand
                   leading: (widget.imagename != null && widget.imagename != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
