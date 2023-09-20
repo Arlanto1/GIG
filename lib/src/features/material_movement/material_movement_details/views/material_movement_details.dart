@@ -370,7 +370,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 SizedBox(
-                                  width: 250,
+                                  width: 220,
                                   child: FlutterInputField(
                                     keyboardType:
                                         const TextInputType.numberWithOptions(

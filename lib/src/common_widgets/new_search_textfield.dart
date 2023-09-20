@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 
 class FlutterInputField extends StatelessWidget {
@@ -25,6 +24,7 @@ class FlutterInputField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final FocusNode? focusnode;
   final String? initialValue;
+  final String? labelText;
 
   const FlutterInputField({
     Key? key,
@@ -49,6 +49,7 @@ class FlutterInputField extends StatelessWidget {
     this.onfieldSubmitted,
     this.focusnode,
     this.initialValue,
+    this.labelText,
   }) : super(key: key);
 
   @override
@@ -62,33 +63,42 @@ class FlutterInputField extends StatelessWidget {
       enabled: isEnable,
       maxLines: lineHeight,
       autofocus: autoFocus!,
+
       keyboardType: keyboardType,
       focusNode: focusnode,
+
       decoration: InputDecoration(
-        fillColor: (isDisableColor ?? false) ? AppColors.disabletextfieldBackground:AppColors.enabletextfieldBackground,
-        filled: true,
-        border: OutlineInputBorder(),
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color(0xFFCACACA), width: 1.0),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        enabledBorder: OutlineInputBorder(
-          //<-- SEE HERE
-          borderSide: const BorderSide(color: Color(0xFFCACACA), width: 1.0),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        disabledBorder: OutlineInputBorder(
-          //<-- SEE HERE
-          borderSide: const BorderSide(color: Color(0xFFCACACA), width: 1.0),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        hintText: hintText,
-        prefixIcon: prefixWidget,
-        suffixIcon: suffixWidget,
-        hintStyle: TextStyle(
-          fontSize: hintFontSize,
+        labelText: labelText,
+        labelStyle: const TextStyle(color: Colors.grey), // Initial label color
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue), // Color when focused
         ),
       ),
+      // decoration: InputDecoration(
+      //   fillColor: (isDisableColor ?? false) ? AppColors.disabletextfieldBackground:AppColors.enabletextfieldBackground,
+      //   filled: true,
+      //   border: OutlineInputBorder(),
+      //   focusedBorder: OutlineInputBorder(
+      //     borderSide: const BorderSide(color: Color(0xFFCACACA), width: 1.0),
+      //     borderRadius: BorderRadius.circular(8.0),
+      //   ),
+      //   enabledBorder: OutlineInputBorder(
+      //     //<-- SEE HERE
+      //     borderSide: const BorderSide(color: Color(0xFFCACACA), width: 1.0),
+      //     borderRadius: BorderRadius.circular(8.0),
+      //   ),
+      //   disabledBorder: OutlineInputBorder(
+      //     //<-- SEE HERE
+      //     borderSide: const BorderSide(color: Color(0xFFCACACA), width: 1.0),
+      //     borderRadius: BorderRadius.circular(8.0),
+      //   ),
+      //   hintText: hintText,
+      //   prefixIcon: prefixWidget,
+      //   suffixIcon: suffixWidget,
+      //   hintStyle: TextStyle(
+      //     fontSize: hintFontSize,
+      //   ),
+      // ),
       onChanged: (String str) {
         onChange(str);
       },
@@ -100,8 +110,8 @@ class FlutterInputField extends StatelessWidget {
         onTap != null ? onTap!() : null;
       },
       onFieldSubmitted: (value) {
-         onfieldSubmitted != null ? onfieldSubmitted!(value) : null;
-           //onfieldSubmitted!(value);
+        onfieldSubmitted != null ? onfieldSubmitted!(value) : null;
+        //onfieldSubmitted!(value);
       },
       onEditingComplete: () {
         FocusScope.of(context).unfocus();

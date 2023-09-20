@@ -109,7 +109,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
             context: context,
             title: Constants.generalInformation,
             showPopUp: false,
-            showSaveButton: state.model.status != 4 ? true : false,
+            showSaveButton: state.model.status == 0 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<GeneralInfoCubit>(context)
@@ -137,11 +137,23 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
     }
   }
 
+  bool disableForm = false;
   getBodybuilder(GeneralInfoState state, height) {
     log('--creation Date-${state.model.inputDate}----------');
     initializeDates(state);
     if (state.status == FormStatus.loading) {
       return const Center(child: CircularProgressIndicator());
+    }
+
+    log('--state.model-----${state.model.status}----------');
+
+    if(state.model.status == null) {
+      log('--state.model--2---${state.model.status}----------');
+      state.model.status = 0;
+    }
+    log('--state.model---3--${state.model.status}----------');
+    if(state.model.status!>0) {
+      disableForm = true;
     }
 
     return Container(
@@ -162,7 +174,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                   )),
               child: Form(
                 key: _formKey,
-                autovalidateMode: state.model.status == 4
+                autovalidateMode: disableForm
                     ? AutovalidateMode.disabled
                     : AutovalidateMode.onUserInteraction,
                 child: Column(
@@ -501,6 +513,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               Constants.lsm2ContactNo, Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
+                            // labelText: Constants.lsm2ContactNo,
                             keyboardType: TextInputType.number,
                             initialValue: state.model.lsm2ContactNo,
                             textFormKey: Keys.lsm2ContactNOKey,
@@ -1225,12 +1238,15 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                       ),
 
                       /// SubmitButton
-                      if (state.model.status != 4) ...[
+                      if (disableForm) ...[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             cancelButtonDisplay(),
-                            submitButtonDisplay()
+                            if(state.model.status == 0)...[
+                              submitButtonDisplay()
+
+                            ],
                           ],
                         ),
                       ],
