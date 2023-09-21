@@ -31,6 +31,7 @@ class CreateFoundRequestBody {
 
 class Found {
   String? slNo;
+  int? eventProtection;
   int? typeOfAsset;
   int? id;
   TypeOfArticle? typeOfArticle;
@@ -57,41 +58,41 @@ class Found {
   bool? claimantNoSign;
   bool? claimantConfirmByEmail;
   int? claimantEmployeeId;
- 
 
-  Found({
-    this.slNo,
-    this.id,
-    this.typeOfAsset,
-    this.typeOfArticle,
-    this.foundLocation,
-    this.additionalInformation,
-    this.quantity,
-    this.claimantEmployeeId,
-    this.color,
-    this.depositorDbEmp,
-    this.inputDate,
-    this.foundDate,
-    this.entrySecurity,
-    this.location,
-    this.depositor,
-    this.images,
-    this.status,
-    this.depositorDepartment,
-    this.depositorName,
-    this.employeeId,
-    this.claimant,
-    this.claimantDepartment,
-    this.handoverSecurity,
-    this.claimantDbEmp,
-    this.claimantNoSign,
-    this.handoverDate,
-    this.claimantConfirmByEmail
-  });
+  Found(
+      {this.slNo,
+      this.eventProtection,
+      this.id,
+      this.typeOfAsset,
+      this.typeOfArticle,
+      this.foundLocation,
+      this.additionalInformation,
+      this.quantity,
+      this.claimantEmployeeId,
+      this.color,
+      this.depositorDbEmp,
+      this.inputDate,
+      this.foundDate,
+      this.entrySecurity,
+      this.location,
+      this.depositor,
+      this.images,
+      this.status,
+      this.depositorDepartment,
+      this.depositorName,
+      this.employeeId,
+      this.claimant,
+      this.claimantDepartment,
+      this.handoverSecurity,
+      this.claimantDbEmp,
+      this.claimantNoSign,
+      this.handoverDate,
+      this.claimantConfirmByEmail});
 
   factory Found.fromJson(Map<String, dynamic> json) => Found(
         slNo: json["slNo"],
-         id: json["id"],
+        eventProtection: json["eventProtection"],
+        id: json["id"],
         typeOfAsset: json["typeOfAsset"],
         typeOfArticle: json["typeOfArticle"] == null
             ? null
@@ -140,7 +141,8 @@ class Found {
 
   Map<String, dynamic> toJson() => {
         "slNo": slNo,
-        "id":id,
+        "eventProtection": eventProtection,
+        "id": id,
         "typeOfAsset": typeOfAsset,
         "typeOfArticle": typeOfArticle?.toJson(),
         "foundLocation": foundLocation,
@@ -167,7 +169,7 @@ class Found {
         "claimant": claimant?.toJson(),
         "claimantDepartment": claimantDepartment?.toJson(),
         "handoverSecurity": handoverSecurity?.toJson(),
-        "claimantConfirmByEmail":claimantConfirmByEmail
+        "claimantConfirmByEmail": claimantConfirmByEmail
       };
 }
 

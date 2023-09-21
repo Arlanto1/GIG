@@ -62,6 +62,10 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
               state.message ?? 'Invalid Information',
             );
           }
+
+          if (state.status == FormStatus.success) {
+            Navigator.pop(context);
+          }
         },
         builder: (context, state) {
           return Container(

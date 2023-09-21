@@ -16,11 +16,8 @@ import 'package:db_atom/src/features/createfound/controllers/create_found_cubit.
 import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_submit_model.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
@@ -29,28 +26,29 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/customalert.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
+import 'package:db_atom/src/utils/network_handler.dart' as network_handler;
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:db_atom/src/utils/network_handler.dart' as network_handler;
 
 import '../../../models/base_user.dart';
 import '../../../models/department.dart';
 import '../../../models/entry_security.dart';
 
-class Createfound extends StatefulWidget {
-  FoundListArticleDetails? listuser;
+class CreateFound extends StatefulWidget {
+  final FoundListArticleDetails? listuser;
+  final int? eventId;
 
-  Createfound({super.key, this.listuser});
+  const CreateFound({super.key, this.listuser, this.eventId});
 
   @override
-  State<Createfound> createState() => _CreatefoundState();
+  State<CreateFound> createState() => _CreateFoundState();
 }
 
-class _CreatefoundState extends State<Createfound> {
+class _CreateFoundState extends State<CreateFound> {
   // Default Radio Button Selected Item When App Starts.
   String radioButtonItem = '';
   String serialNumber = '';
@@ -79,6 +77,7 @@ class _CreatefoundState extends State<Createfound> {
   TextEditingController depositorTextController = TextEditingController();
   TextEditingController claimantTextController = TextEditingController();
   String isDepositorDBEmployee = "";
+
   // String slnoValue = "dfwe";
   String createdByValue = "";
   String itemhandoverByValue = "";
@@ -101,7 +100,7 @@ class _CreatefoundState extends State<Createfound> {
   void initState() {
     super.initState();
     if (widget.listuser != null) {
-      editCreatefoundItems();  
+      editCreatefoundItems();
     }
     _getFoundArticleList();
     _getCurrentDate();
@@ -110,40 +109,68 @@ class _CreatefoundState extends State<Createfound> {
   editCreatefoundItems() async {
     if (widget.listuser != null) {
       await SharedPrefs.setFoundId(widget.listuser?.id ?? 0);
-      selecteddepositorList = widget.listuser?.depositor != null ? BaseUser(
-          email: widget.listuser?.depositor?.email ?? "",
-          id: widget.listuser?.depositor?.userId ?? 0,
-          name: widget.listuser?.depositor?.name ?? "") : BaseUser();
-      selectedArtclelist = widget.listuser?.typeOfArticle != null ? ArticleList(
-          id: widget.listuser?.typeOfArticle?.id ?? 1,
-          name: widget.listuser?.typeOfArticle?.name ?? "") : ArticleList();
-      userDetails =  widget.listuser?.entrySecurity != null ? EntrySecurity(
-          userId: widget.listuser?.entrySecurity?.userId ?? 1,
-          lastName: widget.listuser?.entrySecurity?.lastName ?? "") : EntrySecurity() ;
-      createdByValue = userDetails?.lastName != null ? userDetails?.lastName ?? '' : '';
-      serialNumber = widget.listuser?.slNo != null ? widget.listuser?.slNo ?? "" : '';
-      locationSelectedlist = widget.listuser?.location != null ? Mumbai(
-          id: widget.listuser?.location?.id ?? 0,
-          name: widget.listuser?.location?.name ?? "") :Mumbai();
-      locationselectedText = locationSelectedlist?.name != null ? locationSelectedlist?.name ?? "": '';
-      quantityTextController.text =  widget.listuser?.quantity != null ? widget.listuser?.quantity.toString() ?? "" : '';
-      colorTextController.text = widget.listuser?.color != null ? widget.listuser?.color.toString() ?? "" : '';
-      foundLocationTextController.text =
-          widget.listuser?.foundLocation !=null ? widget.listuser?.foundLocation.toString() ?? "" : '';
+      selecteddepositorList = widget.listuser?.depositor != null
+          ? BaseUser(
+              email: widget.listuser?.depositor?.email ?? "",
+              id: widget.listuser?.depositor?.userId ?? 0,
+              name: widget.listuser?.depositor?.name ?? "")
+          : BaseUser();
+      selectedArtclelist = widget.listuser?.typeOfArticle != null
+          ? ArticleList(
+              id: widget.listuser?.typeOfArticle?.id ?? 1,
+              name: widget.listuser?.typeOfArticle?.name ?? "")
+          : ArticleList();
+      userDetails = widget.listuser?.entrySecurity != null
+          ? EntrySecurity(
+              userId: widget.listuser?.entrySecurity?.userId ?? 1,
+              lastName: widget.listuser?.entrySecurity?.lastName ?? "")
+          : EntrySecurity();
+      createdByValue =
+          userDetails?.lastName != null ? userDetails?.lastName ?? '' : '';
+      serialNumber =
+          widget.listuser?.slNo != null ? widget.listuser?.slNo ?? "" : '';
+      locationSelectedlist = widget.listuser?.location != null
+          ? Mumbai(
+              id: widget.listuser?.location?.id ?? 0,
+              name: widget.listuser?.location?.name ?? "")
+          : Mumbai();
+      locationselectedText = locationSelectedlist?.name != null
+          ? locationSelectedlist?.name ?? ""
+          : '';
+      quantityTextController.text = widget.listuser?.quantity != null
+          ? widget.listuser?.quantity.toString() ?? ""
+          : '';
+      colorTextController.text = widget.listuser?.color != null
+          ? widget.listuser?.color.toString() ?? ""
+          : '';
+      foundLocationTextController.text = widget.listuser?.foundLocation != null
+          ? widget.listuser?.foundLocation.toString() ?? ""
+          : '';
       additionalinformationTextController.text =
-          widget.listuser?.additionalInformation != null ? widget.listuser?.additionalInformation.toString() ?? "" : '';
-      founddateTextController.text = widget.listuser?.foundDate != null ? Utils.timestamptoDateConversion(
-          int.parse(widget.listuser?.foundDate ?? '0'), Constants.fulldateFormat) : '';
-      dateofcreationTextController.text = widget.listuser?.inputDate != null ? Utils.timestamptoDateConversion(
-          int.parse(widget.listuser?.inputDate ?? '0'), Constants.fulldateFormat) : '';
-      assettypeTextController.text =
-         widget.listuser?.typeOfAsset !=null ? (widget.listuser?.typeOfAsset == 0 ? "Personal"  : "Company" ) : '';
+          widget.listuser?.additionalInformation != null
+              ? widget.listuser?.additionalInformation.toString() ?? ""
+              : '';
+      founddateTextController.text = widget.listuser?.foundDate != null
+          ? Utils.timestamptoDateConversion(
+              int.parse(widget.listuser?.foundDate ?? '0'),
+              Constants.fulldateFormat)
+          : '';
+      dateofcreationTextController.text = widget.listuser?.inputDate != null
+          ? Utils.timestamptoDateConversion(
+              int.parse(widget.listuser?.inputDate ?? '0'),
+              Constants.fulldateFormat)
+          : '';
+      assettypeTextController.text = widget.listuser?.typeOfAsset != null
+          ? (widget.listuser?.typeOfAsset == 0 ? "Personal" : "Company")
+          : '';
       statusTextController.text = widget.listuser?.status == 0
           ? "Found"
           : widget.listuser?.status == 1
               ? "Under Security Custody"
               : "Handover";
-      depositorTextController.text = widget.listuser?.depositorName !=null ? widget.listuser?.depositorName ?? "" : '';
+      depositorTextController.text = widget.listuser?.depositorName != null
+          ? widget.listuser?.depositorName ?? ""
+          : '';
       isDepositorDBEmployeeSelected =
           ((widget.listuser?.depositorDbEmp ?? false) == true) ? 1 : 0;
       isClaimantAcceptedtoSignSelected =
@@ -152,24 +179,49 @@ class _CreatefoundState extends State<Createfound> {
           ((widget.listuser?.claimantConfirmByEmail ?? false) == true) ? 1 : 0;
       isClaimantDBEmployeeSelected =
           ((widget.listuser?.claimantDbEmp ?? false) == true) ? 1 : 0;
-      depositorEmpIdTextController.text = widget.listuser?.employeeId !=null ? widget.listuser?.employeeId ?? '' : '';
-      selectedEmployeedepartment = widget.listuser?.depositorDepartment !=null ? Department(
-          id:widget.listuser?.depositorDepartment?.id ?? 0 , name: widget.listuser?.depositorDepartment?.name ?? '') : Department();
-      getAttachments = widget.listuser?.images != null ? widget.listuser?.images ?? [] :[];
-      claimantDepartmentName = widget.listuser?.claimantDepartmentName !=null ? widget.listuser?.claimantDepartmentName ?? '' :'';
+      depositorEmpIdTextController.text = widget.listuser?.employeeId != null
+          ? widget.listuser?.employeeId ?? ''
+          : '';
+      selectedEmployeedepartment = widget.listuser?.depositorDepartment != null
+          ? Department(
+              id: widget.listuser?.depositorDepartment?.id ?? 0,
+              name: widget.listuser?.depositorDepartment?.name ?? '')
+          : Department();
+      getAttachments =
+          widget.listuser?.images != null ? widget.listuser?.images ?? [] : [];
+      claimantDepartmentName = widget.listuser?.claimantDepartmentName != null
+          ? widget.listuser?.claimantDepartmentName ?? ''
+          : '';
       itemhandoverByValue = widget.listuser?.handOverSecurityName ?? '';
-      handedoverdatedateTextController.text = widget.listuser?.handoverDate != null ? Utils.timestamptoDateConversion(
-          int.parse(widget.listuser?.handoverDate ?? '0'), Constants.fulldateFormat) : handedoverdatedateTextController.text.isEmpty ? '' : handedoverdatedateTextController.text;
-      claimantEmpIdTextController.text = 
-          widget.listuser?.claimantEmployeeId !=null ? widget.listuser?.claimantEmployeeId ?? '' : '';
-      claimant = widget.listuser?.claimant?.lastName !=null ? widget.listuser?.claimant?.lastName ?? '' :'';
-      claimantTextController.text = widget.listuser?.claimant?.lastName !=null ? widget.listuser?.claimant?.lastName ?? '' : '';
-      selectedClaimdepartment = widget.listuser?.claimantDepartment !=null ? Department(
-          id:widget.listuser?.claimantDepartment?.id ?? 0 , name: widget.listuser?.claimantDepartment?.name ?? '') : Department();
-      selectedClaimList = widget.listuser?.claimant != null ? BaseUser(
-          email: widget.listuser?.claimant?.email ?? "",
-          id: widget.listuser?.claimant?.userId ?? 0,
-          name: widget.listuser?.claimant?.lastName ?? "") : BaseUser();
+      handedoverdatedateTextController.text =
+          widget.listuser?.handoverDate != null
+              ? Utils.timestamptoDateConversion(
+                  int.parse(widget.listuser?.handoverDate ?? '0'),
+                  Constants.fulldateFormat)
+              : handedoverdatedateTextController.text.isEmpty
+                  ? ''
+                  : handedoverdatedateTextController.text;
+      claimantEmpIdTextController.text =
+          widget.listuser?.claimantEmployeeId != null
+              ? widget.listuser?.claimantEmployeeId ?? ''
+              : '';
+      claimant = widget.listuser?.claimant?.lastName != null
+          ? widget.listuser?.claimant?.lastName ?? ''
+          : '';
+      claimantTextController.text = widget.listuser?.claimant?.lastName != null
+          ? widget.listuser?.claimant?.lastName ?? ''
+          : '';
+      selectedClaimdepartment = widget.listuser?.claimantDepartment != null
+          ? Department(
+              id: widget.listuser?.claimantDepartment?.id ?? 0,
+              name: widget.listuser?.claimantDepartment?.name ?? '')
+          : Department();
+      selectedClaimList = widget.listuser?.claimant != null
+          ? BaseUser(
+              email: widget.listuser?.claimant?.email ?? "",
+              id: widget.listuser?.claimant?.userId ?? 0,
+              name: widget.listuser?.claimant?.lastName ?? "")
+          : BaseUser();
     }
   }
 
@@ -186,8 +238,10 @@ class _CreatefoundState extends State<Createfound> {
       statusvalue = 2;
     }
 
-   int founddate = Utils.datetoTimestampConversion(founddateTextController.text,Constants.fulldateFormat);
-   int inputdate = Utils.datetoTimestampConversion(dateofcreationTextController.text,Constants.fulldateFormat);
+    int founddate = Utils.datetoTimestampConversion(
+        founddateTextController.text, Constants.fulldateFormat);
+    int inputdate = Utils.datetoTimestampConversion(
+        dateofcreationTextController.text, Constants.fulldateFormat);
     Map<String, dynamic> entrySecurityBody = {
       "userId": userDetails?.userId ?? 0,
     };
@@ -234,6 +288,7 @@ class _CreatefoundState extends State<Createfound> {
           : '',
       "depositorDepartment": depositorDeptBody,
       "depositor": depositorBody,
+      "eventProtection": widget.eventId,
       "images": getFiles ?? []
     };
     Map<String, dynamic> requestBody = {
@@ -250,9 +305,12 @@ class _CreatefoundState extends State<Createfound> {
   }
 
   Future createNewuserBody(bool isSubmit, int isFoundId) async {
-   int founddate = Utils.datetoTimestampConversion(founddateTextController.text,Constants.fulldateFormat);
-   int inputdate = Utils.datetoTimestampConversion(dateofcreationTextController.text,Constants.fulldateFormat);
-   int handoverdate = Utils.datetoTimestampConversion(handedoverdatedateTextController.text,Constants.fulldateFormat); 
+    int founddate = Utils.datetoTimestampConversion(
+        founddateTextController.text, Constants.fulldateFormat);
+    int inputdate = Utils.datetoTimestampConversion(
+        dateofcreationTextController.text, Constants.fulldateFormat);
+    int handoverdate = Utils.datetoTimestampConversion(
+        handedoverdatedateTextController.text, Constants.fulldateFormat);
     var username = await SharedPrefs.getUsername();
     bool isDepositorDBEmployeeSelectedvalue =
         isDepositorDBEmployeeSelected == 1 ? true : false;
@@ -337,33 +395,33 @@ class _CreatefoundState extends State<Createfound> {
         employeeId: depositorEmpIdTextController.text.length > 0
             ? depositorEmpIdTextController.text
             : '');
+    found.eventProtection = widget.eventId;
     CreateFoundRequestBody requestBody = CreateFoundRequestBody(found: found);
     showLoadingDialog(context);
     await createFoundArticleCubit.createNewFoundArticle(
-        requestBody,
-        isSubmit,
-        context,
-        username,
-        widget.listuser != null ? Constants.editfound : Constants.createfound);
+      requestBody,
+      isSubmit,
+      context,
+      username,
+      widget.listuser != null ? Constants.editfound : Constants.createfound,
+    );
   }
 
   void _getFoundArticleList() async {
     var userid = await SharedPrefs.getUserId();
     final bool isActive = await network_handler.networkChecking(context);
-    if (isActive)
-    {
-    await createFoundArticleCubit.getUserByRoleDepositor('ATOM_STATIC_USER',context);
-    await createFoundArticleCubit.getLocations('ATOM_LOCATIONS',context);
-    await createFoundArticleCubit
-        .getEmployeeDepartments('EMPLOYEE_DEPARTMENTS',context);
-    await createFoundArticleCubit.getArticleType('ARTICLE_LIST',context);
-    if (widget.listuser == null) {
-      await createFoundArticleCubit.getUserDetails(userid,context);
-    }
-    }
-    else
-    {
-       Utils.showAlertMessage("No Network connection", context);
+    if (isActive) {
+      await createFoundArticleCubit.getUserByRoleDepositor(
+          'ATOM_STATIC_USER', context);
+      await createFoundArticleCubit.getLocations('ATOM_LOCATIONS', context);
+      await createFoundArticleCubit.getEmployeeDepartments(
+          'EMPLOYEE_DEPARTMENTS', context);
+      await createFoundArticleCubit.getArticleType('ARTICLE_LIST', context);
+      if (widget.listuser == null) {
+        await createFoundArticleCubit.getUserDetails(userid, context);
+      }
+    } else {
+      Utils.showAlertMessage("No Network connection", context);
     }
   }
 
@@ -375,7 +433,7 @@ class _CreatefoundState extends State<Createfound> {
     //you can implement different kind of Date Format here according to your requirement
     dateofcreationTextController.text = formattedDate;
     statusTextController.text = 'Found';
-     handedoverdatedateTextController.text = formattedDate;
+    handedoverdatedateTextController.text = formattedDate;
     setState(() {
       // dateinput.text = formattedDate; //set output date to TextField value.
     });
@@ -613,17 +671,18 @@ class _CreatefoundState extends State<Createfound> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicatearticleList: state.getArticleTypeResponse?.articleList ?? [],
+            duplicatearticleList:
+                state.getArticleTypeResponse?.articleList ?? [],
             leftimagename: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
-                barrierDismissible: false,
+                  barrierDismissible: false,
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return  AddEmployeeDepartment(
+                    return AddEmployeeDepartment(
                       title: Constants.addarticletype,
-                      createoundstate:  state,
+                      createoundstate: state,
                     );
                   });
             },
@@ -682,15 +741,19 @@ class _CreatefoundState extends State<Createfound> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicatedepostorList: state.getDepositorResponse?.atomStaticUser ?? [],
+            duplicatedepostorList:
+                state.getDepositorResponse?.atomStaticUser ?? [],
             leftimagename: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
-                barrierDismissible: false,
+                  barrierDismissible: false,
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return  CreateFoundNewUser(title: Constants.createnewuser,createoundstate: state,);
+                    return CreateFoundNewUser(
+                      title: Constants.createnewuser,
+                      createoundstate: state,
+                    );
                   });
             },
             onTap: (BaseUser list) {
@@ -717,11 +780,11 @@ class _CreatefoundState extends State<Createfound> {
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
-                barrierDismissible: false,
+                  barrierDismissible: false,
                   context: context,
                   builder: (BuildContext dialogContext) {
                     return AddEmployeeDepartment(
-                      title:Constants.addemployeedepartment,
+                      title: Constants.addemployeedepartment,
                       createoundstate: state,
                     );
                   });
@@ -739,19 +802,14 @@ class _CreatefoundState extends State<Createfound> {
         });
   }
 
-  initiallyLocationandSerialnumberdataset(CreateFoundState state)
-  async {
-    if(locationSelectedlist == null && state.getLocationsResponse != null && widget.listuser == null)
-            {
-              locationSelectedlist =  Mumbai(
-          id: 24,
-          name: "DLF Square") ;
-          locationselectedText = 'DLF Square';
-           await createFoundArticleCubit.getSerialnumberDetails(
-                      '24', 'AF',context);
-          
-            }
-   
+  initiallyLocationandSerialnumberdataset(CreateFoundState state) async {
+    if (locationSelectedlist == null &&
+        state.getLocationsResponse != null &&
+        widget.listuser == null) {
+      locationSelectedlist = Mumbai(id: 24, name: "DLF Square");
+      locationselectedText = 'DLF Square';
+      await createFoundArticleCubit.getSerialnumberDetails('24', 'AF', context);
+    }
   }
 
   @override
@@ -1141,8 +1199,7 @@ class _CreatefoundState extends State<Createfound> {
                             isDepositorDBEmployeeSelected == 1
                                 ? TextfieldAddButton(
                                     title: selecteddepositorList?.name != null
-                                        ? ('${selecteddepositorList?.name ?? ''}(${selecteddepositorList?.email ??
-                                                ''})')
+                                        ? ('${selecteddepositorList?.name ?? ''}(${selecteddepositorList?.email ?? ''})')
                                         : '',
                                     height: 70,
                                     isDisableColor: widget.listuser == null ||
@@ -1313,14 +1370,16 @@ class _CreatefoundState extends State<Createfound> {
                                     ? TextfieldAddButton(
                                         title: selectedClaimList?.name ?? '',
                                         height: 60,
-                                        isDisableColor:
-                                            widget.listuser == null ||
-                                                    (selectedClaimList?.name ?? '').isEmpty
-                                                ? false
-                                                : true,
+                                        isDisableColor: widget.listuser ==
+                                                    null ||
+                                                (selectedClaimList?.name ?? '')
+                                                    .isEmpty
+                                            ? false
+                                            : true,
                                         onTap: () {
                                           if (widget.listuser == null ||
-                                              (selectedClaimList?.name ?? '').isEmpty) {
+                                              (selectedClaimList?.name ?? '')
+                                                  .isEmpty) {
                                             depositorDialog(
                                                 state, Constants.claimant);
                                           }
@@ -1405,15 +1464,19 @@ class _CreatefoundState extends State<Createfound> {
                             widget.listuser != null &&
                                     isClaimantDBEmployeeSelected == 1
                                 ? TextfieldAddButton(
-                                    title: (selectedClaimdepartment?.name ?? ''),
+                                    title:
+                                        (selectedClaimdepartment?.name ?? ''),
                                     height: 60,
                                     isDisableColor: widget.listuser == null ||
-                                            (selectedClaimdepartment?.name ?? '').isEmpty
+                                            (selectedClaimdepartment?.name ??
+                                                    '')
+                                                .isEmpty
                                         ? false
                                         : true,
                                     onTap: () {
                                       if (widget.listuser == null ||
-                                          (selectedClaimdepartment?.name ?? '').isEmpty) {
+                                          (selectedClaimdepartment?.name ?? '')
+                                              .isEmpty) {
                                         employeeDepartmentDialog(state,
                                             Constants.claimantdepartment);
                                       }
@@ -1551,7 +1614,7 @@ class _CreatefoundState extends State<Createfound> {
                                                             userDetails,
                                                         getFiles:
                                                             getFiles ?? [],
-                                                            createoundstate: state,
+                                                        createoundstate: state,
                                                       );
                                                     });
                                               },
@@ -1619,7 +1682,7 @@ class _CreatefoundState extends State<Createfound> {
                 onTap: (Mumbai? list) async {
                   print(list?.name);
                   await createFoundArticleCubit.getSerialnumberDetails(
-                      list?.id.toString() ?? '', 'AF',context);
+                      list?.id.toString() ?? '', 'AF', context);
                   locationselectedText = list?.name ?? '';
                   locationSelectedlist = list;
                   setState(() {});

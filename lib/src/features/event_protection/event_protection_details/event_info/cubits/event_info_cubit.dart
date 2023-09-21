@@ -15,7 +15,6 @@ import 'package:db_atom/src/models/department.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
 
@@ -65,7 +64,6 @@ class EventInfoCubit extends Cubit<EventInfoState> {
         status: FormStatus.loading,
       ),
     );
-    var userId = await SharedPrefs.getUserId();
     try {
       EventInfoResponse model = EventInfoResponse();
       if (id.isNotEmpty) {
@@ -124,7 +122,8 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     }
   }
 
-  void submitForm({bool isSaveOnly = false}) async {
+  void submitForm(
+      {bool isSaveOnly = false, bool addArticleFound = false}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -165,12 +164,23 @@ class EventInfoCubit extends Cubit<EventInfoState> {
 
     log('---response--msg--${response.message}---');
 
-    emit(
-      state.copyWith(
-        message: response.message,
-        status: FormStatus.success,
-      ),
-    );
+    if (addArticleFound) {
+      state.model.id = int.tryParse(response.id ?? '');
+      emit(
+        state.copyWith(
+          model: state.model,
+          message: response.message,
+          status: FormStatus.addArticleFound,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          message: response.message,
+          status: FormStatus.success,
+        ),
+      );
+    }
   }
 
   void onAddEmail(String email) {

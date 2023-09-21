@@ -73,6 +73,15 @@ class _EventInfoViewState extends State<EventInfoView> {
           Navigator.pop(context);
           Navigator.pop(context);
         }
+
+        if (state.status == FormStatus.addArticleFound) {
+          Navigator.pop(context);
+          Navigator.pushNamed(
+            context,
+            createfoundScreenRoute,
+            arguments: {'eventId': state.model.id},
+          );
+        }
         if (state.status == FormStatus.error) {
           Validator().showToast(
             context,
@@ -333,15 +342,17 @@ class _EventInfoViewState extends State<EventInfoView> {
                                       builder: (BuildContext context) {
                                         return ArticleDialog(
                                           articles: state.foundArticles ?? [],
+                                          showLeftButton:
+                                              (state.model.status ?? 0) > 22
+                                                  ? false
+                                                  : true,
                                           leftButtonTap: () {
                                             // TODO: Call Save API
                                             BlocProvider.of<EventInfoCubit>(
-                                                    context)
-                                                .submitForm(isSaveOnly: true);
-                                            Navigator.pushNamed(context,
-                                                createfoundScreenRoute);
-                                            // Navigate to another page here
-                                            // Navigator.of(context).pop(); // Close the dialog
+                                                    this.context)
+                                                .submitForm(
+                                                    isSaveOnly: true,
+                                                    addArticleFound: true);
                                           },
                                         );
                                       },

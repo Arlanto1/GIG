@@ -9,6 +9,7 @@ enum FormStatus {
   error,
   createArticleFound,
   invalidEmail,
+  addArticleFound
 }
 
 enum NavPop {

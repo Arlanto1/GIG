@@ -1,20 +1,19 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:db_atom/src/appservices/app_exception.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/customalert.dart';
 import 'package:db_atom/src/utils/generate_token/generate_token_service.dart';
+import 'package:db_atom/src/utils/network_handler.dart' as network_handler;
 import 'package:db_atom/src/utils/refresh_token/refresh_token_service.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:db_atom/src/utils/network_handler.dart' as network_handler;
 
 class AppServices {
   int counterValue = 0;
@@ -219,6 +218,8 @@ class AppServices {
             'Content-type': 'application/json',
           };
         }
+        log("requestedData - ${jsonEncode(body)}");
+
         final String apiURL = _baseUrl + url;
         print('POST CALL===================$apiURL');
         final http.Response response = await http
