@@ -59,6 +59,8 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
           title: Constants.guardingMasterReportTitle,
           showPopUp: true,
           showSaveButton: false,
+          excelAPIName: 'gmReportExcel',
+          pdfAPIName: 'gmReportPDF',
         ),
         body: BlocBuilder<GuardingMasterReportBloc, GuardingMasterReportState>(
             builder: (context, state) {

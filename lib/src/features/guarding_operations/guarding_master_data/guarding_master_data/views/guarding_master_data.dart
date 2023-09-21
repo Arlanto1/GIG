@@ -72,6 +72,8 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
           title: Constants.guardingMasterDataTitle,
           showPopUp: true,
           showSaveButton: false,
+          excelAPIName: 'exportGMDataExcel',
+          pdfAPIName: 'exportGMDataPDF',
         ),
         body: BlocBuilder<GuardingMasterDataBloc, GuardingMasterDataState>(
             builder: (context, state) {

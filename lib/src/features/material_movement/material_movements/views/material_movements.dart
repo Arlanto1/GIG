@@ -84,6 +84,8 @@ class _MaterialMovementsState extends State<MaterialMovements> {
               : Constants.materialMovementsOutwardTitle,
           showPopUp: true,
           showSaveButton: false,
+          excelAPIName: 'exportMMExcel',
+          pdfAPIName: 'exportMMPDF',
         ),
         body: BlocBuilder<MaterialMovementBloc, MaterialMovementState>(
             builder: (context, state) {
