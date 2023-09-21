@@ -102,12 +102,13 @@ class RouteGenerator {
           final listroutes = settings.arguments as Map<String, dynamic>;
           if (listroutes != null) {
             FoundListArticleDetails? listuser = listroutes["UserElement"];
+            int eventId = listroutes['eventId'];
             return MaterialPageRoute(
-                builder: (context) => Createfound(listuser: listuser));
+                builder: (context) => CreateFound(listuser: listuser, eventId: eventId,));
           }
-          return MaterialPageRoute(builder: (context) => Createfound());
+          return MaterialPageRoute(builder: (context) => CreateFound());
         } else {
-          return MaterialPageRoute(builder: (context) => Createfound());
+          return MaterialPageRoute(builder: (context) => CreateFound());
         }
       case lawenforcementScreenRoute:
         // return MaterialPageRoute(builder: (context) => CreateLawenforcement());
