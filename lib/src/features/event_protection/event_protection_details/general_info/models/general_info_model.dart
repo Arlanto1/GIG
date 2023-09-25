@@ -3,7 +3,7 @@ import 'package:db_atom/src/models/entity.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/location.dart';
 import '../../../../../models/location_region.dart';
-import '../../../../createfound/models/get_user_model.dart';
+import '../../../../createfound/models/user.dart';
 
 
 // class EventProtectionGi {
@@ -120,20 +120,20 @@ class EventProtectionGi {
  bool annualPowerShutdown;
  String? eventStartDate;
  String? eventEndDate;
- GetUserDetails? epManager1;
- GetUserDetails? epManager2;
- GetUserDetails? lsm1;
+ User? epManager1;
+ User? epManager2;
+ User? lsm1;
  String? lsm1ContactNo;
- GetUserDetails? lsm2;
+ User? lsm2;
  String? lsm2ContactNo;
- GetUserDetails? bu1;
+ User? bu1;
  String? bu1ContactNo;
- GetUserDetails? bu2;
+ User? bu2;
  String? bu2ContactNo;
  Department? requesterDepartment;
  List<String>? epOfficers;
- GetUserDetails? srh1;
- GetUserDetails? srh2;
+ User? srh1;
+ User? srh2;
  Department? bu1Dept;
  Department? bu2Dept;
  String? systemVendor1;
@@ -219,20 +219,20 @@ class EventProtectionGi {
         annualPowerShutdown = json['annualPowerShutdown'] as bool,
         eventStartDate = json['eventStartDate'] as String?,
         eventEndDate = json['eventEndDate'] as String?,
-        epManager1 = (json['epManager1'] as Map<String,dynamic>?) != null ? GetUserDetails.fromJson(json['epManager1'] as Map<String,dynamic>) : null,
-        epManager2 = (json['epManager2'] as Map<String,dynamic>?) != null ? GetUserDetails.fromJson(json['epManager2'] as Map<String,dynamic>) : null,
-        lsm1 = (json['lsm1'] as Map<String,dynamic>?) != null ? GetUserDetails.fromJson(json['lsm1'] as Map<String,dynamic>) : null,
+        epManager1 = (json['epManager1'] as Map<String,dynamic>?) != null ? User.fromJson(json['epManager1'] as Map<String,dynamic>) : null,
+        epManager2 = (json['epManager2'] as Map<String,dynamic>?) != null ? User.fromJson(json['epManager2'] as Map<String,dynamic>) : null,
+        lsm1 = (json['lsm1'] as Map<String,dynamic>?) != null ? User.fromJson(json['lsm1'] as Map<String,dynamic>) : null,
         lsm1ContactNo = json['lsm1ContactNo'] as String?,
-        lsm2 = (json['lsm2'] as Map<String,dynamic>?) != null ? GetUserDetails.fromJson(json['lsm2'] as Map<String,dynamic>) : null,
+        lsm2 = (json['lsm2'] as Map<String,dynamic>?) != null ? User.fromJson(json['lsm2'] as Map<String,dynamic>) : null,
         lsm2ContactNo = json['lsm2ContactNo'] as String?,
-        bu1 = (json['bu1'] as Map<String,dynamic>?) != null ? GetUserDetails.fromJson(json['bu1'] as Map<String,dynamic>) : null,
+        bu1 = (json['bu1'] as Map<String,dynamic>?) != null ? User.fromJson(json['bu1'] as Map<String,dynamic>) : null,
         bu1ContactNo = json['bu1ContactNo'] as String?,
-        bu2 = (json['bu2'] as Map<String,dynamic>?) != null ? GetUserDetails.fromJson(json['bu2'] as Map<String,dynamic>) : null,
+        bu2 = (json['bu2'] as Map<String,dynamic>?) != null ? User.fromJson(json['bu2'] as Map<String,dynamic>) : null,
         bu2ContactNo = json['bu2ContactNo'] as String?,
         requesterDepartment = (json['requesterDepartment'] as Map<String,dynamic>?) != null ? Department.fromJson(json['requesterDepartment'] as Map<String,dynamic>) : null,
         epOfficers = (json['epOfficers'] as List?)?.map((dynamic e) => e as String).toList(),
-        srh1 = (json['srh1'] as Map<String,dynamic>?) != null ? GetUserDetails.fromJson(json['srh1'] as Map<String,dynamic>) : null,
-        srh2 = (json['srh2'] as Map<String,dynamic>?) != null ? GetUserDetails.fromJson(json['srh2'] as Map<String,dynamic>) : null,
+        srh1 = (json['srh1'] as Map<String,dynamic>?) != null ? User.fromJson(json['srh1'] as Map<String,dynamic>) : null,
+        srh2 = (json['srh2'] as Map<String,dynamic>?) != null ? User.fromJson(json['srh2'] as Map<String,dynamic>) : null,
         bu1Dept = (json['bu1Dept'] as Map<String,dynamic>?) != null ? Department.fromJson(json['bu1Dept'] as Map<String,dynamic>) : null,
         bu2Dept = (json['bu2Dept'] as Map<String,dynamic>?) != null ? Department.fromJson(json['bu2Dept'] as Map<String,dynamic>) : null,
         systemVendor1 = json['systemVendor1'] as String?,

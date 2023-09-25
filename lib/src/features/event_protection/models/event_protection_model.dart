@@ -2,7 +2,7 @@ import '../../../models/department.dart';
 import '../../../models/entity.dart';
 import '../../../models/location.dart';
 import '../../../models/location_region.dart';
-import '../../createfound/models/get_user_model.dart';
+import '../../createfound/models/user.dart';
 
 class EventProtectionResponse {
   List<EventProtectionModel>? items;
@@ -41,8 +41,8 @@ class EventProtectionModel {
   List<Entity>? entities;
   Location? location;
   LocationRegion? locationRegion;
-  GetUserDetails? epManager1;
-  GetUserDetails? epManager2;
+  User? epManager1;
+  User? epManager2;
   String? lsm1ContactNo;
   String? lsm2ContactNo;
   String? epOfficers;
@@ -535,11 +535,11 @@ class EventProtectionModel {
                     json['locationRegion'] as Map<String, dynamic>)
                 : null,
         epManager1 = (json['epManager1'] as Map<String, dynamic>?) != null
-            ? GetUserDetails.fromJson(
+            ? User.fromJson(
                 json['epManager1'] as Map<String, dynamic>)
             : null,
         epManager2 = (json['epManager2'] as Map<String, dynamic>?) != null
-            ? GetUserDetails.fromJson(
+            ? User.fromJson(
                 json['epManager2'] as Map<String, dynamic>)
             : null,
         lsm1ContactNo = json['lsm1ContactNo'] as String?,

@@ -23,7 +23,7 @@ import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../models/responseModels/generic_creat_response.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/emplyee_departments_model.dart';
-import '../../../../createfound/models/get_user_model.dart';
+import '../../../../createfound/models/user.dart';
 import '../../../../createfound/models/serial_number_model.dart';
 import '../../../../lawenforcement/models/addentities.dart';
 import '../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
@@ -120,7 +120,7 @@ class GuardingMasterDataDetailsCubit
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
-      List<GetUserDetails> entrySecurities = await commonServices.getUsers();
+      List<User> entrySecurities = await commonServices.getUsers();
       AddQualifications qualifications =
           await commonServices.getQualification(name: 'GUARD_QUALIFICATIONS');
 

@@ -17,7 +17,7 @@ import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
+import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
@@ -60,7 +60,7 @@ class MaterialMovementDetails extends StatefulWidget {
 class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController returnableTextController = TextEditingController();
-  GetUserDetails? userDetails;
+  User? userDetails;
   List<CreateImage>? getFiles;
   List<FoundImage>? getAttachments;
   TextEditingController takenOutOnDateController = TextEditingController();

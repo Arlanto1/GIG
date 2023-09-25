@@ -64,10 +64,10 @@ class _ForgotPwdWidgetState extends State<ForgotPwdWidget> {
         listener: (context, state) {
           if (state is LoginFailureState) {
             dismissLoadingDialog(context);
-            _showCustomPop(context, state.errorMsg);
+            _showCustomPop(context, state.message);
           } else if (state is LoginSuccessState) {
             dismissLoadingDialog(context);
-            _showCustomPop(context, state.msg ?? '');
+            _showCustomPop(context, state.message ?? '');
           } else if (state is LoginLoadingState) {
             showLoadingDialog(context);
           }
@@ -130,17 +130,20 @@ class _ForgotPwdWidgetState extends State<ForgotPwdWidget> {
                                   // Login button
                                   AppButton(
                                     key: const Key(Keys.loginButton),
-                                    buttonText: Constants.forgotPwd,
+                                    buttonText: Constants.send,
                                     buttonTextKey: Keys.loginButtonText,
                                     onTap: () async {
                                       FocusScope.of(context).unfocus();
                                       try {
                                         if (emailFormKey.currentState!
                                             .validate()) {
-                                          bloc.add(ForgotPwdEvent(
+                                          bloc.add(
+                                            ForgotPwdEvent(
                                               requestModel:
                                                   prepareLoginRequestBody(
-                                                      email, '', '')));
+                                                      email, '', ''),
+                                            ),
+                                          );
                                         }
                                       } catch (e) {}
                                     },
@@ -172,7 +175,7 @@ class _ForgotPwdWidgetState extends State<ForgotPwdWidget> {
   LoginRequestModel prepareLoginRequestBody(
       String userName, String pwd, String otp) {
     return LoginRequestModel(
-        request: Request(id: userName, password: pwd, otp: otp));
+        request: Request(userName: userName, password: pwd, otp: otp));
   }
 
   _showCustomPop(BuildContext context, String msg) {

@@ -61,7 +61,7 @@ class _LoginState extends State<Login> {
             // context,state.errorMsg);
             var dialog = CustomAlertDialog(
               title: Constants.appname,
-              message: state.errorMsg,
+              message: state.message,
               onPostivePressed: () {
                 //Validator.logoutAction(context);
                 Navigator.of(context).pop();
@@ -226,7 +226,7 @@ class _LoginState extends State<Login> {
                                 onForgottenPassword: () => {
                                   //widget.onPasswordForgotten()
                                   Navigator.pushNamed(
-                                      context, resetPwdScreenRoute)
+                                      context, forgotPwdScreenRoute)
                                 },
                                 title: Constants.ResetPwdTitle,
                               ),
@@ -275,7 +275,7 @@ class _LoginState extends State<Login> {
   LoginRequestModel prepareLoginRequestBody(
       String userName, String pwd, String otp) {
     return LoginRequestModel(
-        request: Request(id: username, password: password, otp: otp));
+        request: Request(userName: username, password: password, otp: otp));
   }
 
   _showCustomPop(BuildContext context, String title) {

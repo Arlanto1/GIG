@@ -6,7 +6,7 @@ import 'package:db_atom/src/features/createfound/models/create_found_request.dar
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
+import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/models/contact_info_model.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/guard_info_model.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
@@ -93,7 +93,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
-      List<GetUserDetails> entrySecurities = await commonServices.getUsers();
+      List<User> entrySecurities = await commonServices.getUsers();
       AddQualifications qualifications =
           await commonServices.getQualification(name: 'GUARD_QUALIFICATIONS');
 
@@ -134,7 +134,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
   Future<void> updateDropdownValues({
     List<Entity>? entities,
     Location? location,
-    GetUserDetails? user,
+    User? user,
     Department? requesterDepartment,
     Bu1? bu1,
     Bu2? bu2,

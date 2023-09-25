@@ -13,7 +13,7 @@ import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
+import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/location.dart';
 import 'package:db_atom/src/routing/router.dart';
@@ -349,7 +349,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   BaseDepartmentDialog().userDialog(
                                     context: context,
                                     users: state.emailUsers!,
-                                    onTap: (GetUserDetails user) {
+                                    onTap: (User user) {
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .updateDropdownValues(
                                         subRegionalHead1: user,
@@ -373,7 +373,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   BaseDepartmentDialog().userDialog(
                                     context: context,
                                     users: state.emailUsers!,
-                                    onTap: (GetUserDetails user) {
+                                    onTap: (User user) {
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .updateDropdownValues(
                                         subRegionalHead2: user,

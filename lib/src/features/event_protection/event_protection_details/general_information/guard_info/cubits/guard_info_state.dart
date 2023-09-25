@@ -77,7 +77,7 @@ class GuardInfoState extends Equatable {
     List<CreateImage>? trainingAttachments,
     List<CreateImage>? medicalAttachments,
     List<CreateImage>? mSGBAttachments,
-    List<GetUserDetails>? entrySecurities,
+    List<User>? entrySecurities,
   }) {
     return GuardInfoState(
       status: status ?? this.status,

@@ -4,7 +4,7 @@ import 'dart:math' as math;
 import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
+import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
@@ -99,7 +99,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
-      List<GetUserDetails> entrySecurities = await commonServices.getUsers();
+      List<User> entrySecurities = await commonServices.getUsers();
 
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
@@ -143,8 +143,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     BaseUser? bu2,
     Department? bu1Dept,
     Department? bu2Dept,
-    GetUserDetails? subRegionalHead1,
-    GetUserDetails? subRegionalHead2,
+    User? subRegionalHead1,
+    User? subRegionalHead2,
     BaseUser? epManager1,
     BaseUser? epManager2,
     BaseUser? locationSecurityManager1,
@@ -159,7 +159,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     );
 
     if (epManager1 != null) {
-      GetUserDetails userDetails = GetUserDetails(
+      User userDetails = User(
         name: epManager1.name,
         userId: epManager1.id,
         userName: epManager1.name,
@@ -168,7 +168,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     }
 
     if (epManager2 != null) {
-      GetUserDetails userDetails = GetUserDetails(
+      User userDetails = User(
         name: epManager2.name,
         userId: epManager2.id,
         userName: epManager2.name,
@@ -201,7 +201,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         requesterDepartment ?? state.model.requesterDepartment;
 
     if (bu1 != null) {
-      GetUserDetails userDetails = GetUserDetails(
+      User userDetails = User(
         name: bu1.name,
         userId: bu1.id,
         userName: bu1.name,
@@ -210,7 +210,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     }
 
     if (bu2 != null) {
-      GetUserDetails userDetails = GetUserDetails(
+      User userDetails = User(
         name: bu2.name,
         userId: bu2.id,
         userName: bu2.name,
@@ -224,28 +224,28 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     state.model.bu2Dept = bu2Dept ?? state.model.bu2Dept;
 
     if (subRegionalHead1 != null) {
-      GetUserDetails userDetails = GetUserDetails(
+      User userDetails = User(
           name: subRegionalHead1.name,
           userId: subRegionalHead1.userId,
           userName: subRegionalHead1.name);
       state.model.srh1 = userDetails;
     }
     if (subRegionalHead2 != null) {
-      GetUserDetails userDetails = GetUserDetails(
+      User userDetails = User(
           name: subRegionalHead2.name,
           userId: subRegionalHead2.userId,
           userName: subRegionalHead2.name);
       state.model.srh2 = userDetails;
     }
     if (locationSecurityManager1 != null) {
-      GetUserDetails userDetails = GetUserDetails(
+      User userDetails = User(
           name: locationSecurityManager1.name,
           userId: locationSecurityManager1.id,
           userName: locationSecurityManager1.name);
       state.model.lsm1 = userDetails;
     }
     if (locationSecurityManager2 != null) {
-      GetUserDetails userDetails = GetUserDetails(
+      User userDetails = User(
           name: locationSecurityManager2.name,
           userId: locationSecurityManager2.id,
           userName: locationSecurityManager2.name);

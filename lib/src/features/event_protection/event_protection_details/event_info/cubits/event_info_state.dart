@@ -38,7 +38,7 @@ class EventInfoState extends Equatable {
     List<CreateImage>? trainingAttachments,
     List<CreateImage>? mSGBAttachments,
     List<CreateImage>? medicalAttachments,
-    List<GetUserDetails>? entrySecurities,
+    List<User>? entrySecurities,
     required int? eventId,
     List<String>? additionalEmails,
     List<FoundModel>? foundArticles,

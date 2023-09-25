@@ -4,7 +4,7 @@ import 'dart:math' as math;
 import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
+import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/event_info/models/event_info_response.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/event_info/models/request_models/event_into_request.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';

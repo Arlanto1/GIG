@@ -8,17 +8,19 @@ abstract class LoginActionState extends LoginState {}
 class LoginLoadingState extends LoginState {}
 
 class LoginSuccessState extends LoginActionState {
-  final String? msg;
+  final String message;
 
-  LoginSuccessState({ this.msg});
+  LoginSuccessState({required this.message});
 }
 
-class LoginFailureState extends LoginState {
-  final String errorMsg;
-
-  LoginFailureState({required this.errorMsg});
-}
 
 class LoginVerifyOtpActionState extends LoginActionState {}
 class ForgotPwdActionState extends LoginActionState {
+}
+
+
+class LoginFailureState extends LoginState {
+  final String message;
+
+  LoginFailureState({required this.message});
 }

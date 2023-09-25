@@ -10,7 +10,6 @@ import 'package:http/http.dart' as http;
 class GenerateTokenService {
   static Future<int> getGenerateToken() async {
     String token = await SharedPrefs.getToken();
-    await Future.delayed(const Duration(seconds: 3));
 
     final endpoint = Environment().config.apiHost;
    final url = Uri.parse('https://api.integration.dbatom.arlanto.com/oauth2/token').replace(queryParameters: {

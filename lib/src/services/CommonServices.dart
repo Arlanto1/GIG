@@ -8,7 +8,7 @@ import 'package:db_atom/src/features/material_movement/models/quantity_units.dar
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
 import '../features/createfound/models/get_depositor_model.dart';
-import '../features/createfound/models/get_user_model.dart';
+import '../features/createfound/models/user.dart';
 import '../features/lawenforcement/models/addentities.dart';
 import '../models/entry_security.dart';
 
@@ -117,12 +117,12 @@ class CommonServices {
     return AddQualifications.fromJson(response);
   }
 
-  Future<List<GetUserDetails>> getUsers() async {
+  Future<List<User>> getUsers() async {
     String url = Apis._getUsers;
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return List<GetUserDetails>.from(
-        response.map((x) => GetUserDetails.fromJson(x)));
+    return List<User>.from(
+        response.map((x) => User.fromJson(x)));
   }
 }

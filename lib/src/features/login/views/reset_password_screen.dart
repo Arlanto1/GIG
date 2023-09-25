@@ -305,7 +305,7 @@ class _ResetPasswordState extends State<ResetPassword> {
   LoginRequestModel prepareLoginRequestBody(
       String userName, String pwd, String otp) {
     return LoginRequestModel(
-        request: Request(id: username, password: oldPassword, otp: otp));
+        request: Request(userName: username, password: oldPassword, otp: otp));
   }
 
   _showCustomPop(BuildContext context, String title) {

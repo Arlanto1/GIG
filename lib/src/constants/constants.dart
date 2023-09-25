@@ -65,7 +65,7 @@ import '../common_widgets/base_widget/base_list_tile_item.dart';
   static const String resetPwdTitle = "Reset Password";
 
   static const String loginVerifyOtpTitle = "Verify";
-  static const String forgotPwd = "Send";
+  static const String send = "Send";
   static const String update = "Update";
   static const String otpVerificationTitle = "OTP Verification";
   static const String forgotPwdTitle = "Forgot Password";

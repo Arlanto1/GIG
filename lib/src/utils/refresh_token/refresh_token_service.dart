@@ -10,7 +10,6 @@ import 'refresh_token_response_model.dart';
 class RefreshTokenService {
   static Future<int> getRefreshToken() async {
     String token = await SharedPrefs.getToken();
-    await Future.delayed(const Duration(seconds: 3));
     final endpoint = Environment().config.apiHost;
     final url = Uri.parse('https://api.integration.dbatom.arlanto.com/oauth2/token/refresh').replace(queryParameters: {
       "clientId": "vzelhdxCKJekoEJVP0KrCQ==",

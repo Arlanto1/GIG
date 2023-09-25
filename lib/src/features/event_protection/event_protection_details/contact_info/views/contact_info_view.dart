@@ -6,7 +6,7 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/get_user_model.dart';
+import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/models/contact_info_model.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -41,7 +41,7 @@ class ContactInfoView extends StatefulWidget {
 
 class _ContactInfoViewState extends State<ContactInfoView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  GetUserDetails? userDetails;
+  User? userDetails;
   List<CreateImage>? getFiles;
   List<FoundImage>? getAttachments;
 

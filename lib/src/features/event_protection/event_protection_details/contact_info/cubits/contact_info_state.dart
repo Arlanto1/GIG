@@ -25,7 +25,7 @@ class ContactInfoState extends Equatable {
   final List<CreateImage>? trainingAttachments;
   final List<CreateImage>? medicalAttachments;
   final List<CreateImage>? mSGBAttachments;
-  final List<GetUserDetails>? entrySecurities;
+  final List<User>? entrySecurities;
 
   factory ContactInfoState.initial({
     required ContactInfoModel model,
@@ -49,7 +49,7 @@ class ContactInfoState extends Equatable {
     List<CreateImage>? trainingAttachments,
     List<CreateImage>? mSGBAttachments,
     List<CreateImage>? medicalAttachments,
-    List<GetUserDetails>? entrySecurities,
+    List<User>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,
   }) {
@@ -146,7 +146,7 @@ class ContactInfoState extends Equatable {
     List<CreateImage>? trainingAttachments,
     List<CreateImage>? medicalAttachments,
     List<CreateImage>? mSGBAttachments,
-    List<GetUserDetails>? entrySecurities,
+    List<User>? entrySecurities,
   }) {
     return ContactInfoState(
       status: status ?? this.status,

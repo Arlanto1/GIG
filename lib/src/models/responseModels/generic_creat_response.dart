@@ -8,7 +8,7 @@ class GenericCreateResponse {
 
   GenericCreateResponse.fromJson(Map<String, dynamic> json){
     id = json['id'];
-    message = json['message'];
+    message = json['message']??json['msg'];
   }
 
   Map<String, dynamic> toJson() {

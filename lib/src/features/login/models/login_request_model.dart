@@ -29,24 +29,24 @@ class LoginRequestModel {
 }
 
 class Request {
-  String? id;
+  String? userName;
   String? password;
   String? otp;
 
   Request({
-    this.id,
+    this.userName,
     this.password,
     this.otp,
   });
 
   factory Request.fromJson(Map<String, dynamic> json) => Request(
-        id: json["id"],
+        userName: json["userName"],
         password: json["password"],
         otp: json["otp"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "userName": userName,
         "password": password,
         "otp": otp,
       };

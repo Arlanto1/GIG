@@ -1,92 +1,60 @@
 // Created by Ashok
 
-import 'dart:convert';
-import 'dart:io';
+import 'dart:developer';
 
 import 'package:db_atom/src/features/login/models/login_model.dart';
 import 'package:db_atom/src/features/login/models/login_request_model.dart';
-import 'package:db_atom/src/utils/generate_token/generate_token_service.dart';
-import 'package:db_atom/src/utils/refresh_token/refresh_token_service.dart';
-import 'package:http/http.dart' as http;
 
+import '../../../configurations/base_api_service.dart';
 import '../../../configurations/environment_config.dart';
+
+class Apis {
+  static final String baseUrl = Environment().config.apiHost;
+
+  static const String _login = 'https://api.integration.dbatom.arlanto.com/oauth2/loginV2';
+  static const String _resetPassword = 'https://api.integration.dbatom.arlanto.com/oauth2/reset/password';
+}
 
 class LoginService {
   Future<LoginResponseModel> loginUser(LoginRequestModel data) async {
-    await Future.delayed(const Duration(seconds: 3));
-
-    final endpoint = Environment().config.apiHost;
-    final url = Uri.parse('https://api.integration.dbatom.arlanto.com/oauth2/login');
-    print('login url ${url}');
-    try {
-      final response = await http.post(url,
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: json.encode(data));
-      if (response.statusCode == 200) {
-        print('login success ');
-        try {
-          return LoginResponseModel.fromJson(json.decode(response.body));
-        } catch (e) {
-          return LoginResponseModel();
-        }
-      } 
-      // else if (response.statusCode == 401) {
-      //   print('login failed ');
-
-        // int refreshToken = await RefreshTokenService.getRefreshToken();
-        // if (refreshToken == 200) {
-        //   LoginResponseModel model = await loginUser(data);
-        //   return model;
-        // }
-        // else if (refreshToken == 449)
-        // { 
-        //   int generateToken = await GenerateTokenService.getGenerateToken();
-        //    if (generateToken == 200) {
-        //   LoginResponseModel model = await loginUser(data);
-        //   return model;
-        //   }
-        //    else {
-        //   return LoginResponseModel();
-        // }
-        // }
-        //  else {
-        //   return LoginResponseModel();
-        // }
-     // } 
-      else {
-        print('login failed ');
-
-        throw json.decode(response.body);
-      }
-    } on SocketException {
-      throw json.decode('{"errorMessage":"Network Lost"}');
-    }
+    const String url = Apis._login;
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: data.toJson()
+    );
+    log('response---@@-----$response-----');
+    return LoginResponseModel.fromJson(response);
   }
 
   Future<LoginResponseModel> forgotPwdAPI(LoginRequestModel data) async {
-    await Future.delayed(const Duration(seconds: 3));
 
-    final endpoint = Environment().config.apiHost;
-    final url = Uri.parse('https://api.integration.dbatom.arlanto.com/oauth2/reset/password');
-    print('login url ${url}');
-    try {
-      final response = await http.post(url,
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: json.encode(data));
-      if (response.statusCode == 200) {
-        print('login success ');
-        try {
-          return LoginResponseModel.fromJson(json.decode(response.body));
-        } catch (e) {
-          return LoginResponseModel.fromJson(json.decode(response.body));
-        }
-      } 
+    const String url = Apis._resetPassword;
+    final response = await BaseApiService().postRequest(
+        url: url,
+        requestedData: data.toJson()
+    );
+    log('response---@@-----$response-----');
+    return LoginResponseModel.fromJson(response);
+    // final endpoint = Environment().config.apiHost;
+    // final url = Uri.parse(
+    //     'https://api.integration.dbatom.arlanto.com/oauth2/reset/password');
+    // log('login url $url');
+    // try {
+    //   final response = await http.post(url,
+    //       headers: {
+    //         'Content-Type': 'application/json; charset=UTF-8',
+    //       },
+    //       body: json.encode(data));
+    //   if (response.statusCode == 200) {
+    //     log('login success ');
+    //     try {
+    //       return LoginResponseModel.fromJson(json.decode(response.body));
+    //     } catch (e) {
+    //       return LoginResponseModel.fromJson(json.decode(response.body));
+    //     }
+    //   }
       // else if (response.statusCode == 401) {
-      //   print('login failed ');
+      //   log('login failed ');
 
       //   int refreshToken = await RefreshTokenService.getRefreshToken();
       //   if (refreshToken == 200) {
@@ -95,16 +63,16 @@ class LoginService {
       //   } else {
       //     return LoginResponseModel.fromJson(json.decode(response.body));
       //   }
-      // } 
-      else {
-        print('login failed ');
-
-        LoginResponseModel.fromJson(json.decode(response.body));
-        throw json.decode('{"errorMessage":"Network Lost"}');
-      }
-    } on SocketException {
-      throw json.decode('{"errorMessage":"Network Lost"}');
-    }
+      // }
+    //   else {
+    //     log('login failed ');
+    //
+    //     LoginResponseModel.fromJson(json.decode(response.body));
+    //     throw json.decode('{"errorMessage":"Network Lost"}');
+    //   }
+    // } on SocketException {
+    //   throw json.decode('{"errorMessage":"Network Lost"}');
+    // }
   }
 }
 
@@ -112,14 +80,15 @@ class LoginRequestBody {
   String id;
   String password;
   String otp;
+
   LoginRequestBody(
       {required this.id, required this.password, required this.otp});
 
   Map<String, String> toJson() {
     final Map<String, String> data = <String, String>{};
-    if(id.isNotEmpty) data["id"] = id;
-    if(password.isNotEmpty) data["password"] = password;
-    if(otp.isNotEmpty) data['otp'] = otp;
+    if (id.isNotEmpty) data["id"] = id;
+    if (password.isNotEmpty) data["password"] = password;
+    if (otp.isNotEmpty) data['otp'] = otp;
     return data;
   }
 }

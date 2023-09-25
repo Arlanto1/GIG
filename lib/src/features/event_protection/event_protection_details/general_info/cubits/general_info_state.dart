@@ -13,7 +13,7 @@ class GeneralInfoState extends Equatable {
   final List<String>? participationDates;
   final int? eventId;
   final String? message;
-  final List<GetUserDetails>? entrySecurities;
+  final List<User>? entrySecurities;
 
   factory GeneralInfoState.initial({
     required EventProtectionGi model,
@@ -26,7 +26,7 @@ class GeneralInfoState extends Equatable {
     required final List<Department> departments,
     required String errorMessage,
     required List<CreateImage> loadAttachments,
-    List<GetUserDetails>? entrySecurities,
+    List<User>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,
   }) {
@@ -123,7 +123,7 @@ class GeneralInfoState extends Equatable {
     List<String>? participationDates,
     int? eventId,
     String? message,
-    List<GetUserDetails>? entrySecurities,
+    List<User>? entrySecurities,
   }) {
     return GeneralInfoState(
       status: status ?? this.status,

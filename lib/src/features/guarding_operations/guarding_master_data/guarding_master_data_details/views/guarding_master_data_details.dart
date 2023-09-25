@@ -38,7 +38,7 @@ import '../../../../../utils/validators/validator.dart';
 import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_locations_model.dart';
-import '../../../../createfound/models/get_user_model.dart';
+import '../../../../createfound/models/user.dart';
 import '../../models/guarding_master_data_model.dart';
 import '../cubits/guarding_master_data_details_cubit.dart';
 import 'add_date_pop_up.dart';
@@ -60,7 +60,7 @@ class GuardingMasterDataDetails extends StatefulWidget {
 
 class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  GetUserDetails? userDetails;
+  User? userDetails;
   List<CreateImage>? getFiles;
   List<CreateImage>? guardFiles;
   List<CreateImage>? deploymentFiles;

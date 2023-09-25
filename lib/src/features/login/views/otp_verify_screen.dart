@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
@@ -74,13 +76,14 @@ class _OtpVerifyState extends State<OtpVerify> {
         listener: (context, state) {
           if (state is LoginFailureState) {
             dismissLoadingDialog(context);
-            _showCustomPop(context, Constants.someThingWentWrong);
+            _showCustomPop(context, state.message);
           } else if (state is LoginSuccessState) {
             dismissLoadingDialog(context);
-            _showCustomPop(context, Constants.otpSendSuccessfully);
+            _showCustomPop(context, state.message);
           } else if (state is LoginVerifyOtpActionState) {
             dismissLoadingDialog(context);
-            Navigator.pushNamed(context, homePageRoute);
+            // TODO: May be need to clear navigation stack
+            Navigator.pushNamedAndRemoveUntil(context, homePageRoute, (route) => false,);
           } else if (state is LoginLoadingState) {
             showLoadingDialog(context);
           }
@@ -99,11 +102,12 @@ class _OtpVerifyState extends State<OtpVerify> {
                       Container(
                         padding: const EdgeInsets.all(20.0),
                         decoration: const ShapeDecoration(
-                            color: AppColors.backgroundWhitecolor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(20.0)),
-                            )),
+                          color: AppColors.backgroundWhitecolor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20.0)),
+                          ),
+                        ),
                         child: Form(
                           key: otpFormKey,
                           child: Column(
@@ -136,7 +140,7 @@ class _OtpVerifyState extends State<OtpVerify> {
                                     hintText: Constants.hintOtp,
                                     keyboardType: TextInputType.number,
                                     onChange: (String text) {
-                                      this.otp = text;
+                                      otp = text;
                                       setState(() {});
                                     },
                                     validateTextField: (String? user) {
@@ -190,15 +194,18 @@ class _OtpVerifyState extends State<OtpVerify> {
                                       try {
                                         if (otpFormKey.currentState!
                                             .validate()) {
-                                          print(
-                                              'username ${widget.userName} password ${widget.pwd}');
-                                          bloc.add(LoginVerifyEvent(
+                                          log('username ${widget.userName} password ${widget.pwd}');
+                                          bloc.add(
+                                            LoginVerifyEvent(
                                               requestModel:
                                                   prepareLoginRequestBody(
-                                                      widget.userName,
-                                                      widget.pwd,
-                                                      otp),
-                                              isFromLogin: false));
+                                                widget.userName,
+                                                widget.pwd,
+                                                otp,
+                                              ),
+                                              isFromLogin: false,
+                                            ),
+                                          );
                                         }
                                       } catch (e) {}
                                     },
@@ -231,7 +238,7 @@ class _OtpVerifyState extends State<OtpVerify> {
   LoginRequestModel prepareLoginRequestBody(
       String userName, String pwd, String otp) {
     return LoginRequestModel(
-        request: Request(id: userName, password: pwd, otp: otp));
+        request: Request(userName: userName, password: pwd, otp: otp));
   }
 
   _showCustomPop(BuildContext context, String msg) {

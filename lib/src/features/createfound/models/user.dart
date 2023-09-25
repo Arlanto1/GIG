@@ -1,4 +1,4 @@
-class GetUserDetails {
+class User {
   int? userId;
   String? userName;
   String? email;
@@ -12,7 +12,7 @@ class GetUserDetails {
   String? name;
   String? userStatus;
 
-  GetUserDetails({
+  User({
     this.userId,
     this.userName,
     this.email,
@@ -27,7 +27,7 @@ class GetUserDetails {
     this.userStatus,
   });
 
-  GetUserDetails.fromJson(Map<String, dynamic> json)
+  User.fromJson(Map<String, dynamic> json)
       : userId = json['userId'] as int?,
         userName = json['userName'] as String?,
         email = json['email'] as String?,
