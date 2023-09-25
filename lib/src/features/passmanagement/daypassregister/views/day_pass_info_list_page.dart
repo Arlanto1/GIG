@@ -133,7 +133,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
               PopMenuItems("Export Excel", AppIcon.exportexcel),
               PopMenuItems("Export PDF", AppIcon.exportpdf),
               //PopMenuItems("Export XML", AppIcon.exportxml),
-              PopMenuItems("Close", AppIcon.close),
+              //PopMenuItems("Close", AppIcon.close),
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
