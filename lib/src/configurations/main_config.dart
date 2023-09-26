@@ -45,7 +45,7 @@ class Mainconfig {
     runApp(InitializeProviders(
       child: MaterialApp(
         theme: ThemeData(
-      disabledColor:  AppColors.textgreyThemecolor,
+          disabledColor: AppColors.textgreyThemecolor,
           fontFamily: Constants.customFontFamily,
           primarySwatch: AppColors.colorCustom,
           // inputDecorationTheme: const InputDecorationTheme(
@@ -56,10 +56,10 @@ class Mainconfig {
         debugShowCheckedModeBanner: false,
         initialRoute: splashScreenRoute,
         onGenerateRoute: RouteGenerator.generateRoute,
-
         locale: locale,
         supportedLocales: LocaleSupportedMethod.supportedLocale,
-        localizationsDelegates: LocaleSupportedMethod.getLocalizationsDelegates(),
+        localizationsDelegates:
+            LocaleSupportedMethod.getLocalizationsDelegates(),
         localeResolutionCallback: (locale, supportedLocales) =>
             LocaleSupportedMethod.getLocale(locale, supportedLocales),
       ),

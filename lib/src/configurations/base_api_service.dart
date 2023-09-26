@@ -105,6 +105,7 @@ class BaseApiService {
     try {
       final headers =
           await _getHeaders(isAuthenticated: isAuthenticated ?? true);
+      log("API URL: $url");
       final response = await http.post(
         Uri.parse(url),
         headers: headers,
@@ -113,7 +114,6 @@ class BaseApiService {
 
       final responseBody = json.decode(response.body);
 
-      log("API URL: $url");
       log("Request Body: ${json.encode(requestedData)}");
       log("HTTP Status Code: ${response.statusCode}");
       log("Response: ${response.body}");

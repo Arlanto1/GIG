@@ -14,6 +14,8 @@ class Apis {
   static const String _login =
       'https://api.integration.dbatom.arlanto.com/oauth2/loginV2';
   static const String _resetPassword =
+      'https://api.integration.dbatom.arlanto.com/oauth2/resetPassword';
+  static const String _updatePassword =
       'https://api.integration.dbatom.arlanto.com/oauth2/updatePassword';
   static const String _refreshToken =
       'https://api.integration.dbatom.arlanto.com/oauth2/tokenRefresh';
@@ -29,6 +31,7 @@ class LoginService {
   }
 
   Future<LoginResponseModel> forgotPwdAPI(LoginRequestModel data) async {
+    log('response---@@-----forgotPwdAPI-----');
     const String url = Apis._resetPassword;
     final response = await BaseApiService()
         .postRequest(url: url, requestedData: data.toJson(), isAuthenticated: false);
@@ -37,7 +40,7 @@ class LoginService {
   }
 
   Future<LoginResponseModel> updatePassword(UpdatePasswordRequest data) async {
-    const String url = Apis._resetPassword;
+    const String url = Apis._updatePassword;
     final response = await BaseApiService()
         .postRequest(url: url, requestedData: data.toJson());
     log('response---@@-----$response-----');
