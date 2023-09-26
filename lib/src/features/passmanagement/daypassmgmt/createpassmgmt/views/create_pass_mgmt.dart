@@ -812,10 +812,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             widget.passId == "2" ||
                                             widget.passId == '3' || (state.atomCompanyType?.name == null && 
                                                 widget.passId == "0")
-                                        ? textfieldWidgetLoad(
+                                        ? textfieldWidgetLoad1(
                                             hostemployeeidTextController,
                                             0,
-                                            state)
+                                            state,)
                                         : Container(),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
@@ -2766,6 +2766,38 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //         :
       //     true,
       hintText: '',
+      onChange: (String username) {
+        //this.username = username;
+      },
+      validateTextField: (String? user) {},
+      // )
+      //)
+    );
+  }
+  Widget textfieldWidgetLoad1(TextEditingController textController, int index,
+      CreatePassMgmtState state) {
+    return FlutterInputField(
+      //lineHeight: textController == employeeidTextController ? 1 : 1,
+      onTap: () {},
+      textFieldController: textController,
+      textFormKey: Keys.colorTextController,
+      keyboardType: textController == contactnoTextController || textController == sezpassinfoTextController ? TextInputType.number : TextInputType.text,
+      // isEnable:
+      //     widget.listuser == null
+      //     ? true
+      //     : (widget.listuser != null &&
+      //             (textController.text ?? '')
+      //                 .isEmpty) ?
+      //     true
+      //     : false,
+      //     isDisableColor: (widget.listuser != null &&
+      //                 (textController.text ?? '')
+      //                     .isEmpty) ||issue
+      //             widget.listuser == null
+      //         ? false
+      //         :
+      //     true,
+      hintText: 'no empty',
       onChange: (String username) {
         //this.username = username;
       },
