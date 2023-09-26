@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
+import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -29,19 +30,19 @@ class BaseApiService {
 
   Future<Map<String, String>> _getHeaders({bool? isAuthenticated}) async {
     Map<String, String> headers = {
-      'Content-Type': 'application/json; charset=UTF-8'
+      'Content-Type': 'application/json'
     };
 
     if (isAuthenticated != null && isAuthenticated) {
       //TODO: Need to implement it
-      // String? token = await Constants.getPrefrenceValue(Constants.token);
-      // log("token is:$token");
-      // if (token != null) {
-      //   headers.addAll({"Authorization": token});
-      //   return headers;
-      // }
+      String token = await SharedPrefs.getToken();
+      log("token is:$token");
+        headers.addAll({"Authorization": 'Bearer $token'});
+      // headers.addAll({"Bearer": token});
+      return headers;
     }
 
+    log('--headers------1---${headers.toString()}----');
     return headers;
   }
 
@@ -84,6 +85,7 @@ class BaseApiService {
     try {
       final headers =
           await _getHeaders(isAuthenticated: isAuthenticated ?? true);
+      log('Headers: ${headers.toString()}----');
       final response = await http.post(
         Uri.parse(url),
         headers: headers,
@@ -111,10 +113,10 @@ class BaseApiService {
         if (responseBody != null &&
             responseBody is Map<String, dynamic> &&
             responseBody.containsKey("error")) {
-          throw ApiException(responseBody["error"]);
+          throw GenericCreateResponse.fromJson(responseBody);
         } else {
           // Handle other error cases here
-          throw ApiException("An error occurred");
+          throw GenericCreateResponse.fromJson(responseBody);
         }
       }
     } on SocketException {

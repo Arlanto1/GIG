@@ -20,10 +20,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OtpVerifyScreen extends StatelessWidget {
-  String userName = '';
-  String password = '';
+  final String userName;
+  final String password;
 
-  OtpVerifyScreen({super.key, this.userName = '', this.password = ''});
+  const OtpVerifyScreen({
+    super.key,
+    this.userName = '',
+    this.password = '',
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +86,20 @@ class _OtpVerifyState extends State<OtpVerify> {
             _showCustomPop(context, state.message);
           } else if (state is LoginVerifyOtpActionState) {
             dismissLoadingDialog(context);
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              homePageRoute,
+              (route) => false,
+            );
+          } else if (state is UpdatePasswordState) {
+            log('--LoginFailureState---');
+            dismissLoadingDialog(context);
             // TODO: May be need to clear navigation stack
-            Navigator.pushNamedAndRemoveUntil(context, homePageRoute, (route) => false,);
+            Navigator.pushNamed(
+              context,
+              resetPwdScreenRoute,
+              // (route) => false,
+            );
           } else if (state is LoginLoadingState) {
             showLoadingDialog(context);
           }

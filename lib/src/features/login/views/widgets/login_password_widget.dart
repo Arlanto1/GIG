@@ -10,11 +10,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 class LoginPassword extends StatefulWidget {
   final Function(String? password) validatePassword;
   final Function(String onChangeStr) onChange;
-  final FocusNode? passfocusnode;
-  final Function? onfieldSubmitted;
-  TextInputAction? textInputAction;
+  final FocusNode? passFocusNode;
+  final Function? onFieldSubmitted;
+  final TextInputAction? textInputAction;
   
-  LoginPassword({Key? key, required this.validatePassword, required this.onChange,this.passfocusnode,this.onfieldSubmitted,this.textInputAction})
+  const LoginPassword({Key? key, required this.validatePassword, required this.onChange,this.passFocusNode,this.onFieldSubmitted,this.textInputAction})
       : super(key: key);
 
   @override
@@ -42,9 +42,9 @@ TextEditingController passwordTextController = TextEditingController();
       isSecure: !_showPassword,
       validateTextField: (String? pwd) => widget.validatePassword(pwd),
       textInputAction: widget.textInputAction,
-                                    focusnode: widget.passfocusnode,
+                                    focusnode: widget.passFocusNode,
                                   onfieldSubmitted: (value) {
-         widget.onfieldSubmitted != null ? widget.onfieldSubmitted!(value) : null;
+         widget.onFieldSubmitted != null ? widget.onFieldSubmitted!(value) : null;
       },
       prefixWidget: Padding(
         padding: const EdgeInsets.all(12.0),

@@ -14,6 +14,8 @@ class LoginSuccessState extends LoginActionState {
 }
 
 
+class UpdatePasswordState extends LoginActionState {}
+
 class LoginVerifyOtpActionState extends LoginActionState {}
 class ForgotPwdActionState extends LoginActionState {
 }

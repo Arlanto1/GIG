@@ -15,8 +15,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../passmanagement/daypassregister/views/day_pass_info_list_page.dart';
 
-class navigationDrawer1 extends StatelessWidget {
-  navigationDrawer1(this._menuscaffoldKey, this.username, this.email);
+class NavigationDrawer1 extends StatelessWidget {
+  NavigationDrawer1(this._menuscaffoldKey, this.username, this.email, {super.key});
 
   String? username;
   String? email;

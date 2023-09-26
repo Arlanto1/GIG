@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/configurations/main_config.dart';
@@ -31,7 +33,7 @@ class MyHomePageState extends State<MyHomePage> {
   Future<void> getUserDetails() async {
      userName = await SharedPrefs.getUsername();
      email = await SharedPrefs.getEmail();
-     print('username : ${userName} email is : ${email}');
+     log('username : $userName email is : $email');
      //await Future.delayed(Duration(seconds: 3));
      setState(() {
        
@@ -58,7 +60,7 @@ class MyHomePageState extends State<MyHomePage> {
       //   backgroundColor: AppColors.navigationSkybluecolor,
       // ),
       key: scaffoldKey,
-      drawer: navigationDrawer1(scaffoldKey,userName,email),
+      drawer: NavigationDrawer1(scaffoldKey,userName,email),
       appBar: AppHeader(
         isTitleCenter: false,
         title: Constants.dashboard,

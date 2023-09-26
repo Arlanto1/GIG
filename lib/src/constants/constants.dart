@@ -35,6 +35,7 @@ import '../common_widgets/base_widget/base_list_tile_item.dart';
   static const String isLoggedInKey = 'isLoggedIn';
   static const String isUserNameKey = 'isUserName';
   static const String isEmailKey = 'isEmail';
+  static const String isRequiredPasswordChangeKey = 'isRequiredPasswordChange';
 
   static const String isUserIdKey = 'isUserId';
   static const String isFoundIdKey = 'isFoundId';
@@ -59,6 +60,7 @@ import '../common_widgets/base_widget/base_list_tile_item.dart';
   static const String otpError = "Please enter otp";
 
   static const String passwordError = "Please enter password";
+  static const String confirmPasswordError = "Please enter Confirm password";
   static const String passwordLengthError =
       "Please enter password minimum 6 characters";
   static const String loginButtonTitle = "Login";
@@ -77,6 +79,7 @@ import '../common_widgets/base_widget/base_list_tile_item.dart';
   static const String password = "Password";
   static const String old_password = "Old Password";
   static const String new_password = "New Password";
+  static const String confirmNewPassword = "Confirm New Password";
   static const String forgotpassowrd = 'Forgot Password?';
   static const String supporttext = "Support: +49 6150 961 6244";
   static const String copyrighttext = "Copyright Â© 2023 RimaOne.";

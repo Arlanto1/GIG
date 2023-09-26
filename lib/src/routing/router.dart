@@ -33,6 +33,7 @@ const String eventInfoRoute = '/eventInfoRoute';
 
 const String otpVerificationRoute = '/otpverification';
 const String forgotPwdScreenRoute = '/forgotPwdScreen';
+const String updatePasswordScreenRoute = '/updatePasswordScreenRoute';
 const String resetPwdScreenRoute = '/resetPwdScreen';
 
 

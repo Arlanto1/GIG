@@ -23,6 +23,7 @@ class Validator {
     SharedPrefs.setSessionToken('');
     SharedPrefs.setLoggedIn(false);
     SharedPrefs.setFoundId(100);
+    SharedPrefs.clearSharedPreferences();
     Navigator.of(context).pushNamedAndRemoveUntil(loginScreenRoute, (route) => false);
   }
 

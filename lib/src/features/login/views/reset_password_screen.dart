@@ -1,15 +1,16 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/login/bloc/login_bloc.dart';
 import 'package:db_atom/src/features/login/models/login_request_model.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
-import 'package:db_atom/src/features/login/views/forgot_password.dart';
-import 'package:db_atom/src/features/login/views/login_password.dart';
+import 'package:db_atom/src/features/login/views/widgets/forgot_password_widget.dart';
+import 'package:db_atom/src/features/login/views/widgets/login_password_widget.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -18,6 +19,8 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../models/update_password_request.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   const ResetPasswordScreen({super.key});
@@ -43,9 +46,11 @@ class _ResetPasswordState extends State<ResetPassword> {
   String username = '';
   String oldPassword = '';
   String newPassword = '';
+  String confirmNewPassword = '';
   final FocusNode _usernameFocus = FocusNode();
-  final FocusNode _oldpasswordFocus = FocusNode(); 
-  final FocusNode _newpasswordFocus = FocusNode(); 
+  final FocusNode _oldpasswordFocus = FocusNode();
+  final FocusNode _newpasswordFocus = FocusNode();
+  final FocusNode _confirmNewpasswordFocus = FocusNode();
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
 
   @override
@@ -58,7 +63,7 @@ class _ResetPasswordState extends State<ResetPassword> {
         isTitleCenter: false,
         backBtn: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacementNamed(context, loginScreenRoute);
           },
           icon: SvgPicture.asset(AppIcon.backIcon,
               color: AppColors.backgroundWhitecolor),
@@ -69,12 +74,20 @@ class _ResetPasswordState extends State<ResetPassword> {
         listener: (context, state) {
           if (state is LoginFailureState) {
             dismissLoadingDialog(context);
-            _showCustomPop(context, 'Something went wrong');
+            _showCustomPop(context, state.message);
           } else if (state is LoginSuccessState) {
             dismissLoadingDialog(context);
-            // Navigator.pushNamed(context, otpVerificationRoute, arguments: {
-            //   "userDetails": VerifyOTPArguments(bloc.userName, bloc.password)
-            // });
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              homePageRoute,
+                  (route) => false,
+            );
+            ScaffoldMessenger.of(context).showSnackBar(
+               SnackBar(
+                content: Text(state.message),
+                duration: const Duration(seconds: 3), // Adjust the duration
+              ),
+            );
           } else if (state is LoginLoadingState) {
             showLoadingDialog(context);
           }
@@ -90,7 +103,6 @@ class _ResetPasswordState extends State<ResetPassword> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-
                       Container(
                         padding: const EdgeInsets.all(20.0),
                         decoration: const ShapeDecoration(
@@ -115,83 +127,85 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 //mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Container(
-                                    alignment: Alignment.topLeft,
-                                    child: const Text(
-                                      Constants.username,
-                                      style: Styles.textStyleBlack16,
-                                    ),
-                                  ),
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001),
-                                  FlutterInputField(
-                                    textFieldController: userNameTextController,
-                                    textFormKey: Keys.userTextField,
-                                    hintText: Constants.hintUserName,
-                                    onChange: (String username) {
-                                      this.username = username;
-                                      setState(() {});
-                                    },
-                                    textInputAction: TextInputAction.next,
-                                    focusnode: _usernameFocus,
-                                    onfieldSubmitted: (term) {
-                                      _usernameFocus.unfocus();
-                                      FocusScope.of(context)
-                                          .requestFocus(_oldpasswordFocus);
-                                    },
-                                    validateTextField: (String? user) {
-                                      if (!Validator.isValidUserName(user)) {
-                                        return Constants.userError;
-                                      }
-                                    },
-                                    prefixWidget: SvgPicture.asset(
-                                      AppIcon.userIcon,
-                                      color: AppColors.textColor,
-                                      width: 20,
-                                      key: const Key(Keys.userIcon),
-                                    ),
-                                  ),
+                                  // Container(
+                                  //   alignment: Alignment.topLeft,
+                                  //   child: const Text(
+                                  //     Constants.username,
+                                  //     style: Styles.textStyleBlack16,
+                                  //   ),
+                                  // ),
+                                  // CommonWidgets.verticalSpacerWidget(
+                                  //     height * 0.001),
+                                  // FlutterInputField(
+                                  //   textFieldController: userNameTextController,
+                                  //   textFormKey: Keys.userTextField,
+                                  //   hintText: Constants.hintUserName,
+                                  //   onChange: (String username) {
+                                  //     this.username = username;
+                                  //     setState(() {});
+                                  //   },
+                                  //   textInputAction: TextInputAction.next,
+                                  //   focusnode: _usernameFocus,
+                                  //   onfieldSubmitted: (term) {
+                                  //     _usernameFocus.unfocus();
+                                  //     FocusScope.of(context)
+                                  //         .requestFocus(_oldpasswordFocus);
+                                  //   },
+                                  //   validateTextField: (String? user) {
+                                  //     if (!Validator.isValidUserName(user)) {
+                                  //       return Constants.userError;
+                                  //     }
+                                  //   },
+                                  //   prefixWidget: SvgPicture.asset(
+                                  //     AppIcon.userIcon,
+                                  //     color: AppColors.textColor,
+                                  //     width: 20,
+                                  //     key: const Key(Keys.userIcon),
+                                  //   ),
+                                  // ),
 
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.02),
 
-                                  // Password field
-
-                                  Column(
-                                    children: [
-                                      Container(
-                                        alignment: Alignment.topLeft,
-                                        child: const Text(
-                                          Constants.old_password,
-                                          style: Styles.textStyleBlack16,
+                                  /// Old Password field
+                                  if (false) ...[
+                                    Column(
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.topLeft,
+                                          child: const Text(
+                                            Constants.old_password,
+                                            style: Styles.textStyleBlack16,
+                                          ),
                                         ),
-                                      ),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.001),
-                                      LoginPassword(
-                                         passfocusnode: _oldpasswordFocus,
-                                         textInputAction: TextInputAction.next,
-                                        validatePassword: ((String? password) {
-                                          if (!Validator.isValidPassword(
-                                              password)) {
-                                            return Constants.passwordError;
-                                          } else if (!Validator
-                                              .passwordValidation(password)) {
-                                            return Constants
-                                                .passwordLengthError;
-                                          }
-                                        }),
-                                        onfieldSubmitted: (term) {
-                                          _oldpasswordFocus.unfocus();
-                                          FocusScope.of(context).requestFocus(_newpasswordFocus);
-                                          
-                                        },
-                                        onChange: (String password) {
-                                          this.oldPassword = password;
-                                        },
-                                      ),
-                                    ],
-                                  ),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001),
+                                        LoginPassword(
+                                          passFocusNode: _oldpasswordFocus,
+                                          textInputAction: TextInputAction.next,
+                                          validatePassword:
+                                              ((String? password) {
+                                            if (!Validator.isValidPassword(
+                                                password)) {
+                                              return Constants.passwordError;
+                                            } else if (!Validator
+                                                .passwordValidation(password)) {
+                                              return Constants
+                                                  .passwordLengthError;
+                                            }
+                                          }),
+                                          onFieldSubmitted: (term) {
+                                            _oldpasswordFocus.unfocus();
+                                            FocusScope.of(context).requestFocus(
+                                                _newpasswordFocus);
+                                          },
+                                          onChange: (String password) {
+                                            oldPassword = password;
+                                          },
+                                        ),
+                                      ],
+                                    )
+                                  ],
 
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.03),
@@ -207,7 +221,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
                                       LoginPassword(
-                                        passfocusnode: _newpasswordFocus,
+                                        passFocusNode: _newpasswordFocus,
                                         textInputAction: TextInputAction.done,
                                         validatePassword: ((String? password) {
                                           if (!Validator.isValidPassword(
@@ -219,26 +233,70 @@ class _ResetPasswordState extends State<ResetPassword> {
                                                 .passwordLengthError;
                                           }
                                         }),
-                                         onfieldSubmitted: (term) {
+                                        onFieldSubmitted: (term) {
                                           _newpasswordFocus.unfocus();
                                           try {
-                                        if (loginFormKey.currentState!
-                                            .validate()) {
-                                          print(
-                                              'username $username password $oldPassword');
-                                          // bloc.add(LoginVerifyEvent(
-                                          //     requestModel:
-                                          //     prepareLoginRequestBody(
-                                          //         username, oldPassword, ''),
-                                          //     isFromLogin: true));
-                                        }
-                                      } catch (e) {
-                                        // present userwith error message
-                                      }
-                                          
+                                            if (loginFormKey.currentState!
+                                                .validate()) {
+                                              print(
+                                                  'username $username password $oldPassword');
+                                              // bloc.add(LoginVerifyEvent(
+                                              //     requestModel:
+                                              //     prepareLoginRequestBody(
+                                              //         username, oldPassword, ''),
+                                              //     isFromLogin: true));
+                                            }
+                                          } catch (e) {
+                                            // present userwith error message
+                                          }
                                         },
                                         onChange: (String password) {
                                           this.newPassword = password;
+                                        },
+                                      ),
+                                    ],
+                                  ),
+
+                                  /// Confirm New Password
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.03),
+                                  Column(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        child: const Text(
+                                          Constants.confirmNewPassword,
+                                          style: Styles.textStyleBlack16,
+                                        ),
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      LoginPassword(
+                                        passFocusNode: _confirmNewpasswordFocus,
+                                        textInputAction: TextInputAction.done,
+                                        validatePassword: ((String? password) {
+                                          if (!Validator.isValidPassword(
+                                              password)) {
+                                            return Constants.passwordError;
+                                          } else if (!Validator
+                                              .passwordValidation(password)) {
+                                            return Constants
+                                                .passwordLengthError;
+                                          }
+                                        }),
+                                        onFieldSubmitted: (term) {
+                                          _confirmNewpasswordFocus.unfocus();
+                                          try {
+                                            if (loginFormKey.currentState!
+                                                .validate()) {
+                                              log('username $username password $oldPassword');
+                                            }
+                                          } catch (e) {
+                                            // present userwith error message
+                                          }
+                                        },
+                                        onChange: (String password) {
+                                          confirmNewPassword = password;
                                         },
                                       ),
                                     ],
@@ -258,13 +316,17 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       try {
                                         if (loginFormKey.currentState!
                                             .validate()) {
-                                          print(
-                                              'username $username password $oldPassword');
-                                          // bloc.add(LoginVerifyEvent(
-                                          //     requestModel:
-                                          //     prepareLoginRequestBody(
-                                          //         username, oldPassword, ''),
-                                          //     isFromLogin: true));
+                                          log('username $username password $oldPassword');
+                                          bloc.add(UpdatePwdEvent(
+                                            requestModel: UpdatePasswordRequest(
+                                              request: UpdateRequest(
+                                                password: oldPassword,
+                                                confirmPassword:
+                                                    confirmNewPassword,
+                                                newPassword: newPassword,
+                                              ),
+                                            ),
+                                          ));
                                         }
                                       } catch (e) {
                                         // present userwith error message
@@ -282,7 +344,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                               ForgotPassword(
                                 onForgottenPassword: () => {
                                   //widget.onPasswordForgotten()
-                                  Navigator.pushNamed(context, forgotPwdScreenRoute)
+                                  Navigator.pushNamed(
+                                      context, forgotPwdScreenRoute)
                                 },
                                 title: Constants.forgotPwdTitle,
                               ),
@@ -303,7 +366,7 @@ class _ResetPasswordState extends State<ResetPassword> {
   }
 
   LoginRequestModel prepareLoginRequestBody(
-      String userName, String pwd, String otp) {
+      {String? userName, String? pwd, String? otp}) {
     return LoginRequestModel(
         request: Request(userName: username, password: oldPassword, otp: otp));
   }
@@ -345,4 +408,3 @@ class _ResetPasswordState extends State<ResetPassword> {
     );
   }
 }
-

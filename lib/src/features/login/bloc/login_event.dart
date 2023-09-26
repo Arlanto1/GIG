@@ -15,3 +15,9 @@ class ForgotPwdEvent extends LoginEvent {
 
   ForgotPwdEvent({required this.requestModel});
 }
+
+class UpdatePwdEvent extends LoginEvent {
+  final UpdatePasswordRequest requestModel;
+
+  UpdatePwdEvent({required this.requestModel});
+}

@@ -5,7 +5,6 @@ import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -37,13 +36,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
   initRouting() async {
     // When there is no session saved, it goes to landing screen
-    Timer(Duration(milliseconds: 1500), () async {
+    Timer(const Duration(milliseconds: 1500), () async {
+      var navigatorState = Navigator.of(context);
       String userName = await SharedPrefs.getUserId();
-      if(userName.isNotEmpty) {
-        Navigator.pushNamed(context, homePageRoute);
-      }else{
-        Navigator.pushNamed(context, loginScreenRoute);
-
+      if (userName.isNotEmpty) {
+        bool requirePasswordChange =
+            await SharedPrefs.getIsRequiredPasswordChange();
+        if (requirePasswordChange) {
+          navigatorState.pushNamed(resetPwdScreenRoute);
+          return;
+        }
+        navigatorState.pushNamed(homePageRoute);
+      } else {
+        navigatorState.pushNamed(loginScreenRoute);
       }
     });
   }

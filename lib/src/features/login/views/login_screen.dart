@@ -7,8 +7,8 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/login/bloc/login_bloc.dart';
 import 'package:db_atom/src/features/login/models/login_request_model.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
-import 'package:db_atom/src/features/login/views/forgot_password.dart';
-import 'package:db_atom/src/features/login/views/login_password.dart';
+import 'package:db_atom/src/features/login/views/widgets/forgot_password_widget.dart';
+import 'package:db_atom/src/features/login/views/widgets/login_password_widget.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -177,7 +177,7 @@ class _LoginState extends State<Login> {
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
                                       LoginPassword(
-                                        passfocusnode: _passwordFocus,
+                                        passFocusNode: _passwordFocus,
                                         textInputAction: TextInputAction.done,
                                         validatePassword: ((String? password) {
                                           if (!Validator.isValidPassword(
@@ -189,7 +189,7 @@ class _LoginState extends State<Login> {
                                                 .passwordLengthError;
                                           }
                                         }),
-                                        onfieldSubmitted: (term) {
+                                        onFieldSubmitted: (term) {
                                           _passwordFocus.unfocus();
                                           //FocusScope.of(context).requestFocus(_passwordFocus);
                                           _loginButtonAction(bloc);
@@ -226,7 +226,8 @@ class _LoginState extends State<Login> {
                                 onForgottenPassword: () => {
                                   //widget.onPasswordForgotten()
                                   Navigator.pushNamed(
-                                      context, forgotPwdScreenRoute)
+                                      context, forgotPwdScreenRoute,
+                                  )
                                 },
                                 title: Constants.ResetPwdTitle,
                               ),

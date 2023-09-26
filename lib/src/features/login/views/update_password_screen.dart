@@ -8,8 +8,8 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/login/bloc/login_bloc.dart';
 import 'package:db_atom/src/features/login/models/login_request_model.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
-import 'package:db_atom/src/features/login/views/forgot_password.dart';
-import 'package:db_atom/src/features/login/views/login_password.dart';
+import 'package:db_atom/src/features/login/views/widgets/forgot_password_widget.dart';
+import 'package:db_atom/src/features/login/views/widgets/login_password_widget.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -169,7 +169,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
                                       LoginPassword(
-                                         passfocusnode: _oldpasswordFocus,
+                                         passFocusNode: _oldpasswordFocus,
                                          textInputAction: TextInputAction.next,
                                         validatePassword: ((String? password) {
                                           if (!Validator.isValidPassword(
@@ -181,7 +181,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                                 .passwordLengthError;
                                           }
                                         }),
-                                        onfieldSubmitted: (term) {
+                                        onFieldSubmitted: (term) {
                                           _oldpasswordFocus.unfocus();
                                           FocusScope.of(context).requestFocus(_newpasswordFocus);
                                           
@@ -207,7 +207,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
                                       LoginPassword(
-                                        passfocusnode: _newpasswordFocus,
+                                        passFocusNode: _newpasswordFocus,
                                         textInputAction: TextInputAction.done,
                                         validatePassword: ((String? password) {
                                           if (!Validator.isValidPassword(
@@ -219,7 +219,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                                 .passwordLengthError;
                                           }
                                         }),
-                                         onfieldSubmitted: (term) {
+                                         onFieldSubmitted: (term) {
                                           _newpasswordFocus.unfocus();
                                           try {
                                         if (loginFormKey.currentState!

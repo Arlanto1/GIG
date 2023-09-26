@@ -8,6 +8,7 @@ import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:meta/meta.dart';
 
 import '../../../models/responseModels/generic_creat_response.dart';
+import '../models/update_password_request.dart';
 import '../services/login_services.dart';
 
 part 'login_event.dart';
@@ -22,6 +23,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc({required this.loginService}) : super(LoginLoadingState()) {
     on<LoginVerifyEvent>(_loginVerifyEvent);
     on<ForgotPwdEvent>(_forgotPwdEvent);
+    on<UpdatePwdEvent>(_updatePwdEvent);
   }
 
   Future<FutureOr<void>> _loginVerifyEvent(
@@ -40,7 +42,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         await SharedPrefs.setUserId('${loginData.user?.userId}');
         await SharedPrefs.setEmail('${loginData.user?.email}');
         await SharedPrefs.setIdentifymenuindex(0);
-        emit(LoginVerifyOtpActionState());
+        if (loginData.requirePasswordChange == true) {
+          await SharedPrefs.setIsRequiredPasswordChange(true);
+          await SharedPrefs.setToken(loginData.token??'');
+          await SharedPrefs.setRefreshToken(loginData.refreshToken??'');
+          emit(UpdatePasswordState());
+        } else {
+          emit(LoginVerifyOtpActionState());
+        }
       } else {
         emit(LoginSuccessState(message: loginData.msg ?? ''));
       }
@@ -65,6 +74,26 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       LoginResponseModel loginData =
           await loginService.forgotPwdAPI(event.requestModel);
+
+      emit(LoginSuccessState(message: loginData.msg ?? ''));
+    } catch (e) {
+      if (e is GenericCreateResponse) {
+        emit(LoginFailureState(
+            message: e.message ?? 'Please try after sometime'));
+      } else {
+        // Handle other unexpected errors
+        log('An unexpected error occurred: $e');
+        emit(LoginFailureState(message: 'An unexpected error occurred.'));
+      }
+    }
+  }
+
+  Future<FutureOr<void>> _updatePwdEvent(
+      UpdatePwdEvent event, Emitter<LoginState> emit) async {
+    emit(LoginLoadingState());
+    try {
+      LoginResponseModel loginData =
+      await loginService.updatePassword(event.requestModel);
 
       emit(LoginSuccessState(message: loginData.msg ?? ''));
     } catch (e) {

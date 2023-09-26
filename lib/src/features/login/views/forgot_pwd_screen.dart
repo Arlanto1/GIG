@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
@@ -63,12 +65,15 @@ class _ForgotPwdWidgetState extends State<ForgotPwdWidget> {
       body: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LoginFailureState) {
+            log('--1--------');
             dismissLoadingDialog(context);
             _showCustomPop(context, state.message);
           } else if (state is LoginSuccessState) {
+            log('--1---2-----');
             dismissLoadingDialog(context);
-            _showCustomPop(context, state.message ?? '');
+            _showCustomPop(context, state.message);
           } else if (state is LoginLoadingState) {
+            log('--1-----3---');
             showLoadingDialog(context);
           }
         },

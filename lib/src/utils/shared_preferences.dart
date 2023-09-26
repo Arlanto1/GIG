@@ -9,6 +9,19 @@ class SharedPrefs {
   static Future<SharedPreferences> init() async =>
       instance = await SharedPreferences.getInstance();
 
+  static clearSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
+
+  static Future<void> setIsRequiredPasswordChange(bool value) async {
+    instance.setBool(Constants.isRequiredPasswordChangeKey, value);
+  }
+
+  static Future<bool> getIsRequiredPasswordChange() async {
+    return instance.getBool(Constants.isRequiredPasswordChangeKey) ?? false;
+  }
+
   static Future<void> setLoggedIn(bool value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -36,18 +49,11 @@ class SharedPrefs {
   }
 
   static Future<void> setEmail(String value) async {
-    // final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    log('--setEmail- $value----');
-
     instance.setString(Constants.isEmailKey, value);
   }
 
   static Future<String> getEmail() async {
-    // final SharedPreferences prefs = await SharedPreferences.getInstance();
-
     String? isEmail = instance.getString(Constants.isEmailKey) ?? '';
-    print(isEmail);
     return isEmail; //Future<bool>.value(isLoggedIn);
   }
 
@@ -102,10 +108,18 @@ class SharedPrefs {
     return token;
   }
 
+  static Future<void> setRefreshToken(String token) async {
+    instance.setString(Constants.isSessionToken, token);
+  }
+
+  static Future<String> getRefreshToken() async {
+    String token = instance.getString(Constants.isSessionToken) ?? '';
+    return token;
+  }
+
   static removeAccessToken() async {
     //final prefs = await SharedPreferences.getInstance();
-     instance.remove(Constants.isAccessToken) ?? '';
-
+    instance.remove(Constants.isAccessToken) ?? '';
   }
 
   static Future<void> setSessionToken(String token) async {
@@ -119,8 +133,7 @@ class SharedPrefs {
 
   static removeSessionAccessToken() async {
     //final prefs = await SharedPreferences.getInstance();
-     instance.remove(Constants.isSessionToken) ?? '';
-
+    instance.remove(Constants.isSessionToken) ?? '';
   }
 
   static Future<void> setMaterialMovementId(int value) async {

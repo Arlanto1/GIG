@@ -5,6 +5,8 @@ import 'flavors.dart';
 import 'src/features/dashboard/views/my_home_page.dart';
 
 class App extends StatelessWidget {
+  const App({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,12 +15,12 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: AppColors.colorCustom,
         inputDecorationTheme: const InputDecorationTheme(
-        filled: true, //<-- SEE HERE
-        fillColor: Colors.deepPurpleAccent, //<-- SEE HERE
+          filled: true, //<-- SEE HERE
+          fillColor: Colors.deepPurpleAccent, //<-- SEE HERE
         ),
       ),
       home: _flavorBanner(
-        child: MyHomePage(),
+        child: const MyHomePage(),
         //show: kReleaseMode,
       ),
     );
@@ -30,12 +32,15 @@ class App extends StatelessWidget {
   }) =>
       show
           ? Banner(
-              child: child,
               location: BannerLocation.topStart,
               message: F.name,
               color: Colors.green.withOpacity(0.6),
-              textStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: 12.0, letterSpacing: 1.0),
+              textStyle: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 12.0,
+                  letterSpacing: 1.0),
               textDirection: TextDirection.ltr,
+              child: child,
             )
           : Container(
               child: child,

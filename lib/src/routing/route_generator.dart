@@ -71,7 +71,7 @@ class RouteGenerator {
     // ignore: non_constant_identifier_names
     switch (settings.name) {
       case appRoute:
-        return MaterialPageRoute(builder: (context) => App());
+        return MaterialPageRoute(builder: (context) => const App());
       case homePageRoute:
         return MaterialPageRoute(builder: (context) => const MyHomePage());
       case splashScreenRoute:
@@ -80,6 +80,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const LoginScreen());
       case forgotPwdScreenRoute:
         return MaterialPageRoute(builder: (context) => const ForgotPwdScreen());
+
+      // case updatePasswordScreenRoute:
+      //   return MaterialPageRoute(builder: (context) => const UpdatePasswordScreen());
       case resetPwdScreenRoute:
         return MaterialPageRoute(
             builder: (context) => const ResetPasswordScreen());
@@ -107,9 +110,9 @@ class RouteGenerator {
             return MaterialPageRoute(
                 builder: (context) => CreateFound(listuser: listuser, eventId: eventId,));
           }
-          return MaterialPageRoute(builder: (context) => CreateFound());
+          return MaterialPageRoute(builder: (context) => const CreateFound());
         } else {
-          return MaterialPageRoute(builder: (context) => CreateFound());
+          return MaterialPageRoute(builder: (context) => const CreateFound());
         }
       case lawenforcementScreenRoute:
         // return MaterialPageRoute(builder: (context) => CreateLawenforcement());
@@ -527,7 +530,7 @@ class RouteGenerator {
                   child: const FemaleDropPickUpView(),
                 ));
       default:
-        return MaterialPageRoute(builder: (context) => App());
+        return MaterialPageRoute(builder: (context) => const App());
     }
   }
 }
