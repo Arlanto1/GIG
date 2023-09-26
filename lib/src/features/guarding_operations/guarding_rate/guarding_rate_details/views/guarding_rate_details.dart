@@ -115,8 +115,10 @@ class GuardingRateDetailsState extends State<GuardingRateDetails> {
       buttonText: Constants.submit,
       buttonTextKey: Keys.submitButton,
       onTap: () async {
-        FocusScope.of(context).unfocus();
-        BlocProvider.of<PayRateCubit>(context).onSave(isSubmit: true);
+        Navigator.pushNamed(context, guardingRatesRoute,
+            arguments: {"Guarding Rates": true});
+        // FocusScope.of(context).unfocus();
+        // BlocProvider.of<PayRateCubit>(context).onSave(isSubmit: true);
       },
     );
   }

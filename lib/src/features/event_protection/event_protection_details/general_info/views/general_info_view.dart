@@ -13,7 +13,6 @@ import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/location.dart';
 import 'package:db_atom/src/routing/router.dart';
@@ -342,14 +341,14 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14,
                               ),
                               TextfieldAddButton(
-                                title: state.model.srh1?.firstName,
+                                title: state.model.srh1?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
                                   BaseDepartmentDialog().userDialog(
                                     context: context,
                                     users: state.emailUsers!,
-                                    onTap: (User user) {
+                                    onTap: (BaseUser user) {
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .updateDropdownValues(
                                         subRegionalHead1: user,
@@ -366,14 +365,14 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14,
                               ),
                               TextfieldAddButton(
-                                title: state.model.srh2?.firstName,
+                                title: state.model.srh2?.name,
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
                                   BaseDepartmentDialog().userDialog(
                                     context: context,
                                     users: state.emailUsers!,
-                                    onTap: (User user) {
+                                    onTap: (BaseUser user) {
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .updateDropdownValues(
                                         subRegionalHead2: user,

@@ -15,14 +15,12 @@ import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_cubit.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
 import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
@@ -242,9 +240,11 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
 
                                     CommonWidgets.horizentaltextHandling(
                                         Constants.createdby,
-                                        state.getUserDetailsResponse
-                                                ?.lastName ??
-                                            ''),
+                                        '${state.getUserDetailsResponse
+                                                ?.firstName ??
+                                            ''} ${state.getUserDetailsResponse
+                                             ?.lastName ??
+                                            ''}'),
 
                                     // ),
                                     // Location

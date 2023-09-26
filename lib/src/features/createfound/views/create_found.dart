@@ -126,7 +126,7 @@ class _CreateFoundState extends State<CreateFound> {
               lastName: widget.listuser?.entrySecurity?.lastName ?? "")
           : EntrySecurity();
       createdByValue =
-          userDetails?.lastName != null ? userDetails?.lastName ?? '' : '';
+          userDetails?.name != null ? userDetails?.name ?? '' : '';
       serialNumber =
           widget.listuser?.slNo != null ? widget.listuser?.slNo ?? "" : '';
       locationSelectedlist = widget.listuser?.location != null
@@ -452,74 +452,74 @@ class _CreateFoundState extends State<CreateFound> {
     showDialog(context: context, builder: (BuildContext context) => dialog);
   }
 
-  createdraftValidations(BuildContext context) {
-    if ((locationSelectedlist?.name ?? "").isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter location",
-      );
-    } else if ((selectedArtclelist?.name ?? "").isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter article name",
-      );
-    } else if (isDepositorDBEmployeeSelected == 0 &&
-        depositorTextController.text.isEmpty) {
-      Validator().showToast(context, "Please enter depositor");
-    } else if (isDepositorDBEmployeeSelected == 1 &&
-        (((selecteddepositorList?.name ?? "").isEmpty) ||
-            (depositorEmpIdTextController.text.isEmpty) ||
-            ((selectedEmployeedepartment?.name ?? "").isEmpty))) {
-      if ((selecteddepositorList?.name ?? "").isEmpty) {
-        Validator().showToast(
-          context,
-          "Please enter depositor",
-        );
-      } else if (depositorEmpIdTextController.text.isEmpty) {
-        Validator().showToast(
-          context,
-          "Please enter depositor employee id",
-        );
-      } else if ((selectedEmployeedepartment?.name ?? "").isEmpty) {
-        Validator().showToast(
-          context,
-          "Please enter employee department",
-        );
-      }
-    } else {
-      //createNewuserBody(true, widget.listuser?.id ?? 0);
-      if (widget.listuser != null) {
-        if (isClaimantDBEmployeeSelected == 1 &&
-            ((claimant.isEmpty) ||
-                (claimantEmpIdTextController.text.isEmpty) ||
-                ((selectedClaimdepartment?.name ?? '').isEmpty))) {
-          if (claimant.isEmpty) {
-            Validator().showToast(
-              context,
-              "Please enter claimant",
-            );
-          } else if (claimantEmpIdTextController.text.isEmpty) {
-            Validator().showToast(
-              context,
-              "Please enter claimant employee id",
-            );
-          } else if ((selectedClaimdepartment?.name ?? '').isEmpty) {
-            Validator().showToast(
-              context,
-              "Please enter claimant department",
-            );
-          }
-        } else if (isClaimantDBEmployeeSelected == 0 &&
-            claimantTextController.text.isEmpty) {
-          Validator().showToast(context, "Please enter claim");
-        } else {
-          createNewuserBody(true, widget.listuser?.id ?? 0);
-        }
-      } else {
-        createFoundBody(false, widget.listuser?.id ?? 0);
-      }
-    }
-  }
+  // createdraftValidations(BuildContext context) {
+  //   if ((locationSelectedlist?.name ?? "").isEmpty) {
+  //     Validator().showToast(
+  //       context,
+  //       "Please enter location",
+  //     );
+  //   } else if ((selectedArtclelist?.name ?? "").isEmpty) {
+  //     Validator().showToast(
+  //       context,
+  //       "Please enter article name",
+  //     );
+  //   } else if (isDepositorDBEmployeeSelected == 0 &&
+  //       depositorTextController.text.isEmpty) {
+  //     Validator().showToast(context, "Please enter depositor");
+  //   } else if (isDepositorDBEmployeeSelected == 1 &&
+  //       (((selecteddepositorList?.name ?? "").isEmpty) ||
+  //           (depositorEmpIdTextController.text.isEmpty) ||
+  //           ((selectedEmployeedepartment?.name ?? "").isEmpty))) {
+  //     if ((selecteddepositorList?.name ?? "").isEmpty) {
+  //       Validator().showToast(
+  //         context,
+  //         "Please enter depositor",
+  //       );
+  //     } else if (depositorEmpIdTextController.text.isEmpty) {
+  //       Validator().showToast(
+  //         context,
+  //         "Please enter depositor employee id",
+  //       );
+  //     } else if ((selectedEmployeedepartment?.name ?? "").isEmpty) {
+  //       Validator().showToast(
+  //         context,
+  //         "Please enter employee department",
+  //       );
+  //     }
+  //   } else {
+  //     //createNewuserBody(true, widget.listuser?.id ?? 0);
+  //     if (widget.listuser != null) {
+  //       if (isClaimantDBEmployeeSelected == 1 &&
+  //           ((claimant.isEmpty) ||
+  //               (claimantEmpIdTextController.text.isEmpty) ||
+  //               ((selectedClaimdepartment?.name ?? '').isEmpty))) {
+  //         if (claimant.isEmpty) {
+  //           Validator().showToast(
+  //             context,
+  //             "Please enter claimant",
+  //           );
+  //         } else if (claimantEmpIdTextController.text.isEmpty) {
+  //           Validator().showToast(
+  //             context,
+  //             "Please enter claimant employee id",
+  //           );
+  //         } else if ((selectedClaimdepartment?.name ?? '').isEmpty) {
+  //           Validator().showToast(
+  //             context,
+  //             "Please enter claimant department",
+  //           );
+  //         }
+  //       } else if (isClaimantDBEmployeeSelected == 0 &&
+  //           claimantTextController.text.isEmpty) {
+  //         Validator().showToast(context, "Please enter claim");
+  //       } else {
+  //         createNewuserBody(true, widget.listuser?.id ?? 0);
+  //       }
+  //     } else {
+  //       createFoundBody(false, widget.listuser?.id ?? 0);
+  //     }
+  //   }
+  // }
 
   createfoundValidations(BuildContext context) {
     if (statusTextController.text.isEmpty &&
@@ -835,8 +835,8 @@ class _CreateFoundState extends State<CreateFound> {
               onTap: () {
                 //for now the new param is isSubmit added, if any new params needed we can add to this.
                 //createNewuserBody(false); //for save
-                createdraftValidations(context);
-                // createNewuserBody(false);
+                //createdraftValidations(context);
+                 createNewuserBody(false, 0);
               },
               child: Padding(
                 padding: const EdgeInsets.only(right: 20.0),
@@ -887,7 +887,7 @@ class _CreateFoundState extends State<CreateFound> {
             if (widget.listuser == null) {
               userDetails = state.getUserDetailsResponse ?? EntrySecurity();
               if (userDetails != null) {
-                createdByValue = userDetails?.lastName ?? '';
+                createdByValue = '${userDetails?.firstName ?? ''} ${userDetails?.lastName ?? ''}';
               }
               serialnumberResponse = state.getSerialnumberResponse;
               if (serialnumberResponse != null) {
@@ -1150,35 +1150,57 @@ class _CreateFoundState extends State<CreateFound> {
                             CommonWidgets.textDisplay(
                                 Constants.colour, Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-
                             FlutterInputField(
-                              onTap: () {
-                                colorDailog();
-                              },
                               textFieldController: colorTextController,
                               textFormKey: Keys.colorTextController,
+                              hintText: '',
                               isEnable: widget.listuser == null
                                   ? true
                                   : (widget.listuser != null &&
-                                          (widget.listuser?.color ?? '')
-                                              .isEmpty)
-                                      ? true
-                                      : false,
+                                  (widget.listuser?.color ?? '')
+                                      .isEmpty)
+                                  ? true
+                                  : false,
                               isDisableColor: (widget.listuser != null &&
-                                          (widget.listuser?.color ?? '')
-                                              .isEmpty) ||
-                                      widget.listuser == null
+                                  (widget.listuser?.color ?? '')
+                                      .isEmpty) ||
+                                  widget.listuser == null
                                   ? false
                                   : true,
-                              hintText: '',
                               onChange: (String username) {
                                 //this.username = username;
                                 setState(() {});
                               },
                               validateTextField: (String? user) {},
-                              // )
-                              //)
                             ),
+                            // FlutterInputField(
+                            //   onTap: () {
+                            //     colorDailog();
+                            //   },
+                            //   textFieldController: colorTextController,
+                            //   textFormKey: Keys.colorTextController,
+                            //   isEnable: widget.listuser == null
+                            //       ? true
+                            //       : (widget.listuser != null &&
+                            //               (widget.listuser?.color ?? '')
+                            //                   .isEmpty)
+                            //           ? true
+                            //           : false,
+                            //   isDisableColor: (widget.listuser != null &&
+                            //               (widget.listuser?.color ?? '')
+                            //                   .isEmpty) ||
+                            //           widget.listuser == null
+                            //       ? false
+                            //       : true,
+                            //   hintText: '',
+                            //   onChange: (String username) {
+                            //     //this.username = username;
+                            //     setState(() {});
+                            //   },
+                            //   validateTextField: (String? user) {},
+                            //   // )
+                            //   //)
+                            // ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
