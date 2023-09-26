@@ -1039,7 +1039,7 @@ class _CreateFoundState extends State<CreateFound> {
 
                             // article type
                             CommonWidgets.textDisplay(
-                                Constants.articletype, Styles.textStyleBlack14),
+                                Constants.articlename, Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             articleaddButtonwidgetLoading(state),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
