@@ -94,6 +94,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       LoginResponseModel loginData =
       await loginService.updatePassword(event.requestModel);
+      await SharedPrefs.setIsRequiredPasswordChange(false);
 
       emit(LoginSuccessState(message: loginData.msg ?? ''));
     } catch (e) {
