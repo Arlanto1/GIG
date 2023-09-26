@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:db_atom/src/features/login/models/refresh_token_request.dart';
+import 'package:db_atom/src/features/login/services/login_services.dart';
 import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +21,7 @@ class BaseApiService {
       final headers = await _getHeaders(isAuthenticated: isAuthenticated);
       final response = await _performGetRequest(url, headers);
       log('--response-11--$response}--');
-      return _handleResponse(response);
+      return _handleResponse(response, url);
     } on SocketException {
       throw NetworkException('Network Lost');
     } catch (e) {
@@ -29,20 +31,17 @@ class BaseApiService {
   }
 
   Future<Map<String, String>> _getHeaders({bool? isAuthenticated}) async {
-    Map<String, String> headers = {
-      'Content-Type': 'application/json'
-    };
+    Map<String, String> headers = {'Content-Type': 'application/json'};
 
     if (isAuthenticated != null && isAuthenticated) {
       //TODO: Need to implement it
       String token = await SharedPrefs.getToken();
       log("token is:$token");
-        headers.addAll({"Authorization": 'Bearer $token'});
+      headers.addAll({"Authorization": 'Bearer $token'});
       // headers.addAll({"Bearer": token});
       return headers;
     }
 
-    log('--headers------1---${headers.toString()}----');
     return headers;
   }
 
@@ -54,18 +53,25 @@ class BaseApiService {
     return response;
   }
 
-  dynamic _handleResponse(http.Response response) {
-    log('----_handleResponse---${response.body.toString()}---');
-    log('----_handleResponse--decode-${json.decode(response.body)}---');
-
+  dynamic _handleResponse(http.Response response, String url) async {
     final responseBody = json.decode(response.body);
-    log('----_handleResponse---responseBody-$responseBody--');
 
     if (response.statusCode == HttpStatus.ok) {
-      log('----_handleResponse---responseBody----HttpStatus.ok------$responseBody--');
       return responseBody;
     } else {
       log('GET request failed with status code: ${response.statusCode}');
+
+      /// If Token is Expired
+      if (response.statusCode == 449) {
+        /// Call refresh token API
+        await callRefreshToken();
+
+        /// call API again
+        getRequest(
+          url: url,
+        );
+      }
+
       if (response.statusCode == 401) {
         log('User is unauthorized. Logging out...');
         // TODO: Handle logout logic here
@@ -73,6 +79,20 @@ class BaseApiService {
       log('Error response body: $responseBody');
       throw LoginResponseModel.fromJson(responseBody);
     }
+  }
+
+  Future<void> callRefreshToken() async {
+    RefreshTokenRequest request = RefreshTokenRequest(
+        jwtRefreshRequest: JwtRefreshRequest(
+      refreshToken: await SharedPrefs.getRefreshToken(),
+      token: await SharedPrefs.getToken(),
+    ));
+    final LoginService loginService = LoginService();
+    LoginResponseModel loginData = await loginService.refreshToken(request);
+
+    /// store token
+    await SharedPrefs.setToken(loginData.token ?? '');
+    await SharedPrefs.setRefreshToken(loginData.refreshToken ?? '');
   }
 
   Future<dynamic> postRequest({
@@ -85,7 +105,6 @@ class BaseApiService {
     try {
       final headers =
           await _getHeaders(isAuthenticated: isAuthenticated ?? true);
-      log('Headers: ${headers.toString()}----');
       final response = await http.post(
         Uri.parse(url),
         headers: headers,
@@ -103,6 +122,16 @@ class BaseApiService {
         return responseBody;
       } else {
         log("$url POST response is NOT OK: ${response.statusCode}");
+
+        /// If Token is Expired
+        if (response.statusCode == 449) {
+          /// Call refresh token API
+          await callRefreshToken();
+
+          /// call API again
+          postRequest(url: url, requestedData: requestedData);
+        }
+
         if (response.statusCode == 401) {
           log("User is unauthorized. Logging out...");
           // TODO: Handle logout logic here

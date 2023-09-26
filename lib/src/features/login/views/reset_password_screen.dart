@@ -29,19 +29,21 @@ class ResetPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<LoginBloc>(
       create: (_) => LoginBloc(loginService: LoginService()),
-      child: const ResetPassword(),
+      child: const ResetPasswordView(viaNavigationDrawer: false),
     );
   }
 }
 
-class ResetPassword extends StatefulWidget {
-  const ResetPassword({super.key});
+class ResetPasswordView extends StatefulWidget {
+  const ResetPasswordView({super.key, required this.viaNavigationDrawer});
+
+  final bool viaNavigationDrawer;
 
   @override
-  State<ResetPassword> createState() => _ResetPasswordState();
+  State<ResetPasswordView> createState() => _ResetPasswordViewState();
 }
 
-class _ResetPasswordState extends State<ResetPassword> {
+class _ResetPasswordViewState extends State<ResetPasswordView> {
   TextEditingController userNameTextController = TextEditingController();
   String username = '';
   String oldPassword = '';
@@ -63,7 +65,9 @@ class _ResetPasswordState extends State<ResetPassword> {
         isTitleCenter: false,
         backBtn: IconButton(
           onPressed: () {
-            Navigator.pushReplacementNamed(context, loginScreenRoute);
+            widget.viaNavigationDrawer
+                ? Navigator.of(context).pop()
+                : Navigator.pushReplacementNamed(context, loginScreenRoute);
           },
           icon: SvgPicture.asset(AppIcon.backIcon,
               color: AppColors.backgroundWhitecolor),
@@ -80,10 +84,10 @@ class _ResetPasswordState extends State<ResetPassword> {
             Navigator.pushNamedAndRemoveUntil(
               context,
               homePageRoute,
-                  (route) => false,
+              (route) => false,
             );
             ScaffoldMessenger.of(context).showSnackBar(
-               SnackBar(
+              SnackBar(
                 content: Text(state.message),
                 duration: const Duration(seconds: 3), // Adjust the duration
               ),
@@ -168,7 +172,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       height * 0.02),
 
                                   /// Old Password field
-                                  if (false) ...[
+                                  if (widget.viaNavigationDrawer) ...[
                                     Column(
                                       children: [
                                         Container(

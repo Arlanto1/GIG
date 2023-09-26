@@ -29,7 +29,6 @@ import 'package:db_atom/src/features/login/views/forgot_pwd_screen.dart';
 import 'package:db_atom/src/features/login/views/login_screen.dart';
 import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
 import 'package:db_atom/src/features/login/views/reset_password_screen.dart';
-import 'package:db_atom/src/features/login/views/update_password_screen.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
 import 'package:db_atom/src/routing/router.dart';
@@ -55,6 +54,8 @@ import '../features/guarding_operations/guarding_rate/guarding_rate_details/pay_
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/guarding_rate_details.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/rates_info.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates.dart';
+import '../features/login/bloc/login_bloc.dart';
+import '../features/login/services/login_services.dart';
 import '../features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import '../features/material_movement/material_movement_details/views/material_movement_details.dart';
 import '../features/material_movement/material_movements/bloc/material_movement_bloc.dart';
@@ -84,8 +85,19 @@ class RouteGenerator {
       // case updatePasswordScreenRoute:
       //   return MaterialPageRoute(builder: (context) => const UpdatePasswordScreen());
       case resetPwdScreenRoute:
+        bool viaNavigationDrawer = false;
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          viaNavigationDrawer = arguments['viaNavigationDrawer'];
+        }
         return MaterialPageRoute(
-            builder: (context) => const ResetPasswordScreen());
+          builder: (context) => BlocProvider<LoginBloc>(
+            create: (_) => LoginBloc(loginService: LoginService()),
+            child: ResetPasswordView(viaNavigationDrawer: viaNavigationDrawer),
+          ),
+        );
+
       case otpVerificationRoute:
         if (settings.arguments != null) {
           final userRoutes = settings.arguments as Map<String, dynamic>;
@@ -97,9 +109,10 @@ class RouteGenerator {
                       password: userDetails?.pwd ?? '',
                     ));
           }
-          return MaterialPageRoute(builder: (context) => OtpVerifyScreen());
+          return MaterialPageRoute(
+              builder: (context) => const OtpVerifyScreen());
         }
-        return MaterialPageRoute(builder: (context) => OtpVerifyScreen());
+        return MaterialPageRoute(builder: (context) => const OtpVerifyScreen());
 
       case createfoundScreenRoute:
         if (settings.arguments != null) {
@@ -108,7 +121,10 @@ class RouteGenerator {
             FoundListArticleDetails? listuser = listroutes["UserElement"];
             int eventId = listroutes['eventId'];
             return MaterialPageRoute(
-                builder: (context) => CreateFound(listuser: listuser, eventId: eventId,));
+                builder: (context) => CreateFound(
+                      listuser: listuser,
+                      eventId: eventId,
+                    ));
           }
           return MaterialPageRoute(builder: (context) => const CreateFound());
         } else {
@@ -233,7 +249,7 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => EventProtectionDetails(
                   id: id,
-                eventStatus:eventStatus,
+                  eventStatus: eventStatus,
                 ));
       case generalInfoTilesViewRoute:
         String id = '';
