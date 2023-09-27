@@ -100,6 +100,7 @@ dependencies:
   quill_html_editor:
   bloc_concurrency: ^0.2.0
   email_validator:
+  local_session_timeout: ^2.3.0
 
 dev_dependencies:
   flutter_test:

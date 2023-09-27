@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   initRouting() async {
     // When there is no session saved, it goes to landing screen
-    Timer(const Duration(milliseconds: 1500), () async {
+    Timer(const Duration(milliseconds: 500), () async {
       var navigatorState = Navigator.of(context);
       String userName = await SharedPrefs.getUserId();
       if (userName.isNotEmpty) {
@@ -46,9 +46,9 @@ class _SplashScreenState extends State<SplashScreen> {
           navigatorState.pushNamed(resetPwdScreenRoute);
           return;
         }
-        navigatorState.pushNamed(homePageRoute);
+        navigatorState.pushReplacementNamed(homePageRoute);
       } else {
-        navigatorState.pushNamed(loginScreenRoute);
+        navigatorState.pushReplacementNamed(loginScreenRoute);
       }
     });
   }
