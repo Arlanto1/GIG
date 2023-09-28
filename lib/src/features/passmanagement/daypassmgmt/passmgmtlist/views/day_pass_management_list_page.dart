@@ -56,10 +56,10 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
   
 
   _loadMore() {
-    
+
     if (scrollController.position.maxScrollExtent ==
         scrollController.position.pixels) {
-     
+
       if ((localfoundlist?.length ?? 0) > 0)
       {
          pageNumber =  ((localfoundlist?.length ?? 0));
@@ -117,7 +117,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
             titleIdentify = 'Edit SEZ Pass Management';
          }
 
- DayPassListItemResponse? listuser = foundArticleDetailsResponse;
+     DayPassListItemResponse? listuser = foundArticleDetailsResponse;
            Navigator.pushNamed(context, createpassmgmtRoute, arguments: {
         "passMngCreateDetails":
             CreatePassMngArguments(widget.passId ?? '', titleIdentify, true,foundArticleDetailsResponse)
@@ -195,7 +195,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
               PopMenuItems("Export Excel", AppIcon.exportexcel),
               PopMenuItems("Export PDF", AppIcon.exportpdf),
               //PopMenuItems("Export XML", AppIcon.exportxml),
-              PopMenuItems("Close", AppIcon.close),
+              //PopMenuItems("Close", AppIcon.close),
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
@@ -218,10 +218,10 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
           bloc: daypassListCubit,
           builder: (context, state) {
             if (state.stateType == DayPassListStateType.success) {
-              if (state.foundListModel?.list == null &&
-                  state.foundListModel?.list?.length == 0) {
+              if (state.foundListModel?.items == null &&
+                  state.foundListModel?.items?.length == 0) {
                 if (pageNumber == 0) {
-                  localfoundlist = state.foundListModel?.list;
+                  localfoundlist = state.foundListModel?.items;
                 }
                 return const Center(
                   child: Text(
@@ -231,11 +231,11 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                 );
               } else {
                 if (pageNumber == 0) {
-                  localfoundlist = state.foundListModel?.list;
+                  localfoundlist = state.foundListModel?.items;
                 } else {
-                  localfoundlist?.addAll(state.foundListModel?.list ?? []);
+                  localfoundlist?.addAll(state.foundListModel?.items ?? []);
                 }
-                if ((state.foundListModel?.list?.length ?? 0) == 0 || (state.foundListModel?.totalCount ?? 0) == localfoundlist?.length)
+                if ((state.foundListModel?.items?.length ?? 0) == 0 || (state.foundListModel?.totalCount ?? 0) == localfoundlist?.length)
                 {
                   isPaginationLoading = false;
                 }
@@ -251,7 +251,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
               return const Center(
                   child: CircularProgressIndicator(
                       color: AppColors.navigationSkybluecolor));
-            } 
+            }
             else if (state.stateType == DayPassListStateType.failure && (localfoundlist ?? []).isEmpty) {
               return Center(
                 child: Padding(
@@ -262,12 +262,13 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                   ),
                 ),
               );
-            } else {
+            }
+            else {
               if (pageNumber == 0) {
-                localfoundlist = state.foundListModel?.list;
+                localfoundlist = state.foundListModel?.items;
               } else {
-                localfoundlist?.addAll(state.foundListModel?.list ?? []);
-                
+                localfoundlist?.addAll(state.foundListModel?.items ?? []);
+
               }
               return listWidgetLoading(
                   height, state, scrollController, localfoundlist);

@@ -129,6 +129,7 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                                     state.list[selectedIndex].maritalStatus,
                                 labels: labels,
                                 isMaterGuard: true,
+                                //isEventProtectionStatus: false,
                                 status: state.list[selectedIndex].status,
                               );
                             },
@@ -153,6 +154,7 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                                 labels: labels,
                                 status: state.list[selectedIndex].status,
                                 isMaterGuard: true,
+                               // isEventProtectionStatus: false,
                               );
                             },
                           );

@@ -1,9 +1,9 @@
 // Created by Ramesh
 
 
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_item_model.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 import 'package:equatable/equatable.dart';
+
+import '../models/day_passlist_item_model.dart';
 
 enum DayPassListStateType {
   initial,

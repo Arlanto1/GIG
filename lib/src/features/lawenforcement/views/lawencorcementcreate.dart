@@ -285,14 +285,23 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    // Actual time of visit
+                                    // // Actual time of visit
+                                    // CommonWidgets.textDisplay(
+                                    //     Constants.actualtimeofvisit,
+                                    //     Styles.textStyleBlack14),
+                                    // CommonWidgets.verticalSpacerWidget(
+                                    //     height * 0.001),
+                                    // datepickerWidgetLoading(
+                                    //     actualdateTextController),
+                                    // CommonWidgets.verticalSpacerWidget(
+                                    //     height * 0.01),
+                                    //  Actual time of visit
                                     CommonWidgets.textDisplay(
                                         Constants.actualtimeofvisit,
                                         Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
-                                    datepickerWidgetLoading(
-                                        actualdateTextController),
+                                    datecreateWidgetdisplay(),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
@@ -653,7 +662,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
           name: "DLF Square") ;
           lawenforcementCubit.getlocationsResponseData(list);
            await lawenforcementCubit.getSerialnumberDetails(
-                      '24', 'AF',context);
+                      '24', 'LEO',context);
           
             }
    
@@ -717,7 +726,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
           widget.listuser?.slNo != null ? widget.listuser?.slNo ?? '' : '';
 
       await lawenforcementCubit.getSerialnumberDetails(
-          (widget.listuser?.location?.id ?? 0).toString(), 'AF',context);
+          (widget.listuser?.location?.id ?? 0).toString(), 'LEO',context);
 
       lawenforcementCubit.getlocationsResponseData(mumbai);
       int isDocumentifanySelected1 =
@@ -1395,7 +1404,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
                 onTap: (Mumbai? list) async {
                   print(list?.name);
                   await lawenforcementCubit.getSerialnumberDetails(
-                      list?.id.toString() ?? '', 'AF',context);
+                      list?.id.toString() ?? '', 'LEO',context);
                   // locationselectedText = list?.name ?? '';
                   // locationSelectedlist = list;
                   lawenforcementCubit.getlocationsResponseData(list);
