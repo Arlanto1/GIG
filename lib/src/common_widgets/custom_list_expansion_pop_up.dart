@@ -264,11 +264,7 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
   _onExpansionSelectItem(
       int index, BuildContext context, List<Mumbai>? items) async {
 
-    log('---ONNN TAPOPP----------');
-
     selectedindex = index;
-    print('_opearationslastSelectedItem index = $index');
-    print('2 index = $selectedindex');
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
     Mumbai? drawerItem = items?[index];
