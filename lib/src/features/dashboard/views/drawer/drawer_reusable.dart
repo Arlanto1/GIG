@@ -115,8 +115,8 @@ class NavigationDrawer1 extends StatelessWidget {
                 _passlastSelectedItem = state.index;
               }
 
-              log('initial index = ${state.index}');
-              log('initial index = $_lastSelectedItem');
+              // log('initial index = ${state.index}');
+              // log('initial index = $_lastSelectedItem');
               return ListView(
                 children: <Widget>[
                   Column(
@@ -204,8 +204,6 @@ class NavigationDrawer1 extends StatelessWidget {
                     onExpansionChanged: (value) {
                       if (value == true) {
                         _opearationslastSelectedItem = i;
-                        log('selected index = $i');
-                        log('2 index = $_opearationslastSelectedItem');
                         //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
                         //state = const DrawerInitial();
                         context.read<DrawerCubit>().getOperationsindexChange(
@@ -289,8 +287,6 @@ class NavigationDrawer1 extends StatelessWidget {
   _onMaterialMovementItemSelected(int index, BuildContext context) async {
     _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
-    log('_passlastSelectedItem index = $index');
-    log('2 index = $_passlastSelectedItem');
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassmgmtindexChange(index);
@@ -345,8 +341,6 @@ class NavigationDrawer1 extends StatelessWidget {
   _onGuardingOperationItemSelected(int index, BuildContext context) async {
     _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
-    log('_passlastSelectedItem index = $index');
-    log('2 index = $_passlastSelectedItem');
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassmgmtindexChange(index);
@@ -413,7 +407,6 @@ class NavigationDrawer1 extends StatelessWidget {
   List<Widget> _buildDrawerChildren(BuildContext context, DrawerState state) {
     List<Widget> children = [];
 
-    log('build drawer children');
     for (int i = 0; i < drawerItems.length; i++) {
       DrawerItem1 drawerItem = drawerItems[i];
       children.add(
@@ -460,8 +453,6 @@ class NavigationDrawer1 extends StatelessWidget {
                       onExpansionChanged: (value) {
                         if (value == true) {
                           _lastSelectedItem = i;
-                          log('selected index = $i');
-                          log('2 index = $_lastSelectedItem');
                           //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
                           //state = const DrawerInitial();
                           context
@@ -557,8 +548,6 @@ class NavigationDrawer1 extends StatelessWidget {
                       onExpansionChanged: (value) {
                         if (value == true) {
                           _securityfunfunctionslastSelectedItem = i;
-                          log('selected index = $i');
-                          log('2 index = $_securityfunfunctionslastSelectedItem');
                           //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
                           //state = const DrawerInitial();
                           context.read<DrawerCubit>().getSecurityindexChange(
@@ -604,8 +593,6 @@ class NavigationDrawer1 extends StatelessWidget {
   _onExpansionSelectItem(int index, BuildContext context) async {
     _menuScaffoldKey.currentState!.closeDrawer();
     _opearationslastSelectedItem = index;
-    log('_opearationslastSelectedItem index = $index');
-    log('2 index = $_opearationslastSelectedItem');
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getOperationsindexChange(index);
@@ -624,8 +611,6 @@ class NavigationDrawer1 extends StatelessWidget {
   _onPassmgmtselectItem(int index, BuildContext context) async {
     _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
-    log('_passlastSelectedItem index = $index');
-    log('2 index = $_passlastSelectedItem');
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassmgmtindexChange(index);
@@ -689,8 +674,6 @@ class NavigationDrawer1 extends StatelessWidget {
   _onSecurityExpansionSelectItem(int index, BuildContext context) async {
     _menuScaffoldKey.currentState!.closeDrawer();
     _securityfunfunctionslastSelectedItem = index;
-    log('_securityfunfunctionslastSelectedItem index = $index');
-    log('2 index = $_securityfunfunctionslastSelectedItem');
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getSecurityindexChange(index);
@@ -711,8 +694,6 @@ class NavigationDrawer1 extends StatelessWidget {
     _lastSelectedItem = index;
     var lastindex = await SharedPrefs.setIdentifymenuindex(index);
 
-    log('selected index = $index');
-    log('2 index = $_lastSelectedItem');
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
 
@@ -762,6 +743,10 @@ Widget createDrawerHeader(
       ),
       child: InkWell(
         onTap: () {
+
+          SharedPrefs.setToken('eyJhbGciOiJIUzI1NiJ9.eyJjbGllbnRfc2VjcmV0IjoicGlua3VAMDk4IiwiY2xpZW50X2lkIjoicGlua3UiLCJpYXQiOjE2OTU3ODY2ODIsImV4cCI6MTY5NTc4ODQ4Mn0.iFmK1fT2pydg6Q3Bg2qYsAkLSQCyUFa3IS043f3oAbc');
+
+
           Navigator.pushNamed(
             context,
             resetPwdScreenRoute,
