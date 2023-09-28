@@ -42,27 +42,29 @@ class Mainconfig {
     //Environment setup
     environmentsChanging();
 
-    runApp(InitializeProviders(
-      child: MaterialApp(
-        theme: ThemeData(
-          disabledColor: AppColors.textgreyThemecolor,
-          fontFamily: Constants.customFontFamily,
-          primarySwatch: AppColors.colorCustom,
-          // inputDecorationTheme: const InputDecorationTheme(
-          // filled: true, //<-- SEE HERE
-          // fillColor: AppColors.textfilBbackGroundColor, //<-- SEE HERE
-          // ),
+    runApp(
+      InitializeProviders(
+        child: MaterialApp(
+          theme: ThemeData(
+            disabledColor: AppColors.textgreyThemecolor,
+            fontFamily: Constants.customFontFamily,
+            primarySwatch: AppColors.colorCustom,
+            // inputDecorationTheme: const InputDecorationTheme(
+            // filled: true, //<-- SEE HERE
+            // fillColor: AppColors.textfilBbackGroundColor, //<-- SEE HERE
+            // ),
+          ),
+          debugShowCheckedModeBanner: false,
+          initialRoute: splashScreenRoute,
+          onGenerateRoute: RouteGenerator.generateRoute,
+          locale: locale,
+          supportedLocales: LocaleSupportedMethod.supportedLocale,
+          localizationsDelegates:
+              LocaleSupportedMethod.getLocalizationsDelegates(),
+          localeResolutionCallback: (locale, supportedLocales) =>
+              LocaleSupportedMethod.getLocale(locale, supportedLocales),
         ),
-        debugShowCheckedModeBanner: false,
-        initialRoute: splashScreenRoute,
-        onGenerateRoute: RouteGenerator.generateRoute,
-        locale: locale,
-        supportedLocales: LocaleSupportedMethod.supportedLocale,
-        localizationsDelegates:
-            LocaleSupportedMethod.getLocalizationsDelegates(),
-        localeResolutionCallback: (locale, supportedLocales) =>
-            LocaleSupportedMethod.getLocale(locale, supportedLocales),
       ),
-    ));
+    );
   }
 }

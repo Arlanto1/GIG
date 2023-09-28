@@ -26,16 +26,13 @@ class LoginService {
     const String url = Apis._login;
     final response = await BaseApiService()
         .postRequest(url: url, requestedData: data.toJson());
-    log('response---@@-----$response-----');
     return LoginResponseModel.fromJson(response);
   }
 
   Future<LoginResponseModel> forgotPwdAPI(LoginRequestModel data) async {
-    log('response---@@-----forgotPwdAPI-----');
     const String url = Apis._resetPassword;
     final response = await BaseApiService()
         .postRequest(url: url, requestedData: data.toJson(), isAuthenticated: false);
-    log('response---@@-----$response-----');
     return LoginResponseModel.fromJson(response);
   }
 
@@ -43,7 +40,6 @@ class LoginService {
     const String url = Apis._updatePassword;
     final response = await BaseApiService()
         .postRequest(url: url, requestedData: data.toJson());
-    log('response---@@-----$response-----');
     return LoginResponseModel.fromJson(response);
   }
 
@@ -51,7 +47,6 @@ class LoginService {
     const String url = Apis._refreshToken;
     final response = await BaseApiService()
         .postRequest(url: url, requestedData: data.toJson());
-    log('response---@@-----$response-----');
     return LoginResponseModel.fromJson(response);
   }
 }

@@ -41,7 +41,7 @@ class GuardingMasterDataServices {
 
   Future<GuardingMastersDataModel> getGuardingMastersData(int id) async {
     final String url = '${Apis._getGuardingMasterData}/$id';
-    final response = await BaseApiService().getRequest(
+    var response = await BaseApiService().getRequest(
       url: url,
     );
     return GuardingMastersDataModel.fromJson(response);
