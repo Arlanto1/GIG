@@ -34,12 +34,12 @@ class BaseApiService {
     Map<String, String> headers = {'Content-Type': 'application/json'};
 
     if (isAuthenticated != null && isAuthenticated) {
-      //TODO: Need to implement it
-      String token = await SharedPrefs.getToken();
-      log("token is:$token");
-      headers.addAll({"Authorization": 'Bearer $token'});
-      // headers.addAll({"Bearer": token});
-      return headers;
+      // //TODO: Need to implement it
+       String token = await SharedPrefs.getToken();
+       log("token is:$token");
+       //headers.addAll({"Authorization": 'Bearer $token'});
+        headers.addAll({"Bearer": token});
+       return headers;
     }
 
     return headers;
@@ -84,9 +84,9 @@ class BaseApiService {
   Future<void> callRefreshToken() async {
     RefreshTokenRequest request = RefreshTokenRequest(
         jwtRefreshRequest: JwtRefreshRequest(
-      refreshToken: await SharedPrefs.getRefreshToken(),
-      token: await SharedPrefs.getToken(),
-    ));
+          refreshToken: await SharedPrefs.getRefreshToken(),
+          token: await SharedPrefs.getToken(),
+        ));
     final LoginService loginService = LoginService();
     LoginResponseModel loginData = await loginService.refreshToken(request);
 
@@ -104,7 +104,7 @@ class BaseApiService {
   }) async {
     try {
       final headers =
-          await _getHeaders(isAuthenticated: isAuthenticated ?? true);
+      await _getHeaders(isAuthenticated: isAuthenticated ?? true);
       log("API URL: $url");
       final response = await http.post(
         Uri.parse(url),
