@@ -7,7 +7,7 @@ import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
+
 
 class DayPassCustomPopUpList extends StatefulWidget {
   DayPassListElement? userItem;
@@ -300,12 +300,12 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
               ? CommonWidgets.verticalSpacerWidget(8)
               : Container(),
           widget.userItem?.status != null
-              ? Row(
-                  children: [
-                    textHandling(
-                        'Status : ', widget.userItem?.status.toString() ?? " "),
-                  ],
-                )
+              ?  Row(
+            children: [
+              Utils().buildPassManagementStatusRow(
+                  widget.userItem?.status ?? 0),
+            ],
+          )
               : Container(),
         ])
                 //),
