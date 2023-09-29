@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/services/foundlist_services.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +71,8 @@ class ArticleDialog extends StatelessWidget {
                           await foundListServices.getArticleById(
                               articles[index].id!, context);
 
+
+                      log('-onTap----foundArticleDetailsResponse--${foundArticleDetailsResponse.id}-');
                       nav.pushNamed(createfoundScreenRoute, arguments: {
                         "UserElement": foundArticleDetailsResponse
                       });

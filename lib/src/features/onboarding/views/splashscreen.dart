@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/routing/router.dart';
@@ -31,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    log('-SplashScreen---initState--');
     initRouting();
   }
 

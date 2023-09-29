@@ -719,22 +719,22 @@ class _CreateFoundState extends State<CreateFound> {
     });
   }
 
-  colorDailog() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return CustomSimpleListTexts(
-            texts: const ["Red", "Yellow", "White", "Black", "Orange"],
-            onTap: (String value) {
-              print(value);
-              colorTextController.text = value;
-              FocusScope.of(context).unfocus();
-              colorTextController.clear;
-              setState(() {});
-            },
-          );
-        });
-  }
+  // colorDailog() {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return CustomSimpleListTexts(
+  //           texts: const ["Red", "Yellow", "White", "Black", "Orange"],
+  //           onTap: (String value) {
+  //             print(value);
+  //             colorTextController.text = value;
+  //             FocusScope.of(context).unfocus();
+  //             colorTextController.clear;
+  //             setState(() {});
+  //           },
+  //         );
+  //       });
+  // }
 
   depositorDialog(CreateFoundState state, String name) {
     showDialog(

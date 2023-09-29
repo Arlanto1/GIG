@@ -5,5 +5,5 @@ import 'flavors.dart';
 void main() {
   F.appFlavor = Flavor.uat;
   //runApp(App());
-  Mainconfig.initialSetup();
+  MainConfig.initialSetup();
 }

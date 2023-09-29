@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +11,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log('-App---build--');
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: F.title,

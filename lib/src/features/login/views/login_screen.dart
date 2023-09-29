@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
@@ -44,6 +46,12 @@ class _LoginState extends State<Login> {
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   final FocusNode _usernameFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    log('-LoginScreen---initState--');
+  }
 
   @override
   Widget build(BuildContext context) {

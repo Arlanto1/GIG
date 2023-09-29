@@ -1,5 +1,6 @@
 // Created by Ramesh
 
+import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
@@ -17,6 +18,7 @@ import 'package:db_atom/src/features/article_found_register_module/foundlist/con
 import 'package:db_atom/src/features/article_found_register_module/foundlist/controllers/foundlist_state.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
+import 'package:db_atom/src/features/article_found_register_module/foundlist/services/foundlist_services.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/views/found_list_item.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -74,19 +76,22 @@ class _FoundListState extends State<FoundList> {
         pageNumber.toString(), '20', userid, context);
   }
 
-  getFoundArticleListId(int articleid) async {
+  getFoundArticleListId(int articleId) async {
     showLoadingDialog(context);
-    FoundListArticleDetails? foundArticleDetailsResponse =
-        await foundListArticleCubit.getArticleById(articleid, context);
-
+    // FoundListArticleDetails? foundArticleDetailsResponse =
+    //     await foundListArticleCubit.getArticleById(articleId, context);
+    final FoundListServices foundListServices = FoundListServices();
+    FoundListArticleDetails foundArticleDetailsResponse =
+        await foundListServices.getArticleById(articleId, context);
     editDataLoading(foundArticleDetailsResponse);
   }
 
   void editDataLoading(FoundListArticleDetails? foundArticleDetailsResponse) {
     dismissLoadingDialog(context);
+    // Navigator.pushNamed(context, createfoundScreenRoute);
     if (foundArticleDetailsResponse != null) {
       Navigator.pushNamed(context, createfoundScreenRoute,
-          arguments: {"UserElement": foundArticleDetailsResponse});
+          arguments: {"UserElement": foundArticleDetailsResponse,'eventId':foundArticleDetailsResponse.id });
     }
   }
 
@@ -137,7 +142,7 @@ class _FoundListState extends State<FoundList> {
               PopMenuItems("Export Excel", AppIcon.exportexcel),
               PopMenuItems("Export PDF", AppIcon.exportpdf),
               //PopMenuItems("Export XML", AppIcon.exportxml),
-             // PopMenuItems("Close", AppIcon.close),
+              // PopMenuItems("Close", AppIcon.close),
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
@@ -209,10 +214,10 @@ class _FoundListState extends State<FoundList> {
               return listWidgetLoading(
                   height, state, scrollController, localfoundlist);
             }
-
           }),
     );
   }
+
   Widget listWidgetLoading(double height, FoundListState state,
       ScrollController? scrollController, List<FoundModel>? foundList) {
     return Container(
@@ -306,10 +311,10 @@ class _FoundListState extends State<FoundList> {
                   );
                   //do the detail edit of user found
                 },
-                oneditTap: (selectedIndex) {
+                onEditTap: (selectedIndex) {
                   getFoundArticleListId(userList[selectedIndex].id ?? 0);
                 },
-                onviewTap: (selectedIndex) {
+                onViewTap: (selectedIndex) {
                   showDialog(
                     context: context,
                     builder: (BuildContext dialogContext) {

@@ -21,14 +21,13 @@ class MyHomePage extends StatefulWidget {
 class MyHomePageState extends State<MyHomePage> {
   String userName = '';
   String email = '';
+
   @override
   void initState() {
-    // TODO: implement initState
+    log('-MyHomePage---initState--');
     super.initState();
-     getUserDetails();
-      
+    getUserDetails();
   }
-
 
   Future<void> getUserDetails() async {
      userName = await SharedPrefs.getUsername();

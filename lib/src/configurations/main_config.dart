@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 
 export 'package:flutter/material.dart';
 
-class Mainconfig {
+class MainConfig {
   static environmentsChanging() {
     String environment = String.fromEnvironment(
       'ENVIRONMENT',
@@ -54,7 +54,7 @@ class Mainconfig {
             // fillColor: AppColors.textfilBbackGroundColor, //<-- SEE HERE
             // ),
           ),
-          debugShowCheckedModeBanner: false,
+          debugShowCheckedModeBanner: true,
           initialRoute: splashScreenRoute,
           onGenerateRoute: RouteGenerator.generateRoute,
           locale: locale,
