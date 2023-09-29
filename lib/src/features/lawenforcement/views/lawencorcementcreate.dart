@@ -1446,7 +1446,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
                 onTap: (Mumbai? list) async {
                   print(list?.name);
                   await lawenforcementCubit.getSerialnumberDetails(
-                      list?.id.toString() ?? '', 'AF', context);
+                      list?.id.toString() ?? '', 'LEO', context);
                   // locationselectedText = list?.name ?? '';
                   // locationSelectedlist = list;
                   lawenforcementCubit.getlocationsResponseData(list);
