@@ -208,8 +208,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                             /// Non Returnable
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                                isDisabled: state.materialMovement.status != 6,
+                            BaseDropDown().getDropDown(isDisabled: state.materialMovement.status != 6,
                                 textController: returnableTextController,
                                 onTap: () {
                                   if (isDisabled & !widget.isInward) {
