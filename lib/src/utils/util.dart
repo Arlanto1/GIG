@@ -403,7 +403,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Gender: ', assetTypeText),
+          textHandling('Asset Type: ', assetTypeText),
         ],
       ),
     );
