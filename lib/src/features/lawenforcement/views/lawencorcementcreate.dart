@@ -41,15 +41,15 @@ import '../../../models/department.dart';
 import '../../../models/entity.dart';
 import '../../../models/entry_security.dart';
 
-class CreateLawenforcement extends StatefulWidget {
-  LawEnforcementDetails? listuser;
-  CreateLawenforcement({super.key, this.listuser});
+class CreateLawEnforcement extends StatefulWidget {
+  LawEnforcementDetails? listUser;
+  CreateLawEnforcement({super.key, this.listUser});
 
   @override
-  State<CreateLawenforcement> createState() => _CreateLawenforcementState();
+  State<CreateLawEnforcement> createState() => _CreateLawEnforcementState();
 }
 
-class _CreateLawenforcementState extends State<CreateLawenforcement> {
+class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   final GlobalKey<FormState> lawenforcementFormKey = GlobalKey<FormState>();
   TextEditingController statusTextController = TextEditingController();
   TextEditingController actualdateTextController = TextEditingController();
@@ -91,7 +91,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
     return Scaffold(
         appBar: AppHeader(
           isTitleCenter: false,
-          title: widget.listuser != null
+          title: widget.listUser != null
               ? Constants.editlawenforcement
               : Constants.createlawenforcement,
           backBtn: IconButton(
@@ -107,7 +107,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
                 if(!isDistrbuted)
                {
                 createLawEnforcement(
-                    false, widget.listuser?.id ?? 0, globalState);
+                    false, widget.listUser?.id ?? 0, globalState);
                }
               },
               child: Padding(
@@ -181,341 +181,344 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
                             borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(20.0)),
                           )),
-                      child: Form(
-                          key: lawenforcementFormKey,
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20.0, right: 20),
-                                  child: Column(children: [
-                                    Container(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        Constants.generalinformation,
-                                        style: Styles.styleHeaderGreyText16,
+                      child: AbsorbPointer(
+                        absorbing: widget.listUser?.status ==3,
+                        child: Form(
+                            key: lawenforcementFormKey,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20.0, right: 20),
+                                    child: Column(children: [
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        child: Text(
+                                          Constants.generalinformation,
+                                          style: Styles.styleHeaderGreyText16,
+                                        ),
                                       ),
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
 
-                                    // Status
-                                    CommonWidgets.textDisplay(Constants.status,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    FlutterInputField(
-                                      isEnable: false,
-                                      isDisableColor: true,
-                                      textFieldController: statusTextController,
-                                      textFormKey: Keys.statusTextController,
-                                      hintText: '',
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                      },
-                                      validateTextField: (String? user) {},
-                                      suffixWidget: GestureDetector(
-                                        onTap: () {},
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: SvgPicture.asset(
-                                            //AppIcon.dropdownicon,
-                                            AppIcon.dropdownicon,
-                                            //fit: BoxFit.,
-                                            color: AppColors.textgreyThemecolor,
-                                            width: 10,
-                                            height: 10,
-                                            key: const Key(Keys.userIcon),
+                                      // Status
+                                      CommonWidgets.textDisplay(Constants.status,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      FlutterInputField(
+                                        isEnable: false,
+                                        isDisableColor: true,
+                                        textFieldController: statusTextController,
+                                        textFormKey: Keys.statusTextController,
+                                        hintText: '',
+                                        onChange: (String username) {
+                                          //this.username = username;
+                                        },
+                                        validateTextField: (String? user) {},
+                                        suffixWidget: GestureDetector(
+                                          onTap: () {},
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: SvgPicture.asset(
+                                              //AppIcon.dropdownicon,
+                                              AppIcon.dropdownicon,
+                                              //fit: BoxFit.,
+                                              color: AppColors.textgreyThemecolor,
+                                              width: 10,
+                                              height: 10,
+                                              key: const Key(Keys.userIcon),
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
 
-                                    //created by
+                                      //created by
 
-                                    CommonWidgets.horizentaltextHandling(
-                                        Constants.createdby,
-                                        '${state.getUserDetailsResponse
-                                                ?.firstName ??
-                                            ''} ${state.getUserDetailsResponse
-                                             ?.lastName ??
-                                            ''}'),
+                                      CommonWidgets.horizentaltextHandling(
+                                          Constants.createdby,
+                                          '${state.getUserDetailsResponse
+                                                  ?.firstName ??
+                                              ''} ${state.getUserDetailsResponse
+                                               ?.lastName ??
+                                              ''}'),
 
-                                    // ),
-                                    // Location
-                                    CommonWidgets.textDisplay(
-                                        Constants.location,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    locationWidgetdislay(state),
+                                      // ),
+                                      // Location
+                                      CommonWidgets.textDisplay(
+                                          Constants.location,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      locationWidgetDisplay(state),
 
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
 
-                                    // date of creation
-                                    CommonWidgets.textDisplay(
-                                        Constants.dateofcreation,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    datecreateWidgetdisplay(),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      // date of creation
+                                      CommonWidgets.textDisplay(
+                                          Constants.dateofcreation,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      datecreateWidgetdisplay(),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
 
-                                    // slno
+                                      // slno
 
-                                    CommonWidgets.horizentaltextHandling(
-                                        Constants.slno, serialnumber ?? ''),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      CommonWidgets.horizentaltextHandling(
+                                          Constants.slno, serialnumber ?? ''),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
 
-                                    // article type
-                                    CommonWidgets.textDisplay(Constants.entity,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    // articleaddButtonwidgetLoading(state),
-                                    entityaddButtonwidgetLoading(state),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      // article type
+                                      CommonWidgets.textDisplay(Constants.entity,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      // articleaddButtonwidgetLoading(state),
+                                      entityaddButtonwidgetLoading(state),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
 
-                                    // // Actual time of visit
-                                    // CommonWidgets.textDisplay(
-                                    //     Constants.actualtimeofvisit,
-                                    //     Styles.textStyleBlack14),
-                                    // CommonWidgets.verticalSpacerWidget(
-                                    //     height * 0.001),
-                                    // datepickerWidgetLoading(
-                                    //     actualdateTextController),
-                                    // CommonWidgets.verticalSpacerWidget(
-                                    //     height * 0.01),
-                                    //  Actual time of visit
-                                    CommonWidgets.textDisplay(
-                                        Constants.actualtimeofvisit,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    datecreateWidgetdisplay(),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      // // Actual time of visit
+                                      // CommonWidgets.textDisplay(
+                                      //     Constants.actualtimeofvisit,
+                                      //     Styles.textStyleBlack14),
+                                      // CommonWidgets.verticalSpacerWidget(
+                                      //     height * 0.001),
+                                      // datepickerWidgetLoading(
+                                      //     actualdateTextController),
+                                      // CommonWidgets.verticalSpacerWidget(
+                                      //     height * 0.01),
+                                      //  Actual time of visit
+                                      CommonWidgets.textDisplay(
+                                          Constants.actualtimeofvisit,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      datecreateWidgetdisplay(),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
 
-                                    // Officials ID Card Verified?
-                                    CommonWidgets.textDisplay(
-                                        Constants.officialsidcardverified,
-                                        Styles.textStyleBlack14),
-                                    radioButtonHandling(
-                                        state.isOfficialIdcardSelected ?? 1,
-                                        Constants.officialsidcardverified),
+                                      // Officials ID Card Verified?
+                                      CommonWidgets.textDisplay(
+                                          Constants.officialsidcardverified,
+                                          Styles.textStyleBlack14),
+                                      radioButtonHandling(
+                                          state.isOfficialIdcardSelected ?? 1,
+                                          Constants.officialsidcardverified),
 
-                                    // Purpose of visit
-                                    CommonWidgets.textDisplay(
-                                        Constants.purposeofvsit,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    // articleaddButtonwidgetLoading(state),
-                                    purposeofvisitaddButtonwidgetLoading(state),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      // Purpose of visit
+                                      CommonWidgets.textDisplay(
+                                          Constants.purposeofvsit,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      // articleaddButtonwidgetLoading(state),
+                                      purposeofvisitaddButtonwidgetLoading(state),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
 
-                                    // Document if any to confirm purpose
-                                    CommonWidgets.textDisplay(
-                                        Constants.documentifanytoconfirmpurpose,
-                                        Styles.textStyleBlack14),
-                                    radioButtonHandling(
-                                        state.isDocumentifanySelected ?? 1,
-                                        Constants
-                                            .documentifanytoconfirmpurpose),
+                                      // Document if any to confirm purpose
+                                      CommonWidgets.textDisplay(
+                                          Constants.documentifanytoconfirmpurpose,
+                                          Styles.textStyleBlack14),
+                                      radioButtonHandling(
+                                          state.isDocumentifanySelected ?? 1,
+                                          Constants
+                                              .documentifanytoconfirmpurpose),
 
-                                    // In case of Police, was official in uniform?
-                                    CommonWidgets.textDisplay(
-                                        Constants
-                                            .incaseofpolicewasofficialinuniform,
-                                        Styles.textStyleBlack14),
-                                    radioButtonHandling(
-                                        state.isIncaseofpoliceSelected ?? 1,
-                                        Constants
-                                            .incaseofpolicewasofficialinuniform),
+                                      // In case of Police, was official in uniform?
+                                      CommonWidgets.textDisplay(
+                                          Constants
+                                              .incaseofpolicewasofficialinuniform,
+                                          Styles.textStyleBlack14),
+                                      radioButtonHandling(
+                                          state.isIncaseofpoliceSelected ?? 1,
+                                          Constants
+                                              .incaseofpolicewasofficialinuniform),
 
-                                    // DB official want to meet
-                                    CommonWidgets.textDisplay(
-                                        Constants.dbofficialwanttomeet,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    textfieldWidgetLoad(
-                                        dbofficailwanttimeetTextController,
-                                        0,
-                                        state),
+                                      // DB official want to meet
+                                      CommonWidgets.textDisplay(
+                                          Constants.dbofficialwanttomeet,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      textfieldWidgetLoad(
+                                          dbofficailwanttimeetTextController,
+                                          0,
+                                          state),
 
-                                    // DB official department
-                                    CommonWidgets.textDisplay(
-                                        Constants.dbofficialdepartment,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    // articleaddButtonwidgetLoading(state),
-                                    dbwanttodepartmentaddButtonwidgetLoading(
-                                        state),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      // DB official department
+                                      CommonWidgets.textDisplay(
+                                          Constants.dbofficialdepartment,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      // articleaddButtonwidgetLoading(state),
+                                      dbwanttodepartmentaddButtonwidgetLoading(
+                                          state),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
 
-                                    //DB Official email ID Accompanied LEO official'
-                                    CommonWidgets.textDisplay(
-                                        Constants
-                                            .dbofficialemailidaccompaniedleoofficial,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    // articleaddButtonwidgetLoading(state),
-                                    dbofficialemailidaddButtonwidgetLoading(
-                                        state),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      //DB Official email ID Accompanied LEO official'
+                                      CommonWidgets.textDisplay(
+                                          Constants
+                                              .dbofficialemailidaccompaniedleoofficial,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      // articleaddButtonwidgetLoading(state),
+                                      dbofficialemailidaddButtonwidgetLoading(
+                                          state),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
 
-                                    // additional information
-                                    CommonWidgets.textDisplay(
-                                        Constants.additionalinformation,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    textfieldWidgetLoad(
-                                        additionalinformationTextController,
-                                        0,
-                                        state),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-                                  ]),
-                                ),
+                                      // additional information
+                                      CommonWidgets.textDisplay(
+                                          Constants.additionalinformation,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      textfieldWidgetLoad(
+                                          additionalinformationTextController,
+                                          0,
+                                          state),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                    ]),
+                                  ),
 
-                                // CommonWidgets.indentedDivider(Colors.black),
-                                Divider(
-                                  color: AppColors.textgreyThemecolor,
-                                  thickness: 1,
-                                ),
+                                  // CommonWidgets.indentedDivider(Colors.black),
+                                  Divider(
+                                    color: AppColors.textgreyThemecolor,
+                                    thickness: 1,
+                                  ),
 
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20.0, right: 20),
-                                  child: Column(children: [
-                                    // Visiting Official Details
-                                    CommonWidgets.textDisplay(
-                                        Constants.visitingofficialdetails,
-                                        Styles.textStyleDarkGrey16),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20.0, right: 20),
+                                    child: Column(children: [
+                                      // Visiting Official Details
+                                      CommonWidgets.textDisplay(
+                                          Constants.visitingofficialdetails,
+                                          Styles.textStyleDarkGrey16),
 
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-                                    // Add another visiting
-                                    GestureDetector(
-                                      onTap: () {
-                                        if ((state.getVisitsCount ?? 0) < 3) {
-                                          int value =
-                                              (state.getVisitsCount ?? 0) + 1;
-                                          List<VistingOfficialsModel>?
-                                              getVisits1 =
-                                              state.getVisits ?? [];
-                                          getVisits1
-                                              .add(VistingOfficialsModel());
-                                          lawenforcementCubit.addingVisitis(
-                                              value, getVisits1);
-                                        } else {
-                                          Validator().showToast(
-                                            context,
-                                            "You have reached maximum visting official details adding",
-                                          );
-                                        }
-                                      },
-                                      child: Container(
-                                          child: Row(
-                                        children: <Widget>[
-                                          // Expanded(
-                                          //child:
-                                          SvgPicture.asset(
-                                            AppIcon.pluscircle,
-                                            //color: AppColors.navigationSkybluecolor,
-                                          ),
-                                          // ),
-                                          SizedBox(width: 10),
-
-                                          Text(
-                                            Constants
-                                                .addanothervisitingofficialdetails,
-                                            style: TextStyle(
-                                              color: AppColors
-                                                  .navigationSkybluecolor,
-                                              decoration:
-                                                  TextDecoration.underline,
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                      // Add another visiting
+                                      GestureDetector(
+                                        onTap: () {
+                                          if ((state.getVisitsCount ?? 0) < 3) {
+                                            int value =
+                                                (state.getVisitsCount ?? 0) + 1;
+                                            List<VistingOfficialsModel>?
+                                                getVisits1 =
+                                                state.getVisits ?? [];
+                                            getVisits1
+                                                .add(VistingOfficialsModel());
+                                            lawenforcementCubit.addingVisitis(
+                                                value, getVisits1);
+                                          } else {
+                                            Validator().showToast(
+                                              context,
+                                              "You have reached maximum visting official details adding",
+                                            );
+                                          }
+                                        },
+                                        child: Container(
+                                            child: Row(
+                                          children: <Widget>[
+                                            // Expanded(
+                                            //child:
+                                            SvgPicture.asset(
+                                              AppIcon.pluscircle,
+                                              //color: AppColors.navigationSkybluecolor,
                                             ),
-                                          ),
-                                        ],
-                                      )),
-                                    ),
+                                            // ),
+                                            SizedBox(width: 10),
 
-                                    //
+                                            Text(
+                                              Constants
+                                                  .addanothervisitingofficialdetails,
+                                              style: TextStyle(
+                                                color: AppColors
+                                                    .navigationSkybluecolor,
+                                                decoration:
+                                                    TextDecoration.underline,
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                      ),
 
-                                    (state.getVisitsCount ?? 0) > 0
-                                        ? listVisitingOfficialDetails(
-                                            height,
-                                            width,
-                                            context,
-                                            state,
-                                            state.getVisitsCount ?? 0)
-                                        : Container(),
-                                    widget.listuser == null
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
+                                      //
 
-                                    // Upload
-                                    widget.listuser == null
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.upload,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    widget.listuser == null
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
-                                    widget.listuser == null
-                                        ? uploadWidget(state)
-                                        : Container(),
+                                      (state.getVisitsCount ?? 0) > 0
+                                          ? listVisitingOfficialDetails(
+                                              height,
+                                              width,
+                                              context,
+                                              state,
+                                              state.getVisitsCount ?? 0)
+                                          : Container(),
+                                      widget.listUser == null
+                                          ? CommonWidgets.verticalSpacerWidget(
+                                              height * 0.01)
+                                          : Container(),
 
-                                    // Attachments
-                                    getSpaceattchment(height),
-                                    getAttachement(height),
+                                      // Upload
+                                      widget.listUser == null
+                                          ? CommonWidgets.textDisplay(
+                                              Constants.upload,
+                                              Styles.textStyleBlack14)
+                                          : Container(),
+                                      widget.listUser == null
+                                          ? CommonWidgets.verticalSpacerWidget(
+                                              height * 0.001)
+                                          : Container(),
+                                      widget.listUser == null
+                                          ? uploadWidget(state)
+                                          : Container(),
 
-                                    // Distribution Groups
-                                    widget.listuser != null
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.distributiongroups,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    widget.listuser != null
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
-                                    widget.listuser != null
-                                        ? textfieldWidgetLoad(
-                                            distributiongroupsTextController,
-                                            0,
-                                            state)
-                                        : Container(),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      // Attachments
+                                      getSpaceattchment(height),
+                                      getAttachement(height),
 
-                                    // SubmitButton
-                                    Center(child: submitButtonDisplay()),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.005),
-                                  ]),
-                                )
-                              ])))
+                                      // Distribution Groups
+                                      widget.listUser != null
+                                          ? CommonWidgets.textDisplay(
+                                              Constants.distributiongroups,
+                                              Styles.textStyleBlack14)
+                                          : Container(),
+                                      widget.listUser != null
+                                          ? CommonWidgets.verticalSpacerWidget(
+                                              height * 0.001)
+                                          : Container(),
+                                      widget.listUser != null
+                                          ? textfieldWidgetLoad(
+                                              distributiongroupsTextController,
+                                              0,
+                                              state)
+                                          : Container(),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+
+                                      // SubmitButton
+                                      Center(child: submitButtonDisplay()),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.005),
+                                    ]),
+                                  )
+                                ])),
+                      ))
                 ])));
           },
         )); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
@@ -639,7 +642,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
   @override
   void initState() {
     super.initState();
-    if (widget.listuser != null) {
+    if (widget.listUser != null) {
       editCreatefoundItems();
       lawenforcementCubit.getDistributionGroupsDetails(context);
     } else {
@@ -653,8 +656,8 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
   async {
     print(state.locationSelectedlist);
      print(state.getLocationsResponse);
-      print(widget.listuser);
-    if(state.locationSelectedlist?.id == null && state.getLocationsResponse != null && widget.listuser == null && (serialnumber ?? '').isEmpty) 
+      print(widget.listUser);
+    if(state.locationSelectedlist?.id == null && state.getLocationsResponse != null && widget.listUser == null && (serialnumber ?? '').isEmpty)
             {
               
               Mumbai list = Mumbai(
@@ -669,39 +672,39 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
   }
 
   editCreatefoundItems() async {
-    if (widget.listuser != null) {
-      await SharedPrefs.setFoundId(widget.listuser?.id ?? 0);
+    if (widget.listUser != null) {
+      await SharedPrefs.setFoundId(widget.listUser?.id ?? 0);
 
       additionalinformationTextController.text =
-          widget.listuser?.additionalInformation != null
-              ? widget.listuser?.additionalInformation.toString() ?? ""
+          widget.listUser?.additionalInformation != null
+              ? widget.listUser?.additionalInformation.toString() ?? ""
               : '';
       dbofficailwanttimeetTextController.text =
-          widget.listuser?.dbOfficialEmail != null
-              ? widget.listuser?.dbOfficialEmail.toString() ?? ""
+          widget.listUser?.dbOfficialEmail != null
+              ? widget.listUser?.dbOfficialEmail.toString() ?? ""
               : '';
-      actualdateTextController.text = widget.listuser?.timeOfVisit != null &&
-              widget.listuser?.timeOfVisit != '0'
+      actualdateTextController.text = widget.listUser?.timeOfVisit != null &&
+              widget.listUser?.timeOfVisit != '0'
           ? Utils.timestamptoDateConversion(
-              int.parse(widget.listuser?.timeOfVisit ?? '0'),
+              int.parse(widget.listUser?.timeOfVisit ?? '0'),
               Constants.fulldateFormat)
           : '';
-      dateofcreationTextController.text = widget.listuser?.inputDate != null &&
-              widget.listuser?.inputDate != '0'
+      dateofcreationTextController.text = widget.listUser?.inputDate != null &&
+              widget.listUser?.inputDate != '0'
           ? Utils.timestamptoDateConversion(
-              int.parse(widget.listuser?.inputDate ?? '0'),
+              int.parse(widget.listUser?.inputDate ?? '0'),
               Constants.fulldateFormat)
           : dateofcreationTextController.text;
       // List<VisitingOfficial>? visitingOfficials = widget.listuser?.visitingOfficials != null ? widget.listuser?.visitingOfficials ?? [] : [];
-      statusTextController.text = widget.listuser?.status == 0
+      statusTextController.text = widget.listUser?.status == 0
           ? "Draft"
-          : widget.listuser?.status == 1
+          : widget.listUser?.status == 1
               ? "Submitted"
-              : widget.listuser?.status == 3
+              : widget.listUser?.status == 3
                   ? "Distributed"
                   : "Handover";
        
-       if (widget.listuser?.status == 3 ||  statusTextController.text == 'Distributed')
+       if (widget.listUser?.status == 3 ||  statusTextController.text == 'Distributed')
        {
         lawenforcementCubit.getDistributed(true);
         isDistrbuted = true;
@@ -716,25 +719,25 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
       //     lastName: widget.listuser?.entrySecurity?.lastName ?? "") : GetUserDetails() ;
 
       //state.locationSelectedlist =
-      Mumbai mumbai = widget.listuser?.location != null
+      Mumbai mumbai = widget.listUser?.location != null
           ? Mumbai(
-              id: widget.listuser?.location?.id ?? 0,
-              name: widget.listuser?.location?.name ?? "")
+              id: widget.listUser?.location?.id ?? 0,
+              name: widget.listUser?.location?.name ?? "")
           : Mumbai();
 
       serialnumber =
-          widget.listuser?.slNo != null ? widget.listuser?.slNo ?? '' : '';
+          widget.listUser?.slNo != null ? widget.listUser?.slNo ?? '' : '';
 
       await lawenforcementCubit.getSerialnumberDetails(
-          (widget.listuser?.location?.id ?? 0).toString(), 'LEO',context);
+          (widget.listUser?.location?.id ?? 0).toString(), 'LEO',context);
 
       lawenforcementCubit.getlocationsResponseData(mumbai);
       int isDocumentifanySelected1 =
-          ((widget.listuser?.documentVerified ?? false) == true) ? 1 : 0;
+          ((widget.listUser?.documentVerified ?? false) == true) ? 1 : 0;
       int isOfficialIdcardSelected1 =
-          ((widget.listuser?.officialCardVerified ?? false) == true) ? 1 : 0;
+          ((widget.listUser?.officialCardVerified ?? false) == true) ? 1 : 0;
       int isIncaseofpoliceSelected1 =
-          ((widget.listuser?.visitorInUniform ?? false) == true) ? 1 : 0;
+          ((widget.listUser?.visitorInUniform ?? false) == true) ? 1 : 0;
 
       lawenforcementCubit.getRadioButtonSelected(
           Constants.documentifanytoconfirmpurpose,
@@ -749,14 +752,14 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
           isIncaseofpoliceSelected1,
           isIncaseofpoliceSelected1 == 1 ? "Yes" : "No");
 
-      if ((widget.listuser?.entities?.length ?? 0) > 0) {
+      if ((widget.listUser?.entities?.length ?? 0) > 0) {
         List<Entity> entities = [];
-        for (int i = 0; i < widget.listuser!.entities!.length; i++) {
-          Entity entity = widget.listuser?.entities != null &&
-                  (widget.listuser?.entities?.length ?? 0) > 0
+        for (int i = 0; i < widget.listUser!.entities!.length; i++) {
+          Entity entity = widget.listUser?.entities != null &&
+                  (widget.listUser?.entities?.length ?? 0) > 0
               ? Entity(
-                  id: widget.listuser?.entities![i].id ?? 0,
-                  name: widget.listuser?.entities![i].name ?? "")
+                  id: widget.listUser?.entities![i].id ?? 0,
+                  name: widget.listUser?.entities![i].name ?? "")
               : Entity();
           // AtomEntity entity = state.listOfEntities![i];
           //   DbOfficialEmailDepartment addentiity =
@@ -766,13 +769,13 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
         lawenforcementCubit.getEntityData(entities);
       }
 
-      if ((widget.listuser?.mailList?.length ?? 0) > 0) {
+      if ((widget.listUser?.mailList?.length ?? 0) > 0) {
         //for (int i = 0; i < widget.listuser!.entities!.length; i++) {
-        DistributionGroup entity = widget.listuser?.mailList != null &&
-                (widget.listuser?.mailList?.length ?? 0) > 0
+        DistributionGroup entity = widget.listUser?.mailList != null &&
+                (widget.listUser?.mailList?.length ?? 0) > 0
             ? DistributionGroup(
-                id: widget.listuser?.mailList![0]["groupId"] ?? 0,
-                name: widget.listuser?.mailList![0]["name"] ?? "")
+                id: widget.listUser?.mailList![0]["groupId"] ?? 0,
+                name: widget.listUser?.mailList![0]["name"] ?? "")
             : DistributionGroup();
         // AtomEntity entity = state.listOfEntities![i];
         //   DbOfficialEmailDepartment addentiity =
@@ -780,32 +783,32 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
         //distributionGroups.add(entity);
         lawenforcementCubit.geDistributonData(entity);
         distributiongroupsTextController.text =
-            widget.listuser?.mailList![0]["name"] ?? "";
+            widget.listUser?.mailList![0]["name"] ?? "";
       }
 
       // state.groups?.distributionGroups
       // }
 
-      AtomLeoPurposeVisit visit = widget.listuser?.visitPurpose != null
+      AtomLeoPurposeVisit visit = widget.listUser?.visitPurpose != null
           ? AtomLeoPurposeVisit(
-              id: widget.listuser?.visitPurpose?.id ?? 0,
-              name: widget.listuser?.visitPurpose?.name ?? "")
+              id: widget.listUser?.visitPurpose?.id ?? 0,
+              name: widget.listUser?.visitPurpose?.name ?? "")
           : AtomLeoPurposeVisit();
       lawenforcementCubit.getleopurposeResponseData(visit);
 
       BaseUser staticUser =
-          widget.listuser?.dbOfficialEmailDepartment != null
+          widget.listUser?.dbOfficialEmailDepartment != null
               ? BaseUser(
-                  id: widget.listuser?.dbOfficialEmailDepartment?.id ?? 0,
-                  name: widget.listuser?.dbOfficialEmailDepartment?.name ?? "",
-                  email: widget.listuser?.dbOfficialAccompaniedEmail ?? '')
+                  id: widget.listUser?.dbOfficialEmailDepartment?.id ?? 0,
+                  name: widget.listUser?.dbOfficialEmailDepartment?.name ?? "",
+                  email: widget.listUser?.dbOfficialAccompaniedEmail ?? '')
               : BaseUser();
 
       lawenforcementCubit.geDBOfficialyData(staticUser);
 
       List<LawVisitingOfficial>? visiting =
-          widget.listuser?.visitingOfficials != null
-              ? widget.listuser?.visitingOfficials ?? []
+          widget.listUser?.visitingOfficials != null
+              ? widget.listUser?.visitingOfficials ?? []
               : [];
 
       List<VistingOfficialsModel>? visitingOfficials = [];
@@ -864,14 +867,14 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
 
       // state.selectedemployeeDepartmentResponse
       Department emp =
-          widget.listuser?.dbOfficialEmailDepartment != null
+          widget.listUser?.dbOfficialEmailDepartment != null
               ? Department(
-                  id: widget.listuser?.dbOfficialEmailDepartment?.id ?? 0,
-                  name: widget.listuser?.dbOfficialEmailDepartment?.name ?? '')
+                  id: widget.listUser?.dbOfficialEmailDepartment?.id ?? 0,
+                  name: widget.listUser?.dbOfficialEmailDepartment?.name ?? '')
               : Department();
       lawenforcementCubit.getemployeeDepartmentsResponseData(emp);
       getAttachments =
-          widget.listuser?.images != null ? widget.listuser?.images ?? [] : [];
+          widget.listUser?.images != null ? widget.listUser?.images ?? [] : [];
     }
   }
 
@@ -915,7 +918,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
-          activeColor: widget.listuser != null
+          activeColor: widget.listUser != null
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
           focusColor: AppColors.navigationSkybluecolor,
@@ -939,7 +942,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
         ),
         const Text(Constants.yes),
         Radio(
-          activeColor: widget.listuser != null
+          activeColor: widget.listUser != null
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
           value: 0,
@@ -1000,7 +1003,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
   Widget datepickerWidgetLoading(TextEditingController textfiled) {
     return GestureDetector(
       onTap: () {
-        if (widget.listuser == null || textfiled.text.isEmpty) {
+        if (widget.listUser == null || textfiled.text.isEmpty) {
           datePickerDialog(textfiled);
         }
       },
@@ -1012,7 +1015,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
         hintText: '',
         isEnable: false,
         isDisableColor:
-            widget.listuser == null || textfiled.text.isEmpty ? false : true,
+            widget.listUser == null || textfiled.text.isEmpty ? false : true,
         onChange: (String username) {
           //this.username = username;
           print('dfwf');
@@ -1022,7 +1025,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
         validateTextField: (String? user) {},
         suffixWidget: GestureDetector(
           onTap: () async {
-            if (widget.listuser == null || textfiled.text.isEmpty) {
+            if (widget.listUser == null || textfiled.text.isEmpty) {
               datePickerDialog(textfiled);
             }
           },
@@ -1067,14 +1070,14 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
         DateFormat(Constants.fulldateFormat).format(DateTime.now());
     print(formattedDate);
     dateofcreationTextController.text = formattedDate;
-    if (widget.listuser == null) {
+    if (widget.listUser == null) {
       statusTextController.text = 'Draft';
     }
   }
 
   Widget uploadWidget(LawEnforcementState state) {
     return // upload
-        widget.listuser == null
+        widget.listUser == null
             ? Container(
                 height: 60,
                 decoration: BoxDecoration(
@@ -1143,7 +1146,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
   Widget getAttachement(double height) {
     return (getAttachments == null ||
             getAttachments?.length == 0 ||
-            widget.listuser == null)
+            widget.listUser == null)
         ? getFiles?.length == 0 || getFiles == null
             ? Container()
             : attachmentListviews(getFiles, getAttachments)
@@ -1162,12 +1165,12 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
     return TextfieldAddButton(
       title: title,
      height: (state.listOfEntities?.length ?? 0) >  4  ? (state.listOfEntities?.length ?? 0) >  9 ? 140 : 100 : 60,
-      isDisableColor: widget.listuser == null ||
+      isDisableColor: widget.listUser == null ||
               ((state.listOfEntities?.length ?? 0) == 0 && (title.isEmpty))
           ? false
           : true,
       onTap: () {
-        if (widget.listuser == null ||
+        if (widget.listUser == null ||
             (state.listOfEntities != null && (title.isEmpty))) {
           entityTypeDialog(state);
         }
@@ -1303,13 +1306,13 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
     return TextfieldAddButton(
       title: state.leoPurposeVisitResponse?.name ?? '',
       height: 60,
-      isDisableColor: widget.listuser == null ||
+      isDisableColor: widget.listUser == null ||
               (state.leoPurposeVisitResponse != null &&
                   ((state.leoPurposeVisitResponse?.name ?? '').isEmpty))
           ? false
           : true,
       onTap: () {
-        if (widget.listuser == null ||
+        if (widget.listUser == null ||
             (state.leoPurposeVisitResponse != null &&
                 ((state.leoPurposeVisitResponse?.name ?? '').isEmpty))) {
           leopurposeDialog(state);
@@ -1327,11 +1330,11 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
     return TextfieldAddButton(
       title: dept?.name ?? '',
       height: 60,
-      isDisableColor: widget.listuser == null || ((dept?.name ?? '').isEmpty)
+      isDisableColor: widget.listUser == null || ((dept?.name ?? '').isEmpty)
           ? false
           : true,
       onTap: () {
-        if (widget.listuser == null || ((dept?.name ?? '').isEmpty)) {
+        if (widget.listUser == null || ((dept?.name ?? '').isEmpty)) {
           //   articleTypeDialog(state);
           //lawenforcementCubit.getleoDepartmentsResponseData(list);
           // }
@@ -1346,14 +1349,14 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
     return TextfieldAddButton(
       title: state.selectedemployeeDepartmentResponse?.name ?? '',
       height: 60,
-      isDisableColor: widget.listuser == null ||
+      isDisableColor: widget.listUser == null ||
               (state.selectedemployeeDepartmentResponse != null &&
                   ((state.selectedemployeeDepartmentResponse?.name ?? '')
                       .isEmpty))
           ? false
           : true,
       onTap: () {
-        if (widget.listuser == null ||
+        if (widget.listUser == null ||
             (state.selectedemployeeDepartmentResponse != null &&
                 ((state.selectedemployeeDepartmentResponse?.name ?? '')
                     .isEmpty))) {
@@ -1374,13 +1377,13 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
               ')')
           : '',
       height: 70,
-      isDisableColor: widget.listuser == null ||
+      isDisableColor: widget.listUser == null ||
               (state.getuserResponse != null &&
                   ((state.getuserResponse?.name ?? '').isEmpty))
           ? false
           : true,
       onTap: () {
-        if (widget.listuser == null ||
+        if (widget.listUser == null ||
             (state.getuserResponse != null &&
                 ((state.getuserResponse?.name ?? '').isEmpty))) {
           dbOfficialDialog(state);
@@ -1389,10 +1392,10 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
     );
   }
 
-  Widget locationWidgetdislay(LawEnforcementState state) {
+  Widget locationWidgetDisplay(LawEnforcementState state) {
     return GestureDetector(
       onTap: () {
-        if (widget.listuser == null ||
+        if (widget.listUser == null ||
             (state.locationSelectedlist?.name ?? '').isEmpty) {
           showDialog(
             context: context,
@@ -1522,7 +1525,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
     }
     List<CreateImage>? images = getFiles ?? [];
     LawEnforcement? lawEnforcement;
-    if (widget.listuser != null) {
+    if (widget.listUser != null) {
       lawEnforcement = LawEnforcement(
           id: isFoundId ?? 0,
           entrySecurity: entrysecurtity,
@@ -1583,7 +1586,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
         isSubmit,
         context,
         username,
-        widget.listuser != null
+        widget.listUser != null
             ? 'edit LawEnforcement'
             : 'Create LawEnforcement');
   }
@@ -1691,7 +1694,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
           );
           break;
         } else {
-          if (widget.listuser != null &&
+          if (widget.listUser != null &&
               distributiongroupsTextController.text.isEmpty) {
             Validator().showToast(
               context,
@@ -1699,20 +1702,20 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
             );
             break;
           } else {
-            createLawEnforcement(true, widget.listuser?.id ?? 0, globalState);
+            createLawEnforcement(true, widget.listUser?.id ?? 0, globalState);
             break;
           }
         }
       }
     } else {
-      if (widget.listuser != null &&
+      if (widget.listUser != null &&
           distributiongroupsTextController.text.isEmpty) {
         Validator().showToast(
           context,
           "Please enter distribution groups",
         );
       } else {
-        createLawEnforcement(true, widget.listuser?.id ?? 0, globalState);
+        createLawEnforcement(true, widget.listUser?.id ?? 0, globalState);
       }
     }
   }
@@ -1754,7 +1757,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
           itemBuilder: (BuildContext context, int index) {
             CreateImage? imagedata;
             FoundImage? imagedata1;
-            if (widget.listuser != null) {
+            if (widget.listUser != null) {
               imagedata1 = attachmentListviews1?[index];
             } else {
               imagedata = attachmentListviews?[index];
@@ -1763,7 +1766,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
             return Column(
               children: <Widget>[
                 ListTile(
-                  trailing: widget.listuser != null
+                  trailing: widget.listUser != null
                       ? SvgPicture.asset(AppIcon.download,
                           color: AppColors.boldgreyBackground)
                       : SizedBox(
@@ -1774,7 +1777,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
                     DownloadImage().saveImage(
                         context, imagedata1?.id ?? 0, imagedata1?.title ?? '');
                   },
-                  title: widget.listuser != null
+                  title: widget.listUser != null
                       ? Text(imagedata1?.title ?? '')
                       : Text(imagedata?.title ?? ''),
                 ),
