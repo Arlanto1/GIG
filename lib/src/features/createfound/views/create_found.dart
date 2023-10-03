@@ -682,7 +682,7 @@ class _CreateFoundState extends State<CreateFound> {
                   builder: (BuildContext dialogContext) {
                     return AddEmployeeDepartment(
                       title: Constants.addarticletype,
-                      createoundstate: state,
+                      createFoundState: state,
                     );
                   });
             },
@@ -785,7 +785,7 @@ class _CreateFoundState extends State<CreateFound> {
                   builder: (BuildContext dialogContext) {
                     return AddEmployeeDepartment(
                       title: Constants.addemployeedepartment,
-                      createoundstate: state,
+                      createFoundState: state,
                     );
                   });
             },

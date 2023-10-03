@@ -253,8 +253,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                             /// Created By
                             CommonWidgets.verticalTextHandling(
                                 Constants.createdby,
-                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'
-                            ),
+                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Location
@@ -431,8 +430,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   height * 0.001),
                               FlutterInputField(
                                 lineHeight: 6,
-                                initialValue:
-                                    state.materialMovement.modelInfo,
+                                initialValue: state.materialMovement.modelInfo,
                                 textFormKey: Keys.equipmentNoKey,
                                 hintText: '',
                                 isEnable: state.materialMovement.status != 6,
@@ -1641,7 +1639,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                   barrierDismissible: false,
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return AddEmployeeDepartment(
+                    return const AddEmployeeDepartment(
                       title: Constants.addQuantity,
                       // createoundstate:  state,
                     );

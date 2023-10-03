@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/app.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -120,6 +122,7 @@ class RouteGenerator {
           if (listroutes != null) {
             FoundListArticleDetails? listuser = listroutes["UserElement"];
             int eventId = listroutes['eventId'];
+            log('-----');
             return MaterialPageRoute(
                 builder: (context) => CreateFound(
                       listuser: listuser,
@@ -137,13 +140,13 @@ class RouteGenerator {
           if (listroutes != null) {
             LawEnforcementDetails? listuser = listroutes["UserElement"];
             return MaterialPageRoute(
-                builder: (context) => CreateLawenforcement(listuser: listuser));
+                builder: (context) => CreateLawEnforcement(listUser: listuser));
           }
           return MaterialPageRoute(
-              builder: (context) => CreateLawenforcement());
+              builder: (context) => CreateLawEnforcement());
         } else {
           return MaterialPageRoute(
-              builder: (context) => CreateLawenforcement());
+              builder: (context) => CreateLawEnforcement());
         }
       case addemployeedepartmentRoute:
         return MaterialPageRoute(

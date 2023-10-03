@@ -72,7 +72,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       EntrySecurity loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
-
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
@@ -97,8 +96,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       QuantityUnits quantityUnits = await commonServices.getQuantityUnits();
 
       state.materialMovement.entrySecurity = loggedInUserDetails;
+      state.materialMovement.unit = model?.unit;
 
-      emit(
+          emit(
         state.copyWith(
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
@@ -158,6 +158,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     if (receiverEmailUser != null) {
       state.materialMovement.receiverEmail = receiverEmailUser.email;
     }
+
+
     if (requesterEmailUser != null) {
       state.materialMovement.requestorEmail = requesterEmailUser.email;
     }
