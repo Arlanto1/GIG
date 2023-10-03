@@ -17,7 +17,7 @@ class BaseApiService {
 
     if (isAuthenticated != null && isAuthenticated) {
       String token = await SharedPrefs.getToken();
-      // log("token is:$token");
+      log("token is:$token");
       headers.addAll({"Authorization": 'Bearer $token'});
     }
     return headers;
@@ -38,9 +38,9 @@ class BaseApiService {
       );
       log('response.statusCode----${response.statusCode}');
       if (response.statusCode == HttpStatus.ok) {
-        log('response.body----${response.body}');
+        // log('response.body----${response.body}');
         var responseBody = json.decode(response.body);
-        log('responseBody----$responseBody');
+        // log('responseBody----$responseBody');
         return responseBody;
       } else {
         log("$url GET response is NOT OK:${response.statusCode}");

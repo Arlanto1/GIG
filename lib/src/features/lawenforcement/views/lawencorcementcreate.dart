@@ -1249,7 +1249,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
                   builder: (BuildContext dialogContext) {
                     return  AddEmployeeDepartment(
                       title: Constants.addemployeedepartment,
-                      lawstate: state,
+                      lawState: state,
                     );
                   });
             },
