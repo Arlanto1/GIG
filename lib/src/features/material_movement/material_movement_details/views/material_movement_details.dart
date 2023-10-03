@@ -1237,8 +1237,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               );
                                             }),
 
-                              /// Received For
                               if (!state.materialMovement.originalReceiver) ...[
+                                /// Received For
                                 Column(
                                   children: [
                                     CommonWidgets.textDisplay(
@@ -1292,6 +1292,33 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         height * 0.01),
                                   ],
                                 ),
+                              ],
+                              if(state.materialMovement.originalReceiver)...[
+                                /// Received By
+                                CommonWidgets.textDisplay(Constants.receivedBy,
+                                    Styles.textStyleBlack14),
+
+                                FlutterInputField(
+                                  initialValue:
+                                  state.materialMovement.otherReceiverName,
+                                  textFormKey: Keys.claimantEmpIdTextController,
+                                  isEnable: state.materialMovement.status != 6,
+                                  isDisableColor:
+                                  state.materialMovement.status == 6,
+                                  hintText: '',
+                                  onChange: (String value) {
+                                    state.materialMovement.otherReceiverName =
+                                        value;
+                                    context
+                                        .read<MaterialMovementDetailsCubit>()
+                                        .onModelValueChange(
+                                        state.materialMovement);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                               ],
 
                               /// Received by Employee Id
@@ -1381,30 +1408,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                               // dbwanttodepartmentaddButtonwidgetLoading(state),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              /// Received By
-                              CommonWidgets.textDisplay(Constants.receivedBy,
-                                  Styles.textStyleBlack14),
-
-                              FlutterInputField(
-                                initialValue:
-                                    state.materialMovement.otherReceiverName,
-                                textFormKey: Keys.claimantEmpIdTextController,
-                                isEnable: state.materialMovement.status != 6,
-                                isDisableColor:
-                                    state.materialMovement.status == 6,
-                                hintText: '',
-                                onChange: (String value) {
-                                  state.materialMovement.otherReceiverName =
-                                      value;
-                                  context
-                                      .read<MaterialMovementDetailsCubit>()
-                                      .onModelValueChange(
-                                          state.materialMovement);
-                                },
-                                validateTextField: (String? user) {},
-                              ),
-
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Received for Employee Id
                               CommonWidgets.textDisplay(
