@@ -23,11 +23,11 @@ class QuantityUnit {
   });
 
   QuantityUnit.fromJson(Map<String, dynamic> json)
-      : id = json['Id'] as int?,
-        name = json['Name'] as String?;
+      : id = json['id'] as int?,
+        name = json['name'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'Id' : id,
-    'Name' : name
+    'id' : id,
+    'name' : name
   };
 }

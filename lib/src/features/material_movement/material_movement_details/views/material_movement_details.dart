@@ -212,7 +212,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 isDisabled: state.materialMovement.status != 6,
                                 textController: returnableTextController,
                                 onTap: () {
-                                  if (isDisabled) {
+                                  if (isDisabled & !widget.isInward) {
                                     BaseDropDown().assetTypeDialog(
                                         context: context,
                                         dropDownValues:
@@ -253,8 +253,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                             /// Created By
                             CommonWidgets.verticalTextHandling(
                                 Constants.createdby,
-                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'
-                            ),
+                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Location
@@ -431,8 +430,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   height * 0.001),
                               FlutterInputField(
                                 lineHeight: 6,
-                                initialValue:
-                                    state.materialMovement.modelInfo,
+                                initialValue: state.materialMovement.modelInfo,
                                 textFormKey: Keys.equipmentNoKey,
                                 hintText: '',
                                 isEnable: state.materialMovement.status != 6,
@@ -1239,8 +1237,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               );
                                             }),
 
-                              /// Received For
                               if (!state.materialMovement.originalReceiver) ...[
+                                /// Received For
                                 Column(
                                   children: [
                                     CommonWidgets.textDisplay(
@@ -1294,6 +1292,33 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         height * 0.01),
                                   ],
                                 ),
+                              ],
+                              if(state.materialMovement.originalReceiver)...[
+                                /// Received By
+                                CommonWidgets.textDisplay(Constants.receivedBy,
+                                    Styles.textStyleBlack14),
+
+                                FlutterInputField(
+                                  initialValue:
+                                  state.materialMovement.otherReceiverName,
+                                  textFormKey: Keys.claimantEmpIdTextController,
+                                  isEnable: state.materialMovement.status != 6,
+                                  isDisableColor:
+                                  state.materialMovement.status == 6,
+                                  hintText: '',
+                                  onChange: (String value) {
+                                    state.materialMovement.otherReceiverName =
+                                        value;
+                                    context
+                                        .read<MaterialMovementDetailsCubit>()
+                                        .onModelValueChange(
+                                        state.materialMovement);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                               ],
 
                               /// Received by Employee Id
@@ -1383,30 +1408,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                               // dbwanttodepartmentaddButtonwidgetLoading(state),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              /// Received By
-                              CommonWidgets.textDisplay(Constants.receivedBy,
-                                  Styles.textStyleBlack14),
-
-                              FlutterInputField(
-                                initialValue:
-                                    state.materialMovement.otherReceiverName,
-                                textFormKey: Keys.claimantEmpIdTextController,
-                                isEnable: state.materialMovement.status != 6,
-                                isDisableColor:
-                                    state.materialMovement.status == 6,
-                                hintText: '',
-                                onChange: (String value) {
-                                  state.materialMovement.otherReceiverName =
-                                      value;
-                                  context
-                                      .read<MaterialMovementDetailsCubit>()
-                                      .onModelValueChange(
-                                          state.materialMovement);
-                                },
-                                validateTextField: (String? user) {},
-                              ),
-
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Received for Employee Id
                               CommonWidgets.textDisplay(
@@ -1641,7 +1642,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                   barrierDismissible: false,
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return AddEmployeeDepartment(
+                    return const AddEmployeeDepartment(
                       title: Constants.addQuantity,
                       // createoundstate:  state,
                     );

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/configurations/base_config.dart';
 import 'package:db_atom/src/configurations/dev_config.dart';
 import 'package:db_atom/src/configurations/prod_config.dart';
@@ -6,6 +8,7 @@ import 'package:db_atom/src/configurations/uat_config.dart';
 
 class Environment {
   factory Environment() {
+    log('--------Environment------');
     return _singleton;
   }
 
@@ -25,6 +28,7 @@ class Environment {
   }
 
   BaseConfig _getConfig(String environment) {
+    log('--------Environment-----_getConfig-----$environment-');
     switch (environment) {
       case Environment.PROD:
         return ProdConfig();

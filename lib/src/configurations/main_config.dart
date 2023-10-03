@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/flavors.dart';
 import 'package:db_atom/initialize_providers.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
@@ -13,6 +15,7 @@ export 'package:flutter/material.dart';
 
 class MainConfig {
   static environmentsChanging() {
+    log('-environmentsChanging---main_config--');
     String environment = String.fromEnvironment(
       'ENVIRONMENT',
       defaultValue: F.title == "DEV"
@@ -28,6 +31,7 @@ class MainConfig {
   }
 
   static initialSetup() async {
+    log('-initialSetup---main_config--');
     Locale? locale;
 
     // Required for async calls in `main`
@@ -54,7 +58,7 @@ class MainConfig {
             // fillColor: AppColors.textfilBbackGroundColor, //<-- SEE HERE
             // ),
           ),
-          debugShowCheckedModeBanner: true,
+          debugShowCheckedModeBanner: false,
           initialRoute: splashScreenRoute,
           onGenerateRoute: RouteGenerator.generateRoute,
           locale: locale,
