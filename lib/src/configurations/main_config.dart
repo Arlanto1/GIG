@@ -54,7 +54,7 @@ class MainConfig {
             // fillColor: AppColors.textfilBbackGroundColor, //<-- SEE HERE
             // ),
           ),
-          debugShowCheckedModeBanner: true,
+          debugShowCheckedModeBanner: false,
           initialRoute: splashScreenRoute,
           onGenerateRoute: RouteGenerator.generateRoute,
           locale: locale,

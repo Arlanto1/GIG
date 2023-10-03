@@ -107,6 +107,10 @@ class _ForgotPwdWidgetState extends State<ForgotPwdWidget> {
                               welcomeLogin(),
                               CommonWidgets.verticalSpacerWidget(height * 0.03),
                               // otp input field
+
+                              /// Status
+                              CommonWidgets.textDisplay(
+                                  Constants.username, Styles.textStyleBlack14),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 //mainAxisAlignment: MainAxisAlignment.end,
@@ -120,7 +124,7 @@ class _ForgotPwdWidgetState extends State<ForgotPwdWidget> {
                                     hintText: Constants.hintUserName,
                                     keyboardType: TextInputType.text,
                                     onChange: (String text) {
-                                      this.email = text;
+                                      email = text;
                                       setState(() {});
                                     },
                                     validateTextField: (String? user) {
@@ -150,7 +154,9 @@ class _ForgotPwdWidgetState extends State<ForgotPwdWidget> {
                                             ),
                                           );
                                         }
-                                      } catch (e) {}
+                                      } catch (e) {
+                                        log('$e');
+                                      }
                                     },
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
