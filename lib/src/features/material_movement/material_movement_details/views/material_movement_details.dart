@@ -208,7 +208,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                             /// Non Returnable
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(isDisabled: state.materialMovement.status != 6,
+                            BaseDropDown().getDropDown(
+                                isDisabled: state.materialMovement.status != 6,
                                 textController: returnableTextController,
                                 onTap: () {
                                   if (isDisabled & !widget.isInward) {
@@ -252,8 +253,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                             /// Created By
                             CommonWidgets.verticalTextHandling(
                                 Constants.createdby,
-                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'
-                            ),
+                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Location
@@ -430,8 +430,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   height * 0.001),
                               FlutterInputField(
                                 lineHeight: 6,
-                                initialValue:
-                                    state.materialMovement.modelInfo,
+                                initialValue: state.materialMovement.modelInfo,
                                 textFormKey: Keys.equipmentNoKey,
                                 hintText: '',
                                 isEnable: state.materialMovement.status != 6,
@@ -1246,18 +1245,18 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       Constants.receivedFor,
                                       Styles.textStyleBlack14,
                                     ),
-                                    widget.materialMovement == null
+                                    widget.materialMovement != 6
                                         ? TextfieldAddButton(
                                             title: state
                                                 .materialMovement.receiverEmail,
                                             height: 70,
                                             isDisableColor:
-                                                widget.materialMovement == null
+                                                widget.materialMovement != 6
                                                     ? false
                                                     : true,
                                             onTap: () {
-                                              if (widget.materialMovement ==
-                                                  null) {
+                                              if (widget.materialMovement !=
+                                                  6) {
                                                 BaseDepartmentDialog()
                                                     .userDialog(
                                                   context: context,
@@ -1326,14 +1325,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 Constants.receiverDepartment,
                                 Styles.textStyleBlack14,
                               ),
-                              widget.materialMovement != null
+                              widget.materialMovement == 6
                                   ? FlutterInputField(
                                       initialValue: state.materialMovement
                                           .receiverDepartmenttName,
                                       textFormKey: Keys.receiverDepartmentKey,
                                       hintText: '',
                                       isEnable:
-                                          state.materialMovement.status != 6,
+                                          state.materialMovement.status == 6,
                                       isDisableColor:
                                           state.materialMovement.status == 6,
                                       onChange: (String value) {
@@ -1352,11 +1351,11 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           .receiverDepartmenttName,
                                       height: 60,
                                       isDisableColor:
-                                          widget.materialMovement == null
+                                          widget.materialMovement != 6
                                               ? false
                                               : true,
                                       onTap: () {
-                                        if (widget.materialMovement == null) {
+                                        if (widget.materialMovement != 6) {
                                           BaseDepartmentDialog()
                                               .departmentDialog(
                                             context: context,
