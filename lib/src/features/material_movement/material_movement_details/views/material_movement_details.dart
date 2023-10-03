@@ -1639,7 +1639,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                   barrierDismissible: false,
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return AddEmployeeDepartment(
+                    return const AddEmployeeDepartment(
                       title: Constants.addQuantity,
                       // createoundstate:  state,
                     );

@@ -1841,7 +1841,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   builder: (BuildContext dialogContext) {
                     return AddEmployeeDepartment(
                       title: Constants.addemployeedepartment,
-                      createpassmgmtstate: state,
+                      createPassMgmtState: state,
                     );
                   });
             },

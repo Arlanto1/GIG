@@ -140,13 +140,13 @@ class RouteGenerator {
           if (listroutes != null) {
             LawEnforcementDetails? listuser = listroutes["UserElement"];
             return MaterialPageRoute(
-                builder: (context) => CreateLawenforcement(listuser: listuser));
+                builder: (context) => CreateLawEnforcement(listUser: listuser));
           }
           return MaterialPageRoute(
-              builder: (context) => CreateLawenforcement());
+              builder: (context) => CreateLawEnforcement());
         } else {
           return MaterialPageRoute(
-              builder: (context) => CreateLawenforcement());
+              builder: (context) => CreateLawEnforcement());
         }
       case addemployeedepartmentRoute:
         return MaterialPageRoute(
