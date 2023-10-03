@@ -96,9 +96,9 @@ class _LawEnforcementCustomPopUpListState
           ),
           CommonWidgets.verticalSpacerWidget(8),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              textHandling('Sl No : ', widget.userItem?.slNo.toString() ?? " "),
+                textHandling('Sl No : ', widget.userItem?.slNo.toString()??""),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
@@ -201,12 +201,10 @@ class _LawEnforcementCustomPopUpListState
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling(
-                  'Status : ', widget.userItem?.status.toString() ?? " "),
-            ],
-          ),
+                  Row(
+                    children: [
+                      Utils().buildLeoStatusRow(widget.userItem?.status ?? 0)
+                    ],),
         ])
                 //),
                 //    ),

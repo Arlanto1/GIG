@@ -7,5 +7,5 @@ export 'package:flutter/material.dart';
 void main() {
   F.appFlavor = Flavor.dev;
   //runApp(App());
-  Mainconfig.initialSetup();
+  MainConfig.initialSetup();
 }

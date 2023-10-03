@@ -126,15 +126,11 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                         ],
                       ),
                        CommonWidgets.verticalSpacerWidget(5),
-                      Row(
+                    Row(
                         children: [
-                          Text(
-                            'Status : ${widget.userItem.status}',
-                            style: Styles.textStyleSemiBoldGrey14,
-                          )
-                        ],
-                      ),
-                    ])))),
+                      Utils().buildLeoStatusRow(widget.userItem.status ?? 0)
+                    ],),
+                        ])))),
          CommonWidgets.verticalSpacerWidget(5),
       ],
     );

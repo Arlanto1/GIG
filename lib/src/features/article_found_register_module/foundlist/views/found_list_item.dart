@@ -4,12 +4,10 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -128,15 +126,10 @@ class _FoundListItemState extends State<FoundListItem> {
                                   int.parse(widget.userItem.foundDate ?? '0'), Constants.dateFormat): ''),
                         ],
                       ),
-                       CommonWidgets.verticalSpacerWidget(5),
-                      Row(
+                    Row(
                         children: [
-                          Text(
-                            'Status : ${widget.userItem.status}',
-                            style: Styles.textStyleSemiBoldGrey14,
-                          )
-                        ],
-                      ),
+                          Utils().buildFoundStatusRow(widget.userItem.status ?? 0),
+                        ]),
                     ])))),
          CommonWidgets.verticalSpacerWidget(5),
       ],

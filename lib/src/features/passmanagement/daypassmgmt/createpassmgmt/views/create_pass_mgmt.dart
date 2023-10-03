@@ -40,6 +40,8 @@ import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
 import '../../../../../models/entry_security.dart';
+import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
+import '../../passmgmtlist/models/day_passlist_model.dart';
 
 class CreatePassManagement extends StatefulWidget {
   DayPassListItemResponse? listuser;
@@ -401,6 +403,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
                                         : Container(),
+
+
                                     // articleaddButtonwidgetLoading(state),
                                     widget.passId == "0" || widget.passId == "3"
                                         ? companytypeaddButtonwidgetLoading(
@@ -675,6 +679,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.01)
                                         : Container(),
+
                                     //Photo Identity Validation Type
                                     widget.passId == "1"
                                         ? CommonWidgets.textDisplay(
@@ -740,7 +745,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 widget.passId == "0") ||
                                             widget.passId == "1" ||
                                             widget.passId == "2" ||
-                                            widget.passId == '3' || (state.atomCompanyType?.name == null && 
+                                            widget.passId == '3' ||
+                                        (state.atomCompanyType?.name == null &&
                                                 widget.passId == "0")
                                         ? CommonWidgets.textDisplay(
                                             Constants.host,
@@ -752,12 +758,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 widget.passId == "0") ||
                                             widget.passId == "1" ||
                                             widget.passId == "2" ||
-                                            widget.passId == '3' || (state.atomCompanyType?.name == null && 
+                                            widget.passId == '3' || (state.atomCompanyType?.name == null &&
                                                 widget.passId == "0")
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
                                         : Container(),
-                                    // articleaddButtonwidgetLoading(state),
+                                   // articleaddButtonwidgetLoading(state),
                                     ((state.atomCompanyType?.name ?? '')
                                                         .toLowerCase() ==
                                                     'exceptions' && 
@@ -1215,7 +1221,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
      createpassmgmtCubit.gethostUsersResponseData(host1);
      createpassmgmtCubit.getdbsponsorUsersResponseData(host1);
 
-      nameTextController.text = widget.passId == '1' && widget.listuser?.visitorName != null ?  widget.listuser?.visitorName ?? ''
+      nameTextController.text = widget.passId == '1' && widget.listuser?.employeeName != null ?  widget.listuser?.employeeName ?? ''
           : widget.listuser?.employeeName.toString() ?? '';
             var userid = await SharedPrefs.getUserId();
       BaseUser name1 = nameTextController.text.isNotEmpty
@@ -1344,13 +1350,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         }
         createpassmgmtCubit.getEntityData(entities);
       }
+
       AtomCompanyType emp = widget.listuser != null
           ? AtomCompanyType(
               id: widget.listuser?.companyType?.id ?? 0,
               name: widget.listuser?.companyType?.name ?? '')
           : AtomCompanyType();
       createpassmgmtCubit.getatomCompanyTypeResponseData(emp);
-//vendorPassReason
+
+  //vendorPassReason
       DayPassReasonElement day = widget.listuser != null
           ? widget.listuser?.vendorPassReason?.id != null ? DayPassReasonElement(
               id: widget.listuser?.vendorPassReason?.id ?? 0,
@@ -1366,8 +1374,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               name: widget.listuser?.department?.name ?? '')
           : Department();
       createpassmgmtCubit.getemployeeDepartmentsResponseData(dep);
-      getAttachments =
-          widget.listuser?.images != null ? widget.listuser?.images ?? [] : [];
+      // getAttachments =
+      //     widget.listuser?.images != null ? widget.listuser?.images ?? [] : [];
       // photogetAttachments =
       //     widget.listuser?.visitorImage != null ? widget.listuser?.visitorImage ?? [] : [];   
           
@@ -2282,7 +2290,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       {
         passtypeIdentify = 6;
       }
-      else if(passtypeTextController.text == "SEZ_PASS")  
+      else if(passtypeTextController.text == "SEZ_PASS")
       {
         passtypeIdentify = 3;
       }
