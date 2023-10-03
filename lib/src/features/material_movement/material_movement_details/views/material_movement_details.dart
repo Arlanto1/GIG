@@ -212,7 +212,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 isDisabled: state.materialMovement.status != 6,
                                 textController: returnableTextController,
                                 onTap: () {
-                                  if (isDisabled) {
+                                  if (isDisabled & !widget.isInward) {
                                     BaseDropDown().assetTypeDialog(
                                         context: context,
                                         dropDownValues:
