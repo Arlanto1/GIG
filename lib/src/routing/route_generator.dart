@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/app.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -120,6 +122,7 @@ class RouteGenerator {
           if (listroutes != null) {
             FoundListArticleDetails? listuser = listroutes["UserElement"];
             int eventId = listroutes['eventId'];
+            log('-----');
             return MaterialPageRoute(
                 builder: (context) => CreateFound(
                       listuser: listuser,
