@@ -415,6 +415,82 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                               Constants.visitingofficialdetails,
                                               Styles.textStyleDarkGrey16),CommonWidgets.verticalSpacerWidget(
                                               height * 0.01),
+
+                                          // Name
+                                          CommonWidgets.textDisplay(
+                                              Constants.name,
+                                              Styles.textStyleBlack14),
+                                          CommonWidgets.verticalSpacerWidget(
+                                              height * 0.001),
+                                          textfieldWidgetLoad(
+                                              nameTextController3,
+                                              0,
+                                              state),
+                                          CommonWidgets.verticalSpacerWidget(
+                                              height * 0.01),
+
+                                           //Designation
+                                          CommonWidgets.textDisplay(
+                                              Constants.designation,
+                                              Styles.textStyleBlack14),
+                                          CommonWidgets.verticalSpacerWidget(
+                                              height * 0.001),
+                                          textfieldWidgetLoad(
+                                              designationTextController3,
+                                              0,
+                                              state),
+
+                                          // Department
+                                          CommonWidgets.textDisplay(
+                                              Constants.department,
+                                              Styles.textStyleBlack14),
+                                          CommonWidgets.verticalSpacerWidget(
+                                              height * 0.001),
+                                          // articleaddButtonwidgetLoading(state),
+                                          employeeDepartmentAddButtonWidgetLoading(
+                                             state ),
+                                          CommonWidgets.verticalSpacerWidget(
+                                              height * 0.01),
+
+                                          //Office Address
+                                          CommonWidgets.textDisplay(
+                                              Constants.officeaddress,
+                                              Styles.textStyleBlack14),
+                                          CommonWidgets.verticalSpacerWidget(
+                                              height * 0.001),
+                                          textfieldWidgetLoad(
+                                              officeaddressTextController3,
+                                              0,
+                                              state),
+                                          CommonWidgets.verticalSpacerWidget(
+                                              height * 0.01),
+
+                                          //Email Id
+                                          CommonWidgets.textDisplay(
+                                              Constants.emailid,
+                                              Styles.textStyleBlack14),
+                                          CommonWidgets.verticalSpacerWidget(
+                                              height * 0.001),
+                                          textfieldWidgetLoad(
+                                              emailidTextController3,
+                                              0,
+                                              state),
+                                          CommonWidgets.verticalSpacerWidget(
+                                              height * 0.01),
+
+                                          //Contact No
+                                          CommonWidgets.textDisplay(
+                                              Constants.contactno,
+                                              Styles.textStyleBlack14),
+                                          CommonWidgets.verticalSpacerWidget(
+                                              height * 0.001),
+                                          textfieldWidgetLoad(
+                                              contactnoTextController3,
+                                              0,
+                                              state),
+                                          CommonWidgets.verticalSpacerWidget(
+                                              height * 0.01),
+
                                           // Add another visiting
                                           GestureDetector(
                                             onTap: () {
@@ -1371,6 +1447,29 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       },
     );
   }
+
+  Widget employeeDepartmentAddButtonWidgetLoading(LawEnforcementState state) {
+    return TextfieldAddButton(
+      title: state.createEmployeeDepartments?.name ?? '',
+      height: 60,
+      isDisableColor: widget.listUser == null ||
+          (state.createEmployeeDepartments != null &&
+              ((state.createEmployeeDepartments?.name ?? '')
+                  .isEmpty))
+          ? false
+          : true,
+      onTap: () {
+        if (widget.listUser == null ||
+            (state.createEmployeeDepartments != null &&
+                ((state.createEmployeeDepartments?.name ?? '')
+                    .isEmpty))) {
+          //   articleTypeDialog(state);
+          leodepartmentsDialog(state);
+        }
+      },
+    );
+  }
+
 
   Widget dbofficialemailidaddButtonwidgetLoading(LawEnforcementState state) {
     return TextfieldAddButton(
