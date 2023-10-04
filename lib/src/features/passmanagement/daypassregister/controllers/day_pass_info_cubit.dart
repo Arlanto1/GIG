@@ -34,7 +34,7 @@ class DayPassInfoCubit extends Cubit<DayPassInfoState> {
     }
     try {
       DayPassInfoResponseModel foundListModelResponse =
-          await passListServices.getpassinfoFoundArticleList(
+          await passListServices.getPassInfoFoundArticleList(
               startPosition: startPosition,
               maximumRecords: maximumRecords,
               userId: userId,
