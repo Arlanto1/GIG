@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -36,8 +37,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   MaterialMovementDetailsCubit({
     required this.materialMovementServices,
     required this.commonServices,
-     this.model,
-     this.isInward,
+    this.model,
+    this.isInward,
   }) : super(
           MaterialMovementDetailsState.initial(
               model: model ?? MaterialMovementModel(),
@@ -55,7 +56,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   void onModelValueChange(MaterialMovementModel model) {
     emit(state.copyWith(materialMovement: model, status: FormStatus.initial));
   }
-
 
   Future<void> initializeValues() async {
     print('-status-1-${state.status}--');
@@ -98,7 +98,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.materialMovement.entrySecurity = loggedInUserDetails;
       state.materialMovement.unit = model?.unit;
 
-          emit(
+      emit(
         state.copyWith(
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
@@ -158,7 +158,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     if (receiverEmailUser != null) {
       state.materialMovement.receiverEmail = receiverEmailUser.email;
     }
-
 
     if (requesterEmailUser != null) {
       state.materialMovement.requestorEmail = requesterEmailUser.email;
@@ -268,7 +267,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       if (isSaveOnly) {
         response = await materialMovementServices.createMaterialMovement(
             body: request, isSubmit: false);
-
       } else {
         //Validating Fields
         if (!state.isValid.status) {

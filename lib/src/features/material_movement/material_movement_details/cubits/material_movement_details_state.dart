@@ -1,6 +1,5 @@
 part of 'material_movement_details_cubit.dart';
 
-
 class MaterialMovementDetailsState extends Equatable {
   final FormStatus status;
 
@@ -46,7 +45,7 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
-    if (materialMovement.challanNo == null) {
+    if (materialMovement.challanNo.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Challan No');
     }
@@ -54,13 +53,11 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Quantity');
     }
-
-    if (materialMovement.materialDescription == null) {
+    if (materialMovement.materialDescription.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Material Description');
     }
-
-    if (materialMovement.materialComingFrom == null) {
+    if (materialMovement.materialComingFrom.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Material Coming From');
     }
