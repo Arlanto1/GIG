@@ -1068,7 +1068,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
         validateTextField: (String? user) {},
         suffixWidget: GestureDetector(
           onTap: () async {
-            if (widget.listuser == null || textfiled.text.isEmpty) {
+            if (widget.listuser != null || textfiled.text.isNotEmpty) {
               datePickerDialog(textfiled);
             }
           },
@@ -1092,7 +1092,7 @@ class _CreateLawenforcementState extends State<CreateLawenforcement> {
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(2000),
-        lastDate: DateTime(2101));
+        lastDate: DateTime.now());
 
     print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
     String formattedDate = DateFormat(Constants.fulldateFormat)
