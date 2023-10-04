@@ -120,7 +120,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.materialMovement.status != 6 ? true : false,
+            showSaveButton: state.materialMovement.status != 6 &&
+                    state.materialMovement.status != 3
+                ? true
+                : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context)
@@ -518,18 +521,18 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       Constants.requestorEmail,
                                       Styles.textStyleBlack14,
                                     ),
-                                    widget.materialMovement != 6
+                                    widget.materialMovement != null
                                         ? TextfieldAddButton(
                                             title: state.materialMovement
                                                 .requestorEmail,
                                             height: 70,
                                             isDisableColor:
-                                            state.materialMovement.status != 6
+                                                widget.materialMovement != null
                                                     ? false
                                                     : true,
                                             onTap: () {
-                                              if (state.materialMovement.status !=
-                                                  6) {
+                                              if (widget.materialMovement !=
+                                                  null) {
                                                 BaseDepartmentDialog()
                                                     .userDialog(
                                                   context: context,
@@ -594,7 +597,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
-                                /// Requestor Department
+                                /// Requester Department
                                 CommonWidgets.textDisplay(
                                   Constants.requestorDepartment,
                                   Styles.textStyleBlack14,
@@ -608,7 +611,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   isEnable:
                                   state.materialMovement.status == 6,
                                   isDisableColor:
-                                  state.materialMovement.status != 6,
+                                  state.materialMovement.status == 6,
                                   onChange: (String value) {
                                     state.materialMovement
                                         .requestorDepartment?.name = value;
@@ -639,18 +642,18 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               .requestorDepartment?.name =
                                               department.name;
 
-                                          BlocProvider.of<
-                                              MaterialMovementDetailsCubit>(
-                                              context)
-                                              .updateDropdownValues(
-                                              requesterDepartment:
-                                              department);
+                                                BlocProvider.of<
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
+                                                    .updateDropdownValues(
+                                                        requesterDepartment:
+                                                            department);
+                                              },
+                                            );
+                                            // leodepartmentsDialog(state);
+                                          }
                                         },
-                                      );
-                                      // leodepartmentsDialog(state);
-                                    }
-                                  },
-                                ),
+                                      ),
 
                                 // dbwanttodepartmentaddButtonwidgetLoading(state),
                                 CommonWidgets.verticalSpacerWidget(
@@ -766,56 +769,60 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 ),
                                 widget.materialMovement == null
                                     ? FlutterInputField(
-                                  initialValue: state.materialMovement
-                                      .preparedByDepartment?.name,
-                                  textFormKey: Keys.requesterDepartmentKey,
-                                  hintText: '',
-                                  isEnable:
-                                  state.materialMovement.status == 6,
-                                  isDisableColor:
-                                  state.materialMovement.status == 6,
-                                  onChange: (String value) {
-                                    state.materialMovement
-                                        .preparedByDepartment?.name = value;
-                                    context
-                                        .read<
-                                    MaterialMovementDetailsCubit>()
-                                        .onModelValueChange(
-                                    state.materialMovement);
-                                    },
-                                  validateTextField: (String? user) {},
-                                )
-                                    : TextfieldAddButton(
-                                  title: state.materialMovement
-                                      . preparedByDepartment?.name,
-                                  height: 70,
-                                  isDisableColor:
-                                  widget.materialMovement != null
-                                      ? false
-                                      : true,
-                                  onTap: () {
-                                    if (widget.materialMovement != null) {
-                                      BaseDepartmentDialog()
-                                          .departmentDialog(
-                                        context: context,
-                                        departments: state.departments,
-                                        onTap: (Department department) {
-                                          state.materialMovement
-                                              .preparedByDepartment?.name =
-                                              department.name;
-
-                                          BlocProvider.of<
-                                              MaterialMovementDetailsCubit>(
-                                              context)
-                                              .updateDropdownValues(
-                                              preparedByDepartment:
-                                              department);
+                                        initialValue: state.materialMovement
+                                            .preparedByDepartment?.name,
+                                        textFormKey:
+                                            Keys.requesterDepartmentKey,
+                                        hintText: '',
+                                        isEnable:
+                                            state.materialMovement.status == 6,
+                                        isDisableColor:
+                                            state.materialMovement.status == 6,
+                                        onChange: (String value) {
+                                          state
+                                              .materialMovement
+                                              .preparedByDepartment
+                                              ?.name = value;
+                                          context
+                                              .read<
+                                                  MaterialMovementDetailsCubit>()
+                                              .onModelValueChange(
+                                                  state.materialMovement);
                                         },
-                                      );
-                                      // leodepartmentsDialog(state);
-                                    }
-                                  },
-                                ),
+                                        validateTextField: (String? user) {},
+                                      )
+                                    : TextfieldAddButton(
+                                        title: state.materialMovement
+                                            .preparedByDepartment?.name,
+                                        height: 70,
+                                        isDisableColor:
+                                            widget.materialMovement != null
+                                                ? false
+                                                : true,
+                                        onTap: () {
+                                          if (widget.materialMovement != null) {
+                                            BaseDepartmentDialog()
+                                                .departmentDialog(
+                                              context: context,
+                                              departments: state.departments,
+                                              onTap: (Department department) {
+                                                state
+                                                    .materialMovement
+                                                    .preparedByDepartment
+                                                    ?.name = department.name;
+
+                                                BlocProvider.of<
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
+                                                    .updateDropdownValues(
+                                                        preparedByDepartment:
+                                                            department);
+                                              },
+                                            );
+                                            // leodepartmentsDialog(state);
+                                          }
+                                        },
+                                      ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -854,20 +861,20 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           }
                                         })
                                         : FlutterInputField(
-                                      initialValue: state.materialMovement
-                                          .approver1Email,
-                                      textFormKey: Keys.approver1EmailKey,
-                                      hintText: '',
-                                      isEnable:
-                                      state.materialMovement.status !=
-                                          6,
-                                      isDisableColor:
-                                      state.materialMovement.status ==
-                                          6,
-                                      onChange: (String username) {},
-                                      validateTextField:
-                                          (String? user) {},
-                                    ),
+                                            initialValue: state.materialMovement
+                                                .approver1Email,
+                                            textFormKey: Keys.approver1EmailKey,
+                                            hintText: '',
+                                            isEnable:
+                                                state.materialMovement.status !=
+                                                    6,
+                                            isDisableColor:
+                                                state.materialMovement.status ==
+                                                    6,
+                                            onChange: (String username) {},
+                                            validateTextField:
+                                                (String? user) {},
+                                          ),
                                   ],
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
@@ -918,18 +925,18 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               .approver1Department?.name =
                                               department.name;
 
-                                          BlocProvider.of<
-                                              MaterialMovementDetailsCubit>(
-                                              context)
-                                              .updateDropdownValues(
-                                              approver1Department:
-                                              department);
+                                                BlocProvider.of<
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
+                                                    .updateDropdownValues(
+                                                        approver1Department:
+                                                            department);
+                                              },
+                                            );
+                                            // leodepartmentsDialog(state);
+                                          }
                                         },
-                                      );
-                                      // leodepartmentsDialog(state);
-                                    }
-                                  },
-                                ),
+                                      ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -988,6 +995,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     height * 0.01),
 
                                 /// Approver2 By Department
+                                /// Approver1 By Department
                                 CommonWidgets.textDisplay(
                                   Constants.approver2Department,
                                   Styles.textStyleBlack14,
@@ -1032,18 +1040,18 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               .approver2Department?.name =
                                               department.name;
 
-                                          BlocProvider.of<
-                                              MaterialMovementDetailsCubit>(
-                                              context)
-                                              .updateDropdownValues(
-                                              approver2Department:
-                                              department);
+                                                BlocProvider.of<
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
+                                                    .updateDropdownValues(
+                                                        approver2Department:
+                                                            department);
+                                              },
+                                            );
+                                            // leodepartmentsDialog(state);
+                                          }
                                         },
-                                      );
-                                      // leodepartmentsDialog(state);
-                                    }
-                                  },
-                                ),
+                                      ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -1391,32 +1399,35 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 ),
                               ],
 
-                               if (!state.materialMovement.originalReceiver) ...[
-                                /// Received for Employee Id
-                                CommonWidgets.textDisplay(
-                                    Constants.receivedForEmployeeId,
-                                    Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-                                FlutterInputField(
-                                  initialValue:
-                                  state.materialMovement.receiverEmployeeId,
-                                  textFormKey: Keys.claimantEmpIdTextController,
-                                  isEnable: state.materialMovement.status != 6,
-                                  isDisableColor:
-                                  state.materialMovement.status == 6,
-                                  hintText: '',
-                                  onChange: (String value) {
-                                    state.materialMovement.receiverEmployeeId =
-                                        value;
-                                    context
-                                        .read<MaterialMovementDetailsCubit>()
-                                        .onModelValueChange(
-                                        state.materialMovement);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-],
+                                if (!state
+                                    .materialMovement.originalReceiver) ...[
+                                  /// Received for Employee Id
+                                  CommonWidgets.textDisplay(
+                                      Constants.receivedForEmployeeId,
+                                      Styles.textStyleBlack14),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                  FlutterInputField(
+                                    initialValue: state
+                                        .materialMovement.receiverEmployeeId,
+                                    textFormKey:
+                                        Keys.claimantEmpIdTextController,
+                                    isEnable:
+                                        state.materialMovement.status != 6,
+                                    isDisableColor:
+                                        state.materialMovement.status == 6,
+                                    hintText: '',
+                                    onChange: (String value) {
+                                      state.materialMovement
+                                          .receiverEmployeeId = value;
+                                      context
+                                          .read<MaterialMovementDetailsCubit>()
+                                          .onModelValueChange(
+                                              state.materialMovement);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                ],
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -1481,25 +1492,24 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     height * 0.01),
 
                                 /// Received by
-                                CommonWidgets.textDisplay(
-                                    Constants.receivedBy,
+                                CommonWidgets.textDisplay(Constants.receivedBy,
                                     Styles.textStyleBlack14),
 
                                 FlutterInputField(
-                                  initialValue: state
-                                      .materialMovement.otherReceiverName,
+                                  initialValue:
+                                      state.materialMovement.otherReceiverName,
                                   textFormKey: Keys.receivedByKey,
                                   isEnable: state.materialMovement.status != 6,
                                   isDisableColor:
-                                  state.materialMovement.status == 6,
+                                      state.materialMovement.status == 6,
                                   hintText: '',
                                   onChange: (String value) {
-                                    state.materialMovement
-                                        .otherReceiverName = value;
+                                    state.materialMovement.otherReceiverName =
+                                        value;
                                     context
                                         .read<MaterialMovementDetailsCubit>()
                                         .onModelValueChange(
-                                        state.materialMovement);
+                                            state.materialMovement);
                                   },
                                   validateTextField: (String? user) {},
                                 ),
@@ -1533,7 +1543,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
-
 
                                 /// Receiver Signature
                                 CommonWidgets.textDisplay(
@@ -1679,7 +1688,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// SubmitButton
-                          if (state.materialMovement.status != 6) ...[
+                          if (state.materialMovement.status != 6 &&
+                              state.materialMovement.status != 3) ...[
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [

@@ -23,7 +23,7 @@ class BaseApiService {
     return headers;
   }
 
-  Future<Map<String, dynamic>> getRequest({
+  Future<dynamic> getRequest({
     required String url,
     bool? isAuthenticated,
   }) async {
@@ -74,7 +74,7 @@ class BaseApiService {
         context, loginScreenRoute, (route) => false);
   }
 
-  Future<Map<String, dynamic>> _refreshTokenAndRetry(String originalUrl) async {
+  Future<dynamic> _refreshTokenAndRetry(String originalUrl) async {
     log('--_refreshTokenAndRetry-$originalUrl--');
     // Call refresh token API
     await callRefreshTokenApi();
