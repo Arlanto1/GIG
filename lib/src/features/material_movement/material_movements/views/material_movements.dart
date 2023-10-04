@@ -154,6 +154,7 @@ class _MaterialMovementsState extends State<MaterialMovements> {
                                 entrySecurityName: state
                                     .items[selectedIndex].entrySecurityName,
                                 isMasterGuard: false,
+                                isEventProtectionStatus: false,
                               );
                             },
                           );

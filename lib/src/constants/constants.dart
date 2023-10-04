@@ -149,7 +149,7 @@ import '../common_widgets/base_widget/base_list_tile_item.dart';
   static const String createdby = 'Created By';
   static const String itemhandoverby = 'Item Handover By';
   static const String slno = 'Sl No.';
-  static const String articletype = 'Article Type';
+  static const String articlename = 'Article Name';
   static const String depositor = 'Depositor';
   static const String employeedepartment = 'Employee Department';
   static const String claimantdepartment = 'Claimant Department';

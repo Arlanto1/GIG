@@ -42,10 +42,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         await SharedPrefs.setUserId('${loginData.user?.userId}');
         await SharedPrefs.setEmail('${loginData.user?.email}');
         await SharedPrefs.setIdentifymenuindex(0);
+        await SharedPrefs.setToken(loginData.token??'');
+        await SharedPrefs.setRefreshToken(loginData.refreshToken??'');
         if (loginData.requirePasswordChange == true) {
           await SharedPrefs.setIsRequiredPasswordChange(true);
-          await SharedPrefs.setToken(loginData.token??'');
-          await SharedPrefs.setRefreshToken(loginData.refreshToken??'');
+
           emit(UpdatePasswordState());
         } else {
           emit(LoginVerifyOtpActionState());
@@ -94,6 +95,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       LoginResponseModel loginData =
       await loginService.updatePassword(event.requestModel);
+      await SharedPrefs.setIsRequiredPasswordChange(false);
 
       emit(LoginSuccessState(message: loginData.msg ?? ''));
     } catch (e) {

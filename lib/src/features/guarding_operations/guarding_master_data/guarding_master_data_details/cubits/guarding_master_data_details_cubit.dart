@@ -8,7 +8,7 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/models/entity.dart';
-import 'package:db_atom/src/models/location.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
@@ -17,14 +17,13 @@ import 'package:intl/intl.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/base_user.dart';
-import '../../../../../models/department.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../models/responseModels/generic_creat_response.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/emplyee_departments_model.dart';
-import '../../../../createfound/models/user.dart';
 import '../../../../createfound/models/serial_number_model.dart';
+import '../../../../createfound/models/user.dart';
 import '../../../../lawenforcement/models/addentities.dart';
 import '../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import '../../models/guarding_master_data_model.dart';
@@ -137,8 +136,6 @@ class GuardingMasterDataDetailsCubit
           state.guardingMasterData.csrParticipationDates ?? '');
       log('-participationDates---${participationDates.toString()}---');
 
-      log('----lenthgggg---------${state.guardingMasterData.localAddressProof}------');
-
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -188,7 +185,8 @@ class GuardingMasterDataDetailsCubit
         ),
       );
     } catch (e) {
-      log('initialization issue', error: e, name: 'Guarding Master Data Cubit');
+      log('initialization issue',
+          error: e, name: 'Guarding Master Data Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -200,9 +198,9 @@ class GuardingMasterDataDetailsCubit
   }
 
   Future<void> updateDropdownValues({
-    Location? location,
+    Organisation? location,
     BaseUser? user,
-    Department? vendor,
+    Organisation? vendor,
     BaseUser? guard,
     Entity? entity,
     List<Entity>? qualifications,

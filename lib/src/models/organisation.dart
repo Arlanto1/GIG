@@ -1,13 +1,13 @@
-class LocationRegion {
+class Organisation {
   int? id;
   String? name;
 
-  LocationRegion({
+  Organisation({
     this.id,
     this.name,
   });
 
-  LocationRegion.fromJson(Map<String, dynamic> json)
+  Organisation.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
         name = json['name'] as String?;
 

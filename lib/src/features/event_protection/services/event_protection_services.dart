@@ -4,8 +4,8 @@ import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/requestModel/general_info_request.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/show_guard_info_response.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/guard_info_model.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/show_guard_info_response.dart';
 import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
@@ -20,7 +20,8 @@ class Apis {
   static final String _getEventProtections = '$baseUrl/getEPLists?';
 
   static final String _getGI = '$baseUrl/getEPGIById';
- // static final String _getCI = '$baseUrl/getEPCIById';
+
+  // static final String _getCI = '$baseUrl/getEPCIById';
   static final String _getGuardInfo = '$baseUrl/getEPGuardInfoById';
   static final String _getEventInfo = '$baseUrl/getEPEmailInfoById';
   static final String _showGuardInfo = '$baseUrl/showGuardInfo';
@@ -37,10 +38,6 @@ class EventProtectionServices {
     return email;
   }
 
-  Future<String> getUserId() async {
-    String email = await SharedPrefs.getUserId();
-    return email;
-  }
 
   Future<EventProtectionResponse> getEventProtections({
     required String startPosition,
@@ -48,7 +45,7 @@ class EventProtectionServices {
     required String userId,
   }) async {
     String url =
-        '${Apis._getEventProtections}startPos=$startPosition&maxResults=$maximumRecords&userId=${await getUserId()}';
+        '${Apis._getEventProtections}startPos=$startPosition&maxResults=$maximumRecords&userId=${ await SharedPrefs.getUserId()}';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -56,7 +53,6 @@ class EventProtectionServices {
   }
 
   Future<EventProtectionGi> getGI(String id) async {
-
     final String url = '${Apis._getGI}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -87,7 +83,6 @@ class EventProtectionServices {
     );
     EventInfoResponse aa = EventInfoResponse.fromJson(response);
 
-
     log('-----aa-----${aa.id}-');
     return EventInfoResponse.fromJson(response);
   }
@@ -100,11 +95,10 @@ class EventProtectionServices {
     return ShowGuardInfoResponse.fromJson(response);
   }
 
-
   Future<GenericCreateResponse> createEventGeneralInfo({
     required GeneralInfoRequest body,
     required bool isSubmit,
-   // required int eventDuration,
+    // required int eventDuration,
   }) async {
     var userId = await SharedPrefs.getUserId();
     final String url =
@@ -139,7 +133,7 @@ class EventProtectionServices {
     required String eventId,
   }) async {
     String url =
-        '${Apis._getArticleFounds}?startPos=$startPosition&maxResults=$maximumRecords&eventId=$eventId&userId=${await getUserId()}';
+        '${Apis._getArticleFounds}?startPos=$startPosition&maxResults=$maximumRecords&eventId=$eventId&userId=${await SharedPrefs.getUserId()}';
     final response = await BaseApiService().getRequest(
       url: url,
     );

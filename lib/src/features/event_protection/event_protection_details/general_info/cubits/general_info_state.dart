@@ -8,7 +8,7 @@ class GeneralInfoState extends Equatable {
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<Entity>? listOfEntities;
-  final List<Department> departments;
+  final List<Organisation> departments;
   final AddEntities? getEntitiesResponse;
   final List<String>? participationDates;
   final int? eventId;
@@ -23,7 +23,7 @@ class GeneralInfoState extends Equatable {
     final List<BaseUser>? emailUsers,
     required final List<Entity>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
-    required final List<Department> departments,
+    required final List<Organisation> departments,
     required String errorMessage,
     required List<CreateImage> loadAttachments,
     List<User>? entrySecurities,
@@ -118,7 +118,7 @@ class GeneralInfoState extends Equatable {
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<Entity>? listOfEntities,
-    List<Department>? departments,
+    List<Organisation>? departments,
     AddEntities? getEntitiesResponse,
     List<String>? participationDates,
     int? eventId,

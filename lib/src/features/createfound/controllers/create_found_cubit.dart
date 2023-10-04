@@ -7,7 +7,6 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_submit_model.dart';
-import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
@@ -20,6 +19,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../models/entry_security.dart';
+import '../../../models/organisation.dart';
 
 class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   final CreateFoundServices createFoundServices;
@@ -229,7 +229,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   Future<void> createOrganisation(
       String name, String orgName, BuildContext context) async {
     try {
-      CreateOrganisation createOrganisationData =
+      Organisation createOrganisationData =
           await createFoundServices.createOrganisation(name, orgName, context);
       emit(
         state.copyWith(
@@ -262,7 +262,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   Future<void> createEmplyeeDepartments(
       String name, String orgName, BuildContext context) async {
     try {
-      CreateOrganisation createEmployeeDeptData =
+      Organisation createEmployeeDeptData =
           await createFoundServices.createOrganisation(name, orgName, context);
       emit(
         state.copyWith(

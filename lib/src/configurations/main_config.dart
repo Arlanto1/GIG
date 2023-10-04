@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/flavors.dart';
 import 'package:db_atom/initialize_providers.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
@@ -11,8 +13,9 @@ import 'package:flutter/material.dart';
 
 export 'package:flutter/material.dart';
 
-class Mainconfig {
+class MainConfig {
   static environmentsChanging() {
+    log('-environmentsChanging---main_config--');
     String environment = String.fromEnvironment(
       'ENVIRONMENT',
       defaultValue: F.title == "DEV"
@@ -28,6 +31,7 @@ class Mainconfig {
   }
 
   static initialSetup() async {
+    log('-initialSetup---main_config--');
     Locale? locale;
 
     // Required for async calls in `main`
@@ -42,27 +46,29 @@ class Mainconfig {
     //Environment setup
     environmentsChanging();
 
-    runApp(InitializeProviders(
-      child: MaterialApp(
-        theme: ThemeData(
-      disabledColor:  AppColors.textgreyThemecolor,
-          fontFamily: Constants.customFontFamily,
-          primarySwatch: AppColors.colorCustom,
-          // inputDecorationTheme: const InputDecorationTheme(
-          // filled: true, //<-- SEE HERE
-          // fillColor: AppColors.textfilBbackGroundColor, //<-- SEE HERE
-          // ),
+    runApp(
+      InitializeProviders(
+        child: MaterialApp(
+          theme: ThemeData(
+            disabledColor: AppColors.textgreyThemecolor,
+            fontFamily: Constants.customFontFamily,
+            primarySwatch: AppColors.colorCustom,
+            // inputDecorationTheme: const InputDecorationTheme(
+            // filled: true, //<-- SEE HERE
+            // fillColor: AppColors.textfilBbackGroundColor, //<-- SEE HERE
+            // ),
+          ),
+          debugShowCheckedModeBanner: false,
+          initialRoute: splashScreenRoute,
+          onGenerateRoute: RouteGenerator.generateRoute,
+          locale: locale,
+          supportedLocales: LocaleSupportedMethod.supportedLocale,
+          localizationsDelegates:
+              LocaleSupportedMethod.getLocalizationsDelegates(),
+          localeResolutionCallback: (locale, supportedLocales) =>
+              LocaleSupportedMethod.getLocale(locale, supportedLocales),
         ),
-        debugShowCheckedModeBanner: false,
-        initialRoute: splashScreenRoute,
-        onGenerateRoute: RouteGenerator.generateRoute,
-
-        locale: locale,
-        supportedLocales: LocaleSupportedMethod.supportedLocale,
-        localizationsDelegates: LocaleSupportedMethod.getLocalizationsDelegates(),
-        localeResolutionCallback: (locale, supportedLocales) =>
-            LocaleSupportedMethod.getLocale(locale, supportedLocales),
       ),
-    ));
+    );
   }
 }

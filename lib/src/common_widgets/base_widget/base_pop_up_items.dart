@@ -6,15 +6,14 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/location.dart';
-import '../../models/location_region.dart';
+import '../../models/organisation.dart';
 import 'base_list_tile_item.dart';
 
 class BasePopUpItems extends StatefulWidget {
   final String? id;
   final String? slNo;
-  final Location? location;
-  final LocationRegion? locationRegion;
+  final Organisation? location;
+  final Organisation? locationRegion;
   final int? status;
   final String? inputDate;
   final String? entrySecurityName;
@@ -127,7 +126,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
             )),
         // color: Colors.white,
-        height: height / 1.7,
+        height: height / 1.8,
         width: width - 40,
         child:
             // Row(
@@ -162,12 +161,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
       ),
       if (widget.slNo != null && widget.slNo!.isNotEmpty) ...[
         CommonWidgets.verticalSpacerWidget(8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Utils().textHandling('Sl No : ', widget.slNo.toString()),
-          ],
-        ),
+        Utils().textHandling('Sl No : ', widget.slNo.toString()),
       ],
       if (widget.locationRegion != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
@@ -242,38 +236,58 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
       if (widget.status != null &&
           !widget.isMasterGuard &&
           !widget.isEventProtectionStatus) ...[
-        CommonWidgets.verticalSpacerWidget(5),
-        Utils().buildStatusRow(widget.status ?? 0),
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils().buildStatusRow(widget.status ?? 0),
+          ],
+        ),
+      ],
+      if (widget.status != 0 &&
+          widget.status != null &&
+          widget.isMasterGuard) ...[
+        Row(
+          children: [
+            CommonWidgets.verticalSpacerWidget(5),
+            Utils().buildMasterDataStatusRow(widget.status ?? 0),
+          ],
+        ),
+      ],
+      if (widget.maritalStatus != 0 &&
+          widget.maritalStatus != null &&
+          widget.isMasterGuard) ...[
+        Row(
+          children: [
+            CommonWidgets.verticalSpacerWidget(5),
+            Utils().buildMaritalStatus(widget.maritalStatus ?? 0),
+          ],
+        ),
       ],
       if (widget.guardRank != 0 &&
           widget.guardRank != null &&
           widget.isMasterGuard) ...[
         CommonWidgets.verticalSpacerWidget(5),
-        Utils().buildGuardrank(widget.guardRank ?? 0),
+        Row(
+          children: [
+            Utils().buildGuardrank(widget.guardRank ?? 0),
+          ],
+        ),
       ],
       if (widget.gender != 0 &&
           widget.gender != null &&
           widget.isMasterGuard) ...[
         CommonWidgets.verticalSpacerWidget(5),
-        Utils().buildGender(widget.gender ?? 0),
+        Row(
+          children: [
+            Utils().buildGender(widget.gender ?? 0),
+          ],
+        ),
       ],
       if (widget.dutyType != 0 &&
           widget.dutyType != null &&
           widget.isMasterGuard) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildDutyTypeRow(widget.dutyType ?? 0),
-      ],
-      if (widget.maritalStatus != 0 &&
-          widget.maritalStatus != null &&
-          widget.isMasterGuard) ...[
-        CommonWidgets.verticalSpacerWidget(5),
-        Utils().buildMaritalStatus(widget.maritalStatus ?? 0),
-      ],
-      if (widget.status != 0 &&
-          widget.status != null &&
-          widget.isMasterGuard) ...[
-        CommonWidgets.verticalSpacerWidget(5),
-        Utils().buildMasterDataStatusRow(widget.status ?? 0),
       ],
       if (widget.locationStr != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
@@ -300,7 +314,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.epManager1Name !=null) ...[
+      if (widget.epManager1Name != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(
           children: [
@@ -322,7 +336,11 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           widget.isEventProtectionStatus &&
           !widget.isMasterGuard) ...[
         CommonWidgets.verticalSpacerWidget(5),
-        Utils().buildEventProtectionStatusRow(widget.status ?? 0),
+        Row(
+          children: [
+            Utils().buildEventProtectionStatusRow(widget.status ?? 0),
+          ],
+        ),
       ],
       if (widget.guardCount != null) ...[
         CommonWidgets.verticalSpacerWidget(8),

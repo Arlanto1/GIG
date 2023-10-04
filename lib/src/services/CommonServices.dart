@@ -122,7 +122,9 @@ class CommonServices {
     final response = await BaseApiService().getRequest(
       url: url,
     );
+
     return List<User>.from(
         response.map((x) => User.fromJson(x)));
+    // return [];
   }
 }

@@ -37,7 +37,7 @@ class BaseAppBar {
               PopMenuItems("Export Excel", AppIcon.exportexcel),
               PopMenuItems("Export PDF", AppIcon.exportpdf),
               // PopMenuItems("Export XML", AppIcon.exportxml),
-              PopMenuItems("Close", AppIcon.close),
+              //PopMenuItems("Close", AppIcon.close),
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
@@ -49,6 +49,9 @@ class BaseAppBar {
                 DownloadImage().exportPdf(context, int.parse(userid),
                     'export.pdf', 0, 20, '/$pdfAPIName');
               }
+              // else if(value == 2){
+              //   Navigator.pop(context);
+              // }
             },
             popupimagename: AppIcon.morewhiteicon,
           ),

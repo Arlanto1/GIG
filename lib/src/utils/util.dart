@@ -183,6 +183,35 @@ class Utils {
     );
   }
 
+
+  Widget buildLeoStatusRow(int status) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Draft';
+        break;
+      case 1:
+        statusText = 'Submitted';
+        break;
+      case 2:
+        statusText = 'Under Verification';
+        break;
+      case 3:
+        statusText = 'Distributed';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
+
   Widget buildStatusRow(int status) {
     String statusText;
 
@@ -374,7 +403,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Gender: ', assetTypeText),
+          textHandling('Asset Type: ', assetTypeText),
         ],
       ),
     );
@@ -485,6 +514,51 @@ class Utils {
     );
   }
 
+  Widget buildPassManagementStatusRow(int status) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Created';
+        break;
+      case 1:
+        statusText = 'Handed Over';
+        break;
+      case 2:
+        statusText = 'Returned';
+        break;
+      case 3:
+        statusText = 'Non Returned';
+        break;
+      case 4:
+        statusText = 'Lost';
+        break;
+      case 5:
+        statusText = 'Damaged';
+        break;
+      case 6:
+        statusText = 'Defaced';
+        break;
+      case 7:
+        statusText = 'Cancelled';
+        break;
+      case 8:
+        statusText = 'Returned Damaged';
+        break;
+      case 9:
+        statusText = 'Returned Defaced';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
   Widget textHandling(String title, String desc) {
     return RichText(
       overflow: TextOverflow.ellipsis,

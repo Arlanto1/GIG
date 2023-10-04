@@ -1,7 +1,5 @@
-import '../../../models/department.dart';
 import '../../../models/entity.dart';
-import '../../../models/location.dart';
-import '../../../models/location_region.dart';
+import '../../../models/organisation.dart';
 import '../../createfound/models/user.dart';
 
 class EventProtectionResponse {
@@ -39,8 +37,8 @@ class EventProtectionModel {
   String? slNo;
   String? inputDate;
   List<Entity>? entities;
-  Location? location;
-  LocationRegion? locationRegion;
+  Organisation? location;
+  Organisation? locationRegion;
   User? epManager1;
   User? epManager2;
   String? lsm1ContactNo;
@@ -252,9 +250,9 @@ class EventProtectionModel {
   String? postOpPoints1DoneByName;
   String? srh1Name;
   String? srh2Name;
-  Department? bu1Dept;
-  Department? bu2Dept;
-  Department? requesterDepartment;
+  Organisation? bu1Dept;
+  Organisation? bu2Dept;
+  Organisation? requesterDepartment;
   String? vendor1Primary;
   String? vendor1PrimaryContact;
   String? vendor1Secondary;
@@ -276,7 +274,7 @@ class EventProtectionModel {
   int? securityFacilitatorCount;
   int? securityFacilitatorCountHrs;
   double? budget;
-  Department? proposedVendors;
+  Organisation? proposedVendors;
 
   EventProtectionModel(
       {this.id,
@@ -527,11 +525,11 @@ class EventProtectionModel {
         slNo = json['slNo'] as String?,
         inputDate = json['inputDate'] as String?,
         location = (json['location'] as Map<String, dynamic>?) != null
-            ? Location.fromJson(json['location'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
             : null,
         locationRegion =
             (json['locationRegion'] as Map<String, dynamic>?) != null
-                ? LocationRegion.fromJson(
+                ? Organisation.fromJson(
                     json['locationRegion'] as Map<String, dynamic>)
                 : null,
         epManager1 = (json['epManager1'] as Map<String, dynamic>?) != null
@@ -755,14 +753,14 @@ class EventProtectionModel {
         srh1Name = json['srh1Name'] as String?,
         budget = json['budget'] as double?,
         bu1Dept = (json['bu1Dept'] as Map<String, dynamic>?) != null
-            ? Department.fromJson(json['bu1Dept'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['bu1Dept'] as Map<String, dynamic>)
             : null,
         bu2Dept = (json['bu2Dept'] as Map<String, dynamic>?) != null
-            ? Department.fromJson(json['bu2Dept'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['bu2Dept'] as Map<String, dynamic>)
             : null,
         requesterDepartment =
             (json['requesterDepartment'] as Map<String, dynamic>?) != null
-                ? Department.fromJson(
+                ? Organisation.fromJson(
                     json['requesterDepartment'] as Map<String, dynamic>)
                 : null,
         vendor1Primary = json['vendor1Primary'] as String?,
@@ -789,7 +787,7 @@ class EventProtectionModel {
         srh2Name = json['srh2Name'] as String?,
         proposedVendors =
             (json['proposedVendors'] as Map<String, dynamic>?) != null
-                ? Department.fromJson(
+                ? Organisation.fromJson(
                     json['proposedVendors'] as Map<String, dynamic>)
                 : null;
 
