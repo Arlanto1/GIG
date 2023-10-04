@@ -23,8 +23,8 @@ import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../models/responseModels/generic_creat_response.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/emplyee_departments_model.dart';
-import '../../../../createfound/models/user.dart';
 import '../../../../createfound/models/serial_number_model.dart';
+import '../../../../createfound/models/user.dart';
 import '../../../../lawenforcement/models/addentities.dart';
 import '../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import '../../models/guarding_master_data_model.dart';
@@ -137,8 +137,6 @@ class GuardingMasterDataDetailsCubit
           state.guardingMasterData.csrParticipationDates ?? '');
       log('-participationDates---${participationDates.toString()}---');
 
-      log('----lenthgggg---------${state.guardingMasterData.localAddressProof}------');
-
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -188,7 +186,8 @@ class GuardingMasterDataDetailsCubit
         ),
       );
     } catch (e) {
-      log('initialization issue', error: e, name: 'Guarding Master Data Cubit');
+      log('initialization issue',
+          error: e, name: 'Guarding Master Data Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
