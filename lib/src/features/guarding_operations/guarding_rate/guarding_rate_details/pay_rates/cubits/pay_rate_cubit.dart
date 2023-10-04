@@ -15,7 +15,7 @@ import '../../../../../../enums/form_status.dart';
 import '../../../../../../models/department.dart';
 import '../../../../../../models/entity.dart';
 import '../../../../../../models/entry_security.dart';
-import '../../../../../../models/location.dart';
+import '../../../../../../models/organisation.dart';
 import '../../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../../models/responseModels/generic_creat_response.dart';
 import '../../../../../../utils/shared_preferences.dart';
@@ -119,7 +119,7 @@ class PayRateCubit extends Cubit<PayRateState> {
   }
 
   Future<void> updateDropdownValues({
-    Location? location,
+    Organisation? location,
     Department? vendor,
     List<Entity>? entities,
   }) async {

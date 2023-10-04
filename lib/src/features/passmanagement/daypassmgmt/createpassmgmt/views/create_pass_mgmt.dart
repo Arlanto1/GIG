@@ -21,7 +21,6 @@ import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_request_body.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
@@ -38,6 +37,7 @@ import 'package:intl/intl.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
+import '../../../../../models/organisation.dart';
 import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import '../../passmgmtlist/models/day_passlist_model.dart';
 
@@ -1389,12 +1389,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         createpassmgmtCubit.getEntityData(entities);
       }
 
-      AtomCompanyType emp = widget.dayPassItem != null
-          ? AtomCompanyType(
+      Organisation emp = widget.dayPassItem != null
+          ? Organisation(
               id: widget.dayPassItem?.companyType?.id ?? 0,
               name: widget.dayPassItem?.companyType?.name ?? '')
-          : AtomCompanyType();
-      createpassmgmtCubit.getatomCompanyTypeResponseData(emp);
+          : Organisation();
+      createpassmgmtCubit.getAtomCompanyTypeResponseData(emp);
 
       /// vendorPassReason
       DayPassReasonElement day =
@@ -1949,12 +1949,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                         createpassmgmtstate: state);
                   });
             },
-            onTap: (AtomCompanyType list) {
+            onTap: (Organisation list) {
               //print(list.name);
               if ((list.name ?? '').toLowerCase() == 'fte') {
                 companynameTextController.text = 'Deutsche Bank';
               }
-              createpassmgmtCubit.getatomCompanyTypeResponseData(list);
+              createpassmgmtCubit.getAtomCompanyTypeResponseData(list);
             },
           );
         });
@@ -2418,7 +2418,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             : state.dayPasselementReason?.name ?? '',
         escortedBy: escortedbyTextController.text ?? '',
         escortedEmployeeId: escortedemployeedidbyTextController.text ?? '',
-        hostEmployeeId: hostemployeeidTextController.text.length > 0
+        hostEmployeeId: hostemployeeidTextController.text.isNotEmpty
             ? hostemployeeidTextController.text ?? ''
             : dbsponsorTextController.text,
         passIssuedOn: passvalidfromdate.toString(),

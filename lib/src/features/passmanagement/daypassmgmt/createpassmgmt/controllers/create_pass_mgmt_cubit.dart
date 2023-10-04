@@ -28,6 +28,7 @@ import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
 import '../../../../../models/entry_security.dart';
+import '../../../../../models/organisation.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
 
 class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
@@ -355,12 +356,12 @@ Future<void> getPassnumber(String passtype, String locationid,BuildContext conte
     }
   }
 
-  getatomCompanyTypeResponseData(
-      AtomCompanyType? companytypeResponse) async {
+  getAtomCompanyTypeResponseData(
+      Organisation? companyTypeResponse) async {
     try {
       emit(
         state.copyWith(
-          atomCompanyType: companytypeResponse,
+          atomCompanyType: companyTypeResponse,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -557,7 +558,7 @@ Future<void> getPassnumber(String passtype, String locationid,BuildContext conte
     state.companyTypes = CompanyTypes();
     state.activePassInfoList = ActivePassInfoList();
     state.loadAttachments = [];
-    state.atomCompanyType =  AtomCompanyType();
+    state.atomCompanyType =  Organisation();
     state.listOfEntities = [];
     state.locationSelectedlist = Mumbai();
     state.photoAttachments = [];

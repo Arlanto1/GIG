@@ -20,7 +20,7 @@ import '../../../../enums/form_status.dart';
 import '../../../../models/base_user.dart';
 import '../../../../models/department.dart';
 import '../../../../models/entry_security.dart';
-import '../../../../models/location.dart';
+import '../../../../models/organisation.dart';
 import '../../../../models/responseModels/error_response_validation.dart';
 import '../../../../models/responseModels/generic_creat_response.dart';
 import '../../../createfound/models/emplyee_departments_model.dart';
@@ -122,7 +122,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   }
 
   Future<void> updateDropdownValues({
-    Location? location,
+    Organisation? location,
     BaseUser? user,
     BaseUser? receiverEmailUser,
     BaseUser? requesterEmailUser,

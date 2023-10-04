@@ -18,6 +18,7 @@ import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
 import '../../../../../models/entry_security.dart';
+import '../../../../../models/organisation.dart';
 
 enum CreatePassMgmtStateType {
   initial,
@@ -49,7 +50,7 @@ class CreatePassMgmtState extends Equatable {
   CreateOrganisation? createOrganisationResponse;
   CreateOrganisation? createEmployeeDepartments;
   CompanyTypes? companyTypes;
-  AtomCompanyType? atomCompanyType;
+  Organisation? atomCompanyType;
   CreatePassMgmtResponse? createpassFoundresponse;
   DayPassReasonElement? dayPasselementReason;
   DayPassReason? dayPassReason;
@@ -126,7 +127,7 @@ class CreatePassMgmtState extends Equatable {
     CreateOrganisation? createOrganisationResponse,
     CreateOrganisation? createEmployeeDepartments,
     CompanyTypes? companyTypes,
-    AtomCompanyType? atomCompanyType,
+    Organisation? atomCompanyType,
     CreatePassMgmtResponse? createpassFoundresponse,
     DayPassReasonElement? dayPasselementReason,
     DayPassReason? dayPassReason,

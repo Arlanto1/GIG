@@ -2,8 +2,7 @@ import 'package:db_atom/src/features/material_movement/models/quantity_units.dar
 
 import '../../../models/department.dart';
 import '../../../models/entry_security.dart';
-import '../../../models/location.dart';
-import '../../../models/location_region.dart';
+import '../../../models/organisation.dart';
 
 class MaterialMovementsModel {
   List<MaterialMovementModel>? items;
@@ -39,8 +38,8 @@ class MaterialMovementModel {
   int? id;
   String? slNo;
   String? inputDate;
-  Location? location;
-  LocationRegion? locationRegion;
+  Organisation? location;
+  Organisation? locationRegion;
   List<dynamic>? entities;
   bool? inwardMovement;
   bool? returnable;
@@ -159,11 +158,11 @@ class MaterialMovementModel {
         slNo = json['slNo'] as String?,
         inputDate = json['inputDate'] as String?,
         location = (json['location'] as Map<String, dynamic>?) != null
-            ? Location.fromJson(json['location'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
             : null,
         locationRegion =
             (json['locationRegion'] as Map<String, dynamic>?) != null
-                ? LocationRegion.fromJson(
+                ? Organisation.fromJson(
                     json['locationRegion'] as Map<String, dynamic>)
                 : null,
         entities = json['entities'] as List?,

@@ -8,7 +8,7 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/models/entity.dart';
-import 'package:db_atom/src/models/location.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
@@ -199,7 +199,7 @@ class GuardingMasterDataDetailsCubit
   }
 
   Future<void> updateDropdownValues({
-    Location? location,
+    Organisation? location,
     BaseUser? user,
     Department? vendor,
     BaseUser? guard,

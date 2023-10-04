@@ -13,7 +13,7 @@ import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/department.dart';
 import 'package:db_atom/src/models/entity.dart';
-import 'package:db_atom/src/models/location.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/error_response_validation.dart';
 import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
@@ -111,7 +111,7 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
 
   Future<void> updateDropdownValues({
     //List<Entity>? entities,
-    Location? location,
+    Organisation? location,
     BaseUser? user,
     BaseUser? guard,
     List<Department>? proposedVendors,

@@ -12,7 +12,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/department.dart';
 import 'package:db_atom/src/models/entity.dart';
-import 'package:db_atom/src/models/location.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -132,7 +132,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
 
   Future<void> updateDropdownValues({
     List<Entity>? entities,
-    Location? location,
+    Organisation? location,
     // BaseUser? user,
     Department? vendor,
     Entity? entity,
