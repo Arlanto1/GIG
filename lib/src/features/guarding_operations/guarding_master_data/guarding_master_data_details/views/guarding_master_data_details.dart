@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/models/entity.dart';
-import 'package:db_atom/src/models/location.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../main_DEV.dart';
@@ -2345,7 +2345,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                 onTap: (Mumbai? list) async {
                   log('list?.name-----${list?.name}');
 
-                  Location location = Location();
+                  Organisation location = Organisation();
                   location.id = list?.id;
                   location.name = list?.name;
                   state.guardingMasterData.location = location;

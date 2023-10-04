@@ -4,14 +4,8 @@ import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
@@ -19,16 +13,23 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/base_user.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
 import '../../../../../models/entry_security.dart';
+import '../../../../../models/organisation.dart';
 
-enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment, photoattachment }
+enum CreatePassMgmtStateType {
+  initial,
+  loading,
+  success,
+  failure,
+  addattachment,
+  photoattachment
+}
 
- class CreatePassMgmtState extends Equatable {
+class CreatePassMgmtState extends Equatable {
   GetDepositor? getDepositorResponse;
   AddEntities? getEntitiesResponse;
   late final int? eventId;
@@ -36,20 +37,20 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   String? errorMessage;
   GetLocations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
- List<Entity>?  listOfEntities;
+  List<Entity>? listOfEntities;
   Mumbai? locationSelectedlist;
   SerialNumberModel? serialnumberResponse;
   BaseUser? getuserResponse;
   EmployeeDepartments? employeeDepartment;
   Department? selectedemployeeDepartmentResponse;
   List<CreateImage>? loadAttachments = [];
-   List<CreateImage>? photoAttachments = [];
+  List<CreateImage>? photoAttachments = [];
   EntrySecurity? getUserDetailsResponse;
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
   CreateOrganisation? createOrganisationResponse;
   CreateOrganisation? createEmployeeDepartments;
   CompanyTypes? companyTypes;
-  AtomCompanyType? atomCompanyType;
+  Organisation? atomCompanyType;
   CreatePassMgmtResponse? createpassFoundresponse;
   DayPassReasonElement? dayPasselementReason;
   DayPassReason? dayPassReason;
@@ -60,7 +61,8 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
   ActivePassInfoList? activePassInfoList;
   DayPassNumberLists? passnumbelistresponse;
   String? radioButtonItem = '';
-  int? escortedbyhost ;
+  int? escortedbyhost;
+
   CreateUserModel? createUserResponse;
   BaseUser? hostResponse;
   BaseUser? dbsponsorResponse;
@@ -68,7 +70,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
 
   CreatePassMgmtState({
     this.getEntitiesResponse,
-    this.eventId, 
+    this.eventId,
     required this.stateType,
     this.errorMessage,
     this.getLocationsResponse,
@@ -104,70 +106,74 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
     this.dbsponsorResponse,
     this.nameResponse,
   });
+
   CreatePassMgmtState copyWith({
-  AddEntities? getEntitiesResponse,
-  final int? eventId,
-  CreatePassMgmtStateType? stateType,
-  String? errorMessage,
-  GetLocations? getLocationsResponse,
-  SerialNumberModel? getSerialnumberResponse,
- List<Entity>?  listOfEntities,
-  Mumbai? locationSelectedlist,
-  SerialNumberModel? serialnumberResponse,
-  GetDepositor? getDepositorResponse,
-  BaseUser? getuserResponse,
-  EmployeeDepartments? employeeDepartment,
-  Department? selectedemployeeDepartmentResponse,
-  List<CreateImage>? loadAttachments,
+    AddEntities? getEntitiesResponse,
+    final int? eventId,
+    CreatePassMgmtStateType? stateType,
+    String? errorMessage,
+    GetLocations? getLocationsResponse,
+    SerialNumberModel? getSerialnumberResponse,
+    List<Entity>? listOfEntities,
+    Mumbai? locationSelectedlist,
+    SerialNumberModel? serialnumberResponse,
+    GetDepositor? getDepositorResponse,
+    BaseUser? getuserResponse,
+    EmployeeDepartments? employeeDepartment,
+    Department? selectedemployeeDepartmentResponse,
+    List<CreateImage>? loadAttachments,
     EntrySecurity? getUserDetailsResponse,
-  SubmitLawEnforcementResponse? lawcreateFoundresponse,
-  CreateOrganisation? createOrganisationResponse,
-  CreateOrganisation? createEmployeeDepartments,
-  CompanyTypes? companyTypes,
-  AtomCompanyType? atomCompanyType,
-  CreatePassMgmtResponse? createpassFoundresponse,
-  DayPassReasonElement? dayPasselementReason,
-  DayPassReason? dayPassReason,
-  BaseUser? t1nameanalyst,
-  Analyst? analyst,
-  BaseUser? t1hostanalyst,
-  BaseUser? t1dbsponsoranalyst,
-  ActivePassInfoList? activePassInfoList,
-  DayPassNumberLists? passnumbelistresponse,
-  String? radioButtonItem = '',
-  int? escortedbyhost,
-  List<CreateImage>? photoAttachments,
-   CreateUserModel? createUserResponse,
-   BaseUser? hostResponse,
-   BaseUser? dbsponsorResponse,
-  BaseUser? nameResponse,
-
-
-  
-  
+    SubmitLawEnforcementResponse? lawcreateFoundresponse,
+    CreateOrganisation? createOrganisationResponse,
+    CreateOrganisation? createEmployeeDepartments,
+    CompanyTypes? companyTypes,
+    Organisation? atomCompanyType,
+    CreatePassMgmtResponse? createpassFoundresponse,
+    DayPassReasonElement? dayPasselementReason,
+    DayPassReason? dayPassReason,
+    BaseUser? t1nameanalyst,
+    Analyst? analyst,
+    BaseUser? t1hostanalyst,
+    BaseUser? t1dbsponsoranalyst,
+    ActivePassInfoList? activePassInfoList,
+    DayPassNumberLists? passnumbelistresponse,
+    String? radioButtonItem = '',
+    int? escortedbyhost,
+    List<CreateImage>? photoAttachments,
+    CreateUserModel? createUserResponse,
+    BaseUser? hostResponse,
+    BaseUser? dbsponsorResponse,
+    BaseUser? nameResponse,
   }) {
-    return  CreatePassMgmtState(
-      getEntitiesResponse : getEntitiesResponse ?? this.getEntitiesResponse,
-      eventId : eventId ?? this.eventId,
-      stateType  : stateType ?? this.stateType,
-      errorMessage : errorMessage ?? this.errorMessage,
-      getLocationsResponse:  getLocationsResponse ?? this.getLocationsResponse,
-      getSerialnumberResponse: getSerialnumberResponse ?? this.getSerialnumberResponse,
+    return CreatePassMgmtState(
+      getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
+      eventId: eventId ?? this.eventId,
+      stateType: stateType ?? this.stateType,
+      errorMessage: errorMessage ?? this.errorMessage,
+      getLocationsResponse: getLocationsResponse ?? this.getLocationsResponse,
+      getSerialnumberResponse:
+          getSerialnumberResponse ?? this.getSerialnumberResponse,
       listOfEntities: listOfEntities ?? this.listOfEntities,
-      locationSelectedlist:  locationSelectedlist ?? this.locationSelectedlist,
+      locationSelectedlist: locationSelectedlist ?? this.locationSelectedlist,
       serialnumberResponse: serialnumberResponse ?? this.serialnumberResponse,
       getDepositorResponse: getDepositorResponse ?? this.getDepositorResponse,
       getuserResponse: getuserResponse ?? this.getuserResponse,
       employeeDepartment: employeeDepartment ?? this.employeeDepartment,
-      selectedemployeeDepartmentResponse: selectedemployeeDepartmentResponse ?? this.selectedemployeeDepartmentResponse,
+      selectedemployeeDepartmentResponse: selectedemployeeDepartmentResponse ??
+          this.selectedemployeeDepartmentResponse,
       loadAttachments: loadAttachments ?? this.loadAttachments,
-      getUserDetailsResponse: getUserDetailsResponse ?? this.getUserDetailsResponse,
-      lawcreateFoundresponse: lawcreateFoundresponse ?? this.lawcreateFoundresponse,
-      createEmployeeDepartments: createEmployeeDepartments ?? this.createEmployeeDepartments,
-      createOrganisationResponse: createOrganisationResponse ?? this.createOrganisationResponse,
+      getUserDetailsResponse:
+          getUserDetailsResponse ?? this.getUserDetailsResponse,
+      lawcreateFoundresponse:
+          lawcreateFoundresponse ?? this.lawcreateFoundresponse,
+      createEmployeeDepartments:
+          createEmployeeDepartments ?? this.createEmployeeDepartments,
+      createOrganisationResponse:
+          createOrganisationResponse ?? this.createOrganisationResponse,
       companyTypes: companyTypes ?? this.companyTypes,
       atomCompanyType: atomCompanyType ?? this.atomCompanyType,
-      createpassFoundresponse: createpassFoundresponse ?? this.createpassFoundresponse,
+      createpassFoundresponse:
+          createpassFoundresponse ?? this.createpassFoundresponse,
       dayPassReason: dayPassReason ?? this.dayPassReason,
       dayPasselementReason: dayPasselementReason ?? this.dayPasselementReason,
       t1nameanalyst: t1nameanalyst ?? this.t1nameanalyst,
@@ -175,7 +181,8 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
       analyst: analyst ?? this.analyst,
       t1dbsponsoranalyst: t1dbsponsoranalyst ?? this.t1dbsponsoranalyst,
       activePassInfoList: activePassInfoList ?? this.activePassInfoList,
-      passnumbelistresponse: passnumbelistresponse ?? this.passnumbelistresponse,
+      passnumbelistresponse:
+          passnumbelistresponse ?? this.passnumbelistresponse,
       escortedbyhost: escortedbyhost ?? this.escortedbyhost,
       radioButtonItem: radioButtonItem ?? this.radioButtonItem,
       photoAttachments: photoAttachments ?? this.photoAttachments,
@@ -186,7 +193,7 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
     );
   }
 
-   @override
+  @override
   List<Object?> get props => [
         getEntitiesResponse,
         eventId,
@@ -225,5 +232,4 @@ enum CreatePassMgmtStateType { initial, loading, success, failure, addattachment
         dbsponsorResponse,
         nameResponse,
       ];
-
 }

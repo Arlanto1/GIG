@@ -14,7 +14,7 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/models/entity.dart';
-import 'package:db_atom/src/models/location.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -1369,7 +1369,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                 onTap: (Mumbai? list) async {
                   log('list?.name-----${list?.name}');
 
-                  Location location = Location();
+                  Organisation location = Organisation();
                   location.id = list?.id;
                   location.name = list?.name;
                   state.model.location = location;

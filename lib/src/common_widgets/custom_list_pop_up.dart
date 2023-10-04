@@ -1,3 +1,4 @@
+
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -129,34 +130,42 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
               Utils().buildAssetType(widget.userItem?.typeOfAsset ?? 0),
             ],
           ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling(
-                  'Quantity : ', widget.userItem?.quantity.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling(
-                  'Colour : ', widget.userItem?.color.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling('Depositor : ',
-                  widget.userItem?.depositorName.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling('Claimant : ',
-                  widget.userItem?.claimantName.toString() ?? " "),
-            ],
-          ),
+          if (widget.userItem?.quantity != null) ...[
+            CommonWidgets.verticalSpacerWidget(8),
+            Row(
+              children: [
+                textHandling(
+                    'Quantity : ', widget.userItem?.quantity.toString() ?? " "),
+              ],
+            ),
+          ],
+          if (widget.userItem?.color != null) ...[
+            CommonWidgets.verticalSpacerWidget(8),
+            Row(
+              children: [
+                textHandling(
+                    'Colour : ', widget.userItem?.color.toString() ?? " "),
+              ],
+            ),
+          ],
+          if (widget.userItem?.depositorName != null) ...[
+            CommonWidgets.verticalSpacerWidget(8),
+            Row(
+              children: [
+                textHandling('Depositor : ',
+                    widget.userItem?.depositorName.toString() ?? " "),
+              ],
+            ),
+          ],
+          if (widget.userItem?.claimantName != null) ...[
+            CommonWidgets.verticalSpacerWidget(8),
+            Row(
+              children: [
+                textHandling(
+                    'Claimant : ', widget.userItem?.claimant.toString() ?? ""),
+              ],
+            ),
+          ],
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
@@ -177,12 +186,9 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling(
-                  'Status : ', widget.userItem?.status.toString() ?? " "),
-            ],
-          ),
+          Row(children: [
+            Utils().buildFoundStatusRow(widget.userItem?.status ?? 0),
+          ]),
         ])
                 //),
                 //    ),

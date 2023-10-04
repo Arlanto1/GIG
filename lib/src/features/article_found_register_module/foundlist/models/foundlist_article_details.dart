@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import '../../../../models/role.dart';
+import '../../../../models/role_extension.dart';
+
 FoundListArticleDetails foundListArticleDetailsFromJson(String str) => FoundListArticleDetails.fromJson(json.decode(str));
 
 String foundListArticleDetailsToJson(FoundListArticleDetails data) => json.encode(data.toJson());
@@ -220,49 +223,6 @@ class Claimant {
     };
 }
 
-class RoleExtension {
-    int? roleExtensionId;
-    int? roleId;
-    String? displayName;
-    Area? area;
-    Filter? filter;
-    dynamic rootNodeId;
-    dynamic nodeId;
-    dynamic accessRight;
-
-    RoleExtension({
-        this.roleExtensionId,
-        this.roleId,
-        this.displayName,
-        this.area,
-        this.filter,
-        this.rootNodeId,
-        this.nodeId,
-        this.accessRight,
-    });
-
-    factory RoleExtension.fromJson(Map<String, dynamic> json) => RoleExtension(
-        roleExtensionId: json["roleExtensionId"],
-        roleId: json["roleId"],
-        displayName: json["displayName"],
-        area: areaValues.map[json["area"]]!,
-        filter: filterValues.map[json["filter"]]!,
-        rootNodeId: json["rootNodeId"],
-        nodeId: json["nodeId"],
-        accessRight: json["accessRight"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "roleExtensionId": roleExtensionId,
-        "roleId": roleId,
-        "displayName": displayName,
-        "area": areaValues.reverse[area],
-        "filter": filterValues.reverse[filter],
-        "rootNodeId": rootNodeId,
-        "nodeId": nodeId,
-        "accessRight": accessRight,
-    };
-}
 
 enum Area { SOURCE_SYSTEM, CATEGORY }
 
@@ -278,37 +238,6 @@ final filterValues = EnumValues({
     "Default": Filter.DEFAULT
 });
 
-class Role {
-    int? roleId;
-    Application? application;
-    String? roleName;
-    List<RoleExtension>? roleExtensions;
-    String? name;
-
-    Role({
-        this.roleId,
-        this.application,
-        this.roleName,
-        this.roleExtensions,
-        this.name,
-    });
-
-    factory Role.fromJson(Map<String, dynamic> json) => Role(
-        roleId: json["roleId"],
-        application: applicationValues.map[json["application"]]!,
-        roleName: json["roleName"],
-        roleExtensions: json["roleExtensions"] == null ? [] : List<RoleExtension>.from(json["roleExtensions"]!.map((x) => RoleExtension.fromJson(x))),
-        name: json["name"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "roleId": roleId,
-        "application": applicationValues.reverse[application],
-        "roleName": roleName,
-        "roleExtensions": roleExtensions == null ? [] : List<dynamic>.from(roleExtensions!.map((x) => x.toJson())),
-        "name": name,
-    };
-}
 
 enum Application { TRACKING1, DB_ATOM }
 

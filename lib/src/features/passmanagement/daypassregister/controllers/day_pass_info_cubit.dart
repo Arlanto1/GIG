@@ -1,5 +1,6 @@
+import 'dart:developer';
+
 import 'package:db_atom/main_DEV.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/controllers/day_pass_info_state.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/models/day_pass_info_response_model.dart';
@@ -21,16 +22,25 @@ class DayPassInfoCubit extends Cubit<DayPassInfoState> {
         );
 
   // Found Article list API call
-  Future<void> getPassMngtList(String startPosition, String maximumRecords,
-      String userId, String passType, BuildContext context,bool isFromRegister) async {
+  Future<void> getPassMngtList(
+      String startPosition,
+      String maximumRecords,
+      String userId,
+      String passType,
+      BuildContext context,
+      bool isFromRegister) async {
     if (startPosition == '0') {
       emit(state.copyWith(stateType: DayPassInfoStateType.loading));
     }
     try {
       DayPassInfoResponseModel foundListModelResponse =
           await passListServices.getpassinfoFoundArticleList(
-              startPosition, maximumRecords, userId, passType,isFromRegister,context);
+              startPosition: startPosition,
+              maximumRecords: maximumRecords,
+              userId: userId,
+              passType: passType);
 
+      log('--foundListModelResponse-----${foundListModelResponse.list?.length}----');
       // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       //   if (startPosition != '0') {
       //     dismissLoadingDialog(context);

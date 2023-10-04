@@ -3,12 +3,11 @@ import 'dart:developer';
 import 'package:db_atom/main_DEV.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/controllers/day_passlist_state.dart';
-
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../models/day_passlist_item_model.dart';
+import '../models/day_passlist_model.dart';
 import '../services/day_passlist_services.dart';
 
 class DayPassListCubit extends Cubit<DayPassListState> {
@@ -24,16 +23,26 @@ class DayPassListCubit extends Cubit<DayPassListState> {
         );
 
   // Found Article list API call
-  Future<void> getFoundList(String startPosition, String maximumRecords,
-      String userId, String passtype, BuildContext context) async {
-    if (startPosition == '0') {
-      emit(state.copyWith(stateType: DayPassListStateType.loading));
-    }
+  Future<void> getFoundList(
+    String startPosition,
+    String maximumRecords,
+    String userId,
+    String passType,
+    BuildContext context,
+  ) async {
+    // if (startPosition == '0') {
+    //   emit(state.copyWith(stateType: DayPassListStateType.loading));
+    // }
     try {
       DayPassListResponse foundListModelResponse =
-          await passListServices.getpassFoundArticleList(
-              startPosition, maximumRecords, userId, passtype, context);
-      log('value-----------------foundListModelResponse-------');
+          await passListServices.getPassMgmtList(
+        startPosition: startPosition,
+        maximumRecords: maximumRecords,
+        userId: userId,
+        passType: passType,
+      );
+      log('value-----------------foundListModelResponse---${foundListModelResponse.totalCount}----');
+      log('value-----------------foundListModelResponse-length--${foundListModelResponse.items?.length}----');
 
       //    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       //   if (startPosition != '0')
@@ -48,7 +57,7 @@ class DayPassListCubit extends Cubit<DayPassListState> {
         ),
       );
     } catch (e) {
-      print(e);
+      log('$e');
       //  if (startPosition != '0')
       //     {
       //        dismissLoadingDialog(context);
@@ -69,10 +78,10 @@ class DayPassListCubit extends Cubit<DayPassListState> {
   }
 
   //pass Found Article detials by Id API call
-  Future<DayPassListItemResponse?> getpassArticleById(
+  Future<DayPassListElement?> getpassArticleById(
       int articleId, BuildContext context) async {
     try {
-      DayPassListItemResponse foundArticleDetailsResponse =
+      DayPassListElement foundArticleDetailsResponse =
           await passListServices.getpassArticleById(articleId, context);
       emit(
         state.copyWith(

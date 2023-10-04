@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/app.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -62,7 +64,7 @@ import '../features/material_movement/material_movements/bloc/material_movement_
 import '../features/material_movement/material_movements/views/material_movements.dart';
 import '../features/material_movement/models/material_movements_model.dart';
 import '../features/material_movement/services/material_movement_services.dart';
-import '../features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list_page.dart';
+import '../features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart';
 import '../features/passmanagement/daypassregister/views/day_pass_info_list_page.dart';
 import '../services/CommonServices.dart';
 
@@ -120,6 +122,7 @@ class RouteGenerator {
           if (listroutes != null) {
             FoundListArticleDetails? listuser = listroutes["UserElement"];
             int eventId = listroutes['eventId'];
+            log('-----');
             return MaterialPageRoute(
                 builder: (context) => CreateFound(
                       listuser: listuser,
@@ -137,13 +140,13 @@ class RouteGenerator {
           if (listroutes != null) {
             LawEnforcementDetails? listuser = listroutes["UserElement"];
             return MaterialPageRoute(
-                builder: (context) => CreateLawenforcement(listuser: listuser));
+                builder: (context) => CreateLawEnforcement(listUser: listuser));
           }
           return MaterialPageRoute(
-              builder: (context) => CreateLawenforcement());
+              builder: (context) => CreateLawEnforcement());
         } else {
           return MaterialPageRoute(
-              builder: (context) => CreateLawenforcement());
+              builder: (context) => CreateLawEnforcement());
         }
       case addemployeedepartmentRoute:
         return MaterialPageRoute(
@@ -221,7 +224,7 @@ class RouteGenerator {
                 builder: (context) => CreatePassManagement(
                       passId: passMngArguments?.passType ?? '',
                       title: passMngArguments?.title ?? '',
-                      listuser: passMngArguments?.listuser,
+                      dayPassItem: passMngArguments?.listuser,
                     ));
           }
           return MaterialPageRoute(

@@ -23,7 +23,7 @@ import '../../../../../common_widgets/basic_reusable_widgets.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
-import '../../../../../models/location.dart';
+import '../../../../../models/organisation.dart';
 import '../../../../../routing/router.dart';
 import '../../../../../utils/app_themes/styles/app_styles.dart';
 
@@ -286,7 +286,7 @@ class _RatesInfoState extends State<RatesInfo> {
               return CustomExpansionListTexts(
                 getLocationsresponse: state.locations,
                 onTap: (Mumbai? list) async {
-                  Location location = Location();
+                  Organisation location = Organisation();
                   location.id = list?.id;
                   location.name = list?.name;
                   state.rate.location = location;

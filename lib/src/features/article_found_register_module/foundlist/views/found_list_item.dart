@@ -14,15 +14,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class FoundListItem extends StatefulWidget {
   final Function? onTap;
-  final Function? oneditTap;
-  final Function? onviewTap;
-  FoundModel userItem;
-  int? index;
-  FoundListItem({
+  final Function? onEditTap;
+  final Function? onViewTap;
+  final FoundModel userItem;
+  final int? index;
+  const FoundListItem({
     Key? key,
     this.onTap,
-    this.oneditTap,
-    this.onviewTap,
+    this.onEditTap,
+    this.onViewTap,
     required this.userItem,
     this.index,
   }) : super(key: key);
@@ -55,10 +55,10 @@ class _FoundListItemState extends State<FoundListItem> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-     print(widget.userItem?.foundDate ?? '');
-     print(widget.userItem?.inputDate ?? '');
-      print(widget.userItem?.modifiedDate ?? '');
-      print(widget.userItem?.handoverDate ?? '');
+     print(widget.userItem.foundDate ?? '');
+     print(widget.userItem.inputDate ?? '');
+      print(widget.userItem.modifiedDate ?? '');
+      print(widget.userItem.handoverDate ?? '');
     return Column(
       children: [
         Card(
@@ -75,7 +75,7 @@ class _FoundListItemState extends State<FoundListItem> {
                 },
                 borderRadius: BorderRadius.circular(8),
                 child: Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: Column(children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,14 +88,14 @@ class _FoundListItemState extends State<FoundListItem> {
                                 IconButton(
                                   onPressed: () {
                                     //do action on view
-                                    widget.oneditTap != null ? widget.oneditTap!(widget.index) : null;
+                                    widget.onEditTap != null ? widget.onEditTap!(widget.index) : null;
                                   },
                                   icon: SvgPicture.asset(AppIcon.editIcon),
                                 ),
                                 IconButton(
                                   onPressed: () {
                                     //do action on view
-                                    widget.onviewTap != null ? widget.onviewTap!(widget.index) : null;
+                                    widget.onViewTap != null ? widget.onViewTap!(widget.index) : null;
                                   },
                                   icon: SvgPicture.asset(AppIcon.viewIcon),
                                 ),
@@ -110,13 +110,15 @@ class _FoundListItemState extends State<FoundListItem> {
                               widget.userItem.locationName.toString()),
                         ],
                       ),
+                    if( widget.userItem.foundLocation != null )...[
                        CommonWidgets.verticalSpacerWidget(5),
                       Row(
                         children: [
                           textHandling('Location : ',
                               widget.userItem.foundLocation.toString()),
                         ],
-                      ),
+                      ),],
+                       if( widget.userItem.foundDate != null )...[
                        CommonWidgets.verticalSpacerWidget(5),
                       Row(
                         children: [
@@ -125,7 +127,7 @@ class _FoundListItemState extends State<FoundListItem> {
                              widget.userItem.foundDate != null ? Utils.timestamptoDateConversion(
                                   int.parse(widget.userItem.foundDate ?? '0'), Constants.dateFormat): ''),
                         ],
-                      ),
+                      ),],
                     Row(
                         children: [
                           Utils().buildFoundStatusRow(widget.userItem.status ?? 0),

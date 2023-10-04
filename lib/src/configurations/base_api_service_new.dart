@@ -89,7 +89,6 @@ class BaseApiService {
 
     // Return the response from the internal getRequest call
     var resp = await _handleResponse(response, originalUrl);
-    log('-----resp---------------${json.decode(resp.body)}-----');
     return resp;
   }
 
