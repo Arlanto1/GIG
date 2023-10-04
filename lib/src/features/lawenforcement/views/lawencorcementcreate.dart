@@ -1008,7 +1008,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   Widget datepickerWidgetLoading(TextEditingController textfiled) {
     return GestureDetector(
       onTap: () {
-        if (widget.listUser == null || textfiled.text.isEmpty) {
+        if (widget.listUser != null || textfiled.text.isNotEmpty) {
           datePickerDialog(textfiled);
         }
       },
@@ -1054,7 +1054,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(2000),
-        lastDate:  DateTime(2101));
+        lastDate:  DateTime.now());
 
     print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
     String formattedDate = DateFormat(Constants.fulldateFormat)
