@@ -123,7 +123,6 @@ class CommonServices {
       url: url,
     );
 
-    List<User>.from(response.map((x) => User.fromJson(x))).toList();
     return List<User>.from(
         response.map((x) => User.fromJson(x)));
     // return [];

@@ -6,13 +6,15 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
+
+import '../models/day_passlist_item_model.dart';
 
 class DayPassCustomPopUpList extends StatefulWidget {
   DayPassListElement? userItem;
   String? passId = '0';
-  DayPassCustomPopUpList(this.userItem,this.passId, {Key? key}) : super(key: key);
+
+  DayPassCustomPopUpList(this.userItem, this.passId, {Key? key})
+      : super(key: key);
 
   @override
   State<DayPassCustomPopUpList> createState() => _DayPassCustomPopUpListState();
