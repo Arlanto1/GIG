@@ -26,7 +26,6 @@ import '../../../../../constants/app_icon.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/base_user.dart';
-import '../../../../../models/department.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../routing/router.dart';
 import '../../../../../utils/app_themes/colors/app_color.dart';
@@ -451,7 +450,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 BaseDepartmentDialog().departmentDialog(
                                   context: context,
                                   departments: state.departments,
-                                  onTap: (Department department) {
+                                  onTap: (Organisation department) {
                                     BlocProvider.of<
                                                 GuardingMasterDataDetailsCubit>(
                                             context)

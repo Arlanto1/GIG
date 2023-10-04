@@ -20,6 +20,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 
 import '../../../../../models/entry_security.dart';
+import '../../../../../models/organisation.dart';
 
 class CreatePassMgmtService
 {
@@ -27,24 +28,6 @@ class CreatePassMgmtService
   Future<CreatePassMgmtResponse> createLawFoundArticle(
       CreatePassMgmtBody requestBody, bool isSubmit, String username,BuildContext context) async {
         print(requestBody.toString());
-    // final url = Uri.parse('$endpoint/createPass?isSubmit=$isSubmit&userEmail=username');
-    // try {
-    //   final response = await http.post(
-    //     url,
-    //     headers: {
-    //       'Content-Type': 'application/json; charset=UTF-8',
-    //     },
-    //     body: json.encode(requestBody),
-    //   );
-    //   print(response);
-    //   if (response.statusCode == 200) {
-    //     return CreatePassMgmtResponse.fromJson(json.decode(response.body));
-    //   } else {
-    //     throw json.decode(response.body);
-    //   }
-    // } on SocketException {
-    //   throw json.decode('{"errorMessage":"Network Lost"}');
-    // }
 
     var value  = await  AppServicesHandler().globalPostServiceCall('/createPass?isSubmit=$isSubmit&userEmail=username',context,json.encode(requestBody));
 
@@ -299,7 +282,7 @@ class CreatePassMgmtService
   }
 
   // Create organisation api call
-  Future<CreateOrganisation> createOrganisation(String name, String orgName,BuildContext context) async {
+  Future<Organisation> createOrganisation(String name, String orgName,BuildContext context) async {
     
     // final url = Uri.parse('$endpoint/createOrganisation?name=$name&orgName=$orgName');
     // try {
@@ -319,7 +302,7 @@ class CreatePassMgmtService
     // }
     var value  = await  AppServicesHandler().globalpopupGetServiceCall('/createOrganisation?name=$name&orgName=$orgName',context);
 
-   return  CreateOrganisation.fromJson(value);
+   return  Organisation.fromJson(value);
   }
 
 

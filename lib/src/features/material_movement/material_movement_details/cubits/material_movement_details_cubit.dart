@@ -18,7 +18,6 @@ import 'package:equatable/equatable.dart';
 import '../../../../constants/constants.dart';
 import '../../../../enums/form_status.dart';
 import '../../../../models/base_user.dart';
-import '../../../../models/department.dart';
 import '../../../../models/entry_security.dart';
 import '../../../../models/organisation.dart';
 import '../../../../models/responseModels/error_response_validation.dart';
@@ -128,11 +127,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     BaseUser? requesterEmailUser,
     BaseUser? approver1EmailUser,
     BaseUser? approver2EmailUser,
-    Department? requesterDepartment,
-    Department? preparedByDepartment,
-    Department? approver1Department,
-    Department? approver2Department,
-    Department? receiverDepartment,
+    Organisation? requesterDepartment,
+    Organisation? preparedByDepartment,
+    Organisation? approver1Department,
+    Organisation? approver2Department,
+    Organisation? receiverDepartment,
     QuantityUnit? quantityUnit,
     bool? isReturnable,
   }) async {

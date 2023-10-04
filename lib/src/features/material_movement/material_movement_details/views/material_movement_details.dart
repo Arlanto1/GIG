@@ -35,7 +35,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../common_widgets/base_widget/date_picker_dialog.dart';
 import '../../../../enums/form_status.dart';
 import '../../../../models/base_user.dart';
-import '../../../../models/department.dart';
 import '../../../../models/entry_security.dart';
 import '../../../../models/organisation.dart';
 import '../../../../utils/customalert.dart';
@@ -640,7 +639,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                 .departmentDialog(
                                               context: context,
                                               departments: state.departments,
-                                              onTap: (Department department) {
+                                              onTap: (Organisation department) {
                                                 state
                                                     .materialMovement
                                                     .requestorDepartment
@@ -809,7 +808,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                 .departmentDialog(
                                               context: context,
                                               departments: state.departments,
-                                              onTap: (Department department) {
+                                              onTap: (Organisation department) {
                                                 state
                                                     .materialMovement
                                                     .preparedByDepartment
@@ -927,7 +926,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                 .departmentDialog(
                                               context: context,
                                               departments: state.departments,
-                                              onTap: (Department department) {
+                                              onTap: (Organisation department) {
                                                 state
                                                     .materialMovement
                                                     .approver1Department
@@ -1046,7 +1045,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                 .departmentDialog(
                                               context: context,
                                               departments: state.departments,
-                                              onTap: (Department department) {
+                                              onTap: (Organisation department) {
                                                 state
                                                     .materialMovement
                                                     .approver2Department
@@ -1488,7 +1487,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                 .departmentDialog(
                                               context: context,
                                               departments: state.departments,
-                                              onTap: (Department department) {
+                                              onTap: (Organisation department) {
                                                 state.materialMovement
                                                         .receiverDepartmenttName =
                                                     department.name;
