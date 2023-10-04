@@ -35,7 +35,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../models/base_user.dart';
-import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
 import '../../../../../models/organisation.dart';
 import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
@@ -1410,11 +1409,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       DayPassReasonElement();
       createpassmgmtCubit.getdaypassreasonResponseData(day);
 
-      Department dep = widget.dayPassItem != null
-          ? Department(
+      Organisation dep = widget.dayPassItem != null
+          ? Organisation(
               id: widget.dayPassItem?.department?.id ?? 0,
               name: widget.dayPassItem?.department?.name ?? '')
-          : Department();
+          : Organisation();
       createpassmgmtCubit.getemployeeDepartmentsResponseData(dep);
       // getAttachments =
       //     widget.listuser?.images != null ? widget.listuser?.images ?? [] : [];
@@ -1904,7 +1903,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     );
                   });
             },
-            onTap: (Department list) {
+            onTap: (Organisation list) {
               //print(list.name);
               createpassmgmtCubit.getemployeeDepartmentsResponseData(list);
             },

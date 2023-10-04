@@ -8,7 +8,7 @@ class PayRateState extends Equatable {
   final String? message;
   final EntrySecurity? loggedInUserDetails;
   final GetLocations? locations;
-  final List<Department> departments;
+  final List<Organisation> departments;
   final List<Entity>? listOfEntities;
   final AddEntities? getEntitiesResponse;
   final int? eventId;
@@ -19,7 +19,7 @@ class PayRateState extends Equatable {
     required String? message,
     required newPayRate,
     required EntrySecurity loggedInUserDetails,
-    required List<Department> departments,
+    required List<Organisation> departments,
   }) {
     return PayRateState(
       status: FormStatus.initial,
@@ -90,7 +90,7 @@ class PayRateState extends Equatable {
     String? message,
     EntrySecurity? loggedInUserDetails,
     GetLocations? locations,
-    List<Department>? departments,
+    List<Organisation>? departments,
     List<Entity>? listOfEntities,
     AddEntities? getEntitiesResponse,
     int? eventId,

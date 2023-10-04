@@ -35,8 +35,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../models/base_user.dart';
-import '../../../models/department.dart';
 import '../../../models/entry_security.dart';
+import '../../../models/organisation.dart';
 
 class CreateFound extends StatefulWidget {
   final FoundListArticleDetails? listuser;
@@ -82,8 +82,8 @@ class _CreateFoundState extends State<CreateFound> {
   String createdByValue = "";
   String itemhandoverByValue = "";
   String locationselectedText = "";
-  Department? selectedEmployeedepartment;
-  Department? selectedClaimdepartment;
+  Organisation? selectedEmployeedepartment;
+  Organisation? selectedClaimdepartment;
   String claimantDepartmentName = '';
   String claimant = '';
   ArticleList? selectedArtclelist;
@@ -183,10 +183,10 @@ class _CreateFoundState extends State<CreateFound> {
           ? widget.listuser?.employeeId ?? ''
           : '';
       selectedEmployeedepartment = widget.listuser?.depositorDepartment != null
-          ? Department(
+          ? Organisation(
           id: widget.listuser?.depositorDepartment?.id ?? 0,
           name: widget.listuser?.depositorDepartment?.name ?? '')
-          : Department();
+          : Organisation();
       getAttachments =
       widget.listuser?.images != null ? widget.listuser?.images ?? [] : [];
       claimantDepartmentName = widget.listuser?.claimantDepartmentName != null
@@ -212,10 +212,10 @@ class _CreateFoundState extends State<CreateFound> {
           ? widget.listuser?.claimant?.lastName ?? ''
           : '';
       selectedClaimdepartment = widget.listuser?.claimantDepartment != null
-          ? Department(
+          ? Organisation(
           id: widget.listuser?.claimantDepartment?.id ?? 0,
           name: widget.listuser?.claimantDepartment?.name ?? '')
-          : Department();
+          : Organisation();
       selectedClaimList = widget.listuser?.claimant != null
           ? BaseUser(
           email: widget.listuser?.claimant?.email ?? "",
@@ -789,7 +789,7 @@ class _CreateFoundState extends State<CreateFound> {
                     );
                   });
             },
-            onTap: (Department list) {
+            onTap: (Organisation list) {
               print(list.name);
               if (name == Constants.employeedepartment) {
                 selectedEmployeedepartment = list;

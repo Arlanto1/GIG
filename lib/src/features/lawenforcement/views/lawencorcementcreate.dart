@@ -37,9 +37,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../models/base_user.dart';
-import '../../../models/department.dart';
 import '../../../models/entity.dart';
 import '../../../models/entry_security.dart';
+import '../../../models/organisation.dart';
 
 class CreateLawEnforcement extends StatefulWidget {
   LawEnforcementDetails? listUser;
@@ -871,12 +871,12 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           visitingOfficials.length, visitingOfficials);
 
       // state.selectedemployeeDepartmentResponse
-      Department emp =
+      Organisation emp =
       widget.listUser?.dbOfficialEmailDepartment != null
-          ? Department(
+          ? Organisation(
           id: widget.listUser?.dbOfficialEmailDepartment?.id ?? 0,
           name: widget.listUser?.dbOfficialEmailDepartment?.name ?? '')
-          : Department();
+          : Organisation();
       lawenforcementCubit.getemployeeDepartmentsResponseData(emp);
       getAttachments =
       widget.listUser?.images != null ? widget.listUser?.images ?? [] : [];
@@ -1261,7 +1261,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                     );
                   });
             },
-            onTap: (Department list) {
+            onTap: (Organisation list) {
               //print(list.name);
               lawenforcementCubit.getemployeeDepartmentsResponseData(list);
             },

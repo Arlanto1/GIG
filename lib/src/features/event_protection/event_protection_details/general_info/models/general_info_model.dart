@@ -1,6 +1,5 @@
 import 'package:db_atom/src/models/entity.dart';
 
-import '../../../../../models/department.dart';
 import '../../../../../models/organisation.dart';
 import '../../../../createfound/models/user.dart';
 
@@ -26,12 +25,12 @@ class EventProtectionGi {
   String? bu1ContactNo;
   User? bu2;
   String? bu2ContactNo;
-  Department? requesterDepartment;
+  Organisation? requesterDepartment;
   List<String>? epOfficers;
   User? srh1;
   User? srh2;
-  Department? bu1Dept;
-  Department? bu2Dept;
+  Organisation? bu1Dept;
+  Organisation? bu2Dept;
   String? systemVendor1;
   String? systemVendor2;
   String? systemVendor3;
@@ -49,7 +48,7 @@ class EventProtectionGi {
   int? securityGuardCountHrs;
   int? securityFacilitatorCount;
   int? securityFacilitatorCountHrs;
-  List<Department>? proposedVendors;
+  List<Organisation>? proposedVendors;
   double? budget;
   String? poNumber;
 
@@ -147,7 +146,7 @@ class EventProtectionGi {
         bu2ContactNo = json['bu2ContactNo'] as String?,
         requesterDepartment =
             (json['requesterDepartment'] as Map<String, dynamic>?) != null
-                ? Department.fromJson(
+                ? Organisation.fromJson(
                     json['requesterDepartment'] as Map<String, dynamic>)
                 : null,
         epOfficers = (json['epOfficers'] as List?)
@@ -160,10 +159,10 @@ class EventProtectionGi {
             ? User.fromJson(json['srh2'] as Map<String, dynamic>)
             : null,
         bu1Dept = (json['bu1Dept'] as Map<String, dynamic>?) != null
-            ? Department.fromJson(json['bu1Dept'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['bu1Dept'] as Map<String, dynamic>)
             : null,
         bu2Dept = (json['bu2Dept'] as Map<String, dynamic>?) != null
-            ? Department.fromJson(json['bu2Dept'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['bu2Dept'] as Map<String, dynamic>)
             : null,
         systemVendor1 = json['systemVendor1'] as String?,
         systemVendor2 = json['systemVendor2'] as String?,
@@ -184,7 +183,7 @@ class EventProtectionGi {
         securityFacilitatorCountHrs =
             json['securityFacilitatorCountHrs'] as int?,
         proposedVendors = (json['proposedVendors'] as List?)
-            ?.map((dynamic e) => Department.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
             .toList(),
         budget = json['budget'] as double?,
         poNumber = json['poNumber'] as String?;

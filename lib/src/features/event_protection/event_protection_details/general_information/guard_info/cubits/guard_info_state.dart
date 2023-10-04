@@ -5,7 +5,7 @@ class GuardInfoState extends Equatable {
   final GuardInfoModel guardInfoModel;
   final GetLocations? locations;
   final EntrySecurity? loggedInUserDetails;
-  final List<Department> departments;
+  final List<Organisation> departments;
   final int? eventId;
   final String? message;
 
@@ -15,7 +15,7 @@ class GuardInfoState extends Equatable {
     required EntrySecurity loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
-    required final List<Department> departments,
+    required final List<Organisation> departments,
     required String errorMessage,
     required List<CreateImage> loadAttachments,
     required int? eventId,
@@ -65,7 +65,7 @@ class GuardInfoState extends Equatable {
     List<CreateImage>? bioDataAttachments,
     List<Entity>? listOfEntities,
     List<Entity>? listOfQualifications,
-    List<Department>? departments,
+    List<Organisation>? departments,
     AddQualifications? getQualificationsResponse,
     AddEntities? getEntitiesResponse,
     List<String>? participationDates,

@@ -21,7 +21,6 @@ import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
 import '../../../../../common_widgets/base_widget/base_entities_dropdown.dart';
 import '../../../../../common_widgets/basic_reusable_widgets.dart';
 import '../../../../../enums/form_status.dart';
-import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
 import '../../../../../models/organisation.dart';
 import '../../../../../routing/router.dart';
@@ -201,7 +200,7 @@ class _RatesInfoState extends State<RatesInfo> {
                                   BaseDepartmentDialog().departmentDialog(
                                     context: context,
                                     departments: state.departments,
-                                    onTap: (Department department) {
+                                    onTap: (Organisation department) {
                                       BlocProvider.of<PayRateCubit>(context)
                                           .updateDropdownValues(
                                               vendor: department);

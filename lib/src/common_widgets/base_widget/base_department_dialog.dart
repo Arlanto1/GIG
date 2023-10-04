@@ -8,13 +8,13 @@ import '../../constants/constants.dart';
 import '../../features/createfound/views/add_employee_deparment.dart';
 import '../../features/createfound/views/create_found_newuser.dart';
 import '../../models/base_user.dart';
-import '../../models/department.dart';
+import '../../models/organisation.dart';
 import '../custom_pop_list_texts.dart';
 
 class BaseDepartmentDialog {
   departmentDialog({
     required BuildContext context,
-    required List<Department> departments,
+    required List<Organisation> departments,
     required Function onTap,
   }) {
     return showDialog(

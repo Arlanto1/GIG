@@ -1,6 +1,5 @@
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 
-import '../../../models/department.dart';
 import '../../../models/entry_security.dart';
 import '../../../models/organisation.dart';
 
@@ -59,19 +58,19 @@ class MaterialMovementModel {
   List<History>? history;
   String? requestorEmail;
   String? requestorEmployeeId;
-  Department? requestorDepartment;
+  Organisation? requestorDepartment;
   String? sentTo;
   String? address;
   String? purpose;
   String? modelInfo;
   QuantityUnit? unit;
   String? preparedBy;
-  Department? preparedByDepartment;
+  Organisation? preparedByDepartment;
   String? approver1Email;
-  Department? approver1Department;
+  Organisation? approver1Department;
   String? approver2Email;
-  Department? approver2Department;
-  Department? receiverDepartment;
+  Organisation? approver2Department;
+  Organisation? receiverDepartment;
   String? takenOutEmail;
   String? takenOutContactNo;
   String? materialReturnedChallanNo;
@@ -196,7 +195,7 @@ class MaterialMovementModel {
         requestorEmployeeId = json['requestorEmployeeId'] as String?,
         requestorDepartment =
             (json['requestorDepartment'] as Map<String, dynamic>?) != null
-                ? Department.fromJson(
+                ? Organisation.fromJson(
                     json['requestorDepartment'] as Map<String, dynamic>)
                 : null,
         sentTo = json['sentTo'] as String?,
@@ -211,24 +210,24 @@ class MaterialMovementModel {
         takenOutOn = json['takenOutOn'],
         preparedByDepartment =
             (json['preparedByDepartment'] as Map<String, dynamic>?) != null
-                ? Department.fromJson(
+                ? Organisation.fromJson(
                     json['preparedByDepartment'] as Map<String, dynamic>)
                 : null,
         approver1Email = json['approver1Email'] as String?,
         approver1Department =
             (json['approver1Department'] as Map<String, dynamic>?) != null
-                ? Department.fromJson(
+                ? Organisation.fromJson(
                     json['approver1Department'] as Map<String, dynamic>)
                 : null,
         approver2Email = json['approver2Email'] as String?,
         approver2Department =
             (json['approver2Department'] as Map<String, dynamic>?) != null
-                ? Department.fromJson(
+                ? Organisation.fromJson(
                     json['approver2Department'] as Map<String, dynamic>)
                 : null,
         receiverDepartment =
             (json['receiverDepartment'] as Map<String, dynamic>?) != null
-                ? Department.fromJson(
+                ? Organisation.fromJson(
                     json['receiverDepartment'] as Map<String, dynamic>)
                 : null,
         takenOutEmail = json['takenOutEmail'] as String?,

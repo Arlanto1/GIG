@@ -26,7 +26,7 @@ class EventInfoState extends Equatable {
     required final List<Entity>? listOfQualifications,
     required final AddEntities? getEntitiesResponse,
     required final AddQualifications? getQualificationsResponse,
-    required final List<Department> departments,
+    required final List<Organisation> departments,
     required String errorMessage,
     required List<CreateImage> loadAttachments,
     List<CreateImage>? bioDataAttachments,

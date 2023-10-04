@@ -20,7 +20,6 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 
 import '../models/base_user.dart';
-import '../models/department.dart';
 import '../models/entity.dart';
 
 class CustomListTexts extends StatefulWidget {
@@ -43,7 +42,7 @@ class CustomListTexts extends StatefulWidget {
       this.duplicateactivePassInfoList,
       this.duplicateQuantityUnitList});
   final String? imagename;
-  List<Department>? duplicateemployeeDepartments;
+  List<Organisation>? duplicateemployeeDepartments;
   List<ArticleList>? duplicatearticleList;
   List<Entity>? duplicateentityList;
   List<BaseUser>? duplicatedepostorList;
@@ -68,7 +67,7 @@ class CustomListTextsState extends State<CustomListTexts> {
   final _formKey = GlobalKey<FormState>();
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
-  List<Department> employeeDepartments = [];
+  List<Organisation> employeeDepartments = [];
   List<ArticleList> articleList = [];
   List<Entity> entityList = [];
   List<BaseUser> depostorList = [];
@@ -473,7 +472,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                                   : widget.duplicateloadGroups?.length ),
           itemBuilder: (BuildContext context, int index) {
             if (widget.duplicateemployeeDepartments != null) {
-              Department? drawerItem;
+              Organisation? drawerItem;
               if ((_searchCtrl.text.length > 0 &&
                   employeeDepartments.isNotEmpty)) {
                 drawerItem = employeeDepartments[index];

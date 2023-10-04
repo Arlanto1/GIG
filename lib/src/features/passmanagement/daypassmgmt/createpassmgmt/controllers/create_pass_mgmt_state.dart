@@ -15,7 +15,6 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:equatable/equatable.dart';
 
 import '../../../../../models/base_user.dart';
-import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../models/organisation.dart';
@@ -42,13 +41,13 @@ class CreatePassMgmtState extends Equatable {
   SerialNumberModel? serialnumberResponse;
   BaseUser? getuserResponse;
   EmployeeDepartments? employeeDepartment;
-  Department? selectedemployeeDepartmentResponse;
+  Organisation? selectedemployeeDepartmentResponse;
   List<CreateImage>? loadAttachments = [];
   List<CreateImage>? photoAttachments = [];
   EntrySecurity? getUserDetailsResponse;
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
-  CreateOrganisation? createOrganisationResponse;
-  CreateOrganisation? createEmployeeDepartments;
+  Organisation? createOrganisationResponse;
+  Organisation? createEmployeeDepartments;
   CompanyTypes? companyTypes;
   Organisation? atomCompanyType;
   CreatePassMgmtResponse? createpassFoundresponse;
@@ -120,12 +119,12 @@ class CreatePassMgmtState extends Equatable {
     GetDepositor? getDepositorResponse,
     BaseUser? getuserResponse,
     EmployeeDepartments? employeeDepartment,
-    Department? selectedemployeeDepartmentResponse,
+    Organisation? selectedemployeeDepartmentResponse,
     List<CreateImage>? loadAttachments,
     EntrySecurity? getUserDetailsResponse,
     SubmitLawEnforcementResponse? lawcreateFoundresponse,
-    CreateOrganisation? createOrganisationResponse,
-    CreateOrganisation? createEmployeeDepartments,
+    Organisation? createOrganisationResponse,
+    Organisation? createEmployeeDepartments,
     CompanyTypes? companyTypes,
     Organisation? atomCompanyType,
     CreatePassMgmtResponse? createpassFoundresponse,

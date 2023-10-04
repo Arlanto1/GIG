@@ -17,7 +17,6 @@ import 'package:intl/intl.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/base_user.dart';
-import '../../../../../models/department.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../models/responseModels/generic_creat_response.dart';
@@ -201,7 +200,7 @@ class GuardingMasterDataDetailsCubit
   Future<void> updateDropdownValues({
     Organisation? location,
     BaseUser? user,
-    Department? vendor,
+    Organisation? vendor,
     BaseUser? guard,
     Entity? entity,
     List<Entity>? qualifications,

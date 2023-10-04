@@ -1,4 +1,3 @@
-import '../../../../models/department.dart';
 import '../../../../models/entity.dart';
 import '../../../../models/entry_security.dart';
 import '../../../../models/organisation.dart';
@@ -39,7 +38,7 @@ class GuardingMastersDataModel {
   String? slNo;
   Organisation? location;
   Organisation? locationRegion;
-  Department? vendor;
+  Organisation? vendor;
   EntrySecurity? entrySecurity;
   EntrySecurity? guard;
   CreateImage? localAddressProof;
@@ -234,7 +233,7 @@ class GuardingMastersDataModel {
         dateOfBirth = json['dateOfBirth'] as String?,
         dateOfJoining = json['dateOfJoining'] as String?,
         vendor = (json['vendor'] as Map<String, dynamic>?) != null
-            ? Department.fromJson(json['vendor'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['vendor'] as Map<String, dynamic>)
             : null,
         status = json['status'] as int?,
         guardRank = json['guardRank'] as int?,
