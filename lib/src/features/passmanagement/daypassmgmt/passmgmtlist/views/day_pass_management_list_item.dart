@@ -11,16 +11,16 @@ import 'package:flutter/services.dart';
 
 class DayPassManagementListItem extends StatefulWidget {
   final Function? onTap;
-  final Function? oneditTap;
-  final Function? onviewTap;
+  final Function? onEditTap;
+  final Function? onViewTap;
   final DayPassListElement userItem;
   final int? index;
 
   const DayPassManagementListItem({
     Key? key,
     this.onTap,
-    this.oneditTap,
-    this.onviewTap,
+    this.onEditTap,
+    this.onViewTap,
     required this.userItem,
     this.index,
   }) : super(key: key);
@@ -83,8 +83,8 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                                 IconButton(
                                   onPressed: () {
                                     //do action on view
-                                    widget.oneditTap != null
-                                        ? widget.oneditTap!(widget.index)
+                                    widget.onEditTap != null
+                                        ? widget.onEditTap!(widget.index)
                                         : null;
                                   },
                                   icon: SvgPicture.asset(AppIcon.editIcon),
@@ -92,8 +92,8 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                                 IconButton(
                                   onPressed: () {
                                     //do action on view
-                                    widget.onviewTap != null
-                                        ? widget.onviewTap!(widget.index)
+                                    widget.onViewTap != null
+                                        ? widget.onViewTap!(widget.index)
                                         : null;
                                   },
                                   icon: SvgPicture.asset(AppIcon.viewIcon),

@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 
 import '../models/day_passlist_model.dart';
 
-
 enum DayPassListStateType {
   initial,
   loading,
@@ -11,12 +10,12 @@ enum DayPassListStateType {
 }
 
 class DayPassListState extends Equatable {
-  DayPassListResponse? foundListModel;
-  DayPassListElement? foundArticleDetails;
+  final DayPassListResponse? foundListModel;
+  final DayPassListElement? foundArticleDetails;
   final String? errorMessage;
-  late final DayPassListStateType stateType;
+  final DayPassListStateType stateType;
 
-  DayPassListState({
+  const DayPassListState({
     this.foundListModel,
     this.foundArticleDetails,
     required this.stateType,

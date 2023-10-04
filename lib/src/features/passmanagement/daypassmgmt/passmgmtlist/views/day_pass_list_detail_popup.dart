@@ -7,10 +7,8 @@ import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 
-import '../models/day_passlist_item_model.dart';
-
 class DayPassCustomPopUpList extends StatefulWidget {
-  DayPassListElement? userItem;
+  final DayPassListElement? userItem;
   String? passId = '0';
 
   DayPassCustomPopUpList(this.userItem, this.passId, {Key? key})
@@ -21,10 +19,6 @@ class DayPassCustomPopUpList extends StatefulWidget {
 }
 
 class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
-  //var firstStyle = Styles.textStyleSemiBoldGrey14;
-//var secondStyle = Styles.textStyleSemiBoldheighGrey14;
-
-//var mergedStyle = firstStyle.merge(secondStyle);
   Widget textHandling(String title, String desc) {
     return Expanded(
       child: RichText(

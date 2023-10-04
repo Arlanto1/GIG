@@ -358,10 +358,10 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                   );
                   //do the detail edit of user found
                 },
-                oneditTap: (selectedIndex) {
+                onEditTap: (selectedIndex) {
                   getpassFoundArticleListId(userList[selectedIndex].id ?? 0);
                 },
-                onviewTap: (selectedIndex) {
+                onViewTap: (selectedIndex) {
                   showDialog(
                     context: context,
                     builder: (BuildContext dialogContext) {
