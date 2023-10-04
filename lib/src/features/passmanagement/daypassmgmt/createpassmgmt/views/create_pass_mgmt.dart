@@ -663,57 +663,40 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             height * 0.01)
                                         : Container(),
 
-                                    widget.passId == '1' || widget.passId == '3'
-                                        ? CommonWidgets.textDisplay(
-                                            widget.passId == '1'
-                                                ? 'Visitor Coming From'
-                                                : 'SEZ Pass Info',
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    widget.passId == '1' || widget.passId == '3'
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
-
-                                    widget.passId == '1' || widget.passId == '3'
-                                        ? textfieldWidgetLoad(
-                                            widget.passId == '3'
-                                                ? sezpassinfoTextController
-                                                : visitorcomingfromTextController,
-                                            0,
-                                            state)
-                                        : Container(),
-
-                                    widget.passId == '1' || widget.passId == '3'
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
-                                    widget.passId == '1' || widget.passId == '3'
-                                        ? CommonWidgets.textDisplay(
-                                            widget.passId == '3'
-                                                ? 'MTP Application No'
-                                                : 'Purpose of Visit',
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    widget.passId == '1' || widget.passId == '3'
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
-
-                                    widget.passId == '1' || widget.passId == '3'
-                                        ? textfieldWidgetLoad(
-                                            widget.passId == '3'
-                                                ? mtpapplicationnoTextController
-                                                : purposeofvisitTextController,
-                                            0,
-                                            state)
-                                        : Container(),
-
-                                    widget.passId == "1" || widget.passId == '3'
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
-
+                                    /// SEZ Pass Info
+                                    if (widget.passId == '1' ||
+                                        widget.passId == '3') ...[
+                                      CommonWidgets.textDisplay(
+                                          widget.passId == '1'
+                                              ? 'Visitor Coming From'
+                                              : 'SEZ Pass Info',
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      textfieldWidgetLoad(
+                                          widget.passId == '3'
+                                              ? sezpassinfoTextController
+                                              : visitorcomingfromTextController,
+                                          0,
+                                          state),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                      CommonWidgets.textDisplay(
+                                          widget.passId == '3'
+                                              ? 'MTP Application No'
+                                              : 'Purpose of Visit',
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      textfieldWidgetLoad(
+                                          widget.passId == '3'
+                                              ? mtpapplicationnoTextController
+                                              : purposeofvisitTextController,
+                                          0,
+                                          state),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                    ],
                                     //Photo Identity Validation Type
                                     widget.passId == "1"
                                         ? CommonWidgets.textDisplay(
@@ -772,7 +755,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             height * 0.01)
                                         : Container(),
 
-                                    // Host
+                                    /// Host
                                     ((state.atomCompanyType?.name ?? '')
                                                         .toLowerCase() ==
                                                     'exceptions' &&
@@ -855,6 +838,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
                                         : Container(),
+
                                     ((state.atomCompanyType?.name ?? '')
                                                         .toLowerCase() ==
                                                     'exceptions' &&
@@ -1396,8 +1380,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       createpassmgmtCubit.getAtomCompanyTypeResponseData(emp);
 
       /// vendorPassReason
-      DayPassReasonElement day =
-      widget.dayPassItem != null
+      DayPassReasonElement day = widget.dayPassItem != null
           ? widget.dayPassItem?.vendorPassReason?.id != null
               ? DayPassReasonElement(
                   id: widget.dayPassItem?.vendorPassReason?.id ?? 0,
@@ -1405,8 +1388,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               : DayPassReasonElement(
                   id: widget.dayPassItem?.dayPassReason?.id ?? 0,
                   name: widget.dayPassItem?.dayPassReason?.name ?? '')
-          :
-      DayPassReasonElement();
+          : DayPassReasonElement();
       createpassmgmtCubit.getdaypassreasonResponseData(day);
 
       Organisation dep = widget.dayPassItem != null
@@ -2407,7 +2389,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         locationRegion: locregion,
         companyName: companynameTextController.text ?? '',
         employeeName: state.nameResponse?.name == null
-            ? (nameTextController.text ?? '')
+            ? (nameTextController.text)
             : state.nameResponse?.name ?? '',
         employeeId: employeeidTextController.text ?? '',
         passType: passtypeIdentify,
@@ -2415,8 +2397,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         passNo: widget.passId == '3'
             ? daypassnoTextController.text
             : state.dayPasselementReason?.name ?? '',
-        escortedBy: escortedbyTextController.text ?? '',
-        escortedEmployeeId: escortedemployeedidbyTextController.text ?? '',
+        escortedBy: escortedbyTextController.text,
+        escortedEmployeeId: escortedemployeedidbyTextController.text,
         hostEmployeeId: hostemployeeidTextController.text.isNotEmpty
             ? hostemployeeidTextController.text ?? ''
             : dbsponsorTextController.text,
@@ -2432,13 +2414,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         department: dept2,
         passInfo: info,
         host: dbsponsorTextController.text.isEmpty ? host2 : dbsponsor,
-        email: emailTextController.text ?? '',
+        email: emailTextController.text,
         contactNo: contactnoTextController.text ?? '',
         visitingDepartment: dept2,
-        visitorName: nameTextController.text ?? "",
+        visitorName: nameTextController.text,
         visitorImage: photoimages,
-        visitorComingFrom: visitorcomingfromTextController.text ?? '',
-        visitingPurpose: visitorcomingfromTextController.text ?? '',
+        visitorComingFrom: visitorcomingfromTextController.text,
+        visitingPurpose: visitorcomingfromTextController.text,
         escortedByHost: state.escortedbyhost == 1 ? true : false,
         idValidationType: idValidationType,
         mifareNo: mtpapplicationnoTextController.text ?? '',
@@ -2856,8 +2838,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //         :
       //     true,
       hintText: '',
-      onChange: (String username) {
+      onChange: (String value) {
         //this.username = username;
+        textController.text = value;
       },
       validateTextField: (String? user) {},
       // )
