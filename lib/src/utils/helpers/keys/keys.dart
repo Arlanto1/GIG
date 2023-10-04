@@ -63,9 +63,11 @@ class Keys {
   static const String returnableKey = 'returnableKey_mmo';
   static const String preparedByKey = 'preparedByKey_mmo';
   static const String receiverDepartmentKey = 'receiverDepartmentKey';
+  static const String receivedByKey = 'receivedByKey';
   static const String preparedByDepartmentKey = 'preparedByKey_mmo';
   static const String requesterDepartmentKey = 'requesterDepartmentKey_mmo';
   static const String approver1EmailKey = 'approver1Email_mmo';
+  static const String approver2EmailKey = 'approver2Email_mmo';
   static const String requesterEmailKey = 'requesterEmail_mmo';
   static const String sentToKey = 'sentToKey_mm';
   static const String takenOutByKey = 'takenOutByKey_mmo';
