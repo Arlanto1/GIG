@@ -32,13 +32,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   final MaterialMovementModel? model;
   final CommonServices commonServices;
   final bool? isInward;
+  final bool? returnable;
 
-  MaterialMovementDetailsCubit({
-    required this.materialMovementServices,
-    required this.commonServices,
-    this.model,
-    this.isInward,
-  }) : super(
+  MaterialMovementDetailsCubit(
+      {required this.materialMovementServices,
+      required this.commonServices,
+      this.model,
+      this.isInward,
+      this.returnable})
+      : super(
           MaterialMovementDetailsState.initial(
               model: model ?? MaterialMovementModel(),
               locations: GetLocations(),
@@ -140,16 +142,36 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         status: FormStatus.loading,
       ),
     );
-    //Get Sl No from API
-    if (location != null) {
+    // Get Sl No from API
+    if (location != null && isInward == true) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.materialMovementInwardNonReturnableModule,
+        moduleCode: Constants.materialMovementInwardReturnableModule,
       );
-
       state.materialMovement.location = location;
       state.materialMovement.slNo = slNo.serialNo;
     }
+    if (location != null &&
+        isInward == false &&
+        state.materialMovement.returnable == true) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: location.id.toString(),
+          moduleCode: Constants.materialMovementOutwardReturnableModule);
+      state.materialMovement.location = location;
+      state.materialMovement.slNo = slNo.serialNo;
+    }
+
+    if (location != null &&
+        isInward == false &&
+        state.materialMovement.returnable == false) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: location.id.toString(),
+        moduleCode: Constants.materialMovementOutwardNonReturnableModule,
+      );
+      state.materialMovement.location = location;
+      state.materialMovement.slNo = slNo.serialNo;
+    }
+
     if (user != null) {
       state.materialMovement.otherReceiverName = user.name;
     }
