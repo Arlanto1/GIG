@@ -10,19 +10,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 
 class DayPassCustomPopUpList extends StatefulWidget {
-  DayPassListElement? userItem;
+  final DayPassListElement? userItem;
   String? passId = '0';
-  DayPassCustomPopUpList(this.userItem,this.passId, {Key? key}) : super(key: key);
+
+  DayPassCustomPopUpList(this.userItem, this.passId, {Key? key})
+      : super(key: key);
 
   @override
   State<DayPassCustomPopUpList> createState() => _DayPassCustomPopUpListState();
 }
 
 class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
-  //var firstStyle = Styles.textStyleSemiBoldGrey14;
-//var secondStyle = Styles.textStyleSemiBoldheighGrey14;
-
-//var mergedStyle = firstStyle.merge(secondStyle);
   Widget textHandling(String title, String desc) {
     return Expanded(
       child: RichText(

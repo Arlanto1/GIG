@@ -6,15 +6,14 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/location.dart';
-import '../../models/location_region.dart';
+import '../../models/organisation.dart';
 import 'base_list_tile_item.dart';
 
 class BasePopUpItems extends StatefulWidget {
   final String? id;
   final String? slNo;
-  final Location? location;
-  final LocationRegion? locationRegion;
+  final Organisation? location;
+  final Organisation? locationRegion;
   final int? status;
   final String? inputDate;
   final String? entrySecurityName;

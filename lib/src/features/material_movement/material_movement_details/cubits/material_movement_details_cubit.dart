@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -17,9 +18,8 @@ import 'package:equatable/equatable.dart';
 import '../../../../constants/constants.dart';
 import '../../../../enums/form_status.dart';
 import '../../../../models/base_user.dart';
-import '../../../../models/department.dart';
 import '../../../../models/entry_security.dart';
-import '../../../../models/location.dart';
+import '../../../../models/organisation.dart';
 import '../../../../models/responseModels/error_response_validation.dart';
 import '../../../../models/responseModels/generic_creat_response.dart';
 import '../../../createfound/models/emplyee_departments_model.dart';
@@ -32,13 +32,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   final MaterialMovementModel? model;
   final CommonServices commonServices;
   final bool? isInward;
+  final bool? returnable;
 
-  MaterialMovementDetailsCubit({
-    required this.materialMovementServices,
-    required this.commonServices,
-     this.model,
-     this.isInward,
-  }) : super(
+  MaterialMovementDetailsCubit(
+      {required this.materialMovementServices,
+      required this.commonServices,
+      this.model,
+      this.isInward,
+      this.returnable})
+      : super(
           MaterialMovementDetailsState.initial(
               model: model ?? MaterialMovementModel(),
               locations: GetLocations(),
@@ -56,7 +58,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     emit(state.copyWith(materialMovement: model, status: FormStatus.initial));
   }
 
-
   Future<void> initializeValues() async {
     print('-status-1-${state.status}--');
     //Show Loader and emit loading state
@@ -72,7 +73,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       EntrySecurity loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
-
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
@@ -97,6 +97,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       QuantityUnits quantityUnits = await commonServices.getQuantityUnits();
 
       state.materialMovement.entrySecurity = loggedInUserDetails;
+      state.materialMovement.unit = model?.unit;
 
       emit(
         state.copyWith(
@@ -122,17 +123,17 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   }
 
   Future<void> updateDropdownValues({
-    Location? location,
+    Organisation? location,
     BaseUser? user,
     BaseUser? receiverEmailUser,
     BaseUser? requesterEmailUser,
     BaseUser? approver1EmailUser,
     BaseUser? approver2EmailUser,
-    Department? requesterDepartment,
-    Department? preparedByDepartment,
-    Department? approver1Department,
-    Department? approver2Department,
-    Department? receiverDepartment,
+    Organisation? requesterDepartment,
+    Organisation? preparedByDepartment,
+    Organisation? approver1Department,
+    Organisation? approver2Department,
+    Organisation? receiverDepartment,
     QuantityUnit? quantityUnit,
     bool? isReturnable,
   }) async {
@@ -141,16 +142,36 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         status: FormStatus.loading,
       ),
     );
-    //Get Sl No from API
-    if (location != null) {
+    // Get Sl No from API
+    if (location != null && isInward == true) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.materialMovementInwardNonReturnableModule,
+        moduleCode: Constants.materialMovementInwardReturnableModule,
       );
-
       state.materialMovement.location = location;
       state.materialMovement.slNo = slNo.serialNo;
     }
+    if (location != null &&
+        isInward == false &&
+        state.materialMovement.returnable == true) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: location.id.toString(),
+          moduleCode: Constants.materialMovementOutwardReturnableModule);
+      state.materialMovement.location = location;
+      state.materialMovement.slNo = slNo.serialNo;
+    }
+
+    if (location != null &&
+        isInward == false &&
+        state.materialMovement.returnable == false) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: location.id.toString(),
+        moduleCode: Constants.materialMovementOutwardNonReturnableModule,
+      );
+      state.materialMovement.location = location;
+      state.materialMovement.slNo = slNo.serialNo;
+    }
+
     if (user != null) {
       state.materialMovement.otherReceiverName = user.name;
     }
@@ -158,6 +179,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     if (receiverEmailUser != null) {
       state.materialMovement.receiverEmail = receiverEmailUser.email;
     }
+
     if (requesterEmailUser != null) {
       state.materialMovement.requestorEmail = requesterEmailUser.email;
     }
@@ -266,7 +288,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       if (isSaveOnly) {
         response = await materialMovementServices.createMaterialMovement(
             body: request, isSubmit: false);
-
       } else {
         //Validating Fields
         if (!state.isValid.status) {

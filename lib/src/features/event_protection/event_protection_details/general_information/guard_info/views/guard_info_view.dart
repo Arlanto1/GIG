@@ -20,7 +20,7 @@ import 'package:db_atom/src/features/event_protection/event_protection_details/g
 import '../../../../../../common_widgets/base_widget/base_department_dialog.dart';
 import '../../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../../common_widgets/textfiled_addbutton.dart';
-import '../../../../../../models/department.dart';
+import '../../../../../../models/organisation.dart';
 import '../cubits/guard_info_cubit.dart';
 
 class GuardInfoView extends StatefulWidget {
@@ -551,7 +551,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                               BaseDepartmentDialog().departmentDialog(
                                 context: context,
                                 departments: state.departments,
-                                onTap: (List<Department> proposedVendors) {
+                                onTap: (List<Organisation> proposedVendors) {
                                   BlocProvider.of<GuardInfoCubit>(context)
                                       .updateDropdownValues(
                                       proposedVendors: proposedVendors

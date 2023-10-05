@@ -1,6 +1,5 @@
 part of 'material_movement_details_cubit.dart';
 
-
 class MaterialMovementDetailsState extends Equatable {
   final FormStatus status;
 
@@ -9,7 +8,7 @@ class MaterialMovementDetailsState extends Equatable {
   final EntrySecurity? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
-  final List<Department> departments;
+  final List<Organisation> departments;
   final List<CreateImage>? loadAttachments;
   final List<QuantityUnit> quantityUnits;
   final int? eventId;
@@ -22,7 +21,7 @@ class MaterialMovementDetailsState extends Equatable {
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
-    required List<Department> departments,
+    required List<Organisation> departments,
     required List<CreateImage> loadAttachments,
     required List<QuantityUnit> quantityUnits,
     required int? eventId,
@@ -46,7 +45,7 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
-    if (materialMovement.challanNo == null) {
+    if (materialMovement.challanNo.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Challan No');
     }
@@ -54,13 +53,11 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Quantity');
     }
-
-    if (materialMovement.materialDescription == null) {
+    if (materialMovement.materialDescription.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Material Description');
     }
-
-    if (materialMovement.materialComingFrom == null) {
+    if (materialMovement.materialComingFrom.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Material Coming From');
     }
@@ -92,7 +89,7 @@ class MaterialMovementDetailsState extends Equatable {
     EntrySecurity? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
-    List<Department>? departments,
+    List<Organisation>? departments,
     List<CreateImage>? loadAttachments,
     List<QuantityUnit>? quantityUnits,
     int? eventId,

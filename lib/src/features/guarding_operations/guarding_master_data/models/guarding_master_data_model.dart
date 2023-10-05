@@ -1,8 +1,6 @@
-import '../../../../models/department.dart';
 import '../../../../models/entity.dart';
 import '../../../../models/entry_security.dart';
-import '../../../../models/location.dart';
-import '../../../../models/location_region.dart';
+import '../../../../models/organisation.dart';
 import '../../../createfound/models/create_found_request.dart';
 
 class GuardingMasterDataResponse {
@@ -38,9 +36,9 @@ class GuardingMasterDataResponse {
 class GuardingMastersDataModel {
   int? id;
   String? slNo;
-  Location? location;
-  LocationRegion? locationRegion;
-  Department? vendor;
+  Organisation? location;
+  Organisation? locationRegion;
+  Organisation? vendor;
   EntrySecurity? entrySecurity;
   EntrySecurity? guard;
   CreateImage? localAddressProof;
@@ -186,11 +184,11 @@ class GuardingMastersDataModel {
       : id = json['id'] as int?,
         slNo = json['slNo'] as String?,
         location = (json['location'] as Map<String, dynamic>?) != null
-            ? Location.fromJson(json['location'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
             : null,
         locationRegion =
             (json['locationRegion'] as Map<String, dynamic>?) != null
-                ? LocationRegion.fromJson(
+                ? Organisation.fromJson(
                     json['locationRegion'] as Map<String, dynamic>)
                 : null,
         entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
@@ -235,7 +233,7 @@ class GuardingMastersDataModel {
         dateOfBirth = json['dateOfBirth'] as String?,
         dateOfJoining = json['dateOfJoining'] as String?,
         vendor = (json['vendor'] as Map<String, dynamic>?) != null
-            ? Department.fromJson(json['vendor'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['vendor'] as Map<String, dynamic>)
             : null,
         status = json['status'] as int?,
         guardRank = json['guardRank'] as int?,

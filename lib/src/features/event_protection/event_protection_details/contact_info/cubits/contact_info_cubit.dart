@@ -14,9 +14,8 @@ import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dar
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/department.dart';
 import 'package:db_atom/src/models/entity.dart';
-import 'package:db_atom/src/models/location.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -133,13 +132,13 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
 
   Future<void> updateDropdownValues({
     List<Entity>? entities,
-    Location? location,
+    Organisation? location,
     User? user,
-    Department? requesterDepartment,
+    Organisation? requesterDepartment,
     Bu1? bu1,
     Bu2? bu2,
-    Department? bu1Dept,
-    Department? bu2Dept,
+    Organisation? bu1Dept,
+    Organisation? bu2Dept,
     Srh1? subRegionalHead1,
     Srh2? subRegionalHead2,
     EpManager1? epManager1,

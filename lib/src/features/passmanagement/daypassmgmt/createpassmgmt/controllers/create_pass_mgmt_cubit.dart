@@ -25,9 +25,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/base_user.dart';
-import '../../../../../models/department.dart';
 import '../../../../../models/entity.dart';
 import '../../../../../models/entry_security.dart';
+import '../../../../../models/organisation.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
 
 class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
@@ -49,7 +49,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> createOrganisation(
       String name, String orgName, BuildContext context,String title) async {
     try {
-      CreateOrganisation createOrganisationData =
+      Organisation createOrganisationData =
           await createpassmgmtServices.createOrganisation(name, orgName,context);
       emit(
         state.copyWith(
@@ -201,7 +201,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> createEmplyeeDepartments(
       String name, String orgName, BuildContext context) async {
     try {
-      CreateOrganisation createEmployeeDeptData =
+      Organisation createEmployeeDeptData =
           await createpassmgmtServices.createOrganisation(name, orgName,context);
       emit(
         state.copyWith(
@@ -355,12 +355,12 @@ Future<void> getPassnumber(String passtype, String locationid,BuildContext conte
     }
   }
 
-  getatomCompanyTypeResponseData(
-      AtomCompanyType? companytypeResponse) async {
+  getAtomCompanyTypeResponseData(
+      Organisation? companyTypeResponse) async {
     try {
       emit(
         state.copyWith(
-          atomCompanyType: companytypeResponse,
+          atomCompanyType: companyTypeResponse,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -552,12 +552,12 @@ Future<void> getPassnumber(String passtype, String locationid,BuildContext conte
   }
 
   initalization() {
-    state.selectedemployeeDepartmentResponse = Department();
+    state.selectedemployeeDepartmentResponse = Organisation();
     state.employeeDepartment = EmployeeDepartments();
     state.companyTypes = CompanyTypes();
     state.activePassInfoList = ActivePassInfoList();
     state.loadAttachments = [];
-    state.atomCompanyType =  AtomCompanyType();
+    state.atomCompanyType =  Organisation();
     state.listOfEntities = [];
     state.locationSelectedlist = Mumbai();
     state.photoAttachments = [];
@@ -594,7 +594,7 @@ Future<void> getPassnumber(String passtype, String locationid,BuildContext conte
   }
 
   getemployeeDepartmentsResponseData(
-      Department employeedepartment) async {
+      Organisation employeedepartment) async {
     try {
       emit(
         state.copyWith(

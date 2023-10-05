@@ -1,4 +1,4 @@
-import '../../../../../../models/department.dart';
+import '../../../../../../models/organisation.dart';
 
 class GuardInfoModel {
   GuardInfoModel({
@@ -31,7 +31,7 @@ class GuardInfoModel {
   int? securityGuardCountHrs;
   int? securityFacilitatorCount;
   int? securityFacilitatorCountHrs;
-  List<Department>? proposedVendors;
+  List<Organisation>? proposedVendors;
   double? budget;
   String? poNumber;
 
@@ -49,7 +49,7 @@ class GuardInfoModel {
     securityFacilitatorCount = json['securityFacilitatorCount'];
     securityFacilitatorCountHrs = json['securityFacilitatorCountHrs'];
     proposedVendors = List.from(json['proposedVendors'])
-        .map((e) => Department.fromJson(e))
+        .map((e) => Organisation.fromJson(e))
         .toList();
     budget = json['budget'];
     poNumber = json['poNumber'];

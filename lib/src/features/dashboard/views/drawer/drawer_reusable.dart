@@ -743,14 +743,13 @@ Widget createDrawerHeader(
       ),
       child: InkWell(
         onTap: () {
-
-          SharedPrefs.setToken('eyJhbGciOiJIUzI1NiJ9.eyJjbGllbnRfc2VjcmV0IjoicGlua3VAMDk4IiwiY2xpZW50X2lkIjoicGlua3UiLCJpYXQiOjE2OTU3ODY2ODIsImV4cCI6MTY5NTc4ODQ4Mn0.iFmK1fT2pydg6Q3Bg2qYsAkLSQCyUFa3IS043f3oAbc');
-
+          SharedPrefs.setToken(
+              'eyJhbGciOiJIUzI1NiJ9.eyJjbGllbnRfc2VjcmV0IjoicGlua3VAMDk4IiwiY2xpZW50X2lkIjoicGlua3UiLCJpYXQiOjE2OTU3ODY2ODIsImV4cCI6MTY5NTc4ODQ4Mn0.iFmK1fT2pydg6Q3Bg2qYsAkLSQCyUFa3IS043f3oAbc');
 
           Navigator.pushNamed(
             context,
             resetPwdScreenRoute,
-            arguments: {'viaNavigationDrawer':true},
+            arguments: {'viaNavigationDrawer': true},
           );
         },
         child: Row(

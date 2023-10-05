@@ -1,4 +1,3 @@
-// Created by Ramesh
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_submit_model.dart';
 import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
@@ -11,6 +10,7 @@ import 'package:db_atom/src/features/createfound/models/serial_number_model.dart
 import 'package:equatable/equatable.dart';
 
 import '../../../models/entry_security.dart';
+import '../../../models/organisation.dart';
 
 enum CreateFoundStateType { initial, loading, success, failure, addattachment }
 
@@ -19,8 +19,8 @@ class CreateFoundState extends Equatable {
   GetLocations? getLocationsResponse;
   EmployeeDepartments? getEmployeeDepartmentsResponse;
   GetArticleType? getArticleTypeResponse;
-  CreateOrganisation? createOrganisationResponse;
-  CreateOrganisation? createEmployeeDepartments;
+  Organisation? createOrganisationResponse;
+  Organisation? createEmployeeDepartments;
   CreateUserModel? createUserResponse;
   EntrySecurity? getUserDetailsResponse;
   SubmitCreateFoundModel? createFoundResponse;
@@ -52,8 +52,8 @@ class CreateFoundState extends Equatable {
     GetLocations? getLocationsResponse,
     EmployeeDepartments? getEmployeeDepartmentsResponse,
     GetArticleType? getArticleTypeResponse,
-    CreateOrganisation? createOrganisationResponse,
-    CreateOrganisation? createEmployeeDepartments,
+    Organisation? createOrganisationResponse,
+    Organisation? createEmployeeDepartments,
     CreateUserModel? createUserResponse,
     EntrySecurity? getUserDetailsResponse,
     SubmitCreateFoundModel? createFoundResponse,

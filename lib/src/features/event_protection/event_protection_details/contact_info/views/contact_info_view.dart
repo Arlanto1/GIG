@@ -21,7 +21,7 @@ import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
 import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../models/base_user.dart';
-import '../../../../../models/department.dart';
+import '../../../../../models/organisation.dart';
 import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import '../cubits/contact_info_cubit.dart';
 
@@ -490,7 +490,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               BaseDepartmentDialog().departmentDialog(
                                 context: context,
                                 departments: state.departments,
-                                onTap: (Department department) {
+                                onTap: (Organisation department) {
                                   BlocProvider.of<ContactInfoCubit>(context)
                                       .updateDropdownValues(
                                           bu1Dept: department);
@@ -514,7 +514,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               BaseDepartmentDialog().departmentDialog(
                                 context: context,
                                 departments: state.departments,
-                                onTap: (Department department) {
+                                onTap: (Organisation department) {
                                   BlocProvider.of<ContactInfoCubit>(context)
                                       .updateDropdownValues(
                                           bu2Dept: department);
@@ -823,7 +823,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                               BaseDepartmentDialog().departmentDialog(
                                 context: context,
                                 departments: state.departments,
-                                onTap: (Department department) {
+                                onTap: (Organisation department) {
                                   BlocProvider.of<ContactInfoCubit>(context)
                                       .updateDropdownValues(
                                           requesterDepartment: department);

@@ -38,10 +38,6 @@ class EventProtectionServices {
     return email;
   }
 
-  Future<String> getUserId() async {
-    String email = await SharedPrefs.getUserId();
-    return email;
-  }
 
   Future<EventProtectionResponse> getEventProtections({
     required String startPosition,
@@ -49,7 +45,7 @@ class EventProtectionServices {
     required String userId,
   }) async {
     String url =
-        '${Apis._getEventProtections}startPos=$startPosition&maxResults=$maximumRecords&userId=${await getUserId()}';
+        '${Apis._getEventProtections}startPos=$startPosition&maxResults=$maximumRecords&userId=${ await SharedPrefs.getUserId()}';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -137,7 +133,7 @@ class EventProtectionServices {
     required String eventId,
   }) async {
     String url =
-        '${Apis._getArticleFounds}?startPos=$startPosition&maxResults=$maximumRecords&eventId=$eventId&userId=${await getUserId()}';
+        '${Apis._getArticleFounds}?startPos=$startPosition&maxResults=$maximumRecords&eventId=$eventId&userId=${await SharedPrefs.getUserId()}';
     final response = await BaseApiService().getRequest(
       url: url,
     );

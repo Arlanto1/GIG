@@ -8,14 +8,13 @@ import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../models/location.dart';
-import '../../models/location_region.dart';
+import '../../models/organisation.dart';
 
 class BaseListTileItem extends StatefulWidget {
   final int? id;
-  final Location? location;
+  final Organisation? location;
   final bool? returnable;
-  final LocationRegion? locationRegion;
+  final Organisation? locationRegion;
   final String? inputDate;
   final int? status;
   final String? vendor;
@@ -99,7 +98,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
   List<Widget> getChildren(List<Label>? labels, width) {
     List<Widget> widgets = [];
 
-    log('--width------$width-------tab--${width * .78}---------------${width / 2}-');
+    // log('--width------$width-------tab--${width * .78}---------------${width / 2}-');
 
     widgets = [
       Container(
@@ -111,7 +110,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
             Container(
               // color: Colors.purpleAccent,
               child: SizedBox(
-                width: width > 390 ? width * .78 : width * .55,
+                width: width > 389 ? width * .78 : width * .55,
                 // height: 90,
                 child: Wrap(
                   // mainAxisAlignment: MainAxisAlignment.start,

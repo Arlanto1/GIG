@@ -110,13 +110,15 @@ class _FoundListItemState extends State<FoundListItem> {
                               widget.userItem.locationName.toString()),
                         ],
                       ),
+                    if( widget.userItem.foundLocation != null )...[
                        CommonWidgets.verticalSpacerWidget(5),
                       Row(
                         children: [
                           textHandling('Location : ',
                               widget.userItem.foundLocation.toString()),
                         ],
-                      ),
+                      ),],
+                       if( widget.userItem.foundDate != null )...[
                        CommonWidgets.verticalSpacerWidget(5),
                       Row(
                         children: [
@@ -125,7 +127,7 @@ class _FoundListItemState extends State<FoundListItem> {
                              widget.userItem.foundDate != null ? Utils.timestamptoDateConversion(
                                   int.parse(widget.userItem.foundDate ?? '0'), Constants.dateFormat): ''),
                         ],
-                      ),
+                      ),],
                     Row(
                         children: [
                           Utils().buildFoundStatusRow(widget.userItem.status ?? 0),

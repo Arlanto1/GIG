@@ -250,7 +250,6 @@ class Utils {
   }
 
   Widget buildMasterDataStatusRow(int status) {
-    log('--buildMasterDataStatusRow----');
     String statusText;
 
     switch (status) {

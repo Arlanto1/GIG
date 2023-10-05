@@ -14,7 +14,7 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/models/entity.dart';
-import 'package:db_atom/src/models/location.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -30,7 +30,6 @@ import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../constants/app_icon.dart';
 import '../../../../../models/base_user.dart';
-import '../../../../../models/department.dart';
 import '../../../../../utils/util.dart';
 import '../cubits/general_info_cubit.dart';
 
@@ -631,7 +630,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 BaseDepartmentDialog().departmentDialog(
                                   context: context,
                                   departments: state.departments,
-                                  onTap: (Department department) {
+                                  onTap: (Organisation department) {
                                     BlocProvider.of<GeneralInfoCubit>(context)
                                         .updateDropdownValues(
                                             bu1Dept: department);
@@ -653,7 +652,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 BaseDepartmentDialog().departmentDialog(
                                   context: context,
                                   departments: state.departments,
-                                  onTap: (Department department) {
+                                  onTap: (Organisation department) {
                                     BlocProvider.of<GeneralInfoCubit>(context)
                                         .updateDropdownValues(
                                             bu2Dept: department);
@@ -891,7 +890,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 BaseDepartmentDialog().departmentDialog(
                                   context: context,
                                   departments: state.departments,
-                                  onTap: (Department department) {
+                                  onTap: (Organisation department) {
                                     BlocProvider.of<GeneralInfoCubit>(context)
                                         .updateDropdownValues(
                                             requesterDepartment: department);
@@ -1233,7 +1232,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   BaseDepartmentDialog().departmentDialog(
                                     context: context,
                                     departments: state.departments,
-                                    onTap: (Department proposedVendors) {
+                                    onTap: (Organisation proposedVendors) {
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .updateDropdownValues(
                                               proposedVendor: proposedVendors);
@@ -1369,7 +1368,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                 onTap: (Mumbai? list) async {
                   log('list?.name-----${list?.name}');
 
-                  Location location = Location();
+                  Organisation location = Organisation();
                   location.id = list?.id;
                   location.name = list?.name;
                   state.model.location = location;

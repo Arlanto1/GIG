@@ -10,9 +10,8 @@ import 'package:db_atom/src/features/event_protection/services/event_protection_
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/department.dart';
 import 'package:db_atom/src/models/entity.dart';
-import 'package:db_atom/src/models/location.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -132,17 +131,17 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
 
   Future<void> updateDropdownValues({
     List<Entity>? entities,
-    Location? location,
+    Organisation? location,
     // BaseUser? user,
-    Department? vendor,
+    Organisation? vendor,
     Entity? entity,
     int? status,
     //GetUserDetails? user,
-    Department? requesterDepartment,
+    Organisation? requesterDepartment,
     BaseUser? bu1,
     BaseUser? bu2,
-    Department? bu1Dept,
-    Department? bu2Dept,
+    Organisation? bu1Dept,
+    Organisation? bu2Dept,
     BaseUser? subRegionalHead1,
     BaseUser? subRegionalHead2,
     BaseUser? epManager1,
@@ -150,7 +149,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     BaseUser? locationSecurityManager1,
     BaseUser? locationSecurityManager2,
     BaseUser? epOfficers,
-    Department? proposedVendor,
+    Organisation? proposedVendor,
   }) async {
     emit(
       state.copyWith(

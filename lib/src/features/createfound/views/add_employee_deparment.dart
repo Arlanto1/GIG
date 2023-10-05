@@ -15,12 +15,18 @@ import 'package:flutter/material.dart';
 import '../../lawenforcement/controllers/law_enforcement_state.dart';
 
 class AddEmployeeDepartment extends StatefulWidget {
-  AddEmployeeDepartment(
-      {super.key, required this.title, this.lawstate, this.createoundstate,this.createpassmgmtstate});
+  const AddEmployeeDepartment({
+    super.key,
+    required this.title,
+    this.lawState,
+    this.createFoundState,
+    this.createPassMgmtState,
+  });
+
   final String title;
-  LawEnforcementState? lawstate;
-  CreateFoundState? createoundstate;
-  CreatePassMgmtState? createpassmgmtstate;
+  final LawEnforcementState? lawState;
+  final CreateFoundState? createFoundState;
+  final CreatePassMgmtState? createPassMgmtState;
 
   @override
   State<AddEmployeeDepartment> createState() => AddEmployeeDepartmentState();
@@ -39,29 +45,27 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
 
   void _addArticle(String name, String key) async {
     showLoadingDialog(context);
-    if (widget.lawstate != null) {
+    if (widget.lawState != null) {
       await lawenforcementCubit.createOrganisation(
-          name, 'ARTICLE_LIST', context,widget.title);
-    } else if (widget.createoundstate != null) {
+          name, 'ARTICLE_LIST', context, widget.title);
+    } else if (widget.createFoundState != null) {
       await createFoundArticleCubit.createOrganisation(
           name, 'ARTICLE_LIST', context);
-    }
-    else if (widget.createpassmgmtstate != null) {
+    } else if (widget.createPassMgmtState != null) {
       await createpassmgmtCubit.createOrganisation(
-          name, 'ARTICLE_LIST', context,widget.title);
+          name, 'ARTICLE_LIST', context, widget.title);
     }
   }
 
   void _createEmployeeDepartment(String name, String key) async {
     showLoadingDialog(context);
-    if (widget.lawstate != null) {
+    if (widget.lawState != null) {
       await lawenforcementCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
-    } else if (widget.createoundstate != null) {
+    } else if (widget.createFoundState != null) {
       await createFoundArticleCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
-    }
-    else if (widget.createpassmgmtstate != null) {
+    } else if (widget.createPassMgmtState != null) {
       await createpassmgmtCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     }
