@@ -130,6 +130,7 @@ class GuardingMasterDataDetailsCubit
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
       state.guardingMasterData.entrySecurity = loggedInUserDetails;
 
+      log('-departments-length-----${departments.employeeDepartments?.length}--');
       log('-guardRank--${state.guardingMasterData.guardRank}----');
 
       List<String> participationDates = Utils().splitStringAfterComma(

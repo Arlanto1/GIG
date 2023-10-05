@@ -146,6 +146,7 @@ class Constants {
   static const String dateofcreation = 'Date of Creation';
   static const String assetype = 'Asset Type';
   static const String founddate = 'Found Date';
+  static const String articlename = 'Article Name';
   static const String handedoverdate = 'Handed over Date';
   static const String isdepositordbemployee = 'Is Depositor DBEmployee';
   static const String createdby = 'Created By';

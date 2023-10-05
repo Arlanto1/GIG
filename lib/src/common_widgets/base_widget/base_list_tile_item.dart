@@ -98,7 +98,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
   List<Widget> getChildren(List<Label>? labels, width) {
     List<Widget> widgets = [];
 
-    log('--width------$width-------tab--${width * .78}---------------${width / 2}-');
+    // log('--width------$width-------tab--${width * .78}---------------${width / 2}-');
 
     widgets = [
       Container(

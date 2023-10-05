@@ -18,24 +18,26 @@ class BaseDepartmentDialog {
     required Function onTap,
   }) {
     return showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomListTexts(
-              duplicateemployeeDepartments: departments,
-              leftimagename: AppIcon.addicon,
-              onLeftButtonTap: () {
-                Navigator.pop(context);
-                showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (BuildContext dialogContext) {
-                      return AddEmployeeDepartment(
-                        title: '',
-                      );
-                    });
-              },
-              onTap: onTap);
-        });
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return CustomListTexts(
+          duplicateatomCompanyTypes: departments,
+          leftImageName: AppIcon.addicon,
+          onLeftButtonTap: () {
+            Navigator.pop(context);
+            showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (BuildContext dialogContext) {
+                  return const AddEmployeeDepartment(
+                    title: '',
+                  );
+                });
+          },
+          onTap: onTap,
+        );
+      },
+    );
   }
 
   /// Customer Dialog with Email
@@ -44,31 +46,30 @@ class BaseDepartmentDialog {
     List<BaseUser>? users,
     List<Entity>? entities,
     required Function onTap,
-    bool enabled= true,
-
+    bool enabled = true,
   }) {
     showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-
-
-          log('-enabled--$enabled-');
-          return CustomListTexts(
-              duplicatedepostorList: users,
-              duplicateentityList: entities,
-              leftimagename: AppIcon.addicon,
-              onLeftButtonTap: () {
-                Navigator.pop(context);
-                showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (BuildContext dialogContext) {
-                      return CreateFoundNewUser(
-                        title: Constants.createnewuser,
-                      );
-                    });
-              },
-              onTap:enabled? onTap:null);
-        });
+      context: context,
+      builder: (BuildContext dialogContext) {
+        log('-enabled--$enabled-');
+        return CustomListTexts(
+          duplicateDepostorList: users,
+          duplicateEntityList: entities,
+          leftImageName: AppIcon.addicon,
+          onLeftButtonTap: () {
+            Navigator.pop(context);
+            showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (BuildContext dialogContext) {
+                  return CreateFoundNewUser(
+                    title: Constants.createnewuser,
+                  );
+                });
+          },
+          onTap: enabled ? onTap : null,
+        );
+      },
+    );
   }
 }

@@ -1600,7 +1600,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             duplicatedayPassReason: state.dayPassReason?.dayPassReason ?? [],
-            leftimagename: widget.passId == '0' || widget.passId == '2'
+            leftImageName: widget.passId == '0' || widget.passId == '2'
                 ? AppIcon.addicon
                 : null,
             onLeftButtonTap: () {
@@ -1870,9 +1870,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicateemployeeDepartments:
+            duplicateEmployeeDepartments:
                 state.employeeDepartment?.employeeDepartments ?? [],
-            leftimagename: AppIcon.addicon,
+            leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
@@ -1919,7 +1919,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           return CustomListTexts(
             duplicateatomCompanyTypes:
                 state.companyTypes?.atomCompanyTypes ?? [],
-            leftimagename: AppIcon.addicon,
+            leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
@@ -1968,9 +1968,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             //duplicatet1Analyst: state.analyst?.t1Analyst ?? [],
-            duplicatedepostorList:
+            duplicateDepostorList:
                 state.getDepositorResponse?.atomStaticUser ?? [],
-            leftimagename: AppIcon.addicon,
+            leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
@@ -2018,9 +2018,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicatedepostorList: state.getDepositorResponse?.atomStaticUser ??
+            duplicateDepostorList: state.getDepositorResponse?.atomStaticUser ??
                 [], //state.analyst?.t1Analyst ?? [],
-            leftimagename: AppIcon.addicon,
+            leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
@@ -2068,9 +2068,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             //duplicatet1Analyst:
-            duplicatedepostorList: state.getDepositorResponse?.atomStaticUser ??
+            duplicateDepostorList: state.getDepositorResponse?.atomStaticUser ??
                 [], //state.analyst?.t1Analyst ?? [],
-            leftimagename: AppIcon.addicon,
+            leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(

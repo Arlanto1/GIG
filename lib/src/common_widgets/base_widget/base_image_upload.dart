@@ -69,7 +69,7 @@ class BaseImageUpload {
     List<CreateImage>? attachments,
     required bool showDownloadIcon,
   }) {
-    log('----attachments-----${attachments?.length}-----------');
+    // log('----attachments-----${attachments?.length}-----------');
     if (attachments != null) {
       return Column(
         children: [

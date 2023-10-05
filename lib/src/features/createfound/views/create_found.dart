@@ -670,9 +670,9 @@ class _CreateFoundState extends State<CreateFound> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicatearticleList:
+            duplicateArticleList:
                 state.getArticleTypeResponse?.articleList ?? [],
-            leftimagename: AppIcon.addicon,
+            leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
@@ -740,9 +740,9 @@ class _CreateFoundState extends State<CreateFound> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicatedepostorList:
+            duplicateDepostorList:
                 state.getDepositorResponse?.atomStaticUser ?? [],
-            leftimagename: AppIcon.addicon,
+            leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
@@ -773,9 +773,9 @@ class _CreateFoundState extends State<CreateFound> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicateemployeeDepartments:
+            duplicateEmployeeDepartments:
                 state.getEmployeeDepartmentsResponse?.employeeDepartments ?? [],
-            leftimagename: AppIcon.addicon,
+            leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(

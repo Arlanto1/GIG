@@ -1055,9 +1055,9 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicatedepostorList:
+            duplicateDepostorList:
             state.getDepositorResponse?.atomStaticUser ?? [],
-            leftimagename: AppIcon.addicon,
+            leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
@@ -1294,9 +1294,9 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicateleopurposevisits:
+            duplicateLeoPurposeVisits:
             state.getLeopurposeResponse?.atomLeoPurposeVisit ?? [],
-            leftimagename: AppIcon.addicon,
+            leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
@@ -1322,9 +1322,9 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicateemployeeDepartments:
+            duplicateEmployeeDepartments:
             state.employeeDepartment?.employeeDepartments ?? [],
-            leftimagename: AppIcon.addicon,
+            leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
@@ -1350,9 +1350,9 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicateleodepartments:
+            duplicateLeoDepartments:
             state.getLeodepartmentsResponse?.atomLeoDepartments ?? [],
-            leftimagename: AppIcon.addicon,
+            leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
