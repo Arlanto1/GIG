@@ -8,8 +8,8 @@ class Organisation {
   });
 
   Organisation.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        name = json['name'] as String?;
+      : id = json['id'] ?? json['Id'] as int?,
+        name = json['name'] ?? json['Name'] as String?;
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name};
 }
