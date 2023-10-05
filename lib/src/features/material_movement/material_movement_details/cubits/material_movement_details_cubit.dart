@@ -34,13 +34,13 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   final bool? isInward;
   final bool? returnable;
 
-  MaterialMovementDetailsCubit({
-    required this.materialMovementServices,
-    required this.commonServices,
-    this.model,
-    this.isInward,
-    this.returnable
-  }) : super(
+  MaterialMovementDetailsCubit(
+      {required this.materialMovementServices,
+      required this.commonServices,
+      this.model,
+      this.isInward,
+      this.returnable})
+      : super(
           MaterialMovementDetailsState.initial(
               model: model ?? MaterialMovementModel(),
               locations: GetLocations(),
@@ -142,7 +142,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         status: FormStatus.loading,
       ),
     );
-   // Get Sl No from API
+    // Get Sl No from API
     if (location != null && isInward == true) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
@@ -151,17 +151,19 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.materialMovement.location = location;
       state.materialMovement.slNo = slNo.serialNo;
     }
-    if (location != null && isInward == false && state.materialMovement.returnable == true) {
+    if (location != null &&
+        isInward == false &&
+        state.materialMovement.returnable == true) {
       SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.materialMovementOutwardReturnableModule
-      );
+          locationId: location.id.toString(),
+          moduleCode: Constants.materialMovementOutwardReturnableModule);
       state.materialMovement.location = location;
       state.materialMovement.slNo = slNo.serialNo;
     }
 
-    if (location != null  && isInward ==false && state.materialMovement.returnable == false
-    ) {
+    if (location != null &&
+        isInward == false &&
+        state.materialMovement.returnable == false) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
         moduleCode: Constants.materialMovementOutwardNonReturnableModule,
