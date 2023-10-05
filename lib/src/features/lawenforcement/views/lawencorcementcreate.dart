@@ -42,9 +42,9 @@ import '../../../models/entry_security.dart';
 import '../../../models/organisation.dart';
 
 class CreateLawEnforcement extends StatefulWidget {
-  LawEnforcementDetails? listUser;
+  final LawEnforcementDetails? listUser;
 
-  CreateLawEnforcement({super.key, this.listUser});
+  const CreateLawEnforcement({super.key, this.listUser});
 
   @override
   State<CreateLawEnforcement> createState() => _CreateLawEnforcementState();
@@ -186,7 +186,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                               BorderRadius.vertical(top: Radius.circular(20.0)),
                         )),
                     child: AbsorbPointer(
-                      absorbing: widget.listUser?.status == 3,
+                      absorbing: widget.listUser?.status == 3 ||
+                          widget.listUser?.status == 1,
                       child: Form(
                         key: lawenforcementFormKey,
                         child: Column(
@@ -1614,13 +1615,13 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
           entities: entities,
-          additionalInformation: additionalinformationTextController.text ?? '',
+          additionalInformation: additionalinformationTextController.text,
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
               ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
               : '',
-          dbOfficialEmail: dbofficailwanttimeetTextController.text ?? '',
+          dbOfficialEmail: dbofficailwanttimeetTextController.text,
           visitPurpose: visitPurpose,
           mailList: loadGroups);
     } else {
@@ -1636,7 +1637,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
           entities: entities,
-          additionalInformation: additionalinformationTextController.text ?? '',
+          additionalInformation: additionalinformationTextController.text,
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
