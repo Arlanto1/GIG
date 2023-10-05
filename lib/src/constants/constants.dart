@@ -7,7 +7,9 @@ import '../common_widgets/base_widget/base_list_tile_item.dart';
 
  class Constants {
   /// Module Codes
-  static const String materialMovementInwardNonReturnableModule = 'MMINN';
+  static const String materialMovementInwardReturnableModule = 'MMINN';
+  static const String materialMovementOutwardReturnableModule = 'MMOUTY';
+  static const String materialMovementOutwardNonReturnableModule = 'MMOUTN';
   static const String guardingMasterDataModule = 'GM';
   static const String guardingRatesModule = 'GR';
 
@@ -149,7 +151,7 @@ import '../common_widgets/base_widget/base_list_tile_item.dart';
   static const String createdby = 'Created By';
   static const String itemhandoverby = 'Item Handover By';
   static const String slno = 'Sl No.';
-  static const String articlename = 'Article Name';
+  static const String articleType = 'Article Type';
   static const String depositor = 'Depositor';
   static const String employeedepartment = 'Employee Department';
   static const String claimantdepartment = 'Claimant Department';
