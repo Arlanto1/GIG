@@ -636,7 +636,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           .departmentDialog(
                                         context: context,
                                         departments: state.departments,
-                                        onTap: (Department department) {
+                                        onTap: (Organisation department) {
                                           state.materialMovement
                                               .requestorDepartment?.name =
                                               department.name;
@@ -919,7 +919,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           .departmentDialog(
                                         context: context,
                                         departments: state.departments,
-                                        onTap: (Department department) {
+                                        onTap: (Organisation department) {
                                           state.materialMovement
                                               .approver1Department?.name =
                                               department.name;
@@ -1034,7 +1034,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           .departmentDialog(
                                         context: context,
                                         departments: state.departments,
-                                        onTap: (Department department) {
+                                        onTap: (Organisation department) {
                                           state.materialMovement
                                               .approver2Department?.name =
                                               department.name;
@@ -1470,7 +1470,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           .departmentDialog(
                                         context: context,
                                         departments: state.departments,
-                                        onTap: (Department department) {
+                                        onTap: (Organisation department) {
                                           state.materialMovement
                                               .receiverDepartmenttName =
                                               department.name;
@@ -1888,8 +1888,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   Widget locationWidgetdislay(MaterialMovementDetailsState state) {
     return GestureDetector(
       onTap: () {
-        if (widget.materialMovement == null ||
-            (state.materialMovement.location?.name ?? '').isEmpty) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
@@ -1925,7 +1923,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
               );
             },
           );
-        }
+
       },
       child: SelectedTileValueWidget(
           name: state.materialMovement.location?.name ?? ''),
