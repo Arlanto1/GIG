@@ -18,9 +18,8 @@ import 'package:equatable/equatable.dart';
 import '../../../../constants/constants.dart';
 import '../../../../enums/form_status.dart';
 import '../../../../models/base_user.dart';
-import '../../../../models/department.dart';
 import '../../../../models/entry_security.dart';
-import '../../../../models/location.dart';
+import '../../../../models/organisation.dart';
 import '../../../../models/responseModels/error_response_validation.dart';
 import '../../../../models/responseModels/generic_creat_response.dart';
 import '../../../createfound/models/emplyee_departments_model.dart';
@@ -124,17 +123,17 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   }
 
   Future<void> updateDropdownValues({
-    Location? location,
+    Organisation? location,
     BaseUser? user,
     BaseUser? receiverEmailUser,
     BaseUser? requesterEmailUser,
     BaseUser? approver1EmailUser,
     BaseUser? approver2EmailUser,
-    Department? requesterDepartment,
-    Department? preparedByDepartment,
-    Department? approver1Department,
-    Department? approver2Department,
-    Department? receiverDepartment,
+    Organisation? requesterDepartment,
+    Organisation? preparedByDepartment,
+    Organisation? approver1Department,
+    Organisation? approver2Department,
+    Organisation? receiverDepartment,
     QuantityUnit? quantityUnit,
     bool? isReturnable,
   }) async {

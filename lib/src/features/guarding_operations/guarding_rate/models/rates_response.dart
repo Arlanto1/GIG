@@ -1,8 +1,6 @@
-import '../../../../models/department.dart';
 import '../../../../models/entity.dart';
 import '../../../../models/entry_security.dart';
-import '../../../../models/location.dart';
-import '../../../../models/location_region.dart';
+import '../../../../models/organisation.dart';
 
 class RatesResponse {
   List<GMRate>? items;
@@ -36,14 +34,14 @@ class RatesResponse {
 class GMRate {
   int? id;
   String? slNo;
-  Location? location;
-  LocationRegion? locationRegion;
+  Organisation? location;
+  Organisation? locationRegion;
   EntrySecurity? entrySecurity;
   List<Entity>? entities;
   String? inputDate;
   // num? modifiedDate;
   String? modifiedBy;
-  Department? vendor;
+  Organisation? vendor;
   List<PayRate>? securityGuardRates;
   List<PayRate>? securityOfficerRates;
   List<PayRate>? securitySupervisorRates;
@@ -74,11 +72,11 @@ class GMRate {
       : id = json['id'] as int?,
         slNo = json['slNo'] as String?,
         location = (json['location'] as Map<String, dynamic>?) != null
-            ? Location.fromJson(json['location'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
             : null,
         locationRegion =
             (json['locationRegion'] as Map<String, dynamic>?) != null
-                ? LocationRegion.fromJson(
+                ? Organisation.fromJson(
                     json['locationRegion'] as Map<String, dynamic>)
                 : null,
         entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
@@ -92,7 +90,7 @@ class GMRate {
         // modifiedDate = json['modifiedDate'] as num?,
         modifiedBy = json['modifiedBy'] as String?,
         vendor = (json['vendor'] as Map<String, dynamic>?) != null
-            ? Department.fromJson(json['vendor'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['vendor'] as Map<String, dynamic>)
             : null,
         securityGuardRates = (json['securityGuardRates'] as List?)
             ?.map((dynamic e) => PayRate.fromJson(e as Map<String, dynamic>))
@@ -216,7 +214,7 @@ class RoleExtensions {
 class PayRate {
   int? id;
   num? rankId;
-  Department? vendor;
+  Organisation? vendor;
   num? days;
   double? perHour;
   num? total;
@@ -240,7 +238,7 @@ class PayRate {
       : id = json['id'] as int?,
         rankId = json['rankId'] as num?,
         vendor = (json['vendor'] as Map<String, dynamic>?) != null
-            ? Department.fromJson(json['vendor'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['vendor'] as Map<String, dynamic>)
             : null,
         days = json['days'] as num?,
         perHour = json['perHour'] as double?,

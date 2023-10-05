@@ -13,13 +13,13 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 
 import '../models/base_user.dart';
-import '../models/department.dart';
 import '../models/entity.dart';
 
 class CustomListTexts extends StatefulWidget {
@@ -42,7 +42,7 @@ class CustomListTexts extends StatefulWidget {
       this.duplicateactivePassInfoList,
       this.duplicateQuantityUnitList});
   final String? imagename;
-  List<Department>? duplicateemployeeDepartments;
+  List<Organisation>? duplicateemployeeDepartments;
   List<ArticleList>? duplicatearticleList;
   List<Entity>? duplicateentityList;
   List<BaseUser>? duplicatedepostorList;
@@ -52,7 +52,7 @@ class CustomListTexts extends StatefulWidget {
   final Function? onLeftButtonTap;
   final String? leftimagename;
   List<DistributionGroup>? duplicateloadGroups;
-  List<AtomCompanyType>? duplicateatomCompanyTypes;
+  List<Organisation>? duplicateatomCompanyTypes;
   List<DayPassReasonElement>? duplicatedayPassReason;
   List<BaseUser>? duplicatet1Analyst;
   List<ActivePassInfoList>? duplicateactivePassInfoList;
@@ -67,24 +67,19 @@ class CustomListTextsState extends State<CustomListTexts> {
   final _formKey = GlobalKey<FormState>();
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
-  List<Department> employeeDepartments = [];
+  List<Organisation> employeeDepartments = [];
   List<ArticleList> articleList = [];
   List<Entity> entityList = [];
   List<BaseUser> depostorList = [];
   List<AtomLeoDepartment> leodepartments = [];
   List<AtomLeoPurposeVisit> leopurposevisits = [];
   List<DistributionGroup> loadGroups = [];
-  List<AtomCompanyType> companyTypes = [];
+  List<Organisation> companyTypes = [];
   List<DayPassReasonElement> dayPassReason = [];
   List<BaseUser> t1analysts = [];
   List<ActivePassInfoList> activePassInfoList = [];
   List<QuantityUnit> quantityUnitList = [];
 
-  // List<ArticleList>? articleList;
-  // List<AtomEntity>? entityList;
-  // List<AtomStaticUser>? depostorList;
-  // List<AtomLeoDepartment>? leodepartments;
-  // List<AtomLeoPurposeVisit>? leopurposevisits;
   @override
   void initState() {
     // TODO: implement initState
@@ -94,9 +89,6 @@ class CustomListTextsState extends State<CustomListTexts> {
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
-    // final height = size.height;
-    // final width = size.width;
     return AlertDialog(
       icon: widget.leftimagename != null
           ? Row(
@@ -480,7 +472,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                                   : widget.duplicateloadGroups?.length ),
           itemBuilder: (BuildContext context, int index) {
             if (widget.duplicateemployeeDepartments != null) {
-              Department? drawerItem;
+              Organisation? drawerItem;
               if ((_searchCtrl.text.length > 0 &&
                   employeeDepartments.isNotEmpty)) {
                 drawerItem = employeeDepartments[index];
@@ -798,7 +790,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                   ));
             }
             else if (widget.duplicateatomCompanyTypes != null) {
-              AtomCompanyType? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.length > 0 && companyTypes.isNotEmpty)) {
                 articleItem = companyTypes[index];
               } else {

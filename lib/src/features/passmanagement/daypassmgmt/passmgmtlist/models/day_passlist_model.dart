@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:db_atom/src/features/createfound/models/user.dart';
 
-import '../../../../../models/location.dart';
+import '../../../../../models/organisation.dart';
 
 DayPassListResponse dayPassListResponseFromJson(String str) => DayPassListResponse.fromJson(json.decode(str));
 
@@ -40,10 +40,10 @@ class DayPassListElement {
     int? id;
     String? slNo;
     String? inputDate;
-    Location? location;
-    Location? vendorPassReason;
-    Location? locationRegion;
-    List<Location>? entities;
+    Organisation? location;
+    Organisation? vendorPassReason;
+    Organisation? locationRegion;
+    List<Organisation>? entities;
     int? status;
     String? modifiedDate;
     String? modifiedBy;
@@ -51,15 +51,15 @@ class DayPassListElement {
     User? entrySecurity;
     User? handoverSecurity;
     int? passType;
-    Location? companyType;
+    Organisation? companyType;
     String? companyName;
     String? employeeName;
     String? employeeId;
     String? email;
     User? host;
     String? hostEmployeeId;
-    Location? department;
-    Location? dayPassReason;
+    Organisation? department;
+    Organisation? dayPassReason;
     bool? exceptionalApproval;
     PassInfo? passInfo;
     String? startTime;
@@ -137,10 +137,10 @@ class DayPassListElement {
         id: json["id"],
         slNo: json["slNo"],
         inputDate: json["inputDate"],
-        location: json["location"] == null ? null : Location.fromJson(json["location"]),
-        locationRegion: json["locationRegion"] == null ? null : Location.fromJson(json["locationRegion"]),
-        vendorPassReason: json["vendorPassReason"] == null ? null : Location.fromJson(json["vendorPassReason"]),
-        entities: json["entities"] == null ? [] : List<Location>.from(json["entities"]!.map((x) => Location.fromJson(x))),
+        location: json["location"] == null ? null : Organisation.fromJson(json["location"]),
+        locationRegion: json["locationRegion"] == null ? null : Organisation.fromJson(json["locationRegion"]),
+        vendorPassReason: json["vendorPassReason"] == null ? null : Organisation.fromJson(json["vendorPassReason"]),
+        entities: json["entities"] == null ? [] : List<Organisation>.from(json["entities"]!.map((x) => Organisation.fromJson(x))),
         status: json["status"],
         modifiedDate: json["modifiedDate"],
         modifiedBy: json["modifiedBy"],
@@ -148,15 +148,15 @@ class DayPassListElement {
         entrySecurity: json["entrySecurity"] == null ? null : User.fromJson(json["entrySecurity"]),
         handoverSecurity: json["handoverSecurity"] == null ? null : User.fromJson(json["handoverSecurity"]),
         passType: json["passType"],
-        companyType: json["companyType"] == null ? null : Location.fromJson(json["companyType"]),
+        companyType: json["companyType"] == null ? null : Organisation.fromJson(json["companyType"]),
         companyName: json["companyName"],
         employeeName: json["employeeName"],
         employeeId: json["employeeId"],
         email: json["email"],
         host: json["host"] == null ? null : User.fromJson(json["host"]),
         hostEmployeeId: json["hostEmployeeId"],
-        department: json["department"] == null ? null : Location.fromJson(json["department"]),
-        dayPassReason: json["dayPassReason"] == null ? null : Location.fromJson(json["dayPassReason"]),
+        department: json["department"] == null ? null : Organisation.fromJson(json["department"]),
+        dayPassReason: json["dayPassReason"] == null ? null : Organisation.fromJson(json["dayPassReason"]),
         exceptionalApproval: json["exceptionalApproval"],
         passInfo: json["passInfo"] == null ? null : PassInfo.fromJson(json["passInfo"]),
         startTime: json["startTime"],
@@ -365,9 +365,9 @@ class PassInfo {
     String? passNo;
     String? mifareNo;
     String? expiryDate;
-    Location? location;
-    Location? region;
-    Location? entity;
+    Organisation? location;
+    Organisation? region;
+    Organisation? entity;
     bool? dws;
     int? status;
 
@@ -390,9 +390,9 @@ class PassInfo {
         passNo: json["passNo"],
         mifareNo: json["mifareNo"],
         expiryDate: json["expiryDate"],
-        location: json["location"] == null ? null : Location.fromJson(json["location"]),
-        region: json["region"] == null ? null : Location.fromJson(json["region"]),
-        entity: json["entity"] == null ? null : Location.fromJson(json["entity"]),
+        location: json["location"] == null ? null : Organisation.fromJson(json["location"]),
+        region: json["region"] == null ? null : Organisation.fromJson(json["region"]),
+        entity: json["entity"] == null ? null : Organisation.fromJson(json["entity"]),
         dws: json["dws"],
         status: json["status"],
     );

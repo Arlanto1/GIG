@@ -1,26 +1,10 @@
 import 'dart:convert';
 
-CreateOrganisation createOrganisationFromJson(String str) =>
-    CreateOrganisation.fromJson(json.decode(str));
+import '../../../models/organisation.dart';
 
-String createOrganisationToJson(CreateOrganisation data) => json.encode(data.toJson());
+Organisation createOrganisationFromJson(String str) =>
+    Organisation.fromJson(json.decode(str));
 
-class CreateOrganisation {
-  int? id;
-  String? name;
+String createOrganisationToJson(Organisation data) => json.encode(data.toJson());
 
-  CreateOrganisation({
-    this.id,
-    this.name,
-  });
 
-  factory CreateOrganisation.fromJson(Map<String, dynamic> json) => CreateOrganisation(
-        id: json["Id"],
-        name: json["Name"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "Id": id,
-        "Name": name,
-      };
-}

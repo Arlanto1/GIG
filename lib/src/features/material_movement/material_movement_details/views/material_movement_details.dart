@@ -35,9 +35,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../common_widgets/base_widget/date_picker_dialog.dart';
 import '../../../../enums/form_status.dart';
 import '../../../../models/base_user.dart';
-import '../../../../models/department.dart';
 import '../../../../models/entry_security.dart';
-import '../../../../models/location.dart';
+import '../../../../models/organisation.dart';
 import '../../../../utils/customalert.dart';
 
 class MaterialMovementDetails extends StatefulWidget {
@@ -805,7 +804,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                 .departmentDialog(
                                               context: context,
                                               departments: state.departments,
-                                              onTap: (Department department) {
+                                              onTap: (Organisation department) {
                                                 state
                                                     .materialMovement
                                                     .preparedByDepartment
@@ -1900,7 +1899,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                 onTap: (Mumbai? list) async {
                   log('list?.name-----${list?.name}');
 
-                  Location location = Location();
+                  Organisation location = Organisation();
                   location.id = list?.id;
                   location.name = list?.name;
                   state.materialMovement.location = location;

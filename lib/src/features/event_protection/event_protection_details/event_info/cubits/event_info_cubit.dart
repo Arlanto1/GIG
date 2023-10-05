@@ -11,7 +11,6 @@ import 'package:db_atom/src/features/event_protection/services/event_protection_
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/department.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
@@ -21,6 +20,7 @@ import 'package:equatable/equatable.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/entry_security.dart';
+import '../../../../../models/organisation.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
 import '../../../../article_found_register_module/foundlist/models/foundlist_model.dart';

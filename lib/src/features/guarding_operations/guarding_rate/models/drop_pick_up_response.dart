@@ -1,5 +1,4 @@
-import '../../../../models/location.dart';
-import '../../../../models/location_region.dart';
+import '../../../../models/organisation.dart';
 
 class DropPickUpResponse {
   final List<FemaleDropPickUp>? items;
@@ -73,8 +72,8 @@ class FemaleDropPickUp {
 
 class DropPickUp {
   final int? id;
-  final Location? location;
-  final LocationRegion? locationRegion;
+  final Organisation? location;
+  final Organisation? locationRegion;
   final int? status;
   final int? apprvdEscrtStrngth;
   final bool? complntAgnstEscrtGuard;
@@ -90,8 +89,8 @@ class DropPickUp {
 
   DropPickUp.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
-        location = (json['location'] as Map<String,dynamic>?) != null ? Location.fromJson(json['location'] as Map<String,dynamic>) : null,
-        locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? LocationRegion.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
+        location = (json['location'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['location'] as Map<String,dynamic>) : null,
+        locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
         status = json['status'] as int?,
         apprvdEscrtStrngth = json['apprvdEscrtStrngth'] as int?,
         complntAgnstEscrtGuard = json['complntAgnstEscrtGuard'] as bool?;

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/models/entity.dart';
-import 'package:db_atom/src/models/location.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../main_DEV.dart';
@@ -26,7 +26,6 @@ import '../../../../../constants/app_icon.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/base_user.dart';
-import '../../../../../models/department.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../routing/router.dart';
 import '../../../../../utils/app_themes/colors/app_color.dart';
@@ -451,7 +450,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 BaseDepartmentDialog().departmentDialog(
                                   context: context,
                                   departments: state.departments,
-                                  onTap: (Department department) {
+                                  onTap: (Organisation department) {
                                     BlocProvider.of<
                                                 GuardingMasterDataDetailsCubit>(
                                             context)
@@ -2345,7 +2344,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                 onTap: (Mumbai? list) async {
                   log('list?.name-----${list?.name}');
 
-                  Location location = Location();
+                  Organisation location = Organisation();
                   location.id = list?.id;
                   location.name = list?.name;
                   state.guardingMasterData.location = location;

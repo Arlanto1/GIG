@@ -1,4 +1,4 @@
-import '../../../../../models/department.dart';
+import '../../../../../models/organisation.dart';
 import '../../../../material_movement/models/material_movements_model.dart';
 
 class ContactInfoModel {
@@ -54,8 +54,8 @@ class ContactInfoModel {
   String? epOfficers;
   Srh1? srh1;
   Srh2? srh2;
-  Department? bu1Dept;
-  Department? bu2Dept;
+  Organisation? bu1Dept;
+  Organisation? bu2Dept;
   EpManager1? epManager1;
   EpManager2? epManager2;
   String? systemVendor1;
@@ -96,8 +96,8 @@ class ContactInfoModel {
     epOfficers = json['epOfficers'];
     srh1 = Srh1.fromJson(json['srh1']);
     srh2 = Srh2.fromJson(json['srh2']);
-    bu1Dept = Department.fromJson(json['bu1Dept']);
-    bu2Dept = Department.fromJson(json['bu2Dept']);
+    bu1Dept = Organisation.fromJson(json['bu1Dept']);
+    bu2Dept = Organisation.fromJson(json['bu2Dept']);
     systemVendor1 = json['systemVendor1'];
     systemVendor2 = json['systemVendor2'];
     systemVendor3 = json['systemVendor3'];
