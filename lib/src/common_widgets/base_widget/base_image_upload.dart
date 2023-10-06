@@ -74,7 +74,7 @@ class BaseImageUpload {
       return Column(
         children: [
           CommonWidgets.verticalSpacerWidget(height * 0.01),
-          attachmentListviews(
+          _attachmentListviews(
             attachmentListviews: files,
             showDownloadIcon: showDownloadIcon,
           ),
@@ -82,13 +82,14 @@ class BaseImageUpload {
       );
     }
 
-    return Container();
+    return const SizedBox(height: 0,width: 0,);
   }
 
-  Widget attachmentListviews({
+  Widget _attachmentListviews({
     List<CreateImage>? attachmentListviews,
     required bool showDownloadIcon,
   }) {
+    log('---------');
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
