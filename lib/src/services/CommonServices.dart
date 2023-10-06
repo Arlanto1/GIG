@@ -15,14 +15,15 @@ import '../models/entry_security.dart';
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
   static const String v2 = '';
-  // static const String v2 = '/v2/';
+
+  // static const String v2 = '/v2';
 
   static final String _getLocations = '$baseUrl/getOrganisation?name=';
   static final String _getUserDetails = '$baseUrl/getUserDetails?userId=';
   static final String _getSlNo = '$baseUrl/getSlNo?';
   static final String _getUsersByRole = '$baseUrl/getUsersByRole?roleName=';
   static final String _getQuantityUnits =
-      '$baseUrl${v2}getOrganisation?name=ATOM_MATERIAL_MOVEMENT_UNIT';
+      '$baseUrl$v2/getOrganisation?name=ATOM_MATERIAL_MOVEMENT_UNIT';
   static final String _getQualification =
       '$baseUrl${v2}getOrganisation?name=GUARD_QUALIFICATIONS';
   static final String _getUsers = '$baseUrl/getUsers?roleName=ATOM_STATIC_USER';
@@ -125,8 +126,7 @@ class CommonServices {
       url: url,
     );
 
-    return List<User>.from(
-        response.map((x) => User.fromJson(x)));
+    return List<User>.from(response.map((x) => User.fromJson(x)));
     // return [];
   }
 }
