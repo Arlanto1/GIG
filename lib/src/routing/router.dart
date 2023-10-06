@@ -31,6 +31,9 @@ const String generalInfoCIRoute = '/generalInfoCIRoute';
 const String guardInfoRoute = '/guardInfoRoute';
 const String eventInfoRoute = '/eventInfoRoute';
 
+const String incidentManagementRoute = '/incidentManagementRoute';
+
+
 const String otpVerificationRoute = '/otpverification';
 const String forgotPwdScreenRoute = '/forgotPwdScreen';
 const String updatePasswordScreenRoute = '/updatePasswordScreenRoute';
@@ -50,5 +53,6 @@ const String guardingRatesGRIRoute = '/guardingRatesGRIRoute';
 const String payRateRoute = '/payRateRoute';
 const String femaleDropPickUpRoute = '/femaleDropPickUpRoute';
 
+const String slaViolationRoute = '/slaViolationRoute';
 
 
