@@ -1,17 +1,17 @@
 part of 'occurrences_bloc.dart';
 
 class OccurrencesState extends Equatable {
-  final List<Incident> items;
+  final List<Occurrence> items;
   final bool hasReachedMax;
   final FormStatus status;
 
   const OccurrencesState(
-      {this.items = const <Incident>[],
+      {this.items = const <Occurrence>[],
         this.hasReachedMax = false,
         this.status = FormStatus.initial});
 
   OccurrencesState copyWith({
-    List<Incident>? items,
+    List<Occurrence>? items,
     bool? hasReachedMax,
     FormStatus? status,
   }) {
