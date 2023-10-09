@@ -1,3 +1,5 @@
+import '../../../../../models/entry_security.dart';
+import '../../../../../models/history.dart';
 import '../../../../../models/role.dart';
 import '../../../../../models/role_extension.dart';
 import 'day_passlist_model.dart';
@@ -260,102 +262,6 @@ class Entities {
     'name' : name
   };
 }
-
-class History {
-  final int? id;
-  final int? state;
-  final int? action;
-  final String? email;
-  final int? actiontime;
-  final String? parameters;
-
-  History({
-    this.id,
-    this.state,
-    this.action,
-    this.email,
-    this.actiontime,
-    this.parameters,
-  });
-
-  History.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        state = json['state'] as int?,
-        action = json['action'] as int?,
-        email = json['email'] as String?,
-        actiontime = json['actiontime'] as int?,
-        parameters = json['parameters'] as String?;
-
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'state' : state,
-    'action' : action,
-    'email' : email,
-    'actiontime' : actiontime,
-    'parameters' : parameters
-  };
-}
-
-class EntrySecurity {
-  final int? userId;
-  final String? userName;
-  final String? email;
-  final String? firstName;
-  final String? lastName;
-  final String? phone;
-  final List<Role>? roles;
-  final List<RoleExtension>? roleExtensions;
-  final List<dynamic>? notApprovedRoles;
-  final List<dynamic>? notApprovedRoleExtensions;
-  final String? name;
-  final String? userStatus;
-
-  EntrySecurity({
-    this.userId,
-    this.userName,
-    this.email,
-    this.firstName,
-    this.lastName,
-    this.phone,
-    this.roles,
-    this.roleExtensions,
-    this.notApprovedRoles,
-    this.notApprovedRoleExtensions,
-    this.name,
-    this.userStatus,
-  });
-
-  EntrySecurity.fromJson(Map<String, dynamic> json)
-      : userId = json['userId'] as int?,
-        userName = json['userName'] as String?,
-        email = json['email'] as String?,
-        firstName = json['firstName'] as String?,
-        lastName = json['lastName'] as String?,
-        phone = json['phone'] as String?,
-        roles = (json['roles'] as List?)?.map((dynamic e) => Role.fromJson(e as Map<String,dynamic>)).toList(),
-        roleExtensions = (json['roleExtensions'] as List?)?.map((dynamic e) => RoleExtension.fromJson(e as Map<String,dynamic>)).toList(),
-        notApprovedRoles = json['notApprovedRoles'] as List?,
-        notApprovedRoleExtensions = json['notApprovedRoleExtensions'] as List?,
-        name = json['name'] as String?,
-        userStatus = json['userStatus'] as String?;
-
-  Map<String, dynamic> toJson() => {
-    'userId' : userId,
-    'userName' : userName,
-    'email' : email,
-    'firstName' : firstName,
-    'lastName' : lastName,
-    'phone' : phone,
-    'roles' : roles?.map((e) => e.toJson()).toList(),
-    'roleExtensions' : roleExtensions?.map((e) => e.toJson()).toList(),
-    'notApprovedRoles' : notApprovedRoles,
-    'notApprovedRoleExtensions' : notApprovedRoleExtensions,
-    'name' : name,
-    'userStatus' : userStatus
-  };
-}
-
-
 
 
 class HandoverSecurity {

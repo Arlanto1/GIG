@@ -4,8 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
-
 FoundListModel foundListModelFromJson(String str) => FoundListModel.fromJson(json.decode(str));
 
 String foundListModelToJson(FoundListModel data) => json.encode(data.toJson());

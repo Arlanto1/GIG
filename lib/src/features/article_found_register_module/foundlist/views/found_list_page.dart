@@ -1,7 +1,5 @@
 // Created by Ramesh
 
-import 'dart:developer';
-
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';

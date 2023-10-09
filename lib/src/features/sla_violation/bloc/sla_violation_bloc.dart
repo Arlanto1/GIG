@@ -4,10 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../enums/form_status.dart';
 import '../../event_protection/models/event_protection_model.dart';
 import '../../event_protection/services/event_protection_services.dart';
-import '../../law_enforcement_list/controllers/law_enforcement_list_state.dart';
-
 
 part 'sla_violation_event.dart';
 part 'sla_violation_state.dart';
@@ -31,7 +30,7 @@ class SLAViolationBloc
     try {
       if (state.hasReachedMax) return;
 
-      if (state.status == LawEnforcementListStateType.initial) {
+      if (state.status == FormStatus.initial) {
         EventProtectionResponse response =
         await _services.getEventProtections(
           startPosition: '${event.startPos}',
@@ -43,7 +42,7 @@ class SLAViolationBloc
           state.copyWith(
             items: response.items,
             hasReachedMax: false,
-            status: LawEnforcementListStateType.success,
+            status: FormStatus.success,
           ),
         );
       }
@@ -65,7 +64,7 @@ class SLAViolationBloc
         ),
       );
     } catch (e) {
-      return emit(state.copyWith(status: LawEnforcementListStateType.failure));
+      return emit(state.copyWith(status: FormStatus.failure));
     }
   }
 }

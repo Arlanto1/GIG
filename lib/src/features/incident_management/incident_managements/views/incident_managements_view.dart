@@ -5,13 +5,13 @@ import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../utils/util.dart';
+import '../../../../enums/form_status.dart';
+import '../../../../utils/util.dart';
 import '../bloc/incident_management_bloc.dart';
 
 class IncidentManagementsView extends StatefulWidget {
@@ -80,7 +80,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
           onPressed: () => {
             Navigator.pushNamed(
               context,
-              eventProtectionDetailsTabRoute,
+              incidentManagementDetailsRoute,
             )
           },
         ),
@@ -94,7 +94,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
         ),
         body: BlocBuilder<IncidentManagementsBloc, IncidentManagementsState>(
             builder: (context, state) {
-          if (state.status == LawEnforcementListStateType.initial) {
+          if (state.status == FormStatus.initial) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -187,10 +187,9 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
   getId({required int id, required int eventStatus}) async {
     Navigator.pushNamed(
       context,
-      eventProtectionDetailsTabRoute,
+      incidentManagementDetailsRoute,
       arguments: {
         'id': id.toString(),
-        'eventStatus': eventStatus,
       },
     );
   }

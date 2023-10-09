@@ -9,6 +9,8 @@ import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../enums/form_status.dart';
+
 class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
   final LawEnforcementListServices lawEnforcementListServices;
 
@@ -17,7 +19,7 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
   }) : super(
           LawEnforcementListState(
             lawEnforcementListModel: LawEnforcementListResponse(),
-            stateType: LawEnforcementListStateType.initial,
+            stateType: FormStatus.initial,
           ),
         );
 
@@ -40,7 +42,7 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
       emit(
         state.copyWith(
           lawEnforcementListModel: foundListModelResponse,
-          stateType: LawEnforcementListStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
@@ -52,7 +54,7 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
         emit(
           state.copyWith(
             errorMessage: Constants.errorText,
-            stateType: LawEnforcementListStateType.failure,
+            stateType: FormStatus.failure,
           ),
         );
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
@@ -72,7 +74,7 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
       emit(
         state.copyWith(
           lawEnforcementDetails: foundArticleDetailsResponse,
-          stateType: LawEnforcementListStateType.success,
+          stateType: FormStatus.success,
         ),
       );
       return foundArticleDetailsResponse;

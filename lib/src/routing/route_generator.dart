@@ -24,7 +24,7 @@ import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_
     as guarding;
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
-import 'package:db_atom/src/features/incident_managements/bloc/incident_management_bloc.dart'
+import 'package:db_atom/src/features/incident_management/incident_managements/bloc/incident_management_bloc.dart'
     as im;
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/law_enforcement_list/views/ln_list_page.dart';
@@ -33,10 +33,12 @@ import 'package:db_atom/src/features/login/views/forgot_pwd_screen.dart';
 import 'package:db_atom/src/features/login/views/login_screen.dart';
 import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
 import 'package:db_atom/src/features/login/views/reset_password_screen.dart';
-import 'package:db_atom/src/features/occurrence/incident_managements/bloc/occurrences_bloc.dart' as ob;
+import 'package:db_atom/src/features/occurrence/occurrences//bloc/occurrences_bloc.dart'
+    as ob;
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
-import 'package:db_atom/src/features/sla_violation/bloc/sla_violation_bloc.dart' as sv;
+import 'package:db_atom/src/features/sla_violation/bloc/sla_violation_bloc.dart'
+    as sv;
 import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,7 +62,10 @@ import '../features/guarding_operations/guarding_rate/guarding_rate_details/pay_
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/guarding_rate_details.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/rates_info.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates.dart';
-import '../features/incident_managements/views/incident_managements_view.dart';
+import '../features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart';
+import '../features/incident_management/incident_details/general_info/views/incident_general_info_view.dart';
+import '../features/incident_management/incident_managements/services/incident_management_services.dart';
+import '../features/incident_management/incident_managements/views/incident_managements_view.dart';
 import '../features/login/bloc/login_bloc.dart';
 import '../features/login/services/login_services.dart';
 import '../features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
@@ -69,7 +74,7 @@ import '../features/material_movement/material_movements/bloc/material_movement_
 import '../features/material_movement/material_movements/views/material_movements.dart';
 import '../features/material_movement/models/material_movements_model.dart';
 import '../features/material_movement/services/material_movement_services.dart';
-import '../features/occurrence/incident_managements/views/occurrences_view.dart';
+import '../features/occurrence/occurrences///views/occurrences_view.dart';
 import '../features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart';
 import '../features/passmanagement/daypassregister/views/day_pass_info_list_page.dart';
 import '../features/sla_violation/views/sla_violation_view.dart';
@@ -248,6 +253,24 @@ class RouteGenerator {
           ),
         );
 
+      case incidentManagementDetailsRoute:
+        String id = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          id = arguments['id'];
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<IncidentGeneralInfoCubit>(
+            create: (_) => IncidentGeneralInfoCubit(
+              services: IncidentServices(),
+              commonServices: CommonServices(),
+              id: id,
+            ),
+            child: const IncidentGeneralInfoView(),
+          ),
+        );
+
       case slaViolationRoute:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<sv.SLAViolationBloc>(
@@ -313,14 +336,15 @@ class RouteGenerator {
           id = arguments['id'];
         }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<GeneralInfoCubit>(
-                  create: (_) => GeneralInfoCubit(
-                    services: EventProtectionServices(),
-                    commonServices: CommonServices(),
-                    id: id,
-                  ),
-                  child: const GeneralInfoView(),
-                ));
+          builder: (context) => BlocProvider<GeneralInfoCubit>(
+            create: (_) => GeneralInfoCubit(
+              services: EventProtectionServices(),
+              commonServices: CommonServices(),
+              id: id,
+            ),
+            child: const GeneralInfoView(),
+          ),
+        );
 
       case generalInfoCIRoute:
         String id = '';

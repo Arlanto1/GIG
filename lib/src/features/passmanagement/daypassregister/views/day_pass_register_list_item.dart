@@ -1,7 +1,5 @@
 // Created by Ramesh
 
-import 'dart:ffi';
-
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';

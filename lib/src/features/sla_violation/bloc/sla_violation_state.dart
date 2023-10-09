@@ -3,17 +3,17 @@ part of 'sla_violation_bloc.dart';
 class SLAViolationState extends Equatable {
   final List<EventProtectionModel> items;
   final bool hasReachedMax;
-  final LawEnforcementListStateType status;
+  final FormStatus status;
 
   const SLAViolationState(
       {this.items = const <EventProtectionModel>[],
         this.hasReachedMax = false,
-        this.status = LawEnforcementListStateType.initial});
+        this.status = FormStatus.initial});
 
   SLAViolationState copyWith({
     List<EventProtectionModel>? items,
     bool? hasReachedMax,
-    LawEnforcementListStateType? status,
+    FormStatus? status,
   }) {
     return SLAViolationState(
       items: items ?? this.items,

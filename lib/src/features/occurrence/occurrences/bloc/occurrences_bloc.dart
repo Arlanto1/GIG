@@ -2,35 +2,35 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:db_atom/src/enums/form_status.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import '../models/incidents_response.dart';
-import '../services/incident_management_services.dart';
+import '../services/occurrences_services.dart';
 
-part 'incident_management_event.dart';
-part 'incident_management_state.dart';
+part 'occurrences_event.dart';
+part 'occurrences_state.dart';
 
-class IncidentManagementsBloc
-    extends Bloc<IncidentManagementsEvent, IncidentManagementsState> {
+class OccurrencesBloc
+    extends Bloc<OccurrencesEvent, OccurrencesState> {
 
-  IncidentManagementsBloc()
-      : super(const IncidentManagementsState()) {
+  OccurrencesBloc()
+      : super(const OccurrencesState()) {
     on<InwardFetch>(
       _fetchList,
       transformer: droppable(),
     );
   }
 
-  final IncidentServices _services =
-  IncidentServices();
+  final OccurrenceServices _services =
+  OccurrenceServices();
 
   FutureOr<void> _fetchList(
-      InwardFetch event, Emitter<IncidentManagementsState> emit) async {
+      InwardFetch event, Emitter<OccurrencesState> emit) async {
     try {
       if (state.hasReachedMax) return;
 
-      if (state.status == LawEnforcementListStateType.initial) {
+      if (state.status == FormStatus.initial) {
         IncidentsResponse response =
         await _services.getIncidents(
           startPosition: '${event.startPos}',
@@ -42,7 +42,7 @@ class IncidentManagementsBloc
           state.copyWith(
             items: response.items,
             hasReachedMax: false,
-            status: LawEnforcementListStateType.success,
+            status: FormStatus.success,
           ),
         );
       }
@@ -64,7 +64,7 @@ class IncidentManagementsBloc
         ),
       );
     } catch (e) {
-      return emit(state.copyWith(status: LawEnforcementListStateType.failure));
+      return emit(state.copyWith(status: FormStatus.failure));
     }
   }
 }

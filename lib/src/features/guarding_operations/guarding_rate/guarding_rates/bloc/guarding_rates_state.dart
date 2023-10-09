@@ -3,17 +3,17 @@ part of 'guarding_rates_bloc.dart';
  class GuardingRatesState extends Equatable {
    final List<GMRate> items;
    final bool hasReachedMax;
-   final LawEnforcementListStateType status;
+   final FormStatus status;
 
    const GuardingRatesState(
        {this.items = const <GMRate>[],
          this.hasReachedMax = false,
-         this.status = LawEnforcementListStateType.initial});
+         this.status = FormStatus.initial});
 
    GuardingRatesState copyWith({
      List<GMRate>? items,
      bool? hasReachedMax,
-     LawEnforcementListStateType? status,
+     FormStatus? status,
    }) {
      return GuardingRatesState(
        items: items ?? this.items,

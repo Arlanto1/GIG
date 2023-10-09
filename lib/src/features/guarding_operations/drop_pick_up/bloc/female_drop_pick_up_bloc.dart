@@ -6,7 +6,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/drop_pick_up_response.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../law_enforcement_list/controllers/law_enforcement_list_state.dart';
+import '../../../../enums/form_status.dart';
 import '../../guarding_rate/services/guarding_services.dart';
 
 part 'female_drop_pick_up_event.dart';
@@ -27,7 +27,7 @@ class FemaleDropPickUpBloc extends Bloc<FemaleDropPickUpEvent, FemaleDropPickUpS
     try {
       if (state.hasReachedMax) return;
 
-      if (state.status == LawEnforcementListStateType.initial) {
+      if (state.status == FormStatus.initial) {
         DropPickUpResponse response = await _services.getFemaleDropPickUps(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
@@ -38,7 +38,7 @@ class FemaleDropPickUpBloc extends Bloc<FemaleDropPickUpEvent, FemaleDropPickUpS
           state.copyWith(
             items: response.items,
             hasReachedMax: false,
-            status: LawEnforcementListStateType.success,
+            status: FormStatus.success,
           ),
         );
       }
@@ -61,7 +61,7 @@ class FemaleDropPickUpBloc extends Bloc<FemaleDropPickUpEvent, FemaleDropPickUpS
         ),
       );
     } catch (e) {
-      return emit(state.copyWith(status: LawEnforcementListStateType.failure));
+      return emit(state.copyWith(status: FormStatus.failure));
     }
   }
 }

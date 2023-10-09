@@ -32,6 +32,7 @@ const String guardInfoRoute = '/guardInfoRoute';
 const String eventInfoRoute = '/eventInfoRoute';
 
 const String incidentManagementRoute = '/incidentManagementRoute';
+const String incidentManagementDetailsRoute = '/incidentManagementDetailsRoute';
 
 
 const String otpVerificationRoute = '/otpverification';

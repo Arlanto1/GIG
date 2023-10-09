@@ -1,6 +1,7 @@
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 
 import '../../../models/entry_security.dart';
+import '../../../models/history.dart';
 import '../../../models/organisation.dart';
 
 class MaterialMovementsModel {
@@ -413,40 +414,5 @@ class RoleExtensions {
         'rootNodeId': rootNodeId,
         'nodeId': nodeId,
         'accessRight': accessRight
-      };
-}
-
-class History {
-  int? id;
-  int? state;
-  int? action;
-  String? email;
-  int? actiontime;
-  String? parameters;
-
-  History({
-    this.id,
-    this.state,
-    this.action,
-    this.email,
-    this.actiontime,
-    this.parameters,
-  });
-
-  History.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        state = json['state'] as int?,
-        action = json['action'] as int?,
-        email = json['email'] as String?,
-        actiontime = json['actiontime'] as int?,
-        parameters = json['parameters'] as String?;
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'state': state,
-        'action': action,
-        'email': email,
-        'actiontime': actiontime,
-        'parameters': parameters
       };
 }

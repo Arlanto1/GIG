@@ -11,7 +11,7 @@ class Apis {
 
 }
 
-class IncidentServices {
+class OccurrenceServices {
 
   Future<IncidentsResponse> getIncidents({
     required String startPosition,
