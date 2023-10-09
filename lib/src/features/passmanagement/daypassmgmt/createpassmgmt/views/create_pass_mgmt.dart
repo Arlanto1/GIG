@@ -1589,7 +1589,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext context) {
           return CustomSimpleListTexts(
             texts: [
-              "Adhar Card",
+              "Aadhaar Card",
               "Pan Card",
               "Passport",
               "Driving Licence",
