@@ -5,7 +5,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:equatable/equatable.dart';
 
-import '../models/incidents_response.dart';
+import '../models/occurrence_response.dart';
 import '../services/occurrences_services.dart';
 
 part 'occurrences_event.dart';

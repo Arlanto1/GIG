@@ -6,7 +6,7 @@ import 'package:db_atom/src/models/history.dart';
 import 'package:db_atom/src/models/organisation.dart';
 
 class IncidentsResponse {
-  final List<Incident>? items;
+  final List<Occurrence>? items;
   final int? totalCount;
   final int? currentPageNo;
   final int? totalPageCount;
@@ -20,7 +20,7 @@ class IncidentsResponse {
 
   IncidentsResponse.fromJson(Map<String, dynamic> json)
       : items = (json['list'] as List?)
-            ?.map((dynamic e) => Incident.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) => Occurrence.fromJson(e as Map<String, dynamic>))
             .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
@@ -34,7 +34,7 @@ class IncidentsResponse {
       };
 }
 
-class Incident {
+class Occurrence {
   final int? id;
   final String? slNo;
   final String? inputDate;
@@ -118,7 +118,7 @@ class Incident {
   final String? interviewedByName;
   final String? complainantHrName;
 
-  Incident({
+  Occurrence({
     this.id,
     this.slNo,
     this.inputDate,
@@ -203,7 +203,7 @@ class Incident {
     this.complainantHrName,
   });
 
-  Incident.fromJson(Map<String, dynamic> json)
+  Occurrence.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
         slNo = json['slNo'] as String?,
         inputDate = json['inputDate'] as String?,
