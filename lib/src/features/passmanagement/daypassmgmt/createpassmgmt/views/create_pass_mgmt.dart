@@ -480,7 +480,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.01),
 
                                     /// Name
-
                                     widget.passId == "3"
                                         ? CommonWidgets.textDisplay(
                                             Constants.name,
@@ -1361,7 +1360,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
       if (widget.dayPassItem?.idValidationType == 0)
        {
-        photofidentityextController.text = 'Adhar Card';
+        photofidentityextController.text = 'Aadhaar Card';
        }
        else if (widget.dayPassItem?.idValidationType == 1)
        {
@@ -2649,6 +2648,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       Validator().showToast(
         context,
         "Please enter contact no",
+      );
+    }
+    else if (contactnoTextController.text.length != 10) {
+      Validator().showToast(
+        context,
+        "Please enter correct contact no",
       );
     }
      else if (widget.passId == '1' && visitorcomingfromTextController.text.isEmpty) {
