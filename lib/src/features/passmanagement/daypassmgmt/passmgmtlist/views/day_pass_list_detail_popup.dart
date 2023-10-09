@@ -202,11 +202,10 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
               : Container(),
           widget.userItem?.passType != null
               ? Row(
-                  children: [
-                    textHandling('Pass Type: ',
-                        widget.userItem?.passType.toString() ?? " "),
-                  ],
-                )
+            children: [
+              Utils().passManagementPassTypeRow(widget.userItem?.passType ?? 0),
+            ],
+          )
               : Container(),
           widget.userItem?.passType != null
               ? CommonWidgets.verticalSpacerWidget(8)
