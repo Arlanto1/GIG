@@ -1,22 +1,18 @@
-//
-//
-// import '../general_info_model.dart';
-//
-// class GeneralInfoRequest {
-//   GeneralInfoRequest({
-//     required this.eventProtectionGi,
-//   });
-//
-//   late final EventProtectionGi eventProtectionGi;
-//
-//   GeneralInfoRequest.fromJson(Map<String, dynamic> json) {
-//     eventProtectionGi =
-//         EventProtectionGi.fromJson(json['epGi']);
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final _data = <String, dynamic>{};
-//     _data['epGi'] = eventProtectionGi.toJson();
-//     return _data;
-//   }
-// }
+import 'package:db_atom/src/features/incident_management/incident_managements/models/incidents_response.dart';
+import 'package:db_atom/src/features/occurrence/occurrences/models/occurrence_response.dart';
+
+class IncidentGeneralInfoRequest {
+  final Incident? incident;
+
+  IncidentGeneralInfoRequest({
+    this.incident,
+  });
+
+  IncidentGeneralInfoRequest.fromJson(Map<String, dynamic> json)
+      : incident = (json['imGi'] as Map<String,dynamic>?) != null ? Incident.fromJson(json['imGi'] as Map<String,dynamic>) : null;
+
+  Map<String, dynamic> toJson() => {
+    'imGi' : incident?.toJson()
+  };
+}
+

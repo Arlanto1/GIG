@@ -484,6 +484,8 @@ class Constants {
   static const String eventEndDate = 'Event End Date';
   static const String isAnnualPowerShutdown = 'Is Annual Power Shutdown';
 
+  static const String incidentType = 'Incident Type';
+  static const String dbComplainant = 'DB Complainant';
 
 }
 
@@ -566,6 +568,15 @@ List<Label> mSGBFormBSubmittedDropDownValues = const [
   Label(key: 'Yes', value: '1'),
   Label(key: 'No', value: '2'),
   Label(key: 'Under ', value: '3'),
+];
+
+// TODO
+List<Label> incidentTypeValues = const [
+  Label(key: 'Loss', value: '0'),
+  Label(key: 'Damage', value: '1'),
+  Label(key: 'Workplace', value: '2'),
+  Label(key: 'Negligence', value: '3'),
+  Label(key: 'General', value: '4'),
 ];
 
 /// Quill Html Editor

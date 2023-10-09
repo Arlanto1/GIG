@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
@@ -10,12 +8,13 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class CustomExpansionListTexts extends StatefulWidget {
   CustomExpansionListTexts({super.key, this.getLocationsresponse, this.onTap});
+
   GetLocations? getLocationsresponse;
   final Function? onTap;
+
   @override
   State<CustomExpansionListTexts> createState() =>
       CustomExpansionListTextsState();
@@ -64,7 +63,8 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
 
   Widget expansionListWidget() {
     print(widget.getLocationsresponse!.west);
-    if (widget.getLocationsresponse != null && widget.getLocationsresponse!.west != null) {
+    if (widget.getLocationsresponse != null &&
+        widget.getLocationsresponse!.west != null) {
       return Expanded(
           child:
               //FutureBuilder(
@@ -132,7 +132,7 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
                               AppIcon.closeicon) //Icon(Icons.cancel)
                           )),
                 ),
-                // (widget.getLocationsresponse != null && widget.getLocationsresponse!.west != null) 
+                // (widget.getLocationsresponse != null && widget.getLocationsresponse!.west != null)
                 // ? searchWidget() : Container(),
                 expansionListWidget()
               ]),
@@ -144,8 +144,10 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
 
 class MyExpansionTileList extends StatefulWidget {
   MyExpansionTileList(this.response, this.onTap);
+
   GetLocations? response;
   final Function? onTap;
+
   @override
   State<MyExpansionTileList> createState() => MyExpansionTileListState();
 }
@@ -153,6 +155,7 @@ class MyExpansionTileList extends StatefulWidget {
 class MyExpansionTileListState extends State<MyExpansionTileList> {
   int selectedindex = -1;
   String selectedtitle = '';
+
   // List<Widget> _getChildren() {
   //   List<Widget> children = [];
   //   response?.west?.forEach((element) {
@@ -263,7 +266,6 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
 
   _onExpansionSelectItem(
       int index, BuildContext context, List<Mumbai>? items) async {
-
     selectedindex = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
@@ -295,7 +297,6 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
 //   //late Future<http.Response> _responseFuture;
 //   late int _lastSelectedItem = 0;
 //   late int selectedTile = -1;
- 
 
 //   @override
 //   void initState() {
@@ -309,7 +310,7 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
 //   @override
 //   Widget build(BuildContext context) {
 //     _key = PageStorageKey('${widget.id}');
-//     return 
+//     return
 //         Theme(
 //             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
 //             child: Container(
@@ -326,17 +327,17 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
 //                   {
 //                  selectedTile = widget.id;
 //                     setState(() {
-                      
+
 //                     });
 //                   }
 //                   else
 //                   {
 //                     selectedTile = -1;
 //                     setState(() {
-                      
+
 //                     });
 //                   }
-                
+
 //                 }),
 //                 trailing: const SizedBox.shrink(),
 //                 childrenPadding: const EdgeInsets.only(left: 20), //children padding
@@ -410,7 +411,7 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
 //                 ],
 //               ),
 //             ),
-      
+
 //     );
 //   }
 // }

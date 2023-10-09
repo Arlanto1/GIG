@@ -2,7 +2,7 @@ part of 'incident_general_info_cubit.dart';
 
 class IncidentGeneralInfoState extends Equatable {
   final FormStatus status;
-  final EventProtectionGi model;
+  final Incident model;
   final GetLocations? locations;
   final EntrySecurity? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -16,7 +16,7 @@ class IncidentGeneralInfoState extends Equatable {
   final List<User>? entrySecurities;
 
   factory IncidentGeneralInfoState.initial({
-    required EventProtectionGi model,
+    required Incident model,
     required GetLocations locations,
     required List<BaseUser>? users,
     required EntrySecurity? loggedInUserDetails,
@@ -54,40 +54,6 @@ class IncidentGeneralInfoState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please add Entities');
     }
 
-    if (model.eventStartDate == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Event Start Date');
-    }
-
-    if (model.eventEndDate == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Event End Date');
-    }
-
-    if (model.lsm1 == null) {
-      return const ErrorResponse(
-          status: false, message: 'Event Location Security Manager 1');
-    }
-
-    if (model.lsm2 == null) {
-      return const ErrorResponse(
-          status: false, message: 'Event Location Security Manager 2');
-    }
-
-    if (model.bu1 == null) {
-      return const ErrorResponse(
-          status: false, message: 'Enter Event Business POC 1');
-    }
-
-    if (model.bu2 == null) {
-      return const ErrorResponse(
-          status: false, message: 'Enter Event Business POC 2');
-    }
-
-    if (model.requesterDepartment == null) {
-      return const ErrorResponse(
-          status: false, message: 'Enter Requester Department');
-    }
-
-
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -112,7 +78,7 @@ class IncidentGeneralInfoState extends Equatable {
 
   IncidentGeneralInfoState copyWith({
     FormStatus? status,
-    EventProtectionGi? model,
+    Incident? model,
     GetLocations? locations,
     EntrySecurity? loggedInUserDetails,
     List<BaseUser>? users,

@@ -6,10 +6,10 @@ import '../../../../models/organisation.dart';
 import '../../../createfound/models/user.dart';
 
 class IncidentsResponse {
-  final List<Incident>? items;
-  final int? totalCount;
-  final int? currentPageNo;
-  final int? totalPageCount;
+  List<Incident>? items;
+  int? totalCount;
+  int? currentPageNo;
+  int? totalPageCount;
 
   IncidentsResponse({
     this.items,
@@ -33,88 +33,89 @@ class IncidentsResponse {
 }
 
 class Incident {
-  final int? id;
-  final String? slNo;
-  final String? inputDate;
-  final Organisation? location;
-  final Organisation? locationRegion;
-  final int? workflowId;
-  final List<Entity>? entities;
-  final int? status;
-  final int? incidentType;
-  final int? typeOfAsset;
-  final Organisation? typeOfArticle;
-  final String? color;
-  final String? modifiedDate;
-  final String? modifiedBy;
-  final List<History>? history;
-  final EntrySecurity? entrySecurity;
-  final bool? complainantDbEmp;
-  final User? complainant;
-  final String? employeeId;
-  final String? complainantName;
-  final Organisation? complainantDepartment;
-  final User? complainantHr;
-  final String? incidentDate;
-  final String? incidentOrganisation;
-  final String? description;
-  final User? incidentManager;
-  final User? incidentOwner;
-  final bool? ioRoleAccepted;
-  final String? closureTargetDate;
-  final String? incidentAnalysis;
-  final int? severity;
-  final String? incidentImpact;
-  final String? initialInvestigation;
-  final bool? passOfficeApprovalRequired;
-  final String? passOfficeRequest;
-  final String? passOfficeResponse;
-  final String? logicalDevices;
-  final List<dynamic>? passOfficeData;
-  final bool? passOfficeResponseAccepted;
-  final String? rcaRequest;
-  final bool? externalRcaRequired;
-  final String? rcaResponse;
-  final bool? rcaResponseAccepted;
-  final List<dynamic>? rcaData;
-  final bool? systemReviewRequired;
-  final List<dynamic>? incidentActionPlans;
-  final String? furtherInvestigation;
-  final String? cctvFindings;
-  final bool? dataLossIdentified;
-  final String? dataLossRequest;
-  final String? dataLossResponse;
-  final List<dynamic>? dataLossInfo;
-  final bool? dataLossResponseAccepted;
-  final bool? fteInvolved;
-  final String? fteCwrEmployeeId;
-  final String? hrEmployeeId;
-  final bool? cwrInvolved;
-  final String? cwrName;
-  final String? companyName;
-  final bool? slaViolated;
-  final bool? readAcrossRequired;
-  final bool? fteCwrTriggerRequired;
-  final String? interviewInfo;
-  final String? staffStatement;
-  final String? interviewedByHrId;
-  final bool? passOfficeResponded;
-  final bool? rcaVendorResponded;
-  final bool? dataLossVendorResponded;
-  final bool? postInvestigationDone;
-  final List<dynamic>? incidentWitness;
-  final List<dynamic>? incidentReadAcross;
-  final List<dynamic>? images;
-  final int? occType;
-  final String? entrySecurityName;
-  final String? systemReviewerName;
-  final String? incidentManagerName;
-  final String? incidentOwnerName;
-  final String? fteCwrName;
-  final String? hrBusinessPartnerName;
-  final String? intervieweeName;
-  final String? interviewedByName;
-  final String? complainantHrName;
+  int? id;
+  String? slNo;
+  String? inputDate;
+  Organisation? location;
+  Organisation? locationRegion;
+  int? workflowId;
+  List<Entity>? entities;
+  int? status;
+  int? incidentType;
+  int? typeOfAsset;
+  Organisation? typeOfArticle;
+  String? color;
+  String? modifiedDate;
+  String? modifiedBy;
+  List<History>? history;
+  EntrySecurity? entrySecurity;
+  bool complainantDbEmp;
+  User? complainant;
+  String? employeeId;
+  String? complainantName;
+  Organisation? complainantDepartment;
+  User? complainantHr;
+  String? incidentDate;
+  String? incidentOrganisation;
+  String? description;
+  User? incidentManager;
+  User? incidentOwner;
+  bool? ioRoleAccepted;
+  String? closureTargetDate;
+  String? incidentLocation;
+  String? incidentAnalysis;
+  int? severity;
+  String? incidentImpact;
+  String? initialInvestigation;
+  bool? passOfficeApprovalRequired;
+  String? passOfficeRequest;
+  String? passOfficeResponse;
+  String? logicalDevices;
+  List<dynamic>? passOfficeData;
+  bool? passOfficeResponseAccepted;
+  String? rcaRequest;
+  bool? externalRcaRequired;
+  String? rcaResponse;
+  bool? rcaResponseAccepted;
+  List<dynamic>? rcaData;
+  bool? systemReviewRequired;
+  List<dynamic>? incidentActionPlans;
+  String? furtherInvestigation;
+  String? cctvFindings;
+  bool? dataLossIdentified;
+  String? dataLossRequest;
+  String? dataLossResponse;
+  List<dynamic>? dataLossInfo;
+  bool? dataLossResponseAccepted;
+  bool? fteInvolved;
+  String? fteCwrEmployeeId;
+  String? hrEmployeeId;
+  bool? cwrInvolved;
+  String? cwrName;
+  String? companyName;
+  bool? slaViolated;
+  bool? readAcrossRequired;
+  bool? fteCwrTriggerRequired;
+  String? interviewInfo;
+  String? staffStatement;
+  String? interviewedByHrId;
+  bool? passOfficeResponded;
+  bool? rcaVendorResponded;
+  bool? dataLossVendorResponded;
+  bool? postInvestigationDone;
+  List<dynamic>? incidentWitness;
+  List<dynamic>? incidentReadAcross;
+  List<dynamic>? images;
+  int? occType;
+  String? entrySecurityName;
+  String? systemReviewerName;
+  String? incidentManagerName;
+  String? incidentOwnerName;
+  String? fteCwrName;
+  String? hrBusinessPartnerName;
+  String? intervieweeName;
+  String? interviewedByName;
+  String? complainantHrName;
 
   Incident({
     this.id,
@@ -133,7 +134,7 @@ class Incident {
     this.modifiedBy,
     this.history,
     this.entrySecurity,
-    this.complainantDbEmp,
+    this.complainantDbEmp = false,
     this.complainant,
     this.employeeId,
     this.complainantName,
@@ -146,6 +147,7 @@ class Incident {
     this.incidentOwner,
     this.ioRoleAccepted,
     this.closureTargetDate,
+    this.incidentLocation,
     this.incidentAnalysis,
     this.severity,
     this.incidentImpact,
@@ -218,7 +220,7 @@ class Incident {
         modifiedBy = json['modifiedBy'] as String?,
         history = (json['history'] as List?)?.map((dynamic e) => History.fromJson(e as Map<String,dynamic>)).toList(),
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? EntrySecurity.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
-        complainantDbEmp = json['complainantDbEmp'] as bool?,
+        complainantDbEmp = json['complainantDbEmp'] as bool,
         complainant = (json['complainant'] as Map<String,dynamic>?) != null ? User.fromJson(json['complainant'] as Map<String,dynamic>) : null,
         employeeId = json['employeeId'] as String?,
         complainantName = json['complainantName'] as String?,
@@ -231,6 +233,7 @@ class Incident {
         incidentOwner = (json['incidentOwner'] as Map<String,dynamic>?) != null ? User.fromJson(json['incidentOwner'] as Map<String,dynamic>) : null,
         ioRoleAccepted = json['ioRoleAccepted'] as bool?,
         closureTargetDate = json['closureTargetDate'] as String?,
+        incidentLocation = json['incidentLocation'] as String?,
         incidentAnalysis = json['incidentAnalysis'] as String?,
         severity = json['severity'] as int?,
         incidentImpact = json['incidentImpact'] as String?,
@@ -315,6 +318,7 @@ class Incident {
     'incidentOwner' : incidentOwner?.toJson(),
     'ioRoleAccepted' : ioRoleAccepted,
     'closureTargetDate' : closureTargetDate,
+    'incidentLocation' : incidentLocation,
     'incidentAnalysis' : incidentAnalysis,
     'severity' : severity,
     'incidentImpact' : incidentImpact,

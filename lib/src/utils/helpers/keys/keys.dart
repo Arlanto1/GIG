@@ -157,4 +157,7 @@ class Keys {
   static const String systemVendor2EmailKey = 'systemVendor2EmailKey_gd';
   static const String vendor1Contact1Key = 'vendor1ContactKey_gd';
   static const String vendor2ContactKey = 'vendor2ContactKey_gd';
+
+  static const String incidentDescription = 'incidentDescription_im';
+
 }

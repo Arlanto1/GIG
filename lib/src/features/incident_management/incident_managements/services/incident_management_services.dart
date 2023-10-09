@@ -7,6 +7,7 @@ import 'package:db_atom/src/utils/shared_preferences.dart';
 import '../../../../models/responseModels/generic_creat_response.dart';
 import '../../../event_protection/event_protection_details/general_info/models/general_info_model.dart';
 import '../../../event_protection/event_protection_details/general_info/models/requestModel/general_info_request.dart';
+import '../../incident_details/general_info/models/requestModel/general_info_request.dart';
 import '../models/incidents_response.dart';
 
 class Apis {
@@ -14,7 +15,7 @@ class Apis {
 
   static final String _getIncidentMgmt = '$baseUrl/getIncidentMgmt?';
 
-  static final String _getGI = '$baseUrl/getEPGIById';
+  static final String _getIncidentDetails = '$baseUrl/getIncidentMgmtById';
   static final String _createEventGeneralInformation = '$baseUrl/createEPGI?';
 
 }
@@ -34,16 +35,16 @@ class IncidentServices {
     return IncidentsResponse.fromJson(response);
   }
 
-  Future<EventProtectionGi> getGI(String id) async {
-    final String url = '${Apis._getGI}/$id';
+  Future<Incident> getIncidentDetails(String id) async {
+    final String url = '${Apis._getIncidentDetails}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return EventProtectionGi.fromJson(response);
+    return Incident.fromJson(response);
   }
 
   Future<GenericCreateResponse> createEventGeneralInfo({
-    required GeneralInfoRequest body,
+    required IncidentGeneralInfoRequest body,
     required bool isSubmit,
     // required int eventDuration,
   }) async {
