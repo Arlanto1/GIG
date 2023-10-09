@@ -1749,7 +1749,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         DateFormat(Constants.fulldateFormat).format(_currentDate);
     print(formattedDate);
     String nextformattedDate = DateFormat(Constants.fulldateFormat)
-        .format(_currentDate.add(Duration(days: 1)));
+        .format(_currentDate.add(Duration(hours:12)));
     dateofcreationTextController.text = formattedDate;
     passvalidfromTextController.text = formattedDate;
     passvaliduntilTextController.text = nextformattedDate;
