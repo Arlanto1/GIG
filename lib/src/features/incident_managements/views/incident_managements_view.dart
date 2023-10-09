@@ -20,7 +20,8 @@ class IncidentManagementsView extends StatefulWidget {
   });
 
   @override
-  State<IncidentManagementsView> createState() => _IncidentManagementsViewState();
+  State<IncidentManagementsView> createState() =>
+      _IncidentManagementsViewState();
 }
 
 class _IncidentManagementsViewState extends State<IncidentManagementsView> {
@@ -85,7 +86,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
         ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.eventProtectionTitle,
+          title: Constants.incidentManagement,
           showPopUp: true,
           showSaveButton: false,
           excelAPIName: 'exportEPExcel',
@@ -114,13 +115,18 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
               itemBuilder: (context, index) {
                 List<Label> labels = [];
                 if (index < state.items.length) {
+                  labels.add(
+                    Label(
+                        key: 'Date of Creation',
+                        value: state.items[index].inputDate != null
+                            ? Utils.timestamptoDateConversion(
+                                int.parse(state.items[index].inputDate ?? '0'),
+                                Constants.dateFormat)
+                            : ''),
+                  );
                   labels.add(Label(
-                      key: 'Date of Creation',
-                      value: state.items[index].inputDate != null
-                          ? Utils.timestamptoDateConversion(
-                              int.parse(state.items[index].inputDate ?? '0'),
-                              Constants.dateFormat)
-                          : ''));
+                      key: 'Incident Type',
+                      value: state.items[index].incidentType.toString()));
                   labels.add(Label(
                       key: 'Region',
                       value: state.items[index].locationRegion?.name ?? ''));
@@ -148,9 +154,6 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                                 slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
                                 isMasterGuard: false,
-                                epManager1Name:
-                                    state.items[selectedIndex].epManager1Name,
-                                eventType: state.items[selectedIndex].eventType,
                               );
                             },
                           );
@@ -169,9 +172,6 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                                 labels: labels,
                                 slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
-                                epManager1Name:
-                                    state.items[selectedIndex].epManager1Name,
-                                eventType: state.items[selectedIndex].eventType,
                               );
                             },
                           );

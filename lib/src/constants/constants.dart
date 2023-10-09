@@ -483,6 +483,8 @@ class Constants {
   static const String eventStartDate = 'Event Start Date';
   static const String eventEndDate = 'Event End Date';
   static const String isAnnualPowerShutdown = 'Is Annual Power Shutdown';
+
+
 }
 
 //static const String height = 'Height(cm)';

@@ -1,17 +1,17 @@
 part of 'incident_management_bloc.dart';
 
 class IncidentManagementsState extends Equatable {
-  final List<EventProtectionModel> items;
+  final List<Incident> items;
   final bool hasReachedMax;
   final LawEnforcementListStateType status;
 
   const IncidentManagementsState(
-      {this.items = const <EventProtectionModel>[],
+      {this.items = const <Incident>[],
         this.hasReachedMax = false,
         this.status = LawEnforcementListStateType.initial});
 
   IncidentManagementsState copyWith({
-    List<EventProtectionModel>? items,
+    List<Incident>? items,
     bool? hasReachedMax,
     LawEnforcementListStateType? status,
   }) {

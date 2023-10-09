@@ -4,10 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../event_protection/models/event_protection_model.dart';
-import '../../event_protection/services/event_protection_services.dart';
 import '../../law_enforcement_list/controllers/law_enforcement_list_state.dart';
-
+import '../models/incidents_response.dart';
+import '../services/incident_management_services.dart';
 
 part 'incident_management_event.dart';
 part 'incident_management_state.dart';
@@ -23,8 +22,8 @@ class IncidentManagementsBloc
     );
   }
 
-  final EventProtectionServices _services =
-  EventProtectionServices();
+  final IncidentServices _services =
+  IncidentServices();
 
   FutureOr<void> _fetchList(
       InwardFetch event, Emitter<IncidentManagementsState> emit) async {
@@ -32,8 +31,8 @@ class IncidentManagementsBloc
       if (state.hasReachedMax) return;
 
       if (state.status == LawEnforcementListStateType.initial) {
-        EventProtectionResponse response =
-        await _services.getEventProtections(
+        IncidentsResponse response =
+        await _services.getIncidents(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '77',
@@ -48,8 +47,8 @@ class IncidentManagementsBloc
         );
       }
 
-      EventProtectionResponse response =
-      await _services.getEventProtections(
+      IncidentsResponse response =
+      await _services.getIncidents(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '77',
