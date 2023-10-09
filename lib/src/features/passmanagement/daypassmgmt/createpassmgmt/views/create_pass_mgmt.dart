@@ -58,6 +58,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   TextEditingController passvalidfromTextController = TextEditingController();
   TextEditingController passvaliduntilTextController = TextEditingController();
   TextEditingController companynameTextController = TextEditingController();
+  TextEditingController vendorCompanynameTextController = TextEditingController();
   TextEditingController employeeidTextController = TextEditingController();
   TextEditingController hostemployeeidTextController = TextEditingController();
   TextEditingController escortedbyTextController = TextEditingController();
@@ -443,7 +444,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             height * 0.01)
                                         : Container(),
 
-                                    // Company Name // Name
+                                    // Vendor Name // Visitor Name
                                     CommonWidgets.textDisplay(
                                         widget.passId == "0" ||
                                                 widget.passId == "3"
@@ -462,7 +463,23 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         : textfieldWidgetLoad(
                                             nameTextController, 0, state),
 
-                                    // Name
+
+                                    ///Vendor Company Name
+                                    widget.passId == "2"
+                                        ? CommonWidgets.textDisplay(
+                                        Constants.companyname,
+                                        Styles.textStyleBlack14)
+                                        : Container(),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                    widget.passId == "2"
+                                        ? textfieldWidgetLoad(
+                                        vendorCompanynameTextController, 0, state)
+                                        : Container(),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+
+                                    /// Name
 
                                     widget.passId == "3"
                                         ? CommonWidgets.textDisplay(
@@ -509,7 +526,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    // Employee Id
+                                    /// Employee Id
                                     widget.passId == "0" &&
                                                 (state.atomCompanyType?.name ??
                                                             '')
@@ -576,7 +593,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             height * 0.01)
                                         : Container(),
 
-                                    // DB sponsor
+                                    /// DB sponsor
                                     widget.passId == "0" &&
                                             ((state.atomCompanyType?.name ?? '')
                                                         .toLowerCase() ==
@@ -626,7 +643,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             height * 0.01)
                                         : Container(),
 
-                                    // db sponsor employee id
+                                    /// db sponsor employee id
                                     widget.passId == "0" &&
                                             ((state.atomCompanyType?.name ?? '')
                                                         .toLowerCase() ==
