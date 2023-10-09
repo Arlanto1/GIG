@@ -110,34 +110,36 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           ),
 
           action: [
-        if(widget.dayPassItem?.status == 0 ||
-            widget.dayPassItem?.status == 1)...[
-            GestureDetector(
-              onTap: () {
-                passSubmit(false, widget.dayPassItem?.id ?? 0, globalState);
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: SvgPicture.asset(
-                  AppIcon.createfoundsaveicon,
+            if (widget.dayPassItem?.status != 0 ||
+                widget.dayPassItem?.status == 0 ||
+                widget.dayPassItem?.status == 1) ...[
+              GestureDetector(
+                onTap: () {
+                  passSubmit(false, widget.dayPassItem?.id ?? 0, globalState);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 20.0),
+                  child: SvgPicture.asset(
+                    AppIcon.createfoundsaveicon,
+                  ),
                 ),
               ),
-            ),
-            GestureDetector(
-              onTap: () {
-                passValidations(context, globalState);
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: Icon(
-                  Icons.send,
-                  color: AppColors.backgroundWhitecolor,
+              GestureDetector(
+                onTap: () {
+                  passValidations(context, globalState);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 20.0),
+                  child: Icon(
+                    Icons.send,
+                    color: AppColors.backgroundWhitecolor,
+                  ),
+                  // SvgPicture.asset(
+                  //   AppIcon.createfoundsaveicon,
+                  //),
                 ),
-                // SvgPicture.asset(
-                //   AppIcon.createfoundsaveicon,
-                //),
               ),
-            ),],
+            ],
           ],
           //backgroundColor: AppColors.navigationSkybluecolor,
         ),
@@ -1164,7 +1166,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     // SubmitButton
                                     if (widget.dayPassItem?.status == 0 ||
-                                        widget.dayPassItem?.status == 1 )...[
+                                        widget.dayPassItem?.status != 0 ||
+                                        widget.dayPassItem?.status == 1) ...[
                                       Center(child: submitButtonDisplay()),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.005),
@@ -1749,7 +1752,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         DateFormat(Constants.fulldateFormat).format(_currentDate);
     print(formattedDate);
     String nextformattedDate = DateFormat(Constants.fulldateFormat)
-        .format(_currentDate.add(Duration(hours:12)));
+        .format(_currentDate.add(Duration(hours: 12)));
     dateofcreationTextController.text = formattedDate;
     passvalidfromTextController.text = formattedDate;
     passvaliduntilTextController.text = nextformattedDate;
@@ -2624,7 +2627,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         contactnoTextController.text.length != 10) {
       Validator().showToast(
         context,
-        "Please enter correct contact no",
+        "Please enter valid contact no",
       );
     } else if (widget.passId == '1' &&
         visitorcomingfromTextController.text.isEmpty) {
