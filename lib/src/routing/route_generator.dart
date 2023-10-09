@@ -33,6 +33,7 @@ import 'package:db_atom/src/features/login/views/forgot_pwd_screen.dart';
 import 'package:db_atom/src/features/login/views/login_screen.dart';
 import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
 import 'package:db_atom/src/features/login/views/reset_password_screen.dart';
+import 'package:db_atom/src/features/occurrence/incident_managements/bloc/occurrences_bloc.dart' as ob;
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
 import 'package:db_atom/src/features/sla_violation/bloc/sla_violation_bloc.dart' as sv;
@@ -68,6 +69,7 @@ import '../features/material_movement/material_movements/bloc/material_movement_
 import '../features/material_movement/material_movements/views/material_movements.dart';
 import '../features/material_movement/models/material_movements_model.dart';
 import '../features/material_movement/services/material_movement_services.dart';
+import '../features/occurrence/incident_managements/views/occurrences_view.dart';
 import '../features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart';
 import '../features/passmanagement/daypassregister/views/day_pass_info_list_page.dart';
 import '../features/sla_violation/views/sla_violation_view.dart';
@@ -252,6 +254,15 @@ class RouteGenerator {
             create: (_) => sv.SLAViolationBloc()
               ..add(const sv.InwardFetch(startPos: 0, maxPos: 20)),
             child: const SLAViolationsView(),
+          ),
+        );
+
+      case occurrenceRoute:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<ob.OccurrencesBloc>(
+            create: (_) => ob.OccurrencesBloc()
+              ..add(const ob.InwardFetch(startPos: 0, maxPos: 20)),
+            child: const OccurrencesView(),
           ),
         );
 
@@ -573,7 +584,7 @@ class RouteGenerator {
                   child: const FemaleDropPickUpView(),
                 ));
       default:
-        return MaterialPageRoute(builder: (context) => const App());
+        return MaterialPageRoute(builder: (context) => const MyHomePage());
     }
   }
 }

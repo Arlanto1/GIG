@@ -99,6 +99,7 @@ class Constants {
   static const String lawenforcementvisitslist = 'Law Enforcement Visits List';
   static const String eventprotectionlist = 'Event Protection List';
   static const String incidentManagement = 'Incident Management';
+  static const String occurrence = 'Occurrence';
   static const String materialMovement = 'Material Movement';
   static const String passmanagement = 'Pass Management';
   static const String guarding = 'Guarding Operation';
@@ -338,7 +339,6 @@ class Constants {
   static const String guardingRate = 'Guarding Rates';
   static const String femaleDropPickUp = 'Female Drop PickUp';
   static const String keyManagementList = 'Key Management List';
-  static const String occurrence = 'Occurrence';
   static const String slaViolationPenalty = 'SLA Violation Penalty';
 
   static const String vendor = 'Vendor';

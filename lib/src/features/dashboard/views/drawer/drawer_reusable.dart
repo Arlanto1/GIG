@@ -366,11 +366,11 @@ class NavigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, guardingRateDetailsRoute,
           arguments: {"Key Management List": true});
     } else if (index == 5) {
-      Navigator.pushNamed(context, guardingRateDetailsRoute,
+      Navigator.pushNamed(context, occurrenceRoute,
           arguments: {"Occurrence": false});
     } else if (index == 6) {
       Navigator.pushNamed(context, slaViolationRoute,
-          arguments: {"Occurrence": false});
+          arguments: {"SLA Violation Penalty": false});
     }
   }
 
