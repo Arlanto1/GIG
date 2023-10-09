@@ -558,6 +558,44 @@ class Utils {
       ),
     );
   }
+
+
+  Widget passManagementPassTypeRow(int passType) {
+    String passTypeText;
+
+    switch (passType) {
+      case 0:
+        passTypeText = 'Day Pass';
+        break;
+      case 1:
+        passTypeText = 'Visitor Pass';
+        break;
+      case 2:
+        passTypeText = 'Vendor Pass';
+        break;
+      case 3:
+        passTypeText   = 'SEZ Pass';
+        break;
+      case 4:
+        passTypeText = 'DWS Day Pass';
+        break;
+      case 5:
+        passTypeText = 'DWS Visitor Pass';
+        break;
+      case 6:
+        passTypeText = 'DWS Vendor Pass';
+        break;
+      default:
+        passTypeText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('PassType: ', passTypeText),
+        ],
+      ),
+    );
+  }
   Widget textHandling(String title, String desc) {
     return RichText(
       overflow: TextOverflow.ellipsis,
