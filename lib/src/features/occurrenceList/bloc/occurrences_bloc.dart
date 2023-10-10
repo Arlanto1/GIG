@@ -31,7 +31,7 @@ class OccurrencesBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        IncidentsResponse response =
+        OccurrenceResponse response =
         await _services.getIncidents(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
@@ -47,7 +47,7 @@ class OccurrencesBloc
         );
       }
 
-      IncidentsResponse response =
+      OccurrenceResponse response =
       await _services.getIncidents(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',

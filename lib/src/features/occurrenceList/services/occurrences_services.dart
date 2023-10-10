@@ -7,23 +7,23 @@ import '../models/occurrence_response.dart';
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getIncidentMgmt = '$baseUrl/getIncidentMgmt?';
+  static final String _get = '$baseUrl/getOCCLists?';
 
 }
 
 class OccurrenceServices {
 
-  Future<IncidentsResponse> getIncidents({
+  Future<OccurrenceResponse> getIncidents({
     required String startPosition,
     required String maximumRecords,
     required String userId,
   }) async {
     String url =
-        '${Apis._getIncidentMgmt}startPos=$startPosition&maxResults=$maximumRecords&userId=${await SharedPrefs.getUserId()}';
+        '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords&userId=${await SharedPrefs.getUserId()}';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return IncidentsResponse.fromJson(response);
+    return OccurrenceResponse.fromJson(response);
   }
 
 

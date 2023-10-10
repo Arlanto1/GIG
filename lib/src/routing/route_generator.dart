@@ -33,8 +33,6 @@ import 'package:db_atom/src/features/login/views/forgot_pwd_screen.dart';
 import 'package:db_atom/src/features/login/views/login_screen.dart';
 import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
 import 'package:db_atom/src/features/login/views/reset_password_screen.dart';
-import 'package:db_atom/src/features/occurrence/occurrences//bloc/occurrences_bloc.dart'
-    as oc;
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
 import 'package:db_atom/src/features/sla_violation/bloc/sla_violation_bloc.dart'
@@ -74,7 +72,8 @@ import '../features/material_movement/material_movements/bloc/material_movement_
 import '../features/material_movement/material_movements/views/material_movements.dart';
 import '../features/material_movement/models/material_movements_model.dart';
 import '../features/material_movement/services/material_movement_services.dart';
-import '../features/occurrence/occurrences///views/occurrences_view.dart';
+import '../features/occurrenceList/bloc/occurrences_bloc.dart' as ocb;
+import '../features/occurrenceList/views/occurrences_view.dart';
 import '../features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart';
 import '../features/passmanagement/daypassregister/views/day_pass_info_list_page.dart';
 import '../features/sla_violation/views/sla_violation_view.dart';
@@ -282,9 +281,9 @@ class RouteGenerator {
 
       case occurrenceRoute:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider<oc.OccurrencesBloc>(
-            create: (_) => oc.OccurrencesBloc()
-              ..add(const oc.InwardFetch(startPos: 0, maxPos: 20)),
+          builder: (context) => BlocProvider<ocb.OccurrencesBloc>(
+            create: (_) => ocb.OccurrencesBloc()
+              ..add(const ocb.InwardFetch(startPos: 0, maxPos: 20)),
             child: const OccurrencesView(),
           ),
         );

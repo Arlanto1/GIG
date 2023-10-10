@@ -6,12 +6,13 @@ import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_p
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/occurrence/occurrences/bloc/occurrences_bloc.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/occurrences_bloc.dart';
 
 
 class OccurrencesView extends StatefulWidget {
@@ -124,9 +125,6 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                 Constants.dateFormat)
                             : ''),
                   );
-                  labels.add(Label(
-                      key: 'Incident Type',
-                      value: state.items[index].incidentType.toString()));
                   labels.add(Label(
                       key: 'Region',
                       value: state.items[index].locationRegion?.name ?? ''));
