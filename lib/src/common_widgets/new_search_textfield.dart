@@ -25,6 +25,7 @@ class FlutterInputField extends StatelessWidget {
   final FocusNode? focusnode;
   final String? initialValue;
   final String? labelText;
+  final IconData? suffixIcon;
 
   const FlutterInputField({
     Key? key,
@@ -50,6 +51,7 @@ class FlutterInputField extends StatelessWidget {
     this.focusnode,
     this.initialValue,
     this.labelText,
+    this.suffixIcon,
   }) : super(key: key);
 
   @override
@@ -73,7 +75,9 @@ class FlutterInputField extends StatelessWidget {
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.blue), // Color when focused
         ),
+        suffixIcon: Icon(suffixIcon),
       ),
+
       // decoration: InputDecoration(
       //   fillColor: (isDisableColor ?? false) ? AppColors.disabletextfieldBackground:AppColors.enabletextfieldBackground,
       //   filled: true,
@@ -103,7 +107,6 @@ class FlutterInputField extends StatelessWidget {
         onChange(str);
       },
       validator: (String? value) {
-        log('-value--sds-$value----');
         return validateTextField!(value);
       },
       onTap: () {

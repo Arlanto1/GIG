@@ -52,6 +52,7 @@ class BaseDate {
             ? Keys.founddateTextController
             : Keys.handedoverdateTextController,
         hintText: '',
+        suffixIcon: Icons.calendar_month,
         isEnable: false,
         isDisableColor: isDisabled,
         onChange: onChange,

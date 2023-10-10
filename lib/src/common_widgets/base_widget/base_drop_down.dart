@@ -29,6 +29,7 @@ class BaseDropDown {
         textFormKey: Keys.returnableKey,
         hintText: '',
         isEnable: false,
+        suffixIcon: Icons.arrow_drop_down,
         isDisableColor: !isDisabled,
         onChange: (String value) {},
         validateTextField: (String? user) {},
@@ -39,6 +40,7 @@ class BaseDropDown {
                 AppIcon.dropdownicon,
                 key: const Key('closed_eye')),
             onPressed: () {}),
+
       ),
     );
   }

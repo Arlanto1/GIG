@@ -16,7 +16,7 @@ class Apis {
   static final String _getIncidentMgmt = '$baseUrl/getIncidentMgmt?';
 
   static final String _getIncidentDetails = '$baseUrl/getIncidentMgmtById';
-  static final String _createEventGeneralInformation = '$baseUrl/createEPGI?';
+  static final String _create = '$baseUrl/createIncidentMgmt?';
 
 }
 
@@ -43,14 +43,13 @@ class IncidentServices {
     return Incident.fromJson(response);
   }
 
-  Future<GenericCreateResponse> createEventGeneralInfo({
+  Future<GenericCreateResponse> create({
     required IncidentGeneralInfoRequest body,
     required bool isSubmit,
-    // required int eventDuration,
   }) async {
     var userId = await SharedPrefs.getUserId();
     final String url =
-        "${Apis._createEventGeneralInformation}?userEmail=$userId&isSubmit=$isSubmit";
+        "${Apis._create}?userEmail=$userId&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,

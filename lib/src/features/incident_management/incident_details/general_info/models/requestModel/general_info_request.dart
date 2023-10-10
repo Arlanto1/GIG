@@ -1,5 +1,4 @@
 import 'package:db_atom/src/features/incident_management/incident_managements/models/incidents_response.dart';
-import 'package:db_atom/src/features/occurrence/occurrences/models/occurrence_response.dart';
 
 class IncidentGeneralInfoRequest {
   final Incident? incident;
