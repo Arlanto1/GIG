@@ -1,5 +1,3 @@
-// Created by Ramesh
-
 import 'package:flutter/material.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
@@ -495,6 +493,7 @@ class Constants {
   static const String incidentLocation = 'Incident Location';
   static const String incidentManager = 'Incident Manager';
   static const String incidentOwner = 'Incident Owner';
+  static const String closureTargetDate = 'Target Date of Closure';
 
 
 
@@ -527,6 +526,50 @@ List<Label> dutyTypeDropDownValues = const [
   Label(key: 'Escort', value: '2'),
   Label(key: 'Facility', value: '3'),
   Label(key: 'Building & Escort', value: '4'),
+];
+
+List<Label> incidentManagementStatus = const [
+  Label(key: 'Created', value: '0'),
+  Label(key: 'Complainant Review', value: '1'),
+  Label(key: 'IM Pre-Review', value: '2'),
+  Label(key: 'IM Pre-Reject', value: '3'),
+  Label(key: 'IM Pre-Approve', value: '4'),
+  Label(key: 'IO Role Review', value: '5'),
+  Label(key: 'IO Role Reject', value: '6'),
+  Label(key: 'IO Role Approve', value: '7'),
+  Label(key: 'Investigation', value: '8'),
+  Label(key: 'Pass', value: '9'),
+  Label(key: 'Pass Review', value: '10'),
+  Label(key: 'Pass Reject', value: '11'),
+  Label(key: 'Pass Approve', value: '12'),
+  Label(key: 'RCA', value: '13'),
+  Label(key: 'RCA Review', value: '14'),
+  Label(key: 'RCA Reject', value: '15'),
+  Label(key: 'RCA Approve', value: '16'),
+  Label(key: 'RCA System Review', value: '17'),
+  Label(key: 'RCA System Reject', value: '18'),
+  Label(key: 'RCA System Approve', value: '19'),
+  Label(key: 'Data Loss', value: '20'),
+  Label(key: 'Data Loss Review', value: '21'),
+  Label(key: 'Data Loss Reject', value: '22'),
+  Label(key: 'Data Loss Approve', value: '23'),
+  Label(key: 'Further Investigation', value: '24'),
+  Label(key: 'RCA Action Plan', value: '25'),
+  Label(key: 'RCA Action Plan Review', value: '26'),
+  Label(key: 'RCA Action Plan Reject', value: '27'),
+  Label(key: 'RCA Action Plan Approve', value: '28'),
+  Label(key: 'IO Review', value: '29'),
+  Label(key: 'IO Reject', value: '30'),
+  Label(key: 'IO Approve', value: '31'),
+  Label(key: 'FTE CWR Involved', value: '32'),
+  Label(key: 'IM Final Review', value: '33'),
+  Label(key: 'Read Across', value: '34'),
+  Label(key: 'Read Across Review', value: '35'),
+  Label(key: 'Read Across Reject', value: '36'),
+  Label(key: 'Read Across Approve', value: '37'),
+  Label(key: 'Investigation Done', value: '38'),
+  Label(key: 'Closed', value: '39'),
+  Label(key: 'Cancelled', value: '40'),
 ];
 
 List<Label> eventProtectionGiStatus = const [

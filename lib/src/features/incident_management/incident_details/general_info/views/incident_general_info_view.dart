@@ -120,8 +120,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
   }
 
   void initializeDates(IncidentGeneralInfoState state) {
-    log('--sdd--${state.model.incidentDate}-------');
-    log('--sdd-eventEndDate-${state.model.incidentDate}-------');
     if (state.model.incidentDate != null) {
       incidentDateTimeController.text = Utils.timestamptoDateConversion(
           int.tryParse(state.model.incidentDate ?? '0'), Constants.dateFormat);
@@ -188,19 +186,19 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             BaseDropDown().getDropDown(
                                 isDisabled: state.model.status != 0,
                                 textController: statusController,
-                                items: eventProtectionGiStatus,
+                                items: incidentManagementStatus,
                                 initialValue: '${state.model.status ?? 0}',
                                 onTap: () {
-                                  if (state.model.id != null) {
+                                  if (state.model.id == null && state.model.id != null) {
                                     BaseDropDown().assetTypeDialog(
                                       context: context,
-                                      dropDownValues: eventProtectionGiStatus
+                                      dropDownValues: incidentManagementStatus
                                           .map((label) => label.key)
                                           .toList(),
                                       onTap: (String value) {
                                         Label? selectedLabel;
                                         selectedLabel =
-                                            eventProtectionGiStatus.firstWhere(
+                                            incidentManagementStatus.firstWhere(
                                           (label) => label.key == value,
                                           orElse: () =>
                                               const Label(key: '', value: ''),
@@ -562,7 +560,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                             /// Target Date of Closure
                             CommonWidgets.textDisplay(
-                              Constants.incidentDateTime,
+                              Constants.closureTargetDate,
                               Styles.textStyleBlack14,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -576,7 +574,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     Utils().formatTime(value);
                                 log('---value11-${state.model.incidentDate}------');
                                 BlocProvider.of<IncidentGeneralInfoCubit>(
-                                    context)
+                                        context)
                                     .onModelValueChange(state.model);
                               },
                               context: context,
