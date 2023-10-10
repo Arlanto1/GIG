@@ -19,7 +19,7 @@ class IncidentsResponse {
   });
 
   IncidentsResponse.fromJson(Map<String, dynamic> json)
-      : items = (json['list'] as List?)?.map((dynamic e) => Incident.fromJson(e as Map<String,dynamic>)).toList(),
+      : items = (json['data'] as List?)?.map((dynamic e) => Incident.fromJson(e as Map<String,dynamic>)).toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;

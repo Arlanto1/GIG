@@ -486,6 +486,17 @@ class Constants {
 
   static const String incidentType = 'Incident Type';
   static const String dbComplainant = 'DB Complainant';
+  static const String incidentDescription = 'Incident Description';
+  static const String incidentDateTime = 'Incident Date and Time';
+  static const String complainant = 'Complainant';
+  static const String complainantEmployeeId = 'Complainant Employee Id';
+  static const String complainantDepartment = 'Complainant Department';
+  static const String complainantHR = 'Complainant HR';
+  static const String incidentLocation = 'Incident Location';
+  static const String incidentManager = 'Incident Manager';
+  static const String incidentOwner = 'Incident Owner';
+
+
 
 }
 

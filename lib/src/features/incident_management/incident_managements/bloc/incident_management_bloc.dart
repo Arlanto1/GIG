@@ -13,17 +13,14 @@ part 'incident_management_state.dart';
 
 class IncidentManagementsBloc
     extends Bloc<IncidentManagementsEvent, IncidentManagementsState> {
-
-  IncidentManagementsBloc()
-      : super(const IncidentManagementsState()) {
+  IncidentManagementsBloc() : super(const IncidentManagementsState()) {
     on<InwardFetch>(
       _fetchList,
       transformer: droppable(),
     );
   }
 
-  final IncidentServices _services =
-  IncidentServices();
+  final IncidentServices _services = IncidentServices();
 
   FutureOr<void> _fetchList(
       InwardFetch event, Emitter<IncidentManagementsState> emit) async {
@@ -31,8 +28,7 @@ class IncidentManagementsBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        IncidentsResponse response =
-        await _services.getIncidents(
+        IncidentsResponse response = await _services.getIncidents(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '77',
@@ -47,8 +43,7 @@ class IncidentManagementsBloc
         );
       }
 
-      IncidentsResponse response =
-      await _services.getIncidents(
+      IncidentsResponse response = await _services.getIncidents(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '77',

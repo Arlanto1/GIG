@@ -11,9 +11,9 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 
 class CustomExpansionListTexts extends StatefulWidget {
-  CustomExpansionListTexts({super.key, this.getLocationsresponse, this.onTap});
+  const CustomExpansionListTexts({super.key, this.getLocationsresponse, this.onTap});
 
-  GetLocations? getLocationsresponse;
+  final GetLocations? getLocationsresponse;
   final Function? onTap;
 
   @override
@@ -144,9 +144,9 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
 }
 
 class MyExpansionTileList extends StatefulWidget {
-  MyExpansionTileList(this.response, this.onTap);
+  const MyExpansionTileList(this.response, this.onTap, {super.key});
 
-  GetLocations? response;
+  final GetLocations? response;
   final Function? onTap;
 
   @override
