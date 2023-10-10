@@ -154,7 +154,7 @@ class Constants {
   static const String createdby = 'Created By';
   static const String itemhandoverby = 'Item Handover By';
   static const String slno = 'Sl No.';
-  static const String articleType = 'Article Type';
+  static const String articleType= 'Article Type';
   static const String depositor = 'Depositor';
   static const String employeedepartment = 'Employee Department';
   static const String claimantdepartment = 'Claimant Department';
@@ -238,6 +238,7 @@ class Constants {
   static const String reasonfordaypass = 'Reason for Day Pass';
   static const String daypassno = 'Day Pass No';
   static const String passtype = 'Pass Type';
+  static const String sezPassInfo = 'Sez Pass';
 
   //List page - Found Article
   static const String searchHintText = 'Search....';
@@ -487,7 +488,13 @@ class Constants {
   static const String incidentType = 'Incident Type';
   static const String dbComplainant = 'DB Complainant';
 
+
+  //Occurrence
+  static const String createOccurrence = 'Create Occurrence';
+
+
 }
+
 
 //static const String height = 'Height(cm)';
 

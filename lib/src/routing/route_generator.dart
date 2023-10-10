@@ -284,8 +284,8 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ob.OccurrencesBloc>(
             create: (_) => ob.OccurrencesBloc()
-              ..add(const ob.InwardFetch(startPos: 0, maxPos: 20)),
-            child: const OccurrencesView(),
+              ..add(const ob.FetchData(startPos: 0, maxPos: 20)),
+            child: const OccurrenceView(),
           ),
         );
 
