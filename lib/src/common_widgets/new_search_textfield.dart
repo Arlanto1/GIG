@@ -107,7 +107,6 @@ class FlutterInputField extends StatelessWidget {
         onChange(str);
       },
       validator: (String? value) {
-        log('-value--sds-$value----');
         return validateTextField!(value);
       },
       onTap: () {

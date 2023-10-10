@@ -46,6 +46,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
   TextEditingController incidentDateTimeController = TextEditingController();
   TextEditingController closureTargetDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
+  TextEditingController incidentTypeController = TextEditingController();
   bool disableForm = false;
 
   @override
@@ -73,7 +74,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
               Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
-                eventProtectionListRoute,
+                incidentManagementRoute,
                 arguments: {},
               );
             },
@@ -182,14 +183,14 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             CommonWidgets.textDisplay(
                                 Constants.status, Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
                                 isDisabled: state.model.status != 0,
                                 textController: statusController,
                                 items: incidentManagementStatus,
                                 initialValue: '${state.model.status ?? 0}',
                                 onTap: () {
-                                  if (state.model.id == null && state.model.id != null) {
+                                  if (state.model.id == null &&
+                                      state.model.id != null) {
                                     BaseDropDown().assetTypeDialog(
                                       context: context,
                                       dropDownValues: incidentManagementStatus
@@ -207,8 +208,9 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                                     IncidentGeneralInfoCubit>(
                                                 context)
                                             .updateDropdownValues(
-                                                status: int.tryParse(
-                                                    selectedLabel.value));
+                                          status:
+                                              int.tryParse(selectedLabel.value),
+                                        );
                                       },
                                     );
                                   }
@@ -279,10 +281,10 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                              isDisabled: state.model.status != 6,
-                              textController: statusController,
-                              items: statusDropDownValues,
-                              initialValue: '${state.model.status ?? 1}',
+                              isDisabled: disableForm,
+                              textController: incidentTypeController,
+                              items: incidentTypeValues,
+                              initialValue: '${state.model.incidentType ?? 0}',
                               onTap: () {
                                 BaseDropDown().assetTypeDialog(
                                   context: context,
@@ -292,7 +294,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   onTap: (String value) {
                                     Label? selectedLabel;
                                     selectedLabel =
-                                        statusDropDownValues.firstWhere(
+                                        incidentTypeValues.firstWhere(
                                       (label) => label.key == value,
                                       orElse: () =>
                                           const Label(key: '', value: ''),
@@ -360,51 +362,54 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Complainant Employee Id
-                            CommonWidgets.textDisplay(
-                                Constants.complainantEmployeeId,
-                                Styles.textStyleBlack14),
+                            if (state.model.complainantDbEmp) ...[
+                              /// Complainant Employee Id
+                              CommonWidgets.textDisplay(
+                                  Constants.complainantEmployeeId,
+                                  Styles.textStyleBlack14),
 
-                            FlutterInputField(
-                              initialValue: state.model.employeeId,
-                              textFormKey: Keys.claimantEmpIdTextController,
-                              isEnable: state.model.status != 39,
-                              isDisableColor: state.model.status == 39,
-                              hintText: '',
-                              onChange: (String value) {
-                                state.model.employeeId = value;
-                                context
-                                    .read<IncidentGeneralInfoCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
+                              FlutterInputField(
+                                initialValue: state.model.employeeId,
+                                textFormKey: Keys.claimantEmpIdTextController,
+                                isEnable: state.model.status != 39,
+                                isDisableColor: state.model.status == 39,
+                                hintText: '',
+                                onChange: (String value) {
+                                  state.model.employeeId = value;
+                                  context
+                                      .read<IncidentGeneralInfoCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Complainant Department
-                            CommonWidgets.textDisplay(
-                              Constants.complainantDepartment,
-                              Styles.textStyleBlack14,
-                            ),
-                            TextfieldAddButton(
-                              title: state.model.complainantDepartment?.name,
-                              height: 60,
-                              isDisableColor: disableForm,
-                              onTap: () {
-                                BaseDepartmentDialog().departmentDialog(
-                                  context: context,
-                                  departments: state.departments,
-                                  onTap: (Organisation department) {
-                                    BlocProvider.of<IncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            complainantDepartment: department);
-                                  },
-                                );
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              /// Complainant Department
+                              CommonWidgets.textDisplay(
+                                Constants.complainantDepartment,
+                                Styles.textStyleBlack14,
+                              ),
+                              TextfieldAddButton(
+                                title: state.model.complainantDepartment?.name,
+                                height: 60,
+                                isDisableColor: disableForm,
+                                onTap: () {
+                                  BaseDepartmentDialog().departmentDialog(
+                                    context: context,
+                                    departments: state.departments,
+                                    onTap: (Organisation department) {
+                                      BlocProvider.of<IncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              complainantDepartment:
+                                                  department);
+                                    },
+                                  );
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
 
                             /// Complainant HR
                             CommonWidgets.textDisplay(
@@ -424,7 +429,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     BlocProvider.of<IncidentGeneralInfoCubit>(
                                             context)
                                         .updateDropdownValues(
-                                      complainant: user,
+                                      complainantHR: user,
                                     );
                                   },
                                 );
@@ -462,7 +467,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Incident Location
-                            // TODO:
                             CommonWidgets.textDisplay(
                                 Constants.incidentLocation,
                                 Styles.textStyleBlack14),
@@ -528,7 +532,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     BlocProvider.of<IncidentGeneralInfoCubit>(
                                             context)
                                         .updateDropdownValues(
-                                      incidentManager: user,
+                                      incidentOwner: user,
                                     );
                                   },
                                 );

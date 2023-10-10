@@ -34,7 +34,7 @@ import 'package:db_atom/src/features/login/views/login_screen.dart';
 import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
 import 'package:db_atom/src/features/login/views/reset_password_screen.dart';
 import 'package:db_atom/src/features/occurrence/occurrences//bloc/occurrences_bloc.dart'
-    as ob;
+    as oc;
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
 import 'package:db_atom/src/features/sla_violation/bloc/sla_violation_bloc.dart'
@@ -282,9 +282,9 @@ class RouteGenerator {
 
       case occurrenceRoute:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider<ob.OccurrencesBloc>(
-            create: (_) => ob.OccurrencesBloc()
-              ..add(const ob.InwardFetch(startPos: 0, maxPos: 20)),
+          builder: (context) => BlocProvider<oc.OccurrencesBloc>(
+            create: (_) => oc.OccurrencesBloc()
+              ..add(const oc.InwardFetch(startPos: 0, maxPos: 20)),
             child: const OccurrencesView(),
           ),
         );

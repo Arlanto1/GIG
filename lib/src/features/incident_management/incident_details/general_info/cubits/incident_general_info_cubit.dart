@@ -22,6 +22,7 @@ import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
+import '../../../../../utils/util.dart';
 import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
 import '../../../incident_managements/models/incidents_response.dart';
@@ -78,6 +79,10 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       if (id.isNotEmpty) {
         model = await services.getIncidentDetails(id);
       }
+
+      // Get Date of Creation
+      model.inputDate = Utils().getCurrentDate();
+
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
@@ -126,6 +131,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
   Future<void> updateDropdownValues({
     BaseUser? complainant,
+    BaseUser? complainantHR,
     BaseUser? incidentManager,
     BaseUser? incidentOwner,
     List<Entity>? entities,
@@ -136,23 +142,14 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     Entity? entity,
     int? status,
     int? incidentType,
-    //GetUserDetails? user,
-    Organisation? requesterDepartment,
-    BaseUser? bu1,
-    Organisation? bu2Dept,
-    BaseUser? subRegionalHead1,
-    BaseUser? subRegionalHead2,
-    BaseUser? epManager2,
-    BaseUser? locationSecurityManager1,
-    BaseUser? locationSecurityManager2,
-    BaseUser? epOfficers,
-    Organisation? proposedVendor,
   }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
+
+    log('--incidentType----$incidentType--');
 
     if (complainant != null) {
       User userDetails = User(
@@ -161,6 +158,15 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         userName: complainant.name,
       );
       state.model.complainant = userDetails;
+    }
+
+    if (complainantHR != null) {
+      User userDetails = User(
+        name: complainantHR.name,
+        userId: complainantHR.id,
+        userName: complainantHR.name,
+      );
+      state.model.complainantHr = userDetails;
     }
 
     if (incidentManager != null) {
@@ -181,7 +187,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       state.model.incidentOwner = userDetails;
     }
 
-    if(complainantDepartment != null) {
+    if (complainantDepartment != null) {
       state.model.complainantDepartment = complainantDepartment;
     }
 
@@ -281,7 +287,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     GenericCreateResponse response = GenericCreateResponse();
     try {
       if (isSaveOnly) {
-        response = (await services.createEventGeneralInfo(
+        response = (await services.create(
           body: request,
           isSubmit: false,
         ));
@@ -296,8 +302,10 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           );
           return;
         }
-        response = (await services.createEventGeneralInfo(
-            body: request, isSubmit: true));
+        response = (await services.create(
+          body: request,
+          isSubmit: true,
+        ));
       }
     } on Exception catch (e) {
       emit(
