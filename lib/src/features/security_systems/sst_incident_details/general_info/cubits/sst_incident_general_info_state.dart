@@ -2,7 +2,7 @@ part of 'sst_incident_general_info_cubit.dart';
 
 class SstIncidentGeneralInfoState extends Equatable {
   final FormStatus status;
-  final Incident model;
+  final SstIncident model;
   final GetLocations? locations;
   final EntrySecurity? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -16,7 +16,7 @@ class SstIncidentGeneralInfoState extends Equatable {
   final List<User>? entrySecurities;
 
   factory SstIncidentGeneralInfoState.initial({
-    required Incident model,
+    required SstIncident model,
     required GetLocations locations,
     required List<BaseUser>? users,
     required EntrySecurity? loggedInUserDetails,
@@ -50,9 +50,6 @@ class SstIncidentGeneralInfoState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-    if (model.entities == null || model.entities!.isEmpty) {
-      return const ErrorResponse(status: false, message: 'Please add Entities');
-    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
@@ -78,7 +75,7 @@ class SstIncidentGeneralInfoState extends Equatable {
 
   SstIncidentGeneralInfoState copyWith({
     FormStatus? status,
-    Incident? model,
+    SstIncident? model,
     GetLocations? locations,
     EntrySecurity? loggedInUserDetails,
     List<BaseUser>? users,

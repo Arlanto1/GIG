@@ -121,14 +121,11 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                 if (index < state.items.length) {
                   labels.add(Label(
                       key: 'Date of Creation',
-                      value: state.items[index].inputDate != null
+                      value: state.items[index].createdDate != null
                           ? Utils.timestamptoDateConversion(
-                              int.parse(state.items[index].inputDate ?? '0'),
+                              int.parse(state.items[index].createdDate ?? '0'),
                               Constants.dateFormat)
                           : ''));
-                  labels.add(Label(
-                      key: 'Region',
-                      value: state.items[index].locationRegion?.name ?? ''));
                   labels.add(Label(
                       key: 'Location',
                       value: state.items[index].location?.name ?? ''));
@@ -153,9 +150,6 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                 slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
                                 isMasterGuard: false,
-                                epManager1Name:
-                                    state.items[selectedIndex].epManager1Name,
-                                eventType: state.items[selectedIndex].eventType,
                               );
                             },
                           );
@@ -174,9 +168,6 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                 labels: labels,
                                 slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
-                                epManager1Name:
-                                    state.items[selectedIndex].epManager1Name,
-                                eventType: state.items[selectedIndex].eventType,
                               );
                             },
                           );

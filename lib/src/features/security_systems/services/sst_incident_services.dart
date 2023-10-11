@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
+import 'package:db_atom/src/features/security_systems/models/general_info_model.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
 import '../../../models/responseModels/generic_creat_response.dart';
@@ -11,34 +12,34 @@ import '../../incident_management/incident_managements/models/incidents_response
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getIncidentMgmt = '$baseUrl/getIncidentMgmt?';
+  static final String _get = '$baseUrl/getSSSLAList?';
 
-  static final String _getIncidentDetails = '$baseUrl/getIncidentMgmtById';
-  static final String _create = '$baseUrl/createIncidentMgmt?';
+  static final String _getDetails = '$baseUrl/getSSSLAById';
+  static final String _create = '$baseUrl/createOccurrence?';
 
 }
 
 class SstIncidentServices {
 
-  Future<IncidentsResponse> getIncidents({
+  Future<SstIncidentResponse> get({
     required String startPosition,
     required String maximumRecords,
     required String userId,
   }) async {
     String url =
-        '${Apis._getIncidentMgmt}startPos=$startPosition&maxResults=$maximumRecords&userId=${await SharedPrefs.getUserId()}';
+        '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords&userId=${await SharedPrefs.getUserId()}';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return IncidentsResponse.fromJson(response);
+    return SstIncidentResponse.fromJson(response);
   }
 
-  Future<Incident> getIncidentDetails(String id) async {
-    final String url = '${Apis._getIncidentDetails}/$id';
+  Future<SstIncident> getDetails(String id) async {
+    final String url = '${Apis._getDetails}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return Incident.fromJson(response);
+    return SstIncident.fromJson(response);
   }
 
   Future<GenericCreateResponse> create({

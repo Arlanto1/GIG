@@ -9,6 +9,7 @@ import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/incident_management/incident_details/general_info/models/requestModel/general_info_request.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
+import 'package:db_atom/src/features/security_systems/models/general_info_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
@@ -24,7 +25,6 @@ import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
-import '../../../../incident_management/incident_managements/models/incidents_response.dart';
 import '../../../services/sst_incident_services.dart';
 
 part 'sst_incident_general_info_state.dart';
@@ -41,7 +41,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     required this.id, required this. isInternal,
   }) : super(
           SstIncidentGeneralInfoState.initial(
-            model: Incident(),
+            model: SstIncident(),
             locations: GetLocations(),
             users: const [],
             emailUsers: const [],
@@ -55,12 +55,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           ),
         );
 
-  void onModelValueChange(Incident model) {
+  void onModelValueChange(SstIncident model) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(Incident model) {
+  void onCheckBoxChange(SstIncident model) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
@@ -76,13 +76,13 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      Incident model = Incident();
+      SstIncident model = SstIncident();
       if (id.isNotEmpty) {
-        model = await services.getIncidentDetails(id);
+        model = await services.getDetails(id);
       }
 
       // Get Date of Creation
-      model.inputDate = Utils().getCurrentDate();
+      model.createdDate = Utils().getCurrentDate();
 
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
@@ -132,7 +132,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
   Future<void> updateDropdownValues({
     BaseUser? asl,
     BaseUser? systemManager,
-    BaseUser? incidentManager,
     BaseUser? lsm,
     List<Entity>? entities,
     BaseUser? locationTeam,
@@ -149,14 +148,11 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         status: FormStatus.loading,
       ),
     );
-    state.model.incidentType =
-        incidentType ?? state.model.incidentType;
+    // state.model.ticketType =
+    //     incidentType ?? state.model.incidentType;
     log('--incidentType----$incidentType--');
 
 
-    state.model.typeOfAsset =
-        assetType ?? state.model.typeOfAsset;
-    log('--assetType----$assetType--');
 
     if (asl != null) {
       User userDetails = User(
@@ -164,7 +160,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         userId: asl.id,
         userName: asl.name,
       );
-      state.model.complainant = userDetails;
+      state.model.asl = userDetails;
     }
 
     if (systemManager != null) {
@@ -173,17 +169,9 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         userId: systemManager.id,
         userName: systemManager.name,
       );
-      state.model.complainantHr = userDetails;
+      state.model.systemManager = userDetails;
     }
 
-    if (incidentManager != null) {
-      User userDetails = User(
-        name: incidentManager.name,
-        userId: incidentManager.id,
-        userName: incidentManager.name,
-      );
-      state.model.incidentManager = userDetails;
-    }
 
     if (lsm != null) {
       User userDetails = User(
@@ -191,7 +179,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         userId: lsm.id,
         userName: lsm.name,
       );
-      state.model.incidentOwner = userDetails;
+      state.model.lsm = userDetails;
     }
 
 
@@ -201,8 +189,9 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         userId: locationTeam.id,
         userName: locationTeam.name,
       );
-      state.model.complainantHr = userDetails;
+      // state.model.location = userDetails; // TODO: need json property
     }
+
     ////Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -216,19 +205,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
     state.model.status = status ?? state.model.status;
 
-    log('--state.model.incidentType--@@---${state.model.incidentType}-');
-
-   if (state.model.incidentType != null) {
-     log('--incidentType---$incidentType-');
-     state.model.incidentType = incidentType;
-     log('--state.model.incidentType--@@---${state.model.incidentType}-');
-   }
-
-    if (state.model.typeOfAsset != null) {
-      log('--incidentType---$incidentType-');
-      state.model.typeOfAsset = assetType;
-      log('--state.model.incidentType--@@---${state.model.typeOfAsset}-');
-    }
 
     if (entities != null) {
       state.model.entities = entities;
@@ -239,7 +215,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       status: FormStatus.initial,
     ));
 
-    log('--state.model---${state.model.incidentType}--');
   }
 
   void addAttachment({
@@ -303,51 +278,51 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       state.model.status = 1;
     }
     // Setting time in milliseconds
-    state.model.inputDate =
+    state.model.createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     /// Create/Update API Call
-    IncidentGeneralInfoRequest request =
-        IncidentGeneralInfoRequest(incident: state.model);
+    // IncidentGeneralInfoRequest request =
+    //     IncidentGeneralInfoRequest(incident: state.model);
+    //
+    // log('--isSaveOnly----$isSaveOnly--');
+    // GenericCreateResponse response = GenericCreateResponse();
+    // try {
+    //   if (isSaveOnly) {
+    //     response = (await services.create(
+    //       body: request,
+    //       isSubmit: false,
+    //     ));
+    //   } else {
+    //     if (!state.isValid.status) {
+    //       log('--isSaveOnly--else--if$isSaveOnly--');
+    //       emit(
+    //         state.copyWith(
+    //           status: FormStatus.error,
+    //           message: state.isValid.message,
+    //         ),
+    //       );
+    //       return;
+    //     }
+    //     response = (await services.create(
+    //       body: request,
+    //       isSubmit: true,
+    //     ));
+    //   }
+    // } on Exception catch (e) {
+    //   emit(
+    //     state.copyWith(
+    //       message: e.toString(),
+    //       status: FormStatus.error,
+    //     ),
+    //   );
+    // }
 
-    log('--isSaveOnly----$isSaveOnly--');
-    GenericCreateResponse response = GenericCreateResponse();
-    try {
-      if (isSaveOnly) {
-        response = (await services.create(
-          body: request,
-          isSubmit: false,
-        ));
-      } else {
-        if (!state.isValid.status) {
-          log('--isSaveOnly--else--if$isSaveOnly--');
-          emit(
-            state.copyWith(
-              status: FormStatus.error,
-              message: state.isValid.message,
-            ),
-          );
-          return;
-        }
-        response = (await services.create(
-          body: request,
-          isSubmit: true,
-        ));
-      }
-    } on Exception catch (e) {
-      emit(
-        state.copyWith(
-          message: e.toString(),
-          status: FormStatus.error,
-        ),
-      );
-    }
-
-    log('---response--msg--${response.message}---');
+    // log('---response--msg--${response.message}---');
 
     emit(
       state.copyWith(
-        message: response.message,
+        // message: response.message,
         status: FormStatus.success,
       ),
     );

@@ -65,7 +65,6 @@ class _SstIncidentGeneralInfoViewState
     return BlocConsumer<SstIncidentGeneralInfoCubit,
         SstIncidentGeneralInfoState>(
       listener: (context, state) {
-        log('-state.status---${state.status}-incidentType-${state.model.incidentType}--');
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -126,24 +125,11 @@ class _SstIncidentGeneralInfoViewState
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-  void initializeDates(SstIncidentGeneralInfoState state) {
-    if (state.model.incidentDate != null) {
-      incidentDateTimeController.text = Utils.timestamptoDateConversion(
-          int.tryParse(state.model.incidentDate ?? '0'), Constants.dateFormat);
-    }
-    if (state.model.closureTargetDate != null) {
-      closureTargetDateController.text = Utils.timestamptoDateConversion(
-          int.tryParse(state.model.closureTargetDate ?? '0'),
-          Constants.dateFormat);
-    }
-  }
 
   getBodybuilder(SstIncidentGeneralInfoState state, height) {
-    initializeDates(state);
     if (state.status == FormStatus.loading) {
       return const Center(child: CircularProgressIndicator());
     }
-    log('-state.status--222-${state.status}-incidentType--2----${state.model.incidentType}--');
 
     return Container(
       color: AppColors.navigationSkybluecolor,
@@ -234,7 +220,7 @@ class _SstIncidentGeneralInfoViewState
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDate().creationDateDisplay(
-                                state.model.inputDate ?? ''),
+                                state.model.createdDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Location
@@ -275,7 +261,7 @@ class _SstIncidentGeneralInfoViewState
                               Styles.textStyleBlack14,
                             ),
                             TextfieldAddButton(
-                              title: state.model.complainantHr?.name,
+                              title: state.model.systemManager?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -302,7 +288,7 @@ class _SstIncidentGeneralInfoViewState
                               Styles.textStyleBlack14,
                             ),
                             TextfieldAddButton(
-                              title: state.model.complainantHr?.name,
+                              title: state.model.lsm?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -329,7 +315,7 @@ class _SstIncidentGeneralInfoViewState
                               Styles.textStyleBlack14,
                             ),
                             TextfieldAddButton(
-                              title: state.model.complainantHr?.name,
+                              title: state.model.asl?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -356,7 +342,7 @@ class _SstIncidentGeneralInfoViewState
                               Styles.textStyleBlack14,
                             ),
                             TextfieldAddButton(
-                              title: state.model.complainantHr?.name,
+                              title: state.model.location?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -384,13 +370,13 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 6,
-                              initialValue: state.model.description,
+                              initialValue: state.model.shortDescription,
                               textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 6,
                               isDisableColor: state.model.status == 6,
                               onChange: (String value) {
-                                state.model.description = value;
+                                state.model.shortDescription = value;
                                 context
                                     .read<SstIncidentGeneralInfoCubit>()
                                     .onModelValueChange(state.model);
@@ -406,13 +392,13 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 6,
-                              initialValue: state.model.description,
+                              initialValue: state.model.detailDescription,
                               textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 6,
                               isDisableColor: state.model.status == 6,
                               onChange: (String value) {
-                                state.model.description = value;
+                                state.model.detailDescription = value;
                                 context
                                     .read<SstIncidentGeneralInfoCubit>()
                                     .onModelValueChange(state.model);
@@ -427,11 +413,11 @@ class _SstIncidentGeneralInfoViewState
                             RadioButtonsYesNo(
                               status: state.model.status ?? 0,
                               selectedValue:
-                                  state.model.complainantDbEmp ? 1 : 0,
+                                  state.model.ipbArea ? 1 : 0,
                               onChangedYes: disableForm
                                   ? null
                                   : (val) {
-                                      state.model.complainantDbEmp = true;
+                                      state.model.ipbArea = true;
                                       BlocProvider.of<
                                                   SstIncidentGeneralInfoCubit>(
                                               context)
@@ -440,7 +426,7 @@ class _SstIncidentGeneralInfoViewState
                               onChangedNo: state.model.status == 39
                                   ? null
                                   : (val) {
-                                      state.model.complainantDbEmp = false;
+                                      state.model.ipbArea = false;
                                       BlocProvider.of<
                                                   SstIncidentGeneralInfoCubit>(
                                               context)
