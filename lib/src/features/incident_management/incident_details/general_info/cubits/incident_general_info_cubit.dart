@@ -203,7 +203,13 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     }
 
     state.model.status = status ?? state.model.status;
-    state.model.incidentType = incidentType ?? state.model.incidentType;
+
+    log('--state.model.incidentType--@@---${state.model}-');
+    if (state.model.incidentType != null) {
+      log('--incidentType---$incidentType-');
+      state.model.incidentType = incidentType;
+      log('--state.model.incidentType--@@---${state.model.incidentType}-');
+    }
 
     if (entities != null) {
       state.model.entities = entities;
@@ -213,6 +219,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       model: state.model,
       status: FormStatus.initial,
     ));
+
+    log('--state.model---${state.model.incidentType}--');
   }
 
   void addAttachment({

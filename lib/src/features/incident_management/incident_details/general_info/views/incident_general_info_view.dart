@@ -46,6 +46,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
   TextEditingController incidentDateTimeController = TextEditingController();
   TextEditingController closureTargetDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
+  TextEditingController assetTypeController = TextEditingController();
   TextEditingController incidentTypeController = TextEditingController();
   bool disableForm = false;
 
@@ -61,7 +62,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
     final height = size.height;
     return BlocConsumer<IncidentGeneralInfoCubit, IncidentGeneralInfoState>(
       listener: (context, state) {
-        log('-state.status---${state.status}----');
+        log('-state.status---${state.status}-incidentType-${state.model.incidentType}--');
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -133,11 +134,11 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
   }
 
   getBodybuilder(IncidentGeneralInfoState state, height) {
-    log('--creation Date-${state.model.inputDate}----------');
     initializeDates(state);
     if (state.status == FormStatus.loading) {
       return const Center(child: CircularProgressIndicator());
     }
+    log('-state.status--222-${state.status}-incidentType--2----${state.model.incidentType}--');
 
     return Container(
       color: AppColors.navigationSkybluecolor,
@@ -292,8 +293,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       .map((label) => label.key)
                                       .toList(),
                                   onTap: (String value) {
-                                    Label? selectedLabel;
-                                    selectedLabel =
+                                    Label? selectedLabel =
                                         incidentTypeValues.firstWhere(
                                       (label) => label.key == value,
                                       orElse: () =>
@@ -310,8 +310,49 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// DB Complainant
+                            /// If incident Type is Loss i.e 0
+                            if (state.model.incidentType == 0) ...[
+                              /// Asset Type
+                              CommonWidgets.textDisplay(
+                                  Constants.assetType, Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseDropDown().getDropDown(
+                                  isDisabled: state.model.status != 0,
+                                  textController: assetTypeController,
+                                  items: assetTypeValues,
+                                  initialValue: '${state.model.status ?? 0}',
+                                  onTap: () {
+                                    if (state.model.id == null &&
+                                        state.model.id != null) {
+                                      BaseDropDown().assetTypeDialog(
+                                        context: context,
+                                        dropDownValues: assetTypeValues
+                                            .map((label) => label.key)
+                                            .toList(),
+                                        onTap: (String value) {
+                                          Label? selectedLabel;
+                                          selectedLabel =
+                                              assetTypeValues.firstWhere(
+                                            (label) => label.key == value,
+                                            orElse: () =>
+                                                const Label(key: '', value: ''),
+                                          );
+                                          BlocProvider.of<
+                                                      IncidentGeneralInfoCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                            status: int.tryParse(
+                                                selectedLabel.value),
+                                          );
+                                        },
+                                      );
+                                    }
+                                  }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
 
+                            /// DB Complainant
                             CommonWidgets.textDisplay(Constants.dbComplainant,
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(

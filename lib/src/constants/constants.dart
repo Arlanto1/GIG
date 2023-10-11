@@ -496,6 +496,7 @@ class Constants {
   static const String incidentOwner = 'Incident Owner';
   static const String closureTargetDate = 'Target Date of Closure';
 
+  static const String assetType = 'Asset Type';
 
 
 
@@ -511,34 +512,39 @@ class Constants {
 
 //static const String height = 'Height(cm)';
 
-List<Label> statusDropDownValues = const [
+const List<Label> statusDropDownValues = [
   Label(key: 'Active', value: '1'),
   Label(key: 'InActive', value: '2'),
   Label(key: 'Leave', value: '3'),
   Label(key: 'WeekOff', value: '4'),
 ];
-List<Label> systemAccessDropDownValues = const [
+const List<Label> systemAccessDropDownValues = [
   Label(key: 'Yes', value: '1'),
   Label(key: 'No', value: '2'),
   Label(key: 'Revoke', value: '3'),
 ];
-List<Label> maritalStatusDropDownValues = const [
+const List<Label> maritalStatusDropDownValues = [
   Label(key: 'Single', value: '1'),
   Label(key: 'Married', value: '2'),
 ];
-List<Label> genderDropDownValues = const [
+const List<Label> genderDropDownValues = [
   Label(key: 'Male', value: '1'),
   Label(key: 'Female', value: '2'),
   Label(key: 'Transgender', value: '3'),
 ];
-List<Label> dutyTypeDropDownValues = const [
+const List<Label> dutyTypeDropDownValues = [
   Label(key: 'Building', value: '1'),
   Label(key: 'Escort', value: '2'),
   Label(key: 'Facility', value: '3'),
   Label(key: 'Building & Escort', value: '4'),
 ];
 
-List<Label> incidentManagementStatus = const [
+ const List<Label> assetTypeValues = [
+  Label(key: 'Personal', value: '0'),
+  Label(key: 'Company', value: '1'),
+];
+
+ const List<Label> incidentManagementStatus = [
   Label(key: 'Created', value: '0'),
   Label(key: 'Complainant Review', value: '1'),
   Label(key: 'IM Pre-Review', value: '2'),
@@ -582,7 +588,7 @@ List<Label> incidentManagementStatus = const [
   Label(key: 'Cancelled', value: '40'),
 ];
 
-List<Label> eventProtectionGiStatus = const [
+const List<Label> eventProtectionGiStatus = [
   Label(key: 'Draft', value: '0'),
   Label(key: 'Business Review', value: '1'),
   Label(key: 'LSM Review', value: '2'),
@@ -615,7 +621,7 @@ List<Label> eventProtectionGiStatus = const [
   Label(key: 'Closed', value: '30'),
 ];
 
-List<Label> guardRankDropDownValues = const [
+const List<Label> guardRankDropDownValues = [
   Label(key: 'Security Guard', value: '1'),
   Label(key: 'Security Officer', value: '2'),
   Label(key: 'Security Supervisor', value: '3'),
@@ -623,19 +629,18 @@ List<Label> guardRankDropDownValues = const [
   Label(key: 'Gun Man', value: '5'),
   Label(key: 'Lady Security Guard', value: '6'),
 ];
-List<Label> deploymentTypeDropDownValues = const [
+const List<Label> deploymentTypeDropDownValues = [
   Label(key: 'New Deployment', value: '1'),
   Label(key: 'Redeployment', value: '2'),
 ];
 
-List<Label> mSGBFormBSubmittedDropDownValues = const [
+const List<Label> mSGBFormBSubmittedDropDownValues = [
   Label(key: 'Yes', value: '1'),
   Label(key: 'No', value: '2'),
   Label(key: 'Under ', value: '3'),
 ];
 
-// TODO
-List<Label> incidentTypeValues = const [
+const List<Label> incidentTypeValues = [
   Label(key: 'Loss', value: '0'),
   Label(key: 'Damage', value: '1'),
   Label(key: 'Workplace', value: '2'),
