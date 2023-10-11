@@ -25,7 +25,7 @@ class Apis {
   static final String _getQuantityUnits =
       '$baseUrl$v2/getOrganisation?name=ATOM_MATERIAL_MOVEMENT_UNIT';
   static final String _getQualification =
-      '$baseUrl${v2}getOrganisation?name=GUARD_QUALIFICATIONS';
+      '$baseUrl$v2/getOrganisation?name=GUARD_QUALIFICATIONS';
   static final String _getUsers = '$baseUrl/getUsers?roleName=ATOM_STATIC_USER';
 }
 

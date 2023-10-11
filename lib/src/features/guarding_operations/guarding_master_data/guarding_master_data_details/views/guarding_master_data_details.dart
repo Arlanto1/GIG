@@ -629,36 +629,37 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled:
-                                    state.guardingMasterData.status != 6,
-                                textController: genderController,
-                                items: genderDropDownValues,
-                                initialValue:
-                                    state.guardingMasterData.gender.toString(),
-                                onTap: () {
-                                  if (isDisabled) {
-                                    BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues: genderDropDownValues
-                                            .map((label) => label.key)
-                                            .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              genderDropDownValues.firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<
-                                                      GuardingMasterDataDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  gender: int.tryParse(
-                                                      selectedLabel.value));
-                                        });
-                                  }
-                                }),
+                              isDisabled: state.guardingMasterData.status != 6,
+                              textController: genderController,
+                              items: genderDropDownValues,
+                              initialValue:
+                                  state.guardingMasterData.gender.toString(),
+                              onTap: () {
+                                if (isDisabled) {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: genderDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          genderDropDownValues.firstWhere(
+                                        (label) => label.key == value,
+                                        orElse: () =>
+                                            const Label(key: '', value: ''),
+                                      );
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              gender: int.tryParse(
+                                                  selectedLabel.value));
+                                    },
+                                  );
+                                }
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Marital Status
