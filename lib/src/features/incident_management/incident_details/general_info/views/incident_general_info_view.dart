@@ -12,6 +12,7 @@ import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
+import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/routing/router.dart';
@@ -276,82 +277,80 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             /// Incident Type
-
                             CommonWidgets.textDisplay(Constants.incidentType,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                              isDisabled: disableForm,
+                              isDisabled: state.model.status != 6,
                               textController: incidentTypeController,
                               items: incidentTypeValues,
-                              initialValue: '${state.model.incidentType ?? 0}',
+                              initialValue: state.model.incidentType.toString(),
                               onTap: () {
-                                BaseDropDown().assetTypeDialog(
-                                  context: context,
-                                  dropDownValues: incidentTypeValues
-                                      .map((label) => label.key)
-                                      .toList(),
-                                  onTap: (String value) {
-                                    Label? selectedLabel =
-                                        incidentTypeValues.firstWhere(
-                                      (label) => label.key == value,
-                                      orElse: () =>
-                                          const Label(key: '', value: ''),
-                                    );
-                                    BlocProvider.of<IncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            incidentType: int.tryParse(
-                                                selectedLabel.value));
-                                  },
-                                );
+                              //  if (!disableForm) {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: incidentTypeValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          incidentTypeValues.firstWhere(
+                                        (label) => label.key == value,
+                                        orElse: () =>
+                                            const Label(key: '', value: ''),
+                                      );
+                                      BlocProvider.of<IncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              incidentType: int.tryParse(
+                                                  selectedLabel.value));
+                                    },
+                                  );
+                              //  }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// If incident Type is Loss i.e 0
-                            if (state.model.incidentType == 0) ...[
-                              /// Asset Type
-                              CommonWidgets.textDisplay(
-                                  Constants.assetType, Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              BaseDropDown().getDropDown(
-                                  isDisabled: state.model.status != 0,
-                                  textController: assetTypeController,
-                                  items: assetTypeValues,
-                                  initialValue: '${state.model.status ?? 0}',
-                                  onTap: () {
-                                    if (state.model.id == null &&
-                                        state.model.id != null) {
-                                      BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues: assetTypeValues
-                                            .map((label) => label.key)
-                                            .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              assetTypeValues.firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<
-                                                      IncidentGeneralInfoCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                            status: int.tryParse(
-                                                selectedLabel.value),
-                                          );
-                                        },
+                            /// Asset Type
+                      if (state.model.incidentType == 0) ...[
+                            CommonWidgets.textDisplay(
+                                Constants.assetType, Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            BaseDropDown().getDropDown(
+                              isDisabled: state.model.status != 6,
+                              textController: assetTypeController,
+                              items: assetTypeValues,
+                              initialValue: state.model.typeOfAsset.toString(),
+                              onTap: () {
+                             if (!disableForm) {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: assetTypeValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          assetTypeValues.firstWhere(
+                                        (label) => label.key == value,
+                                        orElse: () =>
+                                            const Label(key: '', value: ''),
                                       );
-                                    }
-                                  }),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
-
+                                      BlocProvider.of<IncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              assetType: int.tryParse(
+                                                  selectedLabel.value));
+                                    },
+                                  );
+                                }
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                           ],
                             /// DB Complainant
                             CommonWidgets.textDisplay(Constants.dbComplainant,
                                 Styles.textStyleBlack14),
@@ -378,30 +377,54 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             ),
 
                             /// Complainant
-                            CommonWidgets.textDisplay(
-                              Constants.complainant,
-                              Styles.textStyleBlack14,
-                            ),
-                            TextfieldAddButton(
-                              title: state.model.complainant?.name,
-                              height: 60,
-                              isDisableColor: disableForm,
-                              onTap: () {
-                                BaseDepartmentDialog().userDialog(
-                                  context: context,
-                                  enabled: !disableForm,
-                                  users: state.emailUsers!,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<IncidentGeneralInfoCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                      complainant: user,
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            if (state.model.complainantDbEmp == true) ...[
+                              CommonWidgets.textDisplay(
+                                Constants.complainant,
+                                Styles.textStyleBlack14,
+                              ),
+                              TextfieldAddButton(
+                                title: state.model.complainant?.name,
+                                height: 70,
+                                isDisableColor: disableForm,
+                                onTap: () {
+                                  BaseDepartmentDialog().userDialog(
+                                    context: context,
+                                    enabled: !disableForm,
+                                    users: state.emailUsers!,
+                                    onTap: (BaseUser user) {
+                                      BlocProvider.of<IncidentGeneralInfoCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        complainant: user,
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
+
+                            if (state.model.complainantDbEmp == false) ...[
+                              /// Complainant
+                              CommonWidgets.textDisplay(Constants.complainant,
+                                  Styles.textStyleBlack14),
+                              FlutterInputField(
+                                initialValue: '',
+                                textFormKey: Keys.claimantTextController,
+                                isEnable: state.model.status != 39,
+                                isDisableColor: state.model.status == 39,
+                                hintText: '',
+                                onChange: (User value) {
+                                  state.model.complainant = value;
+                                  context
+                                      .read<IncidentGeneralInfoCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
 
                             if (state.model.complainantDbEmp) ...[
                               /// Complainant Employee Id
@@ -433,7 +456,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               ),
                               TextfieldAddButton(
                                 title: state.model.complainantDepartment?.name,
-                                height: 60,
+                                height: 70,
                                 isDisableColor: disableForm,
                                 onTap: () {
                                   BaseDepartmentDialog().departmentDialog(
@@ -452,14 +475,14 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
 
-                            /// Complainant HR
+                            /// Complainant Manager/Host
                             CommonWidgets.textDisplay(
                               Constants.complainantHR,
                               Styles.textStyleBlack14,
                             ),
                             TextfieldAddButton(
                               title: state.model.complainantHr?.name,
-                              height: 60,
+                              height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseDepartmentDialog().userDialog(
@@ -536,7 +559,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             ),
                             TextfieldAddButton(
                               title: state.model.incidentManager?.name,
-                              height: 60,
+                              height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseDepartmentDialog().userDialog(
@@ -562,7 +585,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             ),
                             TextfieldAddButton(
                               title: state.model.incidentOwner?.name,
-                              height: 60,
+                              height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseDepartmentDialog().userDialog(

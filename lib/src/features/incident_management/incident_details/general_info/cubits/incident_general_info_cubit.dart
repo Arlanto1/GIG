@@ -142,14 +142,21 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     Entity? entity,
     int? status,
     int? incidentType,
+    int? assetType,
   }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
-
+    state.model.incidentType =
+        incidentType ?? state.model.incidentType;
     log('--incidentType----$incidentType--');
+
+
+    state.model.typeOfAsset =
+        assetType ?? state.model.typeOfAsset;
+    log('--assetType----$assetType--');
 
     if (complainant != null) {
       User userDetails = User(
@@ -195,7 +202,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.guardingMasterDataModule,
+        moduleCode: Constants.incidentManagementModule,
       );
 
       state.model.location = location;
@@ -204,11 +211,18 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
     state.model.status = status ?? state.model.status;
 
-    log('--state.model.incidentType--@@---${state.model}-');
-    if (state.model.incidentType != null) {
+    log('--state.model.incidentType--@@---${state.model.incidentType}-');
+
+   if (state.model.incidentType != null) {
+     log('--incidentType---$incidentType-');
+     state.model.incidentType = incidentType;
+     log('--state.model.incidentType--@@---${state.model.incidentType}-');
+   }
+
+    if (state.model.typeOfAsset != null) {
       log('--incidentType---$incidentType-');
-      state.model.incidentType = incidentType;
-      log('--state.model.incidentType--@@---${state.model.incidentType}-');
+      state.model.typeOfAsset = assetType;
+      log('--state.model.incidentType--@@---${state.model.typeOfAsset}-');
     }
 
     if (entities != null) {

@@ -10,6 +10,7 @@ class Constants {
   static const String materialMovementOutwardNonReturnableModule = 'MMOUTN';
   static const String guardingMasterDataModule = 'GM';
   static const String guardingRatesModule = 'GR';
+  static const String incidentManagementModule = 'IM';
 
   static const String customFontFamily = 'Poppins';
   static const String customFontMediumFamily = 'Poppins-Medium';
@@ -490,7 +491,7 @@ class Constants {
   static const String complainant = 'Complainant';
   static const String complainantEmployeeId = 'Complainant Employee Id';
   static const String complainantDepartment = 'Complainant Department';
-  static const String complainantHR = 'Complainant HR';
+  static const String complainantHR = 'Complainant Manager/Host';
   static const String incidentLocation = 'Incident Location';
   static const String incidentManager = 'Incident Manager';
   static const String incidentOwner = 'Incident Owner';
