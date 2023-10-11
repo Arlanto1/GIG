@@ -7,10 +7,10 @@ abstract class OccurrencesEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InwardFetch extends OccurrencesEvent{
+class FetchData extends OccurrencesEvent{
 
   final int startPos;
   final int maxPos;
 
-  const InwardFetch({required this.startPos, required this.maxPos});
+  const FetchData({required this.startPos, required this.maxPos});
 }

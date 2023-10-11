@@ -9,30 +9,26 @@ import '../models/occurrence_response.dart';
 import '../services/occurrences_services.dart';
 
 part 'occurrences_event.dart';
+
 part 'occurrences_state.dart';
 
-class OccurrencesBloc
-    extends Bloc<OccurrencesEvent, OccurrencesState> {
-
-  OccurrencesBloc()
-      : super(const OccurrencesState()) {
-    on<InwardFetch>(
+class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
+  OccurrencesBloc() : super(const OccurrencesState()) {
+    on<FetchData>(
       _fetchList,
       transformer: droppable(),
     );
   }
 
-  final OccurrenceServices _services =
-  OccurrenceServices();
+  final OccurrenceServices _services = OccurrenceServices();
 
   FutureOr<void> _fetchList(
-      InwardFetch event, Emitter<OccurrencesState> emit) async {
+      FetchData event, Emitter<OccurrencesState> emit) async {
     try {
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        OccurrenceResponse response =
-        await _services.getIncidents(
+        OccurrenceResponse response = await _services.getIncidents(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '77',
@@ -47,8 +43,7 @@ class OccurrencesBloc
         );
       }
 
-      OccurrenceResponse response =
-      await _services.getIncidents(
+      OccurrenceResponse response = await _services.getIncidents(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '77',
@@ -59,7 +54,7 @@ class OccurrencesBloc
       }
       return emit(
         state.copyWith(
-          items: List.of(state.items)..addAll(response.items ?? []),
+          items: List.of(state.list)..addAll(response.items ?? []),
           hasReachedMax: false,
         ),
       );

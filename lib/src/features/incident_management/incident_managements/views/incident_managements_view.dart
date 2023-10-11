@@ -124,10 +124,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                                 Constants.dateFormat)
                             : ''),
                   );
-                  labels.add(Label(
-                      key: 'Incident Type',
-                      value: state.items[index].incidentType.toString()));
-                  labels.add(Label(
+                 labels.add(Label(
                       key: 'Region',
                       value: state.items[index].locationRegion?.name ?? ''));
                   labels.add(Label(
@@ -143,6 +140,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                         id: state.items[index].id,
                         labels: labels,
                         status: state.items[index].status,
+                         incidentType: state.items[index].incidentType,
                         isMasterGuard: false,
                         onTap: (selectedIndex) {
                           showDialog(
@@ -153,7 +151,9 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                                 labels: labels,
                                 slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
+                                incidentType: state.items[selectedIndex].incidentType,
                                 isMasterGuard: false,
+
                               );
                             },
                           );
@@ -172,6 +172,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                                 labels: labels,
                                 slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
+                                incidentType: state.items[selectedIndex].incidentType,
                               );
                             },
                           );

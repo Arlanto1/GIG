@@ -10,6 +10,7 @@ class Constants {
   static const String materialMovementOutwardNonReturnableModule = 'MMOUTN';
   static const String guardingMasterDataModule = 'GM';
   static const String guardingRatesModule = 'GR';
+  static const String incidentManagementModule = 'IM';
 
   static const String customFontFamily = 'Poppins';
   static const String customFontMediumFamily = 'Poppins-Medium';
@@ -152,7 +153,7 @@ class Constants {
   static const String createdby = 'Created By';
   static const String itemhandoverby = 'Item Handover By';
   static const String slno = 'Sl No.';
-  static const String articleType = 'Article Type';
+  static const String articleType= 'Article Type';
   static const String depositor = 'Depositor';
   static const String employeedepartment = 'Employee Department';
   static const String claimantdepartment = 'Claimant Department';
@@ -236,6 +237,7 @@ class Constants {
   static const String reasonfordaypass = 'Reason for Day Pass';
   static const String daypassno = 'Day Pass No';
   static const String passtype = 'Pass Type';
+  static const String sezPassInfo = 'Sez Pass';
 
   //List page - Found Article
   static const String searchHintText = 'Search....';
@@ -489,7 +491,7 @@ class Constants {
   static const String complainant = 'Complainant';
   static const String complainantEmployeeId = 'Complainant Employee Id';
   static const String complainantDepartment = 'Complainant Department';
-  static const String complainantHR = 'Complainant HR';
+  static const String complainantHR = 'Complainant Manager/Host';
   static const String incidentLocation = 'Incident Location';
   static const String incidentManager = 'Incident Manager';
   static const String incidentOwner = 'Incident Owner';
@@ -498,7 +500,16 @@ class Constants {
   static const String assetType = 'Asset Type';
 
 
+
+  //Occurrence
+  static const String createOccurrence = 'Create Occurrence';
+
+  //SLA Violation Penalty
+  static const String sLAViolationPenalty = 'SLA Violation Penalty';
+
+
 }
+
 
 //static const String height = 'Height(cm)';
 

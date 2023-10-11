@@ -14,15 +14,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/occurrences_bloc.dart';
 
-
 class OccurrencesView extends StatefulWidget {
   const OccurrencesView({
     super.key,
   });
 
   @override
-  State<OccurrencesView> createState() =>
-      _OccurrencesViewState();
+  State<OccurrencesView> createState() => _OccurrencesViewState();
 }
 
 class _OccurrencesViewState extends State<OccurrencesView> {
@@ -67,7 +65,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
       pageNumber = pageNumber + 20;
       context
           .read<OccurrencesBloc>()
-          .add(InwardFetch(startPos: pageNumber, maxPos: 20));
+          .add(FetchData(startPos: pageNumber, maxPos: 20));
     }
   }
 
@@ -111,65 +109,87 @@ class _OccurrencesViewState extends State<OccurrencesView> {
             child: ListView.builder(
               controller: _scrollController,
               itemCount: state.hasReachedMax
-                  ? state.items.length
-                  : state.items.length + 1,
+                  ? state.list.length
+                  : state.list.length + 1,
               itemBuilder: (context, index) {
                 List<Label> labels = [];
-                if (index < state.items.length) {
+                if (index < state.list.length) {
                   labels.add(
                     Label(
                         key: 'Date of Creation',
-                        value: state.items[index].inputDate != null
+                        value: state.list[index].inputDate != null
                             ? Utils.timestamptoDateConversion(
-                                int.parse(state.items[index].inputDate ?? '0'),
+                                int.parse(state.list[index].inputDate ?? '0'),
                                 Constants.dateFormat)
                             : ''),
                   );
                   labels.add(Label(
                       key: 'Region',
-                      value: state.items[index].locationRegion?.name ?? ''));
+                      value: state.list[index].locationRegion?.name ?? ''));
                   labels.add(Label(
                       key: 'Location',
-                      value: state.items[index].location?.name ?? ''));
+                      value: state.list[index].location?.name ?? ''));
+                  labels.add(Label(
+                      key: 'Shift Handed Over By',
+                      value: state.list[index].entrySecurity?.name ?? ''));
                 }
-
-                return index >= state.items.length
+                return index >= state.list.length
                     ? const Center(
                         child: CustomCircularProgressIndicator(),
                       )
                     : BaseListTileItem(
-                        id: state.items[index].id,
+                        id: state.list[index].id,
                         labels: labels,
-                        status: state.items[index].status,
-                        isMasterGuard: false,
+                        status: state.list[index].status,
+                        isOccurrenceStatus: true,
+                        isEventProtectionStatus: false,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
                               return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
+                                id: state.list[selectedIndex].id.toString(),
+                                slNo: state.list[selectedIndex].slNo,
+                                status: state.list[selectedIndex].status,
                                 labels: labels,
-                                slNo: state.items[selectedIndex].slNo,
-                                status: state.items[selectedIndex].status,
+                                shiftBrfngAttnded:
+                                    state.list[selectedIndex].shiftBrfngAttnded,
+                                materialMovement:
+                                    state.list[selectedIndex].materialMovement,
+                                leoVisit: state.list[selectedIndex].leoVisit,
+                                handOverSecurity:
+                                    state.list[selectedIndex].handOverSecurity,
+                                isOccurrenceStatus: true,
                                 isMasterGuard: false,
+                                isEventProtectionStatus: false,
                               );
                             },
                           );
                         },
                         onEditTap: (selectedIndex) {
                           getId(
-                              id: state.items[index].id ?? 0,
-                              eventStatus: state.items[index].status ?? 0);
+                              id: state.list[index].id ?? 0,
+                              eventStatus: state.list[index].status ?? 0);
                         },
                         onViewTap: (selectedIndex) {
                           showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
                               return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
+                                id: state.list[selectedIndex].id.toString(),
+                                slNo: state.list[selectedIndex].slNo,
+                                status: state.list[selectedIndex].status,
                                 labels: labels,
-                                slNo: state.items[selectedIndex].slNo,
-                                status: state.items[selectedIndex].status,
+                                shiftBrfngAttnded:
+                                    state.list[selectedIndex].shiftBrfngAttnded,
+                                materialMovement:
+                                    state.list[selectedIndex].materialMovement,
+                                leoVisit: state.list[selectedIndex].leoVisit,
+                                handOverSecurity:
+                                    state.list[selectedIndex].handOverSecurity,
+                                isEventProtectionStatus: false,
+                                isMasterGuard: false,
+                                isOccurrenceStatus: true,
                               );
                             },
                           );
@@ -185,7 +205,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
   getId({required int id, required int eventStatus}) async {
     Navigator.pushNamed(
       context,
-      eventProtectionDetailsTabRoute,
+      occurrenceDetailsRoute,
       arguments: {
         'id': id.toString(),
         'eventStatus': eventStatus,
