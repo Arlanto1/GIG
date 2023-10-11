@@ -66,7 +66,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
       pageNumber = pageNumber + 20;
       context
           .read<IncidentManagementsBloc>()
-          .add(InwardFetch(startPos: pageNumber, maxPos: 20));
+          .add(FetchData(startPos: pageNumber, maxPos: 20));
     }
   }
 

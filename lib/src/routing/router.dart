@@ -44,6 +44,9 @@ const String resetPwdScreenRoute = '/resetPwdScreen';
 const String materialMovementInwardsOutwardsRoute = '/materialMovementInwards';
 const String materialMovementInwardDetailsRoute = '/materialMovementInwardDetailsRoute';
 
+const String internalIncidentRoute = '/internalIncidentRoute';
+const String externalIncidentRoute = '/externalIncidentRoute';
+
 
 const String guardingMasterReportRoute = '/guardingMasterReportRoute';
 const String guardingMasterDataRoute = '/guardingMasterDataRoute';
@@ -54,7 +57,6 @@ const String guardingRatesGRIRoute = '/guardingRatesGRIRoute';
 const String payRateRoute = '/payRateRoute';
 const String femaleDropPickUpRoute = '/femaleDropPickUpRoute';
 
-const String slaViolationRoute = '/slaViolationRoute';
 const String occurrenceRoute = '/occurrenceRoute';
 const String occurrenceDetailsRoute = '/occurrenceDetailsRoute';
 

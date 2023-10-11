@@ -91,6 +91,8 @@ class Constants {
   static const String dashboard = 'Dashboard';
   static const String securityfunctions = 'Security functions';
   static const String operations = "Operations";
+  static const String securitySystems = "Security System";
+  static const String securitySystemsTickets = "Security System Tickets";
   static const String settings = "Settings";
   static const String administration = "Administration";
   static const String profile = 'Profile';
@@ -484,6 +486,9 @@ class Constants {
   static const String eventEndDate = 'Event End Date';
   static const String isAnnualPowerShutdown = 'Is Annual Power Shutdown';
 
+  static const String incident = 'Incident';
+  static const String internalStaff = 'Internal Staff';
+  static const String externalVendor = 'External Vendor';
   static const String incidentType = 'Incident Type';
   static const String dbComplainant = 'DB Complainant';
   static const String incidentDescription = 'Incident Description';

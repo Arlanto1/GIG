@@ -1,21 +1,21 @@
-part of 'sla_violation_bloc.dart';
+part of 'sst_incident_bloc.dart';
 
-class SLAViolationState extends Equatable {
+class SstIncidentState extends Equatable {
   final List<EventProtectionModel> items;
   final bool hasReachedMax;
   final FormStatus status;
 
-  const SLAViolationState(
+  const SstIncidentState(
       {this.items = const <EventProtectionModel>[],
         this.hasReachedMax = false,
         this.status = FormStatus.initial});
 
-  SLAViolationState copyWith({
+  SstIncidentState copyWith({
     List<EventProtectionModel>? items,
     bool? hasReachedMax,
     FormStatus? status,
   }) {
-    return SLAViolationState(
+    return SstIncidentState(
       items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,

@@ -55,7 +55,7 @@ class _MaterialMovementsState extends State<MaterialMovements> {
       pageNumber = pageNumber + 20;
       context
           .read<MaterialMovementBloc>()
-          .add(InwardFetch(startPos: pageNumber, maxPos: 20));
+          .add(FetchData(startPos: pageNumber, maxPos: 20));
     }
   }
 
