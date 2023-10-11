@@ -5,8 +5,6 @@ import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
 import '../../../../models/responseModels/generic_creat_response.dart';
-import '../../../event_protection/event_protection_details/general_info/models/general_info_model.dart';
-import '../../../event_protection/event_protection_details/general_info/models/requestModel/general_info_request.dart';
 import '../../incident_details/general_info/models/requestModel/general_info_request.dart';
 import '../models/incidents_response.dart';
 

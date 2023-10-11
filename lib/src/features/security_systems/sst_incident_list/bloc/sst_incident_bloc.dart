@@ -4,9 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../enums/form_status.dart';
-import '../../event_protection/models/event_protection_model.dart';
-import '../../event_protection/services/event_protection_services.dart';
+import '../../../../enums/form_status.dart';
+import '../../../event_protection/models/event_protection_model.dart';
+import '../../../event_protection/services/event_protection_services.dart';
 
 part 'sst_incident_event.dart';
 part 'sst_incident_state.dart';

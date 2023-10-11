@@ -2,7 +2,6 @@ import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class Validator {
   static bool emailValidation(String email) {

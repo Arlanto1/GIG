@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:db_atom/app.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -35,8 +33,7 @@ import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
 import 'package:db_atom/src/features/login/views/reset_password_screen.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
-import 'package:db_atom/src/features/sst_incident/bloc/sst_incident_bloc.dart' as sv;
-import 'package:db_atom/src/features/sst_incident/views/sst_incident_view.dart';
+import 'package:db_atom/src/features/security_systems/sst_incident_details/general_info/views/sst_incident_general_info_view.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,6 +73,11 @@ import '../features/occurrenceList/bloc/occurrences_bloc.dart' as ocb;
 import '../features/occurrenceList/views/occurrences_view.dart';
 import '../features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart';
 import '../features/passmanagement/daypassregister/views/day_pass_info_list_page.dart';
+import '../features/security_systems/services/sst_incident_services.dart';
+import '../features/security_systems/sst_incident_details/general_info/cubits/sst_incident_general_info_cubit.dart';
+import '../features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart'
+    as sv;
+import '../features/security_systems/sst_incident_list/views/sst_incident_view.dart';
 import '../services/CommonServices.dart';
 
 class RouteGenerator {
@@ -132,7 +134,6 @@ class RouteGenerator {
           if (listroutes != null) {
             FoundListArticleDetails? listuser = listroutes["UserElement"];
             int eventId = listroutes['eventId'];
-            log('-----');
             return MaterialPageRoute(
                 builder: (context) => CreateFound(
                       listuser: listuser,
@@ -153,14 +154,14 @@ class RouteGenerator {
                 builder: (context) => CreateLawEnforcement(listUser: listuser));
           }
           return MaterialPageRoute(
-              builder: (context) => CreateLawEnforcement());
+              builder: (context) => const CreateLawEnforcement());
         } else {
           return MaterialPageRoute(
-              builder: (context) => CreateLawEnforcement());
+              builder: (context) => const CreateLawEnforcement());
         }
       case addemployeedepartmentRoute:
         return MaterialPageRoute(
-            builder: (context) => AddEmployeeDepartment(
+            builder: (context) => const AddEmployeeDepartment(
                   title: Constants.addemployeedepartment,
                 ));
 
@@ -173,7 +174,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => PieChartApp());
       case customexpansionlisttextsRoute:
         return MaterialPageRoute(
-            builder: (context) => CustomExpansionListTexts());
+            builder: (context) => const CustomExpansionListTexts());
       case lawEnforcementListRoute:
         return MaterialPageRoute(builder: (context) => const LnListPageList());
       case daypassmanagementListRoute:
@@ -269,22 +270,42 @@ class RouteGenerator {
           ),
         );
 
-      case internalIncidentRoute:
-
+      case sstIncidentListRoute:
         bool isInternal = false;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
           isInternal = arguments['isInternal'];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<sv.SstIncidentBloc>(
             create: (_) => sv.SstIncidentBloc()
               ..add(const sv.FetchData(startPos: 0, maxPos: 20)),
-            child:  SstIncidentView(isInternal: isInternal),
+            child: SstIncidentView(isInternal: isInternal),
           ),
         );
 
+      case sstIncidentDetailsRoute:
+        String id = '';
+        bool isInternal = false;
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          isInternal = arguments['isInternal'];
+          id = arguments['id'];
+        }
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<SstIncidentGeneralInfoCubit>(
+            create: (_) => SstIncidentGeneralInfoCubit(
+              services: SstIncidentServices(),
+              commonServices: CommonServices(),
+              id: id,
+                isInternal: isInternal,
+            ),
+            child: SstIncidentGeneralInfoView(isInternal: isInternal),
+          ),
+        );
       case occurrenceRoute:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ocb.OccurrencesBloc>(
