@@ -502,6 +502,9 @@ class Constants {
   //Occurrence
   static const String createOccurrence = 'Create Occurrence';
 
+  //SLA Violation Penalty
+  static const String sLAViolationPenalty = 'SLA Violation Penalty';
+
 
 }
 
