@@ -65,7 +65,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
       pageNumber = pageNumber + 20;
       context
           .read<EventProtectionsBloc>()
-          .add(InwardFetch(startPos: pageNumber, maxPos: 20));
+          .add(FetchData(startPos: pageNumber, maxPos: 20));
     }
   }
 

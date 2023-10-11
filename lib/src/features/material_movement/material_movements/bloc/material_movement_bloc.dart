@@ -18,7 +18,7 @@ class MaterialMovementBloc
 
   MaterialMovementBloc({required this.isInward})
       : super(const MaterialMovementState()) {
-    on<InwardFetch>(
+    on<FetchData>(
       _fetchMaterialMovements,
       transformer: droppable(),
     );
@@ -28,7 +28,7 @@ class MaterialMovementBloc
       MaterialMovementServices();
 
   FutureOr<void> _fetchMaterialMovements(
-      InwardFetch event, Emitter<MaterialMovementState> emit) async {
+      FetchData event, Emitter<MaterialMovementState> emit) async {
     try {
       if (state.hasReachedMax) return;
 

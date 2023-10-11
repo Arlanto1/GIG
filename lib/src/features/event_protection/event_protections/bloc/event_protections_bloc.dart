@@ -16,7 +16,7 @@ class EventProtectionsBloc
 
   EventProtectionsBloc()
       : super(const EventProtectionsState()) {
-    on<InwardFetch>(
+    on<FetchData>(
       _fetchList,
       transformer: droppable(),
     );
@@ -26,7 +26,7 @@ class EventProtectionsBloc
   EventProtectionServices();
 
   FutureOr<void> _fetchList(
-      InwardFetch event, Emitter<EventProtectionsState> emit) async {
+      FetchData event, Emitter<EventProtectionsState> emit) async {
     try {
       if (state.hasReachedMax) return;
 

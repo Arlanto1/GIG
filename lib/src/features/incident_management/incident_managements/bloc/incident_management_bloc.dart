@@ -15,7 +15,7 @@ part 'incident_management_state.dart';
 class IncidentManagementsBloc
     extends Bloc<IncidentManagementsEvent, IncidentManagementsState> {
   IncidentManagementsBloc() : super(const IncidentManagementsState()) {
-    on<InwardFetch>(
+    on<FetchData>(
       _fetchList,
       transformer: droppable(),
     );
@@ -24,7 +24,7 @@ class IncidentManagementsBloc
   final IncidentServices _services = IncidentServices();
 
   FutureOr<void> _fetchList(
-      InwardFetch event, Emitter<IncidentManagementsState> emit) async {
+      FetchData event, Emitter<IncidentManagementsState> emit) async {
     try {
       if (state.hasReachedMax) return;
 

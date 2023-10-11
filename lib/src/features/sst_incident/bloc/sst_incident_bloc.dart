@@ -8,15 +8,15 @@ import '../../../enums/form_status.dart';
 import '../../event_protection/models/event_protection_model.dart';
 import '../../event_protection/services/event_protection_services.dart';
 
-part 'sla_violation_event.dart';
-part 'sla_violation_state.dart';
+part 'sst_incident_event.dart';
+part 'sst_incident_state.dart';
 
-class SLAViolationBloc
-    extends Bloc<SLAViolationEvent, SLAViolationState> {
+class SstIncidentBloc
+    extends Bloc<SstIncidentEvent, SstIncidentState> {
 
-  SLAViolationBloc()
-      : super(const SLAViolationState()) {
-    on<InwardFetch>(
+  SstIncidentBloc()
+      : super(const SstIncidentState()) {
+    on<FetchData>(
       _fetchList,
       transformer: droppable(),
     );
@@ -26,7 +26,7 @@ class SLAViolationBloc
   EventProtectionServices();
 
   FutureOr<void> _fetchList(
-      InwardFetch event, Emitter<SLAViolationState> emit) async {
+      FetchData event, Emitter<SstIncidentState> emit) async {
     try {
       if (state.hasReachedMax) return;
 

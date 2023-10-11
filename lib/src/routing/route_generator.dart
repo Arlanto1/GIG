@@ -35,8 +35,8 @@ import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
 import 'package:db_atom/src/features/login/views/reset_password_screen.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
-import 'package:db_atom/src/features/sla_violation/bloc/sla_violation_bloc.dart'
-    as sv;
+import 'package:db_atom/src/features/sst_incident/bloc/sst_incident_bloc.dart' as sv;
+import 'package:db_atom/src/features/sst_incident/views/sst_incident_view.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,7 +76,6 @@ import '../features/occurrenceList/bloc/occurrences_bloc.dart' as ocb;
 import '../features/occurrenceList/views/occurrences_view.dart';
 import '../features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart';
 import '../features/passmanagement/daypassregister/views/day_pass_info_list_page.dart';
-import '../features/sla_violation/views/sla_violation_view.dart';
 import '../services/CommonServices.dart';
 
 class RouteGenerator {
@@ -247,7 +246,7 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<im.IncidentManagementsBloc>(
             create: (_) => im.IncidentManagementsBloc()
-              ..add(const im.InwardFetch(startPos: 0, maxPos: 20)),
+              ..add(const im.FetchData(startPos: 0, maxPos: 20)),
             child: const IncidentManagementsView(),
           ),
         );
@@ -270,12 +269,19 @@ class RouteGenerator {
           ),
         );
 
-      case slaViolationRoute:
+      case internalIncidentRoute:
+
+        bool isInternal = false;
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          isInternal = arguments['isInternal'];
+        }
         return MaterialPageRoute(
-          builder: (context) => BlocProvider<sv.SLAViolationBloc>(
-            create: (_) => sv.SLAViolationBloc()
-              ..add(const sv.InwardFetch(startPos: 0, maxPos: 20)),
-            child: const SLAViolationsView(),
+          builder: (context) => BlocProvider<sv.SstIncidentBloc>(
+            create: (_) => sv.SstIncidentBloc()
+              ..add(const sv.FetchData(startPos: 0, maxPos: 20)),
+            child:  SstIncidentView(isInternal: isInternal),
           ),
         );
 
@@ -283,7 +289,7 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ocb.OccurrencesBloc>(
             create: (_) => ocb.OccurrencesBloc()
-              ..add(const ocb.InwardFetch(startPos: 0, maxPos: 20)),
+              ..add(const ocb.FetchData(startPos: 0, maxPos: 20)),
             child: const OccurrencesView(),
           ),
         );
@@ -292,7 +298,7 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ep.EventProtectionsBloc>(
             create: (_) => ep.EventProtectionsBloc()
-              ..add(const ep.InwardFetch(startPos: 0, maxPos: 20)),
+              ..add(const ep.FetchData(startPos: 0, maxPos: 20)),
             child: const EventProtectionsView(),
           ),
         );
@@ -416,7 +422,7 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<MaterialMovementBloc>(
                   create: (_) => MaterialMovementBloc(isInward: isInward)
-                    ..add(const InwardFetch(startPos: 0, maxPos: 20)),
+                    ..add(const FetchData(startPos: 0, maxPos: 20)),
                   child: MaterialMovements(
                     isInward: isInward,
                   ),
