@@ -183,7 +183,6 @@ class Utils {
     );
   }
 
-
   Widget buildLeoStatusRow(int status) {
     String statusText;
 
@@ -559,7 +558,6 @@ class Utils {
     );
   }
 
-
   Widget passManagementPassTypeRow(int passType) {
     String passTypeText;
 
@@ -574,7 +572,7 @@ class Utils {
         passTypeText = 'Vendor Pass';
         break;
       case 3:
-        passTypeText   = 'SEZ Pass';
+        passTypeText = 'SEZ Pass';
         break;
       case 4:
         passTypeText = 'DWS Day Pass';
@@ -596,6 +594,139 @@ class Utils {
       ),
     );
   }
+
+  Widget buildOccurrenceStatus(int status) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Created';
+        break;
+      case 1:
+        statusText = 'Submitted';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
+
+  Widget buildSLAViolationStatus(int status) {
+    String statusText;
+
+    switch (status) {
+      case 1:
+        statusText = 'Active';
+        break;
+      case 2:
+        statusText = 'Draft';
+        break;
+      case 3:
+        statusText = 'Finalize';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
+
+  Widget leoVisit(bool status) {
+    String statusText;
+    switch (status) {
+      case true:
+        statusText = 'Yes';
+        break;
+      default:
+        statusText = 'No'; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('LEO Visit: ', statusText),
+        ],
+      ),
+    );
+  }
+
+  Widget materialMovement(bool status) {
+    String statusText;
+    switch (status) {
+      case true:
+        statusText = 'Yes';
+        break;
+      default:
+        statusText = 'No'; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Material Movement: ', statusText),
+        ],
+      ),
+    );
+  }
+
+  Widget shiftBrfngAttnded(bool status) {
+    String statusText;
+    switch (status) {
+      case true:
+        statusText = 'Yes';
+        break;
+      default:
+        statusText = 'No'; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Shift Briefing Attended: ', statusText),
+        ],
+      ),
+    );
+  }
+
+
+  Widget incidentType(int incidentType) {
+    String incidentTypeText;
+    switch (incidentType) {
+      case 0:
+        incidentTypeText = 'Loss';
+        break;
+      case 1:
+        incidentTypeText = 'Damage';
+        break;
+      case 2:
+        incidentTypeText = 'Workplace Violence';
+        break;
+      case 3:
+        incidentTypeText = 'Negligence';
+        break;
+      case 4:
+        incidentTypeText = 'General';
+        break;
+      default:
+        incidentTypeText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Incident Type: ', incidentTypeText),
+        ],
+      ),
+    );
+  }
+
   Widget textHandling(String title, String desc) {
     return RichText(
       overflow: TextOverflow.ellipsis,
