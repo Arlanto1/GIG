@@ -4,7 +4,7 @@ class GuardingMasterDataDetailsState extends Equatable {
   final FormStatus status;
   final GuardingMastersDataModel guardingMasterData;
   final GetLocations? locations;
-  final EntrySecurity? loggedInUserDetails;
+  final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<CreateImage>? loadAttachments;
@@ -30,7 +30,7 @@ class GuardingMasterDataDetailsState extends Equatable {
   factory GuardingMasterDataDetailsState.initial({
     required GuardingMastersDataModel model,
     required GetLocations locations,
-    required EntrySecurity loggedInUserDetails,
+    required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required final List<Entity>? listOfEntities,
@@ -262,7 +262,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     FormStatus? status,
     GuardingMastersDataModel? guardingMasterData,
     GetLocations? locations,
-    EntrySecurity? loggedInUserDetails,
+    User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<CreateImage>? loadAttachments,

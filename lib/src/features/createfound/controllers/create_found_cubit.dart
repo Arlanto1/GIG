@@ -18,8 +18,8 @@ import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../models/entry_security.dart';
 import '../../../models/organisation.dart';
+import '../models/user.dart';
 
 class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   final CreateFoundServices createFoundServices;
@@ -324,7 +324,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   // Get user details call
   Future<void> getUserDetails(String userId, BuildContext context) async {
     try {
-      EntrySecurity getUserData =
+      User getUserData =
           await createFoundServices.getUserDetails(userId, context);
       emit(
         state.copyWith(

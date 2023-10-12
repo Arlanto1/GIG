@@ -2,12 +2,11 @@ import 'dart:developer';
 
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
-import 'package:db_atom/src/features/security_systems/models/general_info_model.dart';
+import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
 import '../../../models/responseModels/generic_creat_response.dart';
-import '../../incident_management/incident_details/general_info/models/requestModel/general_info_request.dart';
-import '../../incident_management/incident_managements/models/incidents_response.dart';
+import '../models/requestModel/general_info_request.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -15,7 +14,7 @@ class Apis {
   static final String _get = '$baseUrl/getSSSLAList?';
 
   static final String _getDetails = '$baseUrl/getSSSLAById';
-  static final String _create = '$baseUrl/createOccurrence?';
+  static final String _create = '$baseUrl/createSSSLA?';
 
 }
 
@@ -43,7 +42,7 @@ class SstIncidentServices {
   }
 
   Future<GenericCreateResponse> create({
-    required IncidentGeneralInfoRequest body,
+    required SecuritySystemTicketIncidentRequest body,
     required bool isSubmit,
   }) async {
     var userId = await SharedPrefs.getUserId();

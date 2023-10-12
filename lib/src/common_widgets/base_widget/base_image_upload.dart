@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import '../../constants/app_icon.dart';
 import '../../constants/constants.dart';
 import '../../features/createfound/models/create_found_request.dart';
+import '../../features/createfound/models/user.dart';
 import '../../features/createfound/views/upload_attachment.dart';
-import '../../models/entry_security.dart';
 import '../../utils/app_themes/colors/app_color.dart';
 import '../../utils/app_themes/styles/app_styles.dart';
 import '../../utils/helpers/keys/keys.dart';
@@ -16,7 +16,7 @@ import '../image_download.dart';
 class BaseImageUpload {
   Widget uploadWidget({
     required BuildContext context,
-    required EntrySecurity loggedInUserDetails,
+    required User loggedInUserDetails,
     required List<CreateImage>? getFiles,
     required Function onImageSelected,
   }) {

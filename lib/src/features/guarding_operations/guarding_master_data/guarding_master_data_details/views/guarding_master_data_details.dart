@@ -26,7 +26,6 @@ import '../../../../../constants/app_icon.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/base_user.dart';
-import '../../../../../models/entry_security.dart';
 import '../../../../../routing/router.dart';
 import '../../../../../utils/app_themes/colors/app_color.dart';
 import '../../../../../utils/app_themes/styles/app_styles.dart';
@@ -410,7 +409,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
-                                  state.loggedInUserDetails ?? EntrySecurity(),
+                                  state.loggedInUserDetails ?? User(),
                               getFiles: guardFiles,
                               onImageSelected: (CreateImage data) {
                                 log('-------function---onImageSelected---------');
@@ -909,7 +908,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 context: context,
                                 loggedInUserDetails:
                                     state.loggedInUserDetails ??
-                                        EntrySecurity(),
+                                        User(),
                                 getFiles: deploymentFiles,
                                 onImageSelected: (CreateImage data) {
                                   log('-------function---onImageSelected---------');
@@ -1143,7 +1142,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
-                                  state.loggedInUserDetails ?? EntrySecurity(),
+                                  state.loggedInUserDetails ?? User(),
                               getFiles: bioDataFiles,
                               onImageSelected: (CreateImage data) {
                                 log('-------function---onImageSelected---------');
@@ -1207,7 +1206,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
-                                  state.loggedInUserDetails ?? EntrySecurity(),
+                                  state.loggedInUserDetails ?? User(),
                               getFiles: permanentAddressFiles,
                               onImageSelected: (CreateImage data) {
                                 log('-------function---onImageSelected---------');
@@ -1271,7 +1270,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
-                                  state.loggedInUserDetails ?? EntrySecurity(),
+                                  state.loggedInUserDetails ?? User(),
                               getFiles: localAddressFiles,
                               onImageSelected: (CreateImage data) {
                                 log('-------function---onImageSelected---------');
@@ -1376,7 +1375,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                     context: context,
                                     loggedInUserDetails:
                                         state.loggedInUserDetails ??
-                                            EntrySecurity(),
+                                            User(),
                                     getFiles: pVCFiles,
                                     onImageSelected: (CreateImage data) {
                                       log('-------function---onImageSelected---------');
@@ -1456,7 +1455,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 context: context,
                                 loggedInUserDetails:
                                     state.loggedInUserDetails ??
-                                        EntrySecurity(),
+                                        User(),
                                 getFiles: trainingFiles,
                                 onImageSelected: (CreateImage data) {
                                   log('-------function---onImageSelected---------');
@@ -1520,7 +1519,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
-                                  state.loggedInUserDetails ?? EntrySecurity(),
+                                  state.loggedInUserDetails ?? User(),
                               getFiles: medicalFiles,
                               onImageSelected: (CreateImage data) {
                                 log('-------function---onImageSelected---------');

@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import '../../../models/entry_security.dart';
+import '../../createfound/models/user.dart';
 
 LawEnforcementListResponse lawEnforcementListResponseFromJson(String str) =>
     LawEnforcementListResponse.fromJson(json.decode(str));
@@ -60,7 +60,7 @@ class LawEnforcementListElement {
   String? dbOfficialEmail;
   LawEnforcementLocation? dbOfficialEmailDepartment;
   String? dbOfficialAccompaniedEmail;
-  EntrySecurity? entrySecurity;
+  User? entrySecurity;
   String? additionalInformation;
   int? status;
   String? modifiedDate;

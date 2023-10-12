@@ -35,8 +35,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../models/base_user.dart';
-import '../../../models/entry_security.dart';
 import '../../../models/organisation.dart';
+import '../models/user.dart';
 
 class CreateFound extends StatefulWidget {
   final FoundListArticleDetails? listuser;
@@ -89,7 +89,7 @@ class _CreateFoundState extends State<CreateFound> {
   ArticleList? selectedArtclelist;
   BaseUser? selecteddepositorList;
   BaseUser? selectedClaimList;
-  EntrySecurity? userDetails;
+  User? userDetails;
   Mumbai? locationSelectedlist;
   SubmitCreateFoundModel? createfoundResponse;
   SerialNumberModel? serialnumberResponse;
@@ -121,10 +121,10 @@ class _CreateFoundState extends State<CreateFound> {
           name: widget.listuser?.typeOfArticle?.name ?? "")
           : ArticleList();
       userDetails = widget.listuser?.entrySecurity != null
-          ? EntrySecurity(
+          ? User(
           userId: widget.listuser?.entrySecurity?.userId ?? 1,
           lastName: widget.listuser?.entrySecurity?.lastName ?? "")
-          : EntrySecurity();
+          : User();
       createdByValue = userDetails?.name != null ? userDetails?.name ?? '' : '';
       serialNumber =
       widget.listuser?.slNo != null ? widget.listuser?.slNo ?? "" : '';
@@ -320,8 +320,8 @@ class _CreateFoundState extends State<CreateFound> {
     isClaimantAcceptedByemail == 1 ? true : false;
     TypeOfArticle? typeOfArticle =
     TypeOfArticle(id: selectedArtclelist?.id ?? 1);
-    EntrySecurity? entrysecurtity =
-    EntrySecurity(userId: userDetails?.userId ?? 1);
+    User? entrysecurtity =
+    User(userId: userDetails?.userId ?? 1);
     Depositor? depositor = Depositor(userId: selecteddepositorList?.id ?? 1);
     CreateLocation? location =
     CreateLocation(id: locationSelectedlist?.id ?? 1);
@@ -884,7 +884,7 @@ class _CreateFoundState extends State<CreateFound> {
             // }
             initiallyLocationandSerialnumberdataset(state);
             if (widget.listuser == null) {
-              userDetails = state.getUserDetailsResponse ?? EntrySecurity();
+              userDetails = state.getUserDetailsResponse ?? User();
               if (userDetails != null) {
                 createdByValue =
                 '${userDetails?.firstName ?? ''} ${userDetails?.lastName ?? ''}';

@@ -13,7 +13,6 @@ import 'package:intl/intl.dart';
 import '../../../../../../constants/constants.dart';
 import '../../../../../../enums/form_status.dart';
 import '../../../../../../models/entity.dart';
-import '../../../../../../models/entry_security.dart';
 import '../../../../../../models/organisation.dart';
 import '../../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../../models/responseModels/generic_creat_response.dart';
@@ -21,6 +20,7 @@ import '../../../../../../utils/shared_preferences.dart';
 import '../../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../../createfound/models/get_locations_model.dart';
 import '../../../../../createfound/models/serial_number_model.dart';
+import '../../../../../createfound/models/user.dart';
 import '../../../../../lawenforcement/models/addentities.dart';
 
 part 'pay_rate_state.dart';
@@ -40,7 +40,7 @@ class PayRateCubit extends Cubit<PayRateState> {
             rate: rate,
             message: '',
             newPayRate: PayRate(),
-            loggedInUserDetails: EntrySecurity(),
+            loggedInUserDetails: User(),
             departments: const [],
           ),
         );
@@ -56,7 +56,7 @@ class PayRateCubit extends Cubit<PayRateState> {
     );
 
     var userId = await SharedPrefs.getUserId();
-    EntrySecurity loggedInUserDetails =
+    User loggedInUserDetails =
         await commonServices.getUserDetails(userId: userId);
     state.rate.entrySecurity ??= loggedInUserDetails;
     GetLocations getLocationsData =

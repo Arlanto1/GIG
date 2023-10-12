@@ -12,8 +12,8 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:flutter/material.dart';
 
-import '../../../models/entry_security.dart';
 import '../../../models/organisation.dart';
+import '../models/user.dart';
 
 class CreateFoundServices {
   final endpoint = Environment().config.apiHost;
@@ -238,7 +238,7 @@ class CreateFoundServices {
   }
 
   // get user Details api call
-  Future<EntrySecurity> getUserDetails(
+  Future<User> getUserDetails(
       String userId, BuildContext context) async {
     // final url = Uri.parse('$endpoint/getUserDetails?userId=$userId');
     // try {
@@ -259,7 +259,7 @@ class CreateFoundServices {
     var value = await AppServicesHandler()
         .globalpopupGetServiceCall('/getUserDetails?userId=$userId', context);
 
-    return EntrySecurity.fromJson(value);
+    return User.fromJson(value);
   }
 
   // get serailnumber Details api call

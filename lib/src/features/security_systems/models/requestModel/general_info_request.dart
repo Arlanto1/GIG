@@ -1,17 +1,17 @@
-import 'package:db_atom/src/features/incident_management/incident_managements/models/incidents_response.dart';
+import '../sst_incident_response.dart';
 
-class IncidentGeneralInfoRequest {
-  final Incident? incident;
+class SecuritySystemTicketIncidentRequest {
+  final SstIncident? sstIncident;
 
-  IncidentGeneralInfoRequest({
-    this.incident,
+  SecuritySystemTicketIncidentRequest({
+    this.sstIncident,
   });
 
-  IncidentGeneralInfoRequest.fromJson(Map<String, dynamic> json)
-      : incident = (json['imGi'] as Map<String,dynamic>?) != null ? Incident.fromJson(json['imGi'] as Map<String,dynamic>) : null;
+  SecuritySystemTicketIncidentRequest.fromJson(Map<String, dynamic> json)
+      : sstIncident = (json['securitySystemSLA'] as Map<String,dynamic>?) != null ? SstIncident.fromJson(json['securitySystemSLA'] as Map<String,dynamic>) : null;
 
   Map<String, dynamic> toJson() => {
-    'imGi' : incident?.toJson()
+    'securitySystemSLA' : sstIncident?.toJson()
   };
 }
 

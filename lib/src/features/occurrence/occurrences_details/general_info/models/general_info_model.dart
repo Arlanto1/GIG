@@ -1,6 +1,6 @@
 
 
-import 'package:db_atom/src/models/entry_security.dart';
+import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/models/organisation.dart';
 
 class OccurrenceResponse {
@@ -36,8 +36,8 @@ class Occurrence {
    int? id;
    String? slNo;
    String? inputDate;
-   EntrySecurity? entrySecurity;
-   EntrySecurity? handOverSecurity;
+   User? entrySecurity;
+   User? handOverSecurity;
    Organisation? location;
    Organisation? locationRegion;
    bool shiftBrfngAttnded;
@@ -132,12 +132,12 @@ class Occurrence {
         slNo = json['slNo'] as String?,
         inputDate = json['inputDate'] as String?,
         entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
-            ? EntrySecurity.fromJson(
+            ? User.fromJson(
             json['entrySecurity'] as Map<String, dynamic>)
             : null,
         handOverSecurity =
         (json['handOverSecurity'] as Map<String, dynamic>?) != null
-            ? EntrySecurity.fromJson(
+            ? User.fromJson(
             json['handOverSecurity'] as Map<String, dynamic>)
             : null,
         location = (json['location'] as Map<String, dynamic>?) != null

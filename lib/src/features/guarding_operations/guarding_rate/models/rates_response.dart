@@ -1,6 +1,6 @@
 import '../../../../models/entity.dart';
-import '../../../../models/entry_security.dart';
 import '../../../../models/organisation.dart';
+import '../../../createfound/models/user.dart';
 
 class RatesResponse {
   List<GMRate>? items;
@@ -36,7 +36,7 @@ class GMRate {
   String? slNo;
   Organisation? location;
   Organisation? locationRegion;
-  EntrySecurity? entrySecurity;
+  User? entrySecurity;
   List<Entity>? entities;
   String? inputDate;
   // num? modifiedDate;
@@ -80,7 +80,7 @@ class GMRate {
                     json['locationRegion'] as Map<String, dynamic>)
                 : null,
         entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
-            ? EntrySecurity.fromJson(
+            ? User.fromJson(
                 json['entrySecurity'] as Map<String, dynamic>)
             : null,
         entities = (json['entities'] as List?)

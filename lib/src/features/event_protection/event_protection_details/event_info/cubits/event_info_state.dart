@@ -4,7 +4,7 @@ class EventInfoState extends Equatable {
   final FormStatus status;
   final EventInfoResponse model;
   final GetLocations? locations;
-  final EntrySecurity? loggedInUserDetails;
+  final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<CreateImage>? loadAttachments;
@@ -19,7 +19,7 @@ class EventInfoState extends Equatable {
   factory EventInfoState.initial({
     required EventInfoResponse model,
     required GetLocations locations,
-    required EntrySecurity loggedInUserDetails,
+    required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required final List<Entity>? listOfEntities,
@@ -91,7 +91,7 @@ class EventInfoState extends Equatable {
     FormStatus? status,
     EventInfoResponse? model,
     GetLocations? locations,
-    EntrySecurity? loggedInUserDetails,
+    User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<CreateImage>? loadAttachments,

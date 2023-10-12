@@ -22,7 +22,6 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
-import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 
 part 'contact_info_state.dart';
@@ -40,7 +39,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
           ContactInfoState.initial(
               model: ContactInfoModel(),
               locations: GetLocations(),
-              loggedInUserDetails: EntrySecurity(),
+              loggedInUserDetails: User(),
               users: const [],
               emailUsers: const [],
               errorMessage: '',
@@ -81,7 +80,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
-      EntrySecurity loggedInUserDetails =
+      User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
 
       Analyst users =

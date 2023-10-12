@@ -6,25 +6,24 @@ import 'package:db_atom/src/features/createfound/models/emplyee_departments_mode
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/incident_management/incident_details/general_info/models/requestModel/general_info_request.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
-import 'package:db_atom/src/features/security_systems/models/general_info_model.dart';
+import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
-import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
+import '../../../../../models/responseModels/generic_creat_response.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
+import '../../../models/requestModel/general_info_request.dart';
 import '../../../services/sst_incident_services.dart';
 
 part 'sst_incident_general_info_state.dart';
@@ -87,9 +86,10 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
-      EntrySecurity loggedInUserDetails =
+      User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
 
+      model.createdBy = loggedInUserDetails;
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
@@ -268,6 +268,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
   }
 
   void submitForm({bool isSaveOnly = false}) async {
+    log('-------');
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -282,43 +283,43 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     /// Create/Update API Call
-    // IncidentGeneralInfoRequest request =
-    //     IncidentGeneralInfoRequest(incident: state.model);
-    //
-    // log('--isSaveOnly----$isSaveOnly--');
-    // GenericCreateResponse response = GenericCreateResponse();
-    // try {
-    //   if (isSaveOnly) {
-    //     response = (await services.create(
-    //       body: request,
-    //       isSubmit: false,
-    //     ));
-    //   } else {
-    //     if (!state.isValid.status) {
-    //       log('--isSaveOnly--else--if$isSaveOnly--');
-    //       emit(
-    //         state.copyWith(
-    //           status: FormStatus.error,
-    //           message: state.isValid.message,
-    //         ),
-    //       );
-    //       return;
-    //     }
-    //     response = (await services.create(
-    //       body: request,
-    //       isSubmit: true,
-    //     ));
-    //   }
-    // } on Exception catch (e) {
-    //   emit(
-    //     state.copyWith(
-    //       message: e.toString(),
-    //       status: FormStatus.error,
-    //     ),
-    //   );
-    // }
+    SecuritySystemTicketIncidentRequest request =
+    SecuritySystemTicketIncidentRequest(sstIncident: state.model);
 
-    // log('---response--msg--${response.message}---');
+    log('--isSaveOnly----$isSaveOnly--');
+    GenericCreateResponse response = GenericCreateResponse();
+    try {
+      if (isSaveOnly) {
+        response = (await services.create(
+          body: request,
+          isSubmit: false,
+        ));
+      } else {
+        if (!state.isValid.status) {
+          log('--isSaveOnly--else--if$isSaveOnly--');
+          emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValid.message,
+            ),
+          );
+          return;
+        }
+        response = (await services.create(
+          body: request,
+          isSubmit: true,
+        ));
+      }
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
+    }
+
+    log('---response--msg--${response.message}---');
 
     emit(
       state.copyWith(

@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import '../../../models/entry_security.dart';
+import '../../createfound/models/user.dart';
 
 LawEnforcementDetails lawEnforcementDetailsFromJson(String str) => LawEnforcementDetails.fromJson(json.decode(str));
 
@@ -26,7 +26,7 @@ class LawEnforcementDetails {
     String? dbOfficialEmail;
     LawDbOfficialEmailDepartment? dbOfficialEmailDepartment;
     String? dbOfficialAccompaniedEmail;
-    EntrySecurity? entrySecurity;
+    User? entrySecurity;
     String? additionalInformation;
     int? status;
     String? modifiedDate;
@@ -81,7 +81,7 @@ class LawEnforcementDetails {
         dbOfficialEmail: json["dbOfficialEmail"],
         dbOfficialEmailDepartment: json["dbOfficialEmailDepartment"] == null ? null : LawDbOfficialEmailDepartment.fromJson(json["dbOfficialEmailDepartment"]),
         dbOfficialAccompaniedEmail: json["dbOfficialAccompaniedEmail"],
-        entrySecurity: json["entrySecurity"] == null ? null : EntrySecurity.fromJson(json["entrySecurity"]),
+        entrySecurity: json["entrySecurity"] == null ? null : User.fromJson(json["entrySecurity"]),
         additionalInformation: json["additionalInformation"],
         status: json["status"],
         modifiedDate: json["modifiedDate"],

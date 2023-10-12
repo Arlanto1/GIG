@@ -1,7 +1,7 @@
-import '../../../../../models/entry_security.dart';
 import '../../../../../models/history.dart';
 import '../../../../../models/role.dart';
 import '../../../../../models/role_extension.dart';
+import '../../../../createfound/models/user.dart';
 import 'day_passlist_model.dart';
 
 class DayPassListResponse {
@@ -42,7 +42,7 @@ class DayPassListItemResponse {
   final String? modifiedDate;
   final String? modifiedBy;
   final List<History>? history;
-  final EntrySecurity? entrySecurity;
+  final User? entrySecurity;
   final HandoverSecurity? handoverSecurity;
   final int? passType;
   final CompanyType? companyType;
@@ -129,7 +129,7 @@ class DayPassListItemResponse {
         modifiedDate = json['modifiedDate'] as String?,
         modifiedBy = json['modifiedBy'] as String?,
         history = (json['history'] as List?)?.map((dynamic e) => History.fromJson(e as Map<String,dynamic>)).toList(),
-        entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? EntrySecurity.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
+        entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         handoverSecurity = (json['handoverSecurity'] as Map<String,dynamic>?) != null ? HandoverSecurity.fromJson(json['handoverSecurity'] as Map<String,dynamic>) : null,
         passType = json['passType'] as int?,
         companyType = (json['companyType'] as Map<String,dynamic>?) != null ? CompanyType.fromJson(json['companyType'] as Map<String,dynamic>) : null,
