@@ -2,7 +2,7 @@ part of 'incident_general_info_cubit.dart';
 
 class IncidentGeneralInfoState extends Equatable {
   final FormStatus status;
-  final Incident model;
+  final IncidentManagement model;
   final GetLocations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -10,19 +10,21 @@ class IncidentGeneralInfoState extends Equatable {
   final List<Entity>? listOfEntities;
   final List<Organisation> departments;
   final AddEntities? getEntitiesResponse;
+  final GetArticleType? getArticleTypeResponse;
   final List<String>? participationDates;
   final int? eventId;
   final String? message;
   final List<User>? entrySecurities;
 
   factory IncidentGeneralInfoState.initial({
-    required Incident model,
+    required IncidentManagement model,
     required GetLocations locations,
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
     required final List<Entity>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
+    required final GetArticleType? getArticleTypeResponse,
     required final List<Organisation> departments,
     required String errorMessage,
     required List<CreateImage> loadAttachments,
@@ -37,6 +39,7 @@ class IncidentGeneralInfoState extends Equatable {
       listOfEntities: listOfEntities,
       departments: departments,
       getEntitiesResponse: getEntitiesResponse,
+      getArticleTypeResponse: getArticleTypeResponse,
       users: users,
       emailUsers: emailUsers,
       message: errorMessage,
@@ -52,6 +55,58 @@ class IncidentGeneralInfoState extends Equatable {
     }
     if (model.entities == null || model.entities!.isEmpty) {
       return const ErrorResponse(status: false, message: 'Please add Entities');
+    }
+    if (model.location == null) {
+      return const ErrorResponse(status: false, message: 'Please add Location');
+    }
+    if (model.incidentType == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Incident Type');
+    }
+    if (model.complainantName == null && model.complainantDbEmp == false) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Complainant');
+    }
+
+    if (model.complainantDbEmp == null && model.complainantDbEmp == true) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Complainant Employee Id');
+    }
+
+    if (model.complainantDepartment == null && model.complainantDbEmp == true) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Complainant Department');
+    }
+    if (model.complainant == null && model.complainantDbEmp == true) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Complainant');
+    }
+    if (model.complainantHrName == null || model.complainantHrName!.isEmpty) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Complainant Manager');
+    }
+    if (model.incidentDate == null || model.incidentDate!.isEmpty) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Incident Date and Time');
+    }
+
+    if (model.incidentManager == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Incident Manager');
+    }
+    if (model.incidentOwner == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Incident Owner');
+    }
+
+    if (model.description == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Incident Description');
+    }
+
+    if (model.closureTargetDate == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Target Date of Closure');
     }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
@@ -69,6 +124,7 @@ class IncidentGeneralInfoState extends Equatable {
     this.listOfEntities,
     required this.departments,
     this.getEntitiesResponse,
+    this.getArticleTypeResponse,
     this.participationDates,
     this.eventId,
     this.message,
@@ -78,8 +134,9 @@ class IncidentGeneralInfoState extends Equatable {
 
   IncidentGeneralInfoState copyWith({
     FormStatus? status,
-    Incident? model,
+    IncidentManagement? model,
     GetLocations? locations,
+    GetArticleType? articleType,
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,

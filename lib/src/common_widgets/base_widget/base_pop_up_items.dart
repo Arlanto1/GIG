@@ -63,6 +63,7 @@ class BasePopUpItems extends StatefulWidget {
   final bool? leoVisit;
   final User? handOverSecurity;
   final int? incidentType;
+  final bool isIncident;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -111,6 +112,7 @@ class BasePopUpItems extends StatefulWidget {
     this.locationEntity,
     this.locationRegionEntity,
     this.isMasterGuard = true,
+    this.isIncident = false,
     this.eventType,
     this.isEventProtectionStatus = true,
     this.isOccurrenceStatus = false,
@@ -252,7 +254,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           !widget.isMasterGuard &&
           !widget.isOccurrenceStatus &&
           !widget.isEventProtectionStatus &&
-          !widget.isSLAViolationStatus) ...[
+          !widget.isSLAViolationStatus && !widget.isIncident) ...[
         CommonWidgets.horizontalSpacerWidget(5),
         Utils().buildStatusRow(widget.status ?? 0),
       ],
@@ -609,6 +611,17 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           children: [
             Utils().textHandling(
                 'Shift Taken By : ', widget.handOverSecurity.toString()),
+          ],
+        ),
+      ],
+
+
+      if(widget.status !=null && widget.isIncident ==true)...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().buildIncidentStatus(widget.status ?? 0),
           ],
         ),
       ],

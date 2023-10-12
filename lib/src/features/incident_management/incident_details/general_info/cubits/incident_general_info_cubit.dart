@@ -6,8 +6,6 @@ import 'package:db_atom/src/features/createfound/models/emplyee_departments_mode
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/incident_management/incident_details/general_info/models/requestModel/general_info_request.dart';
-import 'package:db_atom/src/features/incident_management/incident_managements/services/incident_management_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
@@ -23,13 +21,16 @@ import '../../../../../enums/form_status.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/create_found_request.dart';
+import '../../../../createfound/models/get_articletype_model.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
-import '../../../incident_managements/models/incidents_response.dart';
+import '../models/general_info_model.dart';
+import '../models/requestModel/general_info_request.dart';
+import '../services/incident_management_services.dart';
 
 part 'incident_general_info_state.dart';
 
 class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
-  final IncidentServices services;
+  final IncidentManagementServices services;
   final String id;
   final CommonServices commonServices;
 
@@ -39,7 +40,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     required this.id,
   }) : super(
           IncidentGeneralInfoState.initial(
-            model: Incident(),
+            model: IncidentManagement(),
             locations: GetLocations(),
             users: const [],
             emailUsers: const [],
@@ -49,16 +50,16 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
             listOfEntities: const [],
             getEntitiesResponse: null,
             departments: const [],
-            loggedInUserDetails: null,
+            loggedInUserDetails: null, getArticleTypeResponse: GetArticleType(),
           ),
         );
 
-  void onModelValueChange(Incident model) {
+  void onModelValueChange(IncidentManagement model) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(Incident model) {
+  void onCheckBoxChange(IncidentManagement model) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
@@ -74,7 +75,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      Incident model = Incident();
+      IncidentManagement model = IncidentManagement();
       if (id.isNotEmpty) {
         model = await services.getIncidentDetails(id);
       }
@@ -97,6 +98,9 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
+      GetArticleType getArticleType =
+      await commonServices.getArticleType(name: 'ARTICLE_LIST');
+
       List<User> entrySecurities = await commonServices.getUsers();
 
       EmployeeDepartments departments =
@@ -106,6 +110,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         state.copyWith(
           model: model,
           locations: getLocationsData,
+          articleType: getArticleType,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           users: users.t1Analyst,
@@ -212,11 +217,11 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
     log('--state.model.incidentType--@@---${state.model.incidentType}-');
 
-   if (state.model.incidentType != null) {
-     log('--incidentType---$incidentType-');
-     state.model.incidentType = incidentType;
-     log('--state.model.incidentType--@@---${state.model.incidentType}-');
-   }
+   // if (state.model.incidentType != null) {
+   //   log('--incidentType---$incidentType-');
+   //   state.model.incidentType = incidentType;
+   //   log('--state.model.incidentType--@@---${state.model.incidentType}-');
+   // }
 
     if (state.model.typeOfAsset != null) {
       log('--incidentType---$incidentType-');
@@ -227,6 +232,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     if (entities != null) {
       state.model.entities = entities;
     }
+
 
     emit(state.copyWith(
       model: state.model,
@@ -293,22 +299,22 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       ),
     );
 
-    if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 1;
-    }
+    // if (state.model.status == 0 || state.model.status == null) {
+    //   state.model.status = 1;
+    // }
     // Setting time in milliseconds
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     /// Create/Update API Call
     IncidentGeneralInfoRequest request =
-        IncidentGeneralInfoRequest(incident: state.model);
+    IncidentGeneralInfoRequest(incidentManagement: state.model);
 
     log('--isSaveOnly----$isSaveOnly--');
     GenericCreateResponse response = GenericCreateResponse();
     try {
       if (isSaveOnly) {
-        response = (await services.create(
+        response = (await services.createIncidentManagement(
           body: request,
           isSubmit: false,
         ));
@@ -323,7 +329,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           );
           return;
         }
-        response = (await services.create(
+        response = (await services.createIncidentManagement(
           body: request,
           isSubmit: true,
         ));

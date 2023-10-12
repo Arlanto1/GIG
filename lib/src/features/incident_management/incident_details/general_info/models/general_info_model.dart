@@ -1,240 +1,385 @@
-// import 'package:db_atom/src/models/entity.dart';
-//
-// import '../../../../../models/organisation.dart';
-// import '../../../../createfound/models/user.dart';
-//
-// class EventProtectionGi {
-//   int? id;
-//   String? slNo;
-//   String? inputDate;
-//   Organisation? location;
-//   Organisation? locationRegion;
-//   List<Entity>? entities;
-//   int? status;
-//   String? modifiedBy;
-//   bool annualPowerShutdown;
-//   String? eventStartDate;
-//   String? eventEndDate;
-//   User? epManager1;
-//   User? epManager2;
-//   User? lsm1;
-//   String? lsm1ContactNo;
-//   User? lsm2;
-//   String? lsm2ContactNo;
-//   User? bu1;
-//   String? bu1ContactNo;
-//   User? bu2;
-//   String? bu2ContactNo;
-//   Organisation? requesterDepartment;
-//   List<String>? epOfficers;
-//   User? srh1;
-//   User? srh2;
-//   Organisation? bu1Dept;
-//   Organisation? bu2Dept;
-//   String? systemVendor1;
-//   String? systemVendor2;
-//   String? systemVendor3;
-//   String? systemVendor1ContactNo;
-//   String? systemVendor2ContactNo;
-//   String? systemVendor3ContactNo;
-//   bool extraSecurityDeployed;
-//   String? vendorId;
-//   String? guardingVendorPoc;
-//   int? securityOfficerCount;
-//   int? securityOfficerCountHrs;
-//   int? securitySupervisorCount;
-//   int? securitySupervisorCountHrs;
-//   int? securityGuardCount;
-//   int? securityGuardCountHrs;
-//   int? securityFacilitatorCount;
-//   int? securityFacilitatorCountHrs;
-//   List<Organisation>? proposedVendors;
-//   double? budget;
-//   String? poNumber;
-//
-//   EventProtectionGi({
-//     this.id,
-//     this.slNo,
-//     this.inputDate,
-//     this.location,
-//     this.locationRegion,
-//     this.entities,
-//     this.status,
-//     this.modifiedBy,
-//     this.annualPowerShutdown = false,
-//     this.eventStartDate,
-//     this.eventEndDate,
-//     this.epManager1,
-//     this.epManager2,
-//     this.lsm1,
-//     this.lsm1ContactNo,
-//     this.lsm2,
-//     this.lsm2ContactNo,
-//     this.bu1,
-//     this.bu1ContactNo,
-//     this.bu2,
-//     this.bu2ContactNo,
-//     this.requesterDepartment,
-//     this.epOfficers,
-//     this.srh1,
-//     this.srh2,
-//     this.bu1Dept,
-//     this.bu2Dept,
-//     this.systemVendor1,
-//     this.systemVendor2,
-//     this.systemVendor3,
-//     this.systemVendor1ContactNo,
-//     this.systemVendor2ContactNo,
-//     this.systemVendor3ContactNo,
-//     this.extraSecurityDeployed = false,
-//     this.vendorId,
-//     this.guardingVendorPoc,
-//     this.securityOfficerCount,
-//     this.securityOfficerCountHrs,
-//     this.securitySupervisorCount,
-//     this.securitySupervisorCountHrs,
-//     this.securityGuardCount,
-//     this.securityGuardCountHrs,
-//     this.securityFacilitatorCount,
-//     this.securityFacilitatorCountHrs,
-//     this.proposedVendors,
-//     this.budget,
-//     this.poNumber,
-//   });
-//
-//   EventProtectionGi.fromJson(Map<String, dynamic> json)
-//       : id = json['id'] as int?,
-//         slNo = json['slNo'] as String?,
-//         inputDate = json['inputDate'] as String?,
-//         location = (json['location'] as Map<String, dynamic>?) != null
-//             ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
-//             : null,
-//         locationRegion =
-//             (json['locationRegion'] as Map<String, dynamic>?) != null
-//                 ? Organisation.fromJson(
-//                     json['locationRegion'] as Map<String, dynamic>)
-//                 : null,
-//         entities = (json['entities'] as List?)
-//             ?.map((dynamic e) => Entity.fromJson(e as Map<String, dynamic>))
-//             .toList(),
-//         status = json['status'] as int?,
-//         modifiedBy = json['modifiedBy'] as String?,
-//         annualPowerShutdown = json['annualPowerShutdown'] as bool,
-//         eventStartDate = json['eventStartDate'] as String?,
-//         eventEndDate = json['eventEndDate'] as String?,
-//         epManager1 = (json['epManager1'] as Map<String, dynamic>?) != null
-//             ? User.fromJson(json['epManager1'] as Map<String, dynamic>)
-//             : null,
-//         epManager2 = (json['epManager2'] as Map<String, dynamic>?) != null
-//             ? User.fromJson(json['epManager2'] as Map<String, dynamic>)
-//             : null,
-//         lsm1 = (json['lsm1'] as Map<String, dynamic>?) != null
-//             ? User.fromJson(json['lsm1'] as Map<String, dynamic>)
-//             : null,
-//         lsm1ContactNo = json['lsm1ContactNo'] as String?,
-//         lsm2 = (json['lsm2'] as Map<String, dynamic>?) != null
-//             ? User.fromJson(json['lsm2'] as Map<String, dynamic>)
-//             : null,
-//         lsm2ContactNo = json['lsm2ContactNo'] as String?,
-//         bu1 = (json['bu1'] as Map<String, dynamic>?) != null
-//             ? User.fromJson(json['bu1'] as Map<String, dynamic>)
-//             : null,
-//         bu1ContactNo = json['bu1ContactNo'] as String?,
-//         bu2 = (json['bu2'] as Map<String, dynamic>?) != null
-//             ? User.fromJson(json['bu2'] as Map<String, dynamic>)
-//             : null,
-//         bu2ContactNo = json['bu2ContactNo'] as String?,
-//         requesterDepartment =
-//             (json['requesterDepartment'] as Map<String, dynamic>?) != null
-//                 ? Organisation.fromJson(
-//                     json['requesterDepartment'] as Map<String, dynamic>)
-//                 : null,
-//         epOfficers = (json['epOfficers'] as List?)
-//             ?.map((dynamic e) => e as String)
-//             .toList(),
-//         srh1 = (json['srh1'] as Map<String, dynamic>?) != null
-//             ? User.fromJson(json['srh1'] as Map<String, dynamic>)
-//             : null,
-//         srh2 = (json['srh2'] as Map<String, dynamic>?) != null
-//             ? User.fromJson(json['srh2'] as Map<String, dynamic>)
-//             : null,
-//         bu1Dept = (json['bu1Dept'] as Map<String, dynamic>?) != null
-//             ? Organisation.fromJson(json['bu1Dept'] as Map<String, dynamic>)
-//             : null,
-//         bu2Dept = (json['bu2Dept'] as Map<String, dynamic>?) != null
-//             ? Organisation.fromJson(json['bu2Dept'] as Map<String, dynamic>)
-//             : null,
-//         systemVendor1 = json['systemVendor1'] as String?,
-//         systemVendor2 = json['systemVendor2'] as String?,
-//         systemVendor3 = json['systemVendor3'] as String?,
-//         systemVendor1ContactNo = json['systemVendor1ContactNo'] as String?,
-//         systemVendor2ContactNo = json['systemVendor2ContactNo'] as String?,
-//         systemVendor3ContactNo = json['systemVendor3ContactNo'] as String?,
-//         extraSecurityDeployed = json['extraSecurityDeployed'] as bool,
-//         vendorId = json['vendorId'] as String?,
-//         guardingVendorPoc = json['guardingVendorPoc'] as String?,
-//         securityOfficerCount = json['securityOfficerCount'] as int?,
-//         securityOfficerCountHrs = json['securityOfficerCountHrs'] as int?,
-//         securitySupervisorCount = json['securitySupervisorCount'] as int?,
-//         securitySupervisorCountHrs = json['securitySupervisorCountHrs'] as int?,
-//         securityGuardCount = json['securityGuardCount'] as int?,
-//         securityGuardCountHrs = json['securityGuardCountHrs'] as int?,
-//         securityFacilitatorCount = json['securityFacilitatorCount'] as int?,
-//         securityFacilitatorCountHrs =
-//             json['securityFacilitatorCountHrs'] as int?,
-//         proposedVendors = (json['proposedVendors'] as List?)
-//             ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
-//             .toList(),
-//         budget = json['budget'] as double?,
-//         poNumber = json['poNumber'] as String?;
-//
-//   Map<String, dynamic> toJson() => {
-//         'id': id,
-//         'slNo': slNo,
-//         'inputDate': inputDate,
-//         'location': location?.toJson(),
-//         'locationRegion': locationRegion?.toJson(),
-//         'entities': entities?.map((e) => e.toJson()).toList(),
-//         'status': status,
-//         'modifiedBy': modifiedBy,
-//         'annualPowerShutdown': annualPowerShutdown,
-//         'eventStartDate': eventStartDate,
-//         'eventEndDate': eventEndDate,
-//         'epManager1': epManager1?.toJson(),
-//         'epManager2': epManager2?.toJson(),
-//         'lsm1': lsm1?.toJson(),
-//         'lsm1ContactNo': lsm1ContactNo,
-//         'lsm2': lsm2?.toJson(),
-//         'lsm2ContactNo': lsm2ContactNo,
-//         'bu1': bu1?.toJson(),
-//         'bu1ContactNo': bu1ContactNo,
-//         'bu2': bu2?.toJson(),
-//         'bu2ContactNo': bu2ContactNo,
-//         'requesterDepartment': requesterDepartment?.toJson(),
-//         'epOfficers': epOfficers,
-//         'srh1': srh1?.toJson(),
-//         'srh2': srh2?.toJson(),
-//         'bu1Dept': bu1Dept?.toJson(),
-//         'bu2Dept': bu2Dept?.toJson(),
-//         'systemVendor1': systemVendor1,
-//         'systemVendor2': systemVendor2,
-//         'systemVendor3': systemVendor3,
-//         'systemVendor1ContactNo': systemVendor1ContactNo,
-//         'systemVendor2ContactNo': systemVendor2ContactNo,
-//         'systemVendor3ContactNo': systemVendor3ContactNo,
-//         'extraSecurityDeployed': extraSecurityDeployed,
-//         'vendorId': vendorId,
-//         'guardingVendorPoc': guardingVendorPoc,
-//         'securityOfficerCount': securityOfficerCount,
-//         'securityOfficerCountHrs': securityOfficerCountHrs,
-//         'securitySupervisorCount': securitySupervisorCount,
-//         'securitySupervisorCountHrs': securitySupervisorCountHrs,
-//         'securityGuardCount': securityGuardCount,
-//         'securityGuardCountHrs': securityGuardCountHrs,
-//         'securityFacilitatorCount': securityFacilitatorCount,
-//         'securityFacilitatorCountHrs': securityFacilitatorCountHrs,
-//         'proposedVendors': proposedVendors?.map((e) => e.toJson()).toList(),
-//         'budget': budget,
-//         'poNumber': poNumber
-//       };
-// }
+
+
+import '../../../../../models/entity.dart';
+import '../../../../../models/history.dart';
+import '../../../../../models/organisation.dart';
+import '../../../../createfound/models/user.dart';
+
+class IncidentsResponse {
+  List<IncidentManagement>? items;
+  int? totalCount;
+  int? currentPageNo;
+  int? totalPageCount;
+
+  IncidentsResponse({
+    this.items,
+    this.totalCount,
+    this.currentPageNo,
+    this.totalPageCount,
+  });
+
+  IncidentsResponse.fromJson(Map<String, dynamic> json)
+      : items = (json['data'] as List?)?.map((dynamic e) => IncidentManagement.fromJson(e as Map<String,dynamic>)).toList(),
+        totalCount = json['totalCount'] as int?,
+        currentPageNo = json['currentPageNo'] as int?,
+        totalPageCount = json['totalPageCount'] as int?;
+
+  Map<String, dynamic> toJson() => {
+    'list' : items?.map((e) => e.toJson()).toList(),
+    'totalCount' : totalCount,
+    'currentPageNo' : currentPageNo,
+    'totalPageCount' : totalPageCount
+  };
+}
+
+class IncidentManagement {
+  int? id;
+  String? slNo;
+  String? inputDate;
+  Organisation? location;
+  Organisation? locationRegion;
+  int? workflowId;
+  List<Entity>? entities;
+  int? status;
+  int? incidentType;
+  int? typeOfAsset;
+  Organisation? typeOfArticle;
+  String? color;
+  String? modifiedDate;
+  String? modifiedBy;
+  List<History>? history;
+  User? entrySecurity;
+  bool complainantDbEmp;
+  User? complainant;
+  String? employeeId;
+  String? complainantName;
+  Organisation? complainantDepartment;
+  User? complainantHr;
+  String? incidentDate;
+  String? incidentOrganisation;
+  String? description;
+  User? incidentManager;
+  User? incidentOwner;
+  bool? ioRoleAccepted;
+  String? closureTargetDate;
+  String? incidentLocation;
+  String? incidentAnalysis;
+  int? severity;
+  String? incidentImpact;
+  String? initialInvestigation;
+  bool? passOfficeApprovalRequired;
+  String? passOfficeRequest;
+  String? passOfficeResponse;
+  String? logicalDevices;
+  List<dynamic>? passOfficeData;
+  bool? passOfficeResponseAccepted;
+  String? rcaRequest;
+  bool? externalRcaRequired;
+  String? rcaResponse;
+  bool? rcaResponseAccepted;
+  List<dynamic>? rcaData;
+  bool? systemReviewRequired;
+  List<dynamic>? incidentActionPlans;
+  String? furtherInvestigation;
+  String? cctvFindings;
+  bool? dataLossIdentified;
+  String? dataLossRequest;
+  String? dataLossResponse;
+  List<dynamic>? dataLossInfo;
+  bool? dataLossResponseAccepted;
+  bool? fteInvolved;
+  String? fteCwrEmployeeId;
+  String? hrEmployeeId;
+  bool? cwrInvolved;
+  String? cwrName;
+  String? companyName;
+  bool? slaViolated;
+  bool? readAcrossRequired;
+  bool? fteCwrTriggerRequired;
+  String? interviewInfo;
+  String? staffStatement;
+  String? interviewedByHrId;
+  bool? passOfficeResponded;
+  bool? rcaVendorResponded;
+  bool? dataLossVendorResponded;
+  bool? postInvestigationDone;
+  List<dynamic>? incidentWitness;
+  List<dynamic>? incidentReadAcross;
+  List<dynamic>? images;
+  int? occType;
+  String? entrySecurityName;
+  String? systemReviewerName;
+  String? incidentManagerName;
+  String? incidentOwnerName;
+  String? fteCwrName;
+  String? hrBusinessPartnerName;
+  String? intervieweeName;
+  String? interviewedByName;
+  String? complainantHrName;
+
+  IncidentManagement({
+    this.id,
+    this.slNo,
+    this.inputDate,
+    this.location,
+    this.locationRegion,
+    this.workflowId,
+    this.entities,
+    this.status,
+    this.incidentType,
+    this.typeOfAsset,
+    this.typeOfArticle,
+    this.color,
+    this.modifiedDate,
+    this.modifiedBy,
+    this.history,
+    this.entrySecurity,
+    this.complainantDbEmp = false,
+    this.complainant,
+    this.employeeId,
+    this.complainantName,
+    this.complainantDepartment,
+    this.complainantHr,
+    this.incidentDate,
+    this.incidentOrganisation,
+    this.description,
+    this.incidentManager,
+    this.incidentOwner,
+    this.ioRoleAccepted,
+    this.closureTargetDate,
+    this.incidentLocation,
+    this.incidentAnalysis,
+    this.severity,
+    this.incidentImpact,
+    this.initialInvestigation,
+    this.passOfficeApprovalRequired,
+    this.passOfficeRequest,
+    this.passOfficeResponse,
+    this.logicalDevices,
+    this.passOfficeData,
+    this.passOfficeResponseAccepted,
+    this.rcaRequest,
+    this.externalRcaRequired,
+    this.rcaResponse,
+    this.rcaResponseAccepted,
+    this.rcaData,
+    this.systemReviewRequired,
+    this.incidentActionPlans,
+    this.furtherInvestigation,
+    this.cctvFindings,
+    this.dataLossIdentified,
+    this.dataLossRequest,
+    this.dataLossResponse,
+    this.dataLossInfo,
+    this.dataLossResponseAccepted,
+    this.fteInvolved,
+    this.fteCwrEmployeeId,
+    this.hrEmployeeId,
+    this.cwrInvolved,
+    this.cwrName,
+    this.companyName,
+    this.slaViolated,
+    this.readAcrossRequired,
+    this.fteCwrTriggerRequired,
+    this.interviewInfo,
+    this.staffStatement,
+    this.interviewedByHrId,
+    this.passOfficeResponded,
+    this.rcaVendorResponded,
+    this.dataLossVendorResponded,
+    this.postInvestigationDone,
+    this.incidentWitness,
+    this.incidentReadAcross,
+    this.images,
+    this.occType,
+    this.entrySecurityName,
+    this.systemReviewerName,
+    this.incidentManagerName,
+    this.incidentOwnerName,
+    this.fteCwrName,
+    this.hrBusinessPartnerName,
+    this.intervieweeName,
+    this.interviewedByName,
+    this.complainantHrName,
+  });
+
+  IncidentManagement.fromJson(Map<String, dynamic> json)
+      : id = json['id'] as int?,
+        slNo = json['slNo'] as String?,
+        inputDate = json['inputDate'] as String?,
+        location = (json['location'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['location'] as Map<String,dynamic>) : null,
+        locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
+        workflowId = json['workflowId'] as int?,
+        entities = (json['entities'] as List?)?.map((dynamic e) => Entity.fromJson(e as Map<String,dynamic>)).toList(),
+        status = json['status'] as int?,
+        incidentType = json['incidentType'] as int?,
+        typeOfAsset = json['typeOfAsset'] as int?,
+        typeOfArticle = (json['typeOfArticle'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['typeOfArticle'] as Map<String,dynamic>) : null,
+        color = json['color'] as String?,
+        modifiedDate = json['modifiedDate'] as String?,
+        modifiedBy = json['modifiedBy'] as String?,
+        history = (json['history'] as List?)?.map((dynamic e) => History.fromJson(e as Map<String,dynamic>)).toList(),
+        entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
+        complainantDbEmp = json['complainantDbEmp'] as bool,
+        complainant = (json['complainant'] as Map<String,dynamic>?) != null ? User.fromJson(json['complainant'] as Map<String,dynamic>) : null,
+        employeeId = json['employeeId'] as String?,
+        complainantName = json['complainantName'] as String?,
+        complainantDepartment = (json['complainantDepartment'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['complainantDepartment'] as Map<String,dynamic>) : null,
+        complainantHr = (json['complainantHr'] as Map<String,dynamic>?) != null ? User.fromJson(json['complainantHr'] as Map<String,dynamic>) : null,
+        incidentDate = json['incidentDate'] as String?,
+        incidentOrganisation = json['incidentOrganisation'] as String?,
+        description = json['description'] as String?,
+        incidentManager = (json['incidentManager'] as Map<String,dynamic>?) != null ? User.fromJson(json['incidentManager'] as Map<String,dynamic>) : null,
+        incidentOwner = (json['incidentOwner'] as Map<String,dynamic>?) != null ? User.fromJson(json['incidentOwner'] as Map<String,dynamic>) : null,
+        ioRoleAccepted = json['ioRoleAccepted'] as bool?,
+        closureTargetDate = json['closureTargetDate'] as String?,
+        incidentLocation = json['incidentLocation'] as String?,
+        incidentAnalysis = json['incidentAnalysis'] as String?,
+        severity = json['severity'] as int?,
+        incidentImpact = json['incidentImpact'] as String?,
+        initialInvestigation = json['initialInvestigation'] as String?,
+        passOfficeApprovalRequired = json['passOfficeApprovalRequired'] as bool?,
+        passOfficeRequest = json['passOfficeRequest'] as String?,
+        passOfficeResponse = json['passOfficeResponse'] as String?,
+        logicalDevices = json['logicalDevices'] as String?,
+        passOfficeData = json['passOfficeData'] as List?,
+        passOfficeResponseAccepted = json['passOfficeResponseAccepted'] as bool?,
+        rcaRequest = json['rcaRequest'] as String?,
+        externalRcaRequired = json['externalRcaRequired'] as bool?,
+        rcaResponse = json['rcaResponse'] as String?,
+        rcaResponseAccepted = json['rcaResponseAccepted'] as bool?,
+        rcaData = json['rcaData'] as List?,
+        systemReviewRequired = json['systemReviewRequired'] as bool?,
+        incidentActionPlans = json['incidentActionPlans'] as List?,
+        furtherInvestigation = json['furtherInvestigation'] as String?,
+        cctvFindings = json['cctvFindings'] as String?,
+        dataLossIdentified = json['dataLossIdentified'] as bool?,
+        dataLossRequest = json['dataLossRequest'] as String?,
+        dataLossResponse = json['dataLossResponse'] as String?,
+        dataLossInfo = json['dataLossInfo'] as List?,
+        dataLossResponseAccepted = json['dataLossResponseAccepted'] as bool?,
+        fteInvolved = json['fteInvolved'] as bool?,
+        fteCwrEmployeeId = json['fteCwrEmployeeId'] as String?,
+        hrEmployeeId = json['hrEmployeeId'] as String?,
+        cwrInvolved = json['cwrInvolved'] as bool?,
+        cwrName = json['cwrName'] as String?,
+        companyName = json['companyName'] as String?,
+        slaViolated = json['slaViolated'] as bool?,
+        readAcrossRequired = json['readAcrossRequired'] as bool?,
+        fteCwrTriggerRequired = json['fteCwrTriggerRequired'] as bool?,
+        interviewInfo = json['interviewInfo'] as String?,
+        staffStatement = json['staffStatement'] as String?,
+        interviewedByHrId = json['interviewedByHrId'] as String?,
+        passOfficeResponded = json['passOfficeResponded'] as bool?,
+        rcaVendorResponded = json['rcaVendorResponded'] as bool?,
+        dataLossVendorResponded = json['dataLossVendorResponded'] as bool?,
+        postInvestigationDone = json['postInvestigationDone'] as bool?,
+        incidentWitness = json['incidentWitness'] as List?,
+        incidentReadAcross = json['incidentReadAcross'] as List?,
+        images = json['images'] as List?,
+        occType = json['occType'] as int?,
+        entrySecurityName = json['entrySecurityName'] as String?,
+        systemReviewerName = json['systemReviewerName'] as String?,
+        incidentManagerName = json['incidentManagerName'] as String?,
+        incidentOwnerName = json['incidentOwnerName'] as String?,
+        fteCwrName = json['fteCwrName'] as String?,
+        hrBusinessPartnerName = json['hrBusinessPartnerName'] as String?,
+        intervieweeName = json['intervieweeName'] as String?,
+        interviewedByName = json['interviewedByName'] as String?,
+        complainantHrName = json['complainantHrName'] as String?;
+
+  Map<String, dynamic> toJson() => {
+    'id' : id,
+    'slNo' : slNo,
+    'inputDate' : inputDate,
+    'location' : location?.toJson(),
+    'locationRegion' : locationRegion?.toJson(),
+    'workflowId' : workflowId,
+    'entities' : entities?.map((e) => e.toJson()).toList(),
+    'status' : status,
+    'incidentType' : incidentType,
+    'typeOfAsset' : typeOfAsset,
+    'typeOfArticle' : typeOfArticle?.toJson(),
+    'color' : color,
+    'modifiedDate' : modifiedDate,
+    'modifiedBy' : modifiedBy,
+    'history' : history?.map((e) => e.toJson()).toList(),
+    'entrySecurity' : entrySecurity?.toJson(),
+    'complainantDbEmp' : complainantDbEmp,
+    'complainant' : complainant?.toJson(),
+    'employeeId' : employeeId,
+    'complainantName' : complainantName,
+    'complainantDepartment' : complainantDepartment?.toJson(),
+    'complainantHr' : complainantHr?.toJson(),
+    'incidentDate' : incidentDate,
+    'incidentOrganisation' : incidentOrganisation,
+    'description' : description,
+    'incidentManager' : incidentManager?.toJson(),
+    'incidentOwner' : incidentOwner?.toJson(),
+    'ioRoleAccepted' : ioRoleAccepted,
+    'closureTargetDate' : closureTargetDate,
+    'incidentLocation' : incidentLocation,
+    'incidentAnalysis' : incidentAnalysis,
+    'severity' : severity,
+    'incidentImpact' : incidentImpact,
+    'initialInvestigation' : initialInvestigation,
+    'passOfficeApprovalRequired' : passOfficeApprovalRequired,
+    'passOfficeRequest' : passOfficeRequest,
+    'passOfficeResponse' : passOfficeResponse,
+    'logicalDevices' : logicalDevices,
+    'passOfficeData' : passOfficeData,
+    'passOfficeResponseAccepted' : passOfficeResponseAccepted,
+    'rcaRequest' : rcaRequest,
+    'externalRcaRequired' : externalRcaRequired,
+    'rcaResponse' : rcaResponse,
+    'rcaResponseAccepted' : rcaResponseAccepted,
+    'rcaData' : rcaData,
+    'systemReviewRequired' : systemReviewRequired,
+    'incidentActionPlans' : incidentActionPlans,
+    'furtherInvestigation' : furtherInvestigation,
+    'cctvFindings' : cctvFindings,
+    'dataLossIdentified' : dataLossIdentified,
+    'dataLossRequest' : dataLossRequest,
+    'dataLossResponse' : dataLossResponse,
+    'dataLossInfo' : dataLossInfo,
+    'dataLossResponseAccepted' : dataLossResponseAccepted,
+    'fteInvolved' : fteInvolved,
+    'fteCwrEmployeeId' : fteCwrEmployeeId,
+    'hrEmployeeId' : hrEmployeeId,
+    'cwrInvolved' : cwrInvolved,
+    'cwrName' : cwrName,
+    'companyName' : companyName,
+    'slaViolated' : slaViolated,
+    'readAcrossRequired' : readAcrossRequired,
+    'fteCwrTriggerRequired' : fteCwrTriggerRequired,
+    'interviewInfo' : interviewInfo,
+    'staffStatement' : staffStatement,
+    'interviewedByHrId' : interviewedByHrId,
+    'passOfficeResponded' : passOfficeResponded,
+    'rcaVendorResponded' : rcaVendorResponded,
+    'dataLossVendorResponded' : dataLossVendorResponded,
+    'postInvestigationDone' : postInvestigationDone,
+    'incidentWitness' : incidentWitness,
+    'incidentReadAcross' : incidentReadAcross,
+    'images' : images,
+    'occType' : occType,
+    'entrySecurityName' : entrySecurityName,
+    'systemReviewerName' : systemReviewerName,
+    'incidentManagerName' : incidentManagerName,
+    'incidentOwnerName' : incidentOwnerName,
+    'fteCwrName' : fteCwrName,
+    'hrBusinessPartnerName' : hrBusinessPartnerName,
+    'intervieweeName' : intervieweeName,
+    'interviewedByName' : interviewedByName,
+    'complainantHrName' : complainantHrName
+  };
+}
+
+
+
+
+
+
+
+
+
