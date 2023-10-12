@@ -19,6 +19,7 @@ import 'package:db_atom/src/features/event_protection/event_protection_details/v
 import 'package:db_atom/src/features/event_protection/event_protection_details/views/gereral_info_tiles_view.dart';
 import 'package:db_atom/src/features/guarding_operations/drop_pick_up/bloc/female_drop_pick_up_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/drop_pick_up/views/female_drop_pick_up_view.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart'
     as guarding;
@@ -33,15 +34,19 @@ import 'package:db_atom/src/features/login/views/forgot_pwd_screen.dart';
 import 'package:db_atom/src/features/login/views/login_screen.dart';
 import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
 import 'package:db_atom/src/features/login/views/reset_password_screen.dart';
+import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
-import 'package:db_atom/src/features/sst_incident/bloc/sst_incident_bloc.dart' as sv;
+import 'package:db_atom/src/features/sst_incident/bloc/sst_incident_bloc.dart'
+    as sv;
 import 'package:db_atom/src/features/sst_incident/views/sst_incident_view.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart';
+
+//import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/views/general_info_view.dart';
 import '../features/event_protection/event_protections/bloc/event_protections_bloc.dart'
@@ -51,7 +56,6 @@ import '../features/event_protection/services/event_protection_services.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data/bloc/guarding_master_data_bloc.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data/views/guarding_master_data.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_cubit.dart';
-import '../features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details.dart';
 import '../features/guarding_operations/guarding_master_data/models/guarding_master_data_model.dart';
 import '../features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 import '../features/guarding_operations/guarding_master_reports/bloc/guarding_master_report_bloc.dart';
@@ -72,7 +76,11 @@ import '../features/material_movement/material_movements/bloc/material_movement_
 import '../features/material_movement/material_movements/views/material_movements.dart';
 import '../features/material_movement/models/material_movements_model.dart';
 import '../features/material_movement/services/material_movement_services.dart';
+import '../features/occurrence/occurrences_details/general_info/cubits/general_info_cubit.dart';
+import '../features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
+import '../features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import '../features/occurrenceList/bloc/occurrences_bloc.dart' as ocb;
+import '../features/occurrenceList/services/occurrences_services.dart';
 import '../features/occurrenceList/views/occurrences_view.dart';
 import '../features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart';
 import '../features/passmanagement/daypassregister/views/day_pass_info_list_page.dart';
@@ -270,18 +278,17 @@ class RouteGenerator {
         );
 
       case internalIncidentRoute:
-
         bool isInternal = false;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
           isInternal = arguments['isInternal'];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<sv.SstIncidentBloc>(
             create: (_) => sv.SstIncidentBloc()
               ..add(const sv.FetchData(startPos: 0, maxPos: 20)),
-            child:  SstIncidentView(isInternal: isInternal),
+            child: SstIncidentView(isInternal: isInternal),
           ),
         );
 
@@ -294,6 +301,43 @@ class RouteGenerator {
           ),
         );
 
+      case occurrenceDetailsRoute:
+        OccurrenceDetailsServices services = OccurrenceDetailsServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments["title"];
+        Occurrence? occurrence = arguments["Occurrence"];
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<OccurrenceGeneralInfoCubit>(
+                  create: (_) => OccurrenceGeneralInfoCubit(
+                    services: services,
+                    occurrence: occurrence,
+                    commonServices: commonServices,
+                  ),
+                  child: OccurrenceDetails(
+                    occurrence: occurrence,
+                    title: title,
+                  ),
+                ));
+
+      // case occurrenceDetailsRoute:
+      //   String id = '';
+      //   String title;
+      //   int eventStatus = 0;
+      //   if (settings.arguments != null) {
+      //     Map<String, dynamic> arguments =
+      //     settings.arguments as Map<String, dynamic>;
+      //     id = arguments['id'];
+      //     eventStatus = arguments['eventStatus'];
+      //   }
+      //   return MaterialPageRoute(
+      //       builder: (context) => const OccurrenceDetails(
+      //         //title: title,
+      //         //eventStatus: eventStatus,
+      //       ));
+      //
       case eventProtectionListRoute:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ep.EventProtectionsBloc>(

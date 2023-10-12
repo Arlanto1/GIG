@@ -508,7 +508,34 @@ class Constants {
 
   //Occurrence
   static const String createOccurrence = 'Create Occurrence';
-
+  static const String editOccurrence = 'Edit Occurrence';
+  static const String shiftHandoverBy   = 'Shift Handover By  ';
+  static const String shiftBriefingAttended  ='Shift Briefing Attended';
+  static const String premisesRoundTaken    ='Premises Round Taken';
+   static const String medicalEmergency    ='Medical Emergency';
+  static const String lEOVisit    ='LEO Visit';
+  static const String incidentItemList    ='Incident Item List';
+  static const String securitySystemSLAList    ='Security System SLA List';
+  static const String socialEngineeringIncidents  ='Social Engineering Incidents?';
+  static const String foundArticleTransaction  ='Found Article Transaction?';
+  static const String processBreachIncident  ='Process Breach Incident?';
+  static const String anyInfrastructuralIssue  ='Any Infrastructural Issue? ';
+  static const String anySuspiciousActivity  ='Any Suspicious Activity?';
+  static const String fireAlarmEmergencyOccurred  ='Fire Alarm Emergency Occurred';
+  static const String landlordIssue  ='Landlord Issue?';
+  static const String securitySystemFailureIncidents  ='Security System Failure Incidents?';
+  static const String anySystemAlarmReceived  ='Any System Alarm Received?';
+  static const String transportIncident  ='Transport Incident?';
+  static const String anyEvent  ='Any Event?';
+  static const String notifySCRI    ='Notify SCRI  ';
+  static const String powerFailure  ='Power Failure?';
+  static const String aTMVendorVisit  ='ATM Vendor Visit?';
+  static const String cWMVisit  ='CWM Visit?';
+  static const String dgWrking  ='DG Working';
+  static const String followUp ='Follow Up Actions For Next Shift';
+  static const String followedUp    ='Followed Up ';
+  static const String powerFailureDate    ='Power Failure Start Date & Time';
+  static const String powerFailureEndDate    ='Power Failure End Date & Time';
   //SLA Violation Penalty
   static const String sLAViolationPenalty = 'SLA Violation Penalty';
 
@@ -523,6 +550,11 @@ const List<Label> statusDropDownValues = [
   Label(key: 'InActive', value: '2'),
   Label(key: 'Leave', value: '3'),
   Label(key: 'WeekOff', value: '4'),
+];
+
+const List<Label> occurrenceStatusDropDownValues = [
+  Label(key: 'Created', value: '0'),
+  Label(key: 'Submitted', value: '1'),
 ];
 const List<Label> systemAccessDropDownValues = [
   Label(key: 'Yes', value: '1'),

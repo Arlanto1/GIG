@@ -160,4 +160,17 @@ class Keys {
 
   static const String incidentDescription = 'incidentDescription_im';
 
+
+  //Occurrence
+
+  static const String premisesRoundTknCommentsKey = 'premisesRoundTknCommentsKey_occ';
+  static const String emergencyCommentsKey = 'emergencyCommentsKey_occ';
+  static const String socialEnggIncdntCommentsKey='socialEnggIncdntCommentsKey_occ';
+  static const String infraIssueCommentsKey='infraIssueCommentsKey_occ';
+  static const String fireAlarmEmrgncyCommentsKey = 'fireAlarmEmrgncyCommentsKey_occ';
+  static const String landlordIssueCommentsKey= 'landlordIssueCommentsKey_occ';
+  static const String sysAlarmRcvdCommentsKey = 'sysAlarmRcvdCommentsKey_occ';
+  static const String transportIncdntCommentsKey ='transportIncdntCommentsKey_occ';
+  static const String notifyScriKey= 'notifyScriKey_occ';
+  static const String commentsKey= 'commentsKey_occ';
 }
