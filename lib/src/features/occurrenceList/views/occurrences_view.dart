@@ -3,15 +3,18 @@ import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart'
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
+import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
+import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../occurrence/occurrences_details/general_info/models/general_info_model.dart';
 import '../bloc/occurrences_bloc.dart';
 
 class OccurrencesView extends StatefulWidget {
@@ -41,21 +44,6 @@ class _OccurrencesViewState extends State<OccurrencesView> {
     super.dispose();
   }
 
-  // void _onScroll() {
-  //   if (!_scrollController.hasClients) return;
-  //   final maxScroll = _scrollController.position.maxScrollExtent;
-  //   final currentScroll = _scrollController.position.pixels;
-  //
-  //   // Set a threshold value, e.g., 100 pixels from the end
-  //   const threshold = 1000.0;
-  //
-  //   if (maxScroll - currentScroll <= threshold) {
-  //     pageNumber = pageNumber + 20;
-  //     context
-  //         .read<EventProtectionsBloc>()
-  //         .add(InwardFetch(startPos: pageNumber, maxPos: 20));
-  //   }
-  // }
 
   void _onScroll() {
     if (!_scrollController.hasClients) return;
@@ -76,11 +64,15 @@ class _OccurrencesViewState extends State<OccurrencesView> {
         floatingActionButton: Flutterfloatingbutton(
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () => {
+          onPressed: () =>  {
             Navigator.pushNamed(
               context,
-              eventProtectionDetailsTabRoute,
-            )
+              occurrenceDetailsRoute,
+
+              arguments: {
+                "title": Constants.createOccurrence,
+              }
+            ),
           },
         ),
         appBar: BaseAppBar().buildAppHeader(
@@ -167,9 +159,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                           );
                         },
                         onEditTap: (selectedIndex) {
-                          getId(
-                              id: state.list[index].id ?? 0,
-                              eventStatus: state.list[index].status ?? 0);
+                          getId(state.list[index].id ?? 0);
                         },
                         onViewTap: (selectedIndex) {
                           showDialog(
@@ -202,14 +192,21 @@ class _OccurrencesViewState extends State<OccurrencesView> {
         }));
   }
 
-  getId({required int id, required int eventStatus}) async {
-    Navigator.pushNamed(
-      context,
-      occurrenceDetailsRoute,
-      arguments: {
-        'id': id.toString(),
-        'eventStatus': eventStatus,
-      },
-    );
+  getId(int id) async {
+    showLoadingDialog(context);
+    Occurrence occurrence =
+    await OccurrenceDetailsServices().getOccurrence(id) ;
+
+    editDataLoading(occurrence);
+  }
+
+  void editDataLoading(Occurrence? occurrence) {
+    dismissLoadingDialog(context);
+    if (occurrence != null) {
+      Navigator.pushNamed(context, occurrenceDetailsRoute, arguments: {
+        "title": Constants.editOccurrence,
+        //"Occurrence": occurrence,
+      });
+    }
   }
 }

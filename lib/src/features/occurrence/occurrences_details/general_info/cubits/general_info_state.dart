@@ -2,7 +2,7 @@ part of 'general_info_cubit.dart';
 
 class GeneralInfoState extends Equatable {
   final FormStatus status;
-  final EventProtectionGi model;
+  final Occurrence occurrence;
   final GetLocations? locations;
   final EntrySecurity? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -16,7 +16,7 @@ class GeneralInfoState extends Equatable {
   final List<User>? entrySecurities;
 
   factory GeneralInfoState.initial({
-    required EventProtectionGi model,
+    required Occurrence occurrence,
     required GetLocations locations,
     required List<BaseUser>? users,
     required EntrySecurity? loggedInUserDetails,
@@ -32,7 +32,7 @@ class GeneralInfoState extends Equatable {
   }) {
     return GeneralInfoState(
       status: FormStatus.initial,
-      model: model,
+      occurrence: occurrence,
       locations: locations,
       listOfEntities: listOfEntities,
       departments: departments,
@@ -47,56 +47,23 @@ class GeneralInfoState extends Equatable {
   }
 
   ErrorResponse get isValid {
-    if (model.status == null) {
+    if (occurrence.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-    if (model.entities == null || model.entities!.isEmpty) {
-      return const ErrorResponse(status: false, message: 'Please add Entities');
-    }
 
-    if (model.eventStartDate == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Event Start Date');
-    }
 
-    if (model.eventEndDate == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Event End Date');
-    }
 
-    if (model.lsm1 == null) {
-      return const ErrorResponse(
-          status: false, message: 'Event Location Security Manager 1');
-    }
-
-    if (model.lsm2 == null) {
-      return const ErrorResponse(
-          status: false, message: 'Event Location Security Manager 2');
-    }
-
-    if (model.bu1 == null) {
-      return const ErrorResponse(
-          status: false, message: 'Enter Event Business POC 1');
-    }
-
-    if (model.bu2 == null) {
-      return const ErrorResponse(
-          status: false, message: 'Enter Event Business POC 2');
-    }
-
-    if (model.requesterDepartment == null) {
-      return const ErrorResponse(
-          status: false, message: 'Enter Requester Department');
-    }
 
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
   @override
-  List<Object?> get props => [model, status];
+  List<Object?> get props => [occurrence, status];
 
   const GeneralInfoState({
     required this.status,
-    required this.model,
+    required this.occurrence,
     this.locations,
     this.users,
     this.emailUsers,
@@ -112,7 +79,7 @@ class GeneralInfoState extends Equatable {
 
   GeneralInfoState copyWith({
     FormStatus? status,
-    EventProtectionGi? model,
+    Occurrence? occurrence,
     GetLocations? locations,
     EntrySecurity? loggedInUserDetails,
     List<BaseUser>? users,
@@ -127,7 +94,7 @@ class GeneralInfoState extends Equatable {
   }) {
     return GeneralInfoState(
       status: status ?? this.status,
-      model: model ?? this.model,
+      occurrence: occurrence ?? this.occurrence,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
