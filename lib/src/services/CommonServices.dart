@@ -1,6 +1,7 @@
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
+import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
@@ -18,6 +19,7 @@ class Apis {
   // static const String v2 = '/v2';
 
   static final String _getLocations = '$baseUrl/getOrganisation?name=';
+  static final String _getArticleType = '$baseUrl/getOrganisation?name=';
   static final String _getUserDetails = '$baseUrl/getUserDetails?userId=';
   static final String _getSlNo = '$baseUrl/getSlNo?';
   static final String _getUsersByRole = '$baseUrl/getUsersByRole?roleName=';
@@ -47,6 +49,16 @@ class CommonServices {
       url: url,
     );
     return EmployeeDepartments.fromJson(response);
+  }
+
+  Future<GetArticleType> getArticleType({
+    required String name,
+  }) async {
+    String url = '${Apis._getArticleType}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return GetArticleType.fromJson(response);
   }
 
   Future<User> getUserDetails({

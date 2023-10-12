@@ -543,7 +543,7 @@ class Constants {
   static const String shortIncidentDescription = 'Short Description of Incident';
   static const String detailIncidentDescription = 'Detail Description';
   static const String ipbArea = 'IPB Area';
-
+  static const String colourMake = 'Colour/Make/Model';
   //SLA Violation Penalty
   static const String sLAViolationPenalty = 'SLA Violation Penalty';
 

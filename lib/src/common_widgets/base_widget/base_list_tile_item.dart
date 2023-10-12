@@ -28,6 +28,7 @@ class BaseListTileItem extends StatefulWidget {
   final Function? onEditTap;
   final Function? onViewTap;
   final int? incidentType;
+  final bool isIncident;
 
   // final Item userItem;
   final int? index;
@@ -56,6 +57,7 @@ class BaseListTileItem extends StatefulWidget {
     this.msgbExempted,
     this.returnable,
     this.showEditButton = true,
+    this.isIncident = false,
     this.locationStr,
     this.guardRank,
     this.labels,
@@ -178,7 +180,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               !widget.isMasterGuard &&
                               !widget.isOccurrenceStatus &&
                               !widget.isEventProtectionStatus &&
-                              !widget.isSLAViolationStatus) ...[
+                              !widget.isSLAViolationStatus && !widget.isIncident) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
                             Utils().buildStatusRow(widget.status ?? 0),
                           ],
@@ -210,6 +212,15 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                             Utils().buildSLAViolationStatus(widget.status ?? 0),
                           ],
 
+                          if(widget.status !=null && widget.isIncident ==true)...[
+                            CommonWidgets.verticalSpacerWidget(5),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Utils().buildIncidentStatus(widget.status ?? 0),
+                              ],
+                            ),
+                          ],
                           if(widget.incidentType !=null)...[
                             CommonWidgets.verticalSpacerWidget(5),
                             Row(

@@ -1,17 +1,20 @@
-import 'package:db_atom/src/features/incident_management/incident_managements/models/incidents_response.dart';
+
+import '../general_info_model.dart';
 
 class IncidentGeneralInfoRequest {
-  final Incident? incident;
+  final IncidentManagement? incidentManagement;
 
   IncidentGeneralInfoRequest({
-    this.incident,
+    this.incidentManagement,
   });
 
   IncidentGeneralInfoRequest.fromJson(Map<String, dynamic> json)
-      : incident = (json['imGi'] as Map<String,dynamic>?) != null ? Incident.fromJson(json['imGi'] as Map<String,dynamic>) : null;
+      : incidentManagement = (json['imGi'] as Map<String,dynamic>?) != null ? IncidentManagement.fromJson(json['imGi'] as Map<String,dynamic>) : null;
 
   Map<String, dynamic> toJson() => {
-    'imGi' : incident?.toJson()
+    'incidentManagement' : incidentManagement?.toJson(),
+    'occurrence' : incidentManagement?.toJson(),
+    'securitySystemSLA' : incidentManagement?.toJson()
   };
 }
 

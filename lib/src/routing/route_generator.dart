@@ -60,8 +60,8 @@ import '../features/guarding_operations/guarding_rate/guarding_rate_details/view
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/rates_info.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates.dart';
 import '../features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart';
+import '../features/incident_management/incident_details/general_info/services/incident_management_services.dart';
 import '../features/incident_management/incident_details/general_info/views/incident_general_info_view.dart';
-import '../features/incident_management/incident_managements/services/incident_management_services.dart';
 import '../features/incident_management/incident_managements/views/incident_managements_view.dart';
 import '../features/login/bloc/login_bloc.dart';
 import '../features/login/services/login_services.dart';
@@ -267,7 +267,7 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<IncidentGeneralInfoCubit>(
             create: (_) => IncidentGeneralInfoCubit(
-              services: IncidentServices(),
+              services: IncidentManagementServices(),
               commonServices: CommonServices(),
               id: id,
             ),
