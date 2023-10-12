@@ -10,7 +10,7 @@ class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
   static final String _get = '$baseUrl/getOCCLists?';
-  //static final String _getOccurrence = '$baseUrl/getOCCById?';
+  //static final String _getOccurrence = '$baseUrl/getOCCById';
   //static final String _createOccurrence = '$baseUrl/createOccurrence?';
 
 }

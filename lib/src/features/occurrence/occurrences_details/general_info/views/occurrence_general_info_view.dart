@@ -340,6 +340,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                       state.occurrence.premisesRoundTknComments,
                                       textFormKey: Keys.premisesRoundTknCommentsKey,
                                       hintText: Constants.informationhere,
+                                      showBorder: true,
                                       isEnable: state.occurrence.status != 6,
                                       isDisableColor: state.occurrence.status == 6,
                                       onChange: (String value) {
@@ -394,6 +395,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                       lineHeight: 6,
                                       initialValue:
                                       state.occurrence.medicalEmrgncyComments,
+                                      showBorder: true,
                                       textFormKey: Keys.emergencyCommentsKey,
                                       hintText: Constants.informationhere,
                                       isEnable: state.occurrence.status != 6,
@@ -518,6 +520,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                       lineHeight: 6,
                                       initialValue:
                                       state.occurrence.socialEnggIncdntComments,
+                                      showBorder: true,
                                       textFormKey: Keys.socialEnggIncdntCommentsKey,
                                       hintText: Constants.informationhere,
                                       isEnable: state.occurrence.status != 6,
@@ -681,6 +684,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                       initialValue:
                                       state.occurrence.infraIssueComments,
                                       textFormKey: Keys.infraIssueCommentsKey,
+                                      showBorder: true,
                                       hintText: Constants.informationhere,
                                       isEnable: state.occurrence.status != 6,
                                       isDisableColor: state.occurrence.status == 6,
@@ -809,6 +813,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                       lineHeight: 6,
                                       initialValue:
                                       state.occurrence.fireAlarmEmrgncyComments,
+                                      showBorder: true,
                                       textFormKey: Keys.fireAlarmEmrgncyCommentsKey,
                                       hintText: Constants.informationhere,
                                       isEnable: state.occurrence.status != 6,
@@ -863,6 +868,8 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                       lineHeight: 6,
                                       initialValue:
                                       state.occurrence.landlordIssueComments,
+                                      showBorder: true,
+
                                       textFormKey: Keys.landlordIssueCommentsKey,
                                       hintText: Constants.informationhere,
                                       isEnable: state.occurrence.status != 6,
@@ -988,6 +995,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                       initialValue:
                                       state.occurrence.sysAlarmRcvdComments,
                                       textFormKey: Keys.sysAlarmRcvdCommentsKey,
+                                      showBorder: true,
                                       hintText: Constants.informationhere,
                                       isEnable: state.occurrence.status != 6,
                                       isDisableColor: state.occurrence.status == 6,
@@ -1047,6 +1055,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                       state.occurrence.transportIncdntComments,
                                       textFormKey: Keys.transportIncdntCommentsKey,
                                       hintText: Constants.informationhere,
+                                      showBorder: true,
                                       isEnable: state.occurrence.status != 6,
                                       isDisableColor: state.occurrence.status == 6,
                                       onChange: (String value) {
@@ -1102,6 +1111,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                       textFormKey: Keys.notifyScriKey,
                                       hintText: Constants.informationhere,
                                       isEnable: state.occurrence.status != 6,
+                                      showBorder: true,
                                       isDisableColor: state.occurrence.status == 6,
                                       onChange: (String value) {
                                         state.occurrence.notifyScri = value;
@@ -1296,6 +1306,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     initialValue: state.occurrence.comments,
                                     textFormKey: Keys.commentsKey,
                                     hintText: Constants.informationhere,
+                                    showBorder: true,
                                     isEnable: state.occurrence.status != 6,
                                     isDisableColor: state.occurrence.status == 6,
                                     onChange: (String value) {
