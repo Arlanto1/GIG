@@ -1,6 +1,6 @@
+import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 
-import '../../../models/entry_security.dart';
 import '../../../models/history.dart';
 import '../../../models/organisation.dart';
 
@@ -53,7 +53,7 @@ class MaterialMovementModel {
   List<Image>? entrySecuritySign;
   String? receiverEmail;
   String? receiverEmployeeId;
-  EntrySecurity? entrySecurity;
+  User? entrySecurity;
   int? status;
   String? modifiedBy;
   List<History>? history;
@@ -178,7 +178,7 @@ class MaterialMovementModel {
         receiverEmail = json['receiverEmail'] as String?,
         receiverEmployeeId = json['receiverEmployeeId'] as String?,
         entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
-            ? EntrySecurity.fromJson(
+            ? User.fromJson(
                 json['entrySecurity'] as Map<String, dynamic>)
             : null,
         status = json['status'] as int?,

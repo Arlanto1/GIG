@@ -19,7 +19,6 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
-import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/create_found_request.dart';
@@ -83,7 +82,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
-      EntrySecurity loggedInUserDetails =
+      User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
 
       Analyst users =

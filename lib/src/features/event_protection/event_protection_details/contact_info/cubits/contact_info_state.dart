@@ -4,7 +4,7 @@ class ContactInfoState extends Equatable {
   final FormStatus status;
   final ContactInfoModel model;
   final GetLocations? locations;
-  final EntrySecurity? loggedInUserDetails;
+  final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<CreateImage>? loadAttachments;
@@ -30,7 +30,7 @@ class ContactInfoState extends Equatable {
   factory ContactInfoState.initial({
     required ContactInfoModel model,
     required GetLocations locations,
-    required EntrySecurity loggedInUserDetails,
+    required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required final List<Entity>? listOfEntities,
@@ -125,7 +125,7 @@ class ContactInfoState extends Equatable {
     FormStatus? status,
     ContactInfoModel? model,
     GetLocations? locations,
-    EntrySecurity? loggedInUserDetails,
+    User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<CreateImage>? loadAttachments,

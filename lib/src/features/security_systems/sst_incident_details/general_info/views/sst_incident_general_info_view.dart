@@ -26,7 +26,6 @@ import '../../../../../common_widgets/base_widget/radio_buttons_yes_no.dart';
 import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../models/base_user.dart';
-import '../../../../../utils/util.dart';
 import '../cubits/sst_incident_general_info_cubit.dart';
 
 class SstIncidentGeneralInfoView extends StatefulWidget {
@@ -65,7 +64,6 @@ class _SstIncidentGeneralInfoViewState
     return BlocConsumer<SstIncidentGeneralInfoCubit,
         SstIncidentGeneralInfoState>(
       listener: (context, state) {
-
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: Constants.generalInformation,
@@ -77,8 +75,8 @@ class _SstIncidentGeneralInfoViewState
               Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
-                incidentManagementRoute,
-                arguments: {},
+                sstIncidentListRoute,
+                arguments: {"isInternal": widget.isInternal},
               );
             },
           );
@@ -124,7 +122,6 @@ class _SstIncidentGeneralInfoViewState
       },
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
-
 
   getBodybuilder(SstIncidentGeneralInfoState state, height) {
     if (state.status == FormStatus.loading) {
@@ -408,12 +405,11 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// IPB Area
-                            CommonWidgets.textDisplay(Constants.ipbArea,
-                                Styles.textStyleBlack14),
+                            CommonWidgets.textDisplay(
+                                Constants.ipbArea, Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                               status: state.model.status ?? 0,
-                              selectedValue:
-                                  state.model.ipbArea ? 1 : 0,
+                              selectedValue: state.model.ipbArea ? 1 : 0,
                               onChangedYes: disableForm
                                   ? null
                                   : (val) {

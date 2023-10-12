@@ -38,8 +38,8 @@ import 'package:intl/intl.dart';
 
 import '../../../models/base_user.dart';
 import '../../../models/entity.dart';
-import '../../../models/entry_security.dart';
 import '../../../models/organisation.dart';
+import '../../createfound/models/user.dart';
 
 class CreateLawEnforcement extends StatefulWidget {
   final LawEnforcementDetails? listUser;
@@ -1152,7 +1152,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                     builder: (BuildContext dialogContext) {
                       return UploadAttachment(
                         userdetails: state.getUserDetailsResponse ??
-                            EntrySecurity(),
+                            User(),
                         getFiles: getFiles ?? [],
                         lawstate: state,
                       );

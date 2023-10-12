@@ -19,7 +19,6 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
-import '../../../../../models/entry_security.dart';
 import '../../../../../models/organisation.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
@@ -42,7 +41,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
           EventInfoState.initial(
               model: EventInfoResponse(),
               locations: GetLocations(),
-              loggedInUserDetails: EntrySecurity(),
+              loggedInUserDetails: User(),
               users: const [],
               eventDuration: eventDuration,
               emailUsers: const [],

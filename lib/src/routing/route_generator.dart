@@ -41,7 +41,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart';
-
 //import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/views/general_info_view.dart';
@@ -76,7 +75,6 @@ import '../features/occurrence/occurrences_details/general_info/cubits/general_i
 import '../features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
 import '../features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import '../features/occurrenceList/bloc/occurrences_bloc.dart' as ocb;
-import '../features/occurrenceList/services/occurrences_services.dart';
 import '../features/occurrenceList/views/occurrences_view.dart';
 import '../features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart';
 import '../features/passmanagement/daypassregister/views/day_pass_info_list_page.dart';

@@ -4,7 +4,7 @@ class IncidentGeneralInfoState extends Equatable {
   final FormStatus status;
   final Incident model;
   final GetLocations? locations;
-  final EntrySecurity? loggedInUserDetails;
+  final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<Entity>? listOfEntities;
@@ -19,7 +19,7 @@ class IncidentGeneralInfoState extends Equatable {
     required Incident model,
     required GetLocations locations,
     required List<BaseUser>? users,
-    required EntrySecurity? loggedInUserDetails,
+    required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
     required final List<Entity>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
@@ -80,7 +80,7 @@ class IncidentGeneralInfoState extends Equatable {
     FormStatus? status,
     Incident? model,
     GetLocations? locations,
-    EntrySecurity? loggedInUserDetails,
+    User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<Entity>? listOfEntities,

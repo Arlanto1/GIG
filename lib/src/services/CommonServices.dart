@@ -10,7 +10,6 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import '../features/createfound/models/get_depositor_model.dart';
 import '../features/createfound/models/user.dart';
 import '../features/lawenforcement/models/addentities.dart';
-import '../models/entry_security.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -50,14 +49,14 @@ class CommonServices {
     return EmployeeDepartments.fromJson(response);
   }
 
-  Future<EntrySecurity> getUserDetails({
+  Future<User> getUserDetails({
     required String userId,
   }) async {
     String url = '${Apis._getUserDetails}$userId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return EntrySecurity.fromJson(response);
+    return User.fromJson(response);
   }
 
   Future<SerialNumberModel> getSlNo({

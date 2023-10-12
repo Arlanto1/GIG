@@ -15,8 +15,8 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../models/base_user.dart';
 import '../../../../../models/entity.dart';
-import '../../../../../models/entry_security.dart';
 import '../../../../../models/organisation.dart';
+import '../../../../createfound/models/user.dart';
 
 enum CreatePassMgmtStateType {
   initial,
@@ -43,7 +43,7 @@ class CreatePassMgmtState extends Equatable {
   Organisation? selectedemployeeDepartmentResponse;
   List<CreateImage>? loadAttachments = [];
   List<CreateImage>? photoAttachments = [];
-  EntrySecurity? getUserDetailsResponse;
+  User? getUserDetailsResponse;
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
   Organisation? createOrganisationResponse;
   Organisation? createEmployeeDepartments;
@@ -120,7 +120,7 @@ class CreatePassMgmtState extends Equatable {
     EmployeeDepartments? employeeDepartment,
     Organisation? selectedemployeeDepartmentResponse,
     List<CreateImage>? loadAttachments,
-    EntrySecurity? getUserDetailsResponse,
+    User? getUserDetailsResponse,
     SubmitLawEnforcementResponse? lawcreateFoundresponse,
     Organisation? createOrganisationResponse,
     Organisation? createEmployeeDepartments,

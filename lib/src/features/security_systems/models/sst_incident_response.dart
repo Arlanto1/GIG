@@ -63,7 +63,7 @@ class SstIncident {
   List<dynamic>? dataLossDocs;
   List<dynamic>? quotes;
   List<dynamic>? additionalDocs;
-  int? modifiedDate;
+  // int? modifiedDate;
   String? modifiedBy;
   int? occType;
   List<ActivityNotes>? activityNotes;
@@ -105,7 +105,7 @@ class SstIncident {
     this.dataLossDocs,
     this.quotes,
     this.additionalDocs,
-    this.modifiedDate,
+    // this.modifiedDate,
     this.modifiedBy,
     this.occType,
     this.activityNotes,
@@ -148,7 +148,7 @@ class SstIncident {
         dataLossDocs = json['dataLossDocs'] as List?,
         quotes = json['quotes'] as List?,
         additionalDocs = json['additionalDocs'] as List?,
-        modifiedDate = json['modifiedDate'] as int?,
+        // modifiedDate = json['modifiedDate'] as int?,
         modifiedBy = json['modifiedBy'] as String?,
         occType = json['occType'] as int?,
         activityNotes = (json['activityNotes'] as List?)?.map((dynamic e) => ActivityNotes.fromJson(e as Map<String,dynamic>)).toList(),
@@ -190,7 +190,7 @@ class SstIncident {
     'dataLossDocs' : dataLossDocs,
     'quotes' : quotes,
     'additionalDocs' : additionalDocs,
-    'modifiedDate' : modifiedDate,
+    // 'modifiedDate' : modifiedDate,
     'modifiedBy' : modifiedBy,
     'occType' : occType,
     'activityNotes' : activityNotes?.map((e) => e.toJson()).toList(),

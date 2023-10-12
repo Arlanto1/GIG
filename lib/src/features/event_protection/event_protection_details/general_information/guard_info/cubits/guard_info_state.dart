@@ -4,7 +4,7 @@ class GuardInfoState extends Equatable {
   final FormStatus status;
   final GuardInfoModel guardInfoModel;
   final GetLocations? locations;
-  final EntrySecurity? loggedInUserDetails;
+  final User? loggedInUserDetails;
   final List<Organisation> departments;
   final int? eventId;
   final String? message;
@@ -12,7 +12,7 @@ class GuardInfoState extends Equatable {
   factory GuardInfoState.initial({
     required GuardInfoModel guardInfoModel,
     required GetLocations locations,
-    required EntrySecurity loggedInUserDetails,
+    required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required final List<Organisation> departments,
@@ -56,7 +56,7 @@ class GuardInfoState extends Equatable {
     FormStatus? status,
     GuardInfoModel? guardInfoModel,
     GetLocations? locations,
-    EntrySecurity? loggedInUserDetails,
+    User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<CreateImage>? loadAttachments,

@@ -1,6 +1,5 @@
 
 import '../../../../models/entity.dart';
-import '../../../../models/entry_security.dart';
 import '../../../../models/history.dart';
 import '../../../../models/organisation.dart';
 import '../../../createfound/models/user.dart';
@@ -48,7 +47,7 @@ class Incident {
   String? modifiedDate;
   String? modifiedBy;
   List<History>? history;
-  EntrySecurity? entrySecurity;
+  User? entrySecurity;
   bool complainantDbEmp;
   User? complainant;
   String? employeeId;
@@ -219,7 +218,7 @@ class Incident {
         modifiedDate = json['modifiedDate'] as String?,
         modifiedBy = json['modifiedBy'] as String?,
         history = (json['history'] as List?)?.map((dynamic e) => History.fromJson(e as Map<String,dynamic>)).toList(),
-        entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? EntrySecurity.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
+        entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         complainantDbEmp = json['complainantDbEmp'] as bool,
         complainant = (json['complainant'] as Map<String,dynamic>?) != null ? User.fromJson(json['complainant'] as Map<String,dynamic>) : null,
         employeeId = json['employeeId'] as String?,

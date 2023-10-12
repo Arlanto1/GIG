@@ -17,7 +17,6 @@ import 'package:intl/intl.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/base_user.dart';
-import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../models/responseModels/generic_creat_response.dart';
 import '../../../../../utils/util.dart';
@@ -45,7 +44,7 @@ class GuardingMasterDataDetailsCubit
           GuardingMasterDataDetailsState.initial(
               model: model ?? GuardingMastersDataModel(),
               locations: GetLocations(),
-              loggedInUserDetails: EntrySecurity(),
+              loggedInUserDetails: User(),
               users: const [],
               emailUsers: const [],
               errorMessage: '',
@@ -107,7 +106,7 @@ class GuardingMasterDataDetailsCubit
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
-      EntrySecurity loggedInUserDetails =
+      User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
 
       Analyst users =
@@ -251,7 +250,7 @@ class GuardingMasterDataDetailsCubit
 
     // TODO: Object issue
     if (guard != null) {
-      EntrySecurity userDetails = EntrySecurity(
+      User userDetails = User(
           name: guard.name, userId: guard.id, userName: guard.name);
       state.guardingMasterData.guard = userDetails;
     }

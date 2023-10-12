@@ -4,7 +4,7 @@ class GeneralInfoState extends Equatable {
   final FormStatus status;
   final Occurrence occurrence;
   final GetLocations? locations;
-  final EntrySecurity? loggedInUserDetails;
+  final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<Entity>? listOfEntities;
@@ -19,7 +19,7 @@ class GeneralInfoState extends Equatable {
     required Occurrence occurrence,
     required GetLocations locations,
     required List<BaseUser>? users,
-    required EntrySecurity? loggedInUserDetails,
+    required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
     required final List<Entity>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
@@ -81,7 +81,7 @@ class GeneralInfoState extends Equatable {
     FormStatus? status,
     Occurrence? occurrence,
     GetLocations? locations,
-    EntrySecurity? loggedInUserDetails,
+    User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<Entity>? listOfEntities,

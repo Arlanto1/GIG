@@ -180,13 +180,16 @@ class _SstIncidentViewState extends State<SstIncidentView> {
         }));
   }
 
-  getId({required int id, required int eventStatus}) async {
+  getId({
+    required int id,
+    required int eventStatus,
+  }) async {
     Navigator.pushNamed(
       context,
       sstIncidentDetailsRoute,
       arguments: {
         'id': id.toString(),
-        'eventStatus': eventStatus,
+        'isInternal': widget.isInternal,
       },
     );
   }

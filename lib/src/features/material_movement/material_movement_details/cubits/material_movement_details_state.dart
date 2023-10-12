@@ -5,7 +5,7 @@ class MaterialMovementDetailsState extends Equatable {
 
   final MaterialMovementModel materialMovement;
   final GetLocations? locations;
-  final EntrySecurity? loggedInUserDetails;
+  final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<Organisation> departments;
@@ -17,7 +17,7 @@ class MaterialMovementDetailsState extends Equatable {
   factory MaterialMovementDetailsState.initial({
     required MaterialMovementModel model,
     required GetLocations locations,
-    required EntrySecurity loggedInUserDetails,
+    required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
@@ -86,7 +86,7 @@ class MaterialMovementDetailsState extends Equatable {
     FormStatus? status,
     MaterialMovementModel? materialMovement,
     GetLocations? locations,
-    EntrySecurity? loggedInUserDetails,
+    User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<Organisation>? departments,
