@@ -465,10 +465,10 @@ class NavigationDrawer1 extends StatelessWidget {
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassmgmtindexChange(index);
     if (index == 0) {
-      Navigator.pushNamed(context, internalIncidentRoute,
+      Navigator.pushNamed(context, sstIncidentListRoute,
           arguments: {"isInternal": true});
     } else if (index == 1) {
-      Navigator.pushNamed(context, internalIncidentRoute,
+      Navigator.pushNamed(context, sstIncidentListRoute,
           arguments: {"isInternal": false});
     }
   }

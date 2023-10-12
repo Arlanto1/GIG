@@ -9,7 +9,6 @@ import '../models/incidents_response.dart';
 import '../services/incident_management_services.dart';
 
 part 'incident_management_event.dart';
-
 part 'incident_management_state.dart';
 
 class IncidentManagementsBloc

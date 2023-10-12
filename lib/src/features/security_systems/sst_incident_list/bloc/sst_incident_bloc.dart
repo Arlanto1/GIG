@@ -4,9 +4,11 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../enums/form_status.dart';
-import '../../event_protection/models/event_protection_model.dart';
-import '../../event_protection/services/event_protection_services.dart';
+import '../../../../enums/form_status.dart';
+import '../../../event_protection/models/event_protection_model.dart';
+import '../../../incident_management/incident_managements/models/incidents_response.dart';
+import '../../models/general_info_model.dart';
+import '../../services/sst_incident_services.dart';
 
 part 'sst_incident_event.dart';
 part 'sst_incident_state.dart';
@@ -22,8 +24,8 @@ class SstIncidentBloc
     );
   }
 
-  final EventProtectionServices _services =
-  EventProtectionServices();
+  final SstIncidentServices _services =
+  SstIncidentServices();
 
   FutureOr<void> _fetchList(
       FetchData event, Emitter<SstIncidentState> emit) async {
@@ -31,8 +33,8 @@ class SstIncidentBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        EventProtectionResponse response =
-        await _services.getEventProtections(
+        SstIncidentResponse response =
+        await _services.get(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '77',
@@ -47,8 +49,8 @@ class SstIncidentBloc
         );
       }
 
-      EventProtectionResponse response =
-      await _services.getEventProtections(
+      SstIncidentResponse response =
+      await _services.get(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '77',

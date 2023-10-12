@@ -536,6 +536,14 @@ class Constants {
   static const String followedUp    ='Followed Up ';
   static const String powerFailureDate    ='Power Failure Start Date & Time';
   static const String powerFailureEndDate    ='Power Failure End Date & Time';
+  static const String systemManager = 'System Manager';
+  static const String lsm = 'LSM';
+  static const String asl = 'ASL';
+  static const String locationTeam = 'Location Team';
+  static const String shortIncidentDescription = 'Short Description of Incident';
+  static const String detailIncidentDescription = 'Detail Description';
+  static const String ipbArea = 'IPB Area';
+
   //SLA Violation Penalty
   static const String sLAViolationPenalty = 'SLA Violation Penalty';
 

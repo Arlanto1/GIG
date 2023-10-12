@@ -159,6 +159,7 @@ class Keys {
   static const String vendor2ContactKey = 'vendor2ContactKey_gd';
 
   static const String incidentDescription = 'incidentDescription_im';
+  static const String shortIncidentDescription = 'shortIncidentDescription';
 
 
   //Occurrence

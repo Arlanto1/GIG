@@ -1,17 +1,17 @@
 part of 'sst_incident_bloc.dart';
 
 class SstIncidentState extends Equatable {
-  final List<EventProtectionModel> items;
+  final List<SstIncident> items;
   final bool hasReachedMax;
   final FormStatus status;
 
   const SstIncidentState(
-      {this.items = const <EventProtectionModel>[],
+      {this.items = const <SstIncident>[],
         this.hasReachedMax = false,
         this.status = FormStatus.initial});
 
   SstIncidentState copyWith({
-    List<EventProtectionModel>? items,
+    List<SstIncident>? items,
     bool? hasReachedMax,
     FormStatus? status,
   }) {
