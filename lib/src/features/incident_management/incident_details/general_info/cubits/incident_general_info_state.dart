@@ -81,7 +81,7 @@ class IncidentGeneralInfoState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant');
     }
-    if (model.complainantHrName == null || model.complainantHrName!.isEmpty) {
+    if (model.complainantHr == null ) {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant Manager');
     }

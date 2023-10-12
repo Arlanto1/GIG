@@ -292,7 +292,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     ));
   }
 
-  void submitForm({bool isSaveOnly = false}) async {
+  void submitForm({bool isSaveOnly = false,bool isSubmit = false}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
