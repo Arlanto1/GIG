@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/app_themes/colors/app_color.dart';
+
 class FlutterInputField extends StatelessWidget {
   final String hintText;
   final Function onChange;
@@ -24,6 +26,7 @@ class FlutterInputField extends StatelessWidget {
   final String? initialValue;
   final String? labelText;
   final IconData? suffixIcon;
+  final bool? showBorder;
 
   const FlutterInputField({
     Key? key,
@@ -50,6 +53,7 @@ class FlutterInputField extends StatelessWidget {
     this.initialValue,
     this.labelText,
     this.suffixIcon,
+    this.showBorder,
   }) : super(key: key);
 
   @override
@@ -63,44 +67,49 @@ class FlutterInputField extends StatelessWidget {
       enabled: isEnable,
       maxLines: lineHeight,
       autofocus: autoFocus!,
-
       keyboardType: keyboardType,
       focusNode: focusnode,
-
-      decoration: InputDecoration(
+      decoration: showBorder ?? false
+          ?
+          InputDecoration(
+              fillColor: (isDisableColor ?? false)
+                  ? AppColors.disabletextfieldBackground
+                  : AppColors.enabletextfieldBackground,
+              filled: true,
+              border: const OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                borderSide:
+                    const BorderSide(color: Color(0xFFCACACA), width: 1.0),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              enabledBorder: OutlineInputBorder(
+                //<-- SEE HERE
+                borderSide:
+                    const BorderSide(color: Color(0xFFCACACA), width: 1.0),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              disabledBorder: OutlineInputBorder(
+                //<-- SEE HERE
+                borderSide:
+                    const BorderSide(color: Color(0xFFCACACA), width: 1.0),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              hintText: hintText,
+              prefixIcon: prefixWidget,
+              suffixIcon: suffixWidget,
+              hintStyle: TextStyle(
+                fontSize: hintFontSize,
+              ),
+            ): InputDecoration(
         labelText: labelText,
-        labelStyle: const TextStyle(color: Colors.grey), // Initial label color
+        labelStyle:
+        const TextStyle(color: Colors.grey), // Initial label color
         focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue), // Color when focused
+          borderSide:
+          BorderSide(color: Colors.blue), // Color when focused
         ),
         suffixIcon: Icon(suffixIcon),
       ),
-
-      // decoration: InputDecoration(
-      //   fillColor: (isDisableColor ?? false) ? AppColors.disabletextfieldBackground:AppColors.enabletextfieldBackground,
-      //   filled: true,
-      //   border: OutlineInputBorder(),
-      //   focusedBorder: OutlineInputBorder(
-      //     borderSide: const BorderSide(color: Color(0xFFCACACA), width: 1.0),
-      //     borderRadius: BorderRadius.circular(8.0),
-      //   ),
-      //   enabledBorder: OutlineInputBorder(
-      //     //<-- SEE HERE
-      //     borderSide: const BorderSide(color: Color(0xFFCACACA), width: 1.0),
-      //     borderRadius: BorderRadius.circular(8.0),
-      //   ),
-      //   disabledBorder: OutlineInputBorder(
-      //     //<-- SEE HERE
-      //     borderSide: const BorderSide(color: Color(0xFFCACACA), width: 1.0),
-      //     borderRadius: BorderRadius.circular(8.0),
-      //   ),
-      //   hintText: hintText,
-      //   prefixIcon: prefixWidget,
-      //   suffixIcon: suffixWidget,
-      //   hintStyle: TextStyle(
-      //     fontSize: hintFontSize,
-      //   ),
-      // ),
       onChanged: (String str) {
         onChange(str);
       },
