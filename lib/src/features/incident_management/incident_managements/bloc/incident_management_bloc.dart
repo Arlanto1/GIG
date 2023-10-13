@@ -5,8 +5,9 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../enums/form_status.dart';
+import '../../models/incidents_response.dart';
 import '../../services/incident_management_services.dart';
-import '../models/incidents_response.dart';
+
 
 part 'incident_management_event.dart';
 part 'incident_management_state.dart';
@@ -31,7 +32,7 @@ class IncidentManagementsBloc
         IncidentsResponse response = await _services.getIncidents(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          userId: '77',
+          userId: '7',
         );
 
         return emit(
@@ -46,7 +47,7 @@ class IncidentManagementsBloc
       IncidentsResponse response = await _services.getIncidents(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '77',
+        userId: '7',
       );
 
       if (response.items?.isEmpty == true) {

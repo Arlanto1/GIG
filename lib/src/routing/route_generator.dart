@@ -271,7 +271,7 @@ class RouteGenerator {
               commonServices: CommonServices(),
               id: id,
             ),
-            child: const IncidentGeneralInfoView(),
+            child:  const IncidentGeneralInfoView(),
           ),
         );
 
@@ -323,7 +323,6 @@ class RouteGenerator {
       case occurrenceDetailsRoute:
         OccurrenceDetailsServices services = OccurrenceDetailsServices();
         CommonServices commonServices = CommonServices();
-
         String id = '';
         String title;
         Map<String, dynamic> arguments =

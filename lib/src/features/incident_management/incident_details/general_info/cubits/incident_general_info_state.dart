@@ -77,7 +77,7 @@ class IncidentGeneralInfoState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant Department');
     }
-    if (model.complainant == null && model.complainantDbEmp == true) {
+    if (model.complainantName == null && model.complainantDbEmp == true) {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant');
     }

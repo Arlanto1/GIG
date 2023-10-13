@@ -1,6 +1,7 @@
 
 
-import '../../../../incident_managements/models/incidents_response.dart';
+
+import '../../../../models/incidents_response.dart';
 
 class IncidentGeneralInfoRequest {
   final Incident? incidentManagement;

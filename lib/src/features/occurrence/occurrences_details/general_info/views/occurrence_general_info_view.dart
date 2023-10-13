@@ -597,9 +597,10 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                         incidentManagementDetailsRoute),
                                   },
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
                                       // Expanded(
-                                      //child:
+                                      //child
                                       const SizedBox(width: 14),
                                       SvgPicture.asset(
                                         AppIcon.pluscircle,
@@ -615,6 +616,10 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
+                                      if (state.model.incidentItems !=
+                                          null) ...[
+                                        showButtonDisplay(),
+                                      ],
                                     ],
                                   ),
                                 ),
@@ -1340,6 +1345,21 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+      },
+    );
+  }
+
+  Widget showButtonDisplay() {
+    return AppButton(
+      // Customize the button properties as needed
+      height: 40,
+      width: 100,
+      backgroundColor: Colors.white,
+      key: const Key(Keys.showButton),
+      buttonText: Constants.show,
+      buttonTextKey: Keys.showButton,
+      onTap: () => {
+        Navigator.pushNamed(context, incidentManagementRoute),
       },
     );
   }
