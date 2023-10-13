@@ -36,7 +36,7 @@ class OccurrenceDetailsServices {
     );
     return OccurrenceResponse.fromJson(response);
   }
-  Future<Occurrence> getOccurrence(int id) async {
+  Future<Occurrence> getOccurrence(String id) async {
     final String url = '${Apis._getOccurrence}/$id';
     var response = await BaseApiService().getRequest(
       url: url,

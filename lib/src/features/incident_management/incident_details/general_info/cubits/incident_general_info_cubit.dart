@@ -23,9 +23,9 @@ import '../../../../../utils/util.dart';
 import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_articletype_model.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
-import '../models/general_info_model.dart';
+import '../../../incident_managements/models/incidents_response.dart';
+import '../../../services/incident_management_services.dart';
 import '../models/requestModel/general_info_request.dart';
-import '../services/incident_management_services.dart';
 
 part 'incident_general_info_state.dart';
 
@@ -40,7 +40,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     required this.id,
   }) : super(
           IncidentGeneralInfoState.initial(
-            model: IncidentManagement(),
+            model: Incident(),
             locations: GetLocations(),
             users: const [],
             emailUsers: const [],
@@ -54,12 +54,12 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           ),
         );
 
-  void onModelValueChange(IncidentManagement model) {
+  void onModelValueChange(Incident model) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(IncidentManagement model) {
+  void onCheckBoxChange(Incident model) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
@@ -75,7 +75,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      IncidentManagement model = IncidentManagement();
+      Incident model = Incident();
       if (id.isNotEmpty) {
         model = await services.getIncidentDetails(id);
       }
