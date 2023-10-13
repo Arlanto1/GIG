@@ -329,7 +329,7 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments["title"];
-        id = arguments['id'];
+        id = arguments['id']??'';
         return MaterialPageRoute(
             builder: (context) => BlocProvider<OccurrenceGeneralInfoCubit>(
                   create: (_) => OccurrenceGeneralInfoCubit(
