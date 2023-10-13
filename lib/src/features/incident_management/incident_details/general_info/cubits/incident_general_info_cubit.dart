@@ -23,7 +23,7 @@ import '../../../../../utils/util.dart';
 import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_articletype_model.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
-import '../../../incident_managements/models/incidents_response.dart';
+import '../../../models/incidents_response.dart';
 import '../../../services/incident_management_services.dart';
 import '../models/requestModel/general_info_request.dart';
 
@@ -132,7 +132,6 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       );
     }
   }
-
   Future<void> updateDropdownValues({
     BaseUser? complainant,
     BaseUser? complainantHR,

@@ -1,8 +1,9 @@
 
-import '../../../../models/entity.dart';
-import '../../../../models/history.dart';
-import '../../../../models/organisation.dart';
-import '../../../createfound/models/user.dart';
+
+import '../../../models/entity.dart';
+import '../../../models/history.dart';
+import '../../../models/organisation.dart';
+import '../../createfound/models/user.dart';
 
 class IncidentsResponse {
   List<Incident>? items;
