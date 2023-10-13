@@ -24,44 +24,44 @@ import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
+import '../../../../createfound/models/serial_number_model.dart';
 
 part 'general_info_state.dart';
 
 class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
   final OccurrenceDetailsServices services;
-  final Occurrence? occurrence;
+  final String id;
   final CommonServices commonServices;
 
   OccurrenceGeneralInfoCubit({
     required this.services,
     required this.commonServices,
-    required this.occurrence,
-
+    required this.id,
   }) : super(
-    GeneralInfoState.initial(
-      occurrence: Occurrence(),
-      locations: GetLocations(),
-      users: const [],
-      emailUsers: const [],
-      errorMessage: '',
-      loadAttachments: const [],
-      eventId: null,
-      listOfEntities: const [],
-      getEntitiesResponse: null,
-      departments: const [],
-      loggedInUserDetails: null,
-    ),
-  );
+          GeneralInfoState.initial(
+            model: Occurrence(),
+            locations: GetLocations(),
+            users: const [],
+            emailUsers: const [],
+            errorMessage: '',
+            loadAttachments: const [],
+            eventId: null,
+            listOfEntities: const [],
+            getEntitiesResponse: null,
+            departments: const [],
+            loggedInUserDetails: null,
+          ),
+        );
 
   void onModelValueChange(Occurrence occurrence) {
     log('-onModelValueChange---');
-    emit(state.copyWith(occurrence: occurrence, status: FormStatus.initial));
+    emit(state.copyWith(model: occurrence, status: FormStatus.initial));
   }
 
   void onCheckBoxChange(Occurrence occurrence) {
-    emit(state.copyWith(occurrence: occurrence, status: FormStatus.loading));
+    emit(state.copyWith(model: occurrence, status: FormStatus.loading));
 
-    emit(state.copyWith(occurrence: occurrence, status: FormStatus.initial));
+    emit(state.copyWith(model: occurrence, status: FormStatus.initial));
   }
 
   Future<void> initializeValues() async {
@@ -74,34 +74,35 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      Occurrence occurrence = Occurrence();
+      Occurrence occurrence =
+      await OccurrenceDetailsServices().getOccurrence(id) ;
 
       GetLocations getLocationsData =
-      await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =
-      await commonServices.getUserDetails(userId: userId);
+          await commonServices.getUserDetails(userId: userId);
 
       Analyst users =
-      await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       GetDepositor emailUsers =
-      await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
       // Get Date of Creation
-       occurrence.inputDate = Utils().getCurrentDate();
+      occurrence.inputDate = Utils().getCurrentDate();
 
       AddEntities entities =
-      await commonServices.getEntities(name: 'ATOM_ENTITIES');
+          await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
       List<User> entrySecurities = await commonServices.getUsers();
 
       EmployeeDepartments departments =
-      await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+          await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
       emit(
         state.copyWith(
-          occurrence: occurrence,
+          model: occurrence,
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
@@ -136,44 +137,63 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
     emit(
       state.copyWith(
         status: FormStatus.loading,
+
       ),
     );
 
+    /// Get Sl No from API
+    if (location != null) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: location.id.toString(),
+        moduleCode: Constants.guardingRatesModule,
+      );
+
+      state.model.location = location;
+      state.model.slNo = slNo.serialNo;
+    }
+
+
+
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
 
   }
 
-    void addAttachment({
-      List<CreateImage>? data,
-      List<CreateImage>? guardImages,
-    }) async {
-      emit(
-        state.copyWith(
-          status: FormStatus.loading,
-        ),
-      );
-      int eventIds = math.Random.secure().nextInt(5);
+  void addAttachment({
+    List<CreateImage>? data,
+    List<CreateImage>? guardImages,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    int eventIds = math.Random.secure().nextInt(5);
 
-      log('--guardImages---${guardImages?.length}----');
-      if (guardImages != null) {
-        emit(
-          state.copyWith(
-            eventId: eventIds,
-            occurrence: state.occurrence,
-            status: FormStatus.initial,
-          ),
-        );
-      }
-
+    log('--guardImages---${guardImages?.length}----');
+    if (guardImages != null) {
       emit(
         state.copyWith(
           eventId: eventIds,
-          occurrence: state.occurrence,
+          model: state.model,
           status: FormStatus.initial,
         ),
       );
-
-      log('--state.status--3--${state.status}----');
     }
+
+    emit(
+      state.copyWith(
+        eventId: eventIds,
+        model: state.model,
+        status: FormStatus.initial,
+      ),
+    );
+
+    log('--state.status--3--${state.status}----');
+  }
+
   void showFields({
     bool? shiftBrfngAttnded,
     bool? premisesRoundTkn,
@@ -203,122 +223,124 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
       ),
     );
     if (shiftBrfngAttnded != null) {
-      state.occurrence.shiftBrfngAttnded =
-          shiftBrfngAttnded;
+      state.model.shiftBrfngAttnded = shiftBrfngAttnded;
     }
     if (premisesRoundTkn != null) {
-      state.occurrence.premisesRoundTkn =
-          premisesRoundTkn;
+      state.model.premisesRoundTkn = premisesRoundTkn;
     }
     if (medicalEmrgncy != null) {
-      state.occurrence.medicalEmrgncy = medicalEmrgncy;
+      state.model.medicalEmrgncy = medicalEmrgncy;
     }
     if (materialMovement != null) {
-      state.occurrence.materialMovement = materialMovement;
+      state.model.materialMovement = materialMovement;
     }
     if (leoVisit != null) {
-      state.occurrence.leoVisit = leoVisit;
+      state.model.leoVisit = leoVisit;
     }
     if (socialEnggIncdnt != null) {
-      state.occurrence.socialEnggIncdnt = socialEnggIncdnt;
+      state.model.socialEnggIncdnt = socialEnggIncdnt;
     }
     if (foundArticleTrnsctn != null) {
-      state.occurrence.foundArticleTrnsctn = foundArticleTrnsctn;
-    }if (processBreachIncdnt != null) {
-      state.occurrence.processBreachIncdnt = processBreachIncdnt;
-    }if (infraIssue != null) {
-      state.occurrence.infraIssue = infraIssue;
+      state.model.foundArticleTrnsctn = foundArticleTrnsctn;
+    }
+    if (processBreachIncdnt != null) {
+      state.model.processBreachIncdnt = processBreachIncdnt;
+    }
+    if (infraIssue != null) {
+      state.model.infraIssue = infraIssue;
     }
     if (suspiciousActivity != null) {
-      state.occurrence.suspiciousActivity = suspiciousActivity;
+      state.model.suspiciousActivity = suspiciousActivity;
     }
     if (fireAlarmEmrgncy != null) {
-      state.occurrence.fireAlarmEmrgncy = fireAlarmEmrgncy;
+      state.model.fireAlarmEmrgncy = fireAlarmEmrgncy;
     }
     if (landlordIssue != null) {
-      state.occurrence.landlordIssue = landlordIssue;
+      state.model.landlordIssue = landlordIssue;
     }
     if (secSysFailureIncdnt != null) {
-      state.occurrence.secSysFailureIncdnt = secSysFailureIncdnt;
+      state.model.secSysFailureIncdnt = secSysFailureIncdnt;
     }
     if (sysAlarmRcvd != null) {
-      state.occurrence.sysAlarmRcvd = sysAlarmRcvd;
-    } if (transportIncdnt != null) {
-      state.occurrence.transportIncdnt = transportIncdnt;
+      state.model.sysAlarmRcvd = sysAlarmRcvd;
+    }
+    if (transportIncdnt != null) {
+      state.model.transportIncdnt = transportIncdnt;
     }
     if (anyEvent != null) {
-      state.occurrence.anyEvent = anyEvent;
+      state.model.anyEvent = anyEvent;
     }
     if (powerFailure != null) {
-      state.occurrence.powerFailure = powerFailure;
+      state.model.powerFailure = powerFailure;
     }
 
     if (atmVendorVisit != null) {
-      state.occurrence.atmVendorVisit = atmVendorVisit;
+      state.model.atmVendorVisit = atmVendorVisit;
     }
     if (cwmVisit != null) {
-      state.occurrence.cwmVisit = cwmVisit;
+      state.model.cwmVisit = cwmVisit;
     }
     if (dgWrking != null) {
-      state.occurrence.dgWrking = dgWrking;
+      state.model.dgWrking = dgWrking;
     }
     if (followedUp != null) {
-      state.occurrence.followedUp = followedUp;
+      state.model.followedUp = followedUp;
     }
     emit(state.copyWith(
-      occurrence: state.occurrence,
+      model: state.model,
       status: FormStatus.initial,
     ));
   }
-    void submitForm({bool isSaveOnly = false}) async {
-      emit(
-        state.copyWith(
-          status: FormStatus.loading,
-        ),
-      );
-      /// Create/Update API Call
-      OccurrenceGeneralInfoRequest request =
-      OccurrenceGeneralInfoRequest(occurrence: state.occurrence);
 
-      log('--isSaveOnly----$isSaveOnly--');
-      GenericCreateResponse response = GenericCreateResponse();
-      try {
-        if (isSaveOnly) {
-          response = (await services.createOccurrence(
-            body: request,
-            isSubmit: false,
-          ));
-        } else {
-          if (!state.isValid.status) {
-            log('--isSaveOnly--else--if$isSaveOnly--');
-            emit(
-              state.copyWith(
-                status: FormStatus.error,
-                message: state.isValid.message,
-              ),
-            );
-            return;
-          }
-          response = (await services.createOccurrence(
-              body: request, isSubmit: true));
+  void submitForm({bool isSaveOnly = false}) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    /// Create/Update API Call
+    OccurrenceGeneralInfoRequest request =
+        OccurrenceGeneralInfoRequest(occurrence: state.model);
+
+    log('--isSaveOnly----$isSaveOnly--');
+    GenericCreateResponse response = GenericCreateResponse();
+    try {
+      if (isSaveOnly) {
+        response = (await services.createOccurrence(
+          body: request,
+          isSubmit: false,
+        ));
+      } else {
+        if (!state.isValid.status) {
+          log('--isSaveOnly--else--if$isSaveOnly--');
+          emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValid.message,
+            ),
+          );
+          return;
         }
-      } on Exception catch (e) {
-        emit(
-          state.copyWith(
-            message: e.toString(),
-            status: FormStatus.error,
-          ),
-        );
+        response =
+            (await services.createOccurrence(body: request, isSubmit: true));
       }
-
-      // log('---response--msg--${response.message}---');
-
+    } on Exception catch (e) {
       emit(
         state.copyWith(
-          message: response.message,
-          status: FormStatus.success,
+          message: e.toString(),
+          status: FormStatus.error,
         ),
       );
     }
 
+    // log('---response--msg--${response.message}---');
+
+    emit(
+      state.copyWith(
+        message: response.message,
+        status: FormStatus.success,
+      ),
+    );
+  }
 }

@@ -5,8 +5,8 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../enums/form_status.dart';
+import '../../services/incident_management_services.dart';
 import '../models/incidents_response.dart';
-import '../services/incident_management_services.dart';
 
 part 'incident_management_event.dart';
 part 'incident_management_state.dart';
@@ -20,7 +20,7 @@ class IncidentManagementsBloc
     );
   }
 
-  final IncidentServices _services = IncidentServices();
+  final IncidentManagementServices _services = IncidentManagementServices();
 
   FutureOr<void> _fetchList(
       FetchData event, Emitter<IncidentManagementsState> emit) async {

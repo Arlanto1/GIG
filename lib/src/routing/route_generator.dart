@@ -25,6 +25,7 @@ import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/ra
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
 import 'package:db_atom/src/features/incident_management/incident_managements/bloc/incident_management_bloc.dart'
     as im;
+import 'package:db_atom/src/features/incident_management/services/incident_management_services.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/law_enforcement_list/views/ln_list_page.dart';
 import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.dart';
@@ -41,6 +42,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart';
+
 //import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/views/general_info_view.dart';
@@ -60,7 +62,6 @@ import '../features/guarding_operations/guarding_rate/guarding_rate_details/view
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/rates_info.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates.dart';
 import '../features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart';
-import '../features/incident_management/incident_details/general_info/services/incident_management_services.dart';
 import '../features/incident_management/incident_details/general_info/views/incident_general_info_view.dart';
 import '../features/incident_management/incident_managements/views/incident_managements_view.dart';
 import '../features/login/bloc/login_bloc.dart';
@@ -72,7 +73,6 @@ import '../features/material_movement/material_movements/views/material_movement
 import '../features/material_movement/models/material_movements_model.dart';
 import '../features/material_movement/services/material_movement_services.dart';
 import '../features/occurrence/occurrences_details/general_info/cubits/general_info_cubit.dart';
-import '../features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
 import '../features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import '../features/occurrenceList/bloc/occurrences_bloc.dart' as ocb;
 import '../features/occurrenceList/views/occurrences_view.dart';
@@ -306,7 +306,7 @@ class RouteGenerator {
               services: SstIncidentServices(),
               commonServices: CommonServices(),
               id: id,
-                isInternal: isInternal,
+              isInternal: isInternal,
             ),
             child: SstIncidentGeneralInfoView(isInternal: isInternal),
           ),
@@ -323,20 +323,21 @@ class RouteGenerator {
       case occurrenceDetailsRoute:
         OccurrenceDetailsServices services = OccurrenceDetailsServices();
         CommonServices commonServices = CommonServices();
+
+        String id = '';
         String title;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments["title"];
-        Occurrence? occurrence = arguments["Occurrence"];
+        id = arguments['id'];
         return MaterialPageRoute(
             builder: (context) => BlocProvider<OccurrenceGeneralInfoCubit>(
                   create: (_) => OccurrenceGeneralInfoCubit(
                     services: services,
-                    occurrence: occurrence,
+                    id: id,
                     commonServices: commonServices,
                   ),
                   child: OccurrenceDetails(
-                    occurrence: occurrence,
                     title: title,
                   ),
                 ));

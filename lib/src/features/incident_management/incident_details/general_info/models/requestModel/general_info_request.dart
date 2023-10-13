@@ -1,15 +1,16 @@
 
-import '../general_info_model.dart';
+
+import '../../../../incident_managements/models/incidents_response.dart';
 
 class IncidentGeneralInfoRequest {
-  final IncidentManagement? incidentManagement;
+  final Incident? incidentManagement;
 
   IncidentGeneralInfoRequest({
     this.incidentManagement,
   });
 
   IncidentGeneralInfoRequest.fromJson(Map<String, dynamic> json)
-      : incidentManagement = (json['imGi'] as Map<String,dynamic>?) != null ? IncidentManagement.fromJson(json['imGi'] as Map<String,dynamic>) : null;
+      : incidentManagement = (json['imGi'] as Map<String,dynamic>?) != null ? Incident.fromJson(json['imGi'] as Map<String,dynamic>) : null;
 
   Map<String, dynamic> toJson() => {
     'incidentManagement' : incidentManagement?.toJson(),

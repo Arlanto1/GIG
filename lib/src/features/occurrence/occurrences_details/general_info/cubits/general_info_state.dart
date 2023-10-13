@@ -2,7 +2,7 @@ part of 'general_info_cubit.dart';
 
 class GeneralInfoState extends Equatable {
   final FormStatus status;
-  final Occurrence occurrence;
+  final Occurrence model;
   final GetLocations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -16,7 +16,7 @@ class GeneralInfoState extends Equatable {
   final List<User>? entrySecurities;
 
   factory GeneralInfoState.initial({
-    required Occurrence occurrence,
+    required Occurrence model,
     required GetLocations locations,
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
@@ -32,7 +32,7 @@ class GeneralInfoState extends Equatable {
   }) {
     return GeneralInfoState(
       status: FormStatus.initial,
-      occurrence: occurrence,
+      model: model,
       locations: locations,
       listOfEntities: listOfEntities,
       departments: departments,
@@ -47,7 +47,7 @@ class GeneralInfoState extends Equatable {
   }
 
   ErrorResponse get isValid {
-    if (occurrence.status == null) {
+    if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
 
@@ -59,11 +59,11 @@ class GeneralInfoState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [occurrence, status];
+  List<Object?> get props => [model, status];
 
   const GeneralInfoState({
     required this.status,
-    required this.occurrence,
+    required this.model,
     this.locations,
     this.users,
     this.emailUsers,
@@ -79,7 +79,7 @@ class GeneralInfoState extends Equatable {
 
   GeneralInfoState copyWith({
     FormStatus? status,
-    Occurrence? occurrence,
+    Occurrence? model,
     GetLocations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
@@ -94,7 +94,7 @@ class GeneralInfoState extends Equatable {
   }) {
     return GeneralInfoState(
       status: status ?? this.status,
-      occurrence: occurrence ?? this.occurrence,
+      model: model ?? this.model,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,

@@ -184,7 +184,10 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
         }));
   }
 
-  getId({required int id, required int eventStatus}) async {
+  getId({
+    required int id,
+    required int eventStatus,
+  }) async {
     Navigator.pushNamed(
       context,
       eventProtectionDetailsTabRoute,
