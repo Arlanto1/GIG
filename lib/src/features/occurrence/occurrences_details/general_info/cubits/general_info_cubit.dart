@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
@@ -74,7 +75,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      Occurrence model = await OccurrenceDetailsServices().getOccurrence(id);
+      Occurrence model = Occurrence();
+      if(!id.isEmptyOrNull) {
+        model = await OccurrenceDetailsServices().getOccurrence(id);
+
+      }
 
       log('-model----${model.shiftBrfngAttnded}---');
 
