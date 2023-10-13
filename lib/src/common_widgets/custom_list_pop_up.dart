@@ -1,4 +1,3 @@
-
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -95,8 +94,8 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
-              textHandling('Location : ',
-                  widget.userItem?.locationName.toString() ?? " "),
+              textHandling(
+                  'Location : ', widget.userItem?.location?.name ?? " "),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
@@ -116,11 +115,7 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
             children: [
               textHandling(
                   'Created By : ',
-                  widget.userItem?.inputDate != null
-                      ? Utils.timestamptoDateConversion(
-                          int.parse(widget.userItem?.inputDate ?? '0'),
-                          Constants.dateFormat)
-                      : ''),
+                  '${widget.userItem?.entrySecurityName}'),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
@@ -161,7 +156,7 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
             Row(
               children: [
                 textHandling(
-                    'Claimant : ', widget.userItem?.claimant.toString() ?? ""),
+                    'Claimant : ', widget.userItem?.claimant?.name ?? ""),
               ],
             ),
           ],
