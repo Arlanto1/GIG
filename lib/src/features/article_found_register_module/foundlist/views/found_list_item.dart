@@ -106,7 +106,7 @@ class _FoundListItemState extends State<FoundListItem> {
                       Row(
                         children: [
                           textHandling('Region : ',
-                              widget.userItem.locationName.toString()),
+                              widget.userItem.locationRegion?.name ?? ''),
                         ],
                       ),
                     if( widget.userItem.foundLocation != null )...[
@@ -114,7 +114,7 @@ class _FoundListItemState extends State<FoundListItem> {
                       Row(
                         children: [
                           textHandling('Location : ',
-                              widget.userItem.foundLocation.toString()),
+                              widget.userItem.location?.name ?? ''),
                         ],
                       ),],
                        if( widget.userItem.foundDate != null )...[
