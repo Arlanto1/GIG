@@ -74,8 +74,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      Occurrence occurrence =
-      await OccurrenceDetailsServices().getOccurrence(id) ;
+      Occurrence model = await OccurrenceDetailsServices().getOccurrence(id);
+
+      log('-model----${model.shiftBrfngAttnded}---');
 
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
@@ -90,7 +91,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
       // Get Date of Creation
-      occurrence.inputDate = Utils().getCurrentDate();
+      model.inputDate = Utils().getCurrentDate();
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
@@ -102,7 +103,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
 
       emit(
         state.copyWith(
-          model: occurrence,
+          model: model,
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
@@ -137,7 +138,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
     emit(
       state.copyWith(
         status: FormStatus.loading,
-
       ),
     );
 
@@ -152,13 +152,10 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.slNo = slNo.serialNo;
     }
 
-
-
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
     ));
-
   }
 
   void addAttachment({
