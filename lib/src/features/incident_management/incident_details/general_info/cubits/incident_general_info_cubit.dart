@@ -291,35 +291,94 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     ));
   }
 
-  void submitForm({bool isSaveOnly = false,bool isSubmit = false}) async {
+  // void submitForm({bool isSaveOnly = false}) async {
+  //   emit(
+  //     state.copyWith(
+  //       status: FormStatus.loading,
+  //     ),
+  //   );
+  //
+  //   // if (state.model.status == 0 || state.model.status == null) {
+  //   //   state.model.status = 1;
+  //   // }
+  //   // Setting time in milliseconds
+  //   state.model.inputDate =
+  //       (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+  //
+  //   /// Create/Update API Call
+  //   IncidentGeneralInfoRequest request =
+  //   IncidentGeneralInfoRequest(incidentManagement: state.model);
+  //
+  //   log('--isSaveOnly----$isSaveOnly--');
+  //   GenericCreateResponse response = GenericCreateResponse();
+  //   try {
+  //     if (isSaveOnly) {
+  //       response = (await services.createIncidentManagement(
+  //         body: request,
+  //         isSubmit: false,
+  //       ));
+  //     } else {
+  //       if (!state.isValid.status) {
+  //         log('--isSaveOnly--else--if$isSaveOnly--');
+  //         emit(
+  //           state.copyWith(
+  //             status: FormStatus.error,
+  //             message: state.isValid.message,
+  //           ),
+  //         );
+  //         return;
+  //       }
+  //       response = (await services.createIncidentManagement(
+  //         body: request,
+  //         isSubmit: true,
+  //       ));
+  //     }
+  //   } on Exception catch (e) {
+  //     emit(
+  //       state.copyWith(
+  //         message: e.toString(),
+  //         status: FormStatus.error,
+  //       ),
+  //     );
+  //   }
+  //
+  //   log('---response--msg--${response.message}---');
+  //
+  //   emit(
+  //     state.copyWith(
+  //       message: response.message,
+  //       status: FormStatus.success,
+  //     ),
+  //   );
+  // }
+
+  void submitForm({bool isSaveOnly = false,bool isSubmit = false }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
 
-    // if (state.model.status == 0 || state.model.status == null) {
-    //   state.model.status = 1;
+    // if (state.guardingMasterData.status == 0 ||
+    //     state.guardingMasterData.status == null) {
+    //   state.guardingMasterData.status = 1;
     // }
     // Setting time in milliseconds
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-    /// Create/Update API Call
+    // Create/Update API Call
     IncidentGeneralInfoRequest request =
     IncidentGeneralInfoRequest(incidentManagement: state.model);
 
-    log('--isSaveOnly----$isSaveOnly--');
     GenericCreateResponse response = GenericCreateResponse();
     try {
       if (isSaveOnly) {
         response = (await services.createIncidentManagement(
-          body: request,
-          isSubmit: false,
-        ));
+            body: request, isSubmit: false));
       } else {
+        //Validating Fields
         if (!state.isValid.status) {
-          log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -329,9 +388,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           return;
         }
         response = (await services.createIncidentManagement(
-          body: request,
-          isSubmit: true,
-        ));
+            body: request, isSubmit: true));
       }
     } on Exception catch (e) {
       emit(
@@ -342,7 +399,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       );
     }
 
-    log('---response--msg--${response.message}---');
+    print('---response--msg--${response.message}---');
 
     emit(
       state.copyWith(

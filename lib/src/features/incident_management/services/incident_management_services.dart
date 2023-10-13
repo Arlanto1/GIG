@@ -12,10 +12,16 @@ class Apis {
 
   static final String _get = '$baseUrl/getIncidentMgmt?';
   static final String _getDetails = '$baseUrl/getIncidentMgmtById';
-  static final String _create = '$baseUrl/createIncidentMgmt?';
+  static final String _create = '$baseUrl/createIncidentMgmt';
 }
 
 class IncidentManagementServices {
+
+
+  Future<String> getUserEmail() async {
+    String email =  await SharedPrefs.getEmail();
+    return email;
+  }
   Future<IncidentsResponse> getIncidents({
     required String startPosition,
     required String maximumRecords,

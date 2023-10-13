@@ -12,7 +12,6 @@ import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/routing/router.dart';
@@ -34,7 +33,7 @@ import '../cubits/incident_general_info_cubit.dart';
 
 class IncidentGeneralInfoView extends StatefulWidget {
   const IncidentGeneralInfoView({
-    super.key,
+       super.key,
   });
 
   @override
@@ -695,7 +694,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             submitButtonDisplay(onTap: () {
                               FocusScope.of(context).unfocus();
                               BlocProvider.of<IncidentGeneralInfoCubit>(context)
-                                  .submitForm(isSaveOnly: false,isSubmit: true);
+                                  .submitForm(isSaveOnly: false, isSubmit: true);
                             })
                           ],
                         ],
