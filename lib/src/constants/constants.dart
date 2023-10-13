@@ -1,5 +1,3 @@
-// Created by Ramesh
-
 import 'package:flutter/material.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
@@ -12,6 +10,7 @@ class Constants {
   static const String materialMovementOutwardNonReturnableModule = 'MMOUTN';
   static const String guardingMasterDataModule = 'GM';
   static const String guardingRatesModule = 'GR';
+  static const String incidentManagementModule = 'IM';
 
   static const String customFontFamily = 'Poppins';
   static const String customFontMediumFamily = 'Poppins-Medium';
@@ -92,12 +91,16 @@ class Constants {
   static const String dashboard = 'Dashboard';
   static const String securityfunctions = 'Security functions';
   static const String operations = "Operations";
+  static const String securitySystems = "Security System";
+  static const String securitySystemsTickets = "Security System Tickets";
   static const String settings = "Settings";
   static const String administration = "Administration";
   static const String profile = 'Profile';
   static const String articlefoundregister = 'Article Found Register';
   static const String lawenforcementvisitslist = 'Law Enforcement Visits List';
   static const String eventprotectionlist = 'Event Protection List';
+  static const String incidentManagement = 'Incident Management';
+  static const String occurrence = 'Occurrence';
   static const String materialMovement = 'Material Movement';
   static const String passmanagement = 'Pass Management';
   static const String guarding = 'Guarding Operation';
@@ -146,12 +149,13 @@ class Constants {
   static const String dateofcreation = 'Date of Creation';
   static const String assetype = 'Asset Type';
   static const String founddate = 'Found Date';
+  static const String articlename = 'Article Name';
   static const String handedoverdate = 'Handed over Date';
   static const String isdepositordbemployee = 'Is Depositor DBEmployee';
   static const String createdby = 'Created By';
   static const String itemhandoverby = 'Item Handover By';
   static const String slno = 'Sl No.';
-  static const String articleType = 'Article Type';
+  static const String articleType= 'Article Type';
   static const String depositor = 'Depositor';
   static const String employeedepartment = 'Employee Department';
   static const String claimantdepartment = 'Claimant Department';
@@ -235,6 +239,7 @@ class Constants {
   static const String reasonfordaypass = 'Reason for Day Pass';
   static const String daypassno = 'Day Pass No';
   static const String passtype = 'Pass Type';
+  static const String sezPassInfo = 'Sez Pass';
 
   //List page - Found Article
   static const String searchHintText = 'Search....';
@@ -336,7 +341,7 @@ class Constants {
   static const String guardingRate = 'Guarding Rates';
   static const String femaleDropPickUp = 'Female Drop PickUp';
   static const String keyManagementList = 'Key Management List';
-  static const String occurrence = 'Occurrence';
+  static const String slaViolationPenalty = 'SLA Violation Penalty';
 
   static const String vendor = 'Vendor';
   static const String guardingVendor = 'Guarding Vendor';
@@ -480,38 +485,156 @@ class Constants {
   static const String eventStartDate = 'Event Start Date';
   static const String eventEndDate = 'Event End Date';
   static const String isAnnualPowerShutdown = 'Is Annual Power Shutdown';
+
+  static const String incident = 'Incident';
+  static const String internalStaff = 'Internal Staff';
+  static const String externalVendor = 'External Vendor';
+  static const String incidentType = 'Incident Type';
+  static const String dbComplainant = 'DB Complainant';
+  static const String incidentDescription = 'Incident Description';
+  static const String incidentDateTime = 'Incident Date and Time';
+  static const String complainant = 'Complainant';
+  static const String complainantEmployeeId = 'Complainant Employee Id';
+  static const String complainantDepartment = 'Complainant Department';
+  static const String complainantHR = 'Complainant Manager/Host';
+  static const String incidentLocation = 'Incident Location';
+  static const String incidentManager = 'Incident Manager';
+  static const String incidentOwner = 'Incident Owner';
+  static const String closureTargetDate = 'Target Date of Closure';
+
+  static const String assetType = 'Asset Type';
+
+
+
+  //Occurrence
+  static const String createOccurrence = 'Create Occurrence';
+  static const String editOccurrence = 'Edit Occurrence';
+  static const String shiftHandoverBy   = 'Shift Handover By  ';
+  static const String shiftBriefingAttended  ='Shift Briefing Attended';
+  static const String premisesRoundTaken    ='Premises Round Taken';
+   static const String medicalEmergency    ='Medical Emergency';
+  static const String lEOVisit    ='LEO Visit';
+  static const String incidentItemList    ='Incident Item List';
+  static const String securitySystemSLAList    ='Security System SLA List';
+  static const String socialEngineeringIncidents  ='Social Engineering Incidents?';
+  static const String foundArticleTransaction  ='Found Article Transaction?';
+  static const String processBreachIncident  ='Process Breach Incident?';
+  static const String anyInfrastructuralIssue  ='Any Infrastructural Issue? ';
+  static const String anySuspiciousActivity  ='Any Suspicious Activity?';
+  static const String fireAlarmEmergencyOccurred  ='Fire Alarm Emergency Occurred';
+  static const String landlordIssue  ='Landlord Issue?';
+  static const String securitySystemFailureIncidents  ='Security System Failure Incidents?';
+  static const String anySystemAlarmReceived  ='Any System Alarm Received?';
+  static const String transportIncident  ='Transport Incident?';
+  static const String anyEvent  ='Any Event?';
+  static const String notifySCRI    ='Notify SCRI  ';
+  static const String powerFailure  ='Power Failure?';
+  static const String aTMVendorVisit  ='ATM Vendor Visit?';
+  static const String cWMVisit  ='CWM Visit?';
+  static const String dgWrking  ='DG Working';
+  static const String followUp ='Follow Up Actions For Next Shift';
+  static const String followedUp    ='Followed Up ';
+  static const String powerFailureDate    ='Power Failure Start Date & Time';
+  static const String powerFailureEndDate    ='Power Failure End Date & Time';
+  static const String systemManager = 'System Manager';
+  static const String lsm = 'LSM';
+  static const String asl = 'ASL';
+  static const String locationTeam = 'Location Team';
+  static const String shortIncidentDescription = 'Short Description of Incident';
+  static const String detailIncidentDescription = 'Detail Description';
+  static const String ipbArea = 'IPB Area';
+  static const String colourMake = 'Colour/Make/Model';
+  //SLA Violation Penalty
+  static const String sLAViolationPenalty = 'SLA Violation Penalty';
+
+
 }
+
 
 //static const String height = 'Height(cm)';
 
-List<Label> statusDropDownValues = const [
+const List<Label> statusDropDownValues = [
   Label(key: 'Active', value: '1'),
   Label(key: 'InActive', value: '2'),
   Label(key: 'Leave', value: '3'),
   Label(key: 'WeekOff', value: '4'),
 ];
-List<Label> systemAccessDropDownValues = const [
+
+const List<Label> occurrenceStatusDropDownValues = [
+  Label(key: 'Created', value: '0'),
+  Label(key: 'Submitted', value: '1'),
+];
+const List<Label> systemAccessDropDownValues = [
   Label(key: 'Yes', value: '1'),
   Label(key: 'No', value: '2'),
   Label(key: 'Revoke', value: '3'),
 ];
-List<Label> maritalStatusDropDownValues = const [
+const List<Label> maritalStatusDropDownValues = [
   Label(key: 'Single', value: '1'),
   Label(key: 'Married', value: '2'),
 ];
-List<Label> genderDropDownValues = const [
+const List<Label> genderDropDownValues = [
   Label(key: 'Male', value: '1'),
   Label(key: 'Female', value: '2'),
   Label(key: 'Transgender', value: '3'),
 ];
-List<Label> dutyTypeDropDownValues = const [
+const List<Label> dutyTypeDropDownValues = [
   Label(key: 'Building', value: '1'),
   Label(key: 'Escort', value: '2'),
   Label(key: 'Facility', value: '3'),
   Label(key: 'Building & Escort', value: '4'),
 ];
 
-List<Label> eventProtectionGiStatus = const [
+ const List<Label> assetTypeValues = [
+  Label(key: 'Personal', value: '0'),
+  Label(key: 'Company', value: '1'),
+];
+
+ const List<Label> incidentManagementStatus = [
+  Label(key: 'Created', value: '0'),
+  Label(key: 'Complainant Review', value: '1'),
+  Label(key: 'IM Pre-Review', value: '2'),
+  Label(key: 'IM Pre-Reject', value: '3'),
+  Label(key: 'IM Pre-Approve', value: '4'),
+  Label(key: 'IO Role Review', value: '5'),
+  Label(key: 'IO Role Reject', value: '6'),
+  Label(key: 'IO Role Approve', value: '7'),
+  Label(key: 'Investigation', value: '8'),
+  Label(key: 'Pass', value: '9'),
+  Label(key: 'Pass Review', value: '10'),
+  Label(key: 'Pass Reject', value: '11'),
+  Label(key: 'Pass Approve', value: '12'),
+  Label(key: 'RCA', value: '13'),
+  Label(key: 'RCA Review', value: '14'),
+  Label(key: 'RCA Reject', value: '15'),
+  Label(key: 'RCA Approve', value: '16'),
+  Label(key: 'RCA System Review', value: '17'),
+  Label(key: 'RCA System Reject', value: '18'),
+  Label(key: 'RCA System Approve', value: '19'),
+  Label(key: 'Data Loss', value: '20'),
+  Label(key: 'Data Loss Review', value: '21'),
+  Label(key: 'Data Loss Reject', value: '22'),
+  Label(key: 'Data Loss Approve', value: '23'),
+  Label(key: 'Further Investigation', value: '24'),
+  Label(key: 'RCA Action Plan', value: '25'),
+  Label(key: 'RCA Action Plan Review', value: '26'),
+  Label(key: 'RCA Action Plan Reject', value: '27'),
+  Label(key: 'RCA Action Plan Approve', value: '28'),
+  Label(key: 'IO Review', value: '29'),
+  Label(key: 'IO Reject', value: '30'),
+  Label(key: 'IO Approve', value: '31'),
+  Label(key: 'FTE CWR Involved', value: '32'),
+  Label(key: 'IM Final Review', value: '33'),
+  Label(key: 'Read Across', value: '34'),
+  Label(key: 'Read Across Review', value: '35'),
+  Label(key: 'Read Across Reject', value: '36'),
+  Label(key: 'Read Across Approve', value: '37'),
+  Label(key: 'Investigation Done', value: '38'),
+  Label(key: 'Closed', value: '39'),
+  Label(key: 'Cancelled', value: '40'),
+];
+
+const List<Label> eventProtectionGiStatus = [
   Label(key: 'Draft', value: '0'),
   Label(key: 'Business Review', value: '1'),
   Label(key: 'LSM Review', value: '2'),
@@ -544,7 +667,7 @@ List<Label> eventProtectionGiStatus = const [
   Label(key: 'Closed', value: '30'),
 ];
 
-List<Label> guardRankDropDownValues = const [
+const List<Label> guardRankDropDownValues = [
   Label(key: 'Security Guard', value: '1'),
   Label(key: 'Security Officer', value: '2'),
   Label(key: 'Security Supervisor', value: '3'),
@@ -552,15 +675,23 @@ List<Label> guardRankDropDownValues = const [
   Label(key: 'Gun Man', value: '5'),
   Label(key: 'Lady Security Guard', value: '6'),
 ];
-List<Label> deploymentTypeDropDownValues = const [
+const List<Label> deploymentTypeDropDownValues = [
   Label(key: 'New Deployment', value: '1'),
   Label(key: 'Redeployment', value: '2'),
 ];
 
-List<Label> mSGBFormBSubmittedDropDownValues = const [
+const List<Label> mSGBFormBSubmittedDropDownValues = [
   Label(key: 'Yes', value: '1'),
   Label(key: 'No', value: '2'),
   Label(key: 'Under ', value: '3'),
+];
+
+const List<Label> incidentTypeValues = [
+  Label(key: 'Loss', value: '0'),
+  Label(key: 'Damage', value: '1'),
+  Label(key: 'Workplace', value: '2'),
+  Label(key: 'Negligence', value: '3'),
+  Label(key: 'General', value: '4'),
 ];
 
 /// Quill Html Editor

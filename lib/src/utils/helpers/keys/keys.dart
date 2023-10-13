@@ -157,4 +157,21 @@ class Keys {
   static const String systemVendor2EmailKey = 'systemVendor2EmailKey_gd';
   static const String vendor1Contact1Key = 'vendor1ContactKey_gd';
   static const String vendor2ContactKey = 'vendor2ContactKey_gd';
+
+  static const String incidentDescription = 'incidentDescription_im';
+  static const String shortIncidentDescription = 'shortIncidentDescription';
+
+
+  //Occurrence
+
+  static const String premisesRoundTknCommentsKey = 'premisesRoundTknCommentsKey_occ';
+  static const String emergencyCommentsKey = 'emergencyCommentsKey_occ';
+  static const String socialEnggIncdntCommentsKey='socialEnggIncdntCommentsKey_occ';
+  static const String infraIssueCommentsKey='infraIssueCommentsKey_occ';
+  static const String fireAlarmEmrgncyCommentsKey = 'fireAlarmEmrgncyCommentsKey_occ';
+  static const String landlordIssueCommentsKey= 'landlordIssueCommentsKey_occ';
+  static const String sysAlarmRcvdCommentsKey = 'sysAlarmRcvdCommentsKey_occ';
+  static const String transportIncdntCommentsKey ='transportIncdntCommentsKey_occ';
+  static const String notifyScriKey= 'notifyScriKey_occ';
+  static const String commentsKey= 'commentsKey_occ';
 }

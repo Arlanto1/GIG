@@ -136,7 +136,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
   }
 
   getBodybuilder(GeneralInfoState state, height) {
-    log('--creation Date-${state.model.inputDate}----------');
     initializeDates(state);
     if (state.status == FormStatus.loading) {
       return const Center(child: CircularProgressIndicator());

@@ -1,6 +1,7 @@
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
+import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
@@ -10,19 +11,22 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import '../features/createfound/models/get_depositor_model.dart';
 import '../features/createfound/models/user.dart';
 import '../features/lawenforcement/models/addentities.dart';
-import '../models/entry_security.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
+  static const String v2 = '';
+
+  // static const String v2 = '/v2';
 
   static final String _getLocations = '$baseUrl/getOrganisation?name=';
+  static final String _getArticleType = '$baseUrl/getOrganisation?name=';
   static final String _getUserDetails = '$baseUrl/getUserDetails?userId=';
   static final String _getSlNo = '$baseUrl/getSlNo?';
   static final String _getUsersByRole = '$baseUrl/getUsersByRole?roleName=';
   static final String _getQuantityUnits =
-      '$baseUrl/getOrganisation?name=ATOM_MATERIAL_MOVEMENT_UNIT';
+      '$baseUrl$v2/getOrganisation?name=ATOM_MATERIAL_MOVEMENT_UNIT';
   static final String _getQualification =
-      '$baseUrl/getOrganisation?name=GUARD_QUALIFICATIONS';
+      '$baseUrl$v2/getOrganisation?name=GUARD_QUALIFICATIONS';
   static final String _getUsers = '$baseUrl/getUsers?roleName=ATOM_STATIC_USER';
 }
 
@@ -47,14 +51,24 @@ class CommonServices {
     return EmployeeDepartments.fromJson(response);
   }
 
-  Future<EntrySecurity> getUserDetails({
+  Future<GetArticleType> getArticleType({
+    required String name,
+  }) async {
+    String url = '${Apis._getArticleType}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return GetArticleType.fromJson(response);
+  }
+
+  Future<User> getUserDetails({
     required String userId,
   }) async {
     String url = '${Apis._getUserDetails}$userId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return EntrySecurity.fromJson(response);
+    return User.fromJson(response);
   }
 
   Future<SerialNumberModel> getSlNo({
@@ -123,8 +137,7 @@ class CommonServices {
       url: url,
     );
 
-    return List<User>.from(
-        response.map((x) => User.fromJson(x)));
+    return List<User>.from(response.map((x) => User.fromJson(x)));
     // return [];
   }
 }

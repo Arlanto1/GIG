@@ -4,13 +4,11 @@ import 'dart:io';
 import 'package:db_atom/main_DEV.dart';
 import 'package:db_atom/src/appservices/app_service_handler.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
-import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
@@ -19,8 +17,8 @@ import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart'
 import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../models/entry_security.dart';
 import '../../../models/organisation.dart';
+import '../../createfound/models/user.dart';
 
 class LawEnforcementService {
   final endpoint = Environment().config.apiHost;
@@ -250,7 +248,7 @@ class LawEnforcementService {
   }
 
   // get user Details api call
-  Future<EntrySecurity> getUserDetails(
+  Future<User> getUserDetails(
       String userId, BuildContext context) async {
     // final url = Uri.parse('$endpoint/getUserDetails?userId=$userId');
     // try {
@@ -271,7 +269,7 @@ class LawEnforcementService {
     var value = await AppServicesHandler()
         .globalpopupGetServiceCall('/getUserDetails?userId=$userId', context);
 
-    return EntrySecurity.fromJson(value);
+    return User.fromJson(value);
   }
 
   // get distribution group Details api call

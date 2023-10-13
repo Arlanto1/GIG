@@ -14,8 +14,8 @@ import 'package:equatable/equatable.dart';
 
 import '../../../models/base_user.dart';
 import '../../../models/entity.dart';
-import '../../../models/entry_security.dart';
 import '../../../models/organisation.dart';
+import '../../createfound/models/user.dart';
 
 enum LawEnforcementStateType {
   initial,
@@ -53,7 +53,7 @@ class LawEnforcementState extends Equatable {
   List<CreateImage>? loadAttachments = [];
   List<VistingOfficialsModel>? getVisits = [];
   int? getVisitsCount = 0;
-  EntrySecurity? getUserDetailsResponse;
+  User? getUserDetailsResponse;
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
   List<DistributionGroup>? loadGroups = [];
   DistributionGroupModel? groups;
@@ -124,7 +124,7 @@ class LawEnforcementState extends Equatable {
     List<CreateImage>? loadAttachments,
     int? getVisitsCount,
     List<VistingOfficialsModel>? getVisits,
-    EntrySecurity? getUserDetailsResponse,
+    User? getUserDetailsResponse,
     SubmitLawEnforcementResponse? lawcreateFoundresponse,
     List<DistributionGroup>? loadGroups,
     DistributionGroupModel? groups,

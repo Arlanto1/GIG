@@ -4,8 +4,8 @@ import 'dart:math' as math;
 import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
+import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
@@ -19,7 +19,6 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
-import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/create_found_request.dart';
@@ -83,7 +82,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
-      EntrySecurity loggedInUserDetails =
+      User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
 
       Analyst users =

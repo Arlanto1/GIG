@@ -7,6 +7,7 @@ import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 
+
 class DayPassCustomPopUpList extends StatefulWidget {
   final DayPassListElement? userItem;
   String? passId = '0';
@@ -200,11 +201,10 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
               : Container(),
           widget.userItem?.passType != null
               ? Row(
-                  children: [
-                    textHandling('Pass Type: ',
-                        widget.userItem?.passType.toString() ?? " "),
-                  ],
-                )
+            children: [
+              Utils().passManagementPassTypeRow(widget.userItem?.passType ?? 0),
+            ],
+          )
               : Container(),
           widget.userItem?.passType != null
               ? CommonWidgets.verticalSpacerWidget(8)
@@ -296,12 +296,12 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
               ? CommonWidgets.verticalSpacerWidget(8)
               : Container(),
           widget.userItem?.status != null
-              ? Row(
-                  children: [
-                    textHandling(
-                        'Status : ', widget.userItem?.status.toString() ?? " "),
-                  ],
-                )
+              ?  Row(
+            children: [
+              Utils().buildPassManagementStatusRow(
+                  widget.userItem?.status ?? 0),
+            ],
+          )
               : Container(),
         ])
                 //),

@@ -1,4 +1,3 @@
-
 enum FormStatus {
   loading,
   initial,
@@ -6,6 +5,7 @@ enum FormStatus {
   addAttachment,
   next,
   success,
+  failure,
   error,
   createArticleFound,
   invalidEmail,

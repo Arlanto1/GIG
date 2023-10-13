@@ -2,14 +2,13 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../enums/form_status.dart';
 import '../models/guarding_master_report_model.dart';
 import '../services/guarding_master_report_services.dart';
 
 part 'guarding_master_report_event.dart';
-
 part 'guarding_master_report_state.dart';
 
 class GuardingMasterReportBloc
@@ -28,7 +27,7 @@ class GuardingMasterReportBloc
     try {
       if (state.hasReachedMax) return;
 
-      if (state.status == LawEnforcementListStateType.initial) {
+      if (state.status == FormStatus.initial) {
         GuardingMasterReportModel getGuardingMaterialReports =
             await _services.getGuardingMasterReport(
           startPosition: '${event.startPos}',
@@ -39,7 +38,7 @@ class GuardingMasterReportBloc
           state.copyWith(
             items: getGuardingMaterialReports.data,
             hasReachedMax: false,
-            status: LawEnforcementListStateType.success,
+            status: FormStatus.success,
           ),
         );
       }
@@ -62,7 +61,7 @@ class GuardingMasterReportBloc
         ),
       );
     } catch (e) {
-      return emit(state.copyWith(status: LawEnforcementListStateType.failure));
+      return emit(state.copyWith(status: FormStatus.failure));
     }
   }
 }

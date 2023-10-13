@@ -1,7 +1,7 @@
 import '../../../../models/entity.dart';
-import '../../../../models/entry_security.dart';
 import '../../../../models/organisation.dart';
 import '../../../createfound/models/create_found_request.dart';
+import '../../../createfound/models/user.dart';
 
 class GuardingMasterDataResponse {
   List<GuardingMastersDataModel>? items;
@@ -39,8 +39,8 @@ class GuardingMastersDataModel {
   Organisation? location;
   Organisation? locationRegion;
   Organisation? vendor;
-  EntrySecurity? entrySecurity;
-  EntrySecurity? guard;
+  User? entrySecurity;
+  User? guard;
   CreateImage? localAddressProof;
   CreateImage? permanentAddressProof;
   CreateImage? bopData;
@@ -192,11 +192,11 @@ class GuardingMastersDataModel {
                     json['locationRegion'] as Map<String, dynamic>)
                 : null,
         entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
-            ? EntrySecurity.fromJson(
+            ? User.fromJson(
                 json['entrySecurity'] as Map<String, dynamic>)
             : null,
         guard = (json['guard'] as Map<String, dynamic>?) != null
-            ? EntrySecurity.fromJson(json['guard'] as Map<String, dynamic>)
+            ? User.fromJson(json['guard'] as Map<String, dynamic>)
             : null,
         localAddressProof =
             (json['localAddressProof'] as Map<String, dynamic>?) != null

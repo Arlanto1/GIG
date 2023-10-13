@@ -4,11 +4,9 @@ import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
@@ -26,9 +24,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/base_user.dart';
 import '../../../../../models/entity.dart';
-import '../../../../../models/entry_security.dart';
 import '../../../../../models/organisation.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
+import '../../../../createfound/models/user.dart';
 
 class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   CreatePassMgmtService createpassmgmtServices;
@@ -533,7 +531,7 @@ Future<void> getPassnumber(String passtype, String locationid,BuildContext conte
   // Get user details call
   Future<void> getUserDetails(String userId,BuildContext context) async {
     try {
-      EntrySecurity getUserData =
+      User getUserData =
           await createpassmgmtServices.getUserDetails(userId,context);
       emit(
         state.copyWith(
@@ -569,7 +567,7 @@ Future<void> getPassnumber(String passtype, String locationid,BuildContext conte
     state.hostResponse = BaseUser();
     state.nameResponse = BaseUser();
     state.dbsponsorResponse = BaseUser();
-    state.getUserDetailsResponse = EntrySecurity();
+    state.getUserDetailsResponse = User();
     state.dayPasselementReason = DayPassReasonElement();
   }
 

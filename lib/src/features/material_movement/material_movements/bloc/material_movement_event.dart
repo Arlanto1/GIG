@@ -6,11 +6,11 @@ abstract class MaterialMovementEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InwardFetch extends MaterialMovementEvent{
+class FetchData extends MaterialMovementEvent{
 
   final int startPos;
   final int maxPos;
 
-  const InwardFetch({required this.startPos, required this.maxPos});
+  const FetchData({required this.startPos, required this.maxPos});
 }
 

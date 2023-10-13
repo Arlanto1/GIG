@@ -26,7 +26,6 @@ import '../../../../../constants/app_icon.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/base_user.dart';
-import '../../../../../models/entry_security.dart';
 import '../../../../../routing/router.dart';
 import '../../../../../utils/app_themes/colors/app_color.dart';
 import '../../../../../utils/app_themes/styles/app_styles.dart';
@@ -279,37 +278,37 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled:
-                                    state.guardingMasterData.status != 6,
-                                textController: statusController,
-                                items: statusDropDownValues,
-                                initialValue:
-                                    '${state.guardingMasterData.status ?? 1}',
-                                onTap: () {
-                                  if (widget.guardingMasterData != null) {
-                                    BaseDropDown().assetTypeDialog(
-                                      context: context,
-                                      dropDownValues: statusDropDownValues
-                                          .map((label) => label.key)
-                                          .toList(),
-                                      onTap: (String value) {
-                                        Label? selectedLabel;
-                                        selectedLabel =
-                                            statusDropDownValues.firstWhere(
-                                          (label) => label.key == value,
-                                          orElse: () =>
-                                              const Label(key: '', value: ''),
-                                        );
-                                        BlocProvider.of<
-                                                    GuardingMasterDataDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                                status: int.tryParse(
-                                                    selectedLabel.value));
-                                      },
-                                    );
-                                  }
-                                }),
+                              isDisabled: state.guardingMasterData.status != 6,
+                              textController: statusController,
+                              items: statusDropDownValues,
+                              initialValue:
+                                  '${state.guardingMasterData.status ?? 1}',
+                              onTap: () {
+                                if (widget.guardingMasterData != null) {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: statusDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          statusDropDownValues.firstWhere(
+                                        (label) => label.key == value,
+                                        orElse: () =>
+                                            const Label(key: '', value: ''),
+                                      );
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              status: int.tryParse(
+                                                  selectedLabel.value));
+                                    },
+                                  );
+                                }
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Created By
@@ -376,8 +375,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                   Styles.textStyleBlack14,
                                 ),
                                 TextfieldAddButton(
-                                  title:
-                                      state.guardingMasterData.guard?.name,
+                                  title: state.guardingMasterData.guard?.name,
                                   height: 70,
                                   isDisableColor: false,
                                   onTap: () {
@@ -411,7 +409,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
-                                  state.loggedInUserDetails ?? EntrySecurity(),
+                                  state.loggedInUserDetails ?? User(),
                               getFiles: guardFiles,
                               onImageSelected: (CreateImage data) {
                                 log('-------function---onImageSelected---------');
@@ -630,36 +628,37 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled:
-                                    state.guardingMasterData.status != 6,
-                                textController: genderController,
-                                items: genderDropDownValues,
-                                initialValue:
-                                    state.guardingMasterData.gender.toString(),
-                                onTap: () {
-                                  if (isDisabled) {
-                                    BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues: genderDropDownValues
-                                            .map((label) => label.key)
-                                            .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              genderDropDownValues.firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<
-                                                      GuardingMasterDataDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  gender: int.tryParse(
-                                                      selectedLabel.value));
-                                        });
-                                  }
-                                }),
+                              isDisabled: state.guardingMasterData.status != 6,
+                              textController: genderController,
+                              items: genderDropDownValues,
+                              initialValue:
+                                  state.guardingMasterData.gender.toString(),
+                              onTap: () {
+                                if (isDisabled) {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: genderDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          genderDropDownValues.firstWhere(
+                                        (label) => label.key == value,
+                                        orElse: () =>
+                                            const Label(key: '', value: ''),
+                                      );
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              gender: int.tryParse(
+                                                  selectedLabel.value));
+                                    },
+                                  );
+                                }
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Marital Status
@@ -909,7 +908,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 context: context,
                                 loggedInUserDetails:
                                     state.loggedInUserDetails ??
-                                        EntrySecurity(),
+                                        User(),
                                 getFiles: deploymentFiles,
                                 onImageSelected: (CreateImage data) {
                                   log('-------function---onImageSelected---------');
@@ -1143,7 +1142,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
-                                  state.loggedInUserDetails ?? EntrySecurity(),
+                                  state.loggedInUserDetails ?? User(),
                               getFiles: bioDataFiles,
                               onImageSelected: (CreateImage data) {
                                 log('-------function---onImageSelected---------');
@@ -1207,7 +1206,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
-                                  state.loggedInUserDetails ?? EntrySecurity(),
+                                  state.loggedInUserDetails ?? User(),
                               getFiles: permanentAddressFiles,
                               onImageSelected: (CreateImage data) {
                                 log('-------function---onImageSelected---------');
@@ -1271,7 +1270,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
-                                  state.loggedInUserDetails ?? EntrySecurity(),
+                                  state.loggedInUserDetails ?? User(),
                               getFiles: localAddressFiles,
                               onImageSelected: (CreateImage data) {
                                 log('-------function---onImageSelected---------');
@@ -1376,7 +1375,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                     context: context,
                                     loggedInUserDetails:
                                         state.loggedInUserDetails ??
-                                            EntrySecurity(),
+                                            User(),
                                     getFiles: pVCFiles,
                                     onImageSelected: (CreateImage data) {
                                       log('-------function---onImageSelected---------');
@@ -1456,7 +1455,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 context: context,
                                 loggedInUserDetails:
                                     state.loggedInUserDetails ??
-                                        EntrySecurity(),
+                                        User(),
                                 getFiles: trainingFiles,
                                 onImageSelected: (CreateImage data) {
                                   log('-------function---onImageSelected---------');
@@ -1520,7 +1519,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
-                                  state.loggedInUserDetails ?? EntrySecurity(),
+                                  state.loggedInUserDetails ?? User(),
                               getFiles: medicalFiles,
                               onImageSelected: (CreateImage data) {
                                 log('-------function---onImageSelected---------');
@@ -1749,11 +1748,13 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               CommonWidgets.textDisplay(
                                   Constants.mSGBFormBSubmitted,
                                   Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(height * 0.001),
-                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
                               BaseDropDown().getDropDown(
                                   isDisabled:
-                                  state.guardingMasterData.status != 6,
+                                      state.guardingMasterData.status != 6,
                                   textController: mSGbFormBSubmittedController,
                                   items: mSGBFormBSubmittedDropDownValues,
                                   initialValue: state
@@ -1764,30 +1765,32 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                       BaseDropDown().assetTypeDialog(
                                           context: context,
                                           dropDownValues:
-                                          mSGBFormBSubmittedDropDownValues
-                                              .map((label) => label.key)
-                                              .toList(),
+                                              mSGBFormBSubmittedDropDownValues
+                                                  .map((label) => label.key)
+                                                  .toList(),
                                           onTap: (String value) {
                                             Label? selectedLabel;
                                             selectedLabel =
                                                 mSGBFormBSubmittedDropDownValues
                                                     .firstWhere(
-                                                      (label) => label.key == value,
-                                                  orElse: () =>
-                                                  const Label(key: '', value: ''),
-                                                );
+                                              (label) => label.key == value,
+                                              orElse: () => const Label(
+                                                  key: '', value: ''),
+                                            );
                                             BlocProvider.of<
-                                                GuardingMasterDataDetailsCubit>(
-                                                context)
+                                                        GuardingMasterDataDetailsCubit>(
+                                                    context)
                                                 .updateDropdownValues(
-                                                msgbFormBSubmitted:
-                                                int.tryParse(
-                                                    selectedLabel.value));
+                                                    msgbFormBSubmitted:
+                                                        int.tryParse(
+                                                            selectedLabel
+                                                                .value));
                                           });
                                     }
                                   }),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
+
                             /// Date of First Covid Dose
                             CommonWidgets.textDisplay(
                               Constants.dateOfFirstCovidDose,

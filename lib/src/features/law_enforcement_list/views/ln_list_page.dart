@@ -1,5 +1,4 @@
 import 'package:db_atom/src/features/law_enforcement_list/bloc/law_enforcement_bloc.dart';
-import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,6 +12,7 @@ import '../../../common_widgets/progress_indicators/custom_circular_progress_ind
 import '../../../common_widgets/spinnerdialog.dart';
 import '../../../constants/app_icon.dart';
 import '../../../constants/ui_geometry_constants.dart';
+import '../../../enums/form_status.dart';
 import '../../../routing/router.dart';
 import '../../../utils/app_themes/colors/app_color.dart';
 import '../../../utils/shared_preferences.dart';
@@ -128,11 +128,11 @@ class _LnPageState extends State<LnPage> {
       ),
       body: BlocBuilder<LawEnforcementBloc, LawEnforcementState>(
           builder: (context, state) {
-        if (state.status == LawEnforcementListStateType.initial) {
+        if (state.status == FormStatus.initial) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state.status == LawEnforcementListStateType.success) {}
+        } else if (state.status == FormStatus.success) {}
         return Container(
           margin: allMargin16,
           decoration: const ShapeDecoration(

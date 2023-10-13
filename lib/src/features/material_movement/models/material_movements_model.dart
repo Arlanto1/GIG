@@ -1,6 +1,7 @@
+import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 
-import '../../../models/entry_security.dart';
+import '../../../models/history.dart';
 import '../../../models/organisation.dart';
 
 class MaterialMovementsModel {
@@ -52,7 +53,7 @@ class MaterialMovementModel {
   List<Image>? entrySecuritySign;
   String? receiverEmail;
   String? receiverEmployeeId;
-  EntrySecurity? entrySecurity;
+  User? entrySecurity;
   int? status;
   String? modifiedBy;
   List<History>? history;
@@ -177,7 +178,7 @@ class MaterialMovementModel {
         receiverEmail = json['receiverEmail'] as String?,
         receiverEmployeeId = json['receiverEmployeeId'] as String?,
         entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
-            ? EntrySecurity.fromJson(
+            ? User.fromJson(
                 json['entrySecurity'] as Map<String, dynamic>)
             : null,
         status = json['status'] as int?,
@@ -413,40 +414,5 @@ class RoleExtensions {
         'rootNodeId': rootNodeId,
         'nodeId': nodeId,
         'accessRight': accessRight
-      };
-}
-
-class History {
-  int? id;
-  int? state;
-  int? action;
-  String? email;
-  int? actiontime;
-  String? parameters;
-
-  History({
-    this.id,
-    this.state,
-    this.action,
-    this.email,
-    this.actiontime,
-    this.parameters,
-  });
-
-  History.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        state = json['state'] as int?,
-        action = json['action'] as int?,
-        email = json['email'] as String?,
-        actiontime = json['actiontime'] as int?,
-        parameters = json['parameters'] as String?;
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'state': state,
-        'action': action,
-        'email': email,
-        'actiontime': actiontime,
-        'parameters': parameters
       };
 }

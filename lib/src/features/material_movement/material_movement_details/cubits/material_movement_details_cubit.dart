@@ -6,6 +6,7 @@ import 'package:db_atom/src/features/createfound/models/create_found_request.dar
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
+import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
@@ -18,7 +19,6 @@ import 'package:equatable/equatable.dart';
 import '../../../../constants/constants.dart';
 import '../../../../enums/form_status.dart';
 import '../../../../models/base_user.dart';
-import '../../../../models/entry_security.dart';
 import '../../../../models/organisation.dart';
 import '../../../../models/responseModels/error_response_validation.dart';
 import '../../../../models/responseModels/generic_creat_response.dart';
@@ -44,7 +44,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           MaterialMovementDetailsState.initial(
               model: model ?? MaterialMovementModel(),
               locations: GetLocations(),
-              loggedInUserDetails: EntrySecurity(),
+              loggedInUserDetails: User(),
               users: const [],
               emailUsers: const [],
               errorMessage: '',
@@ -71,7 +71,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
-      EntrySecurity loggedInUserDetails =
+      User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');

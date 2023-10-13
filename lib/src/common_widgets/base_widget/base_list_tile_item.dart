@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
@@ -28,6 +27,8 @@ class BaseListTileItem extends StatefulWidget {
   final Function? onTap;
   final Function? onEditTap;
   final Function? onViewTap;
+  final int? incidentType;
+  final bool isIncident;
 
   // final Item userItem;
   final int? index;
@@ -35,6 +36,8 @@ class BaseListTileItem extends StatefulWidget {
   final bool isMasterGuard;
   final bool? isMasterGuardRank;
   final bool isEventProtectionStatus;
+  final bool isOccurrenceStatus;
+  final bool isSLAViolationStatus;
 
   const BaseListTileItem({
     super.key,
@@ -54,12 +57,16 @@ class BaseListTileItem extends StatefulWidget {
     this.msgbExempted,
     this.returnable,
     this.showEditButton = true,
+    this.isIncident = false,
     this.locationStr,
     this.guardRank,
     this.labels,
     this.isMasterGuard = false,
     this.isMasterGuardRank,
     this.isEventProtectionStatus = true,
+    this.isOccurrenceStatus = false,
+    this.isSLAViolationStatus = false,
+    this.incidentType,
   });
 
   @override
@@ -98,7 +105,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
   List<Widget> getChildren(List<Label>? labels, width) {
     List<Widget> widgets = [];
 
-    log('--width------$width-------tab--${width * .78}---------------${width / 2}-');
+    // log('--width------$width-------tab--${width * .78}---------------${width / 2}-');
 
     widgets = [
       Container(
@@ -171,7 +178,9 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ],
                           if (widget.status != null &&
                               !widget.isMasterGuard &&
-                              !widget.isEventProtectionStatus) ...[
+                              !widget.isOccurrenceStatus &&
+                              !widget.isEventProtectionStatus &&
+                              !widget.isSLAViolationStatus && !widget.isIncident) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
                             Utils().buildStatusRow(widget.status ?? 0),
                           ],
@@ -191,6 +200,35 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                             CommonWidgets.horizontalSpacerWidget(5),
                             Utils().buildEventProtectionStatusRow(
                                 widget.status ?? 0),
+                          ],
+                          if (widget.status != null &&
+                              widget.isOccurrenceStatus == true) ...[
+                            CommonWidgets.horizontalSpacerWidget(5),
+                            Utils().buildOccurrenceStatus(widget.status ?? 0),
+                          ],
+                          if (widget.status != null &&
+                              widget.isSLAViolationStatus == true) ...[
+                            CommonWidgets.horizontalSpacerWidget(5),
+                            Utils().buildSLAViolationStatus(widget.status ?? 0),
+                          ],
+
+                          if(widget.status !=null && widget.isIncident ==true)...[
+                            CommonWidgets.verticalSpacerWidget(5),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Utils().buildIncidentStatus(widget.status ?? 0),
+                              ],
+                            ),
+                          ],
+                          if(widget.incidentType !=null)...[
+                            CommonWidgets.verticalSpacerWidget(5),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Utils().incidentType(widget.incidentType ?? 0),
+                              ],
+                            ),
                           ],
                         ],
                       ),

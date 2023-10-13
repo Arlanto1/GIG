@@ -7,10 +7,10 @@ abstract class EventProtectionsEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InwardFetch extends EventProtectionsEvent{
+class FetchData extends EventProtectionsEvent{
 
   final int startPos;
   final int maxPos;
 
-  const InwardFetch({required this.startPos, required this.maxPos});
+  const FetchData({required this.startPos, required this.maxPos});
 }

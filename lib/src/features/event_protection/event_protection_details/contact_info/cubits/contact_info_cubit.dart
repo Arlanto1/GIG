@@ -8,7 +8,6 @@ import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/models/contact_info_model.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/guard_info_model.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
@@ -23,7 +22,6 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
-import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 
 part 'contact_info_state.dart';
@@ -41,7 +39,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
           ContactInfoState.initial(
               model: ContactInfoModel(),
               locations: GetLocations(),
-              loggedInUserDetails: EntrySecurity(),
+              loggedInUserDetails: User(),
               users: const [],
               emailUsers: const [],
               errorMessage: '',
@@ -82,7 +80,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
-      EntrySecurity loggedInUserDetails =
+      User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
 
       Analyst users =

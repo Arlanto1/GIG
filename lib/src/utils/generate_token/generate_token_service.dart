@@ -3,9 +3,9 @@ import 'dart:io';
 
 import 'package:db_atom/src/utils/refresh_token/refresh_token_response_model.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 import '../../configurations/environment_config.dart';
-import 'package:http/http.dart' as http;
 
 class GenerateTokenService {
   static Future<int> getGenerateToken() async {

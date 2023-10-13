@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import '../../../models/entry_security.dart';
+import 'package:db_atom/src/features/createfound/models/user.dart';
 
 CreateFoundRequestBody foundListArticleDetailsFromJson(String str) =>
     CreateFoundRequestBody.fromJson(json.decode(str));
@@ -43,7 +43,7 @@ class Found {
   int? inputDate;
   int? foundDate;
   int? handoverDate;
-  EntrySecurity? entrySecurity;
+  User? entrySecurity;
   CreateLocation? location;
   Depositor? depositor;
   DepositorDepartment? depositorDepartment;
@@ -111,7 +111,7 @@ class Found {
         handoverDate: json["handoverDate"],
         entrySecurity: json["entrySecurity"] == null
             ? null
-            : EntrySecurity.fromJson(json["entrySecurity"]),
+            : User.fromJson(json["entrySecurity"]),
         location: json["location"] == null
             ? null
             : CreateLocation.fromJson(json["location"]),

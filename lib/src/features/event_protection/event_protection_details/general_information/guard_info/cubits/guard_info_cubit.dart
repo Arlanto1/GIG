@@ -16,10 +16,8 @@ import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/error_response_validation.dart';
 import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
-
 import 'package:equatable/equatable.dart';
 
-import '../../../../../../models/entry_security.dart';
 import '../models/guard_info_model.dart';
 
 part 'guard_info_state.dart';
@@ -37,7 +35,7 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
           GuardInfoState.initial(
               guardInfoModel: GuardInfoModel(),
               locations: GetLocations(),
-              loggedInUserDetails: EntrySecurity(),
+              loggedInUserDetails: User(),
               users: const [],
               emailUsers: const [],
               errorMessage: '',
