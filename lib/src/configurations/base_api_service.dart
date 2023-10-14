@@ -138,11 +138,12 @@ class BaseApiService {
 
         // {"success":false,"message":"Incorrect Otp"}
         var _response = json.decode(response.body);
-        log("_response - ${_response['error']}");
+        log("_response - ${_response['message']}");
         if (_response["error"] != null &&
             _response["error"].runtimeType == String) {
           throw json.decode(response.body);
         }
+        return response;
       }
     } on SocketException {
       // TODO: Handle Error

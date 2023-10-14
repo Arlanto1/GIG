@@ -58,11 +58,11 @@ class SstIncident {
   String? invoiceNo;
   String? emailList;
   String? poNo;
-  List<dynamic>? entities;
-  List<dynamic>? attachments;
-  List<dynamic>? dataLossDocs;
-  List<dynamic>? quotes;
-  List<dynamic>? additionalDocs;
+  // List<dynamic>? entities;
+  // List<dynamic>? attachments;
+  // List<dynamic>? dataLossDocs;
+  // List<dynamic>? quotes;
+  // List<dynamic>? additionalDocs;
   // int? modifiedDate;
   String? modifiedBy;
   int? occType;
@@ -100,11 +100,11 @@ class SstIncident {
     this.invoiceNo,
     this.emailList,
     this.poNo,
-    this.entities,
-    this.attachments,
-    this.dataLossDocs,
-    this.quotes,
-    this.additionalDocs,
+    // this.entities,
+    // this.attachments,
+    // this.dataLossDocs,
+    // this.quotes,
+    // this.additionalDocs,
     // this.modifiedDate,
     this.modifiedBy,
     this.occType,
@@ -143,11 +143,11 @@ class SstIncident {
         invoiceNo = json['invoiceNo'] as String?,
         emailList = json['emailList'] as String?,
         poNo = json['poNo'] as String?,
-        entities = json['entities'] as List?,
-        attachments = json['attachments'] as List?,
-        dataLossDocs = json['dataLossDocs'] as List?,
-        quotes = json['quotes'] as List?,
-        additionalDocs = json['additionalDocs'] as List?,
+        // entities = json['entities'] as List?,
+        // attachments = json['attachments'] as List?,
+        // dataLossDocs = json['dataLossDocs'] as List?,
+        // quotes = json['quotes'] as List?,
+        // additionalDocs = json['additionalDocs'] as List?,
         // modifiedDate = json['modifiedDate'] as int?,
         modifiedBy = json['modifiedBy'] as String?,
         occType = json['occType'] as int?,
@@ -185,11 +185,11 @@ class SstIncident {
     'invoiceNo' : invoiceNo,
     'emailList' : emailList,
     'poNo' : poNo,
-    'entities' : entities,
-    'attachments' : attachments,
-    'dataLossDocs' : dataLossDocs,
-    'quotes' : quotes,
-    'additionalDocs' : additionalDocs,
+    // 'entities' : entities,
+    // 'attachments' : attachments,
+    // 'dataLossDocs' : dataLossDocs,
+    // 'quotes' : quotes,
+    // 'additionalDocs' : additionalDocs,
     // 'modifiedDate' : modifiedDate,
     'modifiedBy' : modifiedBy,
     'occType' : occType,

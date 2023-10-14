@@ -206,9 +206,9 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     state.model.status = status ?? state.model.status;
 
 
-    if (entities != null) {
-      state.model.entities = entities;
-    }
+    // if (entities != null) {
+    //   state.model.entities = entities;
+    // }
 
     emit(state.copyWith(
       model: state.model,

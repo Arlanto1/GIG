@@ -1,3 +1,4 @@
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
@@ -99,6 +100,12 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
               child: CircularProgressIndicator(),
             );
           }
+          if (state.items.isEmptyOrNull) {
+            return const Center(
+              child: Text('No Records Found.'),
+            );
+          }
+
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -54,6 +56,7 @@ class IncidentManagementServices {
       url: url,
       requestedData: body.toJson(),
     );
+    log('------response----${response.toString()}');
     return GenericCreateResponse.fromJson(response);
   }
 }

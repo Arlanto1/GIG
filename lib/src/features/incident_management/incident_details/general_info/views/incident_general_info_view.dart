@@ -98,6 +98,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
       builder: (context, state) {
         log('--disableForm---$disableForm-');
 
+
+
         state.model.status ??= 0;
         if (state.model.status! > 0) {
           disableForm = true;
