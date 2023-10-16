@@ -182,7 +182,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.guardingMasterDataModule,
+        moduleCode: Constants.eventProtectionModule,
       );
 
       state.model.location = location;

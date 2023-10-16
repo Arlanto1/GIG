@@ -12,7 +12,6 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/routing/router.dart';
@@ -217,9 +216,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Sl No.
-                            CommonWidgets.horizentaltextHandling(
-                                Constants.slno, state.model.slNo ?? ''),
+                            /// Location
+                            CommonWidgets.textDisplay(
+                                Constants.location, Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            locationWidgetdislay(state),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Date of creation
@@ -230,12 +231,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 state.model.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Location
-                            CommonWidgets.textDisplay(
-                                Constants.location, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            locationWidgetdislay(state),
+                            /// Sl No.
+                            CommonWidgets.horizentaltextHandling(
+                                Constants.slno, state.model.slNo ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+
 
                             /// Entity
                             CommonWidgets.textDisplay(
@@ -268,7 +268,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: eventStartDateController,
-                              onlyDate: true,
+                              //onlyDate: false,
                               onChange: (String value) {
                                 log('---value-$value------');
                                 state.model.eventStartDate =
@@ -290,7 +290,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: eventEndDateController,
-                              onlyDate: true,
+                              //onlyDate: false,
                               onChange: (String value) {
                                 state.model.eventEndDate =
                                     Utils().formatTime(value);
@@ -1356,29 +1356,30 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
   Widget locationWidgetdislay(GeneralInfoState state) {
     return GestureDetector(
       onTap: () {
-        if (state.model.id == null ||
-            (state.model.location?.name ?? '').isEmpty) {
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              // print(state.getLocationsResponse);
-              return CustomExpansionListTexts(
-                getLocationsresponse: state.locations,
-                onTap: (Mumbai? list) async {
-                  log('list?.name-----${list?.name}');
+        // if (widget.occurrence == null ||
+        //     (state.occurrence.location?.name ?? '').isEmpty)
+        //     {
+        showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            // print(state.getLocationsResponse);
+            return CustomExpansionListTexts(
+              getLocationsresponse: state.locations,
+              onTap: (Organisation? list) async {
+                log('list?.name-----${list?.name}');
 
-                  Organisation location = Organisation();
-                  location.id = list?.id;
-                  location.name = list?.name;
-                  state.model.location = location;
+                Organisation location = Organisation();
+                location.id = list?.id;
+                location.name = list?.name;
+                state.model.location = location;
 
-                  BlocProvider.of<GeneralInfoCubit>(context)
-                      .updateDropdownValues(location: location);
-                },
-              );
-            },
-          );
-        }
+                BlocProvider.of<GeneralInfoCubit>(context)
+                    .updateDropdownValues(location: location);
+              },
+            );
+          },
+        );
+        // }
       },
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );

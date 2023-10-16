@@ -70,6 +70,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   TextEditingController emailTextController = TextEditingController();
   TextEditingController dbsponsorTextController = TextEditingController();
   TextEditingController daypassnoTextController = TextEditingController();
+  TextEditingController passCategoryTextController = TextEditingController();
   TextEditingController passtypeTextController = TextEditingController();
   TextEditingController contactnoTextController = TextEditingController();
   TextEditingController dateofcreationTextController = TextEditingController();
@@ -974,7 +975,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           },
                                           onTap: () {
                                             if (widget.dayPassItem == null ||
-                                                daypassnoTextController
+                                                passCategoryTextController
                                                     .text.isEmpty) {
                                               //passnumberaddButtonwidgetLoading(state);
                                               if (widget.passId == '3') {
@@ -1588,8 +1589,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           return CustomSimpleListTexts(
             texts: widget.passId == "3"
                 ? ["Permenant", "Temporary"]
-                : widget.passId == "2"
-                    ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
+                // : widget.passId == "2"
+                //     ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
                     : [],
             onTap: (String value) {
               print(value);
@@ -2253,7 +2254,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               onTap: (Mumbai? list) async {
                 print(list?.name);
                 await createpassmgmtCubit.getSerialnumberDetails(
-                    list?.id.toString() ?? '', 'LEO', context);
+                    list?.id.toString() ?? '', 'LEO', context,);
 
                 createpassmgmtCubit.getPassnumber(
                     widget.passId ?? '0', list?.id.toString() ?? '', context);

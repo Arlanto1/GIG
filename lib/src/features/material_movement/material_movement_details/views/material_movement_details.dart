@@ -16,14 +16,12 @@ import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
-import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -519,53 +517,52 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       Constants.requestorEmail,
                                       Styles.textStyleBlack14,
                                     ),
-                                    widget.materialMovement != null
+                                    widget.materialMovement != 6
                                         ? TextfieldAddButton(
-                                            title: state.materialMovement
-                                                .requestorEmail,
-                                            height: 70,
-                                            isDisableColor:
-                                                widget.materialMovement != null
-                                                    ? false
-                                                    : true,
-                                            onTap: () {
-                                              if (widget.materialMovement !=
-                                                  null) {
-                                                BaseDepartmentDialog()
-                                                    .userDialog(
-                                                  context: context,
-                                                  users: state.emailUsers!,
-                                                  onTap: (BaseUser user) {
-                                                    BlocProvider.of<
-                                                                MaterialMovementDetailsCubit>(
-                                                            context)
-                                                        .updateDropdownValues(
-                                                            requesterEmailUser:
-                                                                user);
-                                                  },
-                                                );
-                                              }
-                                            })
+                                        title: state.materialMovement
+                                            .requestorEmail,
+                                        height: 70,
+                                        isDisableColor:
+                                        state.materialMovement.status != 6
+                                            ? false
+                                            : true,
+                                        onTap: () {
+                                          if (state.materialMovement.status !=
+                                              6) {
+                                            BaseDepartmentDialog()
+                                                .userDialog(
+                                              context: context,
+                                              users: state.emailUsers!,
+                                              onTap: (BaseUser user) {
+                                                BlocProvider.of<
+                                                    MaterialMovementDetailsCubit>(
+                                                    context)
+                                                    .updateDropdownValues(
+                                                    requesterEmailUser:
+                                                    user);
+                                              },
+                                            );
+                                          }
+                                        })
                                         : FlutterInputField(
-                                            initialValue: state.materialMovement
-                                                .requestorEmail,
-                                            textFormKey: Keys.requesterEmailKey,
-                                            hintText: '',
-                                            isEnable:
-                                                state.materialMovement.status !=
-                                                    6,
-                                            isDisableColor:
-                                                state.materialMovement.status ==
-                                                    6,
-                                            onChange: (String username) {},
-                                            validateTextField:
-                                                (String? user) {},
-                                          ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                      initialValue: state.materialMovement
+                                          .requestorEmail,
+                                      textFormKey: Keys.requesterEmailKey,
+                                      hintText: '',
+                                      isEnable:
+                                      state.materialMovement.status !=
+                                          6,
+                                      isDisableColor:
+                                      state.materialMovement.status ==
+                                          6,
+                                      onChange: (String username) {},
+                                      validateTextField:
+                                          (String? user) {},
+                                    ),
                                   ],
                                 ),
-
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
                                 /// Requestor Employee Id
                                 CommonWidgets.textDisplay(
                                     Constants.requestorEmployeeId,
@@ -1053,11 +1050,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
-                                /// If Status is Approved(status=2), Inward Pending(status=5), Submitted(status=1)
-                                if (state.materialMovement.status == 2 ||
-                                    state.materialMovement.status == 5 ||
-                                    state.materialMovement.status == 1 ||
-                                    state.materialMovement.status == 6) ...[
+
                                   if (state.materialMovement.returnable ==
                                       true) ...[
                                     /// Expected Date Of Return
@@ -1084,6 +1077,11 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         height * 0.01),
                                   ],
 
+                                /// If Status is Approved(status=2), Inward Pending(status=5), Submitted(status=1)
+                                if (state.materialMovement.status == 2 ||
+                                    state.materialMovement.status == 5 ||
+                                    state.materialMovement.status == 1 ||
+                                    state.materialMovement.status == 6) ...[
                                   /// If Status is Approved(status=2) and Inward Pending(status=5)
                                   if (state.materialMovement.status == 2 ||
                                       state.materialMovement.status == 5 ||
@@ -1464,7 +1462,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       ? false
                                       : true,
                                   onTap: () {
-                                    if (widget.materialMovement != null) {
+                                   // if (widget.materialMovement != null) {
                                       BaseDepartmentDialog()
                                           .departmentDialog(
                                         context: context,
@@ -1483,7 +1481,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         },
                                       );
                                       // leodepartmentsDialog(state);
-                                    }
+                                   // }
                                   },
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
@@ -1741,7 +1739,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
   quantityUnitDialog({
     required BuildContext context,
-    required List<QuantityUnit> quantityUnits,
+    required List<Organisation> quantityUnits,
   }) {
     showDialog(
         context: context,
@@ -1761,7 +1759,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                     );
                   });
             },
-            onTap: (QuantityUnit unit) {
+            onTap: (Organisation unit) {
               BlocProvider.of<MaterialMovementDetailsCubit>(context)
                   .updateDropdownValues(quantityUnit: unit);
             },
@@ -1887,45 +1885,32 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   Widget locationWidgetdislay(MaterialMovementDetailsState state) {
     return GestureDetector(
       onTap: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              // print(state.getLocationsResponse);
-              return CustomExpansionListTexts(
-                getLocationsresponse: state.locations,
-                onTap: (Mumbai? list) async {
-                  log('list?.name-----${list?.name}');
+        // if (widget.occurrence == null ||
+        //     (state.occurrence.location?.name ?? '').isEmpty)
+        //     {
+        showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            // print(state.getLocationsResponse);
+            return CustomExpansionListTexts(
+              getLocationsresponse: state.locations,
+              onTap: (Organisation? list) async {
+                log('list?.name-----${list?.name}');
 
-                  Organisation location = Organisation();
-                  location.id = list?.id;
-                  location.name = list?.name;
-                  state.materialMovement.location = location;
+                Organisation location = Organisation();
+                location.id = list?.id;
+                location.name = list?.name;
+                state.materialMovement.location = location;
 
-                  BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                      .updateDropdownValues(location: location);
-
-                  // state.copyWith(
-                  //   materialMovement: state.materialMovement,
-                  // );
-                  // log('--state.materialMovement.location-----${state.materialMovement.location?.name}---');
-
-                  // TODO: Need to check this setState
-                  // May be calling SlNo. API and then setting the state
-                  // setState(() {});
-
-                  // await lawenforcementCubit.getSerialnumberDetails(
-                  //     list?.id.toString() ?? '', 'AF');
-                  // // locationselectedText = list?.name ?? '';
-                  // // locationSelectedlist = list;
-                  // lawenforcementCubit.getlocationsResponseData(list);
-                },
-              );
-            },
-          );
-
+                BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                    .updateDropdownValues(location: location);
+              },
+            );
+          },
+        );
+        // }
       },
-      child: SelectedTileValueWidget(
-          name: state.materialMovement.location?.name ?? ''),
+      child: SelectedTileValueWidget(name: state.materialMovement.location?.name ?? ''),
     );
   }
 

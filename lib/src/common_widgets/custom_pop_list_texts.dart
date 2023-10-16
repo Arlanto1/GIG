@@ -6,7 +6,6 @@ import 'package:db_atom/src/features/createfound/models/get_articletype_model.da
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
-import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/models/organisation.dart';
@@ -55,7 +54,7 @@ class CustomListTexts extends StatefulWidget {
   List<BaseUser>? duplicatet1Analyst;
   List<ActivePassInfoList>? duplicateactivePassInfoList;
 
-  List<QuantityUnit>? duplicateQuantityUnitList;
+  List<Organisation>? duplicateQuantityUnitList;
 
   @override
   State<CustomListTexts> createState() => CustomListTextsState();
@@ -76,7 +75,7 @@ class CustomListTextsState extends State<CustomListTexts> {
   List<DayPassReasonElement> dayPassReason = [];
   List<BaseUser> t1analysts = [];
   List<ActivePassInfoList> activePassInfoList = [];
-  List<QuantityUnit> quantityUnitList = [];
+  List<Organisation> quantityUnitList = [];
 
   @override
   void initState() {
@@ -718,7 +717,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateQuantityUnitList != null) {
-              QuantityUnit? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty &&
                   quantityUnitList.isNotEmpty)) {
                 articleItem = quantityUnitList[index];

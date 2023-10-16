@@ -10,7 +10,7 @@ class MaterialMovementDetailsState extends Equatable {
   final List<BaseUser>? emailUsers;
   final List<Organisation> departments;
   final List<CreateImage>? loadAttachments;
-  final List<QuantityUnit> quantityUnits;
+  final List<Organisation> quantityUnits;
   final int? eventId;
   final String? message;
 
@@ -23,7 +23,7 @@ class MaterialMovementDetailsState extends Equatable {
     required String errorMessage,
     required List<Organisation> departments,
     required List<CreateImage> loadAttachments,
-    required List<QuantityUnit> quantityUnits,
+    required List<Organisation> quantityUnits,
     required int? eventId,
   }) {
     return MaterialMovementDetailsState(
@@ -57,11 +57,6 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Material Description');
     }
-    if (materialMovement.materialComingFrom.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Material Coming From');
-    }
-
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -91,7 +86,7 @@ class MaterialMovementDetailsState extends Equatable {
     List<BaseUser>? emailUsers,
     List<Organisation>? departments,
     List<CreateImage>? loadAttachments,
-    List<QuantityUnit>? quantityUnits,
+    List<Organisation>? quantityUnits,
     int? eventId,
     String? message,
   }) {

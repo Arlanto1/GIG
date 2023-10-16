@@ -537,16 +537,16 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                   getAttachement(height),
 
                                   // Distribution Groups
-                                  widget.listUser != null
+                                  widget.listUser?.status != 0
                                       ? CommonWidgets.textDisplay(
                                       Constants.distributiongroups,
                                       Styles.textStyleBlack14)
                                       : Container(),
-                                  widget.listUser != null
+                                  widget.listUser?.status != 0
                                       ? CommonWidgets.verticalSpacerWidget(
                                       height * 0.001)
                                       : Container(),
-                                  widget.listUser != null
+                                  widget.listUser?.status != 0
                                       ? textfieldWidgetLoad(
                                       distributiongroupsTextController,
                                       0,
@@ -1054,7 +1054,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   Widget datepickerWidgetLoading(TextEditingController textfiled) {
     return GestureDetector(
       onTap: () {
-        if (widget.listUser != null || textfiled.text.isNotEmpty) {
+        if (widget.listUser == null || textfiled.text.isEmpty) {
           datePickerDialog(textfiled);
         }
       },
@@ -1062,7 +1062,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         textFieldController: textfiled,
         textFormKey: textfiled == actualdateTextController
             ? Keys.founddateTextController
-            : Keys.actualdateTextController,
+            : Keys.handedoverdateTextController,
         hintText: '',
         isEnable: false,
         isDisableColor:
@@ -1071,7 +1071,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           //this.username = username;
           print('dfwf');
 
-          // setState(() {});
+          setState(() {});
         },
         validateTextField: (String? user) {},
         suffixWidget: GestureDetector(
@@ -1094,13 +1094,14 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     );
   }
 
+
   datePickerDialog(TextEditingController textfield) async {
     // datePickerselection(context, founddateTextController);
     DateTime? pickedDate = await showDateTimePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(2000),
-        lastDate: DateTime.now());
+        lastDate: DateTime(2101));
 
     print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
     String formattedDate = DateFormat(Constants.fulldateFormat)
@@ -1111,9 +1112,9 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     if (textfield == actualdateTextController) {
       actualdateTextController.text = formattedDate;
     }
-    // setState(() {
-    //   // dateinput.text = formattedDate; //set output date to TextField value.
-    // });
+    setState(() {
+      // dateinput.text = formattedDate; //set output date to TextField value.
+    });
   }
 
   void _getCurrentDate() {
@@ -1573,8 +1574,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       // AtomEntity entity = state.listOfEntities![i];
       //   DbOfficialEmailDepartment addentiity =
       // DbOfficialEmailDepartment(id: entity.id ?? 1);
-      //distributionGroups.add(entity);
-      //lawenforcementCubit.geDistributonData(entity);
+     // distributionGroups.add(entity);
+     // lawenforcementCubit.geDistributonData(entity);
       loadGroups.add(entity);
     }
     List<CreateImage>? images = getFiles ?? [];
