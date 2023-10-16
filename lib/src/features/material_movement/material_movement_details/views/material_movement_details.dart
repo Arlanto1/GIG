@@ -762,65 +762,60 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   Constants.preparedByDepartment,
                                   Styles.textStyleBlack14,
                                 ),
-                                widget.materialMovement == null
+                                widget.materialMovement == 6
                                     ? FlutterInputField(
-                                        initialValue: state.materialMovement
-                                            .preparedByDepartment?.name,
-                                        textFormKey:
-                                            Keys.requesterDepartmentKey,
-                                        hintText: '',
-                                        isEnable:
-                                            state.materialMovement.status == 6,
-                                        isDisableColor:
-                                            state.materialMovement.status == 6,
-                                        onChange: (String value) {
-                                          state
-                                              .materialMovement
-                                              .preparedByDepartment
-                                              ?.name = value;
-                                          context
-                                              .read<
-                                                  MaterialMovementDetailsCubit>()
-                                              .onModelValueChange(
-                                                  state.materialMovement);
-                                        },
-                                        validateTextField: (String? user) {},
-                                      )
+                                  initialValue: state.materialMovement
+                                      .preparedByDepartment?.name,
+                                  textFormKey: Keys.preparedByDepartmentKey,
+                                  hintText: '',
+                                  isEnable:
+                                  state.materialMovement.status != 6,
+                                  isDisableColor:
+                                  state.materialMovement.status == 6,
+                                  onChange: (String value) {
+                                    state.materialMovement
+                                        .preparedByDepartment?.name = value;
+                                    context
+                                        .read<
+                                        MaterialMovementDetailsCubit>()
+                                        .onModelValueChange(
+                                        state.materialMovement);
+                                  },
+                                  validateTextField: (String? user) {},
+                                )
                                     : TextfieldAddButton(
-                                        title: state.materialMovement
-                                            .preparedByDepartment?.name,
-                                        height: 70,
-                                        isDisableColor:
-                                            widget.materialMovement != null
-                                                ? false
-                                                : true,
-                                        onTap: () {
-                                          if (widget.materialMovement != null) {
-                                            BaseDepartmentDialog()
-                                                .departmentDialog(
-                                              context: context,
-                                              departments: state.departments,
-                                              onTap: (Organisation department) {
-                                                state
-                                                    .materialMovement
-                                                    .preparedByDepartment
-                                                    ?.name = department.name;
+                                  title: state.materialMovement
+                                      .preparedByDepartment?.name,
+                                  height: 70,
+                                  isDisableColor:
+                                  state.materialMovement.status != 6
+                                      ? false
+                                      : true,
+                                  onTap: () {
+                                    if (state.materialMovement.status != 6) {
+                                      BaseDepartmentDialog()
+                                          .departmentDialog(
+                                        context: context,
+                                        departments: state.departments,
+                                        onTap: (Organisation department) {
+                                          state.materialMovement
+                                              .preparedByDepartment?.name =
+                                              department.name;
 
-                                                BlocProvider.of<
-                                                            MaterialMovementDetailsCubit>(
-                                                        context)
-                                                    .updateDropdownValues(
-                                                        preparedByDepartment:
-                                                            department);
-                                              },
-                                            );
-                                            // leodepartmentsDialog(state);
-                                          }
+                                          BlocProvider.of<
+                                              MaterialMovementDetailsCubit>(
+                                              context)
+                                              .updateDropdownValues(
+                                              preparedByDepartment:
+                                              department);
                                         },
-                                      ),
+                                      );
+                                      // leodepartmentsDialog(state);
+                                    }
+                                  },
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
-
                                 /// Approver1 Email
                                 Column(
                                   children: [

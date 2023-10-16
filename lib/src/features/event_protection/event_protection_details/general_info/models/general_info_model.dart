@@ -48,7 +48,7 @@ class EventProtectionGi {
   int? securityGuardCountHrs;
   int? securityFacilitatorCount;
   int? securityFacilitatorCountHrs;
-  List<Organisation>? proposedVendors;
+  Organisation? proposedVendors;
   double? budget;
   String? poNumber;
 
@@ -182,9 +182,9 @@ class EventProtectionGi {
         securityFacilitatorCount = json['securityFacilitatorCount'] as int?,
         securityFacilitatorCountHrs =
             json['securityFacilitatorCountHrs'] as int?,
-        proposedVendors = (json['proposedVendors'] as List?)
-            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
-            .toList(),
+          proposedVendors = (json['proposedVendors'] as Map<String, dynamic>?) != null
+            ? Organisation.fromJson(json['proposedVendors'] as Map<String, dynamic>)
+            : null,
         budget = json['budget'] as double?,
         poNumber = json['poNumber'] as String?;
 
@@ -233,7 +233,7 @@ class EventProtectionGi {
         'securityGuardCountHrs': securityGuardCountHrs,
         'securityFacilitatorCount': securityFacilitatorCount,
         'securityFacilitatorCountHrs': securityFacilitatorCountHrs,
-        'proposedVendors': proposedVendors?.map((e) => e.toJson()).toList(),
+        'proposedVendors': proposedVendors?.toJson(),
         'budget': budget,
         'poNumber': poNumber
       };
