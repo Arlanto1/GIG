@@ -10,6 +10,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 
 import '../features/createfound/models/get_depositor_model.dart';
 import '../features/createfound/models/user.dart';
+import '../features/createfound/models/vendors_model.dart';
 import '../features/lawenforcement/models/addentities.dart';
 
 class Apis {
@@ -49,6 +50,16 @@ class CommonServices {
       url: url,
     );
     return EmployeeDepartments.fromJson(response);
+  }
+
+  Future<Vendors> getVendors({
+    required String name,
+  }) async {
+    String url = '${Apis._getLocations}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return Vendors.fromJson(response);
   }
 
   Future<GetArticleType> getArticleType({

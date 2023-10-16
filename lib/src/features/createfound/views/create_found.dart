@@ -1738,7 +1738,8 @@ class _CreateFoundState extends State<CreateFound> {
   Widget locationWidgetdislay(CreateFoundState state) {
     return GestureDetector(
       onTap: () {
-        if (widget.listuser == null || locationselectedText.isEmpty) {
+        //if (widget.listuser == null || locationselectedText.isEmpty)
+      {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {

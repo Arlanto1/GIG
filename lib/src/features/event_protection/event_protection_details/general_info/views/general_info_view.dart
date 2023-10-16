@@ -12,7 +12,6 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/routing/router.dart';
@@ -32,9 +31,12 @@ import '../../../../../constants/app_icon.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../../utils/util.dart';
 import '../cubits/general_info_cubit.dart';
+import '../models/general_info_model.dart';
 
 class GeneralInfoView extends StatefulWidget {
+  final EventProtectionGi? model;
   const GeneralInfoView({
+    this.model,
     super.key,
   });
 
@@ -127,11 +129,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
     if (state.model.eventStartDate != null) {
       eventStartDateController.text = Utils.timestamptoDateConversion(
           int.tryParse(state.model.eventStartDate ?? '0'),
-          Constants.dateFormat);
+          Constants.fulldateFormat);
     }
     if (state.model.eventEndDate != null) {
       eventEndDateController.text = Utils.timestamptoDateConversion(
-          int.tryParse(state.model.eventEndDate ?? '0'), Constants.dateFormat);
+          int.tryParse(state.model.eventEndDate ?? '0'), Constants.fulldateFormat);
     }
   }
 
@@ -217,9 +219,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Sl No.
-                            CommonWidgets.horizentaltextHandling(
-                                Constants.slno, state.model.slNo ?? ''),
+                            /// Location
+                            CommonWidgets.textDisplay(
+                                Constants.location, Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            locationWidgetdislay(state),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Date of creation
@@ -230,12 +234,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 state.model.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Location
-                            CommonWidgets.textDisplay(
-                                Constants.location, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            locationWidgetdislay(state),
+                            /// Sl No.
+                            CommonWidgets.horizentaltextHandling(
+                                Constants.slno, state.model.slNo ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+
 
                             /// Entity
                             CommonWidgets.textDisplay(
@@ -268,7 +271,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: eventStartDateController,
-                              onlyDate: true,
+                              //onlyDate: false,
                               onChange: (String value) {
                                 log('---value-$value------');
                                 state.model.eventStartDate =
@@ -290,7 +293,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: eventEndDateController,
-                              onlyDate: true,
+                              //onlyDate: false,
                               onChange: (String value) {
                                 state.model.eventEndDate =
                                     Utils().formatTime(value);
@@ -308,30 +311,41 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.annualPowerShutdown ? 1 : 0,
-                                onChangedYes: state.model.status == 6
+                                selectedValue: state.model
+                                    .annualPowerShutdown
+                                    ? 1
+                                    : 0,
+                                onChangedYes: widget
+                                    .model?.status ==
+                                    0
                                     ? null
                                     : (val) {
-                                        state.model.annualPowerShutdown = true;
-                                        BlocProvider.of<GeneralInfoCubit>(
-                                                context)
-                                            .showFields(
-                                                annualPowerShutdown: true);
-                                        //.onModelValueChange(state.guardingMasterData
-                                        //);
-                                      },
-                                onChangedNo: state.model.status == 4
+                                  state.model
+                                      .annualPowerShutdown = true;
+                                  BlocProvider.of<
+                                      GeneralInfoCubit>(
+                                      context)
+                                       .showFields(
+                                       annualPowerShutdown: true);
+                                 // .onModelValueChange(state.model
+                                 // );
+                                },
+                                onChangedNo:
+                                widget.model?.status == 0
                                     ? null
                                     : (val) {
-                                        state.model.annualPowerShutdown = false;
-                                        BlocProvider.of<GeneralInfoCubit>(
-                                                context)
-                                            .showFields(
-                                                annualPowerShutdown: false);
-                                        // .onModelValueChange(state.guardingMasterData
-                                        //  );
-                                      }),
+                                  state.model
+                                      .annualPowerShutdown =
+                                  false;
+                                  BlocProvider.of<
+                                      GeneralInfoCubit>(
+                                      context)
+                                     .showFields(
+                                      annualPowerShutdown:
+                                      false);
+                                   // .onModelValueChange(state.model
+                                   //  );
+                                }),
                             if (state.model.annualPowerShutdown) ...[
                               /// Sub Regional Head (SRH) 1
                               CommonWidgets.textDisplay(
@@ -905,7 +919,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               Constants.eventProtectionOfficers,
                               Styles.textStyleBlack14,
                             ),
-
                             if (!disableForm) ...[
                               GestureDetector(
                                 onTap: () {
@@ -936,7 +949,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             BasicWidgetFunctions().getStringText(
                                 strings: state.model.epOfficers ?? []),
                             // TextfieldAddButton(
-                            //   title: state.model.epOfficers,
+                            //   title: state.model.epOfficers?[0],
                             //   height: 70,
                             //   isDisableColor: disableForm,
                             //   onTap: () {
@@ -952,6 +965,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             //     );
                             //   },
                             // ),
+
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             if (state.model.annualPowerShutdown) ...[
@@ -1008,7 +1022,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.text,
                                 initialValue: state.model.guardingVendorPoc,
                                 textFormKey: Keys.vendorAgencyPOCKey,
                                 hintText: '',
@@ -1224,7 +1238,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14,
                               ),
                               TextfieldAddButton(
-                                title: state.model.proposedVendors?[0].name ?? '',
+                                title: state.model.proposedVendors?.name ?? '',
                                 height: 60,
                                 isDisableColor: disableForm,
                                 onTap: () {
@@ -1234,7 +1248,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     onTap: (Organisation proposedVendors) {
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .updateDropdownValues(
-                                              proposedVendor: proposedVendors);
+                                              proposedVendors: proposedVendors);
                                     },
                                   );
                                 },
@@ -1356,29 +1370,30 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
   Widget locationWidgetdislay(GeneralInfoState state) {
     return GestureDetector(
       onTap: () {
-        if (state.model.id == null ||
-            (state.model.location?.name ?? '').isEmpty) {
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              // print(state.getLocationsResponse);
-              return CustomExpansionListTexts(
-                getLocationsresponse: state.locations,
-                onTap: (Mumbai? list) async {
-                  log('list?.name-----${list?.name}');
+        // if (widget.occurrence == null ||
+        //     (state.occurrence.location?.name ?? '').isEmpty)
+        //     {
+        showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            // print(state.getLocationsResponse);
+            return CustomExpansionListTexts(
+              getLocationsresponse: state.locations,
+              onTap: (Organisation? list) async {
+                log('list?.name-----${list?.name}');
 
-                  Organisation location = Organisation();
-                  location.id = list?.id;
-                  location.name = list?.name;
-                  state.model.location = location;
+                Organisation location = Organisation();
+                location.id = list?.id;
+                location.name = list?.name;
+                state.model.location = location;
 
-                  BlocProvider.of<GeneralInfoCubit>(context)
-                      .updateDropdownValues(location: location);
-                },
-              );
-            },
-          );
-        }
+                BlocProvider.of<GeneralInfoCubit>(context)
+                    .updateDropdownValues(location: location);
+              },
+            );
+          },
+        );
+        // }
       },
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
@@ -1457,4 +1472,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
       },
     );
   }
+
+
 }
