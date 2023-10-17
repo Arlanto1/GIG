@@ -249,7 +249,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => CreatePassManagement());
 
       case incidentManagementRoute:
-        String occType = '';
+        int occType = 0;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
