@@ -249,9 +249,15 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => CreatePassManagement());
 
       case incidentManagementRoute:
+        String occType = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          occType = arguments['occType'];
+        }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<im.IncidentManagementsBloc>(
-            create: (_) => im.IncidentManagementsBloc()
+            create: (_) => im.IncidentManagementsBloc(occType)
               ..add(const im.FetchData(startPos: 0, maxPos: 20)),
             child: const IncidentManagementsView(),
           ),
@@ -259,10 +265,12 @@ class RouteGenerator {
 
       case incidentManagementDetailsRoute:
         String id = '';
+        int occType = 0;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments['id'];
+          occType = arguments['occType'];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<IncidentGeneralInfoCubit>(
@@ -270,8 +278,9 @@ class RouteGenerator {
               services: IncidentManagementServices(),
               commonServices: CommonServices(),
               id: id,
+              occType: occType,
             ),
-            child:  const IncidentGeneralInfoView(),
+            child: const IncidentGeneralInfoView(),
           ),
         );
 
@@ -328,7 +337,7 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments["title"];
-        id = arguments['id']??'';
+        id = arguments['id'] ?? '';
         return MaterialPageRoute(
             builder: (context) => BlocProvider<OccurrenceGeneralInfoCubit>(
                   create: (_) => OccurrenceGeneralInfoCubit(

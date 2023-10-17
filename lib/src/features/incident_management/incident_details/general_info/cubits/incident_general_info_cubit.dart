@@ -32,13 +32,14 @@ part 'incident_general_info_state.dart';
 class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
   final IncidentManagementServices services;
   final String id;
+  final int occType;
   final CommonServices commonServices;
 
   IncidentGeneralInfoCubit({
     required this.services,
     required this.commonServices,
     required this.id,
-  }) : super(
+    required this.occType, }) : super(
           IncidentGeneralInfoState.initial(
             model: Incident(),
             locations: GetLocations(),

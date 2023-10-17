@@ -14,7 +14,8 @@ part 'incident_management_state.dart';
 
 class IncidentManagementsBloc
     extends Bloc<IncidentManagementsEvent, IncidentManagementsState> {
-  IncidentManagementsBloc() : super(const IncidentManagementsState()) {
+  final String? occType;
+  IncidentManagementsBloc(this.occType) : super(const IncidentManagementsState()) {
     on<FetchData>(
       _fetchList,
       transformer: droppable(),

@@ -616,9 +616,12 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
+
                                       if (state.model.incidentItems !=
                                           null) ...[
-                                        showButtonDisplay(),
+                                        CommonWidgets.horizontalSpacerWidget(
+                                            height * 0.01),
+                                        showButtonDisplay(1),
                                       ],
                                     ],
                                   ),
@@ -739,6 +742,12 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
+                                      if (state.model.incidentItems !=
+                                          null) ...[
+                                        CommonWidgets.horizontalSpacerWidget(
+                                            height * 0.01),
+                                        showButtonDisplay(2),
+                                      ],
                                     ],
                                   ),
                                 ),
@@ -1349,17 +1358,19 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     );
   }
 
-  Widget showButtonDisplay() {
+  Widget showButtonDisplay(int occType) {
     return AppButton(
       // Customize the button properties as needed
       height: 40,
       width: 100,
       backgroundColor: Colors.white,
       key: const Key(Keys.showButton),
-      buttonText: Constants.show,
+      buttonText: Constants.showList,
       buttonTextKey: Keys.showButton,
       onTap: () => {
-        Navigator.pushNamed(context, incidentManagementRoute),
+        Navigator.pushNamed(context, incidentManagementRoute, arguments: {
+          'occType': occType,
+        }),
       },
     );
   }
