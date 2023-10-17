@@ -286,6 +286,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     SecuritySystemTicketIncidentRequest request =
     SecuritySystemTicketIncidentRequest(sstIncident: state.model);
 
+
     log('--isSaveOnly----$isSaveOnly--');
     GenericCreateResponse response = GenericCreateResponse();
     try {

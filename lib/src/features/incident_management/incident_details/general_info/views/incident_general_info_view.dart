@@ -72,11 +72,9 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
             onPostivePressed: () {
               // TODO: Need to improve this code
               Navigator.pop(context);
-              Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
                 incidentManagementRoute,
-                arguments: {},
               );
             },
           );
