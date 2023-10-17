@@ -21,7 +21,7 @@ import '../../../../enums/form_status.dart';
 import '../../../../models/base_user.dart';
 import '../../../../models/organisation.dart';
 import '../../../../models/responseModels/error_response_validation.dart';
-import '../../../../models/responseModels/generic_creat_response.dart';
+import '../../../../models/responseModels/generic_create_response.dart';
 import '../../../createfound/models/emplyee_departments_model.dart';
 import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 

@@ -6,7 +6,7 @@ import 'package:db_atom/src/features/material_movement/models/material_movements
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
-import '../../../models/responseModels/generic_creat_response.dart';
+import '../../../models/responseModels/generic_create_response.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
