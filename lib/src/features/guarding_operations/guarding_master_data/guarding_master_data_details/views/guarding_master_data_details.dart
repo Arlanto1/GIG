@@ -35,7 +35,6 @@ import '../../../../../utils/util.dart';
 import '../../../../../utils/validators/validator.dart';
 import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import '../../../../createfound/models/create_found_request.dart';
-import '../../../../createfound/models/get_locations_model.dart';
 import '../../../../createfound/models/user.dart';
 import '../../models/guarding_master_data_model.dart';
 import '../cubits/guarding_master_data_details_cubit.dart';
@@ -2336,32 +2335,32 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
   Widget locationWidgetdislay(GuardingMasterDataDetailsState state) {
     return GestureDetector(
       onTap: () {
-        if (widget.guardingMasterData == null ||
-            (state.guardingMasterData.location?.name ?? '').isEmpty) {
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              // print(state.getLocationsResponse);
-              return CustomExpansionListTexts(
-                getLocationsresponse: state.locations,
-                onTap: (Mumbai? list) async {
-                  log('list?.name-----${list?.name}');
+        // if (widget.occurrence == null ||
+        //     (state.occurrence.location?.name ?? '').isEmpty)
+        //     {
+        showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            // print(state.getLocationsResponse);
+            return CustomExpansionListTexts(
+              getLocationsresponse: state.locations,
+              onTap: (Organisation? list) async {
+                log('list?.name-----${list?.name}');
 
-                  Organisation location = Organisation();
-                  location.id = list?.id;
-                  location.name = list?.name;
-                  state.guardingMasterData.location = location;
+                Organisation location = Organisation();
+                location.id = list?.id;
+                location.name = list?.name;
+                state.guardingMasterData.location = location;
 
-                  BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                      .updateDropdownValues(location: location);
-                },
-              );
-            },
-          );
-        }
+                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                    .updateDropdownValues(location: location);
+              },
+            );
+          },
+        );
+        // }
       },
-      child: SelectedTileValueWidget(
-          name: state.guardingMasterData.location?.name ?? ''),
+      child: SelectedTileValueWidget(name: state.guardingMasterData.location?.name ?? ''),
     );
   }
 

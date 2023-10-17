@@ -124,11 +124,8 @@ class _LawEnforcementCustomPopUpListState
             children: [
               textHandling(
                   'Created By : ',
-                  widget.userItem?.inputDate != null
-                      ? Utils.timestamptoDateConversion(
-                          int.parse(widget.userItem?.inputDate ?? '0'),
-                          Constants.dateFormat)
-                      : ''),
+                  '${widget.userItem?.entrySecurityName}'),
+
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
@@ -160,13 +157,13 @@ class _LawEnforcementCustomPopUpListState
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),*/
-          Row(
-            children: [
-              textHandling('EntrySecurityName : ',
-                  widget.userItem?.entrySecurityName.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
+          // Row(
+          //   children: [
+          //     textHandling('EntrySecurityName : ',
+          //         widget.userItem?.entrySecurityName.toString() ?? " "),
+          //   ],
+          //),
+          //CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
               textHandling('DBOfficialName : ',

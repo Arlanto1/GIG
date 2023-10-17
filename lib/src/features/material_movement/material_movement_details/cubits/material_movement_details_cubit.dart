@@ -134,7 +134,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     Organisation? approver1Department,
     Organisation? approver2Department,
     Organisation? receiverDepartment,
-    QuantityUnit? quantityUnit,
+    Organisation? quantityUnit,
     bool? isReturnable,
   }) async {
     emit(

@@ -9,6 +9,10 @@ class Constants {
   static const String materialMovementOutwardReturnableModule = 'MMOUTY';
   static const String materialMovementOutwardNonReturnableModule = 'MMOUTN';
   static const String guardingMasterDataModule = 'GM';
+  static const String passManagementModule = 'DayPass';
+  static const String visitorManagementModule = 'VisitorPass';
+  static const String vendorPassManagementModule = 'VendorPass';
+  static const String eventProtectionModule = 'EP';
   static const String guardingRatesModule = 'GR';
   static const String incidentManagementModule = 'IM';
 
@@ -223,8 +227,8 @@ class Constants {
   static const String distributiongroups = 'Distribution Groups';
   static const String upload = 'Upload';
   static const String uploadPhoto = 'Upload Photo';
-  static const String addanothervisitingofficialdetails =
-      "Add Another Visiting Official Details";
+  static const String addvisitingofficialdetails =
+      "Add Visiting Official Details";
   static const String visitingofficialdetails = "Visiting Official Details";
 
   // Pass mgmt

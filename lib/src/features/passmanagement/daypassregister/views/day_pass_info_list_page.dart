@@ -129,15 +129,11 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
             itemList: const [
               PopMenuItems("Export Excel", AppIcon.exportexcel),
               PopMenuItems("Export PDF", AppIcon.exportpdf),
-              //PopMenuItems("Export XML", AppIcon.exportxml),
-              //PopMenuItems("Close", AppIcon.close),
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
               print(value);
               if (value == 0) {
-                // DownloadImage().exportExcel(context, int.parse(userid),
-                //     'export.xslx', 0, pageNumber, '/exportPassInfoExcel');
                   DownloadImage().passexportExcel(context, int.parse(userid), 'export.xslx', int.parse(widget.passId ?? '0'),0 , '/exportPassInfoExcel');   
               } else if (value == 1) {
                 // DownloadImage().exportPdf(context, int.parse(userid),
@@ -322,6 +318,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
                   },
                 );
               },
+
               index: index,
             );
           }

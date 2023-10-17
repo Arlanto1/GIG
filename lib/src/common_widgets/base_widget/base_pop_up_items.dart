@@ -144,7 +144,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             )),
         // color: Colors.white,
         height: height / 1.8,
-        width: width - 30,
+        width: width -10,
         child:
             // Row(
             //  children: [
@@ -176,9 +176,13 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           Utils().textHandling('ID : ', widget.id.toString()),
         ],
       ),
-      if (widget.slNo != null && widget.slNo!.isNotEmpty) ...[
+    if (widget.slNo != null && widget.slNo!.isNotEmpty) ...[
+      Row(
+    children: [
         CommonWidgets.verticalSpacerWidget(8),
         Utils().textHandling('Sl No : ', widget.slNo.toString()),
+      ],
+      ),
       ],
       if (widget.locationRegion != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
@@ -255,8 +259,11 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           !widget.isOccurrenceStatus &&
           !widget.isEventProtectionStatus &&
           !widget.isSLAViolationStatus && !widget.isIncident) ...[
-        CommonWidgets.horizontalSpacerWidget(5),
+        CommonWidgets.verticalSpacerWidget(5),
+    Row(
+    children: [
         Utils().buildStatusRow(widget.status ?? 0),
+    ],),
       ],
       if (widget.status != 0 &&
           widget.status != null &&
@@ -373,7 +380,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().textHandling(
-                'Total No of Staff MedicalCertificate Not Submitted : ',
+                'Total No of Staff MedicalCertificate Not Submitted:',
                 widget.mcNotSubmitted.toString()),
           ],
         ),
@@ -384,7 +391,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().textHandling(
-                'Total No of Staff MedicalCertificate Expired : ',
+                'Total No of Staff MedicalCertificate Expired:',
                 widget.mcExpired.toString()),
           ],
         ),
@@ -395,7 +402,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().textHandling(
-                'Total No of Staff Photograph Not Submitted : ',
+                'Total No of Staff Photograph Not Submitted :',
                 widget.photoNotSubmitted.toString()),
           ],
         ),
@@ -406,7 +413,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().textHandling(
-                'Total No of Staff DeplyomentOrder Not Submitted : ',
+                'Total No of Staff DeplyomentOrder Not Submitted:',
                 widget.deploymentOrderPending.toString()),
           ],
         ),

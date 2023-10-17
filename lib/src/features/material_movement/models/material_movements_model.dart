@@ -1,5 +1,4 @@
 import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 
 import '../../../models/history.dart';
 import '../../../models/organisation.dart';
@@ -64,7 +63,7 @@ class MaterialMovementModel {
   String? address;
   String? purpose;
   String? modelInfo;
-  QuantityUnit? unit;
+  Organisation? unit;
   String? preparedBy;
   Organisation? preparedByDepartment;
   String? approver1Email;
@@ -204,7 +203,7 @@ class MaterialMovementModel {
         purpose = json['purpose'] as String?,
         modelInfo = json['modelInfo'] as String?,
         unit = (json['unit'] as Map<String, dynamic>?) != null
-            ? QuantityUnit.fromJson(json['unit'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['unit'] as Map<String, dynamic>)
             : null,
         preparedBy = json['preparedBy'] as String?,
         approvedDate = json['approvedDate'],

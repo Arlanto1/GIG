@@ -32,11 +32,12 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   CreatePassMgmtService createpassmgmtServices;
   List<CreateImage>? loadAttachments;
   List<CreateImage>? photoAttachments;
+  String? passId = '0';
 
   CreatePassMgmtCubit(
       {required this.createpassmgmtServices,
       this.loadAttachments,
-      this.photoAttachments})
+      this.photoAttachments,this.passId})
       : super(
           CreatePassMgmtState(
             //lawenforcementServices: SubmitCreateFoundModel(),
@@ -246,7 +247,16 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
   // Serialnumber api  call
   Future<void> getSerialnumberDetails(
-      String locationid, String modulecode, BuildContext context) async {
+      String locationid, String modulecode, BuildContext context,) async {
+    if(passId == "0"){
+      modulecode= Constants.passManagementModule;
+    }
+    else if(passId == "1"){
+    modulecode= Constants.visitorManagementModule;
+    }
+    else if(passId == "2"){
+      modulecode= Constants.vendorPassManagementModule;
+    }
     try {
       SerialNumberModel getserialnumberResponse = await createpassmgmtServices
           .getSerialnumberDetails(locationid, modulecode, context);
