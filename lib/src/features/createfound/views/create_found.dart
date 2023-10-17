@@ -34,6 +34,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../common_widgets/app_button.dart';
 import '../../../models/base_user.dart';
 import '../../../models/organisation.dart';
 import '../models/user.dart';
@@ -823,10 +824,10 @@ class _CreateFoundState extends State<CreateFound> {
             icon: SvgPicture.asset(AppIcon.backIcon,
                 color: AppColors.backgroundWhitecolor),
           ),
+
           action: [
             Visibility(
-              visible:
-                  widget.listuser?.status == 0 && widget.listuser?.status == 1,
+              visible: widget.listuser?.status != 2,
               child: GestureDetector(
                 onTap: () {
                   //for now the new param is isSubmit added, if any new params needed we can add to this.
@@ -842,26 +843,26 @@ class _CreateFoundState extends State<CreateFound> {
                 ),
               ),
             ),
-        Visibility(
-          visible:
-          widget.listuser?.status == 0 && widget.listuser?.status == 1,
-         child: GestureDetector(
-              onTap: () {
-                //createNewuserBody(); //in this method createfoundValidations, calling the createNewuserBody
-                createfoundValidations(context);
-              },
-              child: const Padding(
-                padding: EdgeInsets.only(right: 20.0),
-                child: Icon(
-                  Icons.send,
-                  color: AppColors.backgroundWhitecolor,
-                ),
-                // SvgPicture.asset(
-                //   AppIcon.createfoundsaveicon,
-                //),
-              ),
-            ),
-        ),
+            //Visibility(
+            //   //visible:
+            //  // widget.listuser?.status == 0 && widget.listuser?.status == 1,
+            //  child: GestureDetector(
+            //       onTap: () {
+            //         //createNewuserBody(); //in this method createfoundValidations, calling the createNewuserBody
+            //         createfoundValidations(context);
+            //       },
+            //       child: const Padding(
+            //         padding: EdgeInsets.only(right: 20.0),
+            //         child: Icon(
+            //           Icons.send,
+            //           color: AppColors.backgroundWhitecolor,
+            //         ),
+            //         // SvgPicture.asset(
+            //         //   AppIcon.createfoundsaveicon,
+            //         //),
+            //       ),
+            //     ),
+            // ),
           ],
           //backgroundColor: AppColors.navigationSkybluecolor,
         ),
@@ -1727,6 +1728,16 @@ class _CreateFoundState extends State<CreateFound> {
                                     : attachmentListviews(
                                         getFiles, getAttachments)
                                 : attachmentListviews(getFiles, getAttachments),
+                            if (widget.listuser?.status != 2) ...[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  cancelButtonDisplay(),
+                                  submitButtonDisplay()
+                                ],
+                              ),
+                            ],
                           ],
                         )),
                   ),
@@ -1735,11 +1746,41 @@ class _CreateFoundState extends State<CreateFound> {
         ));
   }
 
+  Widget submitButtonDisplay() {
+    return // Login button
+        AppButton(
+      width: 150,
+      // disableColor: isHandedOver,
+      key: const Key(Keys.submitButton),
+      buttonText: Constants.submit,
+      buttonTextKey: Keys.submitButton,
+      onTap: () async {
+        //loginFormKey.currentState!.validate();
+        FocusScope.of(context).unfocus();
+        createfoundValidations(context);
+      },
+    );
+  }
+
+  Widget cancelButtonDisplay() {
+    return AppButton(
+      // Customize the button properties as needed
+      width: 150,
+      backgroundColor: Colors.white,
+      key: const Key(Keys.cancelButton),
+      buttonText: Constants.cancel,
+      buttonTextKey: Keys.cancelButton,
+      onTap: () {
+        Navigator.pop(context);
+      },
+    );
+  }
+
   Widget locationWidgetdislay(CreateFoundState state) {
     return GestureDetector(
       onTap: () {
         //if (widget.listuser == null || locationselectedText.isEmpty)
-      {
+        {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {

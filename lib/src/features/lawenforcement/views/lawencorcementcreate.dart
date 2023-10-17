@@ -128,29 +128,6 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              if (!isDistrbuted) {
-                lawenforcementValidations(context, globalState);
-              }
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: isDistrbuted
-                  ? Icon(
-                Icons.send,
-                color:
-                AppColors.disabletextfieldBackground.withOpacity(0.5),
-              )
-                  : const Icon(
-                Icons.send,
-                color: AppColors.backgroundWhitecolor,
-              ),
-              // SvgPicture.asset(
-              //   AppIcon.createfoundsaveicon,
-              //),
-            ),
-          ),
         ],
         //backgroundColor: AppColors.navigationSkybluecolor,
       ),
@@ -501,9 +478,16 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                       height * 0.01),
                                 ],
                                 // SubmitButton
-                                Center(child: submitButtonDisplay()),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.005),
+                                if (widget.listUser?.status != 3) ...[
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      cancelButtonDisplay(),
+                                      submitButtonDisplay()
+                                    ],
+                                  ),
+                                ],
                               ]),
                             )
                           ],
@@ -1726,6 +1710,19 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     );
   }
 
+  Widget cancelButtonDisplay() {
+    return AppButton(
+      // Customize the button properties as needed
+      width: 150,
+      backgroundColor: Colors.white,
+      key: const Key(Keys.cancelButton),
+      buttonText: Constants.cancel,
+      buttonTextKey: Keys.cancelButton,
+      onTap: () {
+        Navigator.pop(context);
+      },
+    );
+  }
   Widget attachmentListviews(
       List<CreateImage>? attachmentListviews,
       List<FoundImage>? attachmentListviews1,
