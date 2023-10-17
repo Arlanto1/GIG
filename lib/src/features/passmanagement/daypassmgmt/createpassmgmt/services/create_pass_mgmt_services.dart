@@ -61,10 +61,10 @@ class CreatePassMgmtService {
     required CreatePassMgmtBody requestBody,
     required bool isSubmit,
   }) async {
-    var getUsername = await SharedPrefs.getUsername();
+    var getUsername = await SharedPrefs.getUserId();
 
     final String url =
-        "${Apis._createPass}?userEmail=$getUsername&isSubmit=$isSubmit";
+        "${Apis._createPass}userEmail=$getUsername&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,
