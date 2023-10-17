@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
@@ -13,7 +14,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
+import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
@@ -74,7 +75,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      Occurrence model = await OccurrenceDetailsServices().getOccurrence(id);
+      Occurrence model = Occurrence();
+      if(!id.isEmptyOrNull) {
+        model = await OccurrenceDetailsServices().getOccurrence(id);
+
+      }
 
       log('-model----${model.shiftBrfngAttnded}---');
 

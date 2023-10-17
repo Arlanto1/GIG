@@ -19,7 +19,7 @@ import 'package:equatable/equatable.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../models/responseModels/generic_creat_response.dart';
+import '../../../../../models/responseModels/generic_create_response.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
@@ -206,9 +206,9 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     state.model.status = status ?? state.model.status;
 
 
-    if (entities != null) {
-      state.model.entities = entities;
-    }
+    // if (entities != null) {
+    //   state.model.entities = entities;
+    // }
 
     emit(state.copyWith(
       model: state.model,
@@ -311,6 +311,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         ));
       }
     } on Exception catch (e) {
+      log('--on Exception catch---${e.toString()}---');
+
       emit(
         state.copyWith(
           message: e.toString(),

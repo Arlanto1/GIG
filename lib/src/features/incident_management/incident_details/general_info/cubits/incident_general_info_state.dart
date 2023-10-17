@@ -68,7 +68,16 @@ class IncidentGeneralInfoState extends Equatable {
           status: false, message: 'Please add Complainant');
     }
 
-    if (model.complainantDbEmp == null && model.complainantDbEmp == true) {
+    if (model.complainantDbEmp && model.complainant == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Complainant');
+    }
+
+    if (!model.complainantDbEmp && model.complainantName == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Complainant Name');
+    }
+    if (model.complainantDbEmp == true) {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant Employee Id');
     }
@@ -77,11 +86,11 @@ class IncidentGeneralInfoState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant Department');
     }
-    if (model.complainant == null && model.complainantDbEmp == true) {
+    if (model.complainantName == null && model.complainantDbEmp == true) {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant');
     }
-    if (model.complainantHr == null ) {
+    if (model.complainantHr == null) {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant Manager');
     }
