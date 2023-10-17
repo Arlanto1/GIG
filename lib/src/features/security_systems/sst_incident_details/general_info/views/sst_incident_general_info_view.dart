@@ -64,6 +64,7 @@ class _SstIncidentGeneralInfoViewState
     return BlocConsumer<SstIncidentGeneralInfoCubit,
         SstIncidentGeneralInfoState>(
       listener: (context, state) {
+        log('--state.status---${state.status}---');
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: Constants.generalInformation,
@@ -89,6 +90,7 @@ class _SstIncidentGeneralInfoViewState
           //     context, state.message ?? '', 'Material Movement', '');
         }
         if (state.status == FormStatus.error) {
+          log('-if error-state.status---${state.status}---');
           Validator().showToast(
             context,
             state.message ?? 'Invalid Information',

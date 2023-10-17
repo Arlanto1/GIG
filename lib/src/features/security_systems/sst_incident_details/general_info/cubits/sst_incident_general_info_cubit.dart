@@ -19,7 +19,7 @@ import 'package:equatable/equatable.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../models/responseModels/generic_creat_response.dart';
+import '../../../../../models/responseModels/generic_create_response.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
@@ -311,6 +311,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         ));
       }
     } on Exception catch (e) {
+      log('--on Exception catch---${e.toString()}---');
+
       emit(
         state.copyWith(
           message: e.toString(),
