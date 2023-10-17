@@ -47,6 +47,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
   TextEditingController closureTargetDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   TextEditingController assetTypeController = TextEditingController();
+  TextEditingController assetController = TextEditingController();
   TextEditingController incidentTypeController = TextEditingController();
   bool disableForm = false;
 
@@ -310,49 +311,39 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Asset Type
-                            if (state.model.incidentType == 0 ||
-                                state.model.incidentType == 1) ...[
-                              CommonWidgets.textDisplay(
-                                  Constants.assetType, Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                            // /// Asset Type
+                             if (state.model.incidentType == 0 ||
+                                 state.model.incidentType == 1) ...[
+                              CommonWidgets.textDisplay(Constants.assetType,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
                               BaseDropDown().getDropDown(
-                                isDisabled:
-                                state.model.status != 6,
-                                textController: assetTypeController,
+                                isDisabled: state.model.status != 6,
+                                textController: assetController,
                                 items: assetTypeValues,
-                                initialValue: state
-                                    .model.typeOfAsset
-                                    .toString(),
+                                initialValue: state.model.typeOfAsset.toString(),
                                 onTap: () {
-                                  //if (isDisabled) {
-                                    BaseDropDown().assetTypeDialog(
-                                      context: context,
-                                      dropDownValues:
-                                      assetTypeValues
-                                          .map((label) => label.key)
-                                          .toList(),
-                                      onTap: (String value) {
-                                        Label? selectedLabel;
-                                        selectedLabel =
-                                            assetTypeValues
-                                                .firstWhere(
-                                                  (label) => label.key == value,
-                                              orElse: () =>
-                                              const Label(key: '', value: ''),
-                                            );
-                                        BlocProvider.of<
-                                            IncidentGeneralInfoCubit>(
-                                            context)
-                                            .updateDropdownValues(
-                                            assetType: int.tryParse(
-                                                selectedLabel.value));
-                                      },
-                                    );
-                                 // }
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: assetTypeValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          assetTypeValues.firstWhere(
+                                                (label) => label.key == value,
+                                            orElse: () =>
+                                            const Label(key: '', value: ''),
+                                          );
+                                      BlocProvider.of<IncidentGeneralInfoCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                          typeOfAsset: int.tryParse(
+                                              selectedLabel.value));
+                                    },
+                                  );
                                 },
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -514,6 +505,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             TextfieldAddButton(
                               title: state.model.complainantHr?.name,
                               height: 70,
+                              key : _formKey,
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseDepartmentDialog().userDialog(

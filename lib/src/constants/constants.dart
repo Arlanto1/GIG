@@ -544,6 +544,8 @@ class Constants {
   static const String systemManager = 'System Manager';
   static const String lsm = 'LSM';
   static const String asl = 'ASL';
+  static const String system = 'System';
+  static const String vendorPoc = 'Vendor Poc';
   static const String locationTeam = 'Location Team';
   static const String shortIncidentDescription = 'Short Description of Incident';
   static const String detailIncidentDescription = 'Detail Description';
@@ -588,6 +590,15 @@ const List<Label> dutyTypeDropDownValues = [
   Label(key: 'Escort', value: '2'),
   Label(key: 'Facility', value: '3'),
   Label(key: 'Building & Escort', value: '4'),
+];
+
+const List<Label> systemDropDownValues = [
+  Label(key: 'Access Control System', value: '1'),
+  Label(key: 'Video Management System', value: '2'),
+  Label(key: 'Intrusion Detection System', value: '3'),
+  Label(key: 'ACS AND CCTV', value: '4'),
+  Label(key: 'IDS AND CCTV', value: '5'),
+  Label(key: 'ACS, CCTV AND IDS', value: '6'),
 ];
 
  const List<Label> assetTypeValues = [

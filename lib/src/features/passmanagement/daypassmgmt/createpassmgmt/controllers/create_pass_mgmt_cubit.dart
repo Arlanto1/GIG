@@ -298,6 +298,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
+
+
   // Get pass number call
   Future<void> getPassnumber(
       String passtype, String locationid, BuildContext context) async {
@@ -457,11 +459,11 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  gethostanalystsResponseData(BaseUser? companytypeResponse) async {
+  gethostanalystsResponseData(BaseUser? host) async {
     try {
       emit(
         state.copyWith(
-          t1hostanalyst: companytypeResponse,
+          t1hostanalyst: host,
           stateType: CreatePassMgmtStateType.success,
         ),
       );

@@ -56,7 +56,7 @@ class SstIncidentServices {
     required bool isSubmit,
   }) async {
     var userId = await SharedPrefs.getUserId();
-    final String url = "${Apis._create}?userEmail=$userId&isSubmit=$isSubmit";
+    final String url = "${Apis._create}userEmail=$userId&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
 
     dynamic response;

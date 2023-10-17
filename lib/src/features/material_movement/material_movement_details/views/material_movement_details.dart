@@ -321,7 +321,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
-                                  keyboardType: TextInputType.number,
+                                  keyboardType: TextInputType.text,
                                   initialValue: state.materialMovement.poNumber,
                                   textFormKey: Keys.poNumberKey,
                                   hintText: '',

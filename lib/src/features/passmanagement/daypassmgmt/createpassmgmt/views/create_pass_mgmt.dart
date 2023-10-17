@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
@@ -433,7 +432,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    // Company Type
+                                    /// Company Type
                                     widget.passId == "0" || widget.passId == "3"
                                         ? CommonWidgets.textDisplay(
                                             Constants.companytype,
@@ -454,7 +453,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             height * 0.01)
                                         : Container(),
 
-                                    // Vendor Name // Visitor Name
+                                    /// Vendor Name // Visitor Name
                                     CommonWidgets.textDisplay(
                                         widget.passId == "0" ||
                                                 widget.passId == "3"
@@ -483,7 +482,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.001),
                                     widget.passId == "2"
                                         ? textfieldWidgetLoad(
-                                            vendorCompanynameTextController,
+                                            companynameTextController,
                                             0,
                                             state)
                                         : Container(),
@@ -503,6 +502,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             nameTextController, 0, state)
                                         : Container(),
 
+                                ///Contact No / Email
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
                                     CommonWidgets.textDisplay(
@@ -886,6 +886,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         : Container(),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
+
 
                                     /// department
                                     widget.passId == '3'
@@ -2513,7 +2514,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         location: location,
         status: statusvalue,
         locationRegion: locregion,
-        companyName: companynameTextController.text ?? '',
+        companyName: companynameTextController.text,
         employeeName: state.nameResponse?.name == null
             ? (nameTextController.text)
             : state.nameResponse?.name ?? '',
@@ -2563,7 +2564,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           location: location,
           status: statusvalue,
           locationRegion: locregion,
-          companyName: companynameTextController.text ?? '',
+          companyName: companynameTextController.text ?? "",
           employeeName: state.nameResponse?.name == null
               ? (nameTextController.text ?? '')
               : state.nameResponse?.name ?? '',
@@ -2894,12 +2895,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       isDisableColor: true,
       onChange: (String username) {
         //this.username = username;
-        // setState(() {});
+        //setState(() {});
       },
       validateTextField: (String? user) {},
     );
   }
-
   Widget attachmentListviews(
     List<CreateImage>? attachmentListviews,
     List<FoundImage>? attachmentListviews1,

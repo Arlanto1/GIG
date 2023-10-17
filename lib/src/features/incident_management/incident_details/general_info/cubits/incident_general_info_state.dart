@@ -53,15 +53,26 @@ class IncidentGeneralInfoState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-    if (model.entities == null || model.entities!.isEmpty) {
-      return const ErrorResponse(status: false, message: 'Please add Entities');
-    }
+
     if (model.location == null) {
       return const ErrorResponse(status: false, message: 'Please add Location');
+    }
+
+    if (model.entities == null || model.entities!.isEmpty) {
+      return const ErrorResponse(status: false, message: 'Please add Entities');
     }
     if (model.incidentType == null) {
       return const ErrorResponse(
           status: false, message: 'Please add Incident Type');
+    }
+
+    if ((model.incidentType == 0 || model.incidentType == 1)  && model.typeOfAsset == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Asset Type');
+    }
+    if ((model.incidentType == 0 || model.incidentType == 1)  && model.color == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Colour/Make/Model');
     }
     if (model.complainantName == null && model.complainantDbEmp == false) {
       return const ErrorResponse(
@@ -77,7 +88,7 @@ class IncidentGeneralInfoState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant Name');
     }
-    if (model.complainantDbEmp == true) {
+    if (model.complainantDbEmp == true && model.employeeId == null) {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant Employee Id');
     }
@@ -86,10 +97,10 @@ class IncidentGeneralInfoState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant Department');
     }
-    if (model.complainant == null && model.complainantDbEmp == true) {
-      return const ErrorResponse(
-          status: false, message: 'Please add Complainant');
-    }
+    // if (model.complainant == null && model.complainantDbEmp == true) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please add Complainant');
+    // }
     if (model.complainantHr == null) {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant Manager');
@@ -97,6 +108,11 @@ class IncidentGeneralInfoState extends Equatable {
     if (model.incidentDate == null || model.incidentDate!.isEmpty) {
       return const ErrorResponse(
           status: false, message: 'Please add Incident Date and Time');
+    }
+
+    if (model.incidentLocation == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Incident Location');
     }
 
     if (model.incidentManager == null) {

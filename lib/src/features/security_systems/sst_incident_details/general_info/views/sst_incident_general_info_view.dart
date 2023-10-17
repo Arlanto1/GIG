@@ -49,6 +49,8 @@ class _SstIncidentGeneralInfoViewState
   TextEditingController statusController = TextEditingController();
   TextEditingController assetTypeController = TextEditingController();
   TextEditingController incidentTypeController = TextEditingController();
+  TextEditingController systemController = TextEditingController();
+  bool isDisabled = true;
   bool disableForm = false;
 
   @override
@@ -249,10 +251,93 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// System
+                            CommonWidgets.textDisplay(
+                                Constants.system, Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            BaseDropDown().getDropDown(
+                                isDisabled:
+                                state.model.status != 6,
+                                textController: systemController,
+                                items: systemDropDownValues,
+                                initialValue: state.model.systemSLA
+                                    .toString(),
+                                onTap: () {
+                                  if (isDisabled) {
+                                    BaseDropDown().assetTypeDialog(
+                                        context: context,
+                                        dropDownValues: systemDropDownValues
+                                            .map((label) => label.key)
+                                            .toList(),
+                                        onTap: (String value) {
+                                          Label? selectedLabel;
+                                          selectedLabel =
+                                              systemDropDownValues.firstWhere(
+                                                    (label) => label.key == value,
+                                                orElse: () =>
+                                                const Label(key: '', value: ''),
+                                              );
+                                          BlocProvider.of<
+                                              SstIncidentGeneralInfoCubit>(
+                                              context)
+                                              .updateDropdownValues(
+                                              systemSLA: int.tryParse(
+                                                  selectedLabel.value));
+                                        });
+                                  }
+                                }),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
 
                             /// Vendor
+                            CommonWidgets.textDisplay(
+                              Constants.vendor,
+                              Styles.textStyleBlack14,
+                            ),
+                            TextfieldAddButton(
+                              title: state.model.vendor?.name,
+                              height: 70,
+                              isDisableColor: disableForm,
+                              onTap: () {
+                                BaseDepartmentDialog().departmentDialog(
+                                  context: context,
+                                  //enabled: !disableForm,
+                                  departments: state.vendors,
+                                  onTap: (Organisation user) {
+                                    BlocProvider.of<
+                                        SstIncidentGeneralInfoCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                      vendor: user,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
 
                             /// Vendor Poc
+                            CommonWidgets.textDisplay(Constants.vendorPoc,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.001),
+                            FlutterInputField(
+                              lineHeight: 1,
+                              initialValue: state.model.vendorPoc,
+                              textFormKey: Keys.claimantTextController,
+                              hintText: Constants.informationhere,
+                              isEnable: state.model.status != 6,
+                              isDisableColor: state.model.status == 6,
+                              onChange: (String value) {
+                                state.model.vendorPoc = value;
+                                context
+                                    .read<SstIncidentGeneralInfoCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// System Manager
                             CommonWidgets.textDisplay(
@@ -341,7 +426,7 @@ class _SstIncidentGeneralInfoViewState
                               Styles.textStyleBlack14,
                             ),
                             TextfieldAddButton(
-                              title: state.model.location?.name,
+                              title: state.model.lt?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -354,7 +439,7 @@ class _SstIncidentGeneralInfoViewState
                                                 SstIncidentGeneralInfoCubit>(
                                             context)
                                         .updateDropdownValues(
-                                      locationTeam: user,
+                                      lt: user,
                                     );
                                   },
                                 );
