@@ -1306,6 +1306,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                       ),
 
                       /// SubmitButton
+                      if(state.model?.status == 0)...[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -1319,6 +1320,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                           ],
                         ],
                       ),
+                      ],
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ]),
               ),
