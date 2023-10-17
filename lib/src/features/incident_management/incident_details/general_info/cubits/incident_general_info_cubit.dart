@@ -368,6 +368,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
+    state.model.occType = occType;
     // Create/Update API Call
     IncidentGeneralInfoRequest request =
     IncidentGeneralInfoRequest(incidentManagement: state.model);
