@@ -364,6 +364,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     state.materialMovement.materialDescription,
                                 textFormKey: Keys.materialBreifDescKey,
                                 hintText: Constants.informationhere,
+                                showBorder: true,
                                 isEnable: state.materialMovement.status != 6,
                                 isDisableColor:
                                     state.materialMovement.status == 6,
@@ -1280,6 +1281,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       state.materialMovement.materialComingFrom,
                                   textFormKey: Keys.sendersKey,
                                   hintText: '',
+
                                   isEnable: state.materialMovement.status != 6,
                                   isDisableColor:
                                       state.materialMovement.status == 6,
@@ -1307,6 +1309,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   lineHeight: 6,
                                   initialValue: state
                                       .materialMovement.materialFromAddress,
+                                  showBorder: true,
                                   textFormKey: Keys.materialComingFromKey,
                                   hintText: Constants.informationhere,
                                   isEnable: state.materialMovement.status != 6,
@@ -1610,6 +1613,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   initialValue: state
                                       .materialMovement.materialDescription,
                                   textFormKey: Keys.securitySignKey,
+
                                   hintText: Constants.informationhere,
                                   isEnable: state.materialMovement.status != 6,
                                   isDisableColor:

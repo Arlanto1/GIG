@@ -15,6 +15,7 @@ import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../constants/constants.dart';
 import '../../../../enums/form_status.dart';
@@ -78,6 +79,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       // Get Date of Creation
       state.materialMovement.inputDate = Utils().getCurrentDate();
+      state.materialMovement.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
       state.materialMovement.inwardMovement = isInward;
       if (state.materialMovement.approvedDate != null) {
@@ -291,6 +294,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       } else {
         //Validating Fields
         if (!state.isValid.status) {
+          state.materialMovement.inputDate =
+              DateFormat(Constants.fulldateFormat).format(DateTime.now());
           emit(
             state.copyWith(
               status: FormStatus.error,
@@ -312,11 +317,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         ),
       );
 
-      // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      //   Utils.dynamicAlert(
-      //       context, lawcreateFoundresponse.message ?? '', title, '');
-      // });
     } on Exception catch (e) {
+      state.materialMovement.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
       emit(
         state.copyWith(
           message: e.toString(),
