@@ -563,7 +563,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     state.loadAttachments = [];
     state.atomCompanyType = Organisation();
     state.listOfEntities = [];
-    state.locationSelectedlist = Mumbai();
+    state.locationSelectedlist = Organisation();
     state.photoAttachments = [];
     state.getuserResponse = BaseUser();
     state.serialnumberResponse?.serialNo = '';
@@ -615,7 +615,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  getlocationsResponseData(Mumbai? locationSelectedlist) async {
+  getlocationsResponseData(Organisation? locationSelectedlist) async {
     try {
       emit(
         state.copyWith(
