@@ -36,7 +36,7 @@ class CreatePassMgmtState extends Equatable {
   GetLocations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
   List<Entity>? listOfEntities;
-  Mumbai? locationSelectedlist;
+  Organisation? locationSelectedlist;
   SerialNumberModel? serialnumberResponse;
   BaseUser? getuserResponse;
   EmployeeDepartments? employeeDepartment;
@@ -113,7 +113,7 @@ class CreatePassMgmtState extends Equatable {
     GetLocations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,
     List<Entity>? listOfEntities,
-    Mumbai? locationSelectedlist,
+    Organisation? locationSelectedlist,
     SerialNumberModel? serialnumberResponse,
     GetDepositor? getDepositorResponse,
     BaseUser? getuserResponse,

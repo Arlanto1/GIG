@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
@@ -34,6 +36,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../common_widgets/base_widget/selected_tile_value_widget.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../../models/entity.dart';
 import '../../../../../models/organisation.dart';
@@ -168,7 +171,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             //   }
             // }
             return Container(
-                color: AppColors.navigationSkybluecolor,
                 child: SingleChildScrollView(
                     child: Column(children: [
                   Container(
@@ -1398,11 +1400,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     lastName: widget.listuser?.entrySecurity?.lastName ?? "") : GetUserDetails() ;
 
       //state.locationSelectedlist =
-      Mumbai mumbai = widget.dayPassItem?.location != null
-          ? Mumbai(
+      Organisation mumbai = widget.dayPassItem?.location != null
+          ? Organisation(
           id: widget.dayPassItem?.location?.id ?? 0,
           name: widget.dayPassItem?.location?.name ?? "")
-          : Mumbai();
+          : Organisation();
 
       serialnumber =
       widget.dayPassItem?.slNo != null ? widget.dayPassItem?.slNo ?? '' : '';
@@ -2251,10 +2253,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             return CustomExpansionListTexts(
               getLocationsresponse: state.getLocationsResponse,
               //GetLocations(),
-              onTap: (Mumbai? list) async {
+              onTap: (Organisation? list) async {
                 print(list?.name);
                 await createpassmgmtCubit.getSerialnumberDetails(
-                    list?.id.toString() ?? '', 'LEO', context,);
+                    list?.id.toString() ?? '', 'DayPass', context,);
 
                 createpassmgmtCubit.getPassnumber(
                     widget.passId ?? '0', list?.id.toString() ?? '', context);
@@ -2299,6 +2301,37 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     );
   }
 
+  // Widget locationWidgetdislay(CreatePassMgmtState state) {
+  //   return GestureDetector(
+  //     onTap: () {
+  //       // if (widget.occurrence == null ||
+  //       //     (state.occurrence.location?.name ?? '').isEmpty)
+  //       //     {
+  //       showDialog(
+  //         context: context,
+  //         builder: (BuildContext dialogContext) {
+  //           // print(state.getLocationsResponse);
+  //           return CustomExpansionListTexts(
+  //             getLocationsresponse: state.locations,
+  //             onTap: (Organisation? list) async {
+  //               log('list?.name-----${list?.name}');
+  //
+  //               Organisation location = Organisation();
+  //               location.id = list?.id;
+  //               location.name = list?.name;
+  //               state?.location = location;
+  //
+  //               BlocProvider.of<CreatePassMgmtCubit>(context)
+  //                   .updateDropdownValues(location: location);
+  //             },
+  //           );
+  //         },
+  //       );
+  //       // }
+  //     },
+  //     child: SelectedTileValueWidget(name: state.location?.name ?? ''),
+  //   );
+  // }
   Future passSubmit(
       bool isSubmit, int isFoundId, CreatePassMgmtState state) async {
     int passvalidfromdate = Utils.datetoTimestampConversion(
