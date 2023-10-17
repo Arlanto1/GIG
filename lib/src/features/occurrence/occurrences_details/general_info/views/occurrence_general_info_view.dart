@@ -80,7 +80,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
               Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
-                guardingMasterDataRoute,
+                occurrenceRoute,
                 arguments: {},
               );
             },

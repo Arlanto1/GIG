@@ -300,6 +300,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
         status: FormStatus.loading,
       ),
     );
+    state.model.inputDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     /// Create/Update API Call
     OccurrenceGeneralInfoRequest request =
