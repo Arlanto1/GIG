@@ -33,7 +33,7 @@ import '../cubits/incident_general_info_cubit.dart';
 
 class IncidentGeneralInfoView extends StatefulWidget {
   const IncidentGeneralInfoView({
-       super.key,
+    super.key,
   });
 
   @override
@@ -73,6 +73,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
             onPostivePressed: () {
               // TODO: Need to improve this code
               Navigator.pop(context);
+              Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
                 incidentManagementRoute,
@@ -96,8 +97,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
       },
       builder: (context, state) {
         log('--disableForm---$disableForm-');
-
-
 
         state.model.status ??= 0;
         if (state.model.status! > 0) {
@@ -287,26 +286,26 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               items: incidentTypeValues,
                               initialValue: state.model.incidentType.toString(),
                               onTap: () {
-                                  BaseDropDown().assetTypeDialog(
-                                    context: context,
-                                    dropDownValues: incidentTypeValues
-                                        .map((label) => label.key)
-                                        .toList(),
-                                    onTap: (String value) {
-                                      Label? selectedLabel;
-                                      selectedLabel =
-                                          incidentTypeValues.firstWhere(
-                                        (label) => label.key == value,
-                                        orElse: () =>
-                                            const Label(key: '', value: ''),
-                                      );
-                                      BlocProvider.of<IncidentGeneralInfoCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                              incidentType: int.tryParse(
-                                                  selectedLabel.value));
-                                    },
-                                  );
+                                BaseDropDown().assetTypeDialog(
+                                  context: context,
+                                  dropDownValues: incidentTypeValues
+                                      .map((label) => label.key)
+                                      .toList(),
+                                  onTap: (String value) {
+                                    Label? selectedLabel;
+                                    selectedLabel =
+                                        incidentTypeValues.firstWhere(
+                                      (label) => label.key == value,
+                                      orElse: () =>
+                                          const Label(key: '', value: ''),
+                                    );
+                                    BlocProvider.of<IncidentGeneralInfoCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            incidentType: int.tryParse(
+                                                selectedLabel.value));
+                                  },
+                                );
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -682,11 +681,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           cancelButtonDisplay(),
-                         if (!disableForm) ...[
+                          if (!disableForm) ...[
                             submitButtonDisplay(onTap: () {
                               FocusScope.of(context).unfocus();
                               BlocProvider.of<IncidentGeneralInfoCubit>(context)
-                                  .submitForm(isSaveOnly: false, isSubmit: true);
+                                  .submitForm(
+                                      isSaveOnly: false, isSubmit: true);
                             })
                           ],
                         ],

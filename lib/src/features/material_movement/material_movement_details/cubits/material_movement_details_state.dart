@@ -53,9 +53,22 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Quantity');
     }
+    if (materialMovement.materialComingFrom == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Sender\'s Name');
+    }
+
+    if (materialMovement.unit == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Unit');
+    }
     if (materialMovement.materialDescription.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Material Description');
+    }
+    if (!materialMovement.materialPhysicallyChecked &&
+        materialMovement.materialNotCheckedComment.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Comment is Mandatory');
     }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
