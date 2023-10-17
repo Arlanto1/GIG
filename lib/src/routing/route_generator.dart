@@ -253,7 +253,7 @@ class RouteGenerator {
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          occType = arguments['occType'];
+          occType = arguments['occType'] ?? 0;
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<im.IncidentManagementsBloc>(
@@ -270,7 +270,7 @@ class RouteGenerator {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments['id'];
-          occType = arguments['occType'];
+          occType = arguments['occType'] ?? 0;
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<IncidentGeneralInfoCubit>(
@@ -301,12 +301,14 @@ class RouteGenerator {
 
       case sstIncidentDetailsRoute:
         String id = '';
+        int occType = 0;
         bool isInternal = false;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           isInternal = arguments['isInternal'];
           id = arguments['id'];
+          occType = arguments['occType'] ?? 0;
         }
 
         return MaterialPageRoute(
@@ -314,6 +316,7 @@ class RouteGenerator {
             create: (_) => SstIncidentGeneralInfoCubit(
               services: SstIncidentServices(),
               commonServices: CommonServices(),
+              occType: occType,
               id: id,
               isInternal: isInternal,
             ),

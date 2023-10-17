@@ -33,8 +33,10 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
   final String id;
   final bool isInternal;
   final CommonServices commonServices;
+  final int occType;
 
-  SstIncidentGeneralInfoCubit({
+  SstIncidentGeneralInfoCubit( {
+    required this.occType,
     required this.services,
     required this.commonServices,
     required this.id, required this. isInternal,
@@ -281,6 +283,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     // Setting time in milliseconds
     state.model.createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    state.model.occType = occType;
 
     /// Create/Update API Call
     SecuritySystemTicketIncidentRequest request =
