@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/app.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -289,7 +290,9 @@ class RouteGenerator {
               occId: occId,
               occType: occType,
             ),
-            child: const IncidentGeneralInfoView(),
+            child: IncidentGeneralInfoView(
+              viaOccurrence: !occId.isEmptyOrNull ? true : false,
+            ),
           ),
         );
 

@@ -594,18 +594,15 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                   onTap: () => navigateToCreateIncident(
                                     state: state,
                                     occId: 1,
+                                    isSSTIncident: false,
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      // Expanded(
-                                      //child
                                       const SizedBox(width: 14),
                                       SvgPicture.asset(
                                         AppIcon.pluscircle,
-                                        //color: AppColors.navigationSkybluecolor,
                                       ),
-                                      // ),
                                       const SizedBox(width: 10),
                                       const Text(
                                         'Add Incident Item List',
@@ -615,7 +612,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
-
                                       if (state.model.incidentItems !=
                                           null) ...[
                                         CommonWidgets.horizontalSpacerWidget(
@@ -724,6 +720,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                   onTap: () => navigateToCreateIncident(
                                     state: state,
                                     occId: 2,
+                                    isSSTIncident: false,
                                   ),
                                   child: Row(
                                     children: <Widget>[
@@ -907,16 +904,11 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     Constants.securitySystemSLAList,
                                     Styles.textStyleBlack14),
                                 GestureDetector(
-                                  onTap: () => {
-                                    Navigator.pushNamed(
-                                      context,
-                                      incidentManagementDetailsRoute,
-                                      // arguments: {
-                                      //   'occId': state.model.id,
-                                      //   'occType': 2,
-                                      // },
-                                    ),
-                                  },
+                                  onTap: () => navigateToCreateIncident(
+                                    state: state,
+                                    occId: 1,
+                                    isSSTIncident: true,
+                                  ),
                                   child: Row(
                                     children: <Widget>[
                                       // Expanded(
@@ -1340,19 +1332,23 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
         ])));
   }
 
-  Set<Future<Object?>> navigateToCreateIncident(
-      {required GeneralInfoState state, required int occId}) {
-    return {
-      Navigator.pushNamed(
-        context,
-        incidentManagementDetailsRoute,
-        arguments: {
-          // 'id': '',
-          'occId': state.model.id.toString(),
-          'occType': occId,
-        },
-      ),
-    };
+  Future<void> navigateToCreateIncident(
+      {required GeneralInfoState state,
+      required int occId,
+      required bool isSSTIncident}) async {
+    if (state.model.id == null) {
+      BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
+          .submitForm(isSaveOnly: true);
+    }
+
+    Navigator.pushNamed(
+      context,
+      isSSTIncident ? sstIncidentDetailsRoute : incidentManagementDetailsRoute,
+      arguments: {
+        'occId': state.model.id.toString(),
+        'occType': occId,
+      },
+    );
   }
 
   String getStatusString(int status) {
