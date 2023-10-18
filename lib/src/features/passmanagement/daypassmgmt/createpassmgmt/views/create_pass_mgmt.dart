@@ -462,6 +462,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.001),
                                 widget.passId == "0" || widget.passId == "3"
                                     ? textfieldWidgetLoad(
+                                  //isEnable :false,
                                         companynameTextController, 0, state)
                                     : textfieldWidgetLoad(
                                         nameTextController, 0, state),
@@ -1586,17 +1587,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.selectedemployeeDepartmentResponse?.name ?? '',
       height: 60,
-      isDisableColor: widget.dayPassItem == null ||
-              (state.selectedemployeeDepartmentResponse != null &&
-                  ((state.selectedemployeeDepartmentResponse?.name ?? '')
-                      .isEmpty))
+      isDisableColor:widget.dayPassItem?.status ==0
           ? false
           : true,
       onTap: () {
-        if (widget.dayPassItem == null ||
-            (state.selectedemployeeDepartmentResponse != null &&
-                ((state.selectedemployeeDepartmentResponse?.name ?? '')
-                    .isEmpty))) {
+        if (widget.dayPassItem?.status ==0)
+                     {
           //  articleTypeDialog(state);
           departmentsDialog(state);
         }
@@ -1608,15 +1604,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.dayPasselementReason?.name ?? '',
       height: 60,
-      isDisableColor: widget.dayPassItem == null ||
-              (state.dayPasselementReason != null &&
-                  ((state.dayPasselementReason?.name ?? '').isEmpty))
+      isDisableColor: widget.dayPassItem?.status ==0
           ? false
           : true,
       onTap: () {
-        if (widget.dayPassItem == null ||
-            (state.dayPasselementReason != null &&
-                ((state.dayPasselementReason?.name ?? '').isEmpty))) {
+        if (widget.dayPassItem?.status ==0) {
           //   articleTypeDialog(state);
           reasondaypassDialog(state);
         }
@@ -1897,15 +1889,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.atomCompanyType?.name ?? '',
       height: 60,
-      isDisableColor: widget.dayPassItem == null ||
-              (state.atomCompanyType != null &&
-                  ((state.atomCompanyType?.name ?? '').isEmpty))
+      isDisableColor: widget.dayPassItem?.status == 0
+          // ||
+          //     (state.atomCompanyType != null &&
+          //         ((state.atomCompanyType?.name ?? '').isEmpty))
           ? false
           : true,
       onTap: () {
-        if (widget.dayPassItem == null ||
-            (state.atomCompanyType != null &&
-                ((state.atomCompanyType?.name ?? '').isEmpty))) {
+        if (widget.dayPassItem?.status == 0 ) {
           companyTypeDialog(state);
         }
       },
@@ -1932,7 +1923,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             },
             onTap: (Organisation list) {
               //print(list.name);
-              if ((list.name ?? '').toLowerCase() == 'fte' ) {
+              if ((list.name ?? '').toLowerCase() == 'fte' && isEditable == false) {
                 companynameTextController.text = "Deutsche Bank";
               }
               createpassmgmtCubit.getAtomCompanyTypeResponseData(list);
@@ -2078,17 +2069,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.dbsponsorResponse?.name ?? '',
       height: 60,
-      isDisableColor: widget.dayPassItem == null ||
-              state.dbsponsorResponse == null ||
-              (state.dbsponsorResponse != null &&
-                  ((state.dbsponsorResponse?.name ?? '').isEmpty))
+      isDisableColor:widget.dayPassItem?.status ==0
           ? false
           : true,
       onTap: () {
-        if (widget.dayPassItem == null ||
-            state.dbsponsorResponse == null ||
-            (state.dbsponsorResponse != null &&
-                ((state.dbsponsorResponse?.name ?? '').isEmpty))) {
+        if (widget.dayPassItem?.status ==0) {
           dbsponsorTypeDialog(state);
         }
       },
@@ -2897,21 +2882,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               textController == sezpassinfoTextController
           ? TextInputType.number
           : TextInputType.text,
-      // isEnable:
-      //     widget.listuser == null
-      //     ? true
-      //     : (widget.listuser != null &&
-      //             (textController.text ?? '')
-      //                 .isEmpty) ?
-      //     true
-      //     : false,
-      //     isDisableColor: (widget.listuser != null &&
-      //                 (textController.text ?? '')
-      //                     .isEmpty) ||issue
-      //             widget.listuser == null
-      //         ? false
-      //         :
-      //     true,
+       // isEnable:
+       // widget.dayPassItem?.status != 0
+       //    ? true
+       //    : (widget.dayPassItem?.status != 0) ?
+       //    true
+       //    : false,
+       //    isDisableColor: (widget.dayPassItem?.status != 0 )
+       //         ? false
+       //         :
+       //     true,
       hintText: '',
       onChange: (String value) {
         //this.username = username;
