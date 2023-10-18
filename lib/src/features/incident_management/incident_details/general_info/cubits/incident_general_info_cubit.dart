@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
+import 'package:dart_extensions/dart_extensions.dart';
+import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
@@ -16,7 +18,6 @@ import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
@@ -32,14 +33,17 @@ part 'incident_general_info_state.dart';
 class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
   final IncidentManagementServices services;
   final String id;
+  final String occId;
   final int occType;
   final CommonServices commonServices;
 
   IncidentGeneralInfoCubit({
     required this.services,
+    required this.occId,
     required this.commonServices,
     required this.id,
-    required this.occType, }) : super(
+    required this.occType,
+  }) : super(
           IncidentGeneralInfoState.initial(
             model: Incident(),
             locations: GetLocations(),
@@ -51,7 +55,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
             listOfEntities: const [],
             getEntitiesResponse: null,
             departments: const [],
-            loggedInUserDetails: null, getArticleTypeResponse: GetArticleType(),
+            loggedInUserDetails: null,
+            getArticleTypeResponse: GetArticleType(),
           ),
         );
 
@@ -100,7 +105,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
       GetArticleType getArticleType =
-      await commonServices.getArticleType(name: 'ARTICLE_LIST');
+          await commonServices.getArticleType(name: 'ARTICLE_LIST');
 
       List<User> entrySecurities = await commonServices.getUsers();
 
@@ -133,6 +138,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       );
     }
   }
+
   Future<void> updateDropdownValues({
     BaseUser? complainant,
     BaseUser? complainantHR,
@@ -153,13 +159,10 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         status: FormStatus.loading,
       ),
     );
-    state.model.incidentType =
-        incidentType ?? state.model.incidentType;
+    state.model.incidentType = incidentType ?? state.model.incidentType;
     log('--incidentType----$incidentType--');
 
-
-    state.model.typeOfAsset =
-        assetType ?? state.model.typeOfAsset;
+    state.model.typeOfAsset = assetType ?? state.model.typeOfAsset;
     log('--assetType----$assetType--');
 
     if (complainant != null) {
@@ -217,22 +220,19 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
     log('--state.model.incidentType--@@---${state.model.incidentType}-');
 
-   // if (state.model.incidentType != null) {
-   //   log('--incidentType---$incidentType-');
-   //   state.model.incidentType = incidentType;
-   //   log('--state.model.incidentType--@@---${state.model.incidentType}-');
-   // }
+    // if (state.model.incidentType != null) {
+    //   log('--incidentType---$incidentType-');
+    //   state.model.incidentType = incidentType;
+    //   log('--state.model.incidentType--@@---${state.model.incidentType}-');
+    // }
 
     if (state.model.typeOfAsset != null) {
-      log('--incidentType---$incidentType-');
       state.model.typeOfAsset = assetType;
-      log('--state.model.incidentType--@@---${state.model.typeOfAsset}-');
     }
 
     if (entities != null) {
       state.model.entities = entities;
     }
-
 
     emit(state.copyWith(
       model: state.model,
@@ -292,86 +292,23 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     ));
   }
 
-  // void submitForm({bool isSaveOnly = false}) async {
-  //   emit(
-  //     state.copyWith(
-  //       status: FormStatus.loading,
-  //     ),
-  //   );
-  //
-  //   // if (state.model.status == 0 || state.model.status == null) {
-  //   //   state.model.status = 1;
-  //   // }
-  //   // Setting time in milliseconds
-  //   state.model.inputDate =
-  //       (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-  //
-  //   /// Create/Update API Call
-  //   IncidentGeneralInfoRequest request =
-  //   IncidentGeneralInfoRequest(incidentManagement: state.model);
-  //
-  //   log('--isSaveOnly----$isSaveOnly--');
-  //   GenericCreateResponse response = GenericCreateResponse();
-  //   try {
-  //     if (isSaveOnly) {
-  //       response = (await services.createIncidentManagement(
-  //         body: request,
-  //         isSubmit: false,
-  //       ));
-  //     } else {
-  //       if (!state.isValid.status) {
-  //         log('--isSaveOnly--else--if$isSaveOnly--');
-  //         emit(
-  //           state.copyWith(
-  //             status: FormStatus.error,
-  //             message: state.isValid.message,
-  //           ),
-  //         );
-  //         return;
-  //       }
-  //       response = (await services.createIncidentManagement(
-  //         body: request,
-  //         isSubmit: true,
-  //       ));
-  //     }
-  //   } on Exception catch (e) {
-  //     emit(
-  //       state.copyWith(
-  //         message: e.toString(),
-  //         status: FormStatus.error,
-  //       ),
-  //     );
-  //   }
-  //
-  //   log('---response--msg--${response.message}---');
-  //
-  //   emit(
-  //     state.copyWith(
-  //       message: response.message,
-  //       status: FormStatus.success,
-  //     ),
-  //   );
-  // }
-
-  void submitForm({bool isSaveOnly = false,bool isSubmit = false }) async {
+  void submitForm({bool isSaveOnly = false, bool isSubmit = false}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
 
-    // if (state.guardingMasterData.status == 0 ||
-    //     state.guardingMasterData.status == null) {
-    //   state.guardingMasterData.status = 1;
-    // }
     // Setting time in milliseconds
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
+    state.model.occuId = occId.toIntOrNull() ?? 0;
     state.model.occType = occType;
+
     // Create/Update API Call
     IncidentGeneralInfoRequest request =
-    IncidentGeneralInfoRequest(incidentManagement: state.model);
+        IncidentGeneralInfoRequest(incidentManagement: state.model);
 
     GenericCreateResponse response = GenericCreateResponse();
     try {
@@ -401,7 +338,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       );
     }
 
-    print('---response--msg--${response.message}---');
+    log('---response--msg--${response.message}---');
 
     emit(
       state.copyWith(

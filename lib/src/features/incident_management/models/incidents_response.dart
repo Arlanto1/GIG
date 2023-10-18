@@ -106,6 +106,7 @@ class Incident {
   List<dynamic>? incidentWitness;
   List<dynamic>? incidentReadAcross;
   List<dynamic>? images;
+  int? occuId;
   int? occType;
   String? entrySecurityName;
   String? systemReviewerName;
@@ -192,6 +193,8 @@ class Incident {
     this.incidentReadAcross,
     this.images,
     this.occType,
+    this.occuId,
+
     this.entrySecurityName,
     this.systemReviewerName,
     this.incidentManagerName,
@@ -278,6 +281,7 @@ class Incident {
         incidentReadAcross = json['incidentReadAcross'] as List?,
         images = json['images'] as List?,
         occType = json['occType'] as int?,
+        occuId = json['occuId'] as int?,
         entrySecurityName = json['entrySecurityName'] as String?,
         systemReviewerName = json['systemReviewerName'] as String?,
         incidentManagerName = json['incidentManagerName'] as String?,
@@ -363,6 +367,7 @@ class Incident {
     'incidentReadAcross' : incidentReadAcross,
     'images' : images,
     'occType' : occType,
+    'occuId' : occuId,
     'entrySecurityName' : entrySecurityName,
     'systemReviewerName' : systemReviewerName,
     'incidentManagerName' : incidentManagerName,
