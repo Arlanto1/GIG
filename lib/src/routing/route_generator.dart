@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/app.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -258,6 +261,7 @@ class RouteGenerator {
           occId = arguments['occId'];
           occType = arguments['occType'] ?? 0;
         }
+        log('-incidentManagementsRoute-occId---$occId--');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<im.IncidentManagementsBloc>(
             create: (_) => im.IncidentManagementsBloc(occType, occId)
@@ -273,8 +277,8 @@ class RouteGenerator {
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          id = arguments['id'];
-          occId = arguments['occId'];
+          id = arguments['id'] ?? '';
+          occId = arguments['occId'] ?? '';
           occType = arguments['occType'] ?? 0;
         }
         return MaterialPageRoute(
@@ -286,7 +290,9 @@ class RouteGenerator {
               occId: occId,
               occType: occType,
             ),
-            child: const IncidentGeneralInfoView(),
+            child: IncidentGeneralInfoView(
+              viaOccurrence: !occId.isEmptyOrNull ? true : false,
+            ),
           ),
         );
 

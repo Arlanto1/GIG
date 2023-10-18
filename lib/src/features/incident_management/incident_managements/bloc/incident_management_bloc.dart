@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -32,6 +33,7 @@ class IncidentManagementsBloc
     try {
       if (state.hasReachedMax) return;
 
+      log('-_fetchList-occId---$occId--');
       if (state.status == FormStatus.initial) {
         IncidentsResponse response = await _services.getIncidents(
           startPosition: '${event.startPos}',

@@ -76,9 +76,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
     var userId = await SharedPrefs.getUserId();
     try {
       Occurrence model = Occurrence();
-      if(!id.isEmptyOrNull) {
+      if (!id.isEmptyOrNull) {
         model = await OccurrenceDetailsServices().getOccurrence(id);
-
       }
 
       log('-model----${model.shiftBrfngAttnded}---');
@@ -326,8 +325,10 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
           );
           return;
         }
-        response =
-            (await services.createOccurrence(body: request, isSubmit: true));
+        response = (await services.createOccurrence(
+          body: request,
+          isSubmit: true,
+        ));
       }
     } on Exception catch (e) {
       emit(
@@ -340,6 +341,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
 
     // log('---response--msg--${response.message}---');
 
+    if(response.id != null) {
+      state.model.id = response.id as int?;
+    }
     emit(
       state.copyWith(
         message: response.message,

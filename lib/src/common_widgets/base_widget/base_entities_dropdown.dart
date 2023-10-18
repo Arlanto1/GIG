@@ -15,7 +15,7 @@ class BaseEntitiesSelection {
     required List<Entity> selectedValues,
     required List<Entity> all,
     required dynamic Function(List<Entity>) onTap,
-    bool enabled= true,
+    bool enabled = true,
   }) {
     String title = '';
     if (selectedValues.isNotEmpty) {
@@ -28,17 +28,16 @@ class BaseEntitiesSelection {
       }
     }
 
-    log('--title-$title--');
     return TextfieldAddButton(
       title: title,
       height: (selectedValues.length) > 4
           ? (selectedValues.length) > 9
-          ? 140
-          : 100
+              ? 140
+              : 100
           : 60,
       isDisableColor: !enabled,
       onTap: () {
-        if(enabled) {
+        if (enabled) {
           _showEntitySelectionDialog(
             context: context,
             all: all,
@@ -80,5 +79,4 @@ class BaseEntitiesSelection {
       },
     );
   }
-
 }

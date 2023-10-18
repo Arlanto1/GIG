@@ -34,7 +34,10 @@ import '../cubits/incident_general_info_cubit.dart';
 class IncidentGeneralInfoView extends StatefulWidget {
   const IncidentGeneralInfoView({
     super.key,
+    required this.viaOccurrence,
   });
+
+  final bool viaOccurrence;
 
   @override
   State<IncidentGeneralInfoView> createState() =>
@@ -63,6 +66,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
     return BlocConsumer<IncidentGeneralInfoCubit, IncidentGeneralInfoState>(
       listener: (context, state) {
         log('-state.status---${state.status}-incidentType-${state.model.incidentType}--');
+        log('--widget.viaOccurrence--11--${widget.viaOccurrence}--');
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
@@ -73,6 +77,17 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
+              log('--widget.viaOccurrence----${widget.viaOccurrence}--');
+              if (widget.viaOccurrence) {
+                return Navigator.pushNamed(
+                  context,
+                  occurrenceDetailsRoute,
+                  arguments: {
+                    'id': state.model.occurrence?.id,
+                    "title": Constants.editOccurrence,
+                  },
+                );
+              }
               Navigator.popAndPushNamed(
                 context,
                 incidentManagementsRoute,
@@ -87,6 +102,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
+        log('--state.message-----${state.message}-');
         if (state.status == FormStatus.error) {
           Validator().showToast(
             context,
@@ -95,8 +111,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
         }
       },
       builder: (context, state) {
-        log('--disableForm---$disableForm-');
-
         state.model.status ??= 0;
         if (state.model.status! > 0) {
           disableForm = true;
