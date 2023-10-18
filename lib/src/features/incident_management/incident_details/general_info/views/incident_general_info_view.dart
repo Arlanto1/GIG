@@ -50,6 +50,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
   TextEditingController closureTargetDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   TextEditingController assetTypeController = TextEditingController();
+  TextEditingController assetController = TextEditingController();
   TextEditingController incidentTypeController = TextEditingController();
   bool disableForm = false;
 
@@ -323,23 +324,19 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Asset Type
-                            if (state.model.incidentType == 0 ||
-                                state.model.incidentType == 1) ...[
-                              CommonWidgets.textDisplay(
-                                  Constants.assetType, Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                            // /// Asset Type
+                             if (state.model.incidentType == 0 ||
+                                 state.model.incidentType == 1) ...[
+                              CommonWidgets.textDisplay(Constants.assetType,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
                               BaseDropDown().getDropDown(
                                 isDisabled: state.model.status != 6,
-                                textController: assetTypeController,
+                                textController: assetController,
                                 items: assetTypeValues,
-                                initialValue:
-                                    state.model.typeOfAsset.toString(),
+                                initialValue: state.model.typeOfAsset.toString(),
                                 onTap: () {
-                                  //if (isDisabled) {
                                   BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: assetTypeValues
@@ -349,18 +346,17 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       Label? selectedLabel;
                                       selectedLabel =
                                           assetTypeValues.firstWhere(
-                                        (label) => label.key == value,
-                                        orElse: () =>
+                                                (label) => label.key == value,
+                                            orElse: () =>
                                             const Label(key: '', value: ''),
-                                      );
+                                          );
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
-                                              context)
+                                          context)
                                           .updateDropdownValues(
-                                              assetType: int.tryParse(
-                                                  selectedLabel.value));
+                                          typeOfAsset: int.tryParse(
+                                              selectedLabel.value));
                                     },
                                   );
-                                  // }
                                 },
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -522,6 +518,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             TextfieldAddButton(
                               title: state.model.complainantHr?.name,
                               height: 70,
+                              key : _formKey,
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseDepartmentDialog().userDialog(

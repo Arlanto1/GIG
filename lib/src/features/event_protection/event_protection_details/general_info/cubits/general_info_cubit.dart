@@ -116,7 +116,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           users: users.t1Analyst,
           emailUsers: emailUsers.atomStaticUser,
           departments: departments.employeeDepartments,
-          proposedVendors: proposedVendors.vendors,
+          proposedVendors: proposedVendors.vendorsDept,
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,

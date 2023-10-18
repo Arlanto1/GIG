@@ -8,7 +8,8 @@ class SstIncidentGeneralInfoState extends Equatable {
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<Entity>? listOfEntities;
-  final List<Organisation> departments;
+  //final List<Organisation> departments;
+  final List<Organisation> vendors;
   final AddEntities? getEntitiesResponse;
   final List<String>? participationDates;
   final int? eventId;
@@ -23,7 +24,8 @@ class SstIncidentGeneralInfoState extends Equatable {
     final List<BaseUser>? emailUsers,
     required final List<Entity>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
-    required final List<Organisation> departments,
+    //required final List<Organisation> departments,
+    required final List<Organisation> vendors,
     required String errorMessage,
     required List<CreateImage> loadAttachments,
     List<User>? entrySecurities,
@@ -35,7 +37,8 @@ class SstIncidentGeneralInfoState extends Equatable {
       model: model,
       locations: locations,
       listOfEntities: listOfEntities,
-      departments: departments,
+      //departments: departments,
+      vendors: vendors,
       getEntitiesResponse: getEntitiesResponse,
       users: users,
       emailUsers: emailUsers,
@@ -64,7 +67,8 @@ class SstIncidentGeneralInfoState extends Equatable {
     this.users,
     this.emailUsers,
     this.listOfEntities,
-    required this.departments,
+   // required this.departments,
+    required this.vendors,
     this.getEntitiesResponse,
     this.participationDates,
     this.eventId,
@@ -82,6 +86,7 @@ class SstIncidentGeneralInfoState extends Equatable {
     List<BaseUser>? emailUsers,
     List<Entity>? listOfEntities,
     List<Organisation>? departments,
+    List<Organisation>? vendors,
     AddEntities? getEntitiesResponse,
     List<String>? participationDates,
     int? eventId,
@@ -96,7 +101,8 @@ class SstIncidentGeneralInfoState extends Equatable {
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
       listOfEntities: listOfEntities ?? this.listOfEntities,
-      departments: departments ?? this.departments,
+     // departments: departments ?? this.departments,
+      vendors: vendors ?? this.vendors,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       participationDates: participationDates ?? this.participationDates,
       eventId: eventId ?? this.eventId,

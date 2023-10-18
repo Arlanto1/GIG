@@ -6,6 +6,8 @@ import 'dart:convert';
 
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 
+import '../../../../createfound/models/user.dart';
+
 CreatePassMgmtBody createPassMgmtBodyFromJson(String str) => CreatePassMgmtBody.fromJson(json.decode(str));
 
 String createPassMgmtBodyToJson(CreatePassMgmtBody data) => json.encode(data.toJson());
@@ -66,16 +68,14 @@ class PassManagement {
     String? mifareNo;
     List<CreateImage>? images;
     PassDept? department;
-    PassHost? host;
+    User? host;
     String? visitorName;
     List<CreateImage>? visitorImage;
     PassDept? visitingDepartment;
     String? startTime;
     PassEntrySecurity? entrySecurity;
     
-    
-
-    PassManagement({
+        PassManagement({
         this.id,
         this.slNo,
         this.inputDate,
@@ -126,7 +126,7 @@ class PassManagement {
     factory PassManagement.fromJson(Map<String, dynamic> json) => PassManagement(
         id: json["id"],
         slNo: json["slNo"],
-        host: json["host"] == null ? null : PassHost.fromJson(json["host"]),
+        host: json["host"] == null ? null : User.fromJson(json["host"]),
         inputDate: json["inputDate"],
         location: json["location"] == null ? null : PassMgmtLocation.fromJson(json["location"]),
         dayPassReason: json["dayPassReason"] == null ? null : PassMgmtLocation.fromJson(json["dayPassReason"]),

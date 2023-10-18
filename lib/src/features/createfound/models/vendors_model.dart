@@ -8,23 +8,23 @@ Vendors vendorsFromJson(String str) =>
 String vendorsToJson(Vendors data) => json.encode(data.toJson());
 
 class Vendors {
-  List<Organisation>? vendors;
+  List<Organisation>? vendorsDept;
 
   Vendors({
-    this.vendors,
+    this.vendorsDept,
   });
 
   factory Vendors.fromJson(Map<String, dynamic> json) => Vendors(
-    vendors: json["ATOM_VENDORS"] == null
+    vendorsDept: json["ATOM_VENDORS"] == null
         ? []
         : List<Organisation>.from(
         json["ATOM_VENDORS"]!.map((x) => Organisation.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "ATOM_VENDORS": vendors == null
+    "ATOM_VENDORS": vendorsDept == null
         ? []
-        : List<dynamic>.from(vendors!.map((x) => x.toJson())),
+        : List<dynamic>.from(vendorsDept!.map((x) => x.toJson())),
   };
 }
 

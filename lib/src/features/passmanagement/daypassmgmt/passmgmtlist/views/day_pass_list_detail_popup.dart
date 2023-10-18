@@ -136,19 +136,19 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
           widget.userItem?.inputDate != null
               ? Row(
                   children: [
-                    textHandling(
-                        'Date of creation : ',
+                    Utils().textHandling(
+                        'DateOfCreation : ',
                         widget.userItem?.inputDate != null
                             ? Utils.timestamptoDateConversion(
-                                int.parse(widget.userItem?.inputDate ?? '0'),
-                                Constants.dateFormat)
+                            int.parse( widget.userItem?.inputDate ?? '0'),
+                            Constants.dateFormat)
                             : ''),
                   ],
                 )
               : Container(),
-          widget.userItem?.inputDate != null
-              ? CommonWidgets.verticalSpacerWidget(8)
-              : Container(),
+          // widget.userItem?.inputDate != null
+          //     ? CommonWidgets.verticalSpacerWidget(8)
+          //     : Container(),
           widget.userItem?.entrySecurity?.userName != null
               ? Row(
                   children: [
@@ -233,6 +233,7 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                   (widget.userItem?.companyName ?? '').isNotEmpty
               ? CommonWidgets.verticalSpacerWidget(8)
               : Container(),
+
           widget.userItem?.startTime != null
               ? Row(
                   children: [

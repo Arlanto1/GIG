@@ -152,7 +152,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     Entity? entity,
     int? status,
     int? incidentType,
-    int? assetType,
+    int? typeOfAsset,
   }) async {
     emit(
       state.copyWith(
@@ -162,8 +162,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     state.model.incidentType = incidentType ?? state.model.incidentType;
     log('--incidentType----$incidentType--');
 
-    state.model.typeOfAsset = assetType ?? state.model.typeOfAsset;
-    log('--assetType----$assetType--');
+    state.model.typeOfAsset = typeOfAsset ?? state.model.typeOfAsset;
+    log('--assetType----$typeOfAsset--');
 
     if (complainant != null) {
       User userDetails = User(
@@ -227,7 +227,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     // }
 
     if (state.model.typeOfAsset != null) {
-      state.model.typeOfAsset = assetType;
+      state.model.typeOfAsset = typeOfAsset;
     }
 
     if (entities != null) {

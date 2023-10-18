@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
@@ -23,6 +22,7 @@ import '../../../../../models/responseModels/generic_create_response.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
+import '../../../../createfound/models/vendors_model.dart';
 import '../../../models/requestModel/general_info_request.dart';
 import '../../../services/sst_incident_services.dart';
 
@@ -51,7 +51,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
             eventId: null,
             listOfEntities: const [],
             getEntitiesResponse: null,
-            departments: const [],
+            // departments: const [],
+            vendors: const [],
             loggedInUserDetails: null,
           ),
         );
@@ -100,11 +101,13 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
-
       List<User> entrySecurities = await commonServices.getUsers();
+      //
+      // EmployeeDepartments departments =
+      //     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
-      EmployeeDepartments departments =
-          await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+      Vendors vendors =
+      await commonServices.getVendors(name: 'ATOM_VENDORS');
 
       emit(
         state.copyWith(
@@ -114,7 +117,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           status: FormStatus.initial,
           users: users.t1Analyst,
           emailUsers: emailUsers.atomStaticUser,
-          departments: departments.employeeDepartments,
+         // departments: departments.employeeDepartments,
+          vendors: vendors.vendorsDept,
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
@@ -136,14 +140,14 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     BaseUser? systemManager,
     BaseUser? lsm,
     List<Entity>? entities,
-    BaseUser? locationTeam,
+    BaseUser? lt,
+    Organisation? vendor,
     Organisation? location,
     // BaseUser? user,
-    Organisation? vendor,
     Entity? entity,
     int? status,
     int? incidentType,
-    int? assetType,
+    int? systemSLA,
   }) async {
     emit(
       state.copyWith(
@@ -154,7 +158,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     //     incidentType ?? state.model.incidentType;
     log('--incidentType----$incidentType--');
 
+    state.model.systemSLA =
+        systemSLA ?? state.model.systemSLA;
 
+    if (vendor != null) {
+      state.model.vendor = vendor;
+    }
 
     if (asl != null) {
       User userDetails = User(
@@ -164,6 +173,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       );
       state.model.asl = userDetails;
     }
+
 
     if (systemManager != null) {
       User userDetails = User(
@@ -185,13 +195,13 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     }
 
 
-    if (locationTeam != null) {
+    if (lt != null) {
       User userDetails = User(
-        name: locationTeam.name,
-        userId: locationTeam.id,
-        userName: locationTeam.name,
+        name: lt.name,
+        userId: lt.id,
+        userName: lt.name,
       );
-      // state.model.location = userDetails; // TODO: need json property
+       state.model.lt = userDetails; // TODO: need json property
     }
 
     ////Get Sl No from API

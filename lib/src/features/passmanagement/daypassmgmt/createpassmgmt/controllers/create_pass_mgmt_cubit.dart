@@ -190,6 +190,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
+
   // law organisation call
   Future<void> createEmplyeeDepartments(
       String name, String orgName, BuildContext context) async {
@@ -203,7 +204,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         ),
       );
       dismissLoadingDialog(context);
-      await createpassmgmtCubit.getEmployeeDepartments(
+      await lawenforcementCubit.getEmployeeDepartments(
           'EMPLOYEE_DEPARTMENTS', context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
@@ -298,6 +299,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
+
   // Get pass number call
   Future<void> getPassnumber(
       String passtype, String locationid, BuildContext context) async {
@@ -381,11 +383,11 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> getDayPassreasons(
       String companyStr, BuildContext context) async {
     try {
-      DayPassReason companyTypes =
+      DayPassReason dayPassreasons =
           await createpassmgmtServices.getDayPassreason(companyStr, context);
       emit(
         state.copyWith(
-          dayPassReason: companyTypes,
+          dayPassReason: dayPassreasons,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -398,13 +400,12 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       );
     }
   }
-
   getdaypassreasonResponseData(
-      DayPassReasonElement? companytypeResponse) async {
+      DayPassReasonElement? passReasonResponse) async {
     try {
       emit(
         state.copyWith(
-          dayPasselementReason: companytypeResponse,
+          dayPasselementReason: passReasonResponse,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -457,11 +458,11 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  gethostanalystsResponseData(BaseUser? companytypeResponse) async {
+  gethostanalystsResponseData(BaseUser? host) async {
     try {
       emit(
         state.copyWith(
-          t1hostanalyst: companytypeResponse,
+          t1hostanalyst: host,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -614,7 +615,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       );
     }
   }
-
   getlocationsResponseData(Organisation? locationSelectedlist) async {
     try {
       emit(
