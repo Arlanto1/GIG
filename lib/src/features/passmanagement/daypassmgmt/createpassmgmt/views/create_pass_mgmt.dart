@@ -1,4 +1,3 @@
-
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
@@ -35,11 +34,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../common_widgets/base_widget/selected_tile_value_widget.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../../models/entity.dart';
 import '../../../../../models/organisation.dart';
 import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
+import '../../../../createfound/models/user.dart';
 import '../../passmgmtlist/models/day_passlist_model.dart';
 
 class CreatePassManagement extends StatefulWidget {
@@ -91,6 +90,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   late CreatePassMgmtState globalState;
   String? serialnumber;
   String createdBy = '';
+   bool isEditable = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -172,104 +173,125 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             return Container(
                 child: SingleChildScrollView(
                     child: Column(children: [
-                  Container(
-                    height: height * 0.01,
-                    color: AppColors.navigationSkybluecolor,
-                  ),
-                  Container(
-                      //padding: const EdgeInsets.all(20.0),
-                      decoration: const ShapeDecoration(
-                          color: AppColors.backgroundWhitecolor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(20.0)),
-                          )),
-                      child: Form(
-                          key: lawenforcementFormKey,
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20.0, right: 20),
-                                  child: Column(children: [
-                                    Container(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        Constants.generalinformation,
-                                        style: Styles.styleHeaderGreyText16,
+              Container(
+                height: height * 0.01,
+                color: AppColors.navigationSkybluecolor,
+              ),
+              Container(
+                  //padding: const EdgeInsets.all(20.0),
+                  decoration: const ShapeDecoration(
+                      color: AppColors.backgroundWhitecolor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(20.0)),
+                      )),
+                  child: Form(
+                      key: lawenforcementFormKey,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20.0, right: 20),
+                              child: Column(children: [
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    Constants.generalinformation,
+                                    style: Styles.styleHeaderGreyText16,
+                                  ),
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                // Status
+                                CommonWidgets.textDisplay(
+                                    Constants.status, Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                FlutterInputField(
+                                  isEnable: false,
+                                  isDisableColor: true,
+                                  textFieldController: statusTextController,
+                                  textFormKey: Keys.statusTextController,
+                                  hintText: '',
+                                  onChange: (String username) {
+                                    //this.username = username;
+                                  },
+                                  validateTextField: (String? user) {},
+                                  suffixWidget: GestureDetector(
+                                    onTap: () {},
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: SvgPicture.asset(
+                                        //AppIcon.dropdownicon,
+                                        AppIcon.dropdownicon,
+                                        //fit: BoxFit.,
+                                        color: AppColors.textgreyThemecolor,
+                                        width: 10,
+                                        height: 10,
+                                        key: const Key(Keys.userIcon),
                                       ),
                                     ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                  ),
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
 
-                                    // Status
-                                    CommonWidgets.textDisplay(Constants.status,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    FlutterInputField(
-                                      isEnable: false,
-                                      isDisableColor: true,
-                                      textFieldController: statusTextController,
-                                      textFormKey: Keys.statusTextController,
-                                      hintText: '',
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                      },
-                                      validateTextField: (String? user) {},
-                                      suffixWidget: GestureDetector(
-                                        onTap: () {},
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: SvgPicture.asset(
-                                            //AppIcon.dropdownicon,
-                                            AppIcon.dropdownicon,
-                                            //fit: BoxFit.,
-                                            color: AppColors.textgreyThemecolor,
-                                            width: 10,
-                                            height: 10,
-                                            key: const Key(Keys.userIcon),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                             
-                                    // Update Status
-                                    (widget.dayPassItem != null &&
-                                            (statusTextController.text
-                                                        .toLowerCase() ==
-                                                    "created" ||
-                                                statusTextController.text
-                                                        .toLowerCase() ==
-                                                    "handed over"))
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.updatestatus,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    (widget.dayPassItem != null &&
-                                            (statusTextController.text
-                                                        .toLowerCase() ==
-                                                    "created" ||
-                                                statusTextController.text
-                                                        .toLowerCase() ==
-                                                    "handed over"))
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
-                                    (widget.dayPassItem != null &&
-                                            (statusTextController.text
-                                                        .toLowerCase() ==
-                                                    "created" ||
-                                                statusTextController.text
-                                                        .toLowerCase() ==
-                                                    "handed over"))
-                                        ? GestureDetector(
+                                // Update Status
+                                (widget.dayPassItem != null &&
+                                        (statusTextController.text
+                                                    .toLowerCase() ==
+                                                "created" ||
+                                            statusTextController.text
+                                                    .toLowerCase() ==
+                                                "handed over"))
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.updatestatus,
+                                        Styles.textStyleBlack14)
+                                    : Container(),
+                                (widget.dayPassItem != null &&
+                                        (statusTextController.text
+                                                    .toLowerCase() ==
+                                                "created" ||
+                                            statusTextController.text
+                                                    .toLowerCase() ==
+                                                "handed over"))
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                    : Container(),
+                                (widget.dayPassItem != null &&
+                                        (statusTextController.text
+                                                    .toLowerCase() ==
+                                                "created" ||
+                                            statusTextController.text
+                                                    .toLowerCase() ==
+                                                "handed over"))
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          if (statusTextController.text
+                                                  .toLowerCase() ==
+                                              "created") {
+                                            updatestausTypeDialog();
+                                          } else {
+                                            updatestausTypeDialog();
+                                          }
+                                        },
+                                        child: FlutterInputField(
+                                          isEnable: false,
+                                          isDisableColor: true,
+                                          textFieldController:
+                                              updatestatusTextController,
+                                          textFormKey:
+                                              Keys.statusTextController,
+                                          hintText: '',
+                                          onChange: (String username) {
+                                            //this.username = username;
+                                          },
+                                          validateTextField: (String? user) {},
+                                          suffixWidget: GestureDetector(
                                             onTap: () {
                                               if (statusTextController.text
                                                       .toLowerCase() ==
@@ -279,678 +301,649 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 updatestausTypeDialog();
                                               }
                                             },
-                                            child: FlutterInputField(
-                                              isEnable: false,
-                                              isDisableColor: true,
-                                              textFieldController:
-                                                  updatestatusTextController,
-                                              textFormKey:
-                                                  Keys.statusTextController,
-                                              hintText: '',
-                                              onChange: (String username) {
-                                                //this.username = username;
-                                              },
-                                              validateTextField:
-                                                  (String? user) {},
-                                              suffixWidget: GestureDetector(
-                                                onTap: () {
-                                                  if (statusTextController.text
-                                                          .toLowerCase() ==
-                                                      "created") {
-                                                    updatestausTypeDialog();
-                                                  } else {
-                                                    updatestausTypeDialog();
-                                                  }
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      20.0),
-                                                  child: SvgPicture.asset(
-                                                    //AppIcon.dropdownicon,
-                                                    AppIcon.dropdownicon,
-                                                    //fit: BoxFit.,
-                                                    color: AppColors
-                                                        .textgreyThemecolor,
-                                                    width: 10,
-                                                    height: 10,
-                                                    key: const Key(
-                                                        Keys.userIcon),
-                                                  ),
-                                                ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(20.0),
+                                              child: SvgPicture.asset(
+                                                //AppIcon.dropdownicon,
+                                                AppIcon.dropdownicon,
+                                                //fit: BoxFit.,
+                                                color: AppColors
+                                                    .textgreyThemecolor,
+                                                width: 10,
+                                                height: 10,
+                                                key: const Key(Keys.userIcon),
                                               ),
                                             ),
-                                          )
-                                        : Container(),
-                                    (statusTextController.text.toLowerCase() ==
-                                                "created" ||
-                                            statusTextController.text
-                                                    .toLowerCase() ==
-                                                "handed over")
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
+                                          ),
+                                        ),
+                                      )
+                                    : Container(),
+                                (statusTextController.text.toLowerCase() ==
+                                            "created" ||
+                                        statusTextController.text
+                                                .toLowerCase() ==
+                                            "handed over")
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01)
+                                    : Container(),
 
-                                    //created by
+                                //created by
 
-                                    CommonWidgets.horizentaltextHandling(
-                                        Constants.createdby,
-                                        createdBy.isNotEmpty
-                                            ? createdBy
-                                            : '${state.getUserDetailsResponse?.firstName ?? ''}  ${state.getUserDetailsResponse?.lastName ?? ''}'
-                                                ''),
+                                CommonWidgets.horizentaltextHandling(
+                                    Constants.createdby,
+                                    createdBy.isNotEmpty
+                                        ? createdBy
+                                        : '${state.getUserDetailsResponse?.firstName ?? ''}  ${state.getUserDetailsResponse?.lastName ?? ''}'
+                                            ''),
 
-                                    // ),
-                                    // Location
-                                    CommonWidgets.textDisplay(
-                                        Constants.location,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    locationWidgetdislay(state),
+                                // ),
+                                // Location
+                                CommonWidgets.textDisplay(Constants.location,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                locationWidgetdislay(state),
 
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
 
-                                    // date of creation
-                                    CommonWidgets.textDisplay(
-                                        Constants.dateofcreation,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    datecreateWidgetdisplay(),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                // date of creation
+                                CommonWidgets.textDisplay(
+                                    Constants.dateofcreation,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                datecreateWidgetdisplay(),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
 
-                                    // slno
+                                // slno
 
-                                    CommonWidgets.horizentaltextHandling(
-                                        Constants.slno, serialnumber ?? ''),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                CommonWidgets.horizentaltextHandling(
+                                    Constants.slno, serialnumber ?? ''),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
 
-                                    // entity type
-                                    CommonWidgets.textDisplay(Constants.entity,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    // articleaddButtonwidgetLoading(state),
-                                    entityaddButtonwidgetLoading(state),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                // entity type
+                                CommonWidgets.textDisplay(
+                                    Constants.entity, Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                // articleaddButtonwidgetLoading(state),
+                                entityaddButtonwidgetLoading(state),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
 
-                                    // Pass Type
-                                    CommonWidgets.textDisplay(
-                                        Constants.passtype,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    GestureDetector(
+                                // Pass Type
+                                CommonWidgets.textDisplay(Constants.passtype,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                GestureDetector(
+                                  onTap: () {
+                                    if (widget.passId == "1" ||
+                                        widget.passId == "2") {
+                                      passTypeDialog();
+                                    }
+                                  },
+                                  child: FlutterInputField(
+                                      isEnable: false,
+                                      isDisableColor:
+                                          // widget.listuser == null ||
+                                          //         passtypeTextController
+                                          //             .text.isEmpty
+                                          //     ? false
+                                          //     :
+                                          true,
+                                      textFieldController:
+                                          passtypeTextController,
+                                      textFormKey: Keys.statusTextController,
+                                      hintText: '',
+                                      onChange: (String username) {
+                                        //this.username = username;
+                                        setState(() {});
+                                      },
                                       onTap: () {
                                         if (widget.passId == "1" ||
                                             widget.passId == "2") {
                                           passTypeDialog();
                                         }
                                       },
-                                      child: FlutterInputField(
-                                          isEnable: false,
-                                          isDisableColor:
-                                              // widget.listuser == null ||
-                                              //         passtypeTextController
-                                              //             .text.isEmpty
-                                              //     ? false
-                                              //     :
-                                              true,
-                                          textFieldController:
-                                              passtypeTextController,
-                                          textFormKey:
-                                              Keys.statusTextController,
-                                          hintText: '',
-                                          onChange: (String username) {
-                                            //this.username = username;
-                                            setState(() {});
-                                          },
-                                          onTap: () {
+                                      validateTextField: (String? user) {},
+                                      suffixWidget: IconButton(
+                                          icon: SvgPicture.asset(
+                                              width: 10,
+                                              height: 10,
+                                              AppIcon.dropdownicon,
+                                              key: const Key('closed_eye')),
+                                          onPressed: () {
                                             if (widget.passId == "1" ||
                                                 widget.passId == "2") {
                                               passTypeDialog();
                                             }
-                                          },
-                                          validateTextField: (String? user) {},
-                                          suffixWidget: IconButton(
-                                              icon: SvgPicture.asset(
-                                                  width: 10,
-                                                  height: 10,
-                                                  AppIcon.dropdownicon,
-                                                  key: const Key('closed_eye')),
-                                              onPressed: () {
-                                                if (widget.passId == "1" ||
-                                                    widget.passId == "2") {
-                                                  passTypeDialog();
-                                                }
-                                              })),
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                          })),
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
 
-                                    /// Company Type
-                                    widget.passId == "0" || widget.passId == "3"
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.companytype,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    widget.passId == "0" || widget.passId == "3"
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
 
-                                    // articleaddButtonwidgetLoading(state),
-                                    widget.passId == "0" || widget.passId == "3"
-                                        ? companytypeaddButtonwidgetLoading(
-                                            state)
-                                        : Container(),
-                                    widget.passId == "0" || widget.passId == "3"
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
+                                /// Company Type
+                                widget.passId == "0" || widget.passId == "3"
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.companytype,
+                                        Styles.textStyleBlack14)
+                                    : Container(),
+                                widget.passId == "0" || widget.passId == "3"
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                    : Container(),
 
-                                    /// Vendor Name // Visitor Name
-                                    CommonWidgets.textDisplay(
-                                        widget.passId == "0" ||
-                                                widget.passId == "3"
-                                            ? Constants.companyname
-                                            : widget.passId == "2"
-                                                ? "Vendor Name"
-                                                : widget.passId == "0"
-                                                    ? Constants.name
-                                                    : "Visitor Name",
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
+                                // articleaddButtonwidgetLoading(state),
+                                widget.passId == "0" || widget.passId == "3"
+                                    ? companytypeaddButtonwidgetLoading(state)
+                                    : Container(),
+                                widget.passId == "0" || widget.passId == "3"
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01)
+                                    : Container(),
+
+                                /// Vendor Name // Visitor Name
+                                CommonWidgets.textDisplay(
                                     widget.passId == "0" || widget.passId == "3"
-                                        ? textfieldWidgetLoad(
-                                            companynameTextController, 0, state)
-                                        : textfieldWidgetLoad(
-                                            nameTextController, 0, state),
+                                        ? Constants.companyname
+                                        : widget.passId == "2"
+                                            ? "Vendor Name"
+                                            : widget.passId == "0"
+                                                ? Constants.name
+                                                : "Visitor Name",
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                widget.passId == "0" || widget.passId == "3"
+                                    ? textfieldWidgetLoad(
+                                        companynameTextController, 0, state)
+                                    : textfieldWidgetLoad(
+                                        nameTextController, 0, state),
 
-                                    ///Vendor Company Name
-                                    widget.passId == "2"
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.companyname,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    widget.passId == "2"
-                                        ? textfieldWidgetLoad(
-                                            companynameTextController,
-                                            0,
-                                            state)
-                                        : Container(),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                ///Vendor Company Name
+                                widget.passId == "2"
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.companyname,
+                                        Styles.textStyleBlack14)
+                                    : Container(),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                widget.passId == "2"
+                                    ? textfieldWidgetLoad(
+                                        companynameTextController, 0, state)
+                                    : Container(),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
 
-                                      /// Name
-                                    widget.passId == "3"
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.name,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    widget.passId == "3"
-                                        ? textfieldWidgetLoad(
-                                            nameTextController, 0, state)
-                                        : Container(),
+                                /// Name
+                                widget.passId == "3"
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.name, Styles.textStyleBlack14)
+                                    : Container(),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                widget.passId == "3"
+                                    ? textfieldWidgetLoad(
+                                        nameTextController, 0, state)
+                                    : Container(),
 
                                 ///Contact No / Email
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-                                    CommonWidgets.textDisplay(
-                                        widget.passId == "0"
-                                            ? Constants.name
-                                            : widget.passId == "3"
-                                                ? "Email"
-                                                : "Contact No",
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    // articleaddButtonwidgetLoading(state),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                                CommonWidgets.textDisplay(
                                     widget.passId == "0"
-                                        ? ((state.atomCompanyType?.name ?? '')
-                                                        .toLowerCase() ==
-                                                    'fte' ||
-                                                (state.atomCompanyType?.name ==
-                                                    null)
-                                            ? nameaddButtonwidgetLoading(state)
-                                            : textfieldWidgetLoad(
-                                                nameTextController, 0, state))
+                                        ? Constants.name
                                         : widget.passId == "3"
-                                            ? textfieldWidgetLoad(
-                                                emailTextController, 0, state)
-                                            : textfieldWidgetLoad(
-                                                contactnoTextController,
-                                                0,
-                                                state),
-
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                                    /// Employee Id
-                                    widget.passId == "0" &&
-                                                (state.atomCompanyType?.name ??
-                                                            '')
-                                                        .toLowerCase() !=
-                                                    'exceptions' ||
-                                            widget.passId == "3"
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.employeeid,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-
-                                    // widget.passId == "0" &&
-                                    //             (state.atomCompanyType?.name ??
-                                    //                         '')
-                                    //                     .toLowerCase() !=
-                                    //                 'exceptions' ||
-                                    //         widget.passId == "3"
-                                    //     ? CommonWidgets.verticalSpacerWidget(
-                                    //         height * 0.001)
-                                    //     : Container(),
-
-                                    widget.passId == "0" &&
-                                                (state.atomCompanyType?.name ??
-                                                            '')
-                                                        .toLowerCase() !=
-                                                    'exceptions' ||
-                                            widget.passId == "3"
-                                        ? textfieldWidgetLoad(
-                                            employeeidTextController, 0, state)
-                                        : Container(),
-
-                                    // widget.passId == "0" &&
-                                    //             (state.atomCompanyType?.name ??
-                                    //                         '')
-                                    //                     .toLowerCase() !=
-                                    //                 'exceptions' ||
-                                    //         widget.passId == "3"
-                                    //     ? CommonWidgets.verticalSpacerWidget(
-                                    //         height * 0.01)
-                                    //     : Container(),
-
-                                    widget.passId == "0" &&
-                                            (state.atomCompanyType?.name ?? '')
+                                            ? "Email"
+                                            : "Contact No",
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                // articleaddButtonwidgetLoading(state),
+                                widget.passId == "0"
+                                    ? ((state.atomCompanyType?.name ?? '')
                                                     .toLowerCase() ==
-                                                'cwr t1'
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.email,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-
-                                    widget.passId == "0" &&
-                                            (state.atomCompanyType?.name ?? '')
-                                                    .toLowerCase() ==
-                                                'cwr t1'
+                                                'fte' ||
+                                            (state.atomCompanyType?.name ==
+                                                null)
+                                        ? nameaddButtonwidgetLoading(state)
+                                        : textfieldWidgetLoad(
+                                            nameTextController, 0, state))
+                                    : widget.passId == "3"
                                         ? textfieldWidgetLoad(
                                             emailTextController, 0, state)
-                                        : Container(),
+                                        : textfieldWidgetLoad(
+                                            contactnoTextController, 0, state),
 
-                                    widget.passId == "0" &&
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                /// Employee Id
+                                widget.passId == "0" &&
+                                            (state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() !=
+                                                'exceptions' ||
+                                        widget.passId == "3"
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.employeeid,
+                                        Styles.textStyleBlack14)
+                                    : Container(),
+
+                                // widget.passId == "0" &&
+                                //             (state.atomCompanyType?.name ??
+                                //                         '')
+                                //                     .toLowerCase() !=
+                                //                 'exceptions' ||
+                                //         widget.passId == "3"
+                                //     ? CommonWidgets.verticalSpacerWidget(
+                                //         height * 0.001)
+                                //     : Container(),
+
+                                widget.passId == "0" &&
+                                            (state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() !=
+                                                'exceptions' ||
+                                        widget.passId == "3"
+                                    ? textfieldWidgetLoad(
+                                        employeeidTextController, 0, state)
+                                    : Container(),
+
+                                // widget.passId == "0" &&
+                                //             (state.atomCompanyType?.name ??
+                                //                         '')
+                                //                     .toLowerCase() !=
+                                //                 'exceptions' ||
+                                //         widget.passId == "3"
+                                //     ? CommonWidgets.verticalSpacerWidget(
+                                //         height * 0.01)
+                                //     : Container(),
+
+                                widget.passId == "0" &&
+                                        (state.atomCompanyType?.name ?? '')
+                                                .toLowerCase() ==
+                                            'cwr t1'
+                                    ? CommonWidgets.textDisplay(Constants.email,
+                                        Styles.textStyleBlack14)
+                                    : Container(),
+
+                                widget.passId == "0" &&
+                                        (state.atomCompanyType?.name ?? '')
+                                                .toLowerCase() ==
+                                            'cwr t1'
+                                    ? textfieldWidgetLoad(
+                                        emailTextController, 0, state)
+                                    : Container(),
+
+                                widget.passId == "0" &&
+                                        (state.atomCompanyType?.name ?? '')
+                                                .toLowerCase() ==
+                                            'cwr t1'
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01)
+                                    : Container(),
+
+                                /// DB sponsor
+                                widget.passId == "0" &&
+                                        ((state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'cwr t1' ||
                                             (state.atomCompanyType?.name ?? '')
                                                     .toLowerCase() ==
-                                                'cwr t1'
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
+                                                'cwr t2')
+                                    ? CommonWidgets.textDisplay(
+                                        'DB Sponsor', Styles.textStyleBlack14)
+                                    : Container(),
 
-                                    /// DB sponsor
-                                    widget.passId == "0" &&
-                                            ((state.atomCompanyType?.name ?? '')
-                                                        .toLowerCase() ==
-                                                    'cwr t1' ||
-                                                (state.atomCompanyType?.name ??
-                                                            '')
-                                                        .toLowerCase() ==
-                                                    'cwr t2')
-                                        ? CommonWidgets.textDisplay(
-                                            'DB Sponsor',
-                                            Styles.textStyleBlack14)
-                                        : Container(),
+                                widget.passId == "0" &&
+                                        ((state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'cwr t1' ||
+                                            (state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'cwr t2')
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                    : Container(),
 
-                                    widget.passId == "0" &&
-                                            ((state.atomCompanyType?.name ?? '')
-                                                        .toLowerCase() ==
-                                                    'cwr t1' ||
-                                                (state.atomCompanyType?.name ??
-                                                            '')
-                                                        .toLowerCase() ==
-                                                    'cwr t2')
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
+                                // articleaddButtonwidgetLoading(state),
+                                widget.passId == "0" &&
+                                        ((state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'cwr t1' ||
+                                            (state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'cwr t2')
+                                    ? dbsponsoraddButtonwidgetLoading(state)
+                                    : Container(),
 
-                                    // articleaddButtonwidgetLoading(state),
-                                    widget.passId == "0" &&
-                                            ((state.atomCompanyType?.name ?? '')
-                                                        .toLowerCase() ==
-                                                    'cwr t1' ||
-                                                (state.atomCompanyType?.name ??
-                                                            '')
-                                                        .toLowerCase() ==
-                                                    'cwr t2')
-                                        ? dbsponsoraddButtonwidgetLoading(state)
-                                        : Container(),
+                                widget.passId == "0" &&
+                                        ((state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'cwr t1' ||
+                                            (state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'cwr t2')
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01)
+                                    : Container(),
 
-                                    widget.passId == "0" &&
-                                            ((state.atomCompanyType?.name ?? '')
-                                                        .toLowerCase() ==
-                                                    'cwr t1' ||
-                                                (state.atomCompanyType?.name ??
-                                                            '')
-                                                        .toLowerCase() ==
-                                                    'cwr t2')
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
+                                /// db sponsor employee id
+                                widget.passId == "0" &&
+                                        ((state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'cwr t1' ||
+                                            (state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'cwr t2')
+                                    ? CommonWidgets.textDisplay(
+                                        'DB Sponsor Employee Id',
+                                        Styles.textStyleBlack14)
+                                    : Container(),
 
-                                    /// db sponsor employee id
-                                    widget.passId == "0" &&
-                                            ((state.atomCompanyType?.name ?? '')
-                                                        .toLowerCase() ==
-                                                    'cwr t1' ||
-                                                (state.atomCompanyType?.name ??
-                                                            '')
-                                                        .toLowerCase() ==
-                                                    'cwr t2')
-                                        ? CommonWidgets.textDisplay(
-                                            'DB Sponsor Employee Id',
-                                            Styles.textStyleBlack14)
-                                        : Container(),
+                                widget.passId == "0" &&
+                                        ((state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'cwr t1' ||
+                                            (state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'cwr t2')
+                                    ? textfieldWidgetLoad(
+                                        dbsponsorTextController, 0, state)
+                                    : Container(),
 
-                                    widget.passId == "0" &&
-                                            ((state.atomCompanyType?.name ?? '')
-                                                        .toLowerCase() ==
-                                                    'cwr t1' ||
-                                                (state.atomCompanyType?.name ??
-                                                            '')
-                                                        .toLowerCase() ==
-                                                    'cwr t2')
-                                        ? textfieldWidgetLoad(
-                                            dbsponsorTextController, 0, state)
-                                        : Container(),
+                                widget.passId == "0" &&
+                                        ((state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'cwr t1' ||
+                                            (state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'cwr t2')
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01)
+                                    : Container(),
 
-                                    widget.passId == "0" &&
-                                            ((state.atomCompanyType?.name ?? '')
-                                                        .toLowerCase() ==
-                                                    'cwr t1' ||
-                                                (state.atomCompanyType?.name ??
-                                                            '')
-                                                        .toLowerCase() ==
-                                                    'cwr t2')
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
-
-
-                                    /// SEZ Pass Info
-                                    if (widget.passId == '1' ||
-                                        widget.passId == '3') ...[
-                                      CommonWidgets.textDisplay(
-                                          widget.passId == '1'
-                                              ? 'Visitor Coming From'
-                                              : 'SEZ Pass Info',
-                                          Styles.textStyleBlack14),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.001),
-                                      textfieldWidgetLoad(
-                                          widget.passId == '1'
-                                              ? visitorcomingfromTextController
-                                              : sezpassinfoTextController,
-                                          0,
-                                          state),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
-                                      CommonWidgets.textDisplay(
-                                          widget.passId == '3'
-                                              ? 'MTP Application No'
-                                              : 'Purpose of Visit',
-                                          Styles.textStyleBlack14),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.001),
-                                      textfieldWidgetLoad(
-                                          widget.passId == '3'
-                                              ? mtpApplicationNoTextController
-                                              : purposeofvisitTextController,
-                                          0,
-                                          state),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
-                                    ],
-                                    //Photo Identity Validation Type
-                                    widget.passId == "1"
-                                        ? CommonWidgets.textDisplay(
-                                            'Photo Identity Validation Type  ',
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    widget.passId == "1"
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
-                                    widget.passId == "1"
-                                        ? GestureDetector(
+                                /// SEZ Pass Info
+                                if (widget.passId == '1' ||
+                                    widget.passId == '3') ...[
+                                  CommonWidgets.textDisplay(
+                                      widget.passId == '1'
+                                          ? 'Visitor Coming From'
+                                          : 'SEZ Pass Info',
+                                      Styles.textStyleBlack14),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  textfieldWidgetLoad(
+                                      widget.passId == '1'
+                                          ? visitorcomingfromTextController
+                                          : sezpassinfoTextController,
+                                      0,
+                                      state),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                  CommonWidgets.textDisplay(
+                                      widget.passId == '3'
+                                          ? 'MTP Application No'
+                                          : 'Purpose of Visit',
+                                      Styles.textStyleBlack14),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  textfieldWidgetLoad(
+                                      widget.passId == '3'
+                                          ? mtpApplicationNoTextController
+                                          : purposeofvisitTextController,
+                                      0,
+                                      state),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                ],
+                                //Photo Identity Validation Type
+                                widget.passId == "1"
+                                    ? CommonWidgets.textDisplay(
+                                        'Photo Identity Validation Type  ',
+                                        Styles.textStyleBlack14)
+                                    : Container(),
+                                widget.passId == "1"
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                    : Container(),
+                                widget.passId == "1"
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          photoIdentityTypeDialog();
+                                        },
+                                        child: FlutterInputField(
+                                            isEnable: false,
+                                            isDisableColor:
+                                                // widget.listuser == null ||
+                                                //         passtypeTextController
+                                                //             .text.isEmpty
+                                                //     ? false
+                                                //     :
+                                                true,
+                                            textFieldController:
+                                                photofidentityextController,
+                                            textFormKey:
+                                                Keys.statusTextController,
+                                            hintText: '',
+                                            onChange: (String username) {
+                                              //this.username = username;
+                                              setState(() {});
+                                            },
                                             onTap: () {
                                               photoIdentityTypeDialog();
                                             },
-                                            child: FlutterInputField(
-                                                isEnable: false,
-                                                isDisableColor:
-                                                    // widget.listuser == null ||
-                                                    //         passtypeTextController
-                                                    //             .text.isEmpty
-                                                    //     ? false
-                                                    //     :
-                                                    true,
-                                                textFieldController:
-                                                    photofidentityextController,
-                                                textFormKey:
-                                                    Keys.statusTextController,
-                                                hintText: '',
-                                                onChange: (String username) {
-                                                  //this.username = username;
-                                                  setState(() {});
-                                                },
-                                                onTap: () {
+                                            validateTextField:
+                                                (String? user) {},
+                                            suffixWidget: IconButton(
+                                                icon: SvgPicture.asset(
+                                                    width: 10,
+                                                    height: 10,
+                                                    AppIcon.dropdownicon,
+                                                    key: const Key(
+                                                        'closed_eye')),
+                                                onPressed: () {
+                                                  print('suffixIcon pressed');
+
                                                   photoIdentityTypeDialog();
-                                                },
-                                                validateTextField:
-                                                    (String? user) {},
-                                                suffixWidget: IconButton(
-                                                    icon: SvgPicture.asset(
-                                                        width: 10,
-                                                        height: 10,
-                                                        AppIcon.dropdownicon,
-                                                        key: const Key(
-                                                            'closed_eye')),
-                                                    onPressed: () {
-                                                      print(
-                                                          'suffixIcon pressed');
+                                                })),
+                                      )
+                                    : Container(),
+                                widget.passId == "1"
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01)
+                                    : Container(),
 
-                                                      photoIdentityTypeDialog();
-                                                    })),
-                                          )
-                                        : Container(),
-                                    widget.passId == "1"
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
+                                /// Host
+                                ((state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'exceptions' &&
+                                            widget.passId == "0") ||
+                                        widget.passId == "1" ||
+                                        widget.passId == "2" ||
+                                        // widget.passId == '3' ||
+                                        (state.atomCompanyType?.name == null &&
+                                            widget.passId == "0")
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.host, Styles.textStyleBlack14)
+                                    : Container(),
 
-                                    /// Host
-                                    ((state.atomCompanyType?.name ?? '')
-                                                        .toLowerCase() ==
-                                                    'exceptions' &&
-                                                widget.passId == "0") ||
-                                            widget.passId == "1" ||
-                                            widget.passId == "2" ||
-                                           // widget.passId == '3' ||
-                                            (state.atomCompanyType?.name ==
-                                                    null &&
-                                                widget.passId == "0")
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.host,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
+                                ((state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'exceptions' &&
+                                            widget.passId == "0") ||
+                                        widget.passId == "1" ||
+                                        widget.passId == "2" ||
+                                        //   widget.passId == '3' ||
+                                        (state.atomCompanyType?.name == null &&
+                                            widget.passId == "0")
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                    : Container(),
+                                // articleaddButtonwidgetLoading(state),
+                                ((state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'exceptions' &&
+                                            widget.passId == "0") ||
+                                        widget.passId == "1" ||
+                                        widget.passId == "2" ||
+                                        // widget.passId == '3' ||
+                                        (state.atomCompanyType?.name == null &&
+                                            widget.passId == "0")
+                                    ? hostaddButtonwidgetLoading(state)
+                                    : Container(),
+                                ((state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'exceptions' &&
+                                            widget.passId == "0") ||
+                                        widget.passId == "1" ||
+                                        widget.passId == "2" ||
+                                        // widget.passId == '3' ||
+                                        (state.atomCompanyType?.name == null &&
+                                            widget.passId == "0")
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01)
+                                    : Container(),
 
-                                    ((state.atomCompanyType?.name ?? '')
-                                                        .toLowerCase() ==
-                                                    'exceptions' &&
-                                                widget.passId == "0") ||
-                                            widget.passId == "1" ||
-                                            widget.passId == "2" ||
-                                         //   widget.passId == '3' ||
-                                            (state.atomCompanyType?.name ==
-                                                    null &&
-                                                widget.passId == "0")
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
-                                    // articleaddButtonwidgetLoading(state),
-                                    ((state.atomCompanyType?.name ?? '')
-                                                        .toLowerCase() ==
-                                                    'exceptions' &&
-                                                widget.passId == "0") ||
-                                            widget.passId == "1" ||
-                                            widget.passId == "2" ||
-                                           // widget.passId == '3' ||
-                                            (state.atomCompanyType?.name ==
-                                                    null &&
-                                                widget.passId == "0")
-                                        ? hostaddButtonwidgetLoading(state)
-                                        : Container(),
-                                    ((state.atomCompanyType?.name ?? '')
-                                                        .toLowerCase() ==
-                                                    'exceptions' &&
-                                                widget.passId == "0") ||
-                                            widget.passId == "1" ||
-                                            widget.passId == "2" ||
-                                           // widget.passId == '3' ||
-                                            (state.atomCompanyType?.name ==
-                                                    null &&
-                                                widget.passId == "0")
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
+                                /// Host Employee Id
+                                ((state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'exceptions' &&
+                                            widget.passId == "0") ||
+                                        widget.passId == "1" ||
+                                        widget.passId == "2" ||
+                                        // widget.passId == '3' ||
+                                        (state.atomCompanyType?.name == null &&
+                                            widget.passId == "0")
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.hostemployeeid,
+                                        Styles.textStyleBlack14)
+                                    : Container(),
+                                ((state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'exceptions' &&
+                                            widget.passId == "0") ||
+                                        widget.passId == "1" ||
+                                        widget.passId == "2" ||
+                                        // widget.passId == '3' ||
+                                        (state.atomCompanyType?.name == null &&
+                                            widget.passId == "0")
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                    : Container(),
 
-                                    /// Host Employee Id
-                                    ((state.atomCompanyType?.name ?? '')
-                                                        .toLowerCase() ==
-                                                    'exceptions' &&
-                                                widget.passId == "0") ||
-                                            widget.passId == "1" ||
-                                            widget.passId == "2" ||
-                                           // widget.passId == '3' ||
-                                            (state.atomCompanyType?.name ==
-                                                    null &&
-                                                widget.passId == "0")
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.hostemployeeid,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    ((state.atomCompanyType?.name ?? '')
-                                                        .toLowerCase() ==
-                                                    'exceptions' &&
-                                                widget.passId == "0") ||
-                                            widget.passId == "1" ||
-                                            widget.passId == "2" ||
-                                           // widget.passId == '3' ||
-                                            (state.atomCompanyType?.name ==
-                                                    null &&
-                                                widget.passId == "0")
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
+                                ((state.atomCompanyType?.name ?? '')
+                                                    .toLowerCase() ==
+                                                'exceptions' &&
+                                            widget.passId == "0") ||
+                                        widget.passId == "1" ||
+                                        widget.passId == "2" ||
+                                        //  widget.passId == '3' ||
+                                        (state.atomCompanyType?.name == null &&
+                                            widget.passId == "0")
+                                    ? textfieldWidgetLoad1(
+                                        hostemployeeidTextController,
+                                        0,
+                                        state,
+                                      )
+                                    : Container(),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
 
-                                    ((state.atomCompanyType?.name ?? '')
-                                                        .toLowerCase() ==
-                                                    'exceptions' &&
-                                                widget.passId == "0") ||
-                                            widget.passId == "1" ||
-                                            widget.passId == "2" ||
-                                          //  widget.passId == '3' ||
-                                            (state.atomCompanyType?.name ==
-                                                    null &&
-                                                widget.passId == "0")
-                                        ? textfieldWidgetLoad1(
-                                            hostemployeeidTextController,
-                                            0,
-                                            state,
-                                          )
-                                        : Container(),
-                                    CommonWidgets.verticalSpacerWidget(
+                                /// department
+                                widget.passId == '3'
+                                    ? Container()
+                                    : CommonWidgets.textDisplay(
+                                        widget.passId == '1' ||
+                                                widget.passId == '2'
+                                            ? "Visiting Department"
+                                            : Constants.department,
+                                        Styles.textStyleBlack14),
+                                widget.passId == '3'
+                                    ? Container()
+                                    : CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                // articleaddButtonwidgetLoading(state),
+                                widget.passId == '3'
+                                    ? Container()
+                                    : departmentaddButtonwidgetLoading(state),
+                                widget.passId == '3'
+                                    ? Container()
+                                    : CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-
-                                    /// department
-                                    widget.passId == '3'
-                                        ? Container()
-                                        : CommonWidgets.textDisplay(
-                                            widget.passId == '1' ||
-                                                    widget.passId == '2'
-                                                ? "Visiting Department"
-                                                : Constants.department,
-                                            Styles.textStyleBlack14),
-                                    widget.passId == '3'
-                                        ? Container()
-                                        : CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001),
-                                    // articleaddButtonwidgetLoading(state),
-                                    widget.passId == '3'
-                                        ? Container()
-                                        : departmentaddButtonwidgetLoading(
-                                            state),
-                                    widget.passId == '3'
-                                        ? Container()
-                                        : CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01),
-
-                                    /// Reason for day pass
-                                    widget.passId == '3' || widget.passId == '1'
-                                        ? Container()
-                                        : CommonWidgets.textDisplay(
-                                            widget.passId == "2"
-                                                ? "Reason for Vendor Pass"
-                                                : Constants.reasonfordaypass,
-                                            Styles.textStyleBlack14),
-                                    widget.passId == '3' || widget.passId == '1'
-                                        ? Container()
-                                        : CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001),
-                                    // articleaddButtonwidgetLoading(state),
-                                    widget.passId == '3' || widget.passId == '1'
-                                        ? Container()
-                                        : reasonforadaypassaddButtonwidgetLoading(
-                                            state),
-                                    widget.passId == '3' || widget.passId == '1'
-                                        ? Container()
-                                        : CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01),
-
-                                    /// Day  pass no
-                                    CommonWidgets.textDisplay(
-                                        widget.passId == "1"
-                                            ? "Visitor Pass No"
-                                            : widget.passId == "2"
-                                                ? "Vendor Pass No"
-                                                : widget.passId == '3'
-                                                    ? 'Pass Category'
-                                                    : Constants.daypassno,
+                                /// Reason for day pass
+                                widget.passId == '3' || widget.passId == '1'
+                                    ? Container()
+                                    : CommonWidgets.textDisplay(
+                                        widget.passId == "2"
+                                            ? "Reason for Vendor Pass"
+                                            : Constants.reasonfordaypass,
                                         Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
+                                widget.passId == '3' || widget.passId == '1'
+                                    ? Container()
+                                    : CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
-                                    GestureDetector(
+                                // articleaddButtonwidgetLoading(state),
+                                widget.passId == '3' || widget.passId == '1'
+                                    ? Container()
+                                    : reasonforadaypassaddButtonwidgetLoading(
+                                        state),
+                                widget.passId == '3' || widget.passId == '1'
+                                    ? Container()
+                                    : CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+
+                                /// Day  pass no
+                                CommonWidgets.textDisplay(
+                                    widget.passId == "1"
+                                        ? "Visitor Pass No"
+                                        : widget.passId == "2"
+                                            ? "Vendor Pass No"
+                                            : widget.passId == '3'
+                                                ? 'Pass Category'
+                                                : Constants.daypassno,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                GestureDetector(
+                                  onTap: () {
+                                    if (widget.dayPassItem == null ||
+                                        daypassnoTextController.text.isEmpty) {
+                                      //daypassNoDialog();
+                                      //passnumberaddButtonwidgetLoading(state);
+                                      if (widget.passId == '3') {
+                                        passCategoryDialog();
+                                      } else {
+                                        passnumberTypeDialog(state);
+                                      }
+                                    }
+                                  },
+                                  child: FlutterInputField(
+                                      isEnable: false,
+                                      isDisableColor:
+                                          widget.dayPassItem == null ||
+                                                  daypassnoTextController
+                                                      .text.isEmpty
+                                              ? false
+                                              : true,
+                                      textFieldController:
+                                          daypassnoTextController,
+                                      textFormKey: Keys.statusTextController,
+                                      hintText: '',
+                                      onChange: (String username) {
+                                        //this.username = username;
+                                        setState(() {});
+                                      },
                                       onTap: () {
                                         if (widget.dayPassItem == null ||
-                                            daypassnoTextController
+                                            passCategoryTextController
                                                 .text.isEmpty) {
-                                          //daypassNoDialog();
                                           //passnumberaddButtonwidgetLoading(state);
                                           if (widget.passId == '3') {
                                             passCategoryDialog();
@@ -959,239 +952,203 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           }
                                         }
                                       },
-                                      child: FlutterInputField(
-                                          isEnable: false,
-                                          isDisableColor:
-                                              widget.dayPassItem == null ||
-                                                      daypassnoTextController
-                                                          .text.isEmpty
-                                                  ? false
-                                                  : true,
-                                          textFieldController:
-                                              daypassnoTextController,
-                                          textFormKey:
-                                              Keys.statusTextController,
-                                          hintText: '',
-                                          onChange: (String username) {
-                                            //this.username = username;
-                                            setState(() {});
-                                          },
-                                          onTap: () {
-                                            if (widget.dayPassItem == null ||
-                                                passCategoryTextController
-                                                    .text.isEmpty) {
-                                              //passnumberaddButtonwidgetLoading(state);
-                                              if (widget.passId == '3') {
-                                                passCategoryDialog();
-                                              } else {
-                                                passnumberTypeDialog(state);
-                                              }
+                                      validateTextField: (String? user) {},
+                                      suffixWidget: IconButton(
+                                          icon: SvgPicture.asset(
+                                              width: 10,
+                                              height: 10,
+                                              AppIcon.dropdownicon,
+                                              key: const Key('closed_eye')),
+                                          onPressed: () {
+                                            print('suffixIcon pressed');
+
+                                            //passnumberaddButtonwidgetLoading(state);
+                                            if (widget.passId == '3') {
+                                              passCategoryDialog();
+                                            } else {
+                                              passnumberTypeDialog(state);
                                             }
-                                          },
-                                          validateTextField: (String? user) {},
-                                          suffixWidget: IconButton(
-                                              icon: SvgPicture.asset(
-                                                  width: 10,
-                                                  height: 10,
-                                                  AppIcon.dropdownicon,
-                                                  key: const Key('closed_eye')),
-                                              onPressed: () {
-                                                print('suffixIcon pressed');
-
-                                                //passnumberaddButtonwidgetLoading(state);
-                                                if (widget.passId == '3') {
-                                                  passCategoryDialog();
-                                                } else {
-                                                  passnumberTypeDialog(state);
-                                                }
-                                              })),
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                                    /// Pass Valid From
-                                     if(widget.passId !='3')...[
-                                    CommonWidgets.textDisplay(
-                                        Constants.passvlidfrom,
-                                        Styles.textStyleBlack14),
-                                       CommonWidgets.verticalSpacerWidget(
-                                           height * 0.001),
-                                       datepickerWidgetLoading(
-                                           passvalidfromTextController),
-                                       CommonWidgets.verticalSpacerWidget(
-                                           height * 0.01),
-                                    ],
-                                    if(widget.passId =='3')...[
-                                      CommonWidgets.textDisplay(
-                                          Constants.passIssuedOn,
-                                          Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    datepickerWidgetLoading(
-                                        passvalidfromTextController),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-                                    ],
-                                    /// Pass Valid Until
-                                    CommonWidgets.textDisplay(
-                                        Constants.passvliduntil,
-                                        Styles.textStyleBlack14),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    datepickerWidgetLoading(
-                                        passvaliduntilTextController),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                                    /// Escorted by Host
-                                    widget.passId == '1'
-                                        ? CommonWidgets.textDisplay(
-                                            'Escorted by Host',
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    widget.passId == '1'
-                                        ? radioButtonHandling(
-                                            state.escortedbyhost ?? 1,
-                                            'Escorted by Host')
-                                        : Container(),
-
-                                    /// Escorted By
-                                    widget.passId == '0' ||
-                                            widget.passId == '2' ||
-                                            widget.passId == '3' ||
-                                            (widget.passId == '1' &&
-                                                (state.escortedbyhost ?? 0) ==
-                                                    0)
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.escortedby,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    widget.passId == '0' ||
-                                            widget.passId == '2' ||
-                                            widget.passId == '3' ||
-                                            (widget.passId == '1' &&
-                                                (state.escortedbyhost ?? 0) ==
-                                                    0)
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
-                                    widget.passId == '0' ||
-                                            widget.passId == '2' ||
-                                            widget.passId == '3' ||
-                                            (widget.passId == '1' &&
-                                                (state.escortedbyhost ?? 0) ==
-                                                    0)
-                                        ? textfieldWidgetLoad(
-                                            escortedbyTextController, 0, state)
-                                        : Container(),
-                                    widget.passId == '0' ||
-                                            widget.passId == '2' ||
-                                            widget.passId == '3' ||
-                                            (widget.passId == '1' &&
-                                                (state.escortedbyhost ?? 0) ==
-                                                    0)
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
-
-                                    /// Escorted By Employee Id
-                                    widget.passId == '0' ||
-                                            widget.passId == '2' ||
-                                            widget.passId == '3' ||
-                                            (widget.passId == '1' &&
-                                                (state.escortedbyhost ?? 0) ==
-                                                    0)
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.escortedbyemployeeid,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    widget.passId == '0' ||
-                                            widget.passId == '2' ||
-                                            widget.passId == '3' ||
-                                            (widget.passId == '1' &&
-                                                (state.escortedbyhost ?? 0) ==
-                                                    0)
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
-                                    widget.passId == '0' ||
-                                            widget.passId == '2' ||
-                                            widget.passId == '3' ||
-                                            (widget.passId == '1' &&
-                                                (state.escortedbyhost ?? 0) ==
-                                                    0)
-                                        ? textfieldWidgetLoad(
-                                            escortedemployeedidbyTextController,
-                                            0,
-                                            state)
-                                        : Container(),
-                                    widget.passId == '0' ||
-                                            widget.passId == '2' ||
-                                            widget.passId == '3' ||
-                                            (widget.passId == '1' &&
-                                                (state.escortedbyhost ?? 0) ==
-                                                    0)
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
-
-                                    widget.passId == '1' &&
-                                            widget.dayPassItem == null
-                                        ? CommonWidgets.textDisplay(
-                                            'Photo of Visitor',
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    widget.passId == '1' &&
-                                            widget.dayPassItem == null
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
-                                    widget.passId == '1' &&
-                                            widget.dayPassItem == null
-                                        ? uploadWidget(state, true)
-                                        : Container(),
-
-                                    // Attachments
-                                    widget.passId == '1'
-                                        ? photogetSpaceattchment(height)
-                                        : Container(),
-                                    widget.passId == '1'
-                                        ? photogetAttachement(height)
-                                        : Container(),
-
-                                    widget.dayPassItem == null
-                                        ? CommonWidgets.textDisplay(
-                                            Constants.upload,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    widget.dayPassItem == null
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
-                                    widget.dayPassItem == null
-                                        ? uploadWidget(state, false)
-                                        : Container(),
-
-                                    // Attachments
-                                    getSpaceattchment(height),
-                                    getAttachement(height),
-
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
-
-                                    // SubmitButton
-                                    if (widget.dayPassItem?.status == 0 ||
-                                        widget.dayPassItem?.status != 0 ||
-                                        widget.dayPassItem?.status == 1) ...[
-                                      Center(child: submitButtonDisplay()),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.005),
-                                    ],
-                                  ]),
+                                          })),
                                 ),
-                                // Upload
-                              ])))
-                ])));
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                /// Pass Valid From
+                                if (widget.passId != '3') ...[
+                                  CommonWidgets.textDisplay(
+                                      Constants.passvlidfrom,
+                                      Styles.textStyleBlack14),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  datepickerWidgetLoading(
+                                      passvalidfromTextController),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                ],
+                                if (widget.passId == '3') ...[
+                                  CommonWidgets.textDisplay(
+                                      Constants.passIssuedOn,
+                                      Styles.textStyleBlack14),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  datepickerWidgetLoading(
+                                      passvalidfromTextController),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                ],
+
+                                /// Pass Valid Until
+                                CommonWidgets.textDisplay(
+                                    Constants.passvliduntil,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                datepickerWidgetLoading(
+                                    passvaliduntilTextController),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                /// Escorted by Host
+                                widget.passId == '1'
+                                    ? CommonWidgets.textDisplay(
+                                        'Escorted by Host',
+                                        Styles.textStyleBlack14)
+                                    : Container(),
+                                widget.passId == '1'
+                                    ? radioButtonHandling(
+                                        state.escortedbyhost ?? 1,
+                                        'Escorted by Host')
+                                    : Container(),
+
+                                /// Escorted By
+                                widget.passId == '0' ||
+                                        widget.passId == '2' ||
+                                        widget.passId == '3' ||
+                                        (widget.passId == '1' &&
+                                            (state.escortedbyhost ?? 0) == 0)
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.escortedby,
+                                        Styles.textStyleBlack14)
+                                    : Container(),
+                                widget.passId == '0' ||
+                                        widget.passId == '2' ||
+                                        widget.passId == '3' ||
+                                        (widget.passId == '1' &&
+                                            (state.escortedbyhost ?? 0) == 0)
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                    : Container(),
+                                widget.passId == '0' ||
+                                        widget.passId == '2' ||
+                                        widget.passId == '3' ||
+                                        (widget.passId == '1' &&
+                                            (state.escortedbyhost ?? 0) == 0)
+                                    ? textfieldWidgetLoad(
+                                        escortedbyTextController, 0, state)
+                                    : Container(),
+                                widget.passId == '0' ||
+                                        widget.passId == '2' ||
+                                        widget.passId == '3' ||
+                                        (widget.passId == '1' &&
+                                            (state.escortedbyhost ?? 0) == 0)
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01)
+                                    : Container(),
+
+                                /// Escorted By Employee Id
+                                widget.passId == '0' ||
+                                        widget.passId == '2' ||
+                                        widget.passId == '3' ||
+                                        (widget.passId == '1' &&
+                                            (state.escortedbyhost ?? 0) == 0)
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.escortedbyemployeeid,
+                                        Styles.textStyleBlack14)
+                                    : Container(),
+                                widget.passId == '0' ||
+                                        widget.passId == '2' ||
+                                        widget.passId == '3' ||
+                                        (widget.passId == '1' &&
+                                            (state.escortedbyhost ?? 0) == 0)
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                    : Container(),
+                                widget.passId == '0' ||
+                                        widget.passId == '2' ||
+                                        widget.passId == '3' ||
+                                        (widget.passId == '1' &&
+                                            (state.escortedbyhost ?? 0) == 0)
+                                    ? textfieldWidgetLoad(
+                                        escortedemployeedidbyTextController,
+                                        0,
+                                        state)
+                                    : Container(),
+                                widget.passId == '0' ||
+                                        widget.passId == '2' ||
+                                        widget.passId == '3' ||
+                                        (widget.passId == '1' &&
+                                            (state.escortedbyhost ?? 0) == 0)
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01)
+                                    : Container(),
+
+                                widget.passId == '1' &&
+                                        widget.dayPassItem == null
+                                    ? CommonWidgets.textDisplay(
+                                        'Photo of Visitor',
+                                        Styles.textStyleBlack14)
+                                    : Container(),
+                                widget.passId == '1' &&
+                                        widget.dayPassItem == null
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                    : Container(),
+                                widget.passId == '1' &&
+                                        widget.dayPassItem == null
+                                    ? uploadWidget(state, true)
+                                    : Container(),
+
+                                // Attachments
+                                widget.passId == '1'
+                                    ? photogetSpaceattchment(height)
+                                    : Container(),
+                                widget.passId == '1'
+                                    ? photogetAttachement(height)
+                                    : Container(),
+
+                                widget.dayPassItem == null
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.upload,
+                                        Styles.textStyleBlack14)
+                                    : Container(),
+                                widget.dayPassItem == null
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                    : Container(),
+                                widget.dayPassItem == null
+                                    ? uploadWidget(state, false)
+                                    : Container(),
+
+                                // Attachments
+                                getSpaceattchment(height),
+                                getAttachement(height),
+
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                // SubmitButton
+                                if (widget.dayPassItem?.status == 0 ||
+                                    widget.dayPassItem?.status != 0 ||
+                                    widget.dayPassItem?.status == 1) ...[
+                                  Center(child: submitButtonDisplay()),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.005),
+                                ],
+                              ]),
+                            ),
+                            // Upload
+                          ])))
+            ])));
           },
         )); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
@@ -1283,8 +1240,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       companynameTextController.text = widget.dayPassItem?.companyName != null
           ? widget.dayPassItem?.companyName.toString() ?? ""
           : '';
-      mtpApplicationNoTextController.text= widget.dayPassItem?.mifareNo !=null
-      ? widget.dayPassItem?.mifareNo.toString()??"":'';
+      mtpApplicationNoTextController.text = widget.dayPassItem?.mifareNo != null
+          ? widget.dayPassItem?.mifareNo.toString() ?? ""
+          : '';
       escortedemployeedidbyTextController.text =
           widget.dayPassItem?.escortedEmployeeId != null
               ? widget.dayPassItem?.escortedEmployeeId.toString() ?? ""
@@ -1307,7 +1265,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           : BaseUser();
 
       createpassmgmtCubit.gethostanalystsResponseData(host1);
-       createpassmgmtCubit.getdbsponsoranalystsResponseData(host1);
+      createpassmgmtCubit.getdbsponsoranalystsResponseData(host1);
       createpassmgmtCubit.gethostUsersResponseData(host1);
 
       dbsponsorTextController.text = widget.dayPassItem?.hostName != null
@@ -1368,41 +1326,25 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       : widget.dayPassItem?.status == 8
                                           ? 'returned damaged'
                                           : 'returned defaced';
-      if (widget.dayPassItem?.passType == 1)
-       {
+      if (widget.dayPassItem?.passType == 1) {
         passtypeTextController.text = 'VISITOR_PASS';
-       }
-       else if (widget.dayPassItem?.passType == 5)
-       {
+      } else if (widget.dayPassItem?.passType == 5) {
         passtypeTextController.text = 'DWS_VISITOR_PASS';
-       }
-        else if (widget.dayPassItem?.passType == 2)
-       {
+      } else if (widget.dayPassItem?.passType == 2) {
         passtypeTextController.text = 'VENDOR_PASS';
-       }
-       else if (widget.dayPassItem?.passType == 6)
-       {
+      } else if (widget.dayPassItem?.passType == 6) {
         passtypeTextController.text = 'DWS_VENDOR_PASS';
       }
 
-      if (widget.dayPassItem?.idValidationType == 0)
-       {
+      if (widget.dayPassItem?.idValidationType == 0) {
         photofidentityextController.text = 'Aadhaar Card';
-       }
-       else if (widget.dayPassItem?.idValidationType == 1)
-       {
+      } else if (widget.dayPassItem?.idValidationType == 1) {
         photofidentityextController.text = 'Pan Card';
-       }
-        else if (widget.dayPassItem?.idValidationType == 2)
-       {
+      } else if (widget.dayPassItem?.idValidationType == 2) {
         photofidentityextController.text = 'Passport';
-       }
-       else if (widget.dayPassItem?.idValidationType == 3)
-       {
+      } else if (widget.dayPassItem?.idValidationType == 3) {
         photofidentityextController.text = 'Driving Licence';
-       }
-       else if (widget.dayPassItem?.idValidationType == 4)
-       {
+      } else if (widget.dayPassItem?.idValidationType == 4) {
         photofidentityextController.text = 'Voter Card';
       }
 
@@ -1415,15 +1357,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //state.locationSelectedlist =
       Organisation mumbai = widget.dayPassItem?.location != null
           ? Organisation(
-          id: widget.dayPassItem?.location?.id ?? 0,
-          name: widget.dayPassItem?.location?.name ?? "")
+              id: widget.dayPassItem?.location?.id ?? 0,
+              name: widget.dayPassItem?.location?.name ?? "")
           : Organisation();
 
-      serialnumber =
-      widget.dayPassItem?.slNo != null ? widget.dayPassItem?.slNo ?? '' : '';
+      serialnumber = widget.dayPassItem?.slNo != null
+          ? widget.dayPassItem?.slNo ?? ''
+          : '';
 
       await createpassmgmtCubit.getSerialnumberDetails(
-          (widget.dayPassItem?.location?.id ?? 0).toString(), 'SEZPass', context);
+          (widget.dayPassItem?.location?.id ?? 0).toString(),
+          'SEZPass',
+          context);
 
       createpassmgmtCubit.getlocationsResponseData(mumbai);
       ActivePassInfoList active = ActivePassInfoList(
@@ -1606,7 +1551,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 ? ["Permenant", "Temporary"]
                 // : widget.passId == "2"
                 //     ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
-                    : [],
+                : [],
             onTap: (String value) {
               print(value);
               daypassnoTextController.text = value;
@@ -1679,38 +1624,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     );
   }
 
-  reasondaypassDialog(CreatePassMgmtState state) {
-    showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomListTexts(
-            duplicatedayPassReason: state.dayPassReason?.dayPassReason ?? [],
-            leftImageName: widget.passId == '0' || widget.passId == '2'
-                ? AppIcon.addicon
-                : null,
-            onLeftButtonTap: () {
-              if (widget.passId == '0' || widget.passId == '2') {
-                Navigator.pop(context);
-                showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (BuildContext dialogContext) {
-                      return AddNewFields(
-                        title: widget.passId == '0'
-                            ? Constants.addreasonfordaypass
-                            : Constants.addreasonforvendorpass,
-                        createpassmgmtstate: state,
-                      );
-                    });
-              }
-            },
-            onTap: (DayPassReasonElement list) {
-              //print(list.name);
-              createpassmgmtCubit.getdaypassreasonResponseData(list);
-            },
-          );
-        });
-  }
+
 
   Widget datepickerWidgetLoading(TextEditingController textfiled) {
     return GestureDetector(
@@ -1943,7 +1857,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                       createpassmgmtstate: state,
                     );
                   });
-           
             },
             onTap: (List<Entity> list) {
               createpassmgmtCubit.getEntityData(list);
@@ -2016,14 +1929,46 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                         title: Constants.addcompanytype,
                         createpassmgmtstate: state);
                   });
-           
             },
             onTap: (Organisation list) {
               //print(list.name);
-              if ((list.name ?? '').toLowerCase() == 'fte') {
-                companynameTextController.text = 'Deutsche Bank';
+              if ((list.name ?? '').toLowerCase() == 'fte' ) {
+                companynameTextController.text = "Deutsche Bank";
               }
               createpassmgmtCubit.getAtomCompanyTypeResponseData(list);
+            },
+          );
+        });
+  }
+
+  reasondaypassDialog(CreatePassMgmtState state) {
+    showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return CustomListTexts(
+            duplicatedayPassReason: state.dayPassReason?.dayPassReasonElement ?? [],
+            leftImageName: widget.passId == '0' || widget.passId == '2'
+                ? AppIcon.addicon
+                : null,
+            onLeftButtonTap: () {
+              if (widget.passId == '0' || widget.passId == '2') {
+                Navigator.pop(context);
+                showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (BuildContext dialogContext) {
+                      return AddNewFields(
+                        title: widget.passId == '0'
+                            ? Constants.addreasonfordaypass
+                            : Constants.addreasonforvendorpass,
+                        createpassmgmtstate: state,
+                      );
+                    });
+              }
+            },
+            onTap: (DayPassReasonElement list) {
+              //print(list.name);
+              createpassmgmtCubit.getdaypassreasonResponseData(list);
             },
           );
         });
@@ -2084,8 +2029,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.hostResponse?.name, //state.t1hostanalyst?.name ?? '',
       height: 60,
-      isDisableColor:
-      widget.dayPassItem == null ||
+      isDisableColor: widget.dayPassItem == null ||
               (state.hostResponse != null &&
                   ((state.hostResponse?.name ?? '').isEmpty))
           ? false
@@ -2121,7 +2065,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                       createpassmgmtstate: state,
                     );
                   });
-
             },
             onTap: (BaseUser list) {
               //print(list.name);
@@ -2269,7 +2212,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               onTap: (Organisation? list) async {
                 print(list?.name);
                 await createpassmgmtCubit.getSerialnumberDetails(
-                    list?.id.toString() ?? '', 'DayPass', context,);
+                  list?.id.toString() ?? '',
+                  'DayPass',
+                  context,
+                );
 
                 createpassmgmtCubit.getPassnumber(
                     widget.passId ?? '0', list?.id.toString() ?? '', context);
@@ -2354,7 +2300,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     int inputdate = Utils.datetoTimestampConversion(
         dateofcreationTextController.text, Constants.fulldateFormat);
     int statusvalue = 0;
-   
 
     if (statusTextController.text.toLowerCase() == "created") {
       statusvalue = 0;
@@ -2447,67 +2392,49 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     //  }
 
-    PassHost? host2 = PassHost(
-        id: (state.hostResponse?.id == 0) ? 1 : state.hostResponse?.id ?? 1,
-        name: state.hostResponse?.name ?? '');
+    User? host2 = User(
+        userId: (state.hostResponse?.id == 0) ? 1 : state.hostResponse?.id ?? 1,
+        email: state.hostResponse?.email ?? '');
+    //userName: state.hostResponse?.userName ?? '');
 
-    PassHost? dbsponsor = PassHost(
-        id: (state.dbsponsorResponse?.id == 0)
+    User? dbsponsor = User(
+        userId: (state.dbsponsorResponse?.id == 0)
             ? 1
             : state.dbsponsorResponse?.id ?? 1,
         name: state.dbsponsorResponse?.name ?? '');
 
-     int passtypeIdentify = 0;
-      if(passtypeTextController.text == "VISITOR_PASS"){
-
-        passtypeIdentify = 1;
-      }
-      else if(passtypeTextController.text == "DWS_VISITOR_PASS")
-      {
-        passtypeIdentify = 5;
-
-    } else if(passtypeTextController.text == "VENDOR_PASS"){
+    int passtypeIdentify = 0;
+    if (passtypeTextController.text == "VISITOR_PASS") {
+      passtypeIdentify = 1;
+    } else if (passtypeTextController.text == "DWS_VISITOR_PASS") {
+      passtypeIdentify = 5;
+    } else if (passtypeTextController.text == "VENDOR_PASS") {
       passtypeIdentify = 2;
-    } else if(passtypeTextController.text == "DWS_VENDOR_PASS")
-      {
-        passtypeIdentify = 6;
-      }
-      else if(passtypeTextController.text == "SEZ_PASS")
-      {
-        passtypeIdentify = 3;
-
-    } else if(passtypeTextController.text == "DAY_PASS"){
-
-        passtypeIdentify = 0;
-      }
+    } else if (passtypeTextController.text == "DWS_VENDOR_PASS") {
+      passtypeIdentify = 6;
+    } else if (passtypeTextController.text == "SEZ_PASS") {
+      passtypeIdentify = 3;
+    } else if (passtypeTextController.text == "DAY_PASS") {
+      passtypeIdentify = 0;
+    }
     int idValidationType = 0;
-    if(photofidentityextController.text == "Adhar Card"){
-
-        idValidationType = 0;
-      }
-      else if(photofidentityextController.text == "Pan Card"){
+    if (photofidentityextController.text == "Adhar Card") {
+      idValidationType = 0;
+    } else if (photofidentityextController.text == "Pan Card") {
       idValidationType = 1;
-    } else if(photofidentityextController.text == "Passport")
-      {
-        idValidationType = 2;
-      }
-      else if(photofidentityextController.text == "Driving Licence"){
-
-        idValidationType = 3;
-      }
-      else if(photofidentityextController.text == "Voter Card"){
-
-        idValidationType = 4;
-      }
+    } else if (photofidentityextController.text == "Passport") {
+      idValidationType = 2;
+    } else if (photofidentityextController.text == "Driving Licence") {
+      idValidationType = 3;
+    } else if (photofidentityextController.text == "Voter Card") {
+      idValidationType = 4;
+    }
     int category = 0;
-    if(daypassnoTextController.text == "Permenant"){
-
-        category = 0;
-      }
-      else if(daypassnoTextController.text == "Temporary")
-      {
-        category = 1;
-      }
+    if (daypassnoTextController.text == "Permenant") {
+      category = 0;
+    } else if (daypassnoTextController.text == "Temporary") {
+      category = 1;
+    }
 
     List<CreateImage>? images = getFiles ?? [];
     List<CreateImage>? photoimages = photogetFiles ?? [];
@@ -2588,7 +2515,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               : state.dayPasselementReason?.name ?? '',
           escortedBy: escortedbyTextController.text ?? '',
           escortedEmployeeId: escortedemployeedidbyTextController.text ?? '',
-          mifareNo: mtpApplicationNoTextController.text??'',
+          mifareNo: mtpApplicationNoTextController.text ?? '',
           hostEmployeeId: hostemployeeidTextController.text.length > 0
               ? hostemployeeidTextController.text ?? ''
               : dbsponsorTextController.text,
@@ -2612,7 +2539,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           visitingPurpose: visitorcomingfromTextController.text ?? '',
           escortedByHost: state.escortedbyhost == 1 ? true : false,
           idValidationType: idValidationType,
-         // mifareNo: mtpapplicationnoTextController.text ?? '',
+          // mifareNo: mtpapplicationnoTextController.text ?? '',
           category: category,
           dayPassReason: daypass,
           email: emailTextController.text ?? '',
@@ -2710,13 +2637,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             ? "Please enter vendor name"
             : "Please enter visitor name",
       );
-    }
-     else if ((widget.passId == '1' || widget.passId == '2') && contactnoTextController.text.isEmpty) {
+    } else if ((widget.passId == '1' || widget.passId == '2') &&
+        contactnoTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter contact no",
       );
-    }else if ((widget.passId == '1' || widget.passId == '2') &&
+    } else if ((widget.passId == '1' || widget.passId == '2') &&
         contactnoTextController.text.length != 10) {
       Validator().showToast(
         context,
@@ -2728,30 +2655,26 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter visit coming from",
       );
-    }
-     else if (widget.passId == '1' && photofidentityextController.text.isEmpty) {
+    } else if (widget.passId == '1' &&
+        photofidentityextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter photo identify type",
       );
-    }
-     else if (widget.passId == '1' && purposeofvisitTextController.text.isEmpty) {
+    } else if (widget.passId == '1' &&
+        purposeofvisitTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter purpose of visit",
       );
-    }
-
-     else if (widget.passId == '0'  &&  (state.atomCompanyType?.name ?? '').toLowerCase() !=
-            'exceptions' &&
+    } else if (widget.passId == '0' &&
+        (state.atomCompanyType?.name ?? '').toLowerCase() != 'exceptions' &&
         employeeidTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter employeed id",
       );
-    }
-     else if (widget.passId == '3'  &&
-        employeeidTextController.text.isEmpty) {
+    } else if (widget.passId == '3' && employeeidTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter employeed id",
@@ -2763,9 +2686,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter email",
       );
-    }
-    else if ( (widget.passId == '3'  &&
-        emailTextController.text.isEmpty)) {
+    } else if ((widget.passId == '3' && emailTextController.text.isEmpty)) {
       Validator().showToast(
         context,
         "Please enter email",
@@ -2776,9 +2697,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter SEZ pass info",
       );
-    }
-
-    else if ( (widget.passId == '3'  &&
+    } else if ((widget.passId == '3' &&
         mtpApplicationNoTextController.text.isEmpty)) {
       Validator().showToast(
         context,
@@ -2798,8 +2717,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter host employeed id",
       );
-    }
-   else if ((widget.passId == '1' || widget.passId == '2' || widget.passId == '3')  &&
+    } else if ((widget.passId == '1' ||
+            widget.passId == '2' ||
+            widget.passId == '3') &&
         (state.hostResponse?.name ?? '').isEmpty) {
       Validator().showToast(
         context,
@@ -2849,25 +2769,21 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter day pass no",
       );
-    }
-    else if (  (widget.passId == '1' || widget.passId == '2') && (state.activePassInfoList == null ||
-        (state.activePassInfoList?.name ?? '').isEmpty)) {
+    } else if ((widget.passId == '1' || widget.passId == '2') &&
+        (state.activePassInfoList == null ||
+            (state.activePassInfoList?.name ?? '').isEmpty)) {
       Validator().showToast(
         context,
         widget.passId == '2'
             ? "Please enter vendor pass no"
             : "Please enter visit pass no",
       );
-    }
-
-     else if (  widget.passId == '3' && daypassnoTextController.text.isEmpty ) {
+    } else if (widget.passId == '3' && daypassnoTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter pass category",
       );
-    }
-
-    else if (passvalidfromTextController.text.isEmpty) {
+    } else if (passvalidfromTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter pass valid from",
@@ -2912,6 +2828,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       validateTextField: (String? user) {},
     );
   }
+
   Widget attachmentListviews(
     List<CreateImage>? attachmentListviews,
     List<FoundImage>? attachmentListviews1,

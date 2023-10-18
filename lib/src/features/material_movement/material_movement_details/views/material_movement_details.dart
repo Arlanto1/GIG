@@ -1082,6 +1082,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   BaseDate().datePickerWidgetLoading(
+                                      onlyDate: true,
                                       textController:
                                           expectedDateOfReturnController,
                                       onChange: (String value) {
