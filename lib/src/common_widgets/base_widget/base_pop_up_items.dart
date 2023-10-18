@@ -579,9 +579,16 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.status != null && widget.isOccurrenceStatus == true) ...[
-        CommonWidgets.horizontalSpacerWidget(28),
-        Utils().buildOccurrenceStatus(widget.status ?? 0),
+      if (widget.status != null &&
+          widget.isOccurrenceStatus == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils()
+                .buildOccurrenceStatus(widget.status ?? 0),
+          ],
+        ),
       ],
 
       if(widget.shiftBrfngAttnded !=null && widget.shiftBrfngAttnded == true)...[

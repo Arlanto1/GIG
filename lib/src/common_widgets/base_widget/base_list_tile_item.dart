@@ -1,4 +1,3 @@
-
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
@@ -180,7 +179,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               !widget.isMasterGuard &&
                               !widget.isOccurrenceStatus &&
                               !widget.isEventProtectionStatus &&
-                              !widget.isSLAViolationStatus && !widget.isIncident) ...[
+                              !widget.isSLAViolationStatus &&
+                              !widget.isIncident) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
                             Utils().buildStatusRow(widget.status ?? 0),
                           ],
@@ -204,15 +204,21 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           if (widget.status != null &&
                               widget.isOccurrenceStatus == true) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
-                            Utils().buildOccurrenceStatus(widget.status ?? 0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Utils()
+                                    .buildOccurrenceStatus(widget.status ?? 0),
+                              ],
+                            ),
                           ],
                           if (widget.status != null &&
                               widget.isSLAViolationStatus == true) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
                             Utils().buildSLAViolationStatus(widget.status ?? 0),
                           ],
-
-                          if(widget.status !=null && widget.isIncident ==true)...[
+                          if (widget.status != null &&
+                              widget.isIncident == true) ...[
                             CommonWidgets.verticalSpacerWidget(5),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -221,7 +227,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               ],
                             ),
                           ],
-                          if(widget.incidentType !=null)...[
+                          if (widget.incidentType != null) ...[
                             CommonWidgets.verticalSpacerWidget(5),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
