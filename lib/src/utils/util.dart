@@ -599,10 +599,10 @@ class Utils {
     String statusText;
 
     switch (status) {
-      case 0:
+      case 1:
         statusText = 'Created';
         break;
-      case 1:
+      case 2:
         statusText = 'Submitted';
         break;
       default:

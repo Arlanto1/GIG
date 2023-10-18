@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/app.dart';
@@ -304,7 +303,7 @@ class RouteGenerator {
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<sv.SstIncidentBloc>(
-            create: (_) => sv.SstIncidentBloc(ticketType: isInternal ? 0 : 1)
+            create: (_) => sv.SstIncidentBloc(ticketType: isInternal ? 1 : 2)
               ..add(const sv.FetchData(startPos: 0, maxPos: 20)),
             child: SstIncidentView(isInternal: isInternal),
           ),

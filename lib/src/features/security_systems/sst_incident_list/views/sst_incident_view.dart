@@ -145,6 +145,9 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                           labels: labels,
                           status: state.items[index].status,
                           isMasterGuard: false,
+                          isEventProtectionStatus: false,
+                          isSLAViolationStatus: false,
+                        isOccurrenceStatus: true,
                           onTap: (selectedIndex) {
                             showDialog(
                               context: context,
@@ -155,6 +158,8 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                   slNo: state.items[selectedIndex].slNo,
                                   status: state.items[selectedIndex].status,
                                   isMasterGuard: false,
+                                  isEventProtectionStatus: false,
+                                  isOccurrenceStatus: true,
                                 );
                               },
                             );
@@ -174,6 +179,8 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                   labels: labels,
                                   slNo: state.items[selectedIndex].slNo,
                                   status: state.items[selectedIndex].status,
+                                  isEventProtectionStatus: false,
+                                  isOccurrenceStatus: true,
                                 );
                               },
                             );
