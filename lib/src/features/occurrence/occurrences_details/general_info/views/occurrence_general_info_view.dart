@@ -591,17 +591,10 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     Constants.incidentItemList,
                                     Styles.textStyleBlack14),
                                 GestureDetector(
-                                  onTap: () => {
-                                    Navigator.pushNamed(
-                                      context,
-                                      incidentManagementDetailsRoute,
-                                      // arguments: {
-                                      //   'id': state.model.id.toString(),
-                                      //   'occId': state.model.id.toString(),
-                                      //   'occType': 1,
-                                      // },
-                                    ),
-                                  },
+                                  onTap: () => navigateToCreateIncident(
+                                    state: state,
+                                    occId: 1,
+                                  ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
@@ -728,10 +721,10 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     Constants.incidentItemList,
                                     Styles.textStyleBlack14),
                                 GestureDetector(
-                                  onTap: () => {
-                                    Navigator.pushNamed(context,
-                                        incidentManagementDetailsRoute),
-                                  },
+                                  onTap: () => navigateToCreateIncident(
+                                    state: state,
+                                    occId: 2,
+                                  ),
                                   child: Row(
                                     children: <Widget>[
                                       // Expanded(
@@ -1347,6 +1340,21 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
         ])));
   }
 
+  Set<Future<Object?>> navigateToCreateIncident(
+      {required GeneralInfoState state, required int occId}) {
+    return {
+      Navigator.pushNamed(
+        context,
+        incidentManagementDetailsRoute,
+        arguments: {
+          // 'id': '',
+          'occId': state.model.id.toString(),
+          'occType': occId,
+        },
+      ),
+    };
+  }
+
   String getStatusString(int status) {
     switch (status) {
       case 1:
@@ -1377,6 +1385,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
   }
 
   Widget showButtonDisplay({required String occId, required int occType}) {
+    log('-showButtonDisplay-occId---$occId--');
     return AppButton(
       // Customize the button properties as needed
       height: 40,

@@ -73,6 +73,17 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
+              log('---state.model.occurrence----${state.model.occurrence?.id}--');
+              if (state.model.occurrence != null) {
+                return Navigator.pushNamed(
+                  context,
+                  occurrenceDetailsRoute,
+                  arguments: {
+                    'id': state.model.occurrence,
+                    "title": Constants.editOccurrence,
+                  },
+                );
+              }
               Navigator.popAndPushNamed(
                 context,
                 incidentManagementsRoute,
@@ -87,6 +98,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
+        log('--state.message-----${state.message}-');
         if (state.status == FormStatus.error) {
           Validator().showToast(
             context,
@@ -95,8 +107,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
         }
       },
       builder: (context, state) {
-        log('--disableForm---$disableForm-');
-
         state.model.status ??= 0;
         if (state.model.status! > 0) {
           disableForm = true;
