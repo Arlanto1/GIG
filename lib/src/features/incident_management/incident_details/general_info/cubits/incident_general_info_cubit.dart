@@ -9,6 +9,7 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
+import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/entity.dart';
@@ -72,13 +73,15 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
   }
 
   Future<void> initializeValues() async {
-    log('-status-1-${state.status}--');
+    log('initializeValues---incidentGeneralCubit-occId---$occId--');
+
     //Show Loader and emit loading state
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
+
     var userId = await SharedPrefs.getUserId();
     try {
       Incident model = Incident();
@@ -94,9 +97,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
-
-      Analyst users =
-          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+      model.entrySecurity = loggedInUserDetails;
 
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
@@ -119,7 +120,6 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           articleType: getArticleType,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          users: users.t1Analyst,
           emailUsers: emailUsers.atomStaticUser,
           departments: departments.employeeDepartments,
           entrySecurities: entrySecurities,
@@ -303,8 +303,11 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-    state.model.occuId = occId.toIntOrNull() ?? 0;
+    state.model.occurrence ??= Occurrence();
+    state.model.occurrence?.id = occId.toIntOrNull() ?? 0;
     state.model.occType = occType;
+
+    log('---state.model.occurrence-save---${state.model.occurrence?.id}--');
 
     // Create/Update API Call
     IncidentGeneralInfoRequest request =
@@ -312,12 +315,24 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
     GenericCreateResponse response = GenericCreateResponse();
     try {
+
+      log('---isSaveOnly-$isSaveOnly---');
       if (isSaveOnly) {
+        if (!state.isValidDraft.status) {
+          return emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValidDraft.message,
+            ),
+          );
+        }
+        log('---isSaveOnly-1---');
         response = (await services.createIncidentManagement(
             body: request, isSubmit: false));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
+          log('---submit-1---');
           emit(
             state.copyWith(
               status: FormStatus.error,

@@ -49,7 +49,30 @@ class IncidentGeneralInfoState extends Equatable {
     );
   }
 
+  ErrorResponse get isValidDraft {
+    log('---isValidDraft-1---');
+    if (model.location == null) {
+      log('---isValidDraft-1-w--');
+      return const ErrorResponse(status: false, message: 'Please add Location');
+    }
+    log('---isValidDraft--2--');
+    if (model.slNo == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter SL No.');
+    }
+
+    if (model.entrySecurity == null) {
+      return const ErrorResponse(
+          status: false, message: 'Created By is Mandatory.');
+    }
+
+    log('---isValidDraft--3--');
+
+    return const ErrorResponse(status: true, message: 'Form is Valid');
+  }
+
   ErrorResponse get isValid {
+    log('---isValid--1--');
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
