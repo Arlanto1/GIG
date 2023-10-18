@@ -9,14 +9,16 @@ import '../../models/sst_incident_response.dart';
 import '../../services/sst_incident_services.dart';
 
 part 'sst_incident_event.dart';
+
 part 'sst_incident_state.dart';
 
-class SstIncidentBloc
-    extends Bloc<SstIncidentEvent, SstIncidentState> {
-
+class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
   final int ticketType;
+  final int staffType;
   final String? occId;
-  SstIncidentBloc({required this.ticketType, this.occId})
+
+  SstIncidentBloc(
+      {required this.ticketType, required this.staffType, this.occId})
       : super(const SstIncidentState()) {
     on<FetchData>(
       _fetchList,
@@ -24,8 +26,7 @@ class SstIncidentBloc
     );
   }
 
-  final SstIncidentServices _services =
-  SstIncidentServices();
+  final SstIncidentServices _services = SstIncidentServices();
 
   FutureOr<void> _fetchList(
       FetchData event, Emitter<SstIncidentState> emit) async {
@@ -33,12 +34,12 @@ class SstIncidentBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        SstIncidentResponse response =
-        await _services.get(
+        SstIncidentResponse response = await _services.get(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '77',
           ticketType: ticketType,
+          staffType: staffType,
           occId: occId,
         );
 
@@ -51,12 +52,12 @@ class SstIncidentBloc
         );
       }
 
-      SstIncidentResponse response =
-      await _services.get(
+      SstIncidentResponse response = await _services.get(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '77',
         ticketType: ticketType,
+        staffType: staffType,
         occId: occId,
       );
 
