@@ -76,7 +76,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
               Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
-                incidentManagementRoute,
+                incidentManagementsRoute,
               );
             },
           );

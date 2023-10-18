@@ -81,7 +81,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
               Navigator.popAndPushNamed(
                 context,
                 occurrenceRoute,
-                arguments: {},
               );
             },
           );
@@ -593,8 +592,15 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     Styles.textStyleBlack14),
                                 GestureDetector(
                                   onTap: () => {
-                                    Navigator.pushNamed(context,
-                                        incidentManagementDetailsRoute),
+                                    Navigator.pushNamed(
+                                      context,
+                                      incidentManagementDetailsRoute,
+                                      // arguments: {
+                                      //   'id': state.model.id.toString(),
+                                      //   'occId': state.model.id.toString(),
+                                      //   'occType': 1,
+                                      // },
+                                    ),
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -621,7 +627,10 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           null) ...[
                                         CommonWidgets.horizontalSpacerWidget(
                                             height * 0.01),
-                                        showButtonDisplay(1),
+                                        showButtonDisplay(
+                                          occId: state.model.id.toString(),
+                                          occType: 1,
+                                        ),
                                       ],
                                     ],
                                   ),
@@ -746,7 +755,10 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           null) ...[
                                         CommonWidgets.horizontalSpacerWidget(
                                             height * 0.01),
-                                        showButtonDisplay(2),
+                                        showButtonDisplay(
+                                          occId: state.model.id.toString(),
+                                          occType: 2,
+                                        ),
                                       ],
                                     ],
                                   ),
@@ -903,8 +915,14 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     Styles.textStyleBlack14),
                                 GestureDetector(
                                   onTap: () => {
-                                    Navigator.pushNamed(context,
-                                        incidentManagementDetailsRoute),
+                                    Navigator.pushNamed(
+                                      context,
+                                      incidentManagementDetailsRoute,
+                                      // arguments: {
+                                      //   'occId': state.model.id,
+                                      //   'occType': 2,
+                                      // },
+                                    ),
                                   },
                                   child: Row(
                                     children: <Widget>[
@@ -1358,7 +1376,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     );
   }
 
-  Widget showButtonDisplay(int occType) {
+  Widget showButtonDisplay({required String occId, required int occType}) {
     return AppButton(
       // Customize the button properties as needed
       height: 40,
@@ -1368,7 +1386,8 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
       buttonText: Constants.showList,
       buttonTextKey: Keys.showButton,
       onTap: () => {
-        Navigator.pushNamed(context, incidentManagementRoute, arguments: {
+        Navigator.pushNamed(context, incidentManagementsRoute, arguments: {
+          'occId': occId,
           'occType': occType,
         }),
       },

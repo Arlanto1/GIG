@@ -925,7 +925,7 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 2) {
       Navigator.pushNamed(context, eventProtectionListRoute);
     } else if (index == 3) {
-      Navigator.pushNamed(context, incidentManagementRoute);
+      Navigator.pushNamed(context, incidentManagementsRoute);
     } else if (index == 4) {
       //
     } else if (index == 5) {}

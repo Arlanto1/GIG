@@ -248,16 +248,19 @@ class RouteGenerator {
         }
         return MaterialPageRoute(builder: (context) => CreatePassManagement());
 
-      case incidentManagementRoute:
+      case incidentManagementsRoute:
+        String occId = '';
         int occType = 0;
+
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
+          occId = arguments['occId'];
           occType = arguments['occType'] ?? 0;
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<im.IncidentManagementsBloc>(
-            create: (_) => im.IncidentManagementsBloc(occType)
+            create: (_) => im.IncidentManagementsBloc(occType, occId)
               ..add(const im.FetchData(startPos: 0, maxPos: 20)),
             child: const IncidentManagementsView(),
           ),
@@ -265,11 +268,13 @@ class RouteGenerator {
 
       case incidentManagementDetailsRoute:
         String id = '';
+        String occId = '';
         int occType = 0;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments['id'];
+          occId = arguments['occId'];
           occType = arguments['occType'] ?? 0;
         }
         return MaterialPageRoute(
@@ -278,6 +283,7 @@ class RouteGenerator {
               services: IncidentManagementServices(),
               commonServices: CommonServices(),
               id: id,
+              occId: occId,
               occType: occType,
             ),
             child: const IncidentGeneralInfoView(),
@@ -293,7 +299,7 @@ class RouteGenerator {
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<sv.SstIncidentBloc>(
-            create: (_) => sv.SstIncidentBloc()
+            create: (_) => sv.SstIncidentBloc(ticketType: isInternal ? 0 : 1)
               ..add(const sv.FetchData(startPos: 0, maxPos: 20)),
             child: SstIncidentView(isInternal: isInternal),
           ),
