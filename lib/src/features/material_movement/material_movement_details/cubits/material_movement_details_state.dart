@@ -13,6 +13,7 @@ class MaterialMovementDetailsState extends Equatable {
   final List<Organisation> quantityUnits;
   final int? eventId;
   final String? message;
+  final bool? isInward;
 
   factory MaterialMovementDetailsState.initial({
     required MaterialMovementModel model,
@@ -65,7 +66,8 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Material Description');
     }
-    if (!materialMovement.materialPhysicallyChecked &&
+
+    if (!materialMovement.materialPhysicallyChecked== true&& isInward == true &&
         materialMovement.materialNotCheckedComment.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Comment is Mandatory');
@@ -88,6 +90,7 @@ class MaterialMovementDetailsState extends Equatable {
     required this.quantityUnits,
     this.eventId,
     this.message,
+    this.isInward,
   });
 
   MaterialMovementDetailsState copyWith({

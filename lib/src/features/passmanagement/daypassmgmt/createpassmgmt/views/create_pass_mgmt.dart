@@ -1010,16 +1010,28 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.01),
 
                                     /// Pass Valid From
+                                     if(widget.passId !='3')...[
                                     CommonWidgets.textDisplay(
                                         Constants.passvlidfrom,
                                         Styles.textStyleBlack14),
+                                       CommonWidgets.verticalSpacerWidget(
+                                           height * 0.001),
+                                       datepickerWidgetLoading(
+                                           passvalidfromTextController),
+                                       CommonWidgets.verticalSpacerWidget(
+                                           height * 0.01),
+                                    ],
+                                    if(widget.passId =='3')...[
+                                      CommonWidgets.textDisplay(
+                                          Constants.passIssuedOn,
+                                          Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
                                     datepickerWidgetLoading(
                                         passvalidfromTextController),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
-
+                                    ],
                                     /// Pass Valid Until
                                     CommonWidgets.textDisplay(
                                         Constants.passvliduntil,

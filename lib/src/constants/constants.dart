@@ -237,6 +237,7 @@ class Constants {
   static const String employeeid = 'Employee Id';
   static const String hostemployeeid = 'Host Employee Id';
   static const String host = 'Host';
+  static const String passIssuedOn = 'Pass Issued On';
   static const String passvlidfrom = 'Pass Valid From';
   static const String passvliduntil = 'Pass Valid Until';
   static const String escortedby = 'Escorted By';
