@@ -1,4 +1,3 @@
-
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/app.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
@@ -303,8 +302,10 @@ class RouteGenerator {
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<sv.SstIncidentBloc>(
-            create: (_) => sv.SstIncidentBloc(ticketType: isInternal ? 1 : 2)
-              ..add(const sv.FetchData(startPos: 0, maxPos: 20)),
+            create: (_) => sv.SstIncidentBloc(
+              ticketType: 1,
+              staffType: isInternal ? 1 : 2,
+            )..add(const sv.FetchData(startPos: 0, maxPos: 20)),
             child: SstIncidentView(isInternal: isInternal),
           ),
         );
@@ -333,7 +334,8 @@ class RouteGenerator {
               id: id,
               isInternal: isInternal,
             ),
-            child: SstIncidentGeneralInfoView(isInternal: isInternal,
+            child: SstIncidentGeneralInfoView(
+              isInternal: isInternal,
               viaOccurrence: !occId.isEmptyOrNull ? true : false,
             ),
           ),
