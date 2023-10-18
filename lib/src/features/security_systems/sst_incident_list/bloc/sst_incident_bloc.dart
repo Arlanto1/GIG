@@ -14,7 +14,9 @@ part 'sst_incident_state.dart';
 class SstIncidentBloc
     extends Bloc<SstIncidentEvent, SstIncidentState> {
 
-  SstIncidentBloc()
+  final int ticketType;
+  final String? occId;
+  SstIncidentBloc({required this.ticketType, this.occId})
       : super(const SstIncidentState()) {
     on<FetchData>(
       _fetchList,
@@ -36,6 +38,8 @@ class SstIncidentBloc
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '77',
+          ticketType: ticketType,
+          occId: occId,
         );
 
         return emit(
@@ -52,6 +56,8 @@ class SstIncidentBloc
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '77',
+        ticketType: ticketType,
+        occId: occId,
       );
 
       if (response.items?.isEmpty == true) {

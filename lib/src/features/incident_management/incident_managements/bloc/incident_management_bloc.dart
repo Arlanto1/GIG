@@ -8,14 +8,17 @@ import '../../../../enums/form_status.dart';
 import '../../models/incidents_response.dart';
 import '../../services/incident_management_services.dart';
 
-
 part 'incident_management_event.dart';
+
 part 'incident_management_state.dart';
 
 class IncidentManagementsBloc
     extends Bloc<IncidentManagementsEvent, IncidentManagementsState> {
+  final String? occId;
   final int? occType;
-  IncidentManagementsBloc(this.occType) : super(const IncidentManagementsState()) {
+
+  IncidentManagementsBloc(this.occType, this.occId,)
+      : super(const IncidentManagementsState()) {
     on<FetchData>(
       _fetchList,
       transformer: droppable(),
@@ -34,6 +37,8 @@ class IncidentManagementsBloc
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '7',
+          occId: occId,
+          occType: occType,
         );
 
         return emit(
@@ -49,6 +54,8 @@ class IncidentManagementsBloc
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '7',
+        occId: occId,
+        occType: occType,
       );
 
       if (response.items?.isEmpty == true) {

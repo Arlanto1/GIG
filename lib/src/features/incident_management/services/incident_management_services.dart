@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -7,7 +8,6 @@ import 'package:db_atom/src/utils/shared_preferences.dart';
 import '../../../models/responseModels/generic_create_response.dart';
 import '../incident_details/general_info/models/requestModel/general_info_request.dart';
 import '../models/incidents_response.dart';
-
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -18,19 +18,24 @@ class Apis {
 }
 
 class IncidentManagementServices {
-
-
   Future<String> getUserEmail() async {
-    String email =  await SharedPrefs.getEmail();
+    String email = await SharedPrefs.getEmail();
     return email;
   }
+
   Future<IncidentsResponse> getIncidents({
     required String startPosition,
     required String maximumRecords,
     required String userId,
+    String? occId,
+    int? occType,
   }) async {
     String url =
-        '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords&userId=${await SharedPrefs.getUserId()}';
+        '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords&'
+        'userId=${await SharedPrefs.getUserId()}';
+    if(!occId.isEmptyOrNull) {
+      url = '$url&occuId=$occId&occType=$occType';
+    }
     final response = await BaseApiService().getRequest(
       url: url,
     );
