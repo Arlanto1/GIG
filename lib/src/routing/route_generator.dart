@@ -261,7 +261,6 @@ class RouteGenerator {
           occId = arguments['occId'];
           occType = arguments['occType'] ?? 0;
         }
-        log('-incidentManagementsRoute-occId---$occId--');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<im.IncidentManagementsBloc>(
             create: (_) => im.IncidentManagementsBloc(occType, occId)
@@ -313,12 +312,14 @@ class RouteGenerator {
 
       case sstIncidentDetailsRoute:
         String id = '';
+        String occId = '';
         int occType = 0;
         bool isInternal = false;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           isInternal = arguments['isInternal'];
+          occId = arguments['occId'] ?? '';
           id = arguments['id'];
           occType = arguments['occType'] ?? 0;
         }
@@ -328,11 +329,14 @@ class RouteGenerator {
             create: (_) => SstIncidentGeneralInfoCubit(
               services: SstIncidentServices(),
               commonServices: CommonServices(),
+              occId: occId,
               occType: occType,
               id: id,
               isInternal: isInternal,
             ),
-            child: SstIncidentGeneralInfoView(isInternal: isInternal),
+            child: SstIncidentGeneralInfoView(isInternal: isInternal,
+              viaOccurrence: !occId.isEmptyOrNull ? true : false,
+            ),
           ),
         );
       case occurrenceRoute:

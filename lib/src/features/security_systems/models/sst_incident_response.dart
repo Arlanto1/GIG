@@ -1,5 +1,6 @@
 import '../../../models/organisation.dart';
 import '../../createfound/models/user.dart';
+import '../../occurrence/occurrences_details/general_info/models/general_info_model.dart';
 
 class SstIncidentResponse {
   List<SstIncident>? items;
@@ -35,6 +36,7 @@ class SstIncident {
   String? securitySystemSLAId;
   int? id;
   String? slNo;
+  Occurrence? occurrence;
   Organisation? location;
   Organisation? region;
   Organisation? vendor;
@@ -92,6 +94,7 @@ class SstIncident {
     this.dataLoss,
     this.status,
     this.shortDescription,
+    this.occurrence,
     this.detailDescription,
     this.rootCauseAnalysis,
     this.actionTaken,
@@ -127,7 +130,9 @@ class SstIncident {
         ticketType = json['ticketType'] as int?,
         staffType = json['staffType'] as int?,
         ipbArea = json['ipbArea'] as bool,
-        systemSLA = json['systemSLA'] as int?,
+        occurrence = (json['occurrence'] as Map<String, dynamic>?) != null
+            ? Occurrence.fromJson(json['occurrence'] as Map<String, dynamic>)
+            : null,  systemSLA = json['systemSLA'] as int?,
         createdBy = (json['createdBy'] as Map<String,dynamic>?) != null ? User.fromJson(json['createdBy'] as Map<String,dynamic>) : null,
         createdDate = json['createdDate'] as String?,
         criticalSpare = json['criticalSpare'] as bool?,
@@ -163,6 +168,7 @@ class SstIncident {
     'id' : id,
     'slNo' : slNo,
     'location' : location?.toJson(),
+    'occurrence': occurrence?.toJson(),
     'region' : region?.toJson(),
     'vendor' : vendor?.toJson(),
     'vendorTicketNo' : vendorTicketNo,

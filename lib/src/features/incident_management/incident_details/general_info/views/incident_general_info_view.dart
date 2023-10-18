@@ -66,9 +66,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
     final height = size.height;
     return BlocConsumer<IncidentGeneralInfoCubit, IncidentGeneralInfoState>(
       listener: (context, state) {
-        log('-state.status---${state.status}-incidentType-${state.model.incidentType}--');
-        log('--widget.viaOccurrence--11--${widget.viaOccurrence}--');
-
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: Constants.generalInformation,
@@ -78,7 +75,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
-              log('--widget.viaOccurrence----${widget.viaOccurrence}--');
               if (widget.viaOccurrence) {
                 return Navigator.pushNamed(
                   context,
