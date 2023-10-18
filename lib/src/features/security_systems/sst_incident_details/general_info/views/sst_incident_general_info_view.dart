@@ -30,10 +30,10 @@ import '../cubits/sst_incident_general_info_cubit.dart';
 
 class SstIncidentGeneralInfoView extends StatefulWidget {
   final bool isInternal;
-
+  final bool viaOccurrence;
   const SstIncidentGeneralInfoView({
     super.key,
-    required this.isInternal,
+    required this.isInternal, required this. viaOccurrence,
   });
 
   @override
@@ -76,6 +76,16 @@ class _SstIncidentGeneralInfoViewState
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
+              if (widget.viaOccurrence) {
+                return Navigator.pushNamed(
+                  context,
+                  occurrenceDetailsRoute,
+                  arguments: {
+                    'id': state.model.occurrence?.id,
+                    "title": Constants.editOccurrence,
+                  },
+                );
+              }
               Navigator.popAndPushNamed(
                 context,
                 sstIncidentListRoute,
