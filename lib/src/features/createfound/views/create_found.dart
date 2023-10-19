@@ -1384,6 +1384,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       isClaimantDBEmployeeSelected,
                                       Constants.isclaimantdbemployee)
                                   : Container(),
+
                               // claimant
                               widget.listuser != null
                                   ? CommonWidgets.textDisplay(
@@ -1398,7 +1399,7 @@ class _CreateFoundState extends State<CreateFound> {
                                           claimantTextController,
                                       textFormKey: Keys.claimantTextController,
                                       hintText: claimant,
-                                      isEnable: widget.listuser == null
+                                      isEnable: widget.listuser?.status != 2
                                           ? true
                                           : (widget.listuser != null &&
                                                   (widget.listuser?.claimant
@@ -1408,7 +1409,7 @@ class _CreateFoundState extends State<CreateFound> {
                                               ? true
                                               : false,
                                       isDisableColor:
-                                          (widget.listuser != null &&
+                                          (widget.listuser?.status != 2 &&
                                                   (widget.listuser?.claimant
                                                               ?.lastName ??
                                                           '')
@@ -1426,17 +1427,11 @@ class _CreateFoundState extends State<CreateFound> {
                                       ? TextfieldAddButton(
                                           title: selectedClaimList?.name ?? '',
                                           height: 60,
-                                          isDisableColor: widget.listuser ==
-                                                      null ||
-                                                  (selectedClaimList?.name ??
-                                                          '')
-                                                      .isEmpty
+                                          isDisableColor: widget.listuser?.status !=2
                                               ? false
                                               : true,
                                           onTap: () {
-                                            if (widget.listuser == null ||
-                                                (selectedClaimList?.name ?? '')
-                                                    .isEmpty) {
+                                            if ( widget.listuser?.status !=2) {
                                               depositorDialog(
                                                   state, Constants.claimant);
                                             }
@@ -1474,7 +1469,7 @@ class _CreateFoundState extends State<CreateFound> {
                                           claimantEmpIdTextController,
                                       textFormKey:
                                           Keys.claimantEmpIdTextController,
-                                      isEnable: widget.listuser == null
+                                      isEnable:  widget.listuser?.status !=2
                                           ? true
                                           : (widget.listuser != null &&
                                                   (widget.listuser
@@ -1483,12 +1478,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                       .isEmpty)
                                               ? true
                                               : false,
-                                      isDisableColor: (widget.listuser !=
-                                                  null &&
-                                              (widget.listuser
-                                                          ?.claimantEmployeeId ??
-                                                      '')
-                                                  .isEmpty)
+                                      isDisableColor: ( widget.listuser?.status !=2)
                                           ? false
                                           : true,
                                       hintText: '',
@@ -1525,11 +1515,11 @@ class _CreateFoundState extends State<CreateFound> {
                                       title:
                                           (selectedClaimdepartment?.name ?? ''),
                                       height: 60,
-                                      isDisableColor: widget.listuser != null && widget.listuser?.status != 0
+                                      isDisableColor: widget.listuser == null && widget.listuser?.status == 3
                                           ? true
                                           : false,
                                       onTap: () {
-                                        if (widget.listuser == null ||widget.listuser?.status == 0)
+                                       // if (widget.listuser == null ||widget.listuser?.status == 0)
                                         {
                                           employeeDepartmentDialog(state,
                                               Constants.claimantdepartment);
