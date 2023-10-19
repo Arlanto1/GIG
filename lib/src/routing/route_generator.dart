@@ -44,7 +44,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart';
 
-//import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
+//import '../features/event_protection/event_protection_details/general_info/cubits/occurrence_general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/views/general_info_view.dart';
 import '../features/event_protection/event_protections/bloc/event_protections_bloc.dart'
@@ -73,7 +73,7 @@ import '../features/material_movement/material_movements/bloc/material_movement_
 import '../features/material_movement/material_movements/views/material_movements.dart';
 import '../features/material_movement/models/material_movements_model.dart';
 import '../features/material_movement/services/material_movement_services.dart';
-import '../features/occurrence/occurrences_details/general_info/cubits/general_info_cubit.dart';
+import '../features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_cubit.dart';
 import '../features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import '../features/occurrenceList/bloc/occurrences_bloc.dart' as ocb;
 import '../features/occurrenceList/views/occurrences_view.dart';
@@ -315,13 +315,17 @@ class RouteGenerator {
         String occId = '';
         int occType = 0;
         bool isInternal = false;
+
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          isInternal = arguments['isInternal'];
           occId = arguments['occId'] ?? '';
-          id = arguments['id'];
+          id = arguments['id'] ?? '';
           occType = arguments['occType'] ?? 0;
+
+          if (arguments.containsKey('isInternal')) {
+            isInternal = arguments['isInternal'];
+          }
         }
 
         return MaterialPageRoute(

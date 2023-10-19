@@ -1,6 +1,6 @@
-part of 'general_info_cubit.dart';
+part of 'occurrence_general_info_cubit.dart';
 
-class GeneralInfoState extends Equatable {
+class OccurrenceGeneralInfoState extends Equatable {
   final FormStatus status;
   final Occurrence model;
   final GetLocations? locations;
@@ -15,7 +15,7 @@ class GeneralInfoState extends Equatable {
   final String? message;
   final List<User>? entrySecurities;
 
-  factory GeneralInfoState.initial({
+  factory OccurrenceGeneralInfoState.initial({
     required Occurrence model,
     required GetLocations locations,
     required List<BaseUser>? users,
@@ -30,7 +30,7 @@ class GeneralInfoState extends Equatable {
     required int? eventId,
     List<String>? participationDate,
   }) {
-    return GeneralInfoState(
+    return OccurrenceGeneralInfoState(
       status: FormStatus.initial,
       model: model,
       locations: locations,
@@ -46,22 +46,76 @@ class GeneralInfoState extends Equatable {
     );
   }
 
+  ErrorResponse get isValidDraft {
+
+    log('-model.status---${model.status}--');
+
+    if (model.status == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Status');
+    }
+
+    if (model.handOverSecurity == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Shift Taken Over By.');
+    }
+    if (model.medicalEmrgncy && model.medicalEmrgncyComments == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Medical Emergency Comments');
+    }
+
+    return const ErrorResponse(status: true, message: 'Form is Valid');
+  }
   ErrorResponse get isValid {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
 
+    if (model.handOverSecurity == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Shift Taken Over By.');
+    }
 
+    if (model.medicalEmrgncy && model.medicalEmrgncyComments == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Medical Emergency Comments');
+    }
 
+    if (model.socialEnggIncdnt && model.socialEnggIncdntComments == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Social Engineering Incidents Comments');
+    }
 
+    if (model.infraIssue && model.infraIssueComments == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Any Infrastructural Issue Comments');
+    }
+
+    if (model.fireAlarmEmrgncy && model.fireAlarmEmrgncyComments == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Fire alarm emergency Occurred Comments');
+    }
+
+    if (model.landlordIssue && model.landlordIssueComments == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Landlord Issue Comments');
+    }
+
+    if (model.sysAlarmRcvd && model.sysAlarmRcvdComments == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Any system alarm received Comments');
+    }
+
+    if (model.transportIncdnt && model.transportIncdntComments == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Transport Incident Comments');
+    }
+
+    if (model.anyEvent && model.notifyScri == null) {
+      return const ErrorResponse(status: false, message: 'Notify SCRI is Mandatory');
+    }
+
+    if (model.powerFailure && model.powerFailureStartDate == null) {
+      return const ErrorResponse(status: false, message: 'Power Failure Start Date is Mandatory');
+    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
+
   @override
   List<Object?> get props => [model, status];
 
-  const GeneralInfoState({
+  const OccurrenceGeneralInfoState({
     required this.status,
     required this.model,
     this.locations,
@@ -77,7 +131,7 @@ class GeneralInfoState extends Equatable {
     this.loggedInUserDetails,
   });
 
-  GeneralInfoState copyWith({
+  OccurrenceGeneralInfoState copyWith({
     FormStatus? status,
     Occurrence? model,
     GetLocations? locations,
@@ -92,7 +146,7 @@ class GeneralInfoState extends Equatable {
     String? message,
     List<User>? entrySecurities,
   }) {
-    return GeneralInfoState(
+    return OccurrenceGeneralInfoState(
       status: status ?? this.status,
       model: model ?? this.model,
       locations: locations ?? this.locations,

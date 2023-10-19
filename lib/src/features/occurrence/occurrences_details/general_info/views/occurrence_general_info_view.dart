@@ -1,8 +1,11 @@
 import 'dart:developer';
 
+import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';
-import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/cubits/general_info_cubit.dart';
+import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
+import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_cubit.dart';
+import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -50,7 +53,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
       TextEditingController();
   TextEditingController powerFailureEndDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
-  bool isDisabled = true;
+  bool disableForm = true;
 
   get guardingMasterData => null;
 
@@ -64,9 +67,9 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    return BlocConsumer<OccurrenceGeneralInfoCubit, GeneralInfoState>(
+    return BlocConsumer<OccurrenceGeneralInfoCubit, OccurrenceGeneralInfoState>(
       listener: (context, state) {
-        log('-state.status---${state.status}----');
+        log('State Status: ${state.status}');
         // log('-deploymentOrderSubmitted---${state.guardingMasterData.deploymentOrderSubmitted}----');
 
         if (state.status == FormStatus.success) {
@@ -131,10 +134,12 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     //     Constants.dateFormat);
   }
 
-  getBodybuilder(GeneralInfoState state, height) {
+  getBodybuilder(OccurrenceGeneralInfoState state, height) {
     //returnableTextController.text =
     // state.materialMovement.returnable! ? 'Returnable' : 'Non Returnable';
-
+    if (state.model.status != null && state.model.status! > 0) {
+      disableForm = true;
+    }
     if (state.status == FormStatus.loading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -192,10 +197,10 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseDropDown().getDropDown(
-                                isDisabled: isDisabled,
+                                isDisabled: disableForm,
                                 textController: statusController,
                                 items: occurrenceStatusDropDownValues,
-                                initialValue: '${state.model.status ?? 0}',
+                                initialValue: '${state.model.status ??= 0}',
                                 onTap: () {
                                   BaseDropDown().assetTypeDialog(
                                     context: context,
@@ -212,6 +217,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                         orElse: () =>
                                             const Label(key: '', value: ''),
                                       );
+
                                       BlocProvider.of<
                                                   OccurrenceGeneralInfoCubit>(
                                               context)
@@ -228,6 +234,33 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               CommonWidgets.verticalTextHandling(
                                   Constants.shiftHandoverBy,
                                   '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Shift Taken Over by
+                              CommonWidgets.textDisplay(
+                                Constants.shiftTakenOverBy,
+                                Styles.textStyleBlack14,
+                              ),
+                              TextfieldAddButton(
+                                  title: state.model.handOverSecurity?.name,
+                                  height: 70,
+                                  isDisableColor:
+                                      state.model.status != 6 ? false : true,
+                                  onTap: () {
+                                    if (state.model.status != 6) {
+                                      BaseDepartmentDialog().userDialog(
+                                        context: context,
+                                        users: state.emailUsers!,
+                                        onTap: (BaseUser user) {
+                                          BlocProvider.of<
+                                                      OccurrenceGeneralInfoCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  shiftTakenOverBy: user);
+                                        },
+                                      );
+                                    }
+                                  }),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Location
@@ -904,11 +937,32 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     Constants.securitySystemSLAList,
                                     Styles.textStyleBlack14),
                                 GestureDetector(
-                                  onTap: () => navigateToCreateIncident(
-                                    state: state,
-                                    occId: 1,
-                                    isSSTIncident: true,
-                                  ),
+                                  onTap: () {
+                                    BaseDropDown().assetTypeDialog(
+                                      context: context,
+                                      dropDownValues: sstIncidentType
+                                          .map((label) => label.key)
+                                          .toList(),
+                                      onTap: (String value) {
+                                        Label? selectedLabel;
+                                        selectedLabel =
+                                            sstIncidentType.firstWhere(
+                                          (label) => label.key == value,
+                                          orElse: () =>
+                                              const Label(key: '', value: ''),
+                                        );
+
+                                        navigateToCreateIncident(
+                                          state: state,
+                                          occId: 1,
+                                          isSSTIncident: true,
+                                          isInternal: selectedLabel.value == '0'
+                                              ? true
+                                              : false,
+                                        );
+                                      },
+                                    );
+                                  },
                                   child: Row(
                                     children: <Widget>[
                                       // Expanded(
@@ -1138,7 +1192,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                 BaseDate().datePickerWidgetLoading(
                                   textController:
                                       powerFailureStartDateController,
-                                  onlyDate: true,
                                   onChange: (String value) {
                                     state.model.powerFailureStartDate =
                                         Utils().formatTime(value);
@@ -1161,7 +1214,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
 
                                 BaseDate().datePickerWidgetLoading(
                                   textController: powerFailureEndDateController,
-                                  onlyDate: true,
                                   onChange: (String value) {
                                     state.model.powerFailureEndDate =
                                         Utils().formatTime(value);
@@ -1332,22 +1384,59 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
         ])));
   }
 
-  Future<void> navigateToCreateIncident(
-      {required GeneralInfoState state,
-      required int occId,
-      required bool isSSTIncident}) async {
+  chooseSSTIncidentType(OccurrenceGeneralInfoState state) {
+    BaseDropDown().getDropDown(
+      isDisabled: disableForm,
+      textController: statusController,
+      items: occurrenceStatusDropDownValues,
+      initialValue: '${state.model.status ??= 0}',
+      onTap: () {
+        BaseDropDown().assetTypeDialog(
+          context: context,
+          dropDownValues:
+              occurrenceStatusDropDownValues.map((label) => label.key).toList(),
+          onTap: (String value) {
+            Label? selectedLabel;
+            selectedLabel = occurrenceStatusDropDownValues.firstWhere(
+              (label) => label.key == value,
+              orElse: () => const Label(key: '', value: ''),
+            );
+
+            BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
+                .updateDropdownValues(
+                    status: int.tryParse(selectedLabel.value));
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> navigateToCreateIncident({
+    required OccurrenceGeneralInfoState state,
+    required int occId,
+    required bool isSSTIncident,
+    bool? isInternal,
+  }) async {
     if (state.model.id == null) {
       BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
           .submitForm(isSaveOnly: true);
     }
 
+    // TODO: Need to ask the user for SST Incident Type
+    final argumentMap = {
+      'occId': state.model.id.toString(),
+      'occType': occId,
+    };
+
+    if (isSSTIncident) {
+      argumentMap['isInternal'] = isInternal ?? false;
+    }
+
+    log('---navigateToCreateIncident----');
     Navigator.pushNamed(
       context,
       isSSTIncident ? sstIncidentDetailsRoute : incidentManagementDetailsRoute,
-      arguments: {
-        'occId': state.model.id.toString(),
-        'occType': occId,
-      },
+      arguments: argumentMap,
     );
   }
 
@@ -1464,7 +1553,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
   //   );
   // }
 
-  Widget locationWidgetdislay(GeneralInfoState state) {
+  Widget locationWidgetdislay(OccurrenceGeneralInfoState state) {
     return GestureDetector(
       onTap: () {
         // if (widget.occurrence == null ||

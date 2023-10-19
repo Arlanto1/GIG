@@ -14,7 +14,7 @@ class Constants {
   static const String vendorPassManagementModule = 'VendorPass';
   static const String eventProtectionModule = 'EP';
   static const String guardingRatesModule = 'GR';
-  static const String occurrenceModule = 'OCC';
+  static const String occurrenceModule = 'OC';
   static const String incidentManagementModule = 'IM';
 
   static const String customFontFamily = 'Poppins';
@@ -517,6 +517,7 @@ class Constants {
   static const String createOccurrence = 'Create Occurrence';
   static const String editOccurrence = 'Edit Occurrence';
   static const String shiftHandoverBy   = 'Shift Handover By  ';
+  static const String shiftTakenOverBy = 'Shift Taken Over By';
   static const String shiftBriefingAttended  ='Shift Briefing Attended';
   static const String premisesRoundTaken    ='Premises Round Taken';
    static const String medicalEmergency    ='Medical Emergency';
@@ -572,6 +573,11 @@ const List<Label> statusDropDownValues = [
 const List<Label> occurrenceStatusDropDownValues = [
   Label(key: 'Created', value: '0'),
   Label(key: 'Submitted', value: '1'),
+];
+
+const List<Label> sstIncidentType = [
+  Label(key: 'Internal', value: '0'),
+  Label(key: 'External', value: '1'),
 ];
 const List<Label> systemAccessDropDownValues = [
   Label(key: 'Yes', value: '1'),
