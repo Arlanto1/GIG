@@ -15,7 +15,6 @@ import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
@@ -90,8 +89,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   late CreatePassMgmtState globalState;
   String? serialnumber;
   String createdBy = '';
-   bool isEditable = false;
-
+  bool isEditable = true;
 
   @override
   Widget build(BuildContext context) {
@@ -427,7 +425,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
-
                                 /// Company Type
                                 widget.passId == "0" || widget.passId == "3"
                                     ? CommonWidgets.textDisplay(
@@ -462,8 +459,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.001),
                                 widget.passId == "0" || widget.passId == "3"
                                     ? textfieldWidgetLoad(
-                                  //isEnable :false,
-                                        companynameTextController, 0, state)
+                                        //isEnable :false,
+                                        companynameTextController,
+                                        0,
+                                        state)
                                     : textfieldWidgetLoad(
                                         nameTextController, 0, state),
 
@@ -1224,7 +1223,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         (serialnumber ?? '').isEmpty) {
       Organisation list = Organisation(id: 24, name: "DLF Square");
       createpassmgmtCubit.getlocationsResponseData(list);
-      await createpassmgmtCubit.getSerialnumberDetails('24', 'DayPass', context);
+      await createpassmgmtCubit.getSerialnumberDetails(
+          '24', 'DayPass', context);
     }
   }
 
@@ -1587,12 +1587,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.selectedemployeeDepartmentResponse?.name ?? '',
       height: 60,
-      isDisableColor:widget.dayPassItem?.status !=0 && widget.dayPassItem !=null
-          ? true
-          : false,
+      isDisableColor:
+          widget.dayPassItem?.status != 0 && widget.dayPassItem != null
+              ? true
+              : false,
       onTap: () {
-        if (widget.dayPassItem ==null || widget.dayPassItem?.status == 0)
-                     {
+        if (widget.dayPassItem == null || widget.dayPassItem?.status == 0) {
           //  articleTypeDialog(state);
           departmentsDialog(state);
         }
@@ -1604,20 +1604,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.dayPasselementReason?.name ?? '',
       height: 60,
-      isDisableColor: widget.dayPassItem?.status !=0 && widget.dayPassItem !=null
-          ? true
-          : false,
+      isDisableColor:
+          widget.dayPassItem?.status != 0 && widget.dayPassItem != null
+              ? true
+              : false,
       onTap: () {
-        if (widget.dayPassItem ==null ||  widget.dayPassItem?.status ==0)
-        {
-             //articleTypeDialog(state);
+        if (widget.dayPassItem == null || widget.dayPassItem?.status == 0) {
+          //articleTypeDialog(state);
           reasondaypassDialog(state);
         }
       },
     );
   }
-
-
 
   Widget datepickerWidgetLoading(TextEditingController textfiled) {
     return GestureDetector(
@@ -1818,16 +1816,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? 140
               : 100
           : 60,
-      isDisableColor: widget.dayPassItem?.status != 0 && widget.dayPassItem != null
+      isDisableColor: widget.dayPassItem?.status != 0 &&
+              widget.dayPassItem != null
           // widget.dayPassItem == null ||
           //         ((state.listOfEntities?.length ?? 0) == 0 && (title.isEmpty))
           ? true
           : false,
       onTap: () {
-         if (widget.dayPassItem ==null || widget.dayPassItem?.status == 0)
-        {
-        entityTypeDialog(state);
-         }
+        if (widget.dayPassItem == null || widget.dayPassItem?.status == 0) {
+          entityTypeDialog(state);
+        }
       },
     );
   }
@@ -1890,15 +1888,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.atomCompanyType?.name ?? '',
       height: 60,
-      isDisableColor: widget.dayPassItem?.status != 0 && widget.dayPassItem != null
-          // ||
-          //     (state.atomCompanyType != null &&
-          //         ((state.atomCompanyType?.name ?? '').isEmpty))
-          ? true
-          : false,
+      isDisableColor:
+          widget.dayPassItem?.status != 0 && widget.dayPassItem != null
+              // ||
+              //     (state.atomCompanyType != null &&
+              //         ((state.atomCompanyType?.name ?? '').isEmpty))
+              ? true
+              : false,
       onTap: () {
-        if (widget.dayPassItem ==null || widget.dayPassItem?.status == 0 )
-        {
+        if (widget.dayPassItem == null || widget.dayPassItem?.status == 0) {
           companyTypeDialog(state);
         }
       },
@@ -1923,12 +1921,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                         createpassmgmtstate: state);
                   });
             },
-            onTap: (Organisation list) {
+            onTap: (Organisation organisation) {
               //print(list.name);
-              if ((list.name ?? '').toLowerCase() == 'fte' && isEditable == false) {
+              isEditable = true;
+              companynameTextController.text = "";
+              if ((organisation.name ?? '').toLowerCase() == 'fte' ) {
                 companynameTextController.text = "Deutsche Bank";
+                isEditable = false;
               }
-              createpassmgmtCubit.getAtomCompanyTypeResponseData(list);
+              createpassmgmtCubit.getAtomCompanyTypeResponseData(organisation);
             },
           );
         });
@@ -1939,7 +1940,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicatedayPassReason: state.dayPassReason?.dayPassReasonElement ?? [],
+            duplicatedayPassReason:
+                state.dayPassReason?.dayPassReasonElement ?? [],
             leftImageName: widget.passId == '0' || widget.passId == '2'
                 ? AppIcon.addicon
                 : null,
@@ -2071,11 +2073,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.dbsponsorResponse?.name ?? '',
       height: 60,
-      isDisableColor:widget.dayPassItem?.status ==0
-          ? false
-          : true,
+      isDisableColor: widget.dayPassItem?.status == 0 ? false : true,
       onTap: () {
-        if (widget.dayPassItem?.status ==0) {
+        if (widget.dayPassItem?.status == 0) {
           dbsponsorTypeDialog(state);
         }
       },
@@ -2884,16 +2884,17 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               textController == sezpassinfoTextController
           ? TextInputType.number
           : TextInputType.text,
-       // isEnable:
-       // widget.dayPassItem?.status != 0
-       //    ? true
-       //    : (widget.dayPassItem?.status != 0) ?
-       //    true
-       //    : false,
-       //    isDisableColor: (widget.dayPassItem?.status != 0 )
-       //         ? false
-       //         :
-       //     true,
+      isEnable: isEditable,
+      // isEnable:
+      // widget.dayPassItem?.status != 0
+      //    ? true
+      //    : (widget.dayPassItem?.status != 0) ?
+      //    true
+      //    : false,
+      //    isDisableColor: (widget.dayPassItem?.status != 0 )
+      //         ? false
+      //         :
+      //     true,
       hintText: '',
       onChange: (String value) {
         //this.username = username;
