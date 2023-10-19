@@ -85,7 +85,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       });
     }
   }
-
   // get depositor user by role API call
   Future<void> getUserByRoleDepositor(
       String userRole, BuildContext context) async {
