@@ -705,6 +705,11 @@ const List<Label> deploymentTypeDropDownValues = [
   Label(key: 'Redeployment', value: '2'),
 ];
 
+const List<Label> categoryValues = [
+  Label(key: 'Permanent', value: '0'),
+  Label(key: 'Temporary', value: '1'),
+];
+
 const List<Label> mSGBFormBSubmittedDropDownValues = [
   Label(key: 'Yes', value: '1'),
   Label(key: 'No', value: '2'),

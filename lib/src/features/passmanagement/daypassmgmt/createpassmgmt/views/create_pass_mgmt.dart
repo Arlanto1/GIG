@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
@@ -130,8 +132,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 onTap: () {
                   passValidations(context, globalState);
                 },
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 20.0),
+                child: const Padding(
+                  padding: EdgeInsets.only(right: 20.0),
                   child: Icon(
                     Icons.send,
                     color: AppColors.backgroundWhitecolor,
@@ -168,9 +170,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
             //   }
             // }
-            return Container(
-                child: SingleChildScrollView(
-                    child: Column(children: [
+            return SingleChildScrollView(
+                child: Column(children: [
               Container(
                 height: height * 0.01,
                 color: AppColors.navigationSkybluecolor,
@@ -684,6 +685,31 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           : sezpassinfoTextController,
                                       0,
                                       state),
+
+                                  // /// Incident Location
+                                  // CommonWidgets.textDisplay(
+                                  //     Constants.incidentLocation,
+                                  //     Styles.textStyleBlack14),
+                                  // CommonWidgets.verticalSpacerWidget(
+                                  //     height * 0.001),
+                                  // FlutterInputField(
+                                  //   keyboardType: TextInputType.text,
+                                  //   initialValue: state.model.incidentLocation,
+                                  //   textFormKey: Keys.lsm1ContactNOKey,
+                                  //   hintText: '',
+                                  //   isEnable: true,
+                                  //   isDisableColor: false,
+                                  //   onChange: (String value) {
+                                  //     state.createpassFoundresponse. = value;
+                                  //     context
+                                  //         .read<IncidentGeneralInfoCubit>()
+                                  //         .onModelValueChange(state.model);
+                                  //   },
+                                  //   validateTextField: (String? user) {},
+                                  // ),
+                                  // CommonWidgets.verticalSpacerWidget(
+                                  //     height * 0.01),
+
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
                                   CommonWidgets.textDisplay(
@@ -1148,7 +1174,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                             ),
                             // Upload
                           ])))
-            ])));
+            ]));
           },
         )); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
@@ -1371,14 +1397,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
       await createpassmgmtCubit.getSerialnumberDetails(
           (widget.dayPassItem?.location?.id ?? 0).toString(),
-          widget.passId??'',
+          widget.passId ?? '',
           context);
 
       createpassmgmtCubit.getlocationsResponseData(mumbai);
       ActivePassInfoList active = ActivePassInfoList(
           id: widget.dayPassItem?.passInfo?.id ?? 0,
           name: widget.dayPassItem?.passInfo?.passNo ?? '');
-      daypassnoTextController.text = widget.dayPassItem?.passInfo?.passNo ?? '';
+      daypassnoTextController.text =
+          widget.dayPassItem?.category.toString() ?? '';
+
+      daypassnoTextController.text =
+          widget.dayPassItem?.category == 0 ?'Permanent': 'Temporary';
       createpassmgmtCubit.getpassListResponseData(active);
       // await createpassmgmtCubit.getSerialnumberDetails(
       //     (widget.dayPassItem?.location?.id ?? 0).toString(),
@@ -1547,12 +1577,34 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   passCategoryDialog() {
+    // BaseDropDown().getDropDown(
+    //     isDisabled: false,
+    //     textController: daypassnoTextController,
+    //     items: categoryValues,
+    //     initialValue: daypassnoTextController.text,
+    //     onTap: () {
+    //       BaseDropDown().assetTypeDialog(
+    //           context: context,
+    //           dropDownValues: categoryValues
+    //               .map((label) => label.key)
+    //               .toList(),
+    //           onTap: (String value) {
+    //             Label? selectedLabel;
+    //             selectedLabel = categoryValues.firstWhere(
+    //               (label) => label.key == value,
+    //               orElse: () => const Label(key: '', value: ''),
+    //             );
+    //
+    //             daypassnoTextController.text = selectedLabel.value;
+    //           });
+    //     });
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return CustomSimpleListTexts(
             texts: widget.passId == "3"
-                ? ["Permenant", "Temporary"]
+                ? ["Permanent", "Temporary"]
                 // : widget.passId == "2"
                 //     ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
                 : [],
@@ -1694,6 +1746,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     // });
   }
 
+  String _getCurrentDates() {
+    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
+  }
+
   void _getCurrentDate() {
     final currentDate = DateTime.now();
     String formattedDate =
@@ -1716,7 +1772,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 height: 60,
                 decoration: BoxDecoration(
                     border: Border.all(
-                      color: Color(0xFFCACACA),
+                      color: const Color(0xFFCACACA),
                       width: 1.0,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(8))),
@@ -2203,7 +2259,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 print(list?.name);
                 await createpassmgmtCubit.getSerialnumberDetails(
                   list?.id.toString() ?? '',
-                  widget.passId??'',
+                  widget.passId ?? '',
                   context,
                 );
 
@@ -2221,7 +2277,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           height: 60,
           decoration: BoxDecoration(
               border: Border.all(
-                color: Color(0xFFCACACA),
+                color: const Color(0xFFCACACA),
                 width: 1.0,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(8))),
@@ -2283,12 +2339,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   // }
   Future passSubmit(
       bool isSubmit, int isFoundId, CreatePassMgmtState state) async {
-    int passvalidfromdate = Utils.datetoTimestampConversion(
-        passvalidfromTextController.text, Constants.fulldateFormat);
-    int passvaliduntildate = Utils.datetoTimestampConversion(
-        passvaliduntilTextController.text, Constants.fulldateFormat);
-    int inputdate = Utils.datetoTimestampConversion(
-        dateofcreationTextController.text, Constants.fulldateFormat);
+    PassmgmtInfo passInfo = PassmgmtInfo();
+    passInfo.passNo = sezpassinfoTextController.text;
+    passInfo.mifareNo = mtpApplicationNoTextController.text;
+    log('-sezpassinfoTextController-----${sezpassinfoTextController.text}----');
+    log('-mtpApplicationNoTextController-----${mtpApplicationNoTextController.text}----');
+    log('-passCategoryTextController-----${passCategoryTextController.text}----');
+    int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    int passvaliduntildate = (DateTime.now().millisecondsSinceEpoch ~/ 1000) +
+        12 * 3600; // Adding 12 hours
+    int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+
+    log('-inputdate---sss--${inputdate}----');
+
     int statusvalue = 0;
 
     if (statusTextController.text.toLowerCase() == "created") {
@@ -2373,14 +2436,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             : state.activePassInfoList?.id ??
                 ((widget.passId == "3") ? 9151 : 1),
         //9151 //int.parse(sezpassinfoTextController.text ?? '1')
-        passNo: state.activePassInfoList?.name ?? '');
-
-    //  if (widget.passId == '3') {
-    //  }
-    //  else
-    //  {
-
-    //  }
+        passNo: sezpassinfoTextController.text,
+        mifareNo: mtpApplicationNoTextController.text);
 
     User? host2 = User(
         userId: (state.hostResponse?.id == 0) ? 1 : state.hostResponse?.id ?? 1,
@@ -2469,7 +2526,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         images: images,
         entities: entities,
         department: dept2,
-        passInfo: info,
+        passInfo: passInfo,
         host: dbsponsorTextController.text.isEmpty ? host2 : dbsponsor,
         email: emailTextController.text,
         contactNo: contactnoTextController.text ?? '',
@@ -2826,7 +2883,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Color(0xFFCACACA),
+          color: const Color(0xFFCACACA),
           style: BorderStyle.solid,
           width: 1.0,
         ),
@@ -2853,7 +2910,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   trailing: widget.dayPassItem != null
                       ? SvgPicture.asset(AppIcon.download,
                           color: AppColors.boldgreyBackground)
-                      : SizedBox(
+                      : const SizedBox(
                           height: 0,
                           width: 0,
                         ),
@@ -2866,7 +2923,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                       : Text(imagedata?.title ?? ''),
                 ),
 
-                Divider(
+                const Divider(
                   color: Color(0xFFCACACA),
                   thickness: 1,
                 ), //                           <-- Divider

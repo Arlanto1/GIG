@@ -44,8 +44,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           ),
         );
 
-//
-//law organisation call
   Future<void> createOrganisation(
       String name, String orgName, BuildContext context, String title) async {
     try {
