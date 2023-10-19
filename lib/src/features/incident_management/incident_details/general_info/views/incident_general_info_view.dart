@@ -568,7 +568,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.text,
                               initialValue: state.model.incidentLocation,
                               textFormKey: Keys.lsm1ContactNOKey,
                               hintText: '',
