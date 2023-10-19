@@ -1890,9 +1890,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       height: 60,
       isDisableColor:
           widget.dayPassItem?.status != 0 && widget.dayPassItem != null
-              // ||
-              //     (state.atomCompanyType != null &&
-              //         ((state.atomCompanyType?.name ?? '').isEmpty))
               ? true
               : false,
       onTap: () {
@@ -2024,17 +2021,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.hostResponse?.name, //state.t1hostanalyst?.name ?? '',
       height: 60,
-      isDisableColor: widget.dayPassItem == null ||
-              (state.hostResponse != null &&
-                  ((state.hostResponse?.name ?? '').isEmpty))
-          ? false
-          : true,
+      isDisableColor:widget.dayPassItem?.status !=0 && widget.dayPassItem !=null
+          ? true
+          : false,
       onTap: () {
-        if (widget.dayPassItem == null ||
-            (state.hostResponse != null &&
-                ((state.hostResponse?.name ?? '').isEmpty))) {
-          //   articleTypeDialog(state);
-          // leodepartmentsDialog(state, 0);
+        if (widget.dayPassItem ==null|| widget.dayPassItem?.status == 0) {
           hostTypeDialog(state);
         }
       },
@@ -2073,9 +2064,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.dbsponsorResponse?.name ?? '',
       height: 60,
-      isDisableColor: widget.dayPassItem?.status == 0 ? false : true,
+      isDisableColor: widget.dayPassItem?.status !=0 && widget.dayPassItem !=null
+          ? true
+          : false,
       onTap: () {
-        if (widget.dayPassItem?.status == 0) {
+        if (widget.dayPassItem ==null|| widget.dayPassItem?.status == 0) {
           dbsponsorTypeDialog(state);
         }
       },

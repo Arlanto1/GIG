@@ -50,7 +50,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
             listOfEntities: const [],
             getEntitiesResponse: null,
             departments: const [],
-            proposedVendors: const[],
+            vendors: const [],
             loggedInUserDetails: null,
           ),
         );
@@ -99,7 +99,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
-      Vendors proposedVendors =
+      Vendors vendors =
       await commonServices.getVendors(name: 'ATOM_VENDORS');
 
       List<User> entrySecurities = await commonServices.getUsers();
@@ -116,7 +116,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           users: users.t1Analyst,
           emailUsers: emailUsers.atomStaticUser,
           departments: departments.employeeDepartments,
-          proposedVendors: proposedVendors.vendorsDept,
+          vendors: vendors.vendorsDept,
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
@@ -153,7 +153,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     BaseUser? locationSecurityManager1,
     BaseUser? locationSecurityManager2,
     BaseUser? epOfficers,
-    Organisation? proposedVendors,
+    Organisation? vendor,
   }) async {
     emit(
       state.copyWith(
@@ -179,10 +179,10 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.epManager2 = userDetails;
     }
 
-    // if(proposedVendor != null) {
-    //   state.model.proposedVendors??=[];
-    //   state.model.proposedVendors?.add(proposedVendor);
-    // }
+    if (vendor != null) {
+      state.model.proposedVendors = vendor;
+    }
+
     ////Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -223,7 +223,6 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     // state.model.bu1 = bu1 ?? state.model.bu1;
     // state.model.bu2 = bu2 ?? state.model.bu2;
     state.model.bu1Dept = bu1Dept ?? state.model.bu1Dept;
-    state.model.proposedVendors = proposedVendors ?? state.model.proposedVendors;
     state.model.bu2Dept = bu2Dept ?? state.model.bu2Dept;
 
     if (subRegionalHead1 != null) {
