@@ -65,12 +65,14 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     );
     try {
       EventInfoResponse model = EventInfoResponse();
+      log('--1111--$model');
       if (id.isNotEmpty) {
         model = await services.getEventInfo(id, eventDuration);
       }
+      log('--1111--$model');
       FoundListModel foundArticles = await services.getFoundArticleList(
           startPosition: '0', maximumRecords: '50', eventId: id.toString());
-
+      log('--2222--$foundArticles');
       List<String> emails = Utils().splitStringAfterComma(model.emails ?? '');
 
       emit(

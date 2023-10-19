@@ -152,7 +152,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.guardingMasterData.status != 4 ? true : false,
+            showSaveButton: state.guardingMasterData.status != 5 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
@@ -2085,7 +2085,6 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// SubmitButton
-                        if (state.guardingMasterData.status != 4) ...[
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -2093,7 +2092,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               submitButtonDisplay()
                             ],
                           ),
-                        ],
+
                         CommonWidgets.verticalSpacerWidget(height * 0.04),
                       ])))
         ])));
