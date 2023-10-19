@@ -1255,15 +1255,12 @@ class _CreateFoundState extends State<CreateFound> {
                                         ? ('${selecteddepositorList?.name ?? ''}(${selecteddepositorList?.email ?? ''})')
                                         : '',
                                     height: 70,
-                                    isDisableColor: widget.listuser == null ||
-                                            (selecteddepositorList?.name ?? '')
-                                                .isEmpty
-                                        ? false
-                                        : true,
+                                    isDisableColor: widget.listuser?.status != 0 && widget.listuser !=null
+                                        ? true
+                                        : false,
                                     onTap: () {
-                                      if (widget.listuser == null ||
-                                          (selecteddepositorList?.name ?? '')
-                                              .isEmpty) {
+                                      if (widget.listuser?.status == 0 || widget.listuser == null )
+                                         {
                                         depositorDialog(
                                             state, Constants.depositor);
                                       }
@@ -1356,17 +1353,12 @@ class _CreateFoundState extends State<CreateFound> {
                                     title:
                                         selectedEmployeedepartment?.name ?? '',
                                     height: 60,
-                                    isDisableColor: widget.listuser == null ||
-                                            (selectedEmployeedepartment?.name ??
-                                                    '')
-                                                .isEmpty
-                                        ? false
-                                        : true,
+                                    isDisableColor: widget.listuser != null && widget.listuser?.status != 0
+                                        ? true
+                                        : false,
                                     onTap: () {
-                                      if (widget.listuser == null ||
-                                          (selectedEmployeedepartment?.name ??
-                                                  '')
-                                              .isEmpty) {
+                                      if (widget.listuser == null ||widget.listuser?.status == 0)
+                                          {
                                         employeeDepartmentDialog(state,
                                             Constants.employeedepartment);
                                       }
@@ -1533,17 +1525,12 @@ class _CreateFoundState extends State<CreateFound> {
                                       title:
                                           (selectedClaimdepartment?.name ?? ''),
                                       height: 60,
-                                      isDisableColor: widget.listuser == null ||
-                                              (selectedClaimdepartment?.name ??
-                                                      '')
-                                                  .isEmpty
-                                          ? false
-                                          : true,
+                                      isDisableColor: widget.listuser != null && widget.listuser?.status != 0
+                                          ? true
+                                          : false,
                                       onTap: () {
-                                        if (widget.listuser == null ||
-                                            (selectedClaimdepartment?.name ??
-                                                    '')
-                                                .isEmpty) {
+                                        if (widget.listuser == null ||widget.listuser?.status == 0)
+                                        {
                                           employeeDepartmentDialog(state,
                                               Constants.claimantdepartment);
                                         }
@@ -1911,9 +1898,7 @@ class _CreateFoundState extends State<CreateFound> {
     return TextfieldAddButton(
       title: selectedArtclelist?.name ?? '',
       height: 60,
-      isDisableColor: widget.listuser == null ||
-              (selectedArtclelist != null &&
-                  ((selectedArtclelist?.name ?? '').isEmpty))
+      isDisableColor: widget.listuser?.status != 0 || widget.listuser != null
           ? false
           : true,
       onTap: () {
@@ -1929,7 +1914,7 @@ class _CreateFoundState extends State<CreateFound> {
   Widget datepickerWidgetLoading(TextEditingController textfiled) {
     return GestureDetector(
       onTap: () {
-        if (widget.listuser == null || textfiled.text.isEmpty) {
+        if (widget.listuser?.status == 0) {
           datePickerDialog(textfiled);
         }
       },
