@@ -1242,11 +1242,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 onTap: () {
                                   BaseDepartmentDialog().departmentDialog(
                                     context: context,
-                                    departments: state.departments,
-                                    onTap: (Organisation proposedVendors) {
+                                    departments: state.vendors,
+                                    onTap: (Organisation vendors) {
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .updateDropdownValues(
-                                              proposedVendors: proposedVendors);
+                                          vendor  : vendors);
                                     },
                                   );
                                 },
