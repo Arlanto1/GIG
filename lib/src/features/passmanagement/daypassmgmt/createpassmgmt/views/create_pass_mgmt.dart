@@ -1626,24 +1626,26 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       },
       child: FlutterInputField(
         textFieldController: textfiled,
-        textFormKey: textfiled != passvalidfromTextController ||
-                textfiled != passvaliduntilTextController
-            ? Keys.founddateTextController
-            : Keys.actualdateTextController,
+        textFormKey: '',
+        // textFormKey: textfiled != passvalidfromTextController ||
+        //         textfiled != passvaliduntilTextController
+        //     ? Keys.founddateTextController
+        //     : Keys.actualdateTextController,
         hintText: '',
         isEnable: false,
         isDisableColor: true,
         //widget.listuser == null || textfiled.text.isEmpty ? false : true,
         onChange: (String username) {
           //this.username = username;
-          print('dfwf');
+          print('');
 
           // setState(() {});
         },
         validateTextField: (String? user) {},
         suffixWidget: GestureDetector(
           onTap: () async {
-            if (widget.dayPassItem == null || textfiled.text.isEmpty) {
+           // if (widget.dayPassItem == null || textfiled.text.isEmpty)
+            {
               datePickerDialog(textfiled);
             }
           },
@@ -1669,7 +1671,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         firstDate: DateTime(2000),
         lastDate: DateTime(2101));
 
-    print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+    //print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
     String formattedDate = DateFormat(Constants.fulldateFormat)
         .format(pickedDate ?? DateTime.now());
     print(
@@ -1679,7 +1681,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       passvalidfromTextController.text = formattedDate;
     }
     if (textfield == passvaliduntilTextController) {
-      passvaliduntilTextController.text = formattedDate;
+      final currentDate = DateTime.now();
+      String nextformattedDate = DateFormat(Constants.fulldateFormat)
+          .format(currentDate.add(const Duration(hours: 12)));
+      passvaliduntilTextController.text = nextformattedDate;
     }
     // setState(() {
     //   // dateinput.text = formattedDate; //set output date to TextField value.
@@ -1687,12 +1692,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   void _getCurrentDate() {
-    final _currentDate = DateTime.now();
+    final currentDate = DateTime.now();
     String formattedDate =
-        DateFormat(Constants.fulldateFormat).format(_currentDate);
+        DateFormat(Constants.fulldateFormat).format(currentDate);
     print(formattedDate);
     String nextformattedDate = DateFormat(Constants.fulldateFormat)
-        .format(_currentDate.add(Duration(hours: 12)));
+        .format(currentDate.add(const Duration(hours: 12)));
     dateofcreationTextController.text = formattedDate;
     passvalidfromTextController.text = formattedDate;
     passvaliduntilTextController.text = nextformattedDate;
@@ -2021,9 +2026,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.hostResponse?.name, //state.t1hostanalyst?.name ?? '',
       height: 60,
-      isDisableColor:widget.dayPassItem?.status !=0 && widget.dayPassItem !=null
-          ? true
-          : false,
+      isDisableColor: widget.dayPassItem?.status != 0 || widget.dayPassItem !=null
+          ? false
+          : true,
       onTap: () {
         if (widget.dayPassItem ==null|| widget.dayPassItem?.status == 0) {
           hostTypeDialog(state);

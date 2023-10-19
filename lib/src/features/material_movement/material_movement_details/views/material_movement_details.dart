@@ -117,7 +117,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
             title: widget.title,
             showPopUp: false,
             showSaveButton: state.materialMovement.status != 6 &&
-                    state.materialMovement.status != 3
+                    state.materialMovement.status != 1
                 ? true
                 : false,
             onTapSave: () {
@@ -1721,8 +1721,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// SubmitButton
-                          if (state.materialMovement.status != 6 &&
-                              state.materialMovement.status != 3) ...[
+                          if (state.materialMovement.status != 6 &&state.materialMovement.status != 1) ...[
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [

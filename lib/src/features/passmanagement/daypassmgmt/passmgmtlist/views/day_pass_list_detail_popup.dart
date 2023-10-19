@@ -6,12 +6,12 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 
 class DayPassCustomPopUpList extends StatefulWidget {
   final DayPassListElement? userItem;
   String? passId = '0';
-
   DayPassCustomPopUpList(this.userItem, this.passId, {Key? key})
       : super(key: key);
 
@@ -38,7 +38,6 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -250,7 +249,9 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
           widget.userItem?.startTime != null
               ? CommonWidgets.verticalSpacerWidget(8)
               : Container(),
-          widget.userItem?.endTime != null
+
+
+        widget.userItem?.endTime != null
               ? Row(
                   children: [
                     textHandling(
@@ -258,7 +259,8 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                         widget.userItem?.endTime != null
                             ? Utils.timestamptoDateConversion(
                                 int.parse(widget.userItem?.endTime ?? '0'),
-                                Constants.dateFormat)
+                           (Constants.fulldateFormat)
+                               )
                             : ''),
                   ],
                 )
