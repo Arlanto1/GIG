@@ -149,7 +149,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.guardingRatesModule,
+        moduleCode: Constants.occurrenceModule,
       );
 
       state.model.location = location;
