@@ -1354,8 +1354,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                   : widget.dayPassItem?.status == 7
                                       ? 'cancelled'
                                       : widget.dayPassItem?.status == 8
-                                          ? 'returned damaged'
-                                          : 'returned defaced';
+                                          ? 'handed over'
+                                          : 'handed over';
+      // ? 'returned damaged'
+      // : 'returned defaced';
       if (widget.dayPassItem?.passType == 1) {
         passtypeTextController.text = 'VISITOR_PASS';
       } else if (widget.dayPassItem?.passType == 5) {
@@ -1408,7 +1410,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           widget.dayPassItem?.category.toString() ?? '';
 
       daypassnoTextController.text =
-          widget.dayPassItem?.category == 0 ?'Permanent': 'Temporary';
+          widget.dayPassItem?.category == 0 ? 'Permanent' : 'Temporary';
       createpassmgmtCubit.getpassListResponseData(active);
       // await createpassmgmtCubit.getSerialnumberDetails(
       //     (widget.dayPassItem?.location?.id ?? 0).toString(),
