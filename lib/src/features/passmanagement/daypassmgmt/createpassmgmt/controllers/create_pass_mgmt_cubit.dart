@@ -248,19 +248,19 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
   // Serialnumber api  call
   Future<void> getSerialnumberDetails(
-      String locationid, String modulecode, BuildContext context,) async {
+      String locationId, String moduleCode, BuildContext context,) async {
     if(passId == "0"){
-      modulecode= Constants.passManagementModule;
+      moduleCode= Constants.passManagementModule;
     }
     else if(passId == "1"){
-    modulecode= Constants.visitorManagementModule;
+    moduleCode= Constants.visitorManagementModule;
     }
     else if(passId == "2"){
-      modulecode= Constants.vendorPassManagementModule;
+      moduleCode= Constants.vendorPassManagementModule;
     }
     try {
       SerialNumberModel getserialnumberResponse = await createpassmgmtServices
-          .getSerialnumberDetails(locationid, modulecode, context);
+          .getSerialnumberDetails(locationId, moduleCode, context);
       emit(
         state.copyWith(
           getSerialnumberResponse: getserialnumberResponse,
