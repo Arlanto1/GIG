@@ -1888,13 +1888,11 @@ class _CreateFoundState extends State<CreateFound> {
     return TextfieldAddButton(
       title: selectedArtclelist?.name ?? '',
       height: 60,
-      isDisableColor: widget.listuser?.status != 0 || widget.listuser != null
-          ? false
-          : true,
+      isDisableColor: widget.listuser?.status != 2 && widget.listuser != null
+          ? true
+          : false,
       onTap: () {
-        if (widget.listuser == null ||
-            (selectedArtclelist != null &&
-                ((selectedArtclelist?.name ?? '').isEmpty))) {
+        if (widget.listuser?.status != 2) {
           articleTypeDialog(state);
         }
       },
