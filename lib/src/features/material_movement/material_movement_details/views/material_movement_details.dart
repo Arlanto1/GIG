@@ -428,15 +428,16 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   ),
                                   // CommonWidgets.horizontalSpacerWidget(
                                   //     width * 0.01),
-                                  InkWell(
-                                      onTap: () {
-                                        quantityUnitDialog(
-                                            context: context,
-                                            quantityUnits: state.quantityUnits);
-                                      },
-                                      child: const AddButtonWidget(
-                                        height: 50,
-                                      )),
+
+                         InkWell(
+                             onTap: () {
+                               quantityUnitDialog(
+                                   context: context,
+                                   quantityUnits: state.quantityUnits);
+                             },
+                             child: const AddButtonWidget(
+                               height: 50,)),
+
                                 ],
                               ),
 

@@ -2071,11 +2071,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.dbsponsorResponse?.name ?? '',
       height: 60,
-      isDisableColor:widget.dayPassItem?.status ==0
-          ? false
-          : true,
+      isDisableColor:widget.dayPassItem?.status !=0 && widget.dayPassItem !=null
+          ? true
+          : false,
       onTap: () {
-        if (widget.dayPassItem?.status ==0) {
+        if (widget.dayPassItem ==null|| widget.dayPassItem?.status ==0) {
           dbsponsorTypeDialog(state);
         }
       },
