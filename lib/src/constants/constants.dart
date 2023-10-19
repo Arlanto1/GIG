@@ -9,9 +9,10 @@ class Constants {
   static const String materialMovementOutwardReturnableModule = 'MMOUTY';
   static const String materialMovementOutwardNonReturnableModule = 'MMOUTN';
   static const String guardingMasterDataModule = 'GM';
-  static const String passManagementModule = 'DayPass';
-  static const String visitorManagementModule = 'VisitorPass';
-  static const String vendorPassManagementModule = 'VendorPass';
+  static const String passManagementModule = 'PMDYP';
+  static const String passManagementSEZModule = 'PMSEZ';
+  static const String visitorManagementModule = 'PMVSP';
+  static const String vendorPassManagementModule = 'PMVNP';
   static const String eventProtectionModule = 'EP';
   static const String guardingRatesModule = 'GR';
   static const String occurrenceModule = 'OC';

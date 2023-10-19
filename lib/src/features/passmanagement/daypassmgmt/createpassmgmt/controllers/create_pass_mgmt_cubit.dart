@@ -32,13 +32,12 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   CreatePassMgmtService createpassmgmtServices;
   List<CreateImage>? loadAttachments;
   List<CreateImage>? photoAttachments;
-  String? passId = '0';
 
-  CreatePassMgmtCubit(
-      {required this.createpassmgmtServices,
-      this.loadAttachments,
-      this.photoAttachments,this.passId})
-      : super(
+  CreatePassMgmtCubit({
+    required this.createpassmgmtServices,
+    this.loadAttachments,
+    this.photoAttachments,
+  }) : super(
           CreatePassMgmtState(
             //lawenforcementServices: SubmitCreateFoundModel(),
             stateType: CreatePassMgmtStateType.initial,
@@ -190,7 +189,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-
   // law organisation call
   Future<void> createEmplyeeDepartments(
       String name, String orgName, BuildContext context) async {
@@ -248,22 +246,29 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
   // Serialnumber api  call
   Future<void> getSerialnumberDetails(
-      String locationId, String moduleCode, BuildContext context,) async {
-    if(passId == "0"){
-      moduleCode= Constants.passManagementModule;
-    }
-    else if(passId == "1"){
-    moduleCode= Constants.visitorManagementModule;
-    }
-    else if(passId == "2"){
-      moduleCode= Constants.vendorPassManagementModule;
+    String locationId,
+    String passId,
+    BuildContext context,
+  ) async {
+    print('--getSerialnumberDetails-----');
+    String moduleCode = Constants.passManagementModule;
+    if (passId == "0") {
+      moduleCode = Constants.passManagementModule;
+    } else if (passId == "1") {
+      moduleCode = Constants.visitorManagementModule;
+    } else if (passId == "2") {
+      moduleCode = Constants.vendorPassManagementModule;
     }
     try {
-      SerialNumberModel getserialnumberResponse = await createpassmgmtServices
+      print('--getSerialnumberDetails---22--');
+      SerialNumberModel serialNumberResponse = await createpassmgmtServices
           .getSerialnumberDetails(locationId, moduleCode, context);
+
+      print('--serialNumberResponse--${serialNumberResponse.serialNo}---');
+
       emit(
         state.copyWith(
-          getSerialnumberResponse: getserialnumberResponse,
+          getSerialnumberResponse: serialNumberResponse,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -298,7 +303,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       );
     }
   }
-
 
   // Get pass number call
   Future<void> getPassnumber(
@@ -400,8 +404,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       );
     }
   }
-  getdaypassreasonResponseData(
-      DayPassReasonElement? passReasonResponse) async {
+
+  getdaypassreasonResponseData(DayPassReasonElement? passReasonResponse) async {
     try {
       emit(
         state.copyWith(
@@ -615,11 +619,12 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       );
     }
   }
-  getlocationsResponseData(Organisation? locationSelectedlist) async {
+
+  getlocationsResponseData(Organisation? location) async {
     try {
       emit(
         state.copyWith(
-          locationSelectedlist: locationSelectedlist,
+          locationSelectedlist: location,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -632,7 +637,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       );
     }
   }
-
 
   getSerialnumberResponse(SerialNumberModel? serialnumberResponse) async {
     try {

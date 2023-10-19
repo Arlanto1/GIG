@@ -162,7 +162,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             if (state.stateType == CreatePassMgmtStateType.photoattachment) {
               photogetFiles = state.photoAttachments ?? [];
             }
-            initiallyLocationandSerialnumberdataset(state);
+            initiallyLocationAndSerialNumberDataset(state);
             // if (widget.listuser != null) {
             //   if (state.groups != null) {
 
@@ -1213,7 +1213,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     _getCurrentDate();
   }
 
-  initiallyLocationandSerialnumberdataset(CreatePassMgmtState state) async {
+  initiallyLocationAndSerialNumberDataset(CreatePassMgmtState state) async {
     // print(state.locationSelectedlist);
     // print(state.getLocationsResponse);
     // print(widget.dayPassItem);
@@ -1221,10 +1221,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         state.getLocationsResponse != null &&
         widget.dayPassItem == null &&
         (serialnumber ?? '').isEmpty) {
-      Organisation list = Organisation(id: 24, name: "DLF Square");
-      createpassmgmtCubit.getlocationsResponseData(list);
+      Organisation location = Organisation(id: 24, name: "DLF Square");
+      createpassmgmtCubit.getlocationsResponseData(location);
       await createpassmgmtCubit.getSerialnumberDetails(
-          '24', 'DayPass', context);
+        '24',
+        widget.passId ?? '',
+        context,
+      );
     }
   }
 
@@ -1368,7 +1371,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
       await createpassmgmtCubit.getSerialnumberDetails(
           (widget.dayPassItem?.location?.id ?? 0).toString(),
-          'SEZPass',
+          widget.passId??'',
           context);
 
       createpassmgmtCubit.getlocationsResponseData(mumbai);
@@ -1644,7 +1647,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         validateTextField: (String? user) {},
         suffixWidget: GestureDetector(
           onTap: () async {
-           // if (widget.dayPassItem == null || textfiled.text.isEmpty)
+            // if (widget.dayPassItem == null || textfiled.text.isEmpty)
             {
               datePickerDialog(textfiled);
             }
@@ -1927,7 +1930,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               //print(list.name);
               isEditable = true;
               companynameTextController.text = "";
-              if ((organisation.name ?? '').toLowerCase() == 'fte' ) {
+              if ((organisation.name ?? '').toLowerCase() == 'fte') {
                 companynameTextController.text = "Deutsche Bank";
                 isEditable = false;
               }
@@ -2026,11 +2029,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.hostResponse?.name, //state.t1hostanalyst?.name ?? '',
       height: 60,
-      isDisableColor: widget.dayPassItem?.status != 0 || widget.dayPassItem !=null
-          ? false
-          : true,
+      isDisableColor:
+          widget.dayPassItem?.status != 0 || widget.dayPassItem != null
+              ? false
+              : true,
       onTap: () {
-        if (widget.dayPassItem ==null|| widget.dayPassItem?.status == 0) {
+        if (widget.dayPassItem == null || widget.dayPassItem?.status == 0) {
           hostTypeDialog(state);
         }
       },
@@ -2069,11 +2073,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.dbsponsorResponse?.name ?? '',
       height: 60,
-      isDisableColor: widget.dayPassItem?.status !=0 && widget.dayPassItem !=null
-          ? true
-          : false,
+      isDisableColor:
+          widget.dayPassItem?.status != 0 && widget.dayPassItem != null
+              ? true
+              : false,
       onTap: () {
-        if (widget.dayPassItem ==null|| widget.dayPassItem?.status == 0) {
+        if (widget.dayPassItem == null || widget.dayPassItem?.status == 0) {
           dbsponsorTypeDialog(state);
         }
       },
@@ -2198,7 +2203,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 print(list?.name);
                 await createpassmgmtCubit.getSerialnumberDetails(
                   list?.id.toString() ?? '',
-                  'DayPass',
+                  widget.passId??'',
                   context,
                 );
 

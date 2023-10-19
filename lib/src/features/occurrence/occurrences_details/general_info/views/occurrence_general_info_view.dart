@@ -937,32 +937,11 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     Constants.securitySystemSLAList,
                                     Styles.textStyleBlack14),
                                 GestureDetector(
-                                  onTap: () {
-                                    BaseDropDown().assetTypeDialog(
-                                      context: context,
-                                      dropDownValues: sstIncidentType
-                                          .map((label) => label.key)
-                                          .toList(),
-                                      onTap: (String value) {
-                                        Label? selectedLabel;
-                                        selectedLabel =
-                                            sstIncidentType.firstWhere(
-                                          (label) => label.key == value,
-                                          orElse: () =>
-                                              const Label(key: '', value: ''),
-                                        );
-
-                                        navigateToCreateIncident(
-                                          state: state,
-                                          occId: 1,
-                                          isSSTIncident: true,
-                                          isInternal: selectedLabel.value == '0'
-                                              ? true
-                                              : false,
-                                        );
-                                      },
-                                    );
-                                  },
+                                  onTap: () => navigateToCreateIncident(
+                                    state: state,
+                                    occId: 1,
+                                    isSSTIncident: true,
+                                  ),
                                   child: Row(
                                     children: <Widget>[
                                       // Expanded(
@@ -1384,59 +1363,24 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
         ])));
   }
 
-  chooseSSTIncidentType(OccurrenceGeneralInfoState state) {
-    BaseDropDown().getDropDown(
-      isDisabled: disableForm,
-      textController: statusController,
-      items: occurrenceStatusDropDownValues,
-      initialValue: '${state.model.status ??= 0}',
-      onTap: () {
-        BaseDropDown().assetTypeDialog(
-          context: context,
-          dropDownValues:
-              occurrenceStatusDropDownValues.map((label) => label.key).toList(),
-          onTap: (String value) {
-            Label? selectedLabel;
-            selectedLabel = occurrenceStatusDropDownValues.firstWhere(
-              (label) => label.key == value,
-              orElse: () => const Label(key: '', value: ''),
-            );
-
-            BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
-                .updateDropdownValues(
-                    status: int.tryParse(selectedLabel.value));
-          },
-        );
-      },
-    );
-  }
-
   Future<void> navigateToCreateIncident({
     required OccurrenceGeneralInfoState state,
     required int occId,
     required bool isSSTIncident,
-    bool? isInternal,
   }) async {
     if (state.model.id == null) {
       BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
           .submitForm(isSaveOnly: true);
     }
 
-    // TODO: Need to ask the user for SST Incident Type
-    final argumentMap = {
-      'occId': state.model.id.toString(),
-      'occType': occId,
-    };
-
-    if (isSSTIncident) {
-      argumentMap['isInternal'] = isInternal ?? false;
-    }
-
-    log('---navigateToCreateIncident----');
+    // TODO: Need to ask user for SST Incident Type
     Navigator.pushNamed(
       context,
       isSSTIncident ? sstIncidentDetailsRoute : incidentManagementDetailsRoute,
-      arguments: argumentMap,
+      arguments: {
+        'occId': state.model.id.toString(),
+        'occType': occId,
+      },
     );
   }
 
