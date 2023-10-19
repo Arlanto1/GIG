@@ -27,9 +27,9 @@ import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
 import '../../../../createfound/models/serial_number_model.dart';
 
-part 'general_info_state.dart';
+part 'occurrence_general_info_state.dart';
 
-class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
+class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   final OccurrenceDetailsServices services;
   final String id;
   final CommonServices commonServices;
@@ -39,7 +39,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
     required this.commonServices,
     required this.id,
   }) : super(
-          GeneralInfoState.initial(
+          OccurrenceGeneralInfoState.initial(
             model: Occurrence(),
             locations: GetLocations(),
             users: const [],
@@ -102,9 +102,10 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
 
       List<User> entrySecurities = await commonServices.getUsers();
 
+      model.entrySecurity = loggedInUserDetails;
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-
+      state.model.status ?? 0;
       emit(
         state.copyWith(
           model: model,
@@ -134,7 +135,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
   Future<void> updateDropdownValues({
     List<Entity>? entities,
     Organisation? location,
-    // BaseUser? user,
+    BaseUser? shiftTakenOverBy,
     Organisation? vendor,
     Entity? entity,
     int? status,
@@ -156,6 +157,17 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.slNo = slNo.serialNo;
     }
 
+    if (status != null) {
+      state.model.status = status;
+    }
+    if (shiftTakenOverBy != null) {
+      User userDetails = User(
+        name: shiftTakenOverBy.name,
+        userId: shiftTakenOverBy.id,
+        userName: shiftTakenOverBy.name,
+      );
+      state.model.handOverSecurity = userDetails;
+    }
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
@@ -310,7 +322,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
     GenericCreateResponse response = GenericCreateResponse();
     try {
       if (isSaveOnly) {
-        response = (await services.createOccurrence(
+        response = (await services.create(
           body: request,
           isSubmit: false,
         ));
@@ -325,7 +337,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
           );
           return;
         }
-        response = (await services.createOccurrence(
+
+        response = (await services.create(
           body: request,
           isSubmit: true,
         ));
@@ -341,9 +354,13 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
 
     // log('---response--msg--${response.message}---');
 
-    if(response.id != null) {
-      state.model.id = response.id as int?;
+    if (response.id != null) {
+      int? id = int.tryParse(response.id!);
+      if (id != null) {
+        state.model.id = id;
+      }
     }
+
     emit(
       state.copyWith(
         message: response.message,
