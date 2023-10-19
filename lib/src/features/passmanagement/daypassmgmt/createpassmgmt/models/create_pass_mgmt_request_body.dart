@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final createPassMgmtBody = createPassMgmtBodyFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';

@@ -514,7 +514,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             TextfieldAddButton(
                               title: state.model.complainantHr?.name,
                               height: 70,
-                              key : _formKey,
                               isDisableColor: disableForm,
                               onTap: () {
                                 BaseDepartmentDialog().userDialog(
