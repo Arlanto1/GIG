@@ -267,12 +267,14 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               /// Location
                               CommonWidgets.textDisplay(
                                   Constants.location, Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
                               locationWidgetdislay(
                                   selectedLocation:
-                                  state.model.location?.name ?? '',
+                                      state.model.location?.name ?? '',
                                   enabled: state.model.id == null ||
-                                      (state.model.location?.name ?? '').isEmpty,
+                                      (state.model.location?.name ?? '')
+                                          .isEmpty,
                                   locations: state.locations,
                                   onTap: (Organisation? location) async {
                                     log('location?.name-----${location?.name}');
@@ -280,8 +282,9 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     state.model.location = location;
 
                                     BlocProvider.of<OccurrenceGeneralInfoCubit>(
-                                        context)
-                                        .updateDropdownValues(location: location);
+                                            context)
+                                        .updateDropdownValues(
+                                            location: location);
                                   }),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -975,6 +978,15 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
+                                      if (state.model.secSysFailureIncident !=
+                                          null) ...[
+                                        CommonWidgets.horizontalSpacerWidget(
+                                            height * 0.01),
+                                        showButtonDisplay(
+                                          occId: state.model.id.toString(),
+                                          occType: 2,
+                                        ),
+                                      ],
                                     ],
                                   ),
                                 ),
@@ -1427,7 +1439,11 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     );
   }
 
-  Widget showButtonDisplay({required String occId, required int occType}) {
+  Widget showButtonDisplay({
+    required String occId,
+    required int occType,
+    bool? isSSTIncident,
+  }) {
     log('-showButtonDisplay-occId---$occId--');
     return AppButton(
       // Customize the button properties as needed
@@ -1542,5 +1558,4 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
       },
     );
   }
-
 }
