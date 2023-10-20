@@ -482,24 +482,9 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   initialValue: state.materialMovement.address,
                                   textFormKey: Keys.addressKey,
                                   hintText: '',
-                                  isEnable: widget.materialMovement == null
-                                      ? true
-                                      : (widget.materialMovement != null &&
-                                              (widget.materialMovement
-                                                          ?.address ??
-                                                      '')
-                                                  .isEmpty)
-                                          ? true
-                                          : false,
+                                  isEnable: state.materialMovement.status != 6,
                                   isDisableColor:
-                                      (widget.materialMovement != null &&
-                                                  (widget.materialMovement
-                                                              ?.address ??
-                                                          '')
-                                                      .isEmpty) ||
-                                              widget.materialMovement == null
-                                          ? false
-                                          : true,
+                                  state.materialMovement.status == 6,
                                   onChange: (String value) {
                                     state.materialMovement.address = value;
                                     context

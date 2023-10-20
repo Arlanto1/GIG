@@ -968,7 +968,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       },
                                       onTap: () {
                                         if (widget.dayPassItem == null ||
-                                            passCategoryTextController
+                                            daypassnoTextController
                                                 .text.isEmpty) {
                                           //passnumberaddButtonwidgetLoading(state);
                                           if (widget.passId == '3') {
@@ -1232,7 +1232,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
     if (widget.passId == '0') {
       passtypeTextController.text = 'DAY_PASS';
-    } else if (widget.passId == '3') {
+    }
+    else if (widget.passId == '3') {
       passtypeTextController.text = 'SEZ_PASS';
     }
     getPassmanagmentList();
@@ -1367,6 +1368,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       } else if (widget.dayPassItem?.passType == 6) {
         passtypeTextController.text = 'DWS_VENDOR_PASS';
       }
+      else if (widget.dayPassItem?.passInfo?.passType == 3) {
+        passtypeTextController.text = 'SEZ_PASS';
+      }
 
       if (widget.dayPassItem?.idValidationType == 0) {
         photofidentityextController.text = 'Aadhaar Card';
@@ -1406,8 +1410,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       ActivePassInfoList active = ActivePassInfoList(
           id: widget.dayPassItem?.passInfo?.id ?? 0,
           name: widget.dayPassItem?.passInfo?.passNo ?? '');
-      daypassnoTextController.text =
-          widget.dayPassItem?.category.toString() ?? '';
+      // daypassnoTextController.text =
+      //     widget.dayPassItem?.category.toString() ?? '';
 
       daypassnoTextController.text =
           widget.dayPassItem?.category == 0 ? 'Permanent' : 'Temporary';
@@ -2267,8 +2271,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                 createpassmgmtCubit.getPassnumber(
                     widget.passId ?? '0', list?.id.toString() ?? '', context);
-                // locationselectedText = list?.name ?? '';
-                // locationSelectedlist = list;
                 createpassmgmtCubit.getlocationsResponseData(list);
               },
             );
@@ -2342,8 +2344,23 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   Future passSubmit(
       bool isSubmit, int isFoundId, CreatePassMgmtState state) async {
     PassmgmtInfo passInfo = PassmgmtInfo();
+
+    if(passtypeTextController.text == 'DAY_PASS'){
+      passInfo.passType ==0;
+    }
+    else if(passtypeTextController.text == 'VISITOR_PASS'){
+      passInfo.passType ==1;
+    }
+    else if(passtypeTextController.text == 'VENDOR_PASS'){
+      passInfo.passType ==2;
+    }
+    else if(passtypeTextController.text == 'SEZ_PASS'){
+      passInfo.passType ==3;
+    }
+    passInfo.passType =int.tryParse(passtypeTextController.text);
     passInfo.passNo = sezpassinfoTextController.text;
     passInfo.mifareNo = mtpApplicationNoTextController.text;
+    log('-passtypeTextController-----${passtypeTextController.text}----');
     log('-sezpassinfoTextController-----${sezpassinfoTextController.text}----');
     log('-mtpApplicationNoTextController-----${mtpApplicationNoTextController.text}----');
     log('-passCategoryTextController-----${passCategoryTextController.text}----');
@@ -2436,7 +2453,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         id: (state.activePassInfoList?.id == 0)
             ? 1
             : state.activePassInfoList?.id ??
-                ((widget.passId == "3") ? 9151 : 1),
+                ((widget.passId == "3") ? 9151 : 3),
         //9151 //int.parse(sezpassinfoTextController.text ?? '1')
         passNo: sezpassinfoTextController.text,
         mifareNo: mtpApplicationNoTextController.text);
@@ -2462,7 +2479,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else if (passtypeTextController.text == "DWS_VENDOR_PASS") {
       passtypeIdentify = 6;
     } else if (passtypeTextController.text == "SEZ_PASS") {
-      passtypeIdentify = 3;
+      passInfo.passType = 3;
     } else if (passtypeTextController.text == "DAY_PASS") {
       passtypeIdentify = 0;
     }
@@ -2479,9 +2496,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       idValidationType = 4;
     }
     int category = 0;
-    if (daypassnoTextController.text == "Permenant") {
+    if (passCategoryTextController.text == "Permenant") {
       category = 0;
-    } else if (daypassnoTextController.text == "Temporary") {
+    } else if (passCategoryTextController.text == "Temporary") {
       category = 1;
     }
 
@@ -2507,7 +2524,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             ? (nameTextController.text)
             : state.nameResponse?.name ?? '',
         employeeId: employeeidTextController.text,
-        passType: passtypeIdentify,
+        passType: passInfo.passType,
         //int.parse(widget.passId ?? '0'),
         passNo: widget.passId == '3'
             ? daypassnoTextController.text
@@ -2557,7 +2574,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? (nameTextController.text ?? '')
               : state.nameResponse?.name ?? '',
           employeeId: employeeidTextController.text ?? '',
-          passType: passtypeIdentify,
+          passType: passInfo.passType,
           //0,
           passNo: widget.passId == '3'
               ? daypassnoTextController.text

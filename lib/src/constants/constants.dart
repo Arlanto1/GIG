@@ -15,7 +15,7 @@ class Constants {
   static const String vendorPassManagementModule = 'PMVNP';
   static const String eventProtectionModule = 'EP';
   static const String guardingRatesModule = 'GR';
-  static const String occurrenceModule = 'OC';
+  static const String occurrenceModule = 'OCC';
   static const String incidentManagementModule = 'IM';
 
   static const String customFontFamily = 'Poppins';
