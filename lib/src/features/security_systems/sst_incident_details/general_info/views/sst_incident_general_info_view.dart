@@ -81,7 +81,7 @@ class _SstIncidentGeneralInfoViewState
                   context,
                   occurrenceDetailsRoute,
                   arguments: {
-                    'id': state.model.occurrence?.id,
+                    'id': state.model.occurrence?.id.toString(),
                     "title": Constants.editOccurrence,
                   },
                 );
@@ -462,6 +462,7 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 6,
+                              showBorder: true,
                               initialValue: state.model.shortDescription,
                               textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,
@@ -485,6 +486,7 @@ class _SstIncidentGeneralInfoViewState
                             FlutterInputField(
                               lineHeight: 6,
                               initialValue: state.model.detailDescription,
+                              showBorder: true,
                               textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 6,
