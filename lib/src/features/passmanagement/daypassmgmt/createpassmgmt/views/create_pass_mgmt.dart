@@ -2452,6 +2452,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             : state.selectedemployeeDepartmentResponse?.id ?? 1,
         name: state.selectedemployeeDepartmentResponse?.name ?? '');
     PassmgmtInfo info = PassmgmtInfo(
+      passType: passInfo.passType,
         id: (state.activePassInfoList?.id == 0)
             ? 1
             : state.activePassInfoList?.id ??
@@ -2508,8 +2509,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     List<CreateImage>? photoimages = photogetFiles ?? [];
     PassEntrySecurity? entrysecurtity =
         PassEntrySecurity(userId: state.getUserDetailsResponse?.userId ?? 1);
+
+
+    log('--passinfo type-22-${passInfo.passType}--------');
+
     PassManagement? passmgmtbody;
     if (widget.dayPassItem != null) {
+      log('--passinfo type--${passInfo.passType}--------');
       passmgmtbody = PassManagement(
         id: isFoundId ?? 0,
         updatedStatus: (statusTextController.text.toLowerCase() == "created" ||
@@ -2564,6 +2570,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         entrySecurity: entrysecurtity,
       );
     } else {
+      log('--passinfo type--333----${passInfo.passType}--------');
       passmgmtbody = PassManagement(
           // id: isFoundId ?? 0,
           inputDate: inputdate.toString(),
