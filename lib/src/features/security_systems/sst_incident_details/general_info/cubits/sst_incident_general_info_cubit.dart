@@ -345,7 +345,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
     emit(
       state.copyWith(
-        // message: response.message,
+        message: response.message,
         status: FormStatus.success,
       ),
     );
