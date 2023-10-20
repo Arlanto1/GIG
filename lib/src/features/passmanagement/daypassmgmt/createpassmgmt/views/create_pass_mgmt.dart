@@ -2360,7 +2360,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         passInfo.passType = 0;
         break;
     }
-    passInfo.passType = int.tryParse(passtypeTextController.text);
     passInfo.passNo = sezpassinfoTextController.text;
     passInfo.mifareNo = mtpApplicationNoTextController.text;
     log('-passtypeTextController-----${passtypeTextController.text}----');
