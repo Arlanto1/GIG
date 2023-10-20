@@ -30,6 +30,7 @@ import '../../../../../utils/util.dart';
 import '../../../../../utils/validators/validator.dart';
 import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import '../../../../createfound/models/create_found_request.dart';
+import '../../../../createfound/models/get_locations_model.dart';
 import '../../../../createfound/models/user.dart';
 
 class OccurrenceDetails extends StatefulWidget {
@@ -266,9 +267,22 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               /// Location
                               CommonWidgets.textDisplay(
                                   Constants.location, Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              locationWidgetdislay(state),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              locationWidgetdislay(
+                                  selectedLocation:
+                                  state.model.location?.name ?? '',
+                                  enabled: state.model.id == null ||
+                                      (state.model.location?.name ?? '').isEmpty,
+                                  locations: state.locations,
+                                  onTap: (Organisation? location) async {
+                                    log('location?.name-----${location?.name}');
+
+                                    state.model.location = location;
+
+                                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                        context)
+                                        .updateDropdownValues(location: location);
+                                  }),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Date of creation
@@ -649,10 +663,10 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           null) ...[
                                         CommonWidgets.horizontalSpacerWidget(
                                             height * 0.01),
-                                        showButtonDisplay(
-                                          occId: state.model.id.toString(),
-                                          occType: 1,
-                                        ),
+                                        // showButtonDisplay(
+                                        //   occId: state.model.id.toString(),
+                                        //   occType: 1,
+                                        // ),
                                       ],
                                     ],
                                   ),
@@ -1497,35 +1511,36 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
   //   );
   // }
 
-  Widget locationWidgetdislay(OccurrenceGeneralInfoState state) {
+  Widget locationWidgetdislay({
+    required bool enabled,
+    GetLocations? locations,
+    required String selectedLocation,
+    Function? onTap,
+  }) {
     return GestureDetector(
       onTap: () {
-        // if (widget.occurrence == null ||
-        //     (state.occurrence.location?.name ?? '').isEmpty)
-        //     {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            // print(state.getLocationsResponse);
-            return CustomExpansionListTexts(
-              getLocationsresponse: state.locations,
-              onTap: (Organisation? list) async {
-                log('list?.name-----${list?.name}');
-
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
-                state.model.location = location;
-
-                BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
-                    .updateDropdownValues(location: location);
-              },
-            );
-          },
-        );
-        // }
+        if (enabled) {
+          selectLocation(
+            locations: locations,
+            onTap: onTap,
+          );
+        }
       },
-      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
+      child: SelectedTileValueWidget(name: selectedLocation),
     );
   }
+
+  void selectLocation({GetLocations? locations, Function? onTap}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        // print(state.getLocationsResponse);
+        return CustomExpansionListTexts(
+          getLocationsresponse: locations,
+          onTap: onTap,
+        );
+      },
+    );
+  }
+
 }

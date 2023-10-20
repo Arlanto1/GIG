@@ -145,8 +145,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         status: FormStatus.loading,
       ),
     );
-
-    /// Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
@@ -154,8 +152,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       );
 
       state.model.location = location;
-      state.model.slNo = slNo.serialNo;
+      state.model.slNo = slNo.serialNo ?? '';
     }
+
 
     if (status != null) {
       state.model.status = status;
