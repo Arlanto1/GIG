@@ -1232,8 +1232,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
     if (widget.passId == '0') {
       passtypeTextController.text = 'DAY_PASS';
-    }
-    else if (widget.passId == '3') {
+    } else if (widget.passId == '3') {
       passtypeTextController.text = 'SEZ_PASS';
     }
     getPassmanagmentList();
@@ -1367,8 +1366,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         passtypeTextController.text = 'VENDOR_PASS';
       } else if (widget.dayPassItem?.passType == 6) {
         passtypeTextController.text = 'DWS_VENDOR_PASS';
-      }
-      else if (widget.dayPassItem?.passInfo?.passType == 3) {
+      } else if (widget.dayPassItem?.passInfo?.passType == 3) {
         passtypeTextController.text = 'SEZ_PASS';
       }
 
@@ -2345,19 +2343,24 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       bool isSubmit, int isFoundId, CreatePassMgmtState state) async {
     PassmgmtInfo passInfo = PassmgmtInfo();
 
-    if(passtypeTextController.text == 'DAY_PASS'){
-      passInfo.passType ==0;
+    switch (passtypeTextController.text) {
+      case 'DAY_PASS':
+        passInfo.passType = 0;
+        break;
+      case 'VISITOR_PASS':
+        passInfo.passType = 1;
+        break;
+      case 'VENDOR_PASS':
+        passInfo.passType = 2;
+        break;
+      case 'SEZ_PASS':
+        passInfo.passType = 3;
+        break;
+      default:
+        passInfo.passType = 0;
+        break;
     }
-    else if(passtypeTextController.text == 'VISITOR_PASS'){
-      passInfo.passType ==1;
-    }
-    else if(passtypeTextController.text == 'VENDOR_PASS'){
-      passInfo.passType ==2;
-    }
-    else if(passtypeTextController.text == 'SEZ_PASS'){
-      passInfo.passType ==3;
-    }
-    passInfo.passType =int.tryParse(passtypeTextController.text);
+    passInfo.passType = int.tryParse(passtypeTextController.text);
     passInfo.passNo = sezpassinfoTextController.text;
     passInfo.mifareNo = mtpApplicationNoTextController.text;
     log('-passtypeTextController-----${passtypeTextController.text}----');
