@@ -144,7 +144,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             )),
         // color: Colors.white,
         height: height / 1.8,
-        width: width -10,
+        width: width - 10,
         child:
             // Row(
             //  children: [
@@ -176,13 +176,13 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           Utils().textHandling('ID : ', widget.id.toString()),
         ],
       ),
-    if (widget.slNo != null && widget.slNo!.isNotEmpty) ...[
-      Row(
-    children: [
-        CommonWidgets.verticalSpacerWidget(8),
-        Utils().textHandling('Sl No : ', widget.slNo.toString()),
-      ],
-      ),
+      if (widget.slNo != null && widget.slNo!.isNotEmpty) ...[
+        Row(
+          children: [
+            CommonWidgets.verticalSpacerWidget(8),
+            Utils().textHandling('Sl No : ', widget.slNo.toString()),
+          ],
+        ),
       ],
       if (widget.locationRegion != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
@@ -258,12 +258,14 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           !widget.isMasterGuard &&
           !widget.isOccurrenceStatus &&
           !widget.isEventProtectionStatus &&
-          !widget.isSLAViolationStatus && !widget.isIncident) ...[
+          !widget.isSLAViolationStatus &&
+          !widget.isIncident) ...[
         CommonWidgets.verticalSpacerWidget(5),
-    Row(
-    children: [
-        Utils().buildStatusRow(widget.status ?? 0),
-    ],),
+        Row(
+          children: [
+            Utils().buildStatusRow(widget.status ?? 0),
+          ],
+        ),
       ],
       if (widget.status != 0 &&
           widget.status != null &&
@@ -401,8 +403,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Utils().textHandling(
-                'Total No of Staff Photograph Not Submitted :',
+            Utils().textHandling('Total No of Staff Photograph Not Submitted :',
                 widget.photoNotSubmitted.toString()),
           ],
         ),
@@ -579,45 +580,44 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.status != null &&
-          widget.isOccurrenceStatus == true) ...[
+      if (widget.status != null && widget.isOccurrenceStatus == true) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
-         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Utils()
-                .buildOccurrenceStatus(widget.status ?? 0),
+            Utils().buildOccurrenceStatus(widget.status ?? 0),
           ],
         ),
       ],
-
-      if(widget.shiftBrfngAttnded !=null && widget.shiftBrfngAttnded == true)...[
-      CommonWidgets.verticalSpacerWidget(5),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Utils().shiftBrfngAttnded(widget.shiftBrfngAttnded ?? true),
-        ],
-      ),
-    ],
-    if(widget.materialMovement !=null && widget.materialMovement == true)...[
-      CommonWidgets.verticalSpacerWidget(5),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Utils().materialMovement(widget.materialMovement ?? true),
-        ],
-      ),
+      if (widget.shiftBrfngAttnded != null &&
+          widget.shiftBrfngAttnded == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().shiftBrfngAttnded(widget.shiftBrfngAttnded ?? true),
+          ],
+        ),
       ],
-      if(widget.leoVisit !=null && widget.leoVisit == true)...[
-      CommonWidgets.verticalSpacerWidget(5),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Utils().leoVisit(widget.leoVisit ?? true),
-        ],
-      ),
-    ],
+      if (widget.materialMovement != null &&
+          widget.materialMovement == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().materialMovement(widget.materialMovement ?? true),
+          ],
+        ),
+      ],
+      if (widget.leoVisit != null && widget.leoVisit == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().leoVisit(widget.leoVisit ?? true),
+          ],
+        ),
+      ],
       if (widget.handOverSecurity != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(
@@ -628,9 +628,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-
-
-      if(widget.status !=null && widget.isIncident ==true)...[
+      if (widget.status != null && widget.isIncident == true) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -639,8 +637,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-
-      if(widget.incidentType !=null)...[
+      if (widget.incidentType != null) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
