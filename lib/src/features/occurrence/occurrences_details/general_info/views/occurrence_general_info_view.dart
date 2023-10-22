@@ -666,10 +666,11 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           null) ...[
                                         CommonWidgets.horizontalSpacerWidget(
                                             height * 0.01),
-                                        // showButtonDisplay(
-                                        //   occId: state.model.id.toString(),
-                                        //   occType: 1,
-                                        // ),
+                                        showButtonDisplay(
+                                          occId: state.model.id.toString(),
+                                          occType: 1,
+                                          state: state,
+                                        ),
                                       ],
                                     ],
                                   ),
@@ -798,6 +799,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                         showButtonDisplay(
                                           occId: state.model.id.toString(),
                                           occType: 2,
+                                          state: state,
                                         ),
                                       ],
                                     ],
@@ -920,55 +922,49 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                   Constants.securitySystemFailureIncidents,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.secSysFailureIncdnt ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
-                                      ? null
-                                      : (val) {
-                                          state.model.secSysFailureIncdnt =
-                                              true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  secSysFailureIncdnt: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: state.model.status == 4
-                                      ? null
-                                      : (val) {
-                                          state.model.secSysFailureIncdnt =
-                                              false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  secSysFailureIncdnt: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
-                                        }),
+                                status: state.model.status ?? 0,
+                                selectedValue:
+                                    state.model.secSysFailureIncdnt ? 1 : 0,
+                                onChangedYes: state.model.status == 6
+                                    ? null
+                                    : (val) {
+                                        state.model.secSysFailureIncdnt = true;
+                                        BlocProvider.of<
+                                                    OccurrenceGeneralInfoCubit>(
+                                                context)
+                                            .showFields(
+                                                secSysFailureIncdnt: true);
+                                        //.onModelValueChange(state.guardingMasterData
+                                        //);
+                                      },
+                                onChangedNo: state.model.status == 4
+                                    ? null
+                                    : (val) {
+                                        state.model.secSysFailureIncdnt = false;
+                                        BlocProvider.of<
+                                                    OccurrenceGeneralInfoCubit>(
+                                                context)
+                                            .showFields(
+                                                secSysFailureIncdnt: false);
+                                        // .onModelValueChange(state.guardingMasterData
+                                        //  );
+                                      },
+                              ),
                               if (state.model.secSysFailureIncdnt == true) ...[
                                 CommonWidgets.textDisplay(
                                     Constants.securitySystemSLAList,
                                     Styles.textStyleBlack14),
                                 GestureDetector(
-                                  onTap: () => navigateToCreateIncident(
-                                    state: state,
-                                    occId: 1,
-                                    isSSTIncident: true,
-                                  ),
+                                  onTap: () {
+                                    openPopUp(state);
+                                  },
                                   child: Row(
                                     children: <Widget>[
-                                      // Expanded(
-                                      //child:
                                       const SizedBox(width: 14),
                                       SvgPicture.asset(
                                         AppIcon.pluscircle,
                                         //color: AppColors.navigationSkybluecolor,
                                       ),
-                                      // ),
                                       const SizedBox(width: 10),
                                       const Text(
                                         'Add Security System SLA List',
@@ -985,6 +981,9 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                         showButtonDisplay(
                                           occId: state.model.id.toString(),
                                           occType: 2,
+                                          state: state,
+                                          isSSTIncident: true,
+                                          showPopUp: true,
                                         ),
                                       ],
                                     ],
@@ -1389,23 +1388,25 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
         ])));
   }
 
-  Future<void> navigateToCreateIncident({
-    required OccurrenceGeneralInfoState state,
-    required int occId,
-    required bool isSSTIncident,
-  }) async {
-    if (state.model.id == null) {
-      BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
-          .submitForm(isSaveOnly: true);
-    }
+  openPopUp(OccurrenceGeneralInfoState state) {
+    BaseDropDown().assetTypeDialog(
+      context: context,
+      dropDownValues: sstIncidentType.map((label) => label.key).toList(),
+      pop: false,
+      onTap: (String value) {
+        Label? selectedLabel;
+        selectedLabel = sstIncidentType.firstWhere(
+          (label) => label.key == value,
+          orElse: () => const Label(key: '', value: ''),
+        );
 
-    // TODO: Need to ask user for SST Incident Type
-    Navigator.pushNamed(
-      context,
-      isSSTIncident ? sstIncidentDetailsRoute : incidentManagementDetailsRoute,
-      arguments: {
-        'occId': state.model.id.toString(),
-        'occType': occId,
+        // Call navigateToCreateIncident here
+        navigateToCreateIncident(
+          state: state,
+          occId: 1,
+          isSSTIncident: true,
+          isInternal: selectedLabel.value == '0' ? true : false,
+        );
       },
     );
   }
@@ -1439,12 +1440,41 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     );
   }
 
+  Future<void> navigateToCreateIncident({
+    required OccurrenceGeneralInfoState state,
+    required int occId,
+    required bool isSSTIncident,
+    bool? isInternal,
+  }) async {
+    log('---navigateToCreateIncident--@@@-');
+    // if (state.model.id == null) {
+    //   BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
+    //       .submitForm(isSaveOnly: true);
+    // }
+
+    var map = {
+      'occId': state.model.id.toString(),
+      'occType': occId,
+    };
+    if (isInternal ?? false) {
+      map.putIfAbsent('isInternal', () => isInternal ?? false);
+    }
+    log('---navigateToCreateIncident--@@@----2----');
+
+    Navigator.pushNamed(
+      context,
+      isSSTIncident ? sstIncidentDetailsRoute : incidentManagementDetailsRoute,
+      arguments: map,
+    );
+  }
+
   Widget showButtonDisplay({
     required String occId,
     required int occType,
     bool? isSSTIncident,
+    bool? showPopUp,
+    required OccurrenceGeneralInfoState state,
   }) {
-    log('-showButtonDisplay-occId---$occId--');
     return AppButton(
       // Customize the button properties as needed
       height: 40,
@@ -1454,10 +1484,16 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
       buttonText: Constants.showList,
       buttonTextKey: Keys.showButton,
       onTap: () => {
-        Navigator.pushNamed(context, incidentManagementsRoute, arguments: {
-          'occId': occId,
-          'occType': occType,
-        }),
+        showPopUp ?? false
+            ? openPopUp(state)
+            : Navigator.pushNamed(
+                context,
+                incidentManagementsRoute,
+                arguments: {
+                  'occId': occId,
+                  'occType': occType,
+                },
+              ),
       },
     );
   }
