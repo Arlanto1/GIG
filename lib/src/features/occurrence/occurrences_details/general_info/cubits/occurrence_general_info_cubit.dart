@@ -321,6 +321,16 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     GenericCreateResponse response = GenericCreateResponse();
     try {
       if (isSaveOnly) {
+        if (!state.isValidDraft.status) {
+          log('--isSaveOnly--else--if$isSaveOnly--');
+          emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValidDraft.message,
+            ),
+          );
+          return;
+        }
         response = (await services.create(
           body: request,
           isSubmit: false,

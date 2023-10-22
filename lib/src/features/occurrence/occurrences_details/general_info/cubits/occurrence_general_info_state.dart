@@ -50,6 +50,9 @@ class OccurrenceGeneralInfoState extends Equatable {
 
     log('-model.status---${model.status}--');
 
+    if (model.location == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Location');
+    }
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
