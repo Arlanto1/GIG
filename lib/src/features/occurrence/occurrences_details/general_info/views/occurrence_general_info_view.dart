@@ -1447,10 +1447,10 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     bool? isInternal,
   }) async {
     log('---navigateToCreateIncident--@@@-');
-    if (state.model.id == null) {
-      BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
-          .submitForm(isSaveOnly: true);
-    }
+    // if (state.model.id == null) {
+    //   BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
+    //       .submitForm(isSaveOnly: true);
+    // }
 
     var map = {
       'occId': state.model.id.toString(),

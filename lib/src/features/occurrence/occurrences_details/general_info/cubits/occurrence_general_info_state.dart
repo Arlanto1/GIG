@@ -47,73 +47,95 @@ class OccurrenceGeneralInfoState extends Equatable {
   }
 
   ErrorResponse get isValidDraft {
-
     log('-model.status---${model.status}--');
 
     if (model.location == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Location');
+      log('-model.location-----isValidDraft-');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Location');
     }
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
 
     if (model.handOverSecurity == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Shift Taken Over By.');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Shift Taken Over By.');
     }
     if (model.medicalEmrgncy && model.medicalEmrgncyComments == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Medical Emergency Comments');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Medical Emergency Comments');
     }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
+
   ErrorResponse get isValid {
+    if (model.location == null) {
+      log('-model.location-----isValid-');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Location');
+    }
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
 
     if (model.handOverSecurity == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Shift Taken Over By.');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Shift Taken Over By.');
     }
 
     if (model.medicalEmrgncy && model.medicalEmrgncyComments == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Medical Emergency Comments');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Medical Emergency Comments');
     }
 
     if (model.socialEnggIncdnt && model.socialEnggIncdntComments == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Social Engineering Incidents Comments');
+      return const ErrorResponse(
+          status: false,
+          message: 'Please enter Social Engineering Incidents Comments');
     }
 
     if (model.infraIssue && model.infraIssueComments == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Any Infrastructural Issue Comments');
+      return const ErrorResponse(
+          status: false,
+          message: 'Please enter Any Infrastructural Issue Comments');
     }
 
     if (model.fireAlarmEmrgncy && model.fireAlarmEmrgncyComments == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Fire alarm emergency Occurred Comments');
+      return const ErrorResponse(
+          status: false,
+          message: 'Please enter Fire alarm emergency Occurred Comments');
     }
 
     if (model.landlordIssue && model.landlordIssueComments == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Landlord Issue Comments');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Landlord Issue Comments');
     }
 
     if (model.sysAlarmRcvd && model.sysAlarmRcvdComments == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Any system alarm received Comments');
+      return const ErrorResponse(
+          status: false,
+          message: 'Please enter Any system alarm received Comments');
     }
 
     if (model.transportIncdnt && model.transportIncdntComments == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Transport Incident Comments');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Transport Incident Comments');
     }
 
     if (model.anyEvent && model.notifyScri == null) {
-      return const ErrorResponse(status: false, message: 'Notify SCRI is Mandatory');
+      return const ErrorResponse(
+          status: false, message: 'Notify SCRI is Mandatory');
     }
 
     if (model.powerFailure && model.powerFailureStartDate == null) {
-      return const ErrorResponse(status: false, message: 'Power Failure Start Date is Mandatory');
+      return const ErrorResponse(
+          status: false, message: 'Power Failure Start Date is Mandatory');
     }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
-
 
   @override
   List<Object?> get props => [model, status];
