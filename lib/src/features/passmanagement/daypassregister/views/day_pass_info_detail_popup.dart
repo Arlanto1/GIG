@@ -9,8 +9,6 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 
 class DayPassInfoCustomPopUpList extends StatefulWidget {
   DaypassInfoListElement? userItem;
@@ -98,12 +96,12 @@ class _DayPassInfoCustomPopUpListState extends State<DayPassInfoCustomPopUpList>
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              textHandling('Type Of Pass : ', widget.userItem?.passType.toString() ?? " "),
-            ],
-          ),
+                  Row(
+                    children: [
+                      Utils().passManagementPassTypeRow(widget.userItem?.passType ?? 0),
+                    ],
+                  ),
+          if(widget.userItem?.region !=null)...[
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
@@ -111,6 +109,8 @@ class _DayPassInfoCustomPopUpListState extends State<DayPassInfoCustomPopUpList>
                   'Region : ', widget.userItem?.region?.name.toString() ?? " "),
             ],
           ),
+          ],
+    if(widget.userItem?.location !=null)...[
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
@@ -118,7 +118,8 @@ class _DayPassInfoCustomPopUpListState extends State<DayPassInfoCustomPopUpList>
                   widget.userItem?.location?.name.toString() ?? " "),
             ],
           ),
-         
+         ],
+         if(widget.userItem?.entity !=null)...[
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
@@ -126,6 +127,8 @@ class _DayPassInfoCustomPopUpListState extends State<DayPassInfoCustomPopUpList>
                   widget.userItem?.entity?.name.toString() ?? ""),
             ],
           ),
+           ],
+          if(widget.userItem?.expiryDate !=null)...[
            CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
@@ -136,6 +139,7 @@ class _DayPassInfoCustomPopUpListState extends State<DayPassInfoCustomPopUpList>
                        int.parse(widget.userItem?.expiryDate ?? '0'),Constants.dateFormat): ''),
             ],
           ),
+          ],
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
@@ -143,28 +147,20 @@ class _DayPassInfoCustomPopUpListState extends State<DayPassInfoCustomPopUpList>
                   widget.userItem?.dws.toString() ?? " "),
             ],
           ),
+          // CommonWidgets.verticalSpacerWidget(8),
+          // Row(
+          //   children: [
+          //     textHandling(
+          //         'Remarks : ',  " "),
+          //   ],
+          // ),
           CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling(
-                  'Remarks : ',  " "),
-            ],
-          ),
-           CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling(
-                  'Day Pass No : ', widget.userItem?.passNo?.toString() ?? " "
-                 ),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-               textHandling('Status : ',
-                             (widget.userItem?.status ?? '').toString()),
-            ],
-          ),
+                  Row(
+                    children: [
+                      Utils().buildPassManagementStatusRow(
+                          widget.userItem?.status ?? 0),
+                    ],
+                  )
         ])
                 //),
                 //    ),

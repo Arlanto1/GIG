@@ -183,7 +183,6 @@ class Utils {
     );
   }
 
-
   Widget buildLeoStatusRow(int status) {
     String statusText;
 
@@ -250,7 +249,6 @@ class Utils {
   }
 
   Widget buildMasterDataStatusRow(int status) {
-    log('--buildMasterDataStatusRow----');
     String statusText;
 
     switch (status) {
@@ -559,6 +557,314 @@ class Utils {
       ),
     );
   }
+
+  Widget passManagementPassTypeRow(int passType) {
+    String passTypeText;
+
+    switch (passType) {
+      case 0:
+        passTypeText = 'Day Pass';
+        break;
+      case 1:
+        passTypeText = 'Visitor Pass';
+        break;
+      case 2:
+        passTypeText = 'Vendor Pass';
+        break;
+      case 3:
+        passTypeText = 'SEZ Pass';
+        break;
+      case 4:
+        passTypeText = 'DWS Day Pass';
+        break;
+      case 5:
+        passTypeText = 'DWS Visitor Pass';
+        break;
+      case 6:
+        passTypeText = 'DWS Vendor Pass';
+        break;
+      default:
+        passTypeText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('PassType: ', passTypeText),
+        ],
+      ),
+    );
+  }
+
+  Widget buildOccurrenceStatus(int status) {
+    String statusText;
+
+    switch (status) {
+      case 1:
+        statusText = 'Created';
+        break;
+      case 2:
+        statusText = 'Submitted';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
+
+  Widget buildIncidentStatus(int status) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Created';
+        break;
+      case 1:
+        statusText = 'Complainant Review';
+        break;
+      case 2:
+        statusText = 'IM Pre Review';
+        break;
+      case 3:
+        statusText = 'IM Pre Reject';
+        break;
+      case 4:
+        statusText = 'IM Pre Approve';
+        break;
+      case 5:
+        statusText = 'IO Role Review';
+        break;
+      case 6:
+        statusText = 'IO Role Reject';
+        break;
+      case 7:
+        statusText = 'IO Role Approve';
+        break;
+      case 8:
+        statusText = 'Investigation';
+        break;
+      case 9:
+        statusText = 'Pass';
+        break;
+      case 10:
+        statusText = 'Pass Review';
+        break;
+      case 11:
+        statusText = 'Pass Reject';
+        break;
+      case 12:
+        statusText = 'Pass Approve';
+        break;
+      case 13:
+        statusText = 'RCA';
+        break;
+      case 14:
+        statusText = 'RCA Review';
+        break;
+      case 15:
+        statusText = 'RCA Reject';
+        break;
+      case 16:
+        statusText = 'RCA Approve';
+        break;
+      case 17:
+        statusText = 'RCA System Review';
+        break;
+      case 18:
+        statusText = 'RCA System Reject';
+        break;
+      case 19:
+        statusText = 'RCA System Approve';
+        break;
+      case 20:
+        statusText = 'Data Loss';
+        break;
+      case 21:
+        statusText = 'Data Loss Review';
+        break;
+      case 22:
+        statusText = 'Data Loss Reject';
+        break;
+      case 23:
+        statusText = 'Data Loss Approve';
+        break;
+      case 24:
+        statusText = 'Further Investigation';
+        break;
+      case 25:
+        statusText = 'RCA Action Plan';
+        break;
+      case 26:
+        statusText = 'RCA Action Plan Review';
+        break;
+      case 27:
+        statusText = 'RCA Action Plan Reject';
+        break;
+      case 28:
+        statusText = 'RCA Action Plan Approve';
+        break;
+      case 29:
+        statusText = 'IO Review';
+        break;
+      case 30:
+        statusText = 'IO Reject';
+        break;
+      case 31:
+        statusText = 'IO Approve';
+        break;
+      case 32:
+        statusText = 'FTE CWR Involved';
+        break;
+      case 33:
+        statusText = 'IM Final Review';
+        break;
+      case 34:
+        statusText = 'Read Across';
+        break;
+      case 35:
+        statusText = 'Read Across Review';
+        break;
+      case 36:
+        statusText = 'Read Across Reject';
+        break;
+      case 37:
+        statusText = 'Read Across Approve';
+        break;
+      case 38:
+        statusText = 'Investigation Done';
+        break;
+      case 39:
+        statusText = 'Closed';
+        break;
+      case 40:
+        statusText = 'Cancelled';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
+
+  Widget buildSLAViolationStatus(int status) {
+    String statusText;
+
+    switch (status) {
+      case 1:
+        statusText = 'Active';
+        break;
+      case 2:
+        statusText = 'Draft';
+        break;
+      case 3:
+        statusText = 'Finalize';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
+
+  Widget leoVisit(bool status) {
+    String statusText;
+    switch (status) {
+      case true:
+        statusText = 'Yes';
+        break;
+      default:
+        statusText = 'No'; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('LEO Visit: ', statusText),
+        ],
+      ),
+    );
+  }
+
+  Widget materialMovement(bool status) {
+    String statusText;
+    switch (status) {
+      case true:
+        statusText = 'Yes';
+        break;
+      default:
+        statusText = 'No'; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Material Movement: ', statusText),
+        ],
+      ),
+    );
+  }
+
+  Widget shiftBrfngAttnded(bool status) {
+    String statusText;
+    switch (status) {
+      case true:
+        statusText = 'Yes';
+        break;
+      default:
+        statusText = 'No'; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Shift Briefing Attended: ', statusText),
+        ],
+      ),
+    );
+  }
+
+  Widget incidentType(int incidentType) {
+    String incidentTypeText;
+    switch (incidentType) {
+      case 0:
+        incidentTypeText = 'Loss';
+        break;
+      case 1:
+        incidentTypeText = 'Damage';
+        break;
+      case 2:
+        incidentTypeText = 'Workplace Violence';
+        break;
+      case 3:
+        incidentTypeText = 'Negligence';
+        break;
+      case 4:
+        incidentTypeText = 'General';
+        break;
+      default:
+        incidentTypeText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Incident Type: ', incidentTypeText),
+        ],
+      ),
+    );
+  }
+
   Widget textHandling(String title, String desc) {
     return RichText(
       overflow: TextOverflow.ellipsis,
@@ -566,6 +872,11 @@ class Utils {
         style: Styles.textStyleRegularNormalGrey14,
         children: <TextSpan>[
           TextSpan(text: title),
+          if (desc.length > 15) ...[
+            const TextSpan(
+              text: '\n', // Add '\n' before desc
+            ),
+          ],
           TextSpan(
             text: desc,
             style: Styles.textStyleBoldGrey14,

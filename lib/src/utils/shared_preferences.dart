@@ -119,7 +119,7 @@ class SharedPrefs {
 
   static removeAccessToken() async {
     //final prefs = await SharedPreferences.getInstance();
-    instance.remove(Constants.isAccessToken) ?? '';
+    instance.remove(Constants.isAccessToken);
   }
 
   static Future<void> setSessionToken(String token) async {
@@ -133,7 +133,7 @@ class SharedPrefs {
 
   static removeSessionAccessToken() async {
     //final prefs = await SharedPreferences.getInstance();
-    instance.remove(Constants.isSessionToken) ?? '';
+    instance.remove(Constants.isSessionToken);
   }
 
   static Future<void> setMaterialMovementId(int value) async {

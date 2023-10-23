@@ -1,10 +1,8 @@
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
@@ -15,13 +13,19 @@ import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcemen
 import 'package:equatable/equatable.dart';
 
 import '../../../models/base_user.dart';
-import '../../../models/department.dart';
 import '../../../models/entity.dart';
-import '../../../models/entry_security.dart';
+import '../../../models/organisation.dart';
+import '../../createfound/models/user.dart';
 
-enum LawEnforcementStateType { initial, loading, success, failure, addattachment }
+enum LawEnforcementStateType {
+  initial,
+  loading,
+  success,
+  failure,
+  addattachment
+}
 
- class LawEnforcementState extends Equatable {
+class LawEnforcementState extends Equatable {
   GetDepositor? getDepositorResponse;
   AddEntities? getEntitiesResponse;
   LeoDepartments? getLeodepartmentsResponse;
@@ -31,28 +35,31 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
   String? errorMessage;
   GetLocations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
-  List<Entity>?  listOfEntities;
+  List<Entity>? listOfEntities;
   Mumbai? locationSelectedlist;
   AtomLeoPurposeVisit? leoPurposeVisitResponse;
   AtomLeoDepartment? leoDepartmentsResponse;
   SerialNumberModel? serialnumberResponse;
   String? radioButtonItem = '';
-  int? isOfficialIdcardSelected ;
-  int? isDocumentifanySelected ;
-  int? isIncaseofpoliceSelected ;
+  int? isOfficialIdcardSelected;
+
+  int? isDocumentifanySelected;
+
+  int? isIncaseofpoliceSelected;
+
   BaseUser? getuserResponse;
   EmployeeDepartments? employeeDepartment;
-  Department? selectedemployeeDepartmentResponse;
+  Organisation? selectedemployeeDepartmentResponse;
   List<CreateImage>? loadAttachments = [];
   List<VistingOfficialsModel>? getVisits = [];
   int? getVisitsCount = 0;
-  EntrySecurity? getUserDetailsResponse;
+  User? getUserDetailsResponse;
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
   List<DistributionGroup>? loadGroups = [];
   DistributionGroupModel? groups;
   DistributionGroup? listIndividualdept;
-  CreateOrganisation? createOrganisationResponse;
-  CreateOrganisation? createEmployeeDepartments;
+  Organisation? createOrganisationResponse;
+  Organisation? createEmployeeDepartments;
   CreateUserModel? createUserResponse;
   bool? isDistributed;
 
@@ -60,7 +67,7 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
     this.getEntitiesResponse,
     this.getLeodepartmentsResponse,
     this.getLeopurposeResponse,
-    this.eventId, 
+    this.eventId,
     required this.stateType,
     this.errorMessage,
     this.getLocationsResponse,
@@ -90,85 +97,94 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
     this.createOrganisationResponse,
     this.createUserResponse,
     this.isDistributed,
-
   });
+
   LawEnforcementState copyWith({
-  AddEntities? getEntitiesResponse,
-  LeoDepartments? getLeodepartmentsResponse,
-  LeoPurposeVisit? getLeopurposeResponse,
-  final int? eventId,
-  LawEnforcementStateType? stateType,
-  String? errorMessage,
-  GetLocations? getLocationsResponse,
-  SerialNumberModel? getSerialnumberResponse,
- List<Entity>?  listOfEntities,
-  Mumbai? locationSelectedlist,
-  AtomLeoPurposeVisit? leoPurposeVisitResponse,
-  AtomLeoDepartment? leoDepartmentsResponse,
-  SerialNumberModel? serialnumberResponse,
-  String? radioButtonItem = '',
-  int? isOfficialIdcardSelected ,
-  int? isDocumentifanySelected ,
-  int? isIncaseofpoliceSelected ,
-  GetDepositor? getDepositorResponse,
-  BaseUser? getuserResponse,
-  EmployeeDepartments? employeeDepartment,
-  Department? selectedemployeeDepartmentResponse,
-  List<CreateImage>? loadAttachments,
-  int? getVisitsCount,
-  List<VistingOfficialsModel>? getVisits,
-    EntrySecurity? getUserDetailsResponse,
-  SubmitLawEnforcementResponse? lawcreateFoundresponse,
-  List<DistributionGroup>? loadGroups, 
-  DistributionGroupModel? groups,
-  DistributionGroup? listIndividualdept,
-  CreateOrganisation? createOrganisationResponse,
-  CreateOrganisation? createEmployeeDepartments,
-  CreateUserModel? createUserResponse,
-  bool? isDistributed,
-
-
-  
-  
+    AddEntities? getEntitiesResponse,
+    LeoDepartments? getLeodepartmentsResponse,
+    LeoPurposeVisit? getLeopurposeResponse,
+    final int? eventId,
+    LawEnforcementStateType? stateType,
+    String? errorMessage,
+    GetLocations? getLocationsResponse,
+    SerialNumberModel? getSerialnumberResponse,
+    List<Entity>? listOfEntities,
+    Mumbai? locationSelectedlist,
+    AtomLeoPurposeVisit? leoPurposeVisitResponse,
+    AtomLeoDepartment? leoDepartmentsResponse,
+    SerialNumberModel? serialnumberResponse,
+    String? radioButtonItem = '',
+    int? isOfficialIdcardSelected,
+    int? isDocumentifanySelected,
+    int? isIncaseofpoliceSelected,
+    GetDepositor? getDepositorResponse,
+    BaseUser? getuserResponse,
+    EmployeeDepartments? employeeDepartment,
+    Organisation? selectedemployeeDepartmentResponse,
+    List<CreateImage>? loadAttachments,
+    int? getVisitsCount,
+    List<VistingOfficialsModel>? getVisits,
+    User? getUserDetailsResponse,
+    SubmitLawEnforcementResponse? lawcreateFoundresponse,
+    List<DistributionGroup>? loadGroups,
+    DistributionGroupModel? groups,
+    DistributionGroup? listIndividualdept,
+    Organisation? createOrganisationResponse,
+    Organisation? createEmployeeDepartments,
+    CreateUserModel? createUserResponse,
+    bool? isDistributed,
   }) {
-    return  LawEnforcementState(
-      getEntitiesResponse : getEntitiesResponse ?? this.getEntitiesResponse,
-      getLeodepartmentsResponse : getLeodepartmentsResponse ?? this.getLeodepartmentsResponse,
-      getLeopurposeResponse : getLeopurposeResponse ?? this.getLeopurposeResponse,
-      eventId : eventId ?? this.eventId,
-      stateType  : stateType ?? this.stateType,
-      errorMessage : errorMessage ?? this.errorMessage,
-      getLocationsResponse:  getLocationsResponse ?? this.getLocationsResponse,
-      getSerialnumberResponse: getSerialnumberResponse ?? this.getSerialnumberResponse,
+    return LawEnforcementState(
+      getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
+      getLeodepartmentsResponse:
+          getLeodepartmentsResponse ?? this.getLeodepartmentsResponse,
+      getLeopurposeResponse:
+          getLeopurposeResponse ?? this.getLeopurposeResponse,
+      eventId: eventId ?? this.eventId,
+      stateType: stateType ?? this.stateType,
+      errorMessage: errorMessage ?? this.errorMessage,
+      getLocationsResponse: getLocationsResponse ?? this.getLocationsResponse,
+      getSerialnumberResponse:
+          getSerialnumberResponse ?? this.getSerialnumberResponse,
       listOfEntities: listOfEntities ?? this.listOfEntities,
-      locationSelectedlist:  locationSelectedlist ?? this.locationSelectedlist,
-      leoPurposeVisitResponse: leoPurposeVisitResponse ?? this.leoPurposeVisitResponse,
-      leoDepartmentsResponse: leoDepartmentsResponse ?? this.leoDepartmentsResponse,
+      locationSelectedlist: locationSelectedlist ?? this.locationSelectedlist,
+      leoPurposeVisitResponse:
+          leoPurposeVisitResponse ?? this.leoPurposeVisitResponse,
+      leoDepartmentsResponse:
+          leoDepartmentsResponse ?? this.leoDepartmentsResponse,
       serialnumberResponse: serialnumberResponse ?? this.serialnumberResponse,
       radioButtonItem: radioButtonItem ?? this.radioButtonItem,
-      isOfficialIdcardSelected: isOfficialIdcardSelected ?? this.isOfficialIdcardSelected,
-      isDocumentifanySelected: isDocumentifanySelected ?? this.isDocumentifanySelected,
-      isIncaseofpoliceSelected: isIncaseofpoliceSelected ?? this.isIncaseofpoliceSelected,
+      isOfficialIdcardSelected:
+          isOfficialIdcardSelected ?? this.isOfficialIdcardSelected,
+      isDocumentifanySelected:
+          isDocumentifanySelected ?? this.isDocumentifanySelected,
+      isIncaseofpoliceSelected:
+          isIncaseofpoliceSelected ?? this.isIncaseofpoliceSelected,
       getDepositorResponse: getDepositorResponse ?? this.getDepositorResponse,
       getuserResponse: getuserResponse ?? this.getuserResponse,
       employeeDepartment: employeeDepartment ?? this.employeeDepartment,
-      selectedemployeeDepartmentResponse: selectedemployeeDepartmentResponse ?? this.selectedemployeeDepartmentResponse,
+      selectedemployeeDepartmentResponse: selectedemployeeDepartmentResponse ??
+          this.selectedemployeeDepartmentResponse,
       loadAttachments: loadAttachments ?? this.loadAttachments,
       getVisits: getVisits ?? this.getVisits,
       getVisitsCount: getVisitsCount ?? this.getVisitsCount,
-      getUserDetailsResponse: getUserDetailsResponse ?? this.getUserDetailsResponse,
-      lawcreateFoundresponse: lawcreateFoundresponse ?? this.lawcreateFoundresponse,
+      getUserDetailsResponse:
+          getUserDetailsResponse ?? this.getUserDetailsResponse,
+      lawcreateFoundresponse:
+          lawcreateFoundresponse ?? this.lawcreateFoundresponse,
       loadGroups: loadGroups ?? this.loadGroups,
       groups: groups ?? this.groups,
       listIndividualdept: listIndividualdept ?? this.listIndividualdept,
-      createEmployeeDepartments: createEmployeeDepartments ?? this.createEmployeeDepartments,
-      createOrganisationResponse: createOrganisationResponse ?? this.createOrganisationResponse,
+      createEmployeeDepartments:
+          createEmployeeDepartments ?? this.createEmployeeDepartments,
+      createOrganisationResponse:
+          createOrganisationResponse ?? this.createOrganisationResponse,
       createUserResponse: createUserResponse ?? this.createUserResponse,
       isDistributed: isDistributed ?? this.isDistributed,
     );
   }
 
-   @override
+  @override
   List<Object?> get props => [
         getEntitiesResponse,
         getLeodepartmentsResponse,
@@ -204,5 +220,4 @@ enum LawEnforcementStateType { initial, loading, success, failure, addattachment
         createUserResponse,
         isDistributed,
       ];
-
 }

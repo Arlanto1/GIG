@@ -1,22 +1,16 @@
 // Created by Ramesh
-import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
 import 'package:equatable/equatable.dart';
 
-enum LawEnforcementListStateType {
-  initial,
-  loading,
-  success,
-  failure,
-}
+import '../../../enums/form_status.dart';
+
 
 class LawEnforcementListState extends Equatable {
   LawEnforcementListResponse? lawEnforcementListModel;
   LawEnforcementDetails? lawEnforcementDetails;
   final String? errorMessage;
-  late final LawEnforcementListStateType stateType;
+  late final FormStatus stateType;
 
   LawEnforcementListState({
     this.lawEnforcementListModel,
@@ -29,7 +23,7 @@ class LawEnforcementListState extends Equatable {
     LawEnforcementListResponse? lawEnforcementListModel,
     LawEnforcementDetails? lawEnforcementDetails,
     String? errorMessage,
-    LawEnforcementListStateType? stateType,
+    FormStatus? stateType,
   }) {
     return LawEnforcementListState(
       lawEnforcementListModel: lawEnforcementListModel ?? this.lawEnforcementListModel,

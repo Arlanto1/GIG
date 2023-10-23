@@ -1,7 +1,5 @@
-// Created by Ramesh
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_submit_model.dart';
-import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
@@ -10,7 +8,8 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../models/entry_security.dart';
+import '../../../models/organisation.dart';
+import '../models/user.dart';
 
 enum CreateFoundStateType { initial, loading, success, failure, addattachment }
 
@@ -19,10 +18,10 @@ class CreateFoundState extends Equatable {
   GetLocations? getLocationsResponse;
   EmployeeDepartments? getEmployeeDepartmentsResponse;
   GetArticleType? getArticleTypeResponse;
-  CreateOrganisation? createOrganisationResponse;
-  CreateOrganisation? createEmployeeDepartments;
+  Organisation? createOrganisationResponse;
+  Organisation? createEmployeeDepartments;
   CreateUserModel? createUserResponse;
-  EntrySecurity? getUserDetailsResponse;
+  User? getUserDetailsResponse;
   SubmitCreateFoundModel? createFoundResponse;
   SerialNumberModel? getSerialnumberResponse;
   final String? errorMessage;
@@ -52,10 +51,10 @@ class CreateFoundState extends Equatable {
     GetLocations? getLocationsResponse,
     EmployeeDepartments? getEmployeeDepartmentsResponse,
     GetArticleType? getArticleTypeResponse,
-    CreateOrganisation? createOrganisationResponse,
-    CreateOrganisation? createEmployeeDepartments,
+    Organisation? createOrganisationResponse,
+    Organisation? createEmployeeDepartments,
     CreateUserModel? createUserResponse,
-    EntrySecurity? getUserDetailsResponse,
+    User? getUserDetailsResponse,
     SubmitCreateFoundModel? createFoundResponse,
     SerialNumberModel? getSerialnumberResponse,
     String? errorMessage,

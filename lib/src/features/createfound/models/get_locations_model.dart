@@ -4,15 +4,17 @@
 
 import 'dart:convert';
 
+import '../../../models/organisation.dart';
+
 GetLocations getLocationsFromJson(String str) => GetLocations.fromJson(json.decode(str));
 
 String getLocationsToJson(GetLocations data) => json.encode(data.toJson());
 
 class GetLocations {
-  List<Mumbai>? west;
-  List<Mumbai>? south;
-  List<Mumbai>? northEast;
-  List<Mumbai>? mumbai;
+  List<Organisation>? west;
+  List<Organisation>? south;
+  List<Organisation>? northEast;
+  List<Organisation>? mumbai;
 
   GetLocations({
     this.west,
@@ -24,16 +26,16 @@ class GetLocations {
   factory GetLocations.fromJson(Map<String, dynamic> json) => GetLocations(
         west: json["West"] == null
             ? []
-            : List<Mumbai>.from(json["West"]!.map((x) => Mumbai.fromJson(x))),
+            : List<Organisation>.from(json["West"]!.map((x) => Organisation.fromJson(x))),
         south: json["South"] == null
             ? []
-            : List<Mumbai>.from(json["South"]!.map((x) => Mumbai.fromJson(x))),
+            : List<Organisation>.from(json["South"]!.map((x) => Organisation.fromJson(x))),
         northEast: json["North & East"] == null
             ? []
-            : List<Mumbai>.from(json["North & East"]!.map((x) => Mumbai.fromJson(x))),
+            : List<Organisation>.from(json["North & East"]!.map((x) => Organisation.fromJson(x))),
         mumbai: json["Mumbai"] == null
             ? []
-            : List<Mumbai>.from(json["Mumbai"]!.map((x) => Mumbai.fromJson(x))),
+            : List<Organisation>.from(json["Mumbai"]!.map((x) => Organisation.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

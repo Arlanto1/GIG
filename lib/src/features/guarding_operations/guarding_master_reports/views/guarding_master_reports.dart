@@ -4,11 +4,11 @@ import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../enums/form_status.dart';
 import '../bloc/guarding_master_report_bloc.dart';
 
 class GuardingMasterReport extends StatefulWidget {
@@ -64,7 +64,7 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
         ),
         body: BlocBuilder<GuardingMasterReportBloc, GuardingMasterReportState>(
             builder: (context, state) {
-          if (state.status == LawEnforcementListStateType.initial) {
+          if (state.status == FormStatus.initial) {
             return const Center(
               child: CircularProgressIndicator(),
             );

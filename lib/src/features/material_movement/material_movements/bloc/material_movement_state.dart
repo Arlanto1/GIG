@@ -3,17 +3,17 @@ part of 'material_movement_bloc.dart';
 class MaterialMovementState extends Equatable {
   final List<MaterialMovementModel> items;
   final bool hasReachedMax;
-  final LawEnforcementListStateType status;
+  final FormStatus status;
 
   const MaterialMovementState(
       {this.items = const <MaterialMovementModel>[],
       this.hasReachedMax = false,
-      this.status = LawEnforcementListStateType.initial});
+      this.status = FormStatus.initial});
 
   MaterialMovementState copyWith({
     List<MaterialMovementModel>? items,
     bool? hasReachedMax,
-    LawEnforcementListStateType? status,
+    FormStatus? status,
   }) {
     return MaterialMovementState(
       items: items ?? this.items,

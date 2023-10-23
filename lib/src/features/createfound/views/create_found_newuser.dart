@@ -47,11 +47,11 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
     await createFoundArticleCubit.createUser(
         firstname, lastname, email, 'ATOM_STATIC_USER', context);
     }
-    else if (widget.createpassmgmtstate != null)
-    {
-       await createpassmgmtCubit.createUser(
-        firstname, lastname, email, 'ATOM_STATIC_USER', context);
-    }
+    // else if (widget.createpassmgmtstate != null)
+    // {
+    //    await createpassmgmtCubit.createUser(
+    //     firstname, lastname, email, 'ATOM_STATIC_USER', context);
+    // }
      else if (widget.lawstate != null)
     {
        await lawenforcementCubit.createUser(

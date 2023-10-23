@@ -3,17 +3,17 @@ part of 'event_protections_bloc.dart';
 class EventProtectionsState extends Equatable {
   final List<EventProtectionModel> items;
   final bool hasReachedMax;
-  final LawEnforcementListStateType status;
+  final FormStatus status;
 
   const EventProtectionsState(
       {this.items = const <EventProtectionModel>[],
         this.hasReachedMax = false,
-        this.status = LawEnforcementListStateType.initial});
+        this.status = FormStatus.initial});
 
   EventProtectionsState copyWith({
     List<EventProtectionModel>? items,
     bool? hasReachedMax,
-    LawEnforcementListStateType? status,
+    FormStatus? status,
   }) {
     return EventProtectionsState(
       items: items ?? this.items,

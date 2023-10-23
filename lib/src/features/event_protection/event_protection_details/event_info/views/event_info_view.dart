@@ -22,7 +22,6 @@ import 'package:quill_html_editor/quill_html_editor.dart';
 import '../../../../../common_widgets/base_widget/base_image_upload.dart';
 import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../constants/app_icon.dart';
-import '../../../../../models/entry_security.dart';
 import '../../../../../routing/router.dart';
 import '../../../../../utils/util.dart';
 import '../cubits/event_info_cubit.dart';
@@ -372,7 +371,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                           BaseImageUpload().uploadWidget(
                             context: context,
                             loggedInUserDetails:
-                                state.loggedInUserDetails ?? EntrySecurity(),
+                                state.loggedInUserDetails ?? User(),
                             getFiles: guardFiles,
                             onImageSelected: (CreateImage data) {
                               log('-------function---onImageSelected---------');

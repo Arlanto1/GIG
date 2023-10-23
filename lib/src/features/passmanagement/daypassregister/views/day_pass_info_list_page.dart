@@ -1,10 +1,7 @@
-// Created by Ramesh
-
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/custom_pop_menu.dart';
-import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/common_widgets/image_download.dart';
 import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
@@ -40,7 +37,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
   int pageNumber = 0;
-  List<DaypassInfoListElement>? localfoundlist;
+  List<DaypassInfoListElement>? localFoundList;
   late ScrollController scrollController;
    bool isPaginationLoading = false;
 
@@ -59,9 +56,9 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
     if (scrollController.position.maxScrollExtent ==
         scrollController.position.pixels) {
      
-      if ((localfoundlist?.length ?? 0) > 0)
+      if ((localFoundList?.length ?? 0) > 0)
       {
-         pageNumber =  ((localfoundlist?.length ?? 0));
+         pageNumber =  ((localFoundList?.length ?? 0));
       }
       else
       {
@@ -132,15 +129,11 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
             itemList: const [
               PopMenuItems("Export Excel", AppIcon.exportexcel),
               PopMenuItems("Export PDF", AppIcon.exportpdf),
-              //PopMenuItems("Export XML", AppIcon.exportxml),
-              //PopMenuItems("Close", AppIcon.close),
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
               print(value);
               if (value == 0) {
-                // DownloadImage().exportExcel(context, int.parse(userid),
-                //     'export.xslx', 0, pageNumber, '/exportPassInfoExcel');
                   DownloadImage().passexportExcel(context, int.parse(userid), 'export.xslx', int.parse(widget.passId ?? '0'),0 , '/exportPassInfoExcel');   
               } else if (value == 1) {
                 // DownloadImage().exportPdf(context, int.parse(userid),
@@ -160,7 +153,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
               if (state.foundListModel?.list == null &&
                   state.foundListModel?.list?.length == 0) {
                 if (pageNumber == 0) {
-                  localfoundlist = state.foundListModel?.list;
+                  localFoundList = state.foundListModel?.list;
                 }
                 return const Center(
                   child: Text(
@@ -170,11 +163,11 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
                 );
               } else {
                 if (pageNumber == 0) {
-                  localfoundlist = state.foundListModel?.list;
+                  localFoundList = state.foundListModel?.list;
                 } else {
-                  localfoundlist?.addAll(state.foundListModel?.list ?? []);
+                  localFoundList?.addAll(state.foundListModel?.list ?? []);
                 }
-                if ((state.foundListModel?.list?.length ?? 0) == 0 || (state.foundListModel?.totalCount ?? 0) == localfoundlist?.length)
+                if ((state.foundListModel?.list?.length ?? 0) == 0 || (state.foundListModel?.totalCount ?? 0) == localFoundList?.length)
                 {
                   isPaginationLoading = false;
                 }
@@ -183,7 +176,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
                   isPaginationLoading = true;
                 }
                 return listWidgetLoading(
-                    height, state, scrollController, localfoundlist);
+                    height, state, scrollController, localFoundList);
               }
             }
             
@@ -204,13 +197,13 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
               );
             } else {
               if (pageNumber == 0) {
-                localfoundlist = state.foundListModel?.list;
+                localFoundList = state.foundListModel?.list;
               } else {
-                localfoundlist?.addAll(state.foundListModel?.list ?? []);
+                localFoundList?.addAll(state.foundListModel?.list ?? []);
                 
               }
               return listWidgetLoading(
-                  height, state, scrollController, localfoundlist);
+                  height, state, scrollController, localFoundList);
             }
           }),
     );
@@ -325,6 +318,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
                   },
                 );
               },
+
               index: index,
             );
           }

@@ -5,12 +5,11 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../law_enforcement_list/controllers/law_enforcement_list_state.dart';
+import '../../../../../enums/form_status.dart';
 import '../../models/rates_response.dart';
 import '../../services/guarding_services.dart';
 
 part 'guarding_rates_event.dart';
-
 part 'guarding_rates_state.dart';
 
 class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
@@ -28,7 +27,7 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
     try {
       if (state.hasReachedMax) return;
 
-      if (state.status == LawEnforcementListStateType.initial) {
+      if (state.status == FormStatus.initial) {
         RatesResponse response = await _services.getRates(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
@@ -39,7 +38,7 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
           state.copyWith(
             items: response.items,
             hasReachedMax: response.items!.length < event.maxPos ? true : false,
-            status: LawEnforcementListStateType.success,
+            status: FormStatus.success,
           ),
         );
       }
@@ -62,7 +61,7 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
         ),
       );
     } catch (e) {
-      return emit(state.copyWith(status: LawEnforcementListStateType.failure));
+      return emit(state.copyWith(status: FormStatus.failure));
     }
   }
 }

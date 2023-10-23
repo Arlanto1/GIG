@@ -6,7 +6,6 @@ import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_p
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
 import 'package:db_atom/src/routing/router.dart';
@@ -14,6 +13,7 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../enums/form_status.dart';
 import '../../../../utils/util.dart';
 import '../bloc/material_movement_bloc.dart';
 
@@ -55,7 +55,7 @@ class _MaterialMovementsState extends State<MaterialMovements> {
       pageNumber = pageNumber + 20;
       context
           .read<MaterialMovementBloc>()
-          .add(InwardFetch(startPos: pageNumber, maxPos: 20));
+          .add(FetchData(startPos: pageNumber, maxPos: 20));
     }
   }
 
@@ -89,7 +89,7 @@ class _MaterialMovementsState extends State<MaterialMovements> {
         ),
         body: BlocBuilder<MaterialMovementBloc, MaterialMovementState>(
             builder: (context, state) {
-          if (state.status == LawEnforcementListStateType.initial) {
+          if (state.status == FormStatus.initial) {
             return const Center(
               child: CircularProgressIndicator(),
             );

@@ -1,15 +1,7 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:db_atom/main_DEV.dart';
 import 'package:db_atom/src/appservices/app_service_handler.dart';
-import 'package:db_atom/src/configurations/environment_config.dart';
-import 'package:db_atom/src/configurations/prod_config.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
-import 'package:http/http.dart' as http;
 
 class LawEnforcementListServices {
   Future<LawEnforcementListResponse> getLawEnforcementList(String startPosition, String maximumRecords,String userId,BuildContext context) async {

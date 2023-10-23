@@ -10,12 +10,12 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
-import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../enums/form_status.dart';
 import '../bloc/guarding_rates_bloc.dart';
 
 class GuardingRates extends StatefulWidget {
@@ -83,7 +83,7 @@ class _GuardingRatesState extends State<GuardingRates> {
         ),
         body: BlocBuilder<GuardingRatesBloc, GuardingRatesState>(
             builder: (context, state) {
-          if (state.status == LawEnforcementListStateType.initial) {
+          if (state.status == FormStatus.initial) {
             return const Center(
               child: CircularProgressIndicator(),
             );

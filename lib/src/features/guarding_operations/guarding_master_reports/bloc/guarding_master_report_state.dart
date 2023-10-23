@@ -3,17 +3,17 @@ part of 'guarding_master_report_bloc.dart';
 class GuardingMasterReportState extends Equatable {
   final List<GuardingMasterReportsModel> list;
   final bool hasReachedMax;
-  final LawEnforcementListStateType status;
+  final FormStatus status;
 
   const GuardingMasterReportState(
       {this.list = const <GuardingMasterReportsModel>[],
       this.hasReachedMax = false,
-      this.status = LawEnforcementListStateType.initial});
+      this.status = FormStatus.initial});
 
   GuardingMasterReportState copyWith({
     List<GuardingMasterReportsModel>? items,
     bool? hasReachedMax,
-    LawEnforcementListStateType? status,
+    FormStatus? status,
   }) {
     return GuardingMasterReportState(
       list: items ?? list,

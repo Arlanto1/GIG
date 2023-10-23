@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import '../../constants/app_icon.dart';
 import '../../constants/constants.dart';
 import '../../features/createfound/models/create_found_request.dart';
+import '../../features/createfound/models/user.dart';
 import '../../features/createfound/views/upload_attachment.dart';
-import '../../models/entry_security.dart';
 import '../../utils/app_themes/colors/app_color.dart';
 import '../../utils/app_themes/styles/app_styles.dart';
 import '../../utils/helpers/keys/keys.dart';
@@ -16,7 +16,7 @@ import '../image_download.dart';
 class BaseImageUpload {
   Widget uploadWidget({
     required BuildContext context,
-    required EntrySecurity loggedInUserDetails,
+    required User loggedInUserDetails,
     required List<CreateImage>? getFiles,
     required Function onImageSelected,
   }) {
@@ -69,12 +69,12 @@ class BaseImageUpload {
     List<CreateImage>? attachments,
     required bool showDownloadIcon,
   }) {
-    log('----attachments-----${attachments?.length}-----------');
+    // log('----attachments-----${attachments?.length}-----------');
     if (attachments != null) {
       return Column(
         children: [
           CommonWidgets.verticalSpacerWidget(height * 0.01),
-          attachmentListviews(
+          _attachmentListviews(
             attachmentListviews: files,
             showDownloadIcon: showDownloadIcon,
           ),
@@ -82,13 +82,14 @@ class BaseImageUpload {
       );
     }
 
-    return Container();
+    return const SizedBox(height: 0,width: 0,);
   }
 
-  Widget attachmentListviews({
+  Widget _attachmentListviews({
     List<CreateImage>? attachmentListviews,
     required bool showDownloadIcon,
   }) {
+    log('---------');
     return Container(
       decoration: BoxDecoration(
         border: Border.all(

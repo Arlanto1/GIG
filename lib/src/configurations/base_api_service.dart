@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../features/login/models/login_model.dart';
 import '../features/login/models/refresh_token_request.dart';
 import '../features/login/services/login_services.dart';
+import '../models/responseModels/generic_error_response.dart';
 import '../routing/router.dart';
 import '../utils/shared_preferences.dart';
 
@@ -23,7 +25,7 @@ class BaseApiService {
     return headers;
   }
 
-  Future<Map<String, dynamic>> getRequest({
+  Future<dynamic> getRequest({
     required String url,
     bool? isAuthenticated,
   }) async {
@@ -37,9 +39,9 @@ class BaseApiService {
         headers: headers,
       );
       log('response.statusCode----${response.statusCode}');
+      final responseBody = json.decode(response.body);
       if (response.statusCode == HttpStatus.ok) {
         // log('response.body----${response.body}');
-        var responseBody = json.decode(response.body);
         // log('responseBody----$responseBody');
         return responseBody;
       } else {
@@ -55,7 +57,7 @@ class BaseApiService {
         if (response.statusCode.toString() == "401") {
           log("will log out now${response.statusCode}");
           // TODO: Need to handle the logout case
-          // logout(context);
+          throw GenericCreateResponse.fromJson(responseBody);
         }
         throw json.decode(response.body);
       }
@@ -74,7 +76,7 @@ class BaseApiService {
         context, loginScreenRoute, (route) => false);
   }
 
-  Future<Map<String, dynamic>> _refreshTokenAndRetry(String originalUrl) async {
+  Future<dynamic> _refreshTokenAndRetry(String originalUrl) async {
     log('--_refreshTokenAndRetry-$originalUrl--');
     // Call refresh token API
     await callRefreshTokenApi();
@@ -118,10 +120,10 @@ class BaseApiService {
       log("HTTP Status Code: ${response.statusCode}");
       log("Response: ${response.body}");
 
-      var _response = json.decode(response.body);
+      final responseBody = json.decode(response.body);
 
       if (response.statusCode == HttpStatus.ok) {
-        return _response;
+        return responseBody;
       } else {
         log("$url POST response is NOT OK:${response.statusCode}");
 
@@ -131,18 +133,30 @@ class BaseApiService {
           log('---response---449----');
           return response;
         }
+        if (response.statusCode == 400) {
+          final responseBody = json.decode(response.body);
+          log("User is unauthorized. Logging out...");
+          log("------responseBody.toString()-------------${responseBody.runtimeType.toString()}");
+          // TODO: Handle logout logic here
+          // logout(context); // You can define this method to handle logout
+
+          throw GenericErrorResponse.fromJson(responseBody);
+        }
         if (response.statusCode == 401) {
-          log(" will logout   int");
-          // logout(context);
+          log("User is unauthorized. Logging out...");
+          log("------responseBody.toString()-------------${responseBody.toString()}");
+          // TODO: Handle logout logic here
+          // logout(context); // You can define this method to handle logout
+          throw GenericCreateResponse.fromJson(responseBody);
         }
 
         // {"success":false,"message":"Incorrect Otp"}
-        var _response = json.decode(response.body);
-        log("_response - ${_response['error']}");
-        if (_response["error"] != null &&
-            _response["error"].runtimeType == String) {
+        log("_response - ${responseBody['msg']}");
+        if (responseBody["error"] != null &&
+            responseBody["error"].runtimeType == String) {
           throw json.decode(response.body);
         }
+        return response;
       }
     } on SocketException {
       // TODO: Handle Error

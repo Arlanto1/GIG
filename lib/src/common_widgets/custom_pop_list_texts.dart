@@ -3,61 +3,58 @@ import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
-import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 
 import '../models/base_user.dart';
-import '../models/department.dart';
 import '../models/entity.dart';
 
 class CustomListTexts extends StatefulWidget {
-  CustomListTexts(
-      {super.key,
-      this.imagename,
-      this.duplicateemployeeDepartments,
-      this.duplicatearticleList,
-      this.onTap,
-      this.duplicatedepostorList,
-      this.onLeftButtonTap,
-      this.leftimagename,
-      this.duplicateentityList,
-      this.duplicateleodepartments,
-      this.duplicateleopurposevisits,
-      this.duplicateloadGroups,
-      this.duplicateatomCompanyTypes,
-      this.duplicatedayPassReason,
-      this.duplicatet1Analyst,
-      this.duplicateactivePassInfoList,
-      this.duplicateQuantityUnitList});
-  final String? imagename;
-  List<Department>? duplicateemployeeDepartments;
-  List<ArticleList>? duplicatearticleList;
-  List<Entity>? duplicateentityList;
-  List<BaseUser>? duplicatedepostorList;
-  List<AtomLeoDepartment>? duplicateleodepartments;
-  List<AtomLeoPurposeVisit>? duplicateleopurposevisits;
+  CustomListTexts({
+    super.key,
+    this.imageName,
+    this.duplicateEmployeeDepartments,
+    this.duplicateArticleList,
+    this.onTap,
+    this.duplicateDepostorList,
+    this.onLeftButtonTap,
+    this.leftImageName,
+    this.duplicateEntityList,
+    this.duplicateLeoDepartments,
+    this.duplicateLeoPurposeVisits,
+    this.duplicateloadGroups,
+    this.duplicateatomCompanyTypes,
+    this.duplicatedayPassReason,
+    this.duplicatet1Analyst,
+    this.duplicateactivePassInfoList,
+    this.duplicateQuantityUnitList,
+  });
+
+  final String? imageName;
+  List<Organisation>? duplicateEmployeeDepartments;
+  List<ArticleList>? duplicateArticleList;
+  List<Entity>? duplicateEntityList;
+  List<BaseUser>? duplicateDepostorList;
+  List<AtomLeoDepartment>? duplicateLeoDepartments;
+  List<AtomLeoPurposeVisit>? duplicateLeoPurposeVisits;
   final Function? onTap;
   final Function? onLeftButtonTap;
-  final String? leftimagename;
+  final String? leftImageName;
   List<DistributionGroup>? duplicateloadGroups;
-  List<AtomCompanyType>? duplicateatomCompanyTypes;
+  List<Organisation>? duplicateatomCompanyTypes;
   List<DayPassReasonElement>? duplicatedayPassReason;
   List<BaseUser>? duplicatet1Analyst;
   List<ActivePassInfoList>? duplicateactivePassInfoList;
 
-  List<QuantityUnit>? duplicateQuantityUnitList;
+  List<Organisation>? duplicateQuantityUnitList;
 
   @override
   State<CustomListTexts> createState() => CustomListTextsState();
@@ -67,24 +64,19 @@ class CustomListTextsState extends State<CustomListTexts> {
   final _formKey = GlobalKey<FormState>();
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
-  List<Department> employeeDepartments = [];
+  List<Organisation> employeeDepartments = [];
   List<ArticleList> articleList = [];
   List<Entity> entityList = [];
   List<BaseUser> depostorList = [];
   List<AtomLeoDepartment> leodepartments = [];
   List<AtomLeoPurposeVisit> leopurposevisits = [];
   List<DistributionGroup> loadGroups = [];
-  List<AtomCompanyType> companyTypes = [];
+  List<Organisation> companyTypes = [];
   List<DayPassReasonElement> dayPassReason = [];
   List<BaseUser> t1analysts = [];
   List<ActivePassInfoList> activePassInfoList = [];
-  List<QuantityUnit> quantityUnitList = [];
+  List<Organisation> quantityUnitList = [];
 
-  // List<ArticleList>? articleList;
-  // List<AtomEntity>? entityList;
-  // List<AtomStaticUser>? depostorList;
-  // List<AtomLeoDepartment>? leodepartments;
-  // List<AtomLeoPurposeVisit>? leopurposevisits;
   @override
   void initState() {
     // TODO: implement initState
@@ -94,11 +86,8 @@ class CustomListTextsState extends State<CustomListTexts> {
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
-    // final height = size.height;
-    // final width = size.width;
     return AlertDialog(
-      icon: widget.leftimagename != null
+      icon: widget.leftImageName != null
           ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -109,7 +98,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                             : null;
                       },
                       child: SvgPicture.asset(
-                        widget.leftimagename ?? '',
+                        widget.leftImageName ?? '',
                         color: AppColors.navigationSkybluecolor,
                       ) //Icon(Icons.cancel)
                       ),
@@ -137,7 +126,7 @@ class CustomListTextsState extends State<CustomListTexts> {
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
         return Container(
-          height: height/2,
+          height: height / 2,
           width: width - 40,
           child: Padding(
             padding: const EdgeInsets.all(0.0),
@@ -153,7 +142,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                   //  ?
                   searchWidget(),
                   //  : Container(),
-                  setupAlertDialoadContainer(height, width),
+                  setupAlertDialogContainer(height, width),
                 ],
               ),
             ),
@@ -172,7 +161,7 @@ class CustomListTextsState extends State<CustomListTexts> {
       leadingIcon: AppIcon.searchIcon,
       border: borderColor,
       isEnabled: false,
-     // suffixIcon: _searchCtrl.text.length >  0 ? Conatiner()  :SizedBox(width: 0,),
+      // suffixIcon: _searchCtrl.text.length >  0 ? Conatiner()  :SizedBox(width: 0,),
       onChange: (String txt) {
         filterText(txt);
       },
@@ -199,83 +188,80 @@ class CustomListTextsState extends State<CustomListTexts> {
     onSearchTextChanged(txt);
   }
 
-
   onSearchTextChanged(String text) async {
-    if (widget.duplicateemployeeDepartments != null) {
+    if (widget.duplicateEmployeeDepartments != null) {
       employeeDepartments.clear();
       if (text.isEmpty) {
         setState(() {});
         return;
       }
 
-      widget.duplicateemployeeDepartments!.forEach((userDetail) {
+      for (var userDetail in widget.duplicateEmployeeDepartments!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           employeeDepartments.add(userDetail);
         }
-      });
-    } else if (widget.duplicatearticleList != null) {
+      }
+    } else if (widget.duplicateArticleList != null) {
       articleList.clear();
       if (text.isEmpty) {
         setState(() {});
         return;
       }
 
-      widget.duplicatearticleList!.forEach((userDetail) {
+      widget.duplicateArticleList!.forEach((userDetail) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           articleList.add(userDetail);
         }
       });
-    } else if (widget.duplicatedepostorList != null) {
+    } else if (widget.duplicateDepostorList != null) {
       depostorList.clear();
       if (text.isEmpty) {
         setState(() {});
         return;
       }
 
-      widget.duplicatedepostorList!.forEach((userDetail) {
+      widget.duplicateDepostorList!.forEach((userDetail) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           depostorList.add(userDetail);
         }
       });
-    } else if (widget.duplicateentityList != null) {
+    } else if (widget.duplicateEntityList != null) {
       entityList.clear();
       if (text.isEmpty) {
         setState(() {});
         return;
       }
 
-      widget.duplicateentityList!.forEach((userDetail) {
+      widget.duplicateEntityList!.forEach((userDetail) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           entityList.add(userDetail);
         }
       });
-    } else if (widget.duplicateleodepartments != null) {
+    } else if (widget.duplicateLeoDepartments != null) {
       leodepartments.clear();
       if (text.isEmpty) {
         setState(() {});
         return;
       }
 
-      widget.duplicateleodepartments!.forEach((userDetail) {
+      widget.duplicateLeoDepartments!.forEach((userDetail) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           leodepartments.add(userDetail);
         }
       });
-    } else if (widget.duplicateleopurposevisits != null) {
+    } else if (widget.duplicateLeoPurposeVisits != null) {
       leopurposevisits.clear();
       if (text.isEmpty) {
         setState(() {});
         return;
       }
 
-      widget.duplicateleopurposevisits!.forEach((userDetail) {
+      widget.duplicateLeoPurposeVisits!.forEach((userDetail) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           leopurposevisits.add(userDetail);
         }
       });
-    }
-
-    else if (widget.duplicateloadGroups != null) {
+    } else if (widget.duplicateloadGroups != null) {
       loadGroups.clear();
       if (text.isEmpty) {
         setState(() {});
@@ -287,9 +273,7 @@ class CustomListTextsState extends State<CustomListTexts> {
           loadGroups.add(userDetail);
         }
       });
-    }
-
-     else if (widget.duplicateatomCompanyTypes != null) {
+    } else if (widget.duplicateatomCompanyTypes != null) {
       companyTypes.clear();
       if (text.isEmpty) {
         setState(() {});
@@ -301,8 +285,7 @@ class CustomListTextsState extends State<CustomListTexts> {
           companyTypes.add(userDetail);
         }
       });
-    }
-    else if (widget.duplicatedayPassReason != null) {
+    } else if (widget.duplicatedayPassReason != null) {
       dayPassReason.clear();
       if (text.isEmpty) {
         setState(() {});
@@ -314,8 +297,7 @@ class CustomListTextsState extends State<CustomListTexts> {
           dayPassReason.add(userDetail);
         }
       });
-    }
-    else if (widget.duplicatet1Analyst != null) {
+    } else if (widget.duplicatet1Analyst != null) {
       t1analysts.clear();
       if (text.isEmpty) {
         setState(() {});
@@ -327,9 +309,7 @@ class CustomListTextsState extends State<CustomListTexts> {
           t1analysts.add(userDetail);
         }
       });
-    }
-
-    else if (widget.duplicateactivePassInfoList != null) {
+    } else if (widget.duplicateactivePassInfoList != null) {
       activePassInfoList.clear();
       if (text.isEmpty) {
         setState(() {});
@@ -341,8 +321,7 @@ class CustomListTextsState extends State<CustomListTexts> {
           activePassInfoList.add(userDetail);
         }
       });
-    }
-    else if (widget.duplicateQuantityUnitList != null) {
+    } else if (widget.duplicateQuantityUnitList != null) {
       activePassInfoList.clear();
       if (text.isEmpty) {
         setState(() {});
@@ -359,53 +338,50 @@ class CustomListTextsState extends State<CustomListTexts> {
     setState(() {});
   }
 
-  Widget setupAlertDialoadContainer(double height, double width) {
-    if (((widget.duplicatearticleList != null &&
-                widget.duplicatearticleList!.isEmpty) ||
-            (widget.duplicatearticleList != null &&
-                _searchCtrl.text.length > 0 &&
+  Widget setupAlertDialogContainer(double height, double width) {
+    if (((widget.duplicateArticleList != null && widget.duplicateArticleList!.isEmpty) ||
+            (widget.duplicateArticleList != null &&
+                _searchCtrl.text.isNotEmpty &&
                 articleList.isEmpty)) ||
-        ((widget.duplicateemployeeDepartments != null &&
-                widget.duplicateemployeeDepartments!.isEmpty) ||
-            (widget.duplicateemployeeDepartments != null &&
-                _searchCtrl.text.length > 0 &&
+        ((widget.duplicateEmployeeDepartments != null &&
+                widget.duplicateEmployeeDepartments!.isEmpty) ||
+            (widget.duplicateEmployeeDepartments != null &&
+                _searchCtrl.text.isNotEmpty &&
                 employeeDepartments.isEmpty)) ||
-
-        ((widget.duplicateQuantityUnitList != null &&
-            widget.duplicateQuantityUnitList!.isEmpty) ||
+        ((widget.duplicateQuantityUnitList != null && widget.duplicateQuantityUnitList!.isEmpty) ||
             (widget.duplicateQuantityUnitList != null &&
-                _searchCtrl.text.length > 0 &&
+                _searchCtrl.text.isNotEmpty &&
                 employeeDepartments.isEmpty)) ||
-
-        ((widget.duplicatedepostorList != null &&
-                widget.duplicatedepostorList!.isEmpty) ||
-            (widget.duplicatedepostorList != null &&
-                _searchCtrl.text.length > 0 &&
+        ((widget.duplicateDepostorList != null && widget.duplicateDepostorList!.isEmpty) ||
+            (widget.duplicateDepostorList != null &&
+                _searchCtrl.text.isNotEmpty &&
                 depostorList.isEmpty)) ||
-        ((widget.duplicateentityList != null &&
-                widget.duplicateentityList!.isEmpty) ||
-            (widget.duplicateentityList != null &&
-                _searchCtrl.text.length > 0 &&
+        ((widget.duplicateEntityList != null && widget.duplicateEntityList!.isEmpty) ||
+            (widget.duplicateEntityList != null &&
+                _searchCtrl.text.isNotEmpty &&
                 entityList.isEmpty)) ||
-        ((widget.duplicateleodepartments != null &&
-                widget.duplicateleodepartments!.isEmpty) ||
-            (widget.duplicateleodepartments != null &&
-                _searchCtrl.text.length > 0 &&
+        ((widget.duplicateLeoDepartments != null && widget.duplicateLeoDepartments!.isEmpty) ||
+            (widget.duplicateLeoDepartments != null &&
+                _searchCtrl.text.isNotEmpty &&
                 leodepartments.isEmpty)) ||
-        ((widget.duplicateleopurposevisits != null &&
-                widget.duplicateleopurposevisits!.isEmpty) ||
-            (widget.duplicateleopurposevisits != null &&
-                _searchCtrl.text.length > 0 &&
-                leopurposevisits.isEmpty) || (widget.duplicateloadGroups != null &&
-                _searchCtrl.text.length > 0 &&
-                loadGroups.isEmpty) || (widget.duplicateatomCompanyTypes != null &&
-                _searchCtrl.text.length > 0 &&
-                companyTypes.isEmpty) || (widget.duplicatedayPassReason != null &&
-                _searchCtrl.text.length > 0 &&
-                dayPassReason.isEmpty) || (widget.duplicatet1Analyst != null &&
-                _searchCtrl.text.length > 0 &&
-                t1analysts.isEmpty) || (widget.duplicateactivePassInfoList != null &&
-                _searchCtrl.text.length > 0 &&
+        ((widget.duplicateLeoPurposeVisits != null && widget.duplicateLeoPurposeVisits!.isEmpty) ||
+            (widget.duplicateLeoPurposeVisits != null &&
+                _searchCtrl.text.isNotEmpty &&
+                leopurposevisits.isEmpty) ||
+            (widget.duplicateloadGroups != null &&
+                _searchCtrl.text.isNotEmpty &&
+                loadGroups.isEmpty) ||
+            (widget.duplicateatomCompanyTypes != null &&
+                _searchCtrl.text.isNotEmpty &&
+                companyTypes.isEmpty) ||
+            (widget.duplicatedayPassReason != null &&
+                _searchCtrl.text.isNotEmpty &&
+                dayPassReason.isEmpty) ||
+            (widget.duplicatet1Analyst != null &&
+                _searchCtrl.text.isNotEmpty &&
+                t1analysts.isEmpty) ||
+            (widget.duplicateactivePassInfoList != null &&
+                _searchCtrl.text.isNotEmpty &&
                 activePassInfoList.isEmpty))) {
       return //const Expanded(
           // child:
@@ -417,75 +393,96 @@ class CustomListTextsState extends State<CustomListTexts> {
         ),
       );
     } else {
-      return Container(
+      return SizedBox(
         //padding: const EdgeInsets.all(0),
-       // height: height, // Change as per your requirement
+        // height: height, // Change as per your requirement
         // width: width- 50, // Change as per your requirement
         width: double.maxFinite,
         child: ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: widget.duplicateemployeeDepartments != null
-              ? (_searchCtrl.text.length > 0 && employeeDepartments.isNotEmpty)
+          itemCount: widget.duplicateEmployeeDepartments != null
+              ? (_searchCtrl.text.isNotEmpty && employeeDepartments.isNotEmpty)
                   ? employeeDepartments.length
-                  : widget.duplicateemployeeDepartments?.length
-              : (
-                widget.duplicateactivePassInfoList != null
-                  ? (_searchCtrl.text.length > 0 && activePassInfoList.isNotEmpty)
+                  : widget.duplicateEmployeeDepartments?.length
+              : (widget.duplicateactivePassInfoList != null
+                  ? (_searchCtrl.text.isNotEmpty &&
+                          activePassInfoList.isNotEmpty)
                       ? activePassInfoList.length
                       : widget.duplicateactivePassInfoList?.length
-
-                : widget.duplicatet1Analyst != null
-                  ? (_searchCtrl.text.length > 0 && t1analysts.isNotEmpty)
-                      ? t1analysts.length
-                      : widget.duplicatet1Analyst?.length
-
-                    : widget.duplicateQuantityUnitList != null
-                    ? (_searchCtrl.text.length > 0 && quantityUnitList.isNotEmpty)
-                    ? t1analysts.length
-                    : widget.duplicateQuantityUnitList?.length
-
-                : widget.duplicatedayPassReason != null
-                  ? (_searchCtrl.text.length > 0 && dayPassReason.isNotEmpty)
-                      ? dayPassReason.length
-                      : widget.duplicatedayPassReason?.length :
-              widget.duplicateatomCompanyTypes != null
-                  ? (_searchCtrl.text.length > 0 && companyTypes.isNotEmpty)
-                      ? companyTypes.length
-                      : widget.duplicateatomCompanyTypes?.length
-              : widget.duplicatearticleList != null
-                  ? (_searchCtrl.text.length > 0 && articleList.isNotEmpty)
-                      ? articleList.length
-                      : widget.duplicatearticleList?.length
-                  : widget.duplicatedepostorList != null
-                      ? (_searchCtrl.text.length > 0 && depostorList.isNotEmpty)
-                          ? depostorList.length
-                          : widget.duplicatedepostorList?.length
-                      : widget.duplicateentityList != null
-                          ? (_searchCtrl.text.length > 0 &&
-                                  entityList.isNotEmpty)
-                              ? entityList.length
-                              : widget.duplicateentityList?.length
-                          : widget.duplicateleodepartments != null
-                              ? (_searchCtrl.text.length > 0 &&
-                                      leodepartments.isNotEmpty)
-                                  ? leodepartments.length
-                                  : widget.duplicateleodepartments?.length
-                              :  widget.duplicateleopurposevisits != null ? (_searchCtrl.text.length > 0 &&
-                                      leopurposevisits.isNotEmpty)
-                                  ? leopurposevisits.length
-                                  : widget.duplicateleopurposevisits?.length :(_searchCtrl.text.length > 0 &&
-                                      loadGroups.isNotEmpty)
-                                  ? loadGroups.length
-                                  : widget.duplicateloadGroups?.length ),
+                  : widget.duplicatet1Analyst != null
+                      ? (_searchCtrl.text.isNotEmpty && t1analysts.isNotEmpty)
+                          ? t1analysts.length
+                          : widget.duplicatet1Analyst?.length
+                      : widget.duplicateQuantityUnitList != null
+                          ? (_searchCtrl.text.isNotEmpty &&
+                                  quantityUnitList.isNotEmpty)
+                              ? t1analysts.length
+                              : widget.duplicateQuantityUnitList?.length
+                          : widget.duplicatedayPassReason != null
+                              ? (_searchCtrl.text.isNotEmpty &&
+                                      dayPassReason.isNotEmpty)
+                                  ? dayPassReason.length
+                                  : widget.duplicatedayPassReason?.length
+                              : widget.duplicateatomCompanyTypes != null
+                                  ? (_searchCtrl.text.isNotEmpty &&
+                                          companyTypes.isNotEmpty)
+                                      ? companyTypes.length
+                                      : widget.duplicateatomCompanyTypes?.length
+                                  : widget.duplicateArticleList != null
+                                      ? (_searchCtrl.text.isNotEmpty &&
+                                              articleList.isNotEmpty)
+                                          ? articleList.length
+                                          : widget.duplicateArticleList?.length
+                                      : widget.duplicateDepostorList != null
+                                          ? (_searchCtrl.text.isNotEmpty &&
+                                                  depostorList.isNotEmpty)
+                                              ? depostorList.length
+                                              : widget
+                                                  .duplicateDepostorList?.length
+                                          : widget.duplicateEntityList != null
+                                              ? (_searchCtrl.text.isNotEmpty &&
+                                                      entityList.isNotEmpty)
+                                                  ? entityList.length
+                                                  : widget.duplicateEntityList
+                                                      ?.length
+                                              : widget.duplicateLeoDepartments !=
+                                                      null
+                                                  ? (_searchCtrl.text
+                                                              .isNotEmpty &&
+                                                          leodepartments
+                                                              .isNotEmpty)
+                                                      ? leodepartments.length
+                                                      : widget
+                                                          .duplicateLeoDepartments
+                                                          ?.length
+                                                  : widget.duplicateLeoPurposeVisits !=
+                                                          null
+                                                      ? (_searchCtrl.text
+                                                                  .isNotEmpty &&
+                                                              leopurposevisits
+                                                                  .isNotEmpty)
+                                                          ? leopurposevisits
+                                                              .length
+                                                          : widget
+                                                              .duplicateLeoPurposeVisits
+                                                              ?.length
+                                                      : (_searchCtrl.text
+                                                                  .isNotEmpty &&
+                                                              loadGroups
+                                                                  .isNotEmpty)
+                                                          ? loadGroups.length
+                                                          : widget
+                                                              .duplicateloadGroups
+                                                              ?.length),
           itemBuilder: (BuildContext context, int index) {
-            if (widget.duplicateemployeeDepartments != null) {
-              Department? drawerItem;
-              if ((_searchCtrl.text.length > 0 &&
+            if (widget.duplicateEmployeeDepartments != null) {
+              Organisation? drawerItem;
+              if ((_searchCtrl.text.isNotEmpty &&
                   employeeDepartments.isNotEmpty)) {
                 drawerItem = employeeDepartments[index];
               } else {
-                drawerItem = widget.duplicateemployeeDepartments?[index];
+                drawerItem = widget.duplicateEmployeeDepartments?[index];
               }
 
               return ListTile(
@@ -496,12 +493,12 @@ class CustomListTextsState extends State<CustomListTexts> {
                   contentPadding: EdgeInsets.zero,
                   minLeadingWidth: 5,
                   horizontalTitleGap:
-                      (widget.imagename != null && widget.imagename != '')
+                      (widget.imageName != null && widget.imageName != '')
                           ? 20
                           : 0,
                   dense: true,
                   visualDensity: const VisualDensity(vertical: 0),
-                  leading: (widget.imagename != null && widget.imagename != '')
+                  leading: (widget.imageName != null && widget.imageName != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
                           AppIcon.apple,
@@ -519,12 +516,12 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            } else if (widget.duplicatearticleList != null) {
+            } else if (widget.duplicateArticleList != null) {
               ArticleList? articleItem;
-              if ((_searchCtrl.text.length > 0 && articleList.isNotEmpty)) {
+              if ((_searchCtrl.text.isNotEmpty && articleList.isNotEmpty)) {
                 articleItem = articleList[index];
               } else {
-                articleItem = widget.duplicatearticleList?[index];
+                articleItem = widget.duplicateArticleList?[index];
               }
               return ListTile(
                   onTap: () {
@@ -534,12 +531,13 @@ class CustomListTextsState extends State<CustomListTexts> {
                   contentPadding: EdgeInsets.zero,
                   minLeadingWidth: 5,
                   horizontalTitleGap:
-                      (widget.imagename != null && widget.imagename != '')
+                      (widget.imageName != null && widget.imageName != '')
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: const VisualDensity(vertical: 0), // to expand
-                  leading: (widget.imagename != null && widget.imagename != '')
+                  visualDensity: const VisualDensity(vertical: 0),
+                  // to expand
+                  leading: (widget.imageName != null && widget.imageName != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
                           AppIcon.apple,
@@ -557,12 +555,12 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            } else if (widget.duplicatedepostorList != null) {
+            } else if (widget.duplicateDepostorList != null) {
               BaseUser? articleItem;
-              if ((_searchCtrl.text.length > 0 && depostorList.isNotEmpty)) {
+              if ((_searchCtrl.text.isNotEmpty && depostorList.isNotEmpty)) {
                 articleItem = depostorList[index];
               } else {
-                articleItem = widget.duplicatedepostorList?[index];
+                articleItem = widget.duplicateDepostorList?[index];
               }
               return ListTile(
                   onTap: () {
@@ -572,12 +570,13 @@ class CustomListTextsState extends State<CustomListTexts> {
                   contentPadding: EdgeInsets.zero,
                   minLeadingWidth: 5,
                   horizontalTitleGap:
-                      (widget.imagename != null && widget.imagename != '')
+                      (widget.imageName != null && widget.imageName != '')
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: const VisualDensity(vertical: 0), // to expand
-                  leading: (widget.imagename != null && widget.imagename != '')
+                  visualDensity: const VisualDensity(vertical: 0),
+                  // to expand
+                  leading: (widget.imageName != null && widget.imageName != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
                           AppIcon.apple,
@@ -599,12 +598,12 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            } else if (widget.duplicateentityList != null) {
+            } else if (widget.duplicateEntityList != null) {
               Entity? articleItem;
-              if ((_searchCtrl.text.length > 0 && entityList.isNotEmpty)) {
+              if ((_searchCtrl.text.isNotEmpty && entityList.isNotEmpty)) {
                 articleItem = entityList[index];
               } else {
-                articleItem = widget.duplicateentityList?[index];
+                articleItem = widget.duplicateEntityList?[index];
               }
               return ListTile(
                   onTap: () {
@@ -614,12 +613,13 @@ class CustomListTextsState extends State<CustomListTexts> {
                   contentPadding: EdgeInsets.zero,
                   minLeadingWidth: 5,
                   horizontalTitleGap:
-                      (widget.imagename != null && widget.imagename != '')
+                      (widget.imageName != null && widget.imageName != '')
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: const VisualDensity(vertical: 0), // to expand
-                  leading: (widget.imagename != null && widget.imagename != '')
+                  visualDensity: const VisualDensity(vertical: 0),
+                  // to expand
+                  leading: (widget.imageName != null && widget.imageName != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
                           AppIcon.apple,
@@ -637,13 +637,13 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            } else if (widget.duplicateleopurposevisits != null) {
+            } else if (widget.duplicateLeoPurposeVisits != null) {
               AtomLeoPurposeVisit? articleItem;
-              if ((_searchCtrl.text.length > 0 &&
+              if ((_searchCtrl.text.isNotEmpty &&
                   leopurposevisits.isNotEmpty)) {
                 articleItem = leopurposevisits[index];
               } else {
-                articleItem = widget.duplicateleopurposevisits?[index];
+                articleItem = widget.duplicateLeoPurposeVisits?[index];
               }
               return ListTile(
                   onTap: () {
@@ -653,12 +653,13 @@ class CustomListTextsState extends State<CustomListTexts> {
                   contentPadding: EdgeInsets.zero,
                   minLeadingWidth: 5,
                   horizontalTitleGap:
-                      (widget.imagename != null && widget.imagename != '')
+                      (widget.imageName != null && widget.imageName != '')
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: const VisualDensity(vertical: 0), // to expand
-                  leading: (widget.imagename != null && widget.imagename != '')
+                  visualDensity: const VisualDensity(vertical: 0),
+                  // to expand
+                  leading: (widget.imageName != null && widget.imageName != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
                           AppIcon.apple,
@@ -676,12 +677,12 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            } else if (widget.duplicateleodepartments != null) {
+            } else if (widget.duplicateLeoDepartments != null) {
               AtomLeoDepartment? articleItem;
-              if ((_searchCtrl.text.length > 0 && leodepartments.isNotEmpty)) {
+              if ((_searchCtrl.text.isNotEmpty && leodepartments.isNotEmpty)) {
                 articleItem = leodepartments[index];
               } else {
-                articleItem = widget.duplicateleodepartments?[index];
+                articleItem = widget.duplicateLeoDepartments?[index];
               }
               return ListTile(
                   onTap: () {
@@ -691,12 +692,13 @@ class CustomListTextsState extends State<CustomListTexts> {
                   contentPadding: EdgeInsets.zero,
                   minLeadingWidth: 5,
                   horizontalTitleGap:
-                      (widget.imagename != null && widget.imagename != '')
+                      (widget.imageName != null && widget.imageName != '')
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: const VisualDensity(vertical: 0), // to expand
-                  leading: (widget.imagename != null && widget.imagename != '')
+                  visualDensity: const VisualDensity(vertical: 0),
+                  // to expand
+                  leading: (widget.imageName != null && widget.imageName != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
                           AppIcon.apple,
@@ -714,12 +716,10 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            }
-
-
-            else if (widget.duplicateQuantityUnitList != null) {
-              QuantityUnit? articleItem;
-              if ((_searchCtrl.text.length > 0 && quantityUnitList.isNotEmpty)) {
+            } else if (widget.duplicateQuantityUnitList != null) {
+              Organisation? articleItem;
+              if ((_searchCtrl.text.isNotEmpty &&
+                  quantityUnitList.isNotEmpty)) {
                 articleItem = quantityUnitList[index];
               } else {
                 articleItem = widget.duplicateQuantityUnitList?[index];
@@ -732,20 +732,21 @@ class CustomListTextsState extends State<CustomListTexts> {
                   contentPadding: EdgeInsets.zero,
                   minLeadingWidth: 5,
                   horizontalTitleGap:
-                  (widget.imagename != null && widget.imagename != '')
-                      ? 20
-                      : 0,
+                      (widget.imageName != null && widget.imageName != '')
+                          ? 20
+                          : 0,
                   dense: true,
-                  visualDensity: const VisualDensity(vertical: 0), // to expand
-                  leading: (widget.imagename != null && widget.imagename != '')
+                  visualDensity: const VisualDensity(vertical: 0),
+                  // to expand
+                  leading: (widget.imageName != null && widget.imageName != '')
                       ? SvgPicture.asset(
-                    //AppIcon.dropdownicon,
-                    AppIcon.apple,
-                    //fit: BoxFit.,
-                    //color: AppColors.textColor,
-                    width: 20,
-                    height: 20,
-                  )
+                          //AppIcon.dropdownicon,
+                          AppIcon.apple,
+                          //fit: BoxFit.,
+                          //color: AppColors.textColor,
+                          width: 20,
+                          height: 20,
+                        )
                       : const SizedBox.shrink(),
                   title: Align(
                     alignment: Alignment.topLeft,
@@ -755,12 +756,9 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            }
-
-
-            else if (widget.duplicateloadGroups != null) {
+            } else if (widget.duplicateloadGroups != null) {
               DistributionGroup? articleItem;
-              if ((_searchCtrl.text.length > 0 && loadGroups.isNotEmpty)) {
+              if ((_searchCtrl.text.isNotEmpty && loadGroups.isNotEmpty)) {
                 articleItem = loadGroups[index];
               } else {
                 articleItem = widget.duplicateloadGroups?[index];
@@ -773,12 +771,13 @@ class CustomListTextsState extends State<CustomListTexts> {
                   contentPadding: EdgeInsets.zero,
                   minLeadingWidth: 5,
                   horizontalTitleGap:
-                      (widget.imagename != null && widget.imagename != '')
+                      (widget.imageName != null && widget.imageName != '')
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: const VisualDensity(vertical: 0), // to expand
-                  leading: (widget.imagename != null && widget.imagename != '')
+                  visualDensity: const VisualDensity(vertical: 0),
+                  // to expand
+                  leading: (widget.imageName != null && widget.imageName != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
                           AppIcon.apple,
@@ -796,10 +795,9 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            }
-            else if (widget.duplicateatomCompanyTypes != null) {
-              AtomCompanyType? articleItem;
-              if ((_searchCtrl.text.length > 0 && companyTypes.isNotEmpty)) {
+            } else if (widget.duplicateatomCompanyTypes != null) {
+              Organisation? articleItem;
+              if ((_searchCtrl.text.isNotEmpty && companyTypes.isNotEmpty)) {
                 articleItem = companyTypes[index];
               } else {
                 articleItem = widget.duplicateatomCompanyTypes?[index];
@@ -812,12 +810,13 @@ class CustomListTextsState extends State<CustomListTexts> {
                   contentPadding: EdgeInsets.zero,
                   minLeadingWidth: 5,
                   horizontalTitleGap:
-                      (widget.imagename != null && widget.imagename != '')
+                      (widget.imageName != null && widget.imageName != '')
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: const VisualDensity(vertical: 0), // to expand
-                  leading: (widget.imagename != null && widget.imagename != '')
+                  visualDensity: const VisualDensity(vertical: 0),
+                  // to expand
+                  leading: (widget.imageName != null && widget.imageName != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
                           AppIcon.apple,
@@ -835,10 +834,9 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            }
-            else if (widget.duplicatedayPassReason != null) {
+            } else if (widget.duplicatedayPassReason != null) {
               DayPassReasonElement? articleItem;
-              if ((_searchCtrl.text.length > 0 && companyTypes.isNotEmpty)) {
+              if ((_searchCtrl.text.isNotEmpty && companyTypes.isNotEmpty)) {
                 articleItem = dayPassReason[index];
               } else {
                 articleItem = widget.duplicatedayPassReason?[index];
@@ -851,12 +849,13 @@ class CustomListTextsState extends State<CustomListTexts> {
                   contentPadding: EdgeInsets.zero,
                   minLeadingWidth: 5,
                   horizontalTitleGap:
-                      (widget.imagename != null && widget.imagename != '')
+                      (widget.imageName != null && widget.imageName != '')
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: const VisualDensity(vertical: 0), // to expand
-                  leading: (widget.imagename != null && widget.imagename != '')
+                  visualDensity: const VisualDensity(vertical: 0),
+                  // to expand
+                  leading: (widget.imageName != null && widget.imageName != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
                           AppIcon.apple,
@@ -874,10 +873,9 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            }
-             else if (widget.duplicatet1Analyst != null) {
+            } else if (widget.duplicatet1Analyst != null) {
               BaseUser? articleItem;
-              if ((_searchCtrl.text.length > 0 && companyTypes.isNotEmpty)) {
+              if ((_searchCtrl.text.isNotEmpty && companyTypes.isNotEmpty)) {
                 articleItem = t1analysts[index];
               } else {
                 articleItem = widget.duplicatet1Analyst?[index];
@@ -890,12 +888,13 @@ class CustomListTextsState extends State<CustomListTexts> {
                   contentPadding: EdgeInsets.zero,
                   minLeadingWidth: 5,
                   horizontalTitleGap:
-                      (widget.imagename != null && widget.imagename != '')
+                      (widget.imageName != null && widget.imageName != '')
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: const VisualDensity(vertical: 0), // to expand
-                  leading: (widget.imagename != null && widget.imagename != '')
+                  visualDensity: const VisualDensity(vertical: 0),
+                  // to expand
+                  leading: (widget.imageName != null && widget.imageName != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
                           AppIcon.apple,
@@ -913,11 +912,10 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            }
-
-            else if (widget.duplicateactivePassInfoList != null) {
+            } else if (widget.duplicateactivePassInfoList != null) {
               ActivePassInfoList? articleItem;
-              if ((_searchCtrl.text.length > 0 && activePassInfoList.isNotEmpty)) {
+              if ((_searchCtrl.text.isNotEmpty &&
+                  activePassInfoList.isNotEmpty)) {
                 articleItem = activePassInfoList[index];
               } else {
                 articleItem = widget.duplicateactivePassInfoList?[index];
@@ -930,12 +928,13 @@ class CustomListTextsState extends State<CustomListTexts> {
                   contentPadding: EdgeInsets.zero,
                   minLeadingWidth: 5,
                   horizontalTitleGap:
-                      (widget.imagename != null && widget.imagename != '')
+                      (widget.imageName != null && widget.imageName != '')
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: const VisualDensity(vertical: 0), // to expand
-                  leading: (widget.imagename != null && widget.imagename != '')
+                  visualDensity: const VisualDensity(vertical: 0),
+                  // to expand
+                  leading: (widget.imageName != null && widget.imageName != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
                           AppIcon.apple,
@@ -954,7 +953,6 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             }
-
           },
         ),
       );

@@ -9,7 +9,7 @@ import 'package:db_atom/src/features/event_protection/event_protection_details/g
 import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
-import '../../../models/responseModels/generic_creat_response.dart';
+import '../../../models/responseModels/generic_create_response.dart';
 import '../event_protection_details/event_info/models/event_info_response.dart';
 import '../event_protection_details/event_info/models/request_models/event_into_request.dart';
 import '../event_protection_details/general_info/models/general_info_model.dart';
@@ -38,10 +38,6 @@ class EventProtectionServices {
     return email;
   }
 
-  Future<String> getUserId() async {
-    String email = await SharedPrefs.getUserId();
-    return email;
-  }
 
   Future<EventProtectionResponse> getEventProtections({
     required String startPosition,
@@ -49,7 +45,7 @@ class EventProtectionServices {
     required String userId,
   }) async {
     String url =
-        '${Apis._getEventProtections}startPos=$startPosition&maxResults=$maximumRecords&userId=${await getUserId()}';
+        '${Apis._getEventProtections}startPos=$startPosition&maxResults=$maximumRecords&userId=${ await SharedPrefs.getUserId()}';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -137,7 +133,7 @@ class EventProtectionServices {
     required String eventId,
   }) async {
     String url =
-        '${Apis._getArticleFounds}?startPos=$startPosition&maxResults=$maximumRecords&eventId=$eventId&userId=${await getUserId()}';
+        '${Apis._getArticleFounds}?startPos=$startPosition&maxResults=$maximumRecords&eventId=$eventId&userId=${await SharedPrefs.getUserId()}';
     final response = await BaseApiService().getRequest(
       url: url,
     );

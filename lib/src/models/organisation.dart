@@ -1,13 +1,13 @@
-class Department {
+class Organisation {
   int? id;
   String? name;
 
-  Department({
+  Organisation({
     this.id,
     this.name,
   });
 
-  Department.fromJson(Map<String, dynamic> json)
+  Organisation.fromJson(Map<String, dynamic> json)
       : id = json['id'] ?? json['Id'] as int?,
         name = json['name'] ?? json['Name'] as String?;
 

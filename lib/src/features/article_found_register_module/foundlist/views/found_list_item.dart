@@ -10,7 +10,6 @@ import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class FoundListItem extends StatefulWidget {
   final Function? onTap;
@@ -107,16 +106,18 @@ class _FoundListItemState extends State<FoundListItem> {
                       Row(
                         children: [
                           textHandling('Region : ',
-                              widget.userItem.locationName.toString()),
+                              widget.userItem.locationRegion?.name ?? ''),
                         ],
                       ),
+                    if( widget.userItem.foundLocation != null )...[
                        CommonWidgets.verticalSpacerWidget(5),
                       Row(
                         children: [
                           textHandling('Location : ',
-                              widget.userItem.foundLocation.toString()),
+                              widget.userItem.location?.name ?? ''),
                         ],
-                      ),
+                      ),],
+                       if( widget.userItem.foundDate != null )...[
                        CommonWidgets.verticalSpacerWidget(5),
                       Row(
                         children: [
@@ -125,7 +126,7 @@ class _FoundListItemState extends State<FoundListItem> {
                              widget.userItem.foundDate != null ? Utils.timestamptoDateConversion(
                                   int.parse(widget.userItem.foundDate ?? '0'), Constants.dateFormat): ''),
                         ],
-                      ),
+                      ),],
                     Row(
                         children: [
                           Utils().buildFoundStatusRow(widget.userItem.status ?? 0),

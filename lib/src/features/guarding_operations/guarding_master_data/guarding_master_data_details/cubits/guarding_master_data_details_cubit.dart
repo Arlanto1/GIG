@@ -8,7 +8,7 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/models/entity.dart';
-import 'package:db_atom/src/models/location.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
@@ -17,14 +17,12 @@ import 'package:intl/intl.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/base_user.dart';
-import '../../../../../models/department.dart';
-import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../models/responseModels/generic_creat_response.dart';
+import '../../../../../models/responseModels/generic_create_response.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/emplyee_departments_model.dart';
-import '../../../../createfound/models/user.dart';
 import '../../../../createfound/models/serial_number_model.dart';
+import '../../../../createfound/models/user.dart';
 import '../../../../lawenforcement/models/addentities.dart';
 import '../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import '../../models/guarding_master_data_model.dart';
@@ -46,7 +44,7 @@ class GuardingMasterDataDetailsCubit
           GuardingMasterDataDetailsState.initial(
               model: model ?? GuardingMastersDataModel(),
               locations: GetLocations(),
-              loggedInUserDetails: EntrySecurity(),
+              loggedInUserDetails: User(),
               users: const [],
               emailUsers: const [],
               errorMessage: '',
@@ -108,7 +106,7 @@ class GuardingMasterDataDetailsCubit
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
-      EntrySecurity loggedInUserDetails =
+      User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
 
       Analyst users =
@@ -131,13 +129,12 @@ class GuardingMasterDataDetailsCubit
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
       state.guardingMasterData.entrySecurity = loggedInUserDetails;
 
+      log('-departments-length-----${departments.employeeDepartments?.length}--');
       log('-guardRank--${state.guardingMasterData.guardRank}----');
 
       List<String> participationDates = Utils().splitStringAfterComma(
           state.guardingMasterData.csrParticipationDates ?? '');
       log('-participationDates---${participationDates.toString()}---');
-
-      log('----lenthgggg---------${state.guardingMasterData.localAddressProof}------');
 
       emit(
         state.copyWith(
@@ -188,7 +185,8 @@ class GuardingMasterDataDetailsCubit
         ),
       );
     } catch (e) {
-      log('initialization issue', error: e, name: 'Guarding Master Data Cubit');
+      log('initialization issue',
+          error: e, name: 'Guarding Master Data Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -200,9 +198,9 @@ class GuardingMasterDataDetailsCubit
   }
 
   Future<void> updateDropdownValues({
-    Location? location,
+    Organisation? location,
     BaseUser? user,
-    Department? vendor,
+    Organisation? vendor,
     BaseUser? guard,
     Entity? entity,
     List<Entity>? qualifications,
@@ -252,7 +250,7 @@ class GuardingMasterDataDetailsCubit
 
     // TODO: Object issue
     if (guard != null) {
-      EntrySecurity userDetails = EntrySecurity(
+      User userDetails = User(
           name: guard.name, userId: guard.id, userName: guard.name);
       state.guardingMasterData.guard = userDetails;
     }

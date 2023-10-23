@@ -1,9 +1,7 @@
-import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
+import 'package:db_atom/src/features/createfound/models/user.dart';
 
-import '../../../models/department.dart';
-import '../../../models/entry_security.dart';
-import '../../../models/location.dart';
-import '../../../models/location_region.dart';
+import '../../../models/history.dart';
+import '../../../models/organisation.dart';
 
 class MaterialMovementsModel {
   List<MaterialMovementModel>? items;
@@ -39,8 +37,8 @@ class MaterialMovementModel {
   int? id;
   String? slNo;
   String? inputDate;
-  Location? location;
-  LocationRegion? locationRegion;
+  Organisation? location;
+  Organisation? locationRegion;
   List<dynamic>? entities;
   bool? inwardMovement;
   bool? returnable;
@@ -54,25 +52,25 @@ class MaterialMovementModel {
   List<Image>? entrySecuritySign;
   String? receiverEmail;
   String? receiverEmployeeId;
-  EntrySecurity? entrySecurity;
+  User? entrySecurity;
   int? status;
   String? modifiedBy;
   List<History>? history;
   String? requestorEmail;
   String? requestorEmployeeId;
-  Department? requestorDepartment;
+  Organisation? requestorDepartment;
   String? sentTo;
   String? address;
   String? purpose;
   String? modelInfo;
-  QuantityUnit? unit;
+  Organisation? unit;
   String? preparedBy;
-  Department? preparedByDepartment;
+  Organisation? preparedByDepartment;
   String? approver1Email;
-  Department? approver1Department;
+  Organisation? approver1Department;
   String? approver2Email;
-  Department? approver2Department;
-  Department? receiverDepartment;
+  Organisation? approver2Department;
+  Organisation? receiverDepartment;
   String? takenOutEmail;
   String? takenOutContactNo;
   String? materialReturnedChallanNo;
@@ -159,11 +157,11 @@ class MaterialMovementModel {
         slNo = json['slNo'] as String?,
         inputDate = json['inputDate'] as String?,
         location = (json['location'] as Map<String, dynamic>?) != null
-            ? Location.fromJson(json['location'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
             : null,
         locationRegion =
             (json['locationRegion'] as Map<String, dynamic>?) != null
-                ? LocationRegion.fromJson(
+                ? Organisation.fromJson(
                     json['locationRegion'] as Map<String, dynamic>)
                 : null,
         entities = json['entities'] as List?,
@@ -179,7 +177,7 @@ class MaterialMovementModel {
         receiverEmail = json['receiverEmail'] as String?,
         receiverEmployeeId = json['receiverEmployeeId'] as String?,
         entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
-            ? EntrySecurity.fromJson(
+            ? User.fromJson(
                 json['entrySecurity'] as Map<String, dynamic>)
             : null,
         status = json['status'] as int?,
@@ -197,7 +195,7 @@ class MaterialMovementModel {
         requestorEmployeeId = json['requestorEmployeeId'] as String?,
         requestorDepartment =
             (json['requestorDepartment'] as Map<String, dynamic>?) != null
-                ? Department.fromJson(
+                ? Organisation.fromJson(
                     json['requestorDepartment'] as Map<String, dynamic>)
                 : null,
         sentTo = json['sentTo'] as String?,
@@ -205,31 +203,31 @@ class MaterialMovementModel {
         purpose = json['purpose'] as String?,
         modelInfo = json['modelInfo'] as String?,
         unit = (json['unit'] as Map<String, dynamic>?) != null
-            ? QuantityUnit.fromJson(json['unit'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['unit'] as Map<String, dynamic>)
             : null,
         preparedBy = json['preparedBy'] as String?,
         approvedDate = json['approvedDate'],
         takenOutOn = json['takenOutOn'],
         preparedByDepartment =
             (json['preparedByDepartment'] as Map<String, dynamic>?) != null
-                ? Department.fromJson(
+                ? Organisation.fromJson(
                     json['preparedByDepartment'] as Map<String, dynamic>)
                 : null,
         approver1Email = json['approver1Email'] as String?,
         approver1Department =
             (json['approver1Department'] as Map<String, dynamic>?) != null
-                ? Department.fromJson(
+                ? Organisation.fromJson(
                     json['approver1Department'] as Map<String, dynamic>)
                 : null,
         approver2Email = json['approver2Email'] as String?,
         approver2Department =
             (json['approver2Department'] as Map<String, dynamic>?) != null
-                ? Department.fromJson(
+                ? Organisation.fromJson(
                     json['approver2Department'] as Map<String, dynamic>)
                 : null,
         receiverDepartment =
             (json['receiverDepartment'] as Map<String, dynamic>?) != null
-                ? Department.fromJson(
+                ? Organisation.fromJson(
                     json['receiverDepartment'] as Map<String, dynamic>)
                 : null,
         takenOutEmail = json['takenOutEmail'] as String?,
@@ -415,40 +413,5 @@ class RoleExtensions {
         'rootNodeId': rootNodeId,
         'nodeId': nodeId,
         'accessRight': accessRight
-      };
-}
-
-class History {
-  int? id;
-  int? state;
-  int? action;
-  String? email;
-  int? actiontime;
-  String? parameters;
-
-  History({
-    this.id,
-    this.state,
-    this.action,
-    this.email,
-    this.actiontime,
-    this.parameters,
-  });
-
-  History.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        state = json['state'] as int?,
-        action = json['action'] as int?,
-        email = json['email'] as String?,
-        actiontime = json['actiontime'] as int?,
-        parameters = json['parameters'] as String?;
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'state': state,
-        'action': action,
-        'email': email,
-        'actiontime': actiontime,
-        'parameters': parameters
       };
 }

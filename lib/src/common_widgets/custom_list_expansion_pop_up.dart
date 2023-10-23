@@ -1,21 +1,21 @@
-import 'dart:convert';
-import 'dart:developer';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class CustomExpansionListTexts extends StatefulWidget {
-  CustomExpansionListTexts({super.key, this.getLocationsresponse, this.onTap});
-  GetLocations? getLocationsresponse;
+  const CustomExpansionListTexts({super.key, this.getLocationsresponse, this.onTap});
+
+  final GetLocations? getLocationsresponse;
   final Function? onTap;
+
   @override
   State<CustomExpansionListTexts> createState() =>
       CustomExpansionListTextsState();
@@ -64,7 +64,8 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
 
   Widget expansionListWidget() {
     print(widget.getLocationsresponse!.west);
-    if (widget.getLocationsresponse != null && widget.getLocationsresponse!.west != null) {
+    if (widget.getLocationsresponse != null &&
+        widget.getLocationsresponse!.west != null) {
       return Expanded(
           child:
               //FutureBuilder(
@@ -132,7 +133,7 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
                               AppIcon.closeicon) //Icon(Icons.cancel)
                           )),
                 ),
-                // (widget.getLocationsresponse != null && widget.getLocationsresponse!.west != null) 
+                // (widget.getLocationsresponse != null && widget.getLocationsresponse!.west != null)
                 // ? searchWidget() : Container(),
                 expansionListWidget()
               ]),
@@ -143,9 +144,11 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
 }
 
 class MyExpansionTileList extends StatefulWidget {
-  MyExpansionTileList(this.response, this.onTap);
-  GetLocations? response;
+  const MyExpansionTileList(this.response, this.onTap, {super.key});
+
+  final GetLocations? response;
   final Function? onTap;
+
   @override
   State<MyExpansionTileList> createState() => MyExpansionTileListState();
 }
@@ -153,6 +156,7 @@ class MyExpansionTileList extends StatefulWidget {
 class MyExpansionTileListState extends State<MyExpansionTileList> {
   int selectedindex = -1;
   String selectedtitle = '';
+
   // List<Widget> _getChildren() {
   //   List<Widget> children = [];
   //   response?.west?.forEach((element) {
@@ -183,9 +187,9 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
   }
 
   Widget _buildPlayerModelList(
-      List<Mumbai>? items, String title, BuildContext context) {
+      List<Organisation>? items, String title, BuildContext context) {
     return ExpansionTile(
-        trailing: SizedBox.shrink(),
+        trailing: const SizedBox.shrink(),
         key: GlobalKey(),
         initiallyExpanded: selectedtitle == title,
         onExpansionChanged: (value) {
@@ -201,17 +205,17 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
         },
         title: Text(
           title,
-          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+          style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
         ),
         children: _buildOperationsFromSecurity(context, items, title));
   }
 
   List<Widget> _buildOperationsFromSecurity(
-      BuildContext context, List<Mumbai>? items, String stitle) {
+      BuildContext context, List<Organisation>? items, String stitle) {
     List<Widget> children = [];
 
     for (int i = 0; i < items!.length; i++) {
-      Mumbai drawerItem = items[i];
+      Organisation drawerItem = items[i];
       children.add(
         Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -250,7 +254,7 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
                 onTap: () => _onExpansionSelectItem(i, context, items),
               ),
 
-              childrenPadding: EdgeInsets.only(left: 20), //children padding
+              childrenPadding: const EdgeInsets.only(left: 20), //children padding
               //children: _expansionbuildDrawerChildren(context)
             ),
           ),
@@ -262,12 +266,11 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
   }
 
   _onExpansionSelectItem(
-      int index, BuildContext context, List<Mumbai>? items) async {
-
+      int index, BuildContext context, List<Organisation>? items) async {
     selectedindex = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
-    Mumbai? drawerItem = items?[index];
+    Organisation? drawerItem = items?[index];
     if (index == 0) {
     } else if (index == 1) {
     } else if (index == 2) {
@@ -295,7 +298,6 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
 //   //late Future<http.Response> _responseFuture;
 //   late int _lastSelectedItem = 0;
 //   late int selectedTile = -1;
- 
 
 //   @override
 //   void initState() {
@@ -309,7 +311,7 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
 //   @override
 //   Widget build(BuildContext context) {
 //     _key = PageStorageKey('${widget.id}');
-//     return 
+//     return
 //         Theme(
 //             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
 //             child: Container(
@@ -326,17 +328,17 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
 //                   {
 //                  selectedTile = widget.id;
 //                     setState(() {
-                      
+
 //                     });
 //                   }
 //                   else
 //                   {
 //                     selectedTile = -1;
 //                     setState(() {
-                      
+
 //                     });
 //                   }
-                
+
 //                 }),
 //                 trailing: const SizedBox.shrink(),
 //                 childrenPadding: const EdgeInsets.only(left: 20), //children padding
@@ -410,7 +412,7 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
 //                 ],
 //               ),
 //             ),
-      
+
 //     );
 //   }
 // }

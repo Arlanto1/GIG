@@ -1,17 +1,13 @@
-
-
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:db_atom/main_DEV.dart';
 import 'package:db_atom/src/appservices/app_service_handler.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
-import 'package:db_atom/src/features/createfound/models/create_organisation_model.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
@@ -21,14 +17,18 @@ import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart'
 import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../models/entry_security.dart';
+import '../../../models/organisation.dart';
+import '../../createfound/models/user.dart';
 
-class LawEnforcementService
-{
- final endpoint = Environment().config.apiHost;
+class LawEnforcementService {
+  final endpoint = Environment().config.apiHost;
+
   Future<SubmitLawEnforcementResponse> createLawFoundArticle(
-      LawEnforcementRequestBody requestBody, bool isSubmit, String username) async {
-    final url = Uri.parse('$endpoint/saveLawEnfrcmnt?isSubmit=$isSubmit&userEmail=username');
+      LawEnforcementRequestBody requestBody,
+      bool isSubmit,
+      String username) async {
+    final url = Uri.parse(
+        '$endpoint/saveLawEnfrcmnt?isSubmit=$isSubmit&userEmail=username');
     try {
       final response = await http.post(
         url,
@@ -37,9 +37,10 @@ class LawEnforcementService
         },
         body: json.encode(requestBody),
       );
-      print(response);
+      print("Response ${requestBody}");
       if (response.statusCode == 200) {
-        return SubmitLawEnforcementResponse.fromJson(json.decode(response.body));
+        return SubmitLawEnforcementResponse.fromJson(
+            json.decode(response.body));
       } else {
         throw json.decode(response.body);
       }
@@ -50,9 +51,9 @@ class LawEnforcementService
 
   Future<SubmitLawEnforcementResponse> createLawFoundArticleHandle(
       Map<String, dynamic> requestBody, bool isSubmit, String username) async {
-   
-   print(requestBody);
-    final url = Uri.parse('$endpoint/saveLawEnfrcmnt?isSubmit=$isSubmit&userEmail=username');
+    print(requestBody);
+    final url = Uri.parse(
+        '$endpoint/saveLawEnfrcmnt?isSubmit=$isSubmit&userEmail=username');
     try {
       final response = await http.post(
         url,
@@ -63,7 +64,8 @@ class LawEnforcementService
       );
       print(response);
       if (response.statusCode == 200) {
-        return SubmitLawEnforcementResponse.fromJson(json.decode(response.body));
+        return SubmitLawEnforcementResponse.fromJson(
+            json.decode(response.body));
       } else {
         throw json.decode(response.body);
       }
@@ -73,8 +75,7 @@ class LawEnforcementService
   }
 
   // get Entities api call
-  Future<AddEntities> getEntities(String name,BuildContext context) async {
-    
+  Future<AddEntities> getEntities(String name, BuildContext context) async {
     // final url = Uri.parse('$endpoint/getOrganisation?name=$name');
     // try {
     //   final response = await http.get(
@@ -91,14 +92,15 @@ class LawEnforcementService
     // } on SocketException {
     //   throw json.decode('{"errorMessage":"Network Lost"}');
     // }
-    var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getOrganisation?name=$name',context);
+    var value = await AppServicesHandler()
+        .globalpopupGetServiceCall('/getOrganisation?name=$name', context);
 
-   return  AddEntities.fromJson(value);
+    return AddEntities.fromJson(value);
   }
 
   //Get locations
-  Future<GetLocations> getLocations(String locationStr,BuildContext context) async {
-   
+  Future<GetLocations> getLocations(
+      String locationStr, BuildContext context) async {
     // final url = Uri.parse('$endpoint/getOrganisation?name=$locationStr');
     // try {
     //   final response = await http.get(
@@ -115,15 +117,16 @@ class LawEnforcementService
     // } on SocketException {
     //   throw json.decode('{"errorMessage":"Network Lost"}');
     // }
-    var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getOrganisation?name=$locationStr',context);
+    var value = await AppServicesHandler().globalpopupGetServiceCall(
+        '/getOrganisation?name=$locationStr', context);
 
-   return  GetLocations.fromJson(value);
+    return GetLocations.fromJson(value);
   }
 
   // get serailnumber Details api call
-  Future<SerialNumberModel> getSerialnumberDetails(String locationId, String moduleCode,BuildContext context) async {
-    
-   // https: //api.integration.dbatom.arlanto.com/api/atomrestservice/getSlNo?locationId=32&moduleCode=AF
+  Future<SerialNumberModel> getSerialnumberDetails(
+      String locationId, String moduleCode, BuildContext context) async {
+    // https: //api.integration.dbatom.arlanto.com/api/atomrestservice/getSlNo?locationId=32&moduleCode=AF
     // final url = Uri.parse('$endpoint/getSlNo?locationId=$locationId&moduleCode=$moduleCode');
     // try {
     //   final response = await http.get(
@@ -140,14 +143,15 @@ class LawEnforcementService
     // } on SocketException {
     //   throw json.decode('{"errorMessage":"Network Lost"}');
     // }
-     var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getSlNo?locationId=$locationId&moduleCode=$moduleCode',context);
+    var value = await AppServicesHandler().globalpopupGetServiceCall(
+        '/getSlNo?locationId=$locationId&moduleCode=$moduleCode', context);
 
-   return  SerialNumberModel.fromJson(value);
+    return SerialNumberModel.fromJson(value);
   }
 
   // get Entities api call
-  Future<LeoPurposeVisit> getLeopurposeofvisit(String name,BuildContext context) async {
-    
+  Future<LeoPurposeVisit> getLeopurposeofvisit(
+      String name, BuildContext context) async {
     // final url = Uri.parse('$endpoint/getOrganisation?name=$name');
     // try {
     //   final response = await http.get(
@@ -164,13 +168,14 @@ class LawEnforcementService
     // } on SocketException {
     //   throw json.decode('{"errorMessage":"Network Lost"}');
     // }
-    var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getOrganisation?name=$name',context);
+    var value = await AppServicesHandler()
+        .globalpopupGetServiceCall('/getOrganisation?name=$name', context);
 
-   return  LeoPurposeVisit.fromJson(value);
+    return LeoPurposeVisit.fromJson(value);
   }
 
-  Future<LeoDepartments> getLeodepartments(String name,BuildContext context) async {
-    
+  Future<LeoDepartments> getLeodepartments(
+      String name, BuildContext context) async {
     // final url = Uri.parse('$endpoint/getOrganisation?name=$name');
     // try {
     //   final response = await http.get(
@@ -187,12 +192,14 @@ class LawEnforcementService
     // } on SocketException {
     //   throw json.decode('{"errorMessage":"Network Lost"}');
     // }
-    var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getOrganisation?name=$name',context);
+    var value = await AppServicesHandler()
+        .globalpopupGetServiceCall('/getOrganisation?name=$name', context);
 
-   return  LeoDepartments.fromJson(value);
+    return LeoDepartments.fromJson(value);
   }
-  Future<GetDepositor> getDBOfficialdepartments(String name,BuildContext context) async {
-    
+
+  Future<GetDepositor> getDBOfficialdepartments(
+      String name, BuildContext context) async {
     // final url = Uri.parse('$endpoint/getUsersByRole?roleName=$name');
     // try {
     //   final response = await http.get(
@@ -209,13 +216,15 @@ class LawEnforcementService
     // } on SocketException {
     //   throw json.decode('{"errorMessage":"Network Lost"}');
     // }
-    var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getUsersByRole?roleName=$name',context);
+    var value = await AppServicesHandler()
+        .globalpopupGetServiceCall('/getUsersByRole?roleName=$name', context);
 
-   return  GetDepositor.fromJson(value);
+    return GetDepositor.fromJson(value);
   }
+
   //Get Employee Departments
-  Future<EmployeeDepartments> getEmployeeDepartments(String departmentStr,BuildContext context) async {
-    
+  Future<EmployeeDepartments> getEmployeeDepartments(
+      String departmentStr, BuildContext context) async {
     // final url = Uri.parse('$endpoint/getOrganisation?name=$departmentStr');
     // try {
     //   final response = await http.get(
@@ -232,14 +241,15 @@ class LawEnforcementService
     // } on SocketException {
     //   throw json.decode('{"errorMessage":"Network Lost"}');
     // }
-    var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getOrganisation?name=$departmentStr',context);
+    var value = await AppServicesHandler().globalpopupGetServiceCall(
+        '/getOrganisation?name=$departmentStr', context);
 
-   return  EmployeeDepartments.fromJson(value);
+    return EmployeeDepartments.fromJson(value);
   }
 
   // get user Details api call
-  Future<EntrySecurity> getUserDetails(String userId,BuildContext context) async {
-    
+  Future<User> getUserDetails(
+      String userId, BuildContext context) async {
     // final url = Uri.parse('$endpoint/getUserDetails?userId=$userId');
     // try {
     //   final response = await http.get(
@@ -256,14 +266,15 @@ class LawEnforcementService
     // } on SocketException {
     //   throw json.decode('{"errorMessage":"Network Lost"}');
     // }
-    var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getUserDetails?userId=$userId',context);
+    var value = await AppServicesHandler()
+        .globalpopupGetServiceCall('/getUserDetails?userId=$userId', context);
 
-   return  EntrySecurity.fromJson(value);
+    return User.fromJson(value);
   }
 
   // get distribution group Details api call
-  Future<DistributionGroupModel> getDistributiongroupDetails(BuildContext context) async {
-    
+  Future<DistributionGroupModel> getDistributiongroupDetails(
+      BuildContext context) async {
     // final url = Uri.parse('$endpoint/getGroup');
     // try {
     //   final response = await http.get(
@@ -280,14 +291,15 @@ class LawEnforcementService
     // } on SocketException {
     //   throw json.decode('{"errorMessage":"Network Lost"}');
     // }
-    var value  = await  AppServicesHandler().globalpopupGetServiceCall('/getGroup',context);
+    var value = await AppServicesHandler()
+        .globalpopupGetServiceCall('/getGroup', context);
 
-   return  DistributionGroupModel.fromJson(value);
+    return DistributionGroupModel.fromJson(value);
   }
 
   // Create organisation api call
-  Future<CreateOrganisation> createOrganisation(String name, String orgName,BuildContext context) async {
-    
+  Future<Organisation> createOrganisation(
+      String name, String orgName, BuildContext context) async {
     // final url = Uri.parse('$endpoint/createOrganisation?name=$name&orgName=$orgName');
     // try {
     //   final response = await http.post(
@@ -304,15 +316,15 @@ class LawEnforcementService
     // } on SocketException {
     //   throw json.decode('{"errorMessage":"Network Lost"}');
     // }
-       var value  = await  AppServicesHandler().globalPostServiceCall('/createOrganisation?name=$name&orgName=$orgName',context,'');
+    var value = await AppServicesHandler().globalPostServiceCall(
+        '/createOrganisation?name=$name&orgName=$orgName', context, '');
 
-   return  CreateOrganisation.fromJson(value);
+    return Organisation.fromJson(value);
   }
 
 // Create user api call
-  Future<CreateUserModel> createUser(
-      String firstName, String lastName, String email, String role,BuildContext context) async {
-   
+  Future<CreateUserModel> createUser(String firstName, String lastName,
+      String email, String role, BuildContext context) async {
     // final url = Uri.parse(
     //     '$endpoint/createUser?firstName=$firstName&lastName=$lastName&email=$email&role=$role');
     // try {
@@ -330,12 +342,11 @@ class LawEnforcementService
     // } on SocketException {
     //   throw json.decode('{"errorMessage":"Network Lost"}');
     // }
-    var value  = await  AppServicesHandler().globalPostServiceCall('/createUser?firstName=$firstName&lastName=$lastName&email=$email&role=$role',context,'');
+    var value = await AppServicesHandler().globalPostServiceCall(
+        '/createUser?firstName=$firstName&lastName=$lastName&email=$email&role=$role',
+        context,
+        '');
 
-   return  CreateUserModel.fromJson(value);
+    return CreateUserModel.fromJson(value);
   }
-
-
-  
-
 }

@@ -3,17 +3,17 @@ part of 'law_enforcement_bloc.dart';
 class LawEnforcementState extends Equatable {
   final List<LawEnforcementListElement> lawEnforceItems;
   final bool hasReachedMax;
-  final LawEnforcementListStateType status;
+  final FormStatus status;
 
   const LawEnforcementState(
       {this.lawEnforceItems = const <LawEnforcementListElement>[],
       this.hasReachedMax = false,
-      this.status = LawEnforcementListStateType.initial});
+      this.status = FormStatus.initial});
 
   LawEnforcementState copyWith({
     List<LawEnforcementListElement>? todos,
     bool? hasReachedMax,
-    LawEnforcementListStateType? status,
+    FormStatus? status,
   }) {
     return LawEnforcementState(
       lawEnforceItems: todos ?? this.lawEnforceItems,

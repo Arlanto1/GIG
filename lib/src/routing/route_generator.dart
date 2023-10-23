@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/app.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -19,11 +18,15 @@ import 'package:db_atom/src/features/event_protection/event_protection_details/v
 import 'package:db_atom/src/features/event_protection/event_protection_details/views/gereral_info_tiles_view.dart';
 import 'package:db_atom/src/features/guarding_operations/drop_pick_up/bloc/female_drop_pick_up_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/drop_pick_up/views/female_drop_pick_up_view.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart'
     as guarding;
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
+import 'package:db_atom/src/features/incident_management/incident_managements/bloc/incident_management_bloc.dart'
+    as im;
+import 'package:db_atom/src/features/incident_management/services/incident_management_services.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/law_enforcement_list/views/ln_list_page.dart';
 import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.dart';
@@ -31,13 +34,17 @@ import 'package:db_atom/src/features/login/views/forgot_pwd_screen.dart';
 import 'package:db_atom/src/features/login/views/login_screen.dart';
 import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
 import 'package:db_atom/src/features/login/views/reset_password_screen.dart';
+import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
+import 'package:db_atom/src/features/security_systems/sst_incident_details/general_info/views/sst_incident_general_info_view.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart';
+
+//import '../features/event_protection/event_protection_details/general_info/cubits/occurrence_general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/views/general_info_view.dart';
 import '../features/event_protection/event_protections/bloc/event_protections_bloc.dart'
@@ -47,7 +54,6 @@ import '../features/event_protection/services/event_protection_services.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data/bloc/guarding_master_data_bloc.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data/views/guarding_master_data.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_cubit.dart';
-import '../features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details.dart';
 import '../features/guarding_operations/guarding_master_data/models/guarding_master_data_model.dart';
 import '../features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 import '../features/guarding_operations/guarding_master_reports/bloc/guarding_master_report_bloc.dart';
@@ -56,6 +62,9 @@ import '../features/guarding_operations/guarding_rate/guarding_rate_details/pay_
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/guarding_rate_details.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/rates_info.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates.dart';
+import '../features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart';
+import '../features/incident_management/incident_details/general_info/views/incident_general_info_view.dart';
+import '../features/incident_management/incident_managements/views/incident_managements_view.dart';
 import '../features/login/bloc/login_bloc.dart';
 import '../features/login/services/login_services.dart';
 import '../features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
@@ -64,8 +73,17 @@ import '../features/material_movement/material_movements/bloc/material_movement_
 import '../features/material_movement/material_movements/views/material_movements.dart';
 import '../features/material_movement/models/material_movements_model.dart';
 import '../features/material_movement/services/material_movement_services.dart';
-import '../features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list_page.dart';
+import '../features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_cubit.dart';
+import '../features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
+import '../features/occurrenceList/bloc/occurrences_bloc.dart' as ocb;
+import '../features/occurrenceList/views/occurrences_view.dart';
+import '../features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart';
 import '../features/passmanagement/daypassregister/views/day_pass_info_list_page.dart';
+import '../features/security_systems/services/sst_incident_services.dart';
+import '../features/security_systems/sst_incident_details/general_info/cubits/sst_incident_general_info_cubit.dart';
+import '../features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart'
+    as sv;
+import '../features/security_systems/sst_incident_list/views/sst_incident_view.dart';
 import '../services/CommonServices.dart';
 
 class RouteGenerator {
@@ -122,7 +140,6 @@ class RouteGenerator {
           if (listroutes != null) {
             FoundListArticleDetails? listuser = listroutes["UserElement"];
             int eventId = listroutes['eventId'];
-            log('-----');
             return MaterialPageRoute(
                 builder: (context) => CreateFound(
                       listuser: listuser,
@@ -143,14 +160,14 @@ class RouteGenerator {
                 builder: (context) => CreateLawEnforcement(listUser: listuser));
           }
           return MaterialPageRoute(
-              builder: (context) => CreateLawEnforcement());
+              builder: (context) => const CreateLawEnforcement());
         } else {
           return MaterialPageRoute(
-              builder: (context) => CreateLawEnforcement());
+              builder: (context) => const CreateLawEnforcement());
         }
       case addemployeedepartmentRoute:
         return MaterialPageRoute(
-            builder: (context) => AddEmployeeDepartment(
+            builder: (context) => const AddEmployeeDepartment(
                   title: Constants.addemployeedepartment,
                 ));
 
@@ -163,7 +180,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => PieChartApp());
       case customexpansionlisttextsRoute:
         return MaterialPageRoute(
-            builder: (context) => CustomExpansionListTexts());
+            builder: (context) => const CustomExpansionListTexts());
       case lawEnforcementListRoute:
         return MaterialPageRoute(builder: (context) => const LnListPageList());
       case daypassmanagementListRoute:
@@ -224,7 +241,7 @@ class RouteGenerator {
                 builder: (context) => CreatePassManagement(
                       passId: passMngArguments?.passType ?? '',
                       title: passMngArguments?.title ?? '',
-                      listuser: passMngArguments?.listuser,
+                      dayPassItem: passMngArguments?.listuser,
                     ));
           }
           return MaterialPageRoute(
@@ -232,13 +249,155 @@ class RouteGenerator {
         }
         return MaterialPageRoute(builder: (context) => CreatePassManagement());
 
+      case incidentManagementsRoute:
+        String occId = '';
+        int occType = 0;
+
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          occId = arguments['occId'];
+          occType = arguments['occType'] ?? 0;
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<im.IncidentManagementsBloc>(
+            create: (_) => im.IncidentManagementsBloc(occType, occId)
+              ..add(const im.FetchData(startPos: 0, maxPos: 20)),
+            child: const IncidentManagementsView(),
+          ),
+        );
+
+      case incidentManagementDetailsRoute:
+        String id = '';
+        String occId = '';
+        int occType = 0;
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          id = arguments['id'] ?? '';
+          occId = arguments['occId'] ?? '';
+          occType = arguments['occType'] ?? 0;
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<IncidentGeneralInfoCubit>(
+            create: (_) => IncidentGeneralInfoCubit(
+              services: IncidentManagementServices(),
+              commonServices: CommonServices(),
+              id: id,
+              occId: occId,
+              occType: occType,
+            ),
+            child: IncidentGeneralInfoView(
+              viaOccurrence: !occId.isEmptyOrNull ? true : false,
+            ),
+          ),
+        );
+
+      case sstIncidentListRoute:
+        bool isInternal = false;
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          isInternal = arguments['isInternal'];
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<sv.SstIncidentBloc>(
+            create: (_) => sv.SstIncidentBloc(
+              ticketType: 1,
+              staffType: isInternal ? 1 : 2,
+            )..add(const sv.FetchData(startPos: 0, maxPos: 20)),
+            child: SstIncidentView(isInternal: isInternal),
+          ),
+        );
+
+      case sstIncidentDetailsRoute:
+        String id = '';
+        String occId = '';
+        int occType = 0;
+        bool isInternal = false;
+
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          occId = arguments['occId'] ?? '';
+          id = arguments['id'] ?? '';
+          occType = arguments['occType'] ?? 0;
+
+          if (arguments.containsKey('isInternal')) {
+            isInternal = arguments['isInternal'];
+          }
+        }
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<SstIncidentGeneralInfoCubit>(
+            create: (_) => SstIncidentGeneralInfoCubit(
+              services: SstIncidentServices(),
+              commonServices: CommonServices(),
+              occId: occId,
+              occType: occType,
+              id: id,
+              isInternal: isInternal,
+            ),
+            child: SstIncidentGeneralInfoView(
+              isInternal: isInternal,
+              viaOccurrence: !occId.isEmptyOrNull ? true : false,
+            ),
+          ),
+        );
+      case occurrenceRoute:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<ocb.OccurrencesBloc>(
+            create: (_) => ocb.OccurrencesBloc()
+              ..add(const ocb.FetchData(startPos: 0, maxPos: 20)),
+            child: const OccurrencesView(),
+          ),
+        );
+
+      case occurrenceDetailsRoute:
+        OccurrenceDetailsServices services = OccurrenceDetailsServices();
+        CommonServices commonServices = CommonServices();
+        String id = '';
+        String title;
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments["title"];
+        id = arguments['id'] ?? '';
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<OccurrenceGeneralInfoCubit>(
+                  create: (_) => OccurrenceGeneralInfoCubit(
+                    services: services,
+                    id: id,
+                    commonServices: commonServices,
+                  ),
+                  child: OccurrenceDetails(
+                    title: title,
+                  ),
+                ));
+
+      // case occurrenceDetailsRoute:
+      //   String id = '';
+      //   String title;
+      //   int eventStatus = 0;
+      //   if (settings.arguments != null) {
+      //     Map<String, dynamic> arguments =
+      //     settings.arguments as Map<String, dynamic>;
+      //     id = arguments['id'];
+      //     eventStatus = arguments['eventStatus'];
+      //   }
+      //   return MaterialPageRoute(
+      //       builder: (context) => const OccurrenceDetails(
+      //         //title: title,
+      //         //eventStatus: eventStatus,
+      //       ));
+      //
       case eventProtectionListRoute:
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<ep.EventProtectionsBloc>(
-                  create: (_) => ep.EventProtectionsBloc()
-                    ..add(const ep.InwardFetch(startPos: 0, maxPos: 20)),
-                  child: const EventProtectionsView(),
-                ));
+          builder: (context) => BlocProvider<ep.EventProtectionsBloc>(
+            create: (_) => ep.EventProtectionsBloc()
+              ..add(const ep.FetchData(startPos: 0, maxPos: 20)),
+            child: const EventProtectionsView(),
+          ),
+        );
 
       case eventProtectionDetailsTabRoute:
         String id = '';
@@ -278,14 +437,15 @@ class RouteGenerator {
           id = arguments['id'];
         }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<GeneralInfoCubit>(
-                  create: (_) => GeneralInfoCubit(
-                    services: EventProtectionServices(),
-                    commonServices: CommonServices(),
-                    id: id,
-                  ),
-                  child: const GeneralInfoView(),
-                ));
+          builder: (context) => BlocProvider<GeneralInfoCubit>(
+            create: (_) => GeneralInfoCubit(
+              services: EventProtectionServices(),
+              commonServices: CommonServices(),
+              id: id,
+            ),
+            child: const GeneralInfoView(),
+          ),
+        );
 
       case generalInfoCIRoute:
         String id = '';
@@ -358,7 +518,7 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => BlocProvider<MaterialMovementBloc>(
                   create: (_) => MaterialMovementBloc(isInward: isInward)
-                    ..add(const InwardFetch(startPos: 0, maxPos: 20)),
+                    ..add(const FetchData(startPos: 0, maxPos: 20)),
                   child: MaterialMovements(
                     isInward: isInward,
                   ),
@@ -549,7 +709,7 @@ class RouteGenerator {
                   child: const FemaleDropPickUpView(),
                 ));
       default:
-        return MaterialPageRoute(builder: (context) => const App());
+        return MaterialPageRoute(builder: (context) => const MyHomePage());
     }
   }
 }

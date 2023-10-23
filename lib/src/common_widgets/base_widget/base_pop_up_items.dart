@@ -6,15 +6,15 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/location.dart';
-import '../../models/location_region.dart';
+import '../../features/createfound/models/user.dart';
+import '../../models/organisation.dart';
 import 'base_list_tile_item.dart';
 
 class BasePopUpItems extends StatefulWidget {
   final String? id;
   final String? slNo;
-  final Location? location;
-  final LocationRegion? locationRegion;
+  final Organisation? location;
+  final Organisation? locationRegion;
   final int? status;
   final String? inputDate;
   final String? entrySecurityName;
@@ -54,8 +54,16 @@ class BasePopUpItems extends StatefulWidget {
   final int? maritalStatus;
   final bool isMasterGuard;
   final bool? eventType;
+  final bool isOccurrenceStatus;
   final bool isEventProtectionStatus;
   final String? epManager1Name;
+  final bool isSLAViolationStatus;
+  final bool? shiftBrfngAttnded;
+  final bool? materialMovement;
+  final bool? leoVisit;
+  final User? handOverSecurity;
+  final int? incidentType;
+  final bool isIncident;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -104,9 +112,17 @@ class BasePopUpItems extends StatefulWidget {
     this.locationEntity,
     this.locationRegionEntity,
     this.isMasterGuard = true,
+    this.isIncident = false,
     this.eventType,
     this.isEventProtectionStatus = true,
+    this.isOccurrenceStatus = false,
     this.epManager1Name,
+    this.isSLAViolationStatus = false,
+    this.shiftBrfngAttnded = false,
+    this.materialMovement = false,
+    this.leoVisit = false,
+    this.handOverSecurity,
+    this.incidentType,
   });
 }
 
@@ -128,7 +144,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             )),
         // color: Colors.white,
         height: height / 1.8,
-        width: width - 40,
+        width: width - 10,
         child:
             // Row(
             //  children: [
@@ -161,8 +177,12 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ],
       ),
       if (widget.slNo != null && widget.slNo!.isNotEmpty) ...[
-        CommonWidgets.verticalSpacerWidget(8),
-        Utils().textHandling('Sl No : ', widget.slNo.toString()),
+        Row(
+          children: [
+            CommonWidgets.verticalSpacerWidget(8),
+            Utils().textHandling('Sl No : ', widget.slNo.toString()),
+          ],
+        ),
       ],
       if (widget.locationRegion != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
@@ -236,8 +256,11 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
       ],
       if (widget.status != null &&
           !widget.isMasterGuard &&
-          !widget.isEventProtectionStatus) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+          !widget.isOccurrenceStatus &&
+          !widget.isEventProtectionStatus &&
+          !widget.isSLAViolationStatus &&
+          !widget.isIncident) ...[
+        CommonWidgets.verticalSpacerWidget(5),
         Row(
           children: [
             Utils().buildStatusRow(widget.status ?? 0),
@@ -359,7 +382,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().textHandling(
-                'Total No of Staff MedicalCertificate Not Submitted : ',
+                'Total No of Staff MedicalCertificate Not Submitted:',
                 widget.mcNotSubmitted.toString()),
           ],
         ),
@@ -370,7 +393,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().textHandling(
-                'Total No of Staff MedicalCertificate Expired : ',
+                'Total No of Staff MedicalCertificate Expired:',
                 widget.mcExpired.toString()),
           ],
         ),
@@ -380,8 +403,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Utils().textHandling(
-                'Total No of Staff Photograph Not Submitted : ',
+            Utils().textHandling('Total No of Staff Photograph Not Submitted :',
                 widget.photoNotSubmitted.toString()),
           ],
         ),
@@ -392,7 +414,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().textHandling(
-                'Total No of Staff DeplyomentOrder Not Submitted : ',
+                'Total No of Staff DeplyomentOrder Not Submitted:',
                 widget.deploymentOrderPending.toString()),
           ],
         ),
@@ -543,6 +565,10 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
+      if (widget.status != null && widget.isSLAViolationStatus == true) ...[
+        CommonWidgets.horizontalSpacerWidget(5),
+        Utils().buildSLAViolationStatus(widget.status ?? 0),
+      ],
       if (widget.firstAidNotCertified != null) ...[
         CommonWidgets.verticalSpacerWidget(8),
         Row(
@@ -554,7 +580,74 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
+      if (widget.status != null && widget.isOccurrenceStatus == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().buildOccurrenceStatus(widget.status ?? 0),
+          ],
+        ),
+      ],
+      if (widget.shiftBrfngAttnded != null &&
+          widget.shiftBrfngAttnded == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().shiftBrfngAttnded(widget.shiftBrfngAttnded ?? true),
+          ],
+        ),
+      ],
+      if (widget.materialMovement != null &&
+          widget.materialMovement == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().materialMovement(widget.materialMovement ?? true),
+          ],
+        ),
+      ],
+      if (widget.leoVisit != null && widget.leoVisit == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().leoVisit(widget.leoVisit ?? true),
+          ],
+        ),
+      ],
+      if (widget.handOverSecurity != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Shift Taken By : ', widget.handOverSecurity.toString()),
+          ],
+        ),
+      ],
+      if (widget.status != null && widget.isIncident == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().buildIncidentStatus(widget.status ?? 0),
+          ],
+        ),
+      ],
+      if (widget.incidentType != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().incidentType(widget.incidentType ?? 0),
+          ],
+        ),
+      ],
     ];
+
     for (Label label in labels ?? []) {
       if (label.value == 'null' ||
           label.value.isEmpty ||

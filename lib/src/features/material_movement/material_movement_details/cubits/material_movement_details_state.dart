@@ -1,30 +1,30 @@
 part of 'material_movement_details_cubit.dart';
 
-
 class MaterialMovementDetailsState extends Equatable {
   final FormStatus status;
 
   final MaterialMovementModel materialMovement;
   final GetLocations? locations;
-  final EntrySecurity? loggedInUserDetails;
+  final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
-  final List<Department> departments;
+  final List<Organisation> departments;
   final List<CreateImage>? loadAttachments;
-  final List<QuantityUnit> quantityUnits;
+  final List<Organisation> quantityUnits;
   final int? eventId;
   final String? message;
+  final bool? isInward;
 
   factory MaterialMovementDetailsState.initial({
     required MaterialMovementModel model,
     required GetLocations locations,
-    required EntrySecurity loggedInUserDetails,
+    required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
-    required List<Department> departments,
+    required List<Organisation> departments,
     required List<CreateImage> loadAttachments,
-    required List<QuantityUnit> quantityUnits,
+    required List<Organisation> quantityUnits,
     required int? eventId,
   }) {
     return MaterialMovementDetailsState(
@@ -46,7 +46,7 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
-    if (materialMovement.challanNo == null) {
+    if (materialMovement.challanNo.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Challan No');
     }
@@ -54,17 +54,24 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Quantity');
     }
+    if (materialMovement.materialComingFrom == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Sender\'s Name');
+    }
 
-    if (materialMovement.materialDescription == null) {
+    if (materialMovement.unit == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Unit');
+    }
+    if (materialMovement.materialDescription.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Material Description');
     }
 
-    if (materialMovement.materialComingFrom == null) {
+    if (!materialMovement.materialPhysicallyChecked== true&& isInward == true &&
+        materialMovement.materialNotCheckedComment.isEmptyOrNull) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Material Coming From');
+          status: false, message: 'Comment is Mandatory');
     }
-
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -83,18 +90,19 @@ class MaterialMovementDetailsState extends Equatable {
     required this.quantityUnits,
     this.eventId,
     this.message,
+    this.isInward,
   });
 
   MaterialMovementDetailsState copyWith({
     FormStatus? status,
     MaterialMovementModel? materialMovement,
     GetLocations? locations,
-    EntrySecurity? loggedInUserDetails,
+    User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
-    List<Department>? departments,
+    List<Organisation>? departments,
     List<CreateImage>? loadAttachments,
-    List<QuantityUnit>? quantityUnits,
+    List<Organisation>? quantityUnits,
     int? eventId,
     String? message,
   }) {

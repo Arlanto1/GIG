@@ -3,13 +3,13 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
 import 'package:equatable/equatable.dart';
 
-part 'material_movement_event.dart';
+import '../../../../enums/form_status.dart';
 
+part 'material_movement_event.dart';
 part 'material_movement_state.dart';
 
 class MaterialMovementBloc
@@ -18,7 +18,7 @@ class MaterialMovementBloc
 
   MaterialMovementBloc({required this.isInward})
       : super(const MaterialMovementState()) {
-    on<InwardFetch>(
+    on<FetchData>(
       _fetchMaterialMovements,
       transformer: droppable(),
     );
@@ -28,11 +28,11 @@ class MaterialMovementBloc
       MaterialMovementServices();
 
   FutureOr<void> _fetchMaterialMovements(
-      InwardFetch event, Emitter<MaterialMovementState> emit) async {
+      FetchData event, Emitter<MaterialMovementState> emit) async {
     try {
       if (state.hasReachedMax) return;
 
-      if (state.status == LawEnforcementListStateType.initial) {
+      if (state.status == FormStatus.initial) {
         log('mm---1----');
         MaterialMovementsModel response =
             await _materialMovementServices.getMaterialMovements(
@@ -48,7 +48,7 @@ class MaterialMovementBloc
           state.copyWith(
             items: response.items,
             hasReachedMax: false,
-            status: LawEnforcementListStateType.success,
+            status: FormStatus.success,
           ),
         );
       }
@@ -72,7 +72,7 @@ class MaterialMovementBloc
         ),
       );
     } catch (e) {
-      return emit(state.copyWith(status: LawEnforcementListStateType.failure));
+      return emit(state.copyWith(status: FormStatus.failure));
     }
   }
 }
