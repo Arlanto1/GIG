@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
@@ -23,7 +25,6 @@ import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
 import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -40,9 +41,9 @@ import '../../../models/organisation.dart';
 import '../../createfound/models/user.dart';
 
 class CreateLawEnforcement extends StatefulWidget {
-  final LawEnforcementDetails? listUser;
+  final LawEnforcementDetails? model;
 
-  const CreateLawEnforcement({super.key, this.listUser});
+  const CreateLawEnforcement({super.key, this.model});
 
   @override
   State<CreateLawEnforcement> createState() => _CreateLawEnforcementState();
@@ -95,7 +96,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     return Scaffold(
       appBar: AppHeader(
         isTitleCenter: false,
-        title: widget.listUser != null
+        title: widget.model != null
             ? Constants.editlawenforcement
             : Constants.createlawenforcement,
         backBtn: IconButton(
@@ -109,8 +110,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           GestureDetector(
             onTap: () {
               if (!isDistrbuted) {
-                createLawEnforcement(
-                    false, widget.listUser?.id ?? 0, globalState);
+                createLawEnforcement(false, widget.model?.id ?? 0, globalState);
               }
             },
             child: Padding(
@@ -167,8 +167,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                               BorderRadius.vertical(top: Radius.circular(20.0)),
                         )),
                     child: AbsorbPointer(
-                      absorbing: widget.listUser?.status == 3 ||
-                          widget.listUser?.status == 1,
+                      absorbing: widget.model?.status == 3 ||
+                          widget.model?.status == 1,
                       child: Form(
                         key: lawenforcementFormKey,
                         child: Column(
@@ -374,117 +374,121 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                             Padding(
                               padding:
                                   const EdgeInsets.only(left: 20.0, right: 20),
-                              child: Column(children: [
-                                // Visiting Official Details
-                                CommonWidgets.textDisplay(
-                                    Constants.visitingofficialdetails,
-                                    Styles.textStyleDarkGrey16),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                              child: Column(
+                                children: [
+                                  /// Visiting Official Details
+                                  CommonWidgets.textDisplay(
+                                      Constants.visitingofficialdetails,
+                                      Styles.textStyleDarkGrey16),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
 
-                                (state.getVisitsCount ?? 0) > 0
-                                    ? listVisitingOfficialDetails(
-                                        height,
-                                        width,
-                                        context,
-                                        state,
-                                        state.getVisitsCount ?? 0)
-                                    : Container(),
-                                widget.listUser == null
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01)
-                                    : Container(),
+                                  (state.getVisitsCount ?? 0) > 0
+                                      ? listVisitingOfficialDetails(
+                                          height,
+                                          width,
+                                          context,
+                                          state,
+                                          state.getVisitsCount ?? 0)
+                                      : Container(),
+                                  widget.model == null
+                                      ? CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01)
+                                      : Container(),
 
-                                // Add another visiting
-                                GestureDetector(
-                                  onTap: () {
-                                    if ((state.getVisitsCount ?? 0) < 10) {
-                                      int value =
-                                          (state.getVisitsCount ?? 0) + 1;
-                                      List<VisitingOfficialsModel>? getVisits1 =
-                                          state.getVisits ?? [];
-                                      getVisits1.add(VisitingOfficialsModel());
-                                      lawenforcementCubit.addingVisitis(
-                                          value, getVisits1);
-                                    } else {
-                                      Validator().showToast(
-                                        context,
-                                        "You have reached maximum visting official details adding",
-                                      );
-                                    }
-                                  },
-                                  child: Row(
-                                    children: <Widget>[
-                                      // Expanded(
-                                      //child:
-                                      SvgPicture.asset(
-                                        AppIcon.pluscircle,
-                                        //color: AppColors.navigationSkybluecolor,
-                                      ),
-                                      // ),
-                                      const SizedBox(width: 10),
-                                      const Text(
-                                        Constants.addvisitingofficialdetails,
-                                        style: TextStyle(
-                                          color:
-                                              AppColors.navigationSkybluecolor,
-                                          decoration: TextDecoration.underline,
+                                  /// Add another visiting
+                                  GestureDetector(
+                                    onTap: () {
+                                      if ((state.getVisitsCount ?? 0) < 10) {
+                                        int value =
+                                            (state.getVisitsCount ?? 0) + 1;
+                                        List<VisitingOfficialsModel>?
+                                            getVisits1 = state.getVisits ?? [];
+                                        getVisits1
+                                            .add(VisitingOfficialsModel());
+                                        lawenforcementCubit.addingVisitis(
+                                            value, getVisits1);
+                                      } else {
+                                        Validator().showToast(
+                                          context,
+                                          "You have reached maximum visiting official details adding",
+                                        );
+                                      }
+                                    },
+                                    child: Row(
+                                      children: <Widget>[
+                                        // Expanded(
+                                        //child:
+                                        SvgPicture.asset(
+                                          AppIcon.pluscircle,
+                                          //color: AppColors.navigationSkybluecolor,
                                         ),
-                                      ),
-                                    ],
+                                        // ),
+                                        const SizedBox(width: 10),
+                                        const Text(
+                                          Constants.addvisitingofficialdetails,
+                                          style: TextStyle(
+                                            color: AppColors
+                                                .navigationSkybluecolor,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
 
-                                // Upload
-                                widget.listUser == null
-                                    ? CommonWidgets.textDisplay(
-                                        Constants.upload,
-                                        Styles.textStyleBlack14)
-                                    : Container(),
-                                widget.listUser == null
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001)
-                                    : Container(),
-                                widget.listUser == null
-                                    ? uploadWidget(state)
-                                    : Container(),
-
-                                // Attachments
-                                getSpaceattchment(height),
-                                getAttachement(height),
-
-                                if (widget.listUser?.status == 3) ...[
-                                  // Distribution Groups
-                                  widget.listUser?.status != 0
+                                  // Upload
+                                  widget.model == null
                                       ? CommonWidgets.textDisplay(
-                                          Constants.distributiongroups,
+                                          Constants.upload,
                                           Styles.textStyleBlack14)
                                       : Container(),
-                                  widget.listUser?.status != 0
+                                  widget.model == null
                                       ? CommonWidgets.verticalSpacerWidget(
                                           height * 0.001)
                                       : Container(),
-                                  widget.listUser?.status != 0
-                                      ? textfieldWidgetLoad(
-                                          distributiongroupsTextController,
-                                          0,
-                                          state)
+                                  widget.model == null
+                                      ? uploadWidget(state)
                                       : Container(),
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+
+                                  // Attachments
+                                  getSpaceattchment(height),
+                                  getAttachement(height),
+
+                                  if (widget.model?.status == 3) ...[
+                                    // Distribution Groups
+                                    widget.model?.status != 0
+                                        ? CommonWidgets.textDisplay(
+                                            Constants.distributiongroups,
+                                            Styles.textStyleBlack14)
+                                        : Container(),
+                                    widget.model?.status != 0
+                                        ? CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001)
+                                        : Container(),
+                                    widget.model?.status != 0
+                                        ? textfieldWidgetLoad(
+                                            distributiongroupsTextController,
+                                            0,
+                                            state)
+                                        : Container(),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+                                  ],
+                                  // SubmitButton
+                                  if (widget.model?.status != 3) ...[
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        cancelButtonDisplay(),
+                                        submitButtonDisplay()
+                                      ],
+                                    ),
+                                  ],
                                 ],
-                                // SubmitButton
-                                if (widget.listUser?.status != 3) ...[
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      cancelButtonDisplay(),
-                                      submitButtonDisplay()
-                                    ],
-                                  ),
-                                ],
-                              ]),
+                              ),
                             )
                           ],
                         ),
@@ -620,24 +624,24 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   @override
   void initState() {
     super.initState();
-    if (widget.listUser != null) {
+    if (widget.model != null) {
       editCreatefoundItems();
       lawenforcementCubit.getDistributionGroupsDetails(context);
     } else {
       lawenforcementCubit.initalization();
     }
 
-    getLawenforcementList();
+    getLawEnforcementList(context);
     _getCurrentDate();
   }
 
   initiallyLocationandSerialnumberdataset(LawEnforcementState state) async {
     print(state.locationSelectedlist);
     print(state.getLocationsResponse);
-    print(widget.listUser);
+    print(widget.model);
     if (state.locationSelectedlist?.id == null &&
         state.getLocationsResponse != null &&
-        widget.listUser == null &&
+        widget.model == null &&
         (serialnumber ?? '').isEmpty) {
       Organisation list = Organisation(id: 24, name: "DLF Square");
       lawenforcementCubit.getlocationsResponseData(list);
@@ -646,39 +650,39 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   }
 
   editCreatefoundItems() async {
-    if (widget.listUser != null) {
-      await SharedPrefs.setFoundId(widget.listUser?.id ?? 0);
+    if (widget.model != null) {
+      await SharedPrefs.setFoundId(widget.model?.id ?? 0);
 
       additionalinformationTextController.text =
-          widget.listUser?.additionalInformation != null
-              ? widget.listUser?.additionalInformation.toString() ?? ""
+          widget.model?.additionalInformation != null
+              ? widget.model?.additionalInformation.toString() ?? ""
               : '';
       dbofficailwanttimeetTextController.text =
-          widget.listUser?.dbOfficialEmail != null
-              ? widget.listUser?.dbOfficialEmail.toString() ?? ""
+          widget.model?.dbOfficialEmail != null
+              ? widget.model?.dbOfficialEmail.toString() ?? ""
               : '';
-      actualdateTextController.text = widget.listUser?.timeOfVisit != null &&
-              widget.listUser?.timeOfVisit != '0'
-          ? Utils.timestamptoDateConversion(
-              int.parse(widget.listUser?.timeOfVisit ?? '0'),
-              Constants.fulldateFormat)
-          : '';
-      dateofcreationTextController.text = widget.listUser?.inputDate != null &&
-              widget.listUser?.inputDate != '0'
-          ? Utils.timestamptoDateConversion(
-              int.parse(widget.listUser?.inputDate ?? '0'),
-              Constants.fulldateFormat)
-          : dateofcreationTextController.text;
+      actualdateTextController.text =
+          widget.model?.timeOfVisit != null && widget.model?.timeOfVisit != '0'
+              ? Utils.timestamptoDateConversion(
+                  int.parse(widget.model?.timeOfVisit ?? '0'),
+                  Constants.fulldateFormat)
+              : '';
+      dateofcreationTextController.text =
+          widget.model?.inputDate != null && widget.model?.inputDate != '0'
+              ? Utils.timestamptoDateConversion(
+                  int.parse(widget.model?.inputDate ?? '0'),
+                  Constants.fulldateFormat)
+              : dateofcreationTextController.text;
       // List<VisitingOfficial>? visitingOfficials = widget.listuser?.visitingOfficials != null ? widget.listuser?.visitingOfficials ?? [] : [];
-      statusTextController.text = widget.listUser?.status == 0
+      statusTextController.text = widget.model?.status == 0
           ? "Draft"
-          : widget.listUser?.status == 1
+          : widget.model?.status == 1
               ? "Submitted"
-              : widget.listUser?.status == 3
+              : widget.model?.status == 3
                   ? "Distributed"
                   : "Handover";
 
-      if (widget.listUser?.status == 3 ||
+      if (widget.model?.status == 3 ||
           statusTextController.text == 'Distributed') {
         lawenforcementCubit.getDistributed(true);
         isDistrbuted = true;
@@ -691,25 +695,24 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       //     lastName: widget.listuser?.entrySecurity?.lastName ?? "") : GetUserDetails() ;
 
       //state.locationSelectedlist =
-      Organisation mumbai = widget.listUser?.location != null
+      Organisation mumbai = widget.model?.location != null
           ? Organisation(
-              id: widget.listUser?.location?.id ?? 0,
-              name: widget.listUser?.location?.name ?? "")
+              id: widget.model?.location?.id ?? 0,
+              name: widget.model?.location?.name ?? "")
           : Organisation();
 
-      serialnumber =
-          widget.listUser?.slNo != null ? widget.listUser?.slNo ?? '' : '';
+      serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
 
       await lawenforcementCubit.getSerialnumberDetails(
-          (widget.listUser?.location?.id ?? 0).toString(), 'LEO', context);
+          (widget.model?.location?.id ?? 0).toString(), 'LEO', context);
 
       lawenforcementCubit.getlocationsResponseData(mumbai);
       int isDocumentifanySelected1 =
-          ((widget.listUser?.documentVerified ?? false) == true) ? 1 : 0;
+          ((widget.model?.documentVerified ?? false) == true) ? 1 : 0;
       int isOfficialIdcardSelected1 =
-          ((widget.listUser?.officialCardVerified ?? false) == true) ? 1 : 0;
+          ((widget.model?.officialCardVerified ?? false) == true) ? 1 : 0;
       int isIncaseofpoliceSelected1 =
-          ((widget.listUser?.visitorInUniform ?? false) == true) ? 1 : 0;
+          ((widget.model?.visitorInUniform ?? false) == true) ? 1 : 0;
 
       lawenforcementCubit.getRadioButtonSelected(
           Constants.documentifanytoconfirmpurpose,
@@ -724,14 +727,14 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           isIncaseofpoliceSelected1,
           isIncaseofpoliceSelected1 == 1 ? "Yes" : "No");
 
-      if ((widget.listUser?.entities?.length ?? 0) > 0) {
+      if ((widget.model?.entities?.length ?? 0) > 0) {
         List<Entity> entities = [];
-        for (int i = 0; i < widget.listUser!.entities!.length; i++) {
-          Entity entity = widget.listUser?.entities != null &&
-                  (widget.listUser?.entities?.length ?? 0) > 0
+        for (int i = 0; i < widget.model!.entities!.length; i++) {
+          Entity entity = widget.model?.entities != null &&
+                  (widget.model?.entities?.length ?? 0) > 0
               ? Entity(
-                  id: widget.listUser?.entities![i].id ?? 0,
-                  name: widget.listUser?.entities![i].name ?? "")
+                  id: widget.model?.entities![i].id ?? 0,
+                  name: widget.model?.entities![i].name ?? "")
               : Entity();
           // AtomEntity entity = state.listOfEntities![i];
           //   DbOfficialEmailDepartment addentiity =
@@ -741,13 +744,13 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         lawenforcementCubit.getEntityData(entities);
       }
 
-      if ((widget.listUser?.mailList?.length ?? 0) > 0) {
+      if ((widget.model?.mailList?.length ?? 0) > 0) {
         //for (int i = 0; i < widget.listuser!.entities!.length; i++) {
-        DistributionGroup entity = widget.listUser?.mailList != null &&
-                (widget.listUser?.mailList?.length ?? 0) > 0
+        DistributionGroup entity = widget.model?.mailList != null &&
+                (widget.model?.mailList?.length ?? 0) > 0
             ? DistributionGroup(
-                id: widget.listUser?.mailList![0]["groupId"] ?? 0,
-                name: widget.listUser?.mailList![0]["name"] ?? "")
+                id: widget.model?.mailList![0]["groupId"] ?? 0,
+                name: widget.model?.mailList![0]["name"] ?? "")
             : DistributionGroup();
         // AtomEntity entity = state.listOfEntities![i];
         //   DbOfficialEmailDepartment addentiity =
@@ -755,35 +758,35 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         //distributionGroups.add(entity);
         lawenforcementCubit.geDistributonData(entity);
         distributiongroupsTextController.text =
-            widget.listUser?.mailList![0]["name"] ?? "";
+            widget.model?.mailList![0]["name"] ?? "";
       }
 
       // state.groups?.distributionGroups
       // }
 
-      AtomLeoPurposeVisit visit = widget.listUser?.visitPurpose != null
-          ? AtomLeoPurposeVisit(
-              id: widget.listUser?.visitPurpose?.id ?? 0,
-              name: widget.listUser?.visitPurpose?.name ?? "")
-          : AtomLeoPurposeVisit();
+      Organisation visit = widget.model?.visitPurpose != null
+          ? Organisation(
+              id: widget.model?.visitPurpose?.id ?? 0,
+              name: widget.model?.visitPurpose?.name ?? "")
+          : Organisation();
       lawenforcementCubit.getleopurposeResponseData(visit);
 
-      BaseUser staticUser = widget.listUser?.dbOfficialEmailDepartment != null
+      BaseUser staticUser = widget.model?.dbOfficialEmailDepartment != null
           ? BaseUser(
-              id: widget.listUser?.dbOfficialEmailDepartment?.id ?? 0,
-              name: widget.listUser?.dbOfficialEmailDepartment?.name ?? "",
-              email: widget.listUser?.dbOfficialAccompaniedEmail ?? '')
+              id: widget.model?.dbOfficialEmailDepartment?.id ?? 0,
+              name: widget.model?.dbOfficialEmailDepartment?.name ?? "",
+              email: widget.model?.dbOfficialAccompaniedEmail ?? '')
           : BaseUser();
 
       lawenforcementCubit.geDBOfficialyData(staticUser);
 
       List<LawVisitingOfficial>? visiting =
-          widget.listUser?.visitingOfficials != null
-              ? widget.listUser?.visitingOfficials ?? []
+          widget.model?.visitingOfficials != null
+              ? widget.model?.visitingOfficials ?? []
               : [];
 
       List<VisitingOfficialsModel>? visitingOfficials = [];
-      if (visiting.length > 0) {
+      if (visiting.isNotEmpty) {
         for (int i = 0; i < visiting.length; i++) {
           LawVisitingOfficial model = visiting[i];
           Organisation dept = Organisation(
@@ -837,18 +840,18 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           visitingOfficials.length, visitingOfficials);
 
       // state.selectedemployeeDepartmentResponse
-      Organisation emp = widget.listUser?.dbOfficialEmailDepartment != null
+      Organisation emp = widget.model?.dbOfficialEmailDepartment != null
           ? Organisation(
-              id: widget.listUser?.dbOfficialEmailDepartment?.id ?? 0,
-              name: widget.listUser?.dbOfficialEmailDepartment?.name ?? '')
+              id: widget.model?.dbOfficialEmailDepartment?.id ?? 0,
+              name: widget.model?.dbOfficialEmailDepartment?.name ?? '')
           : Organisation();
       lawenforcementCubit.getemployeeDepartmentsResponseData(emp);
       getAttachments =
-          widget.listUser?.images != null ? widget.listUser?.images ?? [] : [];
+          widget.model?.images != null ? widget.model?.images ?? [] : [];
     }
   }
 
-  getLawenforcementList() async {
+  getLawEnforcementList(context) async {
     var userid = await SharedPrefs.getUserId();
     await lawenforcementCubit.getLocations('ATOM_LOCATIONS', context);
     await lawenforcementCubit.getEntities('ATOM_ENTITIES', context);
@@ -864,8 +867,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   }
 
   Widget submitButtonDisplay() {
-    return // Login button
-        AppButton(
+    return AppButton(
       //height: 50,
       disableColor: isDistrbuted,
       width: 150,
@@ -873,11 +875,10 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       buttonText: Constants.submit,
       buttonTextKey: Keys.submitButton,
       onTap: () async {
-        //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
         if (isDistrbuted == false) {
           try {
-            lawenforcementValidations(context, globalState);
+            validateForm(context, globalState);
           } catch (e) {
             // present userwith error message
           }
@@ -891,7 +892,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
-          activeColor: widget.listUser != null
+          activeColor: widget.model != null
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
           focusColor: AppColors.navigationSkybluecolor,
@@ -915,7 +916,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         ),
         const Text(Constants.yes),
         Radio(
-          activeColor: widget.listUser != null
+          activeColor: widget.model != null
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
           value: 0,
@@ -979,7 +980,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   Widget datepickerWidgetLoading(TextEditingController textfiled) {
     return GestureDetector(
       onTap: () {
-        if (widget.listUser == null || textfiled.text.isEmpty) {
+        if (widget.model == null || textfiled.text.isEmpty) {
           datePickerDialog(textfiled);
         }
       },
@@ -991,7 +992,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         hintText: '',
         isEnable: false,
         isDisableColor:
-            widget.listUser == null || textfiled.text.isEmpty ? false : true,
+            widget.model == null || textfiled.text.isEmpty ? false : true,
         onChange: (String username) {
           //this.username = username;
           print('dfwf');
@@ -1001,7 +1002,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         validateTextField: (String? user) {},
         suffixWidget: GestureDetector(
           onTap: () async {
-            if (widget.listUser == null || textfiled.text.isEmpty) {
+            if (widget.model == null || textfiled.text.isEmpty) {
               datePickerDialog(textfiled);
             }
           },
@@ -1046,14 +1047,14 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         DateFormat(Constants.fulldateFormat).format(DateTime.now());
     print(formattedDate);
     dateofcreationTextController.text = formattedDate;
-    if (widget.listUser == null) {
+    if (widget.model == null) {
       statusTextController.text = 'Draft';
     }
   }
 
   Widget uploadWidget(LawEnforcementState state) {
     return // upload
-        widget.listUser == null
+        widget.model == null
             ? Container(
                 height: 60,
                 decoration: BoxDecoration(
@@ -1122,7 +1123,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   Widget getAttachement(double height) {
     return (getAttachments == null ||
             getAttachments?.length == 0 ||
-            widget.listUser == null)
+            widget.model == null)
         ? getFiles?.length == 0 || getFiles == null
             ? Container()
             : attachmentListviews(getFiles, getAttachments)
@@ -1145,7 +1146,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
               ? 140
               : 100
           : 60,
-      isDisableColor: widget.listUser?.status != 3 ? false : true,
+      isDisableColor: widget.model?.status != 3 ? false : true,
       onTap: () {
         entityTypeDialog(state);
         // }
@@ -1198,7 +1199,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                         lawstate: state);
                   });
             },
-            onTap: (AtomLeoPurposeVisit list) {
+            onTap: (Organisation list) {
               //print(list.name);
               lawenforcementCubit.getleopurposeResponseData(list);
             },
@@ -1273,7 +1274,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     return TextfieldAddButton(
       title: state.leoPurposeVisitResponse?.name ?? '',
       height: 60,
-      isDisableColor: widget.listUser?.status != 3 ? false : true,
+      isDisableColor: widget.model?.status != 3 ? false : true,
       onTap: () {
         // if (widget.listUser == null ||
         //     (state.leoPurposeVisitResponse != null &&
@@ -1310,7 +1311,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     return TextfieldAddButton(
       title: state.selectedemployeeDepartmentResponse?.name ?? '',
       height: 60,
-      isDisableColor: widget.listUser?.status != 3 ? false : true,
+      isDisableColor: widget.model?.status != 3 ? false : true,
       onTap: () {
         // if (widget.listUser == null ||
         //     (state.selectedemployeeDepartmentResponse != null &&
@@ -1327,7 +1328,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     return TextfieldAddButton(
       title: state.createEmployeeDepartments?.name ?? '',
       height: 60,
-      isDisableColor: widget.listUser?.status != 3 ? false : true,
+      isDisableColor: widget.model?.status != 3 ? false : true,
       onTap: () {
         // if (widget.listUser == null ||
         //     (state.createEmployeeDepartments != null &&
@@ -1349,7 +1350,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
               ')')
           : '',
       height: 70,
-      isDisableColor: widget.listUser?.status != 3 ? false : true,
+      isDisableColor: widget.model?.status != 3 ? false : true,
       onTap: () {
         // if (widget.listUser == null ||
         //     (state.getuserResponse != null &&
@@ -1490,7 +1491,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     }
     List<CreateImage>? images = getFiles ?? [];
     LawEnforcement? lawEnforcement;
-    if (widget.listUser != null) {
+    if (widget.model != null) {
       lawEnforcement = LawEnforcement(
           id: isFoundId,
           entrySecurity: entrysecurtity,
@@ -1545,12 +1546,10 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         isSubmit,
         context,
         username,
-        widget.listUser != null
-            ? 'edit LawEnforcement'
-            : 'Create LawEnforcement');
+        widget.model != null ? 'edit LawEnforcement' : 'Create LawEnforcement');
   }
 
-  lawenforcementValidations(BuildContext context, LawEnforcementState state) {
+  validateForm(BuildContext context, LawEnforcementState state) {
     if (statusTextController.text.isEmpty &&
         state.getUserDetailsResponse == null &&
         state.locationSelectedlist == null &&
@@ -1591,7 +1590,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     } else if (state.listOfEntities == null) {
       Validator().showToast(
         context,
-        "Please enter entitiy",
+        "Please enter entity",
       );
     } else if (actualdateTextController.text.isEmpty) {
       Validator().showToast(
@@ -1643,17 +1642,17 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
             (model.designation ?? '').isEmpty) {
           Validator().showToast(
             context,
-            "Please enter visting offical details",
+            "Please enter visiting official details",
           );
           break;
         } else if (!Validator.isValidEmail(model.email)) {
           Validator().showToast(
             context,
-            "Please enter visting offical  details valid email",
+            "Please enter visiting official  details valid email",
           );
           break;
         } else {
-          if (widget.listUser != null &&
+          if (widget.model != null &&
               distributiongroupsTextController.text.isEmpty) {
             Validator().showToast(
               context,
@@ -1661,20 +1660,20 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
             );
             break;
           } else {
-            createLawEnforcement(true, widget.listUser?.id ?? 0, globalState);
+            createLawEnforcement(true, widget.model?.id ?? 0, globalState);
             break;
           }
         }
       }
     } else {
-      if (widget.listUser != null &&
+      if (widget.model != null &&
           distributiongroupsTextController.text.isEmpty) {
         Validator().showToast(
           context,
           "Please enter distribution groups",
         );
       } else {
-        createLawEnforcement(true, widget.listUser?.id ?? 0, globalState);
+        createLawEnforcement(true, widget.model?.id ?? 0, globalState);
       }
     }
   }
@@ -1729,7 +1728,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           itemBuilder: (BuildContext context, int index) {
             CreateImage? imagedata;
             FoundImage? imagedata1;
-            if (widget.listUser != null) {
+            if (widget.model != null) {
               imagedata1 = attachmentListviews1?[index];
             } else {
               imagedata = attachmentListviews?[index];
@@ -1738,7 +1737,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
             return Column(
               children: <Widget>[
                 ListTile(
-                  trailing: widget.listUser != null
+                  trailing: widget.model != null
                       ? SvgPicture.asset(AppIcon.download,
                           color: AppColors.boldgreyBackground)
                       : const SizedBox(
@@ -1749,7 +1748,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                     DownloadImage().saveImage(
                         context, imagedata1?.id ?? 0, imagedata1?.title ?? '');
                   },
-                  title: widget.listUser != null
+                  title: widget.model != null
                       ? Text(imagedata1?.title ?? '')
                       : Text(imagedata?.title ?? ''),
                 ),
@@ -1800,21 +1799,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       },
       textFieldController: textController,
       textFormKey: Keys.colorTextController,
-      isEnable:
-          //widget.listuser == null
-          // ? true
-          // : (widget.listuser != null &&
-          //         (widget.listuser?.color ?? '')
-          //             .isEmpty) ?
-          // true
-          // : false,
-          // isDisableColor: (widget.listuser != null &&
-          //             (widget.listuser?.color ?? '')
-          //                 .isEmpty) ||
-          //         widget.listuser == null
-          //     ? false
-          //     :
-          true,
+      isEnable: true,
       hintText: '',
       onChange: (String username) {
         //this.username = username;
@@ -1835,7 +1820,9 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         } else if (textController == emailidTextController1 ||
             textController == emailidTextController2 ||
             textController == emailidTextController3) {
+          log('----state.getVisits-22-${state.getVisits}----');
           if (state.getVisits!.isNotEmpty) {
+            log('----state.getVisits------');
             VisitingOfficialsModel model = state.getVisits![index];
             model.email = username;
           }
@@ -1856,8 +1843,6 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         }
       },
       validateTextField: (String? user) {},
-      // )
-      //)
     );
   }
 }

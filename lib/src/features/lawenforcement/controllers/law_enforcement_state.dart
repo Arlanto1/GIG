@@ -37,7 +37,7 @@ class LawEnforcementState extends Equatable {
   SerialNumberModel? getSerialnumberResponse;
   List<Entity>? listOfEntities;
   Organisation? locationSelectedlist;
-  AtomLeoPurposeVisit? leoPurposeVisitResponse;
+  Organisation? leoPurposeVisitResponse;
   Organisation? leoDepartmentsResponse;
   SerialNumberModel? serialnumberResponse;
   String? radioButtonItem = '';
@@ -110,7 +110,7 @@ class LawEnforcementState extends Equatable {
     SerialNumberModel? getSerialnumberResponse,
     List<Entity>? listOfEntities,
     Organisation? locationSelectedlist,
-    AtomLeoPurposeVisit? leoPurposeVisitResponse,
+    Organisation? leoPurposeVisitResponse,
     Organisation? leoDepartmentsResponse,
     SerialNumberModel? serialnumberResponse,
     String? radioButtonItem = '',

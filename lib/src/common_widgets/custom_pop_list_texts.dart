@@ -42,7 +42,7 @@ class CustomListTexts extends StatefulWidget {
   List<Entity>? duplicateEntityList;
   List<BaseUser>? duplicateDepostorList;
   List<Organisation>? duplicateLeoDepartments;
-  List<AtomLeoPurposeVisit>? duplicateLeoPurposeVisits;
+  List<Organisation>? duplicateLeoPurposeVisits;
   final Function? onTap;
   final Function? onLeftButtonTap;
   final String? leftImageName;
@@ -67,7 +67,7 @@ class CustomListTextsState extends State<CustomListTexts> {
   List<Entity> entityList = [];
   List<BaseUser> depostorList = [];
   List<Organisation> leodepartments = [];
-  List<AtomLeoPurposeVisit> leopurposevisits = [];
+  List<Organisation> leopurposevisits = [];
   List<DistributionGroup> loadGroups = [];
   List<Organisation> companyTypes = [];
   List<Organisation> dayPassReason = [];
@@ -636,7 +636,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateLeoPurposeVisits != null) {
-              AtomLeoPurposeVisit? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty &&
                   leopurposevisits.isNotEmpty)) {
                 articleItem = leopurposevisits[index];
