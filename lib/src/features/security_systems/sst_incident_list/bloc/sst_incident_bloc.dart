@@ -9,7 +9,6 @@ import '../../models/sst_incident_response.dart';
 import '../../services/sst_incident_services.dart';
 
 part 'sst_incident_event.dart';
-
 part 'sst_incident_state.dart';
 
 class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {

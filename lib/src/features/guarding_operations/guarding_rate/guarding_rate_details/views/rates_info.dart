@@ -7,7 +7,6 @@ import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -284,7 +283,7 @@ class _RatesInfoState extends State<RatesInfo> {
               // print(state.getLocationsResponse);
               return CustomExpansionListTexts(
                 getLocationsresponse: state.locations,
-                onTap: (Mumbai? list) async {
+                onTap: (Organisation? list) async {
                   Organisation location = Organisation();
                   location.id = list?.id;
                   location.name = list?.name;

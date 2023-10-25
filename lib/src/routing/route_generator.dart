@@ -43,7 +43,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart';
-
 //import '../features/event_protection/event_protection_details/general_info/cubits/occurrence_general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/views/general_info_view.dart';

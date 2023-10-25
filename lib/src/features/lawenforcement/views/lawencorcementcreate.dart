@@ -14,7 +14,6 @@ import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
@@ -643,7 +642,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         state.getLocationsResponse != null &&
         widget.listUser == null &&
         (serialnumber ?? '').isEmpty) {
-      Mumbai list = Mumbai(id: 24, name: "DLF Square");
+      Organisation list = Organisation(id: 24, name: "DLF Square");
       lawenforcementCubit.getlocationsResponseData(list);
       await lawenforcementCubit.getSerialnumberDetails('24', 'LEO', context);
     }
@@ -695,11 +694,11 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       //     lastName: widget.listuser?.entrySecurity?.lastName ?? "") : GetUserDetails() ;
 
       //state.locationSelectedlist =
-      Mumbai mumbai = widget.listUser?.location != null
-          ? Mumbai(
+      Organisation mumbai = widget.listUser?.location != null
+          ? Organisation(
           id: widget.listUser?.location?.id ?? 0,
           name: widget.listUser?.location?.name ?? "")
-          : Mumbai();
+          : Organisation();
 
       serialnumber =
       widget.listUser?.slNo != null ? widget.listUser?.slNo ?? '' : '';
@@ -1387,7 +1386,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
             return CustomExpansionListTexts(
               getLocationsresponse: state.getLocationsResponse,
               //GetLocations(),
-              onTap: (Mumbai? list) async {
+              onTap: (Organisation? list) async {
                 print(list?.name);
                 await lawenforcementCubit.getSerialnumberDetails(
                     list?.id.toString() ?? '', 'LEO', context);
@@ -1644,7 +1643,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         "Please enter additional information",
       );
     } else if (state.getVisits != null && state.getVisits!.isNotEmpty) {
-      for (int i = 0; i < state.getVisits!.length; i++) {
+      for (int i = 0; i < state.getVisits!.length; ) {
         VistingOfficialsModel model = state.getVisits![i];
         if (model.name == null ||
             (model.name ?? '').isEmpty ||

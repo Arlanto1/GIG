@@ -91,7 +91,7 @@ class _CreateFoundState extends State<CreateFound> {
   BaseUser? selecteddepositorList;
   BaseUser? selectedClaimList;
   User? userDetails;
-  Mumbai? locationSelectedlist;
+  Organisation? locationSelectedlist;
   SubmitCreateFoundModel? createfoundResponse;
   SerialNumberModel? serialnumberResponse;
   List<CreateImage>? getFiles;
@@ -130,10 +130,10 @@ class _CreateFoundState extends State<CreateFound> {
       serialNumber =
           widget.listuser?.slNo != null ? widget.listuser?.slNo ?? "" : '';
       locationSelectedlist = widget.listuser?.location != null
-          ? Mumbai(
+          ? Organisation(
               id: widget.listuser?.location?.id ?? 0,
               name: widget.listuser?.location?.name ?? "")
-          : Mumbai();
+          : Organisation();
       locationselectedText = locationSelectedlist?.name != null
           ? locationSelectedlist?.name ?? ""
           : '';
@@ -360,7 +360,7 @@ class _CreateFoundState extends State<CreateFound> {
         handoverDate: handoverdate,
         claimantEmployeeId: claimantEmpIdTextController.text.isEmpty
             ? 0
-            : int.parse(claimantEmpIdTextController.text) ?? 0,
+            : int.parse(claimantEmpIdTextController.text),
         slNo: serialNumber,
         images: images,
         typeOfAsset:
@@ -800,7 +800,7 @@ class _CreateFoundState extends State<CreateFound> {
     if (locationSelectedlist == null &&
         state.getLocationsResponse != null &&
         widget.listuser == null) {
-      locationSelectedlist = Mumbai(id: 24, name: "DLF Square");
+      locationSelectedlist = Organisation(id: 24, name: "DLF Square");
       locationselectedText = 'DLF Square';
       await createFoundArticleCubit.getSerialnumberDetails('24', 'AF', context);
     }
@@ -1765,7 +1765,7 @@ class _CreateFoundState extends State<CreateFound> {
               return CustomExpansionListTexts(
                 getLocationsresponse:
                     state.getLocationsResponse ?? GetLocations(),
-                onTap: (Mumbai? list) async {
+                onTap: (Organisation? list) async {
                   print(list?.name);
                   await createFoundArticleCubit.getSerialnumberDetails(
                       list?.id.toString() ?? '', 'AF', context);

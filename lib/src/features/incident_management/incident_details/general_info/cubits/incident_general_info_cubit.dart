@@ -10,7 +10,6 @@ import 'package:db_atom/src/features/createfound/models/serial_number_model.dart
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
