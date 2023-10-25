@@ -51,7 +51,7 @@ import '../features/event_protection/event_protections/bloc/event_protections_bl
 import '../features/event_protection/event_protections/views/event_protections_view.dart';
 import '../features/event_protection/services/event_protection_services.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data/bloc/guarding_master_data_bloc.dart';
-import '../features/guarding_operations/guarding_master_data/guarding_master_data/views/guarding_master_data.dart';
+import '../features/guarding_operations/guarding_master_data/guarding_master_data/views/guarding_master_data_view.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_cubit.dart';
 import '../features/guarding_operations/guarding_master_data/models/guarding_master_data_model.dart';
 import '../features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
@@ -590,7 +590,7 @@ class RouteGenerator {
             builder: (context) => BlocProvider<GuardingMasterDataBloc>(
                   create: (_) => GuardingMasterDataBloc()
                     ..add(const FetchDataList(startPos: 0, maxPos: 20)),
-                  child: const GuardingMasterData(),
+                  child: const GuardingMasterDataView(),
                 ));
 
       case guardingMasterDataDetailsRoute:
