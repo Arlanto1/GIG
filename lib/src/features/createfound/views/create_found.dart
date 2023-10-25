@@ -323,13 +323,13 @@ class _CreateFoundState extends State<CreateFound> {
         TypeOfArticle(id: selectedArtclelist?.id ?? 1);
     User? entrysecurtity = User(userId: userDetails?.userId ?? 1);
     Depositor? depositor = Depositor(userId: selecteddepositorList?.id ?? 1);
-    CreateLocation? location =
-        CreateLocation(id: locationSelectedlist?.id ?? 1);
+    Organisation? location =
+        Organisation(id: locationSelectedlist?.id ?? 1);
     DepositorDepartment? depositordep =
         DepositorDepartment(id: selectedEmployeedepartment?.id ?? 1);
     List<CreateImage>? images = getFiles ?? [];
-    CreateClaimantDepartment? createclaimantDepartment =
-        CreateClaimantDepartment(
+    Organisation? createclaimantDepartment =
+        Organisation(
             id: widget.listuser?.claimantDepartment?.id ?? 1,
             name: widget.listuser?.claimantDepartment?.name ?? '');
     CreateClaimant? claimant = CreateClaimant(
