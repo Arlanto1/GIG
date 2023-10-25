@@ -339,7 +339,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   Future<void> addingVisitis(
-      int value, List<VistingOfficialsModel>? getVisits) async {
+      int value, List<VisitingOfficialsModel>? getVisits) async {
     //int eventIds = Random.secure().nextInt(5);
     emit(
       state.copyWith(
@@ -379,7 +379,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     //state.getUserDetailsResponse =  GetUserDetails();
     state.listOfEntities = [];
     state.locationSelectedlist = Organisation();
-    state.leoDepartmentsResponse = AtomLeoDepartment();
+    state.leoDepartmentsResponse = Organisation();
     state.leoPurposeVisitResponse = AtomLeoPurposeVisit();
     state.loadAttachments = [];
     state.isDocumentifanySelected = 1;
@@ -540,7 +540,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   getleoDepartmentsResponseData(
-      AtomLeoDepartment leoDepartmentsResponse) async {
+      Organisation leoDepartmentsResponse) async {
     try {
       emit(
         state.copyWith(

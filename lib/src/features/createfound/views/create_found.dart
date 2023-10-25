@@ -16,7 +16,6 @@ import 'package:db_atom/src/features/createfound/controllers/create_found_cubit.
 import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_submit_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
@@ -87,7 +86,7 @@ class _CreateFoundState extends State<CreateFound> {
   Organisation? selectedClaimdepartment;
   String claimantDepartmentName = '';
   String claimant = '';
-  ArticleList? selectedArtclelist;
+  Organisation? selectedArtclelist;
   BaseUser? selecteddepositorList;
   BaseUser? selectedClaimList;
   User? userDetails;
@@ -117,10 +116,10 @@ class _CreateFoundState extends State<CreateFound> {
               name: widget.listuser?.depositor?.name ?? "")
           : BaseUser();
       selectedArtclelist = widget.listuser?.typeOfArticle != null
-          ? ArticleList(
+          ? Organisation(
               id: widget.listuser?.typeOfArticle?.id ?? 1,
               name: widget.listuser?.typeOfArticle?.name ?? "")
-          : ArticleList();
+          : Organisation();
       userDetails = widget.listuser?.entrySecurity != null
           ? User(
               userId: widget.listuser?.entrySecurity?.userId ?? 1,
@@ -680,7 +679,7 @@ class _CreateFoundState extends State<CreateFound> {
                     );
                   });
             },
-            onTap: (ArticleList list) {
+            onTap: (Organisation list) {
               print(list.name);
               selectedArtclelist = list;
               setState(() {});

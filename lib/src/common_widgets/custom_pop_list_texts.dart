@@ -2,9 +2,7 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
@@ -40,10 +38,10 @@ class CustomListTexts extends StatefulWidget {
 
   final String? imageName;
   List<Organisation>? duplicateEmployeeDepartments;
-  List<ArticleList>? duplicateArticleList;
+  List<Organisation>? duplicateArticleList;
   List<Entity>? duplicateEntityList;
   List<BaseUser>? duplicateDepostorList;
-  List<AtomLeoDepartment>? duplicateLeoDepartments;
+  List<Organisation>? duplicateLeoDepartments;
   List<AtomLeoPurposeVisit>? duplicateLeoPurposeVisits;
   final Function? onTap;
   final Function? onLeftButtonTap;
@@ -65,10 +63,10 @@ class CustomListTextsState extends State<CustomListTexts> {
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
   List<Organisation> employeeDepartments = [];
-  List<ArticleList> articleList = [];
+  List<Organisation> articleList = [];
   List<Entity> entityList = [];
   List<BaseUser> depostorList = [];
-  List<AtomLeoDepartment> leodepartments = [];
+  List<Organisation> leodepartments = [];
   List<AtomLeoPurposeVisit> leopurposevisits = [];
   List<DistributionGroup> loadGroups = [];
   List<Organisation> companyTypes = [];
@@ -517,7 +515,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateArticleList != null) {
-              ArticleList? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && articleList.isNotEmpty)) {
                 articleItem = articleList[index];
               } else {
@@ -678,7 +676,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateLeoDepartments != null) {
-              AtomLeoDepartment? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && leodepartments.isNotEmpty)) {
                 articleItem = leodepartments[index];
               } else {
