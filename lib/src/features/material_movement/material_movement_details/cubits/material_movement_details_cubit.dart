@@ -1,4 +1,5 @@
-import 'dart:math';
+import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
 import 'package:dart_extensions/dart_extensions.dart';
@@ -56,11 +57,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         );
 
   void onModelValueChange(MaterialMovementModel model) {
-    emit(state.copyWith(materialMovement: model, status: FormStatus.initial));
+    emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
   Future<void> initializeValues() async {
-    print('-status-1-${state.status}--');
+    log('-status-1-${state.status}--');
     //Show Loader and emit loading state
     emit(
       state.copyWith(
@@ -78,18 +79,18 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       // Get Date of Creation
-      state.materialMovement.inputDate = Utils().getCurrentDate();
-      state.materialMovement.inputDate =
+      state.model.inputDate = Utils().getCurrentDate();
+      state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
-      state.materialMovement.inwardMovement = isInward;
-      if (state.materialMovement.approvedDate != null) {
-        state.materialMovement.approvedDate = Utils()
-            .formatUnixTimestamp(state.materialMovement.approvedDate ?? '');
+      state.model.inwardMovement = isInward;
+      if (state.model.approvedDate != null) {
+        state.model.approvedDate = Utils()
+            .formatUnixTimestamp(state.model.approvedDate ?? '');
       }
-      if (state.materialMovement.rejectedDate != null) {
-        state.materialMovement.rejectedDate = Utils()
-            .formatUnixTimestamp(state.materialMovement.rejectedDate ?? '');
+      if (state.model.rejectedDate != null) {
+        state.model.rejectedDate = Utils()
+            .formatUnixTimestamp(state.model.rejectedDate ?? '');
       }
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
@@ -99,15 +100,18 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       QuantityUnits quantityUnits = await commonServices.getQuantityUnits();
 
-      state.materialMovement.entrySecurity = loggedInUserDetails;
-      state.materialMovement.unit = model?.unit;
+      state.model.entrySecurity = loggedInUserDetails;
+      state.model.unit = model?.unit;
 
+      log('-state.model.lock-----${state.model.lock}---');
+      
+      // state.model.lock = 'Edited By other User';
       emit(
         state.copyWith(
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          materialMovement: state.materialMovement,
+          model: state.model,
           users: users.t1Analyst,
           emailUsers: emailUsers.atomStaticUser,
           departments: departments.employeeDepartments,
@@ -151,101 +155,101 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         locationId: location.id.toString(),
         moduleCode: Constants.materialMovementInwardReturnableModule,
       );
-      state.materialMovement.location = location;
-      state.materialMovement.slNo = slNo.serialNo;
+      state.model.location = location;
+      state.model.slNo = slNo.serialNo;
     }
     if (location != null &&
         isInward == false &&
-        state.materialMovement.returnable == true) {
+        state.model.returnable == true) {
       SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: location.id.toString(),
           moduleCode: Constants.materialMovementOutwardReturnableModule);
-      state.materialMovement.location = location;
-      state.materialMovement.slNo = slNo.serialNo;
+      state.model.location = location;
+      state.model.slNo = slNo.serialNo;
     }
 
     if (location != null &&
         isInward == false &&
-        state.materialMovement.returnable == false) {
+        state.model.returnable == false) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
         moduleCode: Constants.materialMovementOutwardNonReturnableModule,
       );
-      state.materialMovement.location = location;
-      state.materialMovement.slNo = slNo.serialNo;
+      state.model.location = location;
+      state.model.slNo = slNo.serialNo;
     }
 
     if (user != null) {
-      state.materialMovement.otherReceiverName = user.name;
+      state.model.otherReceiverName = user.name;
     }
 
     if (receiverEmailUser != null) {
-      state.materialMovement.receiverEmail = receiverEmailUser.email;
+      state.model.receiverEmail = receiverEmailUser.email;
     }
 
     if (requesterEmailUser != null) {
-      state.materialMovement.requestorEmail = requesterEmailUser.email;
+      state.model.requestorEmail = requesterEmailUser.email;
     }
     if (approver1EmailUser != null) {
-      state.materialMovement.approver1Email = approver1EmailUser.email;
+      state.model.approver1Email = approver1EmailUser.email;
     }
     if (approver2EmailUser != null) {
-      state.materialMovement.approver2Email = approver2EmailUser.email;
+      state.model.approver2Email = approver2EmailUser.email;
     }
 
     if (requesterDepartment != null) {
-      state.materialMovement.requestorDepartment = requesterDepartment;
+      state.model.requestorDepartment = requesterDepartment;
     }
     if (preparedByDepartment != null) {
-      state.materialMovement.preparedByDepartment = preparedByDepartment;
+      state.model.preparedByDepartment = preparedByDepartment;
     }
     if (approver1Department != null) {
-      state.materialMovement.approver1Department = approver1Department;
+      state.model.approver1Department = approver1Department;
     }
 
     if (approver2Department != null) {
-      state.materialMovement.approver2Department = approver2Department;
+      state.model.approver2Department = approver2Department;
     }
-    print('--depart---${receiverDepartment?.name}-----');
+    log('--depart---${receiverDepartment?.name}-----');
     if (receiverDepartment != null) {
-      state.materialMovement.receiverDepartment = receiverDepartment;
+      state.model.receiverDepartment = receiverDepartment;
     }
     if (quantityUnit != null) {
-      state.materialMovement.unit = quantityUnit;
+      state.model.unit = quantityUnit;
     }
-    print('-quantityUnit---${state.materialMovement.unit?.name}');
+    log('-quantityUnit---${state.model.unit?.name}');
 
     if (isReturnable != null) {
-      state.materialMovement.returnable = isReturnable;
+      state.model.returnable = isReturnable;
     }
 
     emit(state.copyWith(
-      materialMovement: state.materialMovement,
+      model: state.model,
       status: FormStatus.initial,
     ));
   }
 
   void addAttchment(List<CreateImage>? data) async {
-    print('--state.status-1---${state.status}----');
+    log('--state.status-1---${state.status}----');
 
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
-    int eventIds = Random.secure().nextInt(5);
+    int eventIds = math.Random.secure().nextInt(5);
 
-    print('--data----${data?.length}----');
-    print('--state.status-2---${state.status}----');
+    log('--data----${data?.length}----');
+    log('--state.status-2---${state.status}----');
 
     emit(state.copyWith(
       eventId: eventIds,
-      materialMovement: state.materialMovement,
+      model: state.model,
       loadAttachments: data,
       status: FormStatus.initial,
     ));
 
-    print('--state.status--3--${state.status}----');
+    log('--state.status--3--${state.status}----');
   }
 
   void showFields(
@@ -257,16 +261,16 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
 
     if (isOriginalReceiverReceiving != null) {
-      state.materialMovement.originalReceiver = isOriginalReceiverReceiving;
+      state.model.originalReceiver = isOriginalReceiverReceiving;
     }
     if (isMaterialPhysicallyChecked != null) {
-      state.materialMovement.materialPhysicallyChecked =
+      state.model.materialPhysicallyChecked =
           isMaterialPhysicallyChecked;
     }
     // final updatedMaterialMovement = materialMovement.copyWith(state.materialMovement.originalReceiver: isOriginalReceiverReceiving);
 
     emit(state.copyWith(
-      materialMovement: state.materialMovement,
+      model: state.model,
       status: FormStatus.initial,
     ));
   }
@@ -279,12 +283,12 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
 
     // Setting time in milliseconds
-    state.materialMovement.inputDate =
+    state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // Create/Update API Call
     MaterialMovementRequest request =
-        MaterialMovementRequest(materialMovement: state.materialMovement);
+        MaterialMovementRequest(materialMovement: state.model);
 
     try {
       GenericCreateResponse response = GenericCreateResponse();
@@ -294,7 +298,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       } else {
         //Validating Fields
         if (!state.isValid.status) {
-          state.materialMovement.inputDate =
+          state.model.inputDate =
               DateFormat(Constants.fulldateFormat).format(DateTime.now());
           emit(
             state.copyWith(
@@ -308,7 +312,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
             body: request, isSubmit: true);
       }
 
-      print('---response--msg--${response.message}---');
+      log('---response--msg--${response.message}---');
 
       emit(
         state.copyWith(
@@ -318,7 +322,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       );
 
     } on Exception catch (e) {
-      state.materialMovement.inputDate =
+      state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
       emit(
         state.copyWith(
