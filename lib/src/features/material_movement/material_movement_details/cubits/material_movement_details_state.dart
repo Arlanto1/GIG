@@ -41,6 +41,30 @@ class MaterialMovementDetailsState extends Equatable {
         eventId: eventId);
   }
 
+  ErrorResponse get isValidDraft {
+    if (model.status == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Status');
+    }
+    if (model.entrySecurity == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Entry Security');
+    }
+    if (model.inputDate == null) {
+      return const ErrorResponse(
+          status: false, message: 'Created Date is required');
+    }
+    if (model.location == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Location');
+    }
+
+    if (model.slNo.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter SL No');
+    }
+
+    return const ErrorResponse(status: true, message: 'Form is Valid');
+  }
+
   ErrorResponse get isValid {
     if (model.location == null) {
       return const ErrorResponse(
@@ -67,7 +91,8 @@ class MaterialMovementDetailsState extends Equatable {
           status: false, message: 'Please enter Material Description');
     }
 
-    if (!model.materialPhysicallyChecked== true&& isInward == true &&
+    if (!model.materialPhysicallyChecked == true &&
+        isInward == true &&
         model.materialNotCheckedComment.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Comment is Mandatory');

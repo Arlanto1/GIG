@@ -50,13 +50,13 @@ class CreatePassMgmtState extends Equatable {
   CompanyTypes? companyTypes;
   Organisation? atomCompanyType;
   CreatePassMgmtResponse? createpassFoundresponse;
-  DayPassReasonElement? dayPasselementReason;
+  Organisation? dayPasselementReason;
   DayPassReason? dayPassReason;
   BaseUser? t1nameanalyst;
   Analyst? analyst;
   BaseUser? t1hostanalyst;
   BaseUser? t1dbsponsoranalyst;
-  ActivePassInfoList? activePassInfoList;
+  Organisation? activePassInfoList;
   DayPassNumberLists? passnumbelistresponse;
   String? radioButtonItem = '';
   int? escortedbyhost;
@@ -127,13 +127,13 @@ class CreatePassMgmtState extends Equatable {
     CompanyTypes? companyTypes,
     Organisation? atomCompanyType,
     CreatePassMgmtResponse? createpassFoundresponse,
-    DayPassReasonElement? dayPasselementReason,
+    Organisation? dayPasselementReason,
     DayPassReason? dayPassReason,
     BaseUser? t1nameanalyst,
     Analyst? analyst,
     BaseUser? t1hostanalyst,
     BaseUser? t1dbsponsoranalyst,
-    ActivePassInfoList? activePassInfoList,
+    Organisation? activePassInfoList,
     DayPassNumberLists? passnumbelistresponse,
     String? radioButtonItem = '',
     int? escortedbyhost,

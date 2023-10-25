@@ -323,7 +323,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  getpassListResponseData(ActivePassInfoList? companytypeResponse) async {
+  getpassListResponseData(Organisation? companytypeResponse) async {
     try {
       emit(
         state.copyWith(
@@ -402,7 +402,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  getdaypassreasonResponseData(DayPassReasonElement? passReasonResponse) async {
+  getdaypassreasonResponseData(Organisation? passReasonResponse) async {
     try {
       emit(
         state.copyWith(
@@ -561,7 +561,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     state.selectedemployeeDepartmentResponse = Organisation();
     state.employeeDepartment = EmployeeDepartments();
     state.companyTypes = CompanyTypes();
-    state.activePassInfoList = ActivePassInfoList();
+    state.activePassInfoList = Organisation();
     state.loadAttachments = [];
     state.atomCompanyType = Organisation();
     state.listOfEntities = [];
@@ -576,7 +576,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     state.nameResponse = BaseUser();
     state.dbsponsorResponse = BaseUser();
     state.getUserDetailsResponse = User();
-    state.dayPasselementReason = DayPassReasonElement();
+    state.dayPasselementReason = Organisation();
   }
 
   getEntityData(List<Entity> listOfEntities) async {
@@ -661,23 +661,25 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       String username,
       String title) async {
     try {
-      CreatePassMgmtResponse? createpassFoundresponse =
+
+
+      CreatePassMgmtResponse? response =
           await createpassmgmtServices.createPass(
         requestBody: bodyRequest,
         isSubmit: isSubmit,
       ); //replace empty model with bodyRequest
       emit(
         state.copyWith(
-          createpassFoundresponse: createpassFoundresponse,
+          createpassFoundresponse: response,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
 
-      if (createpassFoundresponse.message != null) {
+      if (response.message != null) {
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
           dismissLoadingDialog(context);
           Utils.dynamicAlert(
-              context, createpassFoundresponse.message ?? '', title, '');
+              context, response.message ?? '', title, '');
         });
       }
     } catch (e) {

@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final analyst = analystFromJson(jsonString);
-
 import 'dart:convert';
 
 import '../../../../../models/base_user.dart';

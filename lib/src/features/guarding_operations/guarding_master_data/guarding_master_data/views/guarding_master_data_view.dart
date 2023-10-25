@@ -16,16 +16,16 @@ import '../../models/guarding_master_data_model.dart';
 import '../../services/guarding_master_data_services.dart';
 import '../bloc/guarding_master_data_bloc.dart';
 
-class GuardingMasterData extends StatefulWidget {
-  const GuardingMasterData({
+class GuardingMasterDataView extends StatefulWidget {
+  const GuardingMasterDataView({
     super.key,
   });
 
   @override
-  State<GuardingMasterData> createState() => _GuardingMasterDataState();
+  State<GuardingMasterDataView> createState() => _GuardingMasterDataViewState();
 }
 
-class _GuardingMasterDataState extends State<GuardingMasterData> {
+class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
 

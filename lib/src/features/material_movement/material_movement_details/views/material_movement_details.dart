@@ -64,7 +64,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   TextEditingController takenOutOnDateController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
       TextEditingController();
-  bool isDisabled = true;
+  bool isDisabled = false;
   List<String> returnableDropDownValues = const [
     "Returnable",
     "Non Returnable"
@@ -113,12 +113,20 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
         }
       },
       builder: (context, state) {
+        log('--isDisabled--1--$isDisabled-----');
+        if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
+          isDisabled = true;
+        }
+        log('--isDisabled--2--$isDisabled-----');
+
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 6 && state.model.status != 1
+            showSaveButton: state.model.status != 6 &&
+                    state.model.status != 1 &&
+                    !isDisabled
                 ? true
                 : false,
             onTapSave: () {
@@ -151,12 +159,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
       log('---getFiles----builder----${getFiles?.length}-----');
     }
 
-    if (state.model.status == 1) {
-      isDisabled = false;
-    }
-    if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
-      isDisabled = true;
-    }
     return Container(
         color: AppColors.navigationSkybluecolor,
         child: SingleChildScrollView(
@@ -173,10 +175,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: AbsorbPointer(
-                absorbing: isDisabled,
+                absorbing: state.model.status == 6,
                 child: Form(
                     key: _formKey,
-                    autovalidateMode: state.model.status == 6
+                    autovalidateMode: isDisabled
                         ? AutovalidateMode.disabled
                         : AutovalidateMode.onUserInteraction,
                     child: Column(
@@ -226,7 +228,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   isDisabled: state.model.status != 6,
                                   textController: returnableTextController,
                                   onTap: () {
-                                    if (isDisabled & !widget.isInward) {
+                                    if (!isDisabled & !widget.isInward) {
                                       BaseDropDown().assetTypeDialog(
                                           context: context,
                                           dropDownValues:
@@ -448,6 +450,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 FlutterInputField(
                                   lineHeight: 6,
                                   initialValue: state.model.modelInfo,
+                                  showBorder: true,
                                   textFormKey: Keys.equipmentNoKey,
                                   hintText: '',
                                   isEnable: state.model.status != 6,
@@ -471,6 +474,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 FlutterInputField(
                                   lineHeight: 6,
                                   initialValue: state.model.address,
+                                  showBorder: true,
                                   textFormKey: Keys.addressKey,
                                   hintText: '',
                                   isEnable: state.model.status != 6,
@@ -1095,6 +1099,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       initialValue: state.model.takenOutAddress,
                                       textFormKey: Keys.takenOutAddressKey,
                                       hintText: '',
+                                      showBorder: true,
                                       isEnable: state.model.status == 2,
                                       isDisableColor: state.model.status != 2,
                                       onChange: (String value) {
@@ -1559,7 +1564,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                           /// SubmitButton
                           if (state.model.status != 6 &&
-                              state.model.status != 1) ...[
+                              state.model.status != 1 &&
+                              !isDisabled) ...[
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [

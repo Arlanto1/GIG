@@ -1,15 +1,13 @@
-// To parse this JSON data, do
-//
-//     final getArticleType = getArticleTypeFromJson(jsonString);
-
 import 'dart:convert';
+
+import '../../../models/organisation.dart';
 
 GetArticleType getArticleTypeFromJson(String str) => GetArticleType.fromJson(json.decode(str));
 
 String getArticleTypeToJson(GetArticleType data) => json.encode(data.toJson());
 
 class GetArticleType {
-  List<ArticleList>? articleList;
+  List<Organisation>? articleList;
 
   GetArticleType({
     this.articleList,
@@ -18,7 +16,7 @@ class GetArticleType {
   factory GetArticleType.fromJson(Map<String, dynamic> json) => GetArticleType(
         articleList: json["ARTICLE_LIST"] == null
             ? []
-            : List<ArticleList>.from(json["ARTICLE_LIST"]!.map((x) => ArticleList.fromJson(x))),
+            : List<Organisation>.from(json["ARTICLE_LIST"]!.map((x) => Organisation.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -27,22 +25,3 @@ class GetArticleType {
       };
 }
 
-class ArticleList {
-  int? id;
-  String? name;
-
-  ArticleList({
-    this.id,
-    this.name,
-  });
-
-  factory ArticleList.fromJson(Map<String, dynamic> json) => ArticleList(
-        id: json["Id"],
-        name: json["Name"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "Id": id,
-        "Name": name,
-      };
-}
