@@ -85,12 +85,12 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       state.model.inwardMovement = isInward;
       if (state.model.approvedDate != null) {
-        state.model.approvedDate = Utils()
-            .formatUnixTimestamp(state.model.approvedDate ?? '');
+        state.model.approvedDate =
+            Utils().formatUnixTimestamp(state.model.approvedDate ?? '');
       }
       if (state.model.rejectedDate != null) {
-        state.model.rejectedDate = Utils()
-            .formatUnixTimestamp(state.model.rejectedDate ?? '');
+        state.model.rejectedDate =
+            Utils().formatUnixTimestamp(state.model.rejectedDate ?? '');
       }
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
@@ -103,9 +103,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.entrySecurity = loggedInUserDetails;
       state.model.unit = model?.unit;
 
-      log('-state.model.lock-----${state.model.lock}---');
-      
-      // state.model.lock = 'Edited By other User';
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -264,8 +261,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.originalReceiver = isOriginalReceiverReceiving;
     }
     if (isMaterialPhysicallyChecked != null) {
-      state.model.materialPhysicallyChecked =
-          isMaterialPhysicallyChecked;
+      state.model.materialPhysicallyChecked = isMaterialPhysicallyChecked;
     }
     // final updatedMaterialMovement = materialMovement.copyWith(state.materialMovement.originalReceiver: isOriginalReceiverReceiving);
 
@@ -320,7 +316,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           status: FormStatus.success,
         ),
       );
-
     } on Exception catch (e) {
       state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());

@@ -378,7 +378,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     state.loadAttachments = [];
     //state.getUserDetailsResponse =  GetUserDetails();
     state.listOfEntities = [];
-    state.locationSelectedlist = Mumbai();
+    state.locationSelectedlist = Organisation();
     state.leoDepartmentsResponse = AtomLeoDepartment();
     state.leoPurposeVisitResponse = AtomLeoPurposeVisit();
     state.loadAttachments = [];
@@ -595,7 +595,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  getlocationsResponseData(Mumbai? locationSelectedlist) async {
+  getlocationsResponseData(Organisation? locationSelectedlist) async {
     try {
       emit(
         state.copyWith(

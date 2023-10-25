@@ -36,7 +36,7 @@ class LawEnforcementState extends Equatable {
   GetLocations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
   List<Entity>? listOfEntities;
-  Mumbai? locationSelectedlist;
+  Organisation? locationSelectedlist;
   AtomLeoPurposeVisit? leoPurposeVisitResponse;
   AtomLeoDepartment? leoDepartmentsResponse;
   SerialNumberModel? serialnumberResponse;
@@ -109,7 +109,7 @@ class LawEnforcementState extends Equatable {
     GetLocations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,
     List<Entity>? listOfEntities,
-    Mumbai? locationSelectedlist,
+    Organisation? locationSelectedlist,
     AtomLeoPurposeVisit? leoPurposeVisitResponse,
     AtomLeoDepartment? leoDepartmentsResponse,
     SerialNumberModel? serialnumberResponse,
