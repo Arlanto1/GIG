@@ -48,9 +48,9 @@ class CustomListTexts extends StatefulWidget {
   final String? leftImageName;
   List<DistributionGroup>? duplicateloadGroups;
   List<Organisation>? duplicateatomCompanyTypes;
-  List<DayPassReasonElement>? duplicatedayPassReason;
+  List<Organisation>? duplicatedayPassReason;
   List<BaseUser>? duplicatet1Analyst;
-  List<ActivePassInfoList>? duplicateactivePassInfoList;
+  List<Organisation>? duplicateactivePassInfoList;
 
   List<Organisation>? duplicateQuantityUnitList;
 
@@ -70,9 +70,9 @@ class CustomListTextsState extends State<CustomListTexts> {
   List<AtomLeoPurposeVisit> leopurposevisits = [];
   List<DistributionGroup> loadGroups = [];
   List<Organisation> companyTypes = [];
-  List<DayPassReasonElement> dayPassReason = [];
+  List<Organisation> dayPassReason = [];
   List<BaseUser> t1analysts = [];
-  List<ActivePassInfoList> activePassInfoList = [];
+  List<Organisation> activePassInfoList = [];
   List<Organisation> quantityUnitList = [];
 
   @override
@@ -833,7 +833,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicatedayPassReason != null) {
-              DayPassReasonElement? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && companyTypes.isNotEmpty)) {
                 articleItem = dayPassReason[index];
               } else {
@@ -911,7 +911,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateactivePassInfoList != null) {
-              ActivePassInfoList? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty &&
                   activePassInfoList.isNotEmpty)) {
                 articleItem = activePassInfoList[index];

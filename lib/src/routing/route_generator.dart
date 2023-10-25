@@ -240,7 +240,7 @@ class RouteGenerator {
                 builder: (context) => CreatePassManagement(
                       passId: passMngArguments?.passType ?? '',
                       title: passMngArguments?.title ?? '',
-                      dayPassItem: passMngArguments?.listuser,
+                      model: passMngArguments?.model,
                     ));
           }
           return MaterialPageRoute(
