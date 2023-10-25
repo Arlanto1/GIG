@@ -286,9 +286,23 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     MaterialMovementRequest request =
         MaterialMovementRequest(materialMovement: state.model);
 
+    // TODO: Need to change from Backend- Status should be handled from backend
+    state.model.status ??= 0;
     try {
       GenericCreateResponse response = GenericCreateResponse();
       if (isSaveOnly) {
+        //Validating Fields
+        if (!state.isValidDraft.status) {
+          state.model.inputDate =
+              DateFormat(Constants.fulldateFormat).format(DateTime.now());
+          emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValidDraft.message,
+            ),
+          );
+          return;
+        }
         response = await materialMovementServices.createMaterialMovement(
             body: request, isSubmit: false);
       } else {
