@@ -162,7 +162,7 @@ class _FoundListState extends State<FoundList> {
           builder: (context, state) {
             if (state.stateType == FoundListStateType.success) {
               if (state.foundListModel?.list == null &&
-                  state.foundListModel?.list?.length == 0) {
+                  state.foundListModel!.list!.isEmpty) {
                 if (pageNumber == 0) {
                   localfoundlist = state.foundListModel?.list;
                 }

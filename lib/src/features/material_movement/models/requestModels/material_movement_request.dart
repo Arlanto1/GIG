@@ -11,9 +11,9 @@ class MaterialMovementRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['materialMovement'] = materialMovement.toJson();
-    return _data;
+    final data = <String, dynamic>{};
+    data['materialMovement'] = materialMovement.toJson();
+    return data;
   }
 }
 

@@ -1,4 +1,3 @@
-import '../../../../models/entity.dart';
 import '../../../../models/organisation.dart';
 import '../../../createfound/models/user.dart';
 
@@ -37,7 +36,7 @@ class GMRate {
   Organisation? location;
   Organisation? locationRegion;
   User? entrySecurity;
-  List<Entity>? entities;
+  List<Organisation>? entities;
   String? inputDate;
   // num? modifiedDate;
   String? modifiedBy;
@@ -84,7 +83,7 @@ class GMRate {
                 json['entrySecurity'] as Map<String, dynamic>)
             : null,
         entities = (json['entities'] as List?)
-            ?.map((dynamic e) => Entity.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
             .toList(),
         inputDate = json['inputDate'] as String?,
         // modifiedDate = json['modifiedDate'] as num?,

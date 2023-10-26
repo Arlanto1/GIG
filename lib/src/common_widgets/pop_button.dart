@@ -35,13 +35,7 @@ class PopButton extends StatelessWidget {
      width: width,
       height: 50.00,
       child: TextButton(
-        key: Key(buttonKey ?? ''),
-        child: buttonText != null && buttonText != '' ?  Text(buttonText ?? '', key: Key(buttonTextKey ?? '')) : SvgPicture.asset(
-                imageText ?? '',
-                color: AppColors.navigationSkybluecolor,
-                width: 20,
-                //key: const Key(Keys.userIcon),
-              ),  
+        key: Key(buttonKey ?? ''),  
         onPressed: () {
           onTap!();
         },
@@ -54,6 +48,12 @@ class PopButton extends StatelessWidget {
           textStyle:textStyle,
           shape: const StadiumBorder(),
         ),
+        child: buttonText != null && buttonText != '' ?  Text(buttonText ?? '', key: Key(buttonTextKey ?? '')) : SvgPicture.asset(
+                imageText ?? '',
+                color: AppColors.navigationSkybluecolor,
+                width: 20,
+                //key: const Key(Keys.userIcon),
+              ),
       ),
     );
   }

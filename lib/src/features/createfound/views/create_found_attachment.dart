@@ -193,8 +193,8 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                     //borderRadius: BorderRadius.circular(20.0),
                                     DottedBorder(
                                   borderType: BorderType.RRect,
-                                  radius: Radius.circular(20),
-                                  dashPattern: [5, 5],
+                                  radius: const Radius.circular(20),
+                                  dashPattern: const [5, 5],
                                   color: Colors.black,
                                   strokeWidth: 1,
                                   child: ClipRRect(
@@ -270,7 +270,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                 height: 60,
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Color(0xFFCACACA),
+                                      color: const Color(0xFFCACACA),
                                       width: 1.0,
                                     ),
                                     borderRadius: const BorderRadius.all(

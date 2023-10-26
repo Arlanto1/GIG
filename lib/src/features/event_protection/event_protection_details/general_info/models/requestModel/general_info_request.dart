@@ -15,8 +15,8 @@ class GeneralInfoRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['epGi'] = eventProtectionGi.toJson();
-    return _data;
+    final data = <String, dynamic>{};
+    data['epGi'] = eventProtectionGi.toJson();
+    return data;
   }
 }

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
-import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -280,8 +279,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               isDisabled: state.model.status != 6,
                               textController: statusController,
                               items: statusDropDownValues,
-                              initialValue:
-                                  '${state.model.status ?? 1}',
+                              initialValue: '${state.model.status ?? 1}',
                               onTap: () {
                                 if (widget.guardingMasterData != null) {
                                   BaseDropDown().assetTypeDialog(
@@ -340,8 +338,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             TextfieldAddButton(
-                                title:
-                                    state.model.entity?.name ?? '',
+                                title: state.model.entity?.name ?? '',
                                 height: 70,
                                 isDisableColor: false,
                                 onTap: () {
@@ -349,7 +346,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                     context: context,
                                     entities: state.listOfEntities,
                                     // TODO: Need to change EntrySecurity to BaseUser
-                                    onTap: (Entity entity) {
+                                    onTap: (Organisation entity) {
                                       BlocProvider.of<
                                                   GuardingMasterDataDetailsCubit>(
                                               context)
@@ -362,8 +359,8 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Sl No.
-                            CommonWidgets.horizentaltextHandling(Constants.slno,
-                                state.model.slNo ?? ''),
+                            CommonWidgets.horizentaltextHandling(
+                                Constants.slno, state.model.slNo ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Guard Name
@@ -466,8 +463,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.text,
-                              initialValue:
-                                  state.model.guardingPOC,
+                              initialValue: state.model.guardingPOC,
                               textFormKey: Keys.guardingPOCKey,
                               hintText: '',
                               isEnable: true,
@@ -476,8 +472,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 state.model.guardingPOC = value;
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -490,8 +485,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.number,
-                              initialValue:
-                                  state.model.employeeCode,
+                              initialValue: state.model.employeeCode,
                               textFormKey: Keys.guardingAgencyKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
@@ -507,8 +501,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 state.model.employeeCode = value;
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -520,12 +513,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled:
-                                    state.model.status != 6,
+                                isDisabled: state.model.status != 6,
                                 textController: rankController,
                                 items: guardRankDropDownValues,
-                                initialValue: state.model.guardRank
-                                    .toString(),
+                                initialValue: state.model.guardRank.toString(),
                                 onTap: () {
                                   if (isDisabled) {
                                     BaseDropDown().assetTypeDialog(
@@ -559,8 +550,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.number,
-                              initialValue:
-                                  state.model.dbEmployeeId,
+                              initialValue: state.model.dbEmployeeId,
                               textFormKey: Keys.dbEmployeeIDKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
@@ -576,8 +566,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 state.model.dbEmployeeId = value;
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -589,12 +578,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled:
-                                    state.model.status != 6,
+                                isDisabled: state.model.status != 6,
                                 textController: dutyTypeController,
                                 items: dutyTypeDropDownValues,
-                                initialValue: state.model.dutyType
-                                    .toString(),
+                                initialValue: state.model.dutyType.toString(),
                                 onTap: () {
                                   if (isDisabled) {
                                     BaseDropDown().assetTypeDialog(
@@ -630,8 +617,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               isDisabled: state.model.status != 6,
                               textController: genderController,
                               items: genderDropDownValues,
-                              initialValue:
-                                  state.model.gender.toString(),
+                              initialValue: state.model.gender.toString(),
                               onTap: () {
                                 if (isDisabled) {
                                   BaseDropDown().assetTypeDialog(
@@ -666,13 +652,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled:
-                                    state.model.status != 6,
+                                isDisabled: state.model.status != 6,
                                 textController: maritalStatusController,
                                 items: maritalStatusDropDownValues,
-                                initialValue: state
-                                    .model.maritalStatus
-                                    .toString(),
+                                initialValue:
+                                    state.model.maritalStatus.toString(),
                                 onTap: () {
                                   if (isDisabled) {
                                     BaseDropDown().assetTypeDialog(
@@ -723,8 +707,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 state.model.contactNo = value;
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -736,8 +719,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.number,
-                              initialValue:
-                                  '${state.model.dependentsNo ?? ''}',
+                              initialValue: '${state.model.dependentsNo ?? ''}',
                               textFormKey: Keys.dependentsKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
@@ -750,12 +732,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                       : true,
                               isDisableColor: false,
                               onChange: (String value) {
-                                state.model.dependentsNo =
-                                    int.tryParse(value);
+                                state.model.dependentsNo = int.tryParse(value);
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -772,13 +752,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               textController: dateOfBirthController,
                               onlyDate: true,
                               onChange: (String value) {
-                                log('--fr-value-${dateOfBirthController.text}------');
                                 state.model.dateOfBirth =
                                     Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               context: context,
                             ),
@@ -792,16 +770,15 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
+                              onlyDate: true,
                               textController: dateOfJoiningController,
                               onChange: (String value) {
-                                log('---value-$value------');
-                                log('-----pvcIssuedDateController---value-${dateOfJoiningController.text}------');
                                 state.model.dateOfJoining =
                                     Utils().formatTime(value);
+
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                                 // pvcIssuedDateController.text = state.guardingMasterData.pvcIssuedDate??'';
                               },
                               context: context,
@@ -816,40 +793,39 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled:
-                                    state.model.status != 6,
-                                textController: deploymentTypeController,
-                                items: deploymentTypeDropDownValues,
-                                initialValue: state
-                                    .model.typeOfDeployment
-                                    .toString(),
-                                onTap: () {
-                                  if (isDisabled) {
-                                    BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues:
-                                            deploymentTypeDropDownValues
-                                                .map((label) => label.key)
-                                                .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              deploymentTypeDropDownValues
-                                                  .firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<
-                                                      GuardingMasterDataDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  typeOfDeployment:
-                                                      int.tryParse(
-                                                          selectedLabel.value));
-                                        });
-                                  }
-                                }),
+                              isDisabled: state.model.status != 6,
+                              textController: deploymentTypeController,
+                              items: deploymentTypeDropDownValues,
+                              initialValue:
+                                  state.model.typeOfDeployment.toString(),
+                              onTap: () {
+                                if (isDisabled) {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: deploymentTypeDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          deploymentTypeDropDownValues
+                                              .firstWhere(
+                                        (label) => label.key == value,
+                                        orElse: () =>
+                                            const Label(key: '', value: ''),
+                                      );
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        typeOfDeployment:
+                                            int.tryParse(selectedLabel.value),
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Deployment order Submitted?
@@ -857,44 +833,37 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Constants.deploymentOrderSubmitted,
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
-                                status: state.model.status ?? 0,
-                                selectedValue: state.model
-                                        .deploymentOrderSubmitted
-                                    ? 1
-                                    : 0,
-                                onChangedYes: widget
-                                            .guardingMasterData?.status ==
-                                        6
-                                    ? null
-                                    : (val) {
-                                        state.model
-                                            .deploymentOrderSubmitted = true;
-                                        BlocProvider.of<
-                                                    GuardingMasterDataDetailsCubit>(
-                                                context)
-                                            .showFields(
-                                                deploymentOrderSubmitted: true);
-                                        //.onModelValueChange(state.guardingMasterData
-                                        //);
-                                      },
-                                onChangedNo:
-                                    widget.guardingMasterData?.status == 4
-                                        ? null
-                                        : (val) {
-                                            state.model
-                                                    .deploymentOrderSubmitted =
-                                                false;
-                                            BlocProvider.of<
-                                                        GuardingMasterDataDetailsCubit>(
-                                                    context)
-                                                .showFields(
-                                                    deploymentOrderSubmitted:
-                                                        false);
-                                            // .onModelValueChange(state.guardingMasterData
-                                            //  );
-                                          }),
-                            if (state.model
-                                .deploymentOrderSubmitted) ...[
+                              status: state.model.status ?? 0,
+                              selectedValue:
+                                  state.model.deploymentOrderSubmitted ? 1 : 0,
+                              onChangedYes: widget.guardingMasterData?.status ==
+                                      6
+                                  ? null
+                                  : (val) {
+                                      state.model.deploymentOrderSubmitted =
+                                          true;
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .showFields(
+                                              deploymentOrderSubmitted: true);
+                                      //.onModelValueChange(state.guardingMasterData
+                                      //);
+                                    },
+                              onChangedNo: widget.guardingMasterData?.status ==
+                                      4
+                                  ? null
+                                  : (val) {
+                                      state.model.deploymentOrderSubmitted =
+                                          false;
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .showFields(
+                                              deploymentOrderSubmitted: false);
+                                    },
+                            ),
+                            if (state.model.deploymentOrderSubmitted) ...[
                               /// upload Deployment Order File
                               CommonWidgets.textDisplay(
                                   Constants.uploadDeploymentOrderFile,
@@ -906,8 +875,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               BaseImageUpload().uploadWidget(
                                 context: context,
                                 loggedInUserDetails:
-                                    state.loggedInUserDetails ??
-                                        User(),
+                                    state.loggedInUserDetails ?? User(),
                                 getFiles: deploymentFiles,
                                 onImageSelected: (CreateImage data) {
                                   log('-------function---onImageSelected---------');
@@ -941,19 +909,16 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.number,
-                              initialValue:
-                                  '${state.model.height ?? ''}',
+                              initialValue: '${state.model.height ?? ''}',
                               textFormKey: Keys.heightKey,
                               hintText: '',
                               isEnable: true,
                               isDisableColor: false,
                               onChange: (String value) {
-                                state.model.height =
-                                    int.tryParse(value);
+                                state.model.height = int.tryParse(value);
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -965,8 +930,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.number,
-                              initialValue:
-                                  '${state.model.weight ?? ''}',
+                              initialValue: '${state.model.weight ?? ''}',
                               textFormKey: Keys.weightKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
@@ -978,12 +942,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                       : true,
                               isDisableColor: false,
                               onChange: (String value) {
-                                state.model.weight =
-                                    int.tryParse(value);
+                                state.model.weight = int.tryParse(value);
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -995,8 +957,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.number,
-                              initialValue:
-                                  '${state.model.chest ?? ''}',
+                              initialValue: '${state.model.chest ?? ''}',
                               textFormKey: Keys.chestKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
@@ -1008,12 +969,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                       : true,
                               isDisableColor: false,
                               onChange: (String value) {
-                                state.model.chest =
-                                    int.tryParse(value);
+                                state.model.chest = int.tryParse(value);
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -1025,8 +984,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.text,
-                              initialValue:
-                                  state.model.localLanguage,
+                              initialValue: state.model.localLanguage,
                               textFormKey: Keys.languageKey,
                               hintText: '',
                               isEnable: widget.guardingMasterData == null
@@ -1048,8 +1006,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 state.model.localLanguage = value;
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -1080,32 +1037,26 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue:
-                                    state.model.physicallyFit
-                                        ? 1
-                                        : 0,
+                                    state.model.physicallyFit ? 1 : 0,
                                 onChangedYes:
                                     widget.guardingMasterData?.status == 6
                                         ? null
                                         : (val) {
-                                            state.model
-                                                .physicallyFit = true;
+                                            state.model.physicallyFit = true;
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
-                                                .onCheckBoxChange(
-                                                    state.model);
+                                                .onCheckBoxChange(state.model);
                                           },
                                 onChangedNo:
                                     widget.guardingMasterData?.status == 6
                                         ? null
                                         : (val) {
-                                            state.model
-                                                .physicallyFit = false;
+                                            state.model.physicallyFit = false;
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
-                                                .onCheckBoxChange(
-                                                    state.model);
+                                                .onCheckBoxChange(state.model);
                                           }),
 
                             /// Security Experience
@@ -1115,20 +1066,16 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 6,
-                              initialValue:
-                                  state.model.securityExperience,
+                              initialValue: state.model.securityExperience,
                               textFormKey: Keys.securityExperienceKey,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 6,
-                              isDisableColor:
-                                  state.model.status == 6,
+                              isDisableColor: state.model.status == 6,
                               onChange: (String value) {
-                                state.model.securityExperience =
-                                    value;
+                                state.model.securityExperience = value;
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -1175,20 +1122,16 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 6,
-                              initialValue:
-                                  state.model.permanentAddress,
+                              initialValue: state.model.permanentAddress,
                               textFormKey: Keys.permanentAddressKey,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 6,
-                              isDisableColor:
-                                  state.model.status == 6,
+                              isDisableColor: state.model.status == 6,
                               onChange: (String value) {
-                                state.model.permanentAddress =
-                                    value;
+                                state.model.permanentAddress = value;
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -1240,19 +1183,16 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 6,
-                              initialValue:
-                                  state.model.localAddress,
+                              initialValue: state.model.localAddress,
                               textFormKey: Keys.localAddressKey,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 6,
-                              isDisableColor:
-                                  state.model.status == 6,
+                              isDisableColor: state.model.status == 6,
                               onChange: (String value) {
                                 state.model.localAddress = value;
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -1307,8 +1247,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             qualificationAddButtonWidgetLoading(
                               context: context,
                               state: state,
-                              selectedValues:
-                                  state.model.qualifications ?? [],
+                              selectedValues: state.model.qualifications ?? [],
                               all: state.listOfQualifications ?? [],
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1329,8 +1268,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                     Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                                 // pvcIssuedDateController.text = state.guardingMasterData.pvcIssuedDate??'';
                               },
                               context: context,
@@ -1352,8 +1290,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                     Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               context: context,
                             ),
@@ -1373,8 +1310,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 ? BaseImageUpload().uploadWidget(
                                     context: context,
                                     loggedInUserDetails:
-                                        state.loggedInUserDetails ??
-                                            User(),
+                                        state.loggedInUserDetails ?? User(),
                                     getFiles: pVCFiles,
                                     onImageSelected: (CreateImage data) {
                                       log('-------function---onImageSelected---------');
@@ -1410,10 +1346,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
-                                selectedValue: state.model
-                                        .trainingCertificateProvided
-                                    ? 1
-                                    : 0,
+                                selectedValue:
+                                    state.model.trainingCertificateProvided
+                                        ? 1
+                                        : 0,
                                 onChangedYes:
                                     widget.guardingMasterData?.status == 6
                                         ? null
@@ -1424,8 +1360,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
-                                                .onCheckBoxChange(
-                                                    state.model);
+                                                .onCheckBoxChange(state.model);
                                           },
                                 onChangedNo:
                                     widget.guardingMasterData?.status == 6
@@ -1437,11 +1372,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
-                                                .onCheckBoxChange(
-                                                    state.model);
+                                                .onCheckBoxChange(state.model);
                                           }),
-                            if (state.model
-                                .trainingCertificateProvided) ...[
+                            if (state.model.trainingCertificateProvided) ...[
                               /// upload Training Certificate
                               CommonWidgets.textDisplay(
                                   Constants.uploadTrainingCertificate,
@@ -1453,8 +1386,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               BaseImageUpload().uploadWidget(
                                 context: context,
                                 loggedInUserDetails:
-                                    state.loggedInUserDetails ??
-                                        User(),
+                                    state.loggedInUserDetails ?? User(),
                                 getFiles: trainingFiles,
                                 onImageSelected: (CreateImage data) {
                                   log('-------function---onImageSelected---------');
@@ -1495,13 +1427,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                   medicalCertificateValidUntilController,
                               onChange: (String value) {
                                 log('--fr-value-${medicalCertificateValidUntilController.text}------');
-                                state.model
-                                        .medicalCertificateValidUntil =
+                                state.model.medicalCertificateValidUntil =
                                     Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               context: context,
                             ),
@@ -1550,13 +1480,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled:
-                                    state.model.status != 6,
+                                isDisabled: state.model.status != 6,
                                 textController: systemAccessController,
                                 items: systemAccessDropDownValues,
-                                initialValue: state
-                                    .model.systemAccess
-                                    .toString(),
+                                initialValue:
+                                    state.model.systemAccess.toString(),
                                 onTap: () {
                                   if (isDisabled) {
                                     BaseDropDown().assetTypeDialog(
@@ -1590,31 +1518,26 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Constants.onBoarded, Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.onboarded ? 1 : 0,
+                                selectedValue: state.model.onboarded ? 1 : 0,
                                 onChangedYes:
                                     widget.guardingMasterData?.status == 6
                                         ? null
                                         : (val) {
-                                            state.model.onboarded =
-                                                true;
+                                            state.model.onboarded = true;
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
-                                                .onCheckBoxChange(
-                                                    state.model);
+                                                .onCheckBoxChange(state.model);
                                           },
                                 onChangedNo:
                                     widget.guardingMasterData?.status == 6
                                         ? null
                                         : (val) {
-                                            state.model.onboarded =
-                                                false;
+                                            state.model.onboarded = false;
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
-                                                .onCheckBoxChange(
-                                                    state.model);
+                                                .onCheckBoxChange(state.model);
                                           }),
 
                             /// ESIC No
@@ -1643,8 +1566,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 state.model.esicNo = value;
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -1676,8 +1598,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 state.model.uanNo = value;
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -1688,16 +1609,12 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.msgbExempted
-                                        ? 1
-                                        : 0,
+                                selectedValue: state.model.msgbExempted ? 1 : 0,
                                 onChangedYes:
                                     widget.guardingMasterData?.status == 6
                                         ? null
                                         : (val) {
-                                            state.model
-                                                .msgbExempted = true;
+                                            state.model.msgbExempted = true;
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
@@ -1705,18 +1622,17 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                             //.onModelValueChange(state.guardingMasterData
                                             //);
                                           },
-                                onChangedNo: widget
-                                            .guardingMasterData?.status ==
-                                        4
-                                    ? null
-                                    : (val) {
-                                        state.model.msgbExempted =
-                                            false;
-                                        BlocProvider.of<
-                                                    GuardingMasterDataDetailsCubit>(
-                                                context)
-                                            .showFields(msgbExempted: false);
-                                      }),
+                                onChangedNo:
+                                    widget.guardingMasterData?.status == 4
+                                        ? null
+                                        : (val) {
+                                            state.model.msgbExempted = false;
+                                            BlocProvider.of<
+                                                        GuardingMasterDataDetailsCubit>(
+                                                    context)
+                                                .showFields(
+                                                    msgbExempted: false);
+                                          }),
 
                             if (state.model.msgbExempted) ...[
                               /// MSGB Exemption Date
@@ -1735,8 +1651,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                   BlocProvider.of<
                                               GuardingMasterDataDetailsCubit>(
                                           context)
-                                      .onModelValueChange(
-                                          state.model);
+                                      .onModelValueChange(state.model);
                                 },
                                 context: context,
                               ),
@@ -1752,13 +1667,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseDropDown().getDropDown(
-                                  isDisabled:
-                                      state.model.status != 6,
+                                  isDisabled: state.model.status != 6,
                                   textController: mSGbFormBSubmittedController,
                                   items: mSGBFormBSubmittedDropDownValues,
-                                  initialValue: state
-                                      .model.msgbFormBSubmitted
-                                      .toString(),
+                                  initialValue:
+                                      state.model.msgbFormBSubmitted.toString(),
                                   onTap: () {
                                     if (isDisabled) {
                                       BaseDropDown().assetTypeDialog(
@@ -1805,8 +1718,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                     Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               context: context,
                             ),
@@ -1827,8 +1739,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                     Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               context: context,
                             ),
@@ -1845,13 +1756,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               textController: dateOfPrecautionaryCovidDose,
                               onChange: (String value) {
                                 log('--fr-value-${dateOfPrecautionaryCovidDose.text}------');
-                                state.model
-                                        .covidPrecautionaryDoseDate =
+                                state.model.covidPrecautionaryDoseDate =
                                     Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               context: context,
                             ),
@@ -1872,8 +1781,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                     Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               context: context,
                             ),
@@ -1890,13 +1798,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               textController: firstAidTrainingCompletionDate,
                               onChange: (String value) {
                                 log('--fr-value-${firstAidTrainingCompletionDate.text}------');
-                                state.model
-                                        .firstAidTrainingCompletionDate =
+                                state.model.firstAidTrainingCompletionDate =
                                     Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
                                         context)
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               context: context,
                             ),
@@ -1909,15 +1815,12 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue:
-                                    state.model.csrParticipation
-                                        ? 1
-                                        : 0,
+                                    state.model.csrParticipation ? 1 : 0,
                                 onChangedYes:
                                     widget.guardingMasterData?.status == 6
                                         ? null
                                         : (val) {
-                                            state.model
-                                                .csrParticipation = true;
+                                            state.model.csrParticipation = true;
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
@@ -1928,8 +1831,8 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                     widget.guardingMasterData?.status == 4
                                         ? null
                                         : (val) {
-                                            state.model
-                                                .csrParticipation = false;
+                                            state.model.csrParticipation =
+                                                false;
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
@@ -1999,15 +1902,13 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue:
-                                    state.model.specialAchievement
-                                        ? 1
-                                        : 0,
+                                    state.model.specialAchievement ? 1 : 0,
                                 onChangedYes:
                                     widget.guardingMasterData?.status == 6
                                         ? null
                                         : (val) {
-                                            state.model
-                                                .specialAchievement = true;
+                                            state.model.specialAchievement =
+                                                true;
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
@@ -2020,8 +1921,8 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                     widget.guardingMasterData?.status == 6
                                         ? null
                                         : (val) {
-                                            state.model
-                                                .specialAchievement = false;
+                                            state.model.specialAchievement =
+                                                false;
                                             BlocProvider.of<
                                                         GuardingMasterDataDetailsCubit>(
                                                     context)
@@ -2029,26 +1930,22 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                                     specialAchievement: false);
                                           }),
 
-                            if (state
-                                .model.specialAchievement) ...[
+                            if (state.model.specialAchievement) ...[
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
                                 lineHeight: 6,
-                                initialValue: state
-                                    .model.specialAchievementText,
+                                initialValue:
+                                    state.model.specialAchievementText,
                                 textFormKey: Keys.specialAchievementsKey,
                                 hintText: Constants.informationhere,
                                 isEnable: state.model.status != 6,
-                                isDisableColor:
-                                    state.model.status == 6,
+                                isDisableColor: state.model.status == 6,
                                 onChange: (String value) {
-                                  state.model
-                                      .specialAchievementText = value;
+                                  state.model.specialAchievementText = value;
                                   context
                                       .read<GuardingMasterDataDetailsCubit>()
-                                      .onModelValueChange(
-                                          state.model);
+                                      .onModelValueChange(state.model);
                                 },
                                 validateTextField: (String? user) {},
                               ),
@@ -2062,20 +1959,16 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 6,
-                              initialValue: state
-                                  .model.additionalInitiatives,
+                              initialValue: state.model.additionalInitiatives,
                               textFormKey: Keys.additionInitiativesKey,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 6,
-                              isDisableColor:
-                                  state.model.status == 6,
+                              isDisableColor: state.model.status == 6,
                               onChange: (String value) {
-                                state.model.additionalInitiatives =
-                                    value;
+                                state.model.additionalInitiatives = value;
                                 context
                                     .read<GuardingMasterDataDetailsCubit>()
-                                    .onModelValueChange(
-                                        state.model);
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -2085,13 +1978,13 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// SubmitButton
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              cancelButtonDisplay(),
-                              submitButtonDisplay()
-                            ],
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            cancelButtonDisplay(),
+                            submitButtonDisplay()
+                          ],
+                        ),
 
                         CommonWidgets.verticalSpacerWidget(height * 0.04),
                       ])))
@@ -2426,14 +2319,14 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
   Widget qualificationAddButtonWidgetLoading({
     required BuildContext context,
     required GuardingMasterDataDetailsState state,
-    required List<Entity> selectedValues,
-    required List<Entity> all,
+    required List<Organisation> selectedValues,
+    required List<Organisation> all,
   }) {
     String title = '';
     log('--selectedValues.length-${selectedValues.length}--');
     if (selectedValues.isNotEmpty) {
       for (int i = 0; i < selectedValues.length; i++) {
-        Entity qualification = selectedValues[i];
+        Organisation qualification = selectedValues[i];
         log('--entity name-${qualification.name}--');
 
         String value = qualification.name ?? '';
@@ -2471,9 +2364,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                   );
                 });
           },
-          duplicateEntityList: state.listOfQualifications ?? [],
-          mainSelectedEntityList: state.model.qualifications ?? [],
-          onTap: (List<Entity> selectedQualifications) {
+          allItems: state.listOfQualifications ?? [],
+          selectedValues: state.model.qualifications ?? [],
+          onTap: (List<Organisation> selectedQualifications) {
             log('--selectedEntities----${selectedQualifications.length}');
             BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
                 .updateDropdownValues(qualifications: selectedQualifications);

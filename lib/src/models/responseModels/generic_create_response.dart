@@ -13,9 +13,9 @@ class GenericCreateResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['message'] = message;
-    return _data;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['message'] = message;
+    return data;
   }
 }

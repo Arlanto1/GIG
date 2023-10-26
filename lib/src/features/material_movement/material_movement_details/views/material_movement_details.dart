@@ -59,8 +59,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController returnableTextController = TextEditingController();
   User? userDetails;
-  List<CreateImage>? getFiles;
-  List<FoundImage>? getAttachments;
+  List<CreateImage> getFiles = [];
+  List<FoundImage> getAttachments = [];
   TextEditingController takenOutOnDateController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
       TextEditingController();
@@ -154,9 +154,9 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
     if (state.status == FormStatus.addAttachment ||
         state.status == FormStatus.initial) {
-      log('---getAttachments----builder----${getAttachments?.length}-----');
+      log('---getAttachments----builder----${getAttachments.length}-----');
       getFiles = state.loadAttachments ?? [];
-      log('---getFiles----builder----${getFiles?.length}-----');
+      log('---getFiles----builder----${getFiles.length}-----');
     }
 
     return Container(
@@ -1705,7 +1705,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                               log('-------function---onImageSelected---------');
                               List<CreateImage>? files = [];
                               files.add(data);
-                              for (CreateImage image in getFiles!.toList()) {
+                              for (CreateImage image in getFiles.toList()) {
                                 files.add(image);
                               }
                               BlocProvider.of<MaterialMovementDetailsCubit>(
@@ -1743,10 +1743,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   }
 
   Widget getSpaceattchment(double height) {
-    return getAttachments != null ||
-            getFiles != null ||
-            getFiles?.length != 0 ||
-            getAttachments?.length != 0
+    return getFiles.isNotEmpty || getAttachments.isNotEmpty
         ? CommonWidgets.verticalSpacerWidget(height * 0.01)
         : Container();
   }
@@ -1755,7 +1752,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     return (state.loadAttachments == null ||
             state.loadAttachments!.isEmpty ||
             widget.materialMovement == null)
-        ? state.loadAttachments?.length == 0 || getFiles == null
+        ? state.loadAttachments!.isEmpty
             ? Container()
             : attachmentListviews(getFiles, getAttachments)
         : attachmentListviews(getFiles, getAttachments);

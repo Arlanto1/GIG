@@ -20,7 +20,6 @@ import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
 import '../../../../../common_widgets/base_widget/base_entities_dropdown.dart';
 import '../../../../../common_widgets/basic_reusable_widgets.dart';
 import '../../../../../enums/form_status.dart';
-import '../../../../../models/entity.dart';
 import '../../../../../models/organisation.dart';
 import '../../../../../routing/router.dart';
 import '../../../../../utils/app_themes/styles/app_styles.dart';
@@ -167,7 +166,7 @@ class _RatesInfoState extends State<RatesInfo> {
                           context: context,
                           selectedValues: state.rate.entities ?? [],
                           all: state.listOfEntities ?? [],
-                          onTap: (List<Entity> selectedEntities) {
+                          onTap: (List<Organisation> selectedEntities) {
                             log('--selectedEntities----${selectedEntities.length}');
                             BlocProvider.of<PayRateCubit>(context)
                                 .updateDropdownValues(entities: selectedEntities);
@@ -200,9 +199,11 @@ class _RatesInfoState extends State<RatesInfo> {
                                     context: context,
                                     departments: state.departments,
                                     onTap: (Organisation department) {
-                                      BlocProvider.of<PayRateCubit>(context)
+                                      BlocProvider.of<
+                                          PayRateCubit>(
+                                          context)
                                           .updateDropdownValues(
-                                              vendor: department);
+                                          vendor: department);
                                     },
                                   );
                                 },

@@ -6,7 +6,6 @@ import 'dart:convert';
 
 import 'package:db_atom/src/models/organisation.dart';
 
-import '../../../../models/entity.dart';
 
 DayPassInfoResponseModel dayPassInfoResponseFromJson(String str) =>
     DayPassInfoResponseModel.fromJson(json.decode(str));
@@ -55,8 +54,8 @@ class DaypassInfoListElement {
   String? mifareNo;
   String? expiryDate;
   Organisation? location;
-  Entity? region;
-  Entity? entity;
+  Organisation? region;
+  Organisation? entity;
   bool? dws;
   int? status;
 
@@ -83,8 +82,8 @@ class DaypassInfoListElement {
         location: json["location"] == null
             ? null
             : Organisation.fromJson(json["location"]),
-        region: json["region"] == null ? null : Entity.fromJson(json["region"]),
-        entity: json["entity"] == null ? null : Entity.fromJson(json["entity"]),
+        region: json["region"] == null ? null : Organisation.fromJson(json["region"]),
+        entity: json["entity"] == null ? null : Organisation.fromJson(json["entity"]),
         dws: json["dws"],
         status: json["status"],
       );

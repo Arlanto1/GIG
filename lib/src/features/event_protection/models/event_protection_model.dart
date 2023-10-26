@@ -1,4 +1,3 @@
-import '../../../models/entity.dart';
 import '../../../models/organisation.dart';
 import '../../createfound/models/user.dart';
 
@@ -36,7 +35,7 @@ class EventProtectionModel {
   int? id;
   String? slNo;
   String? inputDate;
-  List<Entity>? entities;
+  List<Organisation>? entities;
   Organisation? location;
   Organisation? locationRegion;
   User? epManager1;
@@ -543,7 +542,7 @@ class EventProtectionModel {
         lsm1ContactNo = json['lsm1ContactNo'] as String?,
         lsm2ContactNo = json['lsm2ContactNo'] as String?,
         entities = (json['entities'] as List?)
-            ?.map((dynamic e) => Entity.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
             .toList(),
         epOfficers = json['epOfficers'] as String?,
         annualPowerShutdown = json['annualPowerShutdown'] as bool?,

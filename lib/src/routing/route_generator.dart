@@ -120,15 +120,13 @@ class RouteGenerator {
       case otpVerificationRoute:
         if (settings.arguments != null) {
           final userRoutes = settings.arguments as Map<String, dynamic>;
-          if (userRoutes != null) {
-            VerifyOTPArguments? userDetails = userRoutes["userDetails"];
-            return MaterialPageRoute(
-                builder: (context) => OtpVerifyScreen(
-                      userName: userDetails?.name ?? '',
-                      password: userDetails?.pwd ?? '',
-                    ));
-          }
+          VerifyOTPArguments? userDetails = userRoutes["userDetails"];
           return MaterialPageRoute(
+              builder: (context) => OtpVerifyScreen(
+                    userName: userDetails?.name ?? '',
+                    password: userDetails?.pwd ?? '',
+                  ));
+                  return MaterialPageRoute(
               builder: (context) => const OtpVerifyScreen());
         }
         return MaterialPageRoute(builder: (context) => const OtpVerifyScreen());
@@ -136,16 +134,14 @@ class RouteGenerator {
       case createfoundScreenRoute:
         if (settings.arguments != null) {
           final listroutes = settings.arguments as Map<String, dynamic>;
-          if (listroutes != null) {
-            FoundListArticleDetails? listuser = listroutes["UserElement"];
-            int eventId = listroutes['eventId'];
-            return MaterialPageRoute(
-                builder: (context) => CreateFound(
-                      listuser: listuser,
-                      eventId: eventId,
-                    ));
-          }
-          return MaterialPageRoute(builder: (context) => const CreateFound());
+          FoundListArticleDetails? listuser = listroutes["UserElement"];
+          int eventId = listroutes['eventId'];
+          return MaterialPageRoute(
+              builder: (context) => CreateFound(
+                    listuser: listuser,
+                    eventId: eventId,
+                  ));
+                  return MaterialPageRoute(builder: (context) => const CreateFound());
         } else {
           return MaterialPageRoute(builder: (context) => const CreateFound());
         }
@@ -153,12 +149,10 @@ class RouteGenerator {
         // return MaterialPageRoute(builder: (context) => CreateLawenforcement());
         if (settings.arguments != null) {
           final listroutes = settings.arguments as Map<String, dynamic>;
-          if (listroutes != null) {
-            LawEnforcementDetails? listuser = listroutes["UserElement"];
-            return MaterialPageRoute(
-                builder: (context) => CreateLawEnforcement(model: listuser));
-          }
+          LawEnforcementDetails? listuser = listroutes["UserElement"];
           return MaterialPageRoute(
+              builder: (context) => CreateLawEnforcement(model: listuser));
+                  return MaterialPageRoute(
               builder: (context) => const CreateLawEnforcement());
         } else {
           return MaterialPageRoute(
@@ -185,31 +179,27 @@ class RouteGenerator {
       case daypassmanagementListRoute:
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
-          if (passRoutes != null) {
-            PassMngArguments? passMngArguments = passRoutes["passMngDetails"];
-            return MaterialPageRoute(
-                builder: (context) => DayPassManagementList(
-                      passId: passMngArguments?.passType ?? '',
-                      title: passMngArguments?.title ?? '',
-                    ));
-          }
+          PassMngArguments? passMngArguments = passRoutes["passMngDetails"];
           return MaterialPageRoute(
+              builder: (context) => DayPassManagementList(
+                    passId: passMngArguments?.passType ?? '',
+                    title: passMngArguments?.title ?? '',
+                  ));
+                  return MaterialPageRoute(
               builder: (context) => DayPassManagementList());
         }
         return MaterialPageRoute(builder: (context) => DayPassManagementList());
       case daypassregistertListRoute:
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
-          if (passRoutes != null) {
-            PassMngArguments? passMngArguments =
-                passRoutes["passMngRegisterDetails"];
-            return MaterialPageRoute(
-                builder: (context) => DayPassInfoListPage(
-                      passId: passMngArguments?.passType ?? '',
-                      title: passMngArguments?.title ?? '',
-                    ));
-          }
-          return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
+          PassMngArguments? passMngArguments =
+              passRoutes["passMngRegisterDetails"];
+          return MaterialPageRoute(
+              builder: (context) => DayPassInfoListPage(
+                    passId: passMngArguments?.passType ?? '',
+                    title: passMngArguments?.title ?? '',
+                  ));
+                  return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
         }
         return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
       case createpassmgmtRoute:
@@ -233,17 +223,15 @@ class RouteGenerator {
 
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
-          if (passRoutes != null) {
-            CreatePassMngArguments? passMngArguments =
-                passRoutes["passMngCreateDetails"];
-            return MaterialPageRoute(
-                builder: (context) => CreatePassManagement(
-                      passId: passMngArguments?.passType ?? '',
-                      title: passMngArguments?.title ?? '',
-                      model: passMngArguments?.model,
-                    ));
-          }
+          CreatePassMngArguments? passMngArguments =
+              passRoutes["passMngCreateDetails"];
           return MaterialPageRoute(
+              builder: (context) => CreatePassManagement(
+                    passId: passMngArguments?.passType ?? '',
+                    title: passMngArguments?.title ?? '',
+                    model: passMngArguments?.model,
+                  ));
+                  return MaterialPageRoute(
               builder: (context) => CreatePassManagement());
         }
         return MaterialPageRoute(builder: (context) => CreatePassManagement());

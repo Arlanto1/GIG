@@ -1,15 +1,15 @@
-class Entity {
+class Organisation {
   int? id;
   String? name;
   bool? isSelected;
 
-  Entity({
+  Organisation({
     this.id,
     this.name,
     this.isSelected = false,
   });
 
-  factory Entity.fromJson(Map<String, dynamic> json) => Entity(
+  factory Organisation.fromJson(Map<String, dynamic> json) => Organisation(
         id: json["Id"]??json["id"],
         name: json["Name"]??json["name"],
       );

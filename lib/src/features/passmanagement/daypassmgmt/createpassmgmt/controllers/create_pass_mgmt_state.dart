@@ -14,7 +14,6 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:equatable/equatable.dart';
 
 import '../../../../../models/base_user.dart';
-import '../../../../../models/entity.dart';
 import '../../../../../models/organisation.dart';
 import '../../../../createfound/models/user.dart';
 
@@ -35,7 +34,7 @@ class CreatePassMgmtState extends Equatable {
   String? errorMessage;
   GetLocations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
-  List<Entity>? listOfEntities;
+  List<Organisation>? listOfEntities;
   Organisation? locationSelectedlist;
   SerialNumberModel? serialnumberResponse;
   BaseUser? getuserResponse;
@@ -112,7 +111,7 @@ class CreatePassMgmtState extends Equatable {
     String? errorMessage,
     GetLocations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,
-    List<Entity>? listOfEntities,
+    List<Organisation>? listOfEntities,
     Organisation? locationSelectedlist,
     SerialNumberModel? serialnumberResponse,
     GetDepositor? getDepositorResponse,

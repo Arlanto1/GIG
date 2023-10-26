@@ -13,7 +13,6 @@ import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcemen
 import 'package:equatable/equatable.dart';
 
 import '../../../models/base_user.dart';
-import '../../../models/entity.dart';
 import '../../../models/organisation.dart';
 import '../../createfound/models/user.dart';
 
@@ -35,7 +34,7 @@ class LawEnforcementState extends Equatable {
   String? errorMessage;
   GetLocations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
-  List<Entity>? listOfEntities;
+  List<Organisation>? listOfEntities;
   Organisation? locationSelectedlist;
   Organisation? leoPurposeVisitResponse;
   Organisation? leoDepartmentsResponse;
@@ -108,7 +107,7 @@ class LawEnforcementState extends Equatable {
     String? errorMessage,
     GetLocations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,
-    List<Entity>? listOfEntities,
+    List<Organisation>? listOfEntities,
     Organisation? locationSelectedlist,
     Organisation? leoPurposeVisitResponse,
     Organisation? leoDepartmentsResponse,

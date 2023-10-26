@@ -11,7 +11,6 @@ import 'package:db_atom/src/features/event_protection/services/event_protection_
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
@@ -81,6 +80,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       if (id.isNotEmpty) {
         model = await services.getGI(id);
       }
+
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
@@ -99,8 +99,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
-      Vendors vendors =
-      await commonServices.getVendors(name: 'ATOM_VENDORS');
+      Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
 
       List<User> entrySecurities = await commonServices.getUsers();
 
@@ -135,10 +134,10 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   }
 
   Future<void> updateDropdownValues({
-    List<Entity>? entities,
+    List<Organisation>? entities,
     Organisation? location,
     // BaseUser? user,
-    Entity? entity,
+    Organisation? entity,
     int? status,
     //GetUserDetails? user,
     Organisation? requesterDepartment,
@@ -153,7 +152,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     BaseUser? locationSecurityManager1,
     BaseUser? locationSecurityManager2,
     BaseUser? epOfficers,
-    Organisation? vendor,
+    List<Organisation>? vendors,
   }) async {
     emit(
       state.copyWith(
@@ -179,11 +178,11 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.epManager2 = userDetails;
     }
 
-    if (vendor != null) {
-      state.model.proposedVendors = vendor;
+    if (vendors != null) {
+      state.model.proposedVendors = vendors;
     }
 
-    ////Get Sl No from API
+    /// Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),

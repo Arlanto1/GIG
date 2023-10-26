@@ -24,8 +24,6 @@ import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_request_body.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -37,7 +35,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../models/base_user.dart';
-import '../../../../../models/entity.dart';
 import '../../../../../models/organisation.dart';
 import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import '../../../../createfound/models/user.dart';
@@ -85,10 +82,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   TextEditingController mtpApplicationNoTextController =
       TextEditingController();
 
-  List<CreateImage>? getFiles;
-  List<FoundImage>? getAttachments;
-  List<CreateImage>? photogetFiles;
-  List<FoundImage>? photogetAttachments;
+  List<CreateImage> getFiles = [];
+  List<FoundImage> getAttachments =[];
+  List<CreateImage> photogetFiles=[];
+  List<FoundImage> photogetAttachments=[];
   late CreatePassMgmtState globalState;
   String? serialnumber;
   String createdBy = '';
@@ -1428,14 +1425,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       createpassmgmtCubit.getlocationsResponseData(mumbai);
 
       if ((widget.model?.entities?.length ?? 0) > 0) {
-        List<Entity> entities = [];
+        List<Organisation> entities = [];
         for (int i = 0; i < widget.model!.entities!.length; i++) {
-          Entity entity = widget.model?.entities != null &&
+          Organisation entity = widget.model?.entities != null &&
                   (widget.model?.entities?.length ?? 0) > 0
-              ? Entity(
+              ? Organisation(
                   id: widget.model?.entities![i].id ?? 0,
                   name: widget.model?.entities![i].name ?? "")
-              : Entity();
+              : Organisation();
           // AtomEntity entity = state.listOfEntities![i];
           //   DbOfficialEmailDepartment addentiity =
           // DbOfficialEmailDepartment(id: entity.id ?? 1);
@@ -1532,7 +1529,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context: context,
         builder: (BuildContext context) {
           return CustomSimpleListTexts(
-            texts: ["Personal", "company"],
+            texts: const ["Personal", "company"],
             onTap: (String value) {
               print(value);
               daypassnoTextController.text = value;
@@ -1631,7 +1628,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context: context,
         builder: (BuildContext context) {
           return CustomSimpleListTexts(
-            texts: [
+            texts: const [
               "Aadhaar Card",
               "Pan Card",
               "Passport",
@@ -1838,17 +1835,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   Widget getSpaceattchment(double height) {
     return getAttachments != null ||
             getFiles != null ||
-            getFiles?.length != 0 ||
-            getAttachments?.length != 0
+            getFiles.isNotEmpty ||
+            getAttachments.isNotEmpty
         ? CommonWidgets.verticalSpacerWidget(height * 0.01)
         : Container();
   }
 
   Widget getAttachement(double height) {
-    return (getAttachments == null ||
-            getAttachments?.length == 0 ||
+    return (getAttachments.isEmpty ||
             widget.model == null)
-        ? getFiles?.length == 0 || getFiles == null
+        ? getFiles.isEmpty
             ? Container()
             : attachmentListviews(getFiles, getAttachments)
         : attachmentListviews(getFiles, getAttachments);
@@ -1857,17 +1853,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   Widget photogetSpaceattchment(double height) {
     return photogetAttachments != null ||
             photogetFiles != null ||
-            photogetFiles?.length != 0 ||
-            photogetAttachments?.length != 0
+            photogetFiles.isNotEmpty ||
+            photogetAttachments.isNotEmpty
         ? CommonWidgets.verticalSpacerWidget(height * 0.01)
         : Container();
   }
 
   Widget photogetAttachement(double height) {
-    return (photogetAttachments == null ||
-            photogetAttachments?.length == 0 ||
+    return (photogetAttachments.isEmpty ||
             widget.model == null)
-        ? photogetFiles?.length == 0 || photogetFiles == null
+        ? photogetFiles.isEmpty
             ? Container()
             : attachmentListviews(photogetFiles, photogetAttachments)
         : attachmentListviews(photogetFiles, photogetAttachments);
@@ -1877,9 +1872,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     String title = '';
     if ((state.listOfEntities?.length ?? 0) > 0) {
       for (int i = 0; i < state.listOfEntities!.length; i++) {
-        Entity entity = state.listOfEntities![i];
+        Organisation entity = state.listOfEntities![i];
         String value = entity.name ?? '';
-        title = title + '  ' + value;
+        title = '$title  $value';
       }
     }
     return TextfieldAddButton(
@@ -1922,7 +1917,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     );
                   });
             },
-            onTap: (List<Entity> list) {
+            onTap: (List<Organisation> list) {
               createpassmgmtCubit.getEntityData(list);
             },
           );
@@ -2376,7 +2371,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         12 * 3600; // Adding 12 hours
     int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
 
-    log('-inputdate---sss--${inputdate}----');
+    log('-inputdate---sss--$inputdate----');
 
     int statusvalue = 0;
 
@@ -2423,7 +2418,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     List<PassMgmtTypEntity>? entities = [];
     if ((state.listOfEntities?.length ?? 0) > 0) {
       for (int i = 0; i < state.listOfEntities!.length; i++) {
-        Entity entity = state.listOfEntities![i];
+        Organisation entity = state.listOfEntities![i];
         PassMgmtTypEntity addentiity = PassMgmtTypEntity(id: entity.id ?? 1);
         entities.add(addentiity);
       }
@@ -2619,7 +2614,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           escortedBy: escortedbyTextController.text ?? '',
           escortedEmployeeId: escortedemployeedidbyTextController.text ?? '',
           mifareNo: mtpApplicationNoTextController.text ?? '',
-          hostEmployeeId: hostemployeeidTextController.text.length > 0
+          hostEmployeeId: hostemployeeidTextController.text.isNotEmpty
               ? hostemployeeidTextController.text ?? ''
               : dbsponsorTextController.text,
           passIssuedOn: passvalidfromdate.toString(),

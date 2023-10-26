@@ -1,6 +1,5 @@
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
 
-import '../../../models/entity.dart';
 import '../../../models/history.dart';
 import '../../../models/organisation.dart';
 import '../../createfound/models/user.dart';
@@ -41,7 +40,7 @@ class Incident {
   Organisation? location;
   Organisation? locationRegion;
   int? workflowId;
-  List<Entity>? entities;
+  List<Organisation>? entities;
   int? status;
   int? incidentType;
   int? typeOfAsset;
@@ -221,7 +220,7 @@ class Incident {
                 : null,
         workflowId = json['workflowId'] as int?,
         entities = (json['entities'] as List?)
-            ?.map((dynamic e) => Entity.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
             .toList(),
         status = json['status'] as int?,
         incidentType = json['incidentType'] as int?,

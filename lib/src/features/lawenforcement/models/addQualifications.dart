@@ -1,24 +1,22 @@
-// To parse this JSON data, do
-//
-//     final addEntities = addEntitiesFromJson(jsonString);
 
 import 'dart:convert';
 
-import '../../../models/entity.dart';
+import 'package:db_atom/src/models/organisation.dart';
+
 
 AddQualifications addQualificationsFromJson(String str) => AddQualifications.fromJson(json.decode(str));
 
 String addQualificationsToJson(AddQualifications data) => json.encode(data.toJson());
 
 class AddQualifications {
-  List<Entity>? guardQualifications;
+  List<Organisation>? guardQualifications;
 
   AddQualifications({
     this.guardQualifications,
   });
 
   factory AddQualifications.fromJson(Map<String, dynamic> json) => AddQualifications(
-    guardQualifications: json["GUARD_QUALIFICATIONS"] == null ? [] : List<Entity>.from(json["GUARD_QUALIFICATIONS"]!.map((x) => Entity.fromJson(x))),
+    guardQualifications: json["GUARD_QUALIFICATIONS"] == null ? [] : List<Organisation>.from(json["GUARD_QUALIFICATIONS"]!.map((x) => Organisation.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
