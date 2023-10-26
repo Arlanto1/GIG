@@ -30,11 +30,6 @@ class MaterialMovementServices {
       isAuthenticated: true,
       url: url,
     );
-    log('getMaterialMovements---212--');
-
-    log('getMaterialMovements---$response--');
-    // log('getMaterialMovements---${response.totalCount}--');
-
     return MaterialMovementsModel.fromJson(response);
   }
 
@@ -47,7 +42,6 @@ class MaterialMovementServices {
   }
 
   /// Create Services
-
   Future<GenericCreateResponse> createMaterialMovement({
     required MaterialMovementRequest body,
     required bool isSubmit,
@@ -55,7 +49,6 @@ class MaterialMovementServices {
     var userId = await SharedPrefs.getUserId();
     final String url =
         "${Apis._createMaterialMovement}?userEmail=$userId&isSubmit=$isSubmit";
-    log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),
