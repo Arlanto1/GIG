@@ -1496,7 +1496,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else {
       createdBy = widget.model?.entrySecurity?.userName ?? '';
     }
-    await createpassmgmtCubit.getCompanytypes('ATOM_COMPANY_TYPES', context);
+    await createpassmgmtCubit.companyTypes('ATOM_COMPANY_TYPES', context);
     await createpassmgmtCubit.getDayPassreasons('DAY_PASS_REASON', context);
     //await createpassmgmtCubit.getAnalysts('T1_Analyst');
     await createpassmgmtCubit.getUserByRoleDepositor(
