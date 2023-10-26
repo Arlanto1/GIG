@@ -3,7 +3,7 @@ part of 'material_movement_details_cubit.dart';
 class MaterialMovementDetailsState extends Equatable {
   final FormStatus status;
 
-  final MaterialMovementModel materialMovement;
+  final MaterialMovementModel model;
   final GetLocations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -29,7 +29,7 @@ class MaterialMovementDetailsState extends Equatable {
   }) {
     return MaterialMovementDetailsState(
         status: FormStatus.initial,
-        materialMovement: model,
+        model: model,
         locations: locations,
         loggedInUserDetails: loggedInUserDetails,
         users: users,
@@ -41,34 +41,59 @@ class MaterialMovementDetailsState extends Equatable {
         eventId: eventId);
   }
 
-  ErrorResponse get isValid {
-    if (materialMovement.location == null) {
+  ErrorResponse get isValidDraft {
+    if (model.status == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Status');
+    }
+    if (model.entrySecurity == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Entry Security');
+    }
+    if (model.inputDate == null) {
+      return const ErrorResponse(
+          status: false, message: 'Created Date is required');
+    }
+    if (model.location == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
-    if (materialMovement.challanNo.isEmptyOrNull) {
+
+    if (model.slNo.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter SL No');
+    }
+
+    return const ErrorResponse(status: true, message: 'Form is Valid');
+  }
+
+  ErrorResponse get isValid {
+    if (model.location == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Location');
+    }
+    if (model.challanNo.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Challan No');
     }
-    if (materialMovement.quantity == null) {
+    if (model.quantity == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Quantity');
     }
-    if (materialMovement.materialComingFrom == null) {
+    if (model.materialComingFrom == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Sender\'s Name');
     }
 
-    if (materialMovement.unit == null) {
+    if (model.unit == null) {
       return const ErrorResponse(status: false, message: 'Please enter Unit');
     }
-    if (materialMovement.materialDescription.isEmptyOrNull) {
+    if (model.materialDescription.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Material Description');
     }
 
-    if (!materialMovement.materialPhysicallyChecked== true&& isInward == true &&
-        materialMovement.materialNotCheckedComment.isEmptyOrNull) {
+    if (!model.materialPhysicallyChecked == true &&
+        isInward == true &&
+        model.materialNotCheckedComment.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Comment is Mandatory');
     }
@@ -76,11 +101,11 @@ class MaterialMovementDetailsState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [materialMovement, status];
+  List<Object?> get props => [model, status];
 
   const MaterialMovementDetailsState({
     required this.status,
-    required this.materialMovement,
+    required this.model,
     this.locations,
     this.loggedInUserDetails,
     this.users,
@@ -95,7 +120,7 @@ class MaterialMovementDetailsState extends Equatable {
 
   MaterialMovementDetailsState copyWith({
     FormStatus? status,
-    MaterialMovementModel? materialMovement,
+    MaterialMovementModel? model,
     GetLocations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
@@ -108,7 +133,7 @@ class MaterialMovementDetailsState extends Equatable {
   }) {
     return MaterialMovementDetailsState(
       status: status ?? this.status,
-      materialMovement: materialMovement ?? this.materialMovement,
+      model: model ?? this.model,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,

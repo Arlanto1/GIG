@@ -6,6 +6,8 @@ import 'dart:convert';
 
 import 'package:db_atom/src/features/createfound/models/user.dart';
 
+import '../../../models/organisation.dart';
+
 CreateFoundRequestBody foundListArticleDetailsFromJson(String str) =>
     CreateFoundRequestBody.fromJson(json.decode(str));
 
@@ -44,7 +46,7 @@ class Found {
   int? foundDate;
   int? handoverDate;
   User? entrySecurity;
-  CreateLocation? location;
+  Organisation? location;
   Depositor? depositor;
   DepositorDepartment? depositorDepartment;
   List<CreateImage>? images;
@@ -52,7 +54,7 @@ class Found {
   int? status;
   String? employeeId;
   CreateClaimant? claimant;
-  CreateClaimantDepartment? claimantDepartment;
+  Organisation? claimantDepartment;
   CreateHandoverSecurity? handoverSecurity;
   bool? claimantDbEmp;
   bool? claimantNoSign;
@@ -114,7 +116,7 @@ class Found {
             : User.fromJson(json["entrySecurity"]),
         location: json["location"] == null
             ? null
-            : CreateLocation.fromJson(json["location"]),
+            : Organisation.fromJson(json["location"]),
         depositor: json["depositor"] == null
             ? null
             : Depositor.fromJson(json["depositor"]),
@@ -133,7 +135,7 @@ class Found {
             : CreateClaimant.fromJson(json["claimant"]),
         claimantDepartment: json["claimantDepartment"] == null
             ? null
-            : CreateClaimantDepartment.fromJson(json["claimantDepartment"]),
+            : Organisation.fromJson(json["claimantDepartment"]),
         handoverSecurity: json["handoverSecurity"] == null
             ? null
             : CreateHandoverSecurity.fromJson(json["handoverSecurity"]),
@@ -187,27 +189,6 @@ class CreateHandoverSecurity {
 
   Map<String, dynamic> toJson() => {
         "userId": userId,
-      };
-}
-
-class CreateClaimantDepartment {
-  int? id;
-  String? name;
-
-  CreateClaimantDepartment({
-    this.id,
-    this.name,
-  });
-
-  factory CreateClaimantDepartment.fromJson(Map<String, dynamic> json) =>
-      CreateClaimantDepartment(
-        id: json["id"],
-        name: json["name"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
       };
 }
 
@@ -321,26 +302,6 @@ class CreateImage {
         "title": title,
         "fileSize": fileSize,
         "imageContent": imageContent,
-      };
-}
-
-class CreateLocation {
-  int? id;
-  String? name;
-
-  CreateLocation({
-    this.id,
-    this.name,
-  });
-
-  factory CreateLocation.fromJson(Map<String, dynamic> json) => CreateLocation(
-        id: json["id"],
-        name: json["name"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
       };
 }
 

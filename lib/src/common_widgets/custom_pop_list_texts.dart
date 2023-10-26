@@ -2,9 +2,7 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
@@ -40,19 +38,19 @@ class CustomListTexts extends StatefulWidget {
 
   final String? imageName;
   List<Organisation>? duplicateEmployeeDepartments;
-  List<ArticleList>? duplicateArticleList;
+  List<Organisation>? duplicateArticleList;
   List<Entity>? duplicateEntityList;
   List<BaseUser>? duplicateDepostorList;
-  List<AtomLeoDepartment>? duplicateLeoDepartments;
-  List<AtomLeoPurposeVisit>? duplicateLeoPurposeVisits;
+  List<Organisation>? duplicateLeoDepartments;
+  List<Organisation>? duplicateLeoPurposeVisits;
   final Function? onTap;
   final Function? onLeftButtonTap;
   final String? leftImageName;
   List<DistributionGroup>? duplicateloadGroups;
   List<Organisation>? duplicateatomCompanyTypes;
-  List<DayPassReasonElement>? duplicatedayPassReason;
+  List<Organisation>? duplicatedayPassReason;
   List<BaseUser>? duplicatet1Analyst;
-  List<ActivePassInfoList>? duplicateactivePassInfoList;
+  List<Organisation>? duplicateactivePassInfoList;
 
   List<Organisation>? duplicateQuantityUnitList;
 
@@ -65,16 +63,16 @@ class CustomListTextsState extends State<CustomListTexts> {
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
   List<Organisation> employeeDepartments = [];
-  List<ArticleList> articleList = [];
+  List<Organisation> articleList = [];
   List<Entity> entityList = [];
   List<BaseUser> depostorList = [];
-  List<AtomLeoDepartment> leodepartments = [];
-  List<AtomLeoPurposeVisit> leopurposevisits = [];
+  List<Organisation> leodepartments = [];
+  List<Organisation> leopurposevisits = [];
   List<DistributionGroup> loadGroups = [];
   List<Organisation> companyTypes = [];
-  List<DayPassReasonElement> dayPassReason = [];
+  List<Organisation> dayPassReason = [];
   List<BaseUser> t1analysts = [];
-  List<ActivePassInfoList> activePassInfoList = [];
+  List<Organisation> activePassInfoList = [];
   List<Organisation> quantityUnitList = [];
 
   @override
@@ -517,7 +515,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateArticleList != null) {
-              ArticleList? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && articleList.isNotEmpty)) {
                 articleItem = articleList[index];
               } else {
@@ -638,7 +636,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateLeoPurposeVisits != null) {
-              AtomLeoPurposeVisit? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty &&
                   leopurposevisits.isNotEmpty)) {
                 articleItem = leopurposevisits[index];
@@ -678,7 +676,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateLeoDepartments != null) {
-              AtomLeoDepartment? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && leodepartments.isNotEmpty)) {
                 articleItem = leodepartments[index];
               } else {
@@ -835,7 +833,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicatedayPassReason != null) {
-              DayPassReasonElement? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && companyTypes.isNotEmpty)) {
                 articleItem = dayPassReason[index];
               } else {
@@ -913,7 +911,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateactivePassInfoList != null) {
-              ActivePassInfoList? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty &&
                   activePassInfoList.isNotEmpty)) {
                 articleItem = activePassInfoList[index];

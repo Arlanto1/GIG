@@ -36,9 +36,9 @@ class LawEnforcementState extends Equatable {
   GetLocations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
   List<Entity>? listOfEntities;
-  Mumbai? locationSelectedlist;
-  AtomLeoPurposeVisit? leoPurposeVisitResponse;
-  AtomLeoDepartment? leoDepartmentsResponse;
+  Organisation? locationSelectedlist;
+  Organisation? leoPurposeVisitResponse;
+  Organisation? leoDepartmentsResponse;
   SerialNumberModel? serialnumberResponse;
   String? radioButtonItem = '';
   int? isOfficialIdcardSelected;
@@ -51,7 +51,7 @@ class LawEnforcementState extends Equatable {
   EmployeeDepartments? employeeDepartment;
   Organisation? selectedemployeeDepartmentResponse;
   List<CreateImage>? loadAttachments = [];
-  List<VistingOfficialsModel>? getVisits = [];
+  List<VisitingOfficialsModel>? getVisits = [];
   int? getVisitsCount = 0;
   User? getUserDetailsResponse;
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
@@ -109,9 +109,9 @@ class LawEnforcementState extends Equatable {
     GetLocations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,
     List<Entity>? listOfEntities,
-    Mumbai? locationSelectedlist,
-    AtomLeoPurposeVisit? leoPurposeVisitResponse,
-    AtomLeoDepartment? leoDepartmentsResponse,
+    Organisation? locationSelectedlist,
+    Organisation? leoPurposeVisitResponse,
+    Organisation? leoDepartmentsResponse,
     SerialNumberModel? serialnumberResponse,
     String? radioButtonItem = '',
     int? isOfficialIdcardSelected,
@@ -123,7 +123,7 @@ class LawEnforcementState extends Equatable {
     Organisation? selectedemployeeDepartmentResponse,
     List<CreateImage>? loadAttachments,
     int? getVisitsCount,
-    List<VistingOfficialsModel>? getVisits,
+    List<VisitingOfficialsModel>? getVisits,
     User? getUserDetailsResponse,
     SubmitLawEnforcementResponse? lawcreateFoundresponse,
     List<DistributionGroup>? loadGroups,

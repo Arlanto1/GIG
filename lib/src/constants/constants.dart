@@ -222,7 +222,7 @@ class Constants {
   static const String incaseofpolicewasofficialinuniform =
       'In case of Police, was official in uniform?';
   static const String designation = 'Designation';
-  static const String officeaddress = 'Office Address';
+  static const String officeAddress = 'Office Address';
   static const String emailid = 'Email Id';
   static const String contactno = 'Contact No';
   static const String department = 'Department';

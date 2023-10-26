@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:db_atom/src/models/organisation.dart';
+
 import '../../../../models/entity.dart';
 
 DayPassInfoResponseModel dayPassInfoResponseFromJson(String str) =>
@@ -52,7 +54,7 @@ class DaypassInfoListElement {
   String? passNo;
   String? mifareNo;
   String? expiryDate;
-  InfoLocation? location;
+  Organisation? location;
   Entity? region;
   Entity? entity;
   bool? dws;
@@ -80,7 +82,7 @@ class DaypassInfoListElement {
         expiryDate: json["expiryDate"],
         location: json["location"] == null
             ? null
-            : InfoLocation.fromJson(json["location"]),
+            : Organisation.fromJson(json["location"]),
         region: json["region"] == null ? null : Entity.fromJson(json["region"]),
         entity: json["entity"] == null ? null : Entity.fromJson(json["entity"]),
         dws: json["dws"],
@@ -98,46 +100,6 @@ class DaypassInfoListElement {
         "entity": entity?.toJson(),
         "dws": dws,
         "status": status,
-      };
-}
-
-class InfoLocation {
-  int? id;
-  String? name;
-
-  InfoLocation({
-    this.id,
-    this.name,
-  });
-
-  factory InfoLocation.fromJson(Map<String, dynamic> json) => InfoLocation(
-        id: json["id"],
-        name: json["name"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-      };
-}
-
-class InfoRegion {
-  int? id;
-  String? name;
-
-  InfoRegion({
-    this.id,
-    this.name,
-  });
-
-  factory InfoRegion.fromJson(Map<String, dynamic> json) => InfoRegion(
-        id: json["id"],
-        name: json["name"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
       };
 }
 

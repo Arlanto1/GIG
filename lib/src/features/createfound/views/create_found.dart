@@ -16,7 +16,6 @@ import 'package:db_atom/src/features/createfound/controllers/create_found_cubit.
 import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_submit_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
@@ -87,11 +86,11 @@ class _CreateFoundState extends State<CreateFound> {
   Organisation? selectedClaimdepartment;
   String claimantDepartmentName = '';
   String claimant = '';
-  ArticleList? selectedArtclelist;
+  Organisation? selectedArtclelist;
   BaseUser? selecteddepositorList;
   BaseUser? selectedClaimList;
   User? userDetails;
-  Mumbai? locationSelectedlist;
+  Organisation? locationSelectedlist;
   SubmitCreateFoundModel? createfoundResponse;
   SerialNumberModel? serialnumberResponse;
   List<CreateImage>? getFiles;
@@ -117,10 +116,10 @@ class _CreateFoundState extends State<CreateFound> {
               name: widget.listuser?.depositor?.name ?? "")
           : BaseUser();
       selectedArtclelist = widget.listuser?.typeOfArticle != null
-          ? ArticleList(
+          ? Organisation(
               id: widget.listuser?.typeOfArticle?.id ?? 1,
               name: widget.listuser?.typeOfArticle?.name ?? "")
-          : ArticleList();
+          : Organisation();
       userDetails = widget.listuser?.entrySecurity != null
           ? User(
               userId: widget.listuser?.entrySecurity?.userId ?? 1,
@@ -130,10 +129,10 @@ class _CreateFoundState extends State<CreateFound> {
       serialNumber =
           widget.listuser?.slNo != null ? widget.listuser?.slNo ?? "" : '';
       locationSelectedlist = widget.listuser?.location != null
-          ? Mumbai(
+          ? Organisation(
               id: widget.listuser?.location?.id ?? 0,
               name: widget.listuser?.location?.name ?? "")
-          : Mumbai();
+          : Organisation();
       locationselectedText = locationSelectedlist?.name != null
           ? locationSelectedlist?.name ?? ""
           : '';
@@ -323,13 +322,13 @@ class _CreateFoundState extends State<CreateFound> {
         TypeOfArticle(id: selectedArtclelist?.id ?? 1);
     User? entrysecurtity = User(userId: userDetails?.userId ?? 1);
     Depositor? depositor = Depositor(userId: selecteddepositorList?.id ?? 1);
-    CreateLocation? location =
-        CreateLocation(id: locationSelectedlist?.id ?? 1);
+    Organisation? location =
+        Organisation(id: locationSelectedlist?.id ?? 1);
     DepositorDepartment? depositordep =
         DepositorDepartment(id: selectedEmployeedepartment?.id ?? 1);
     List<CreateImage>? images = getFiles ?? [];
-    CreateClaimantDepartment? createclaimantDepartment =
-        CreateClaimantDepartment(
+    Organisation? createclaimantDepartment =
+        Organisation(
             id: widget.listuser?.claimantDepartment?.id ?? 1,
             name: widget.listuser?.claimantDepartment?.name ?? '');
     CreateClaimant? claimant = CreateClaimant(
@@ -360,7 +359,7 @@ class _CreateFoundState extends State<CreateFound> {
         handoverDate: handoverdate,
         claimantEmployeeId: claimantEmpIdTextController.text.isEmpty
             ? 0
-            : int.parse(claimantEmpIdTextController.text) ?? 0,
+            : int.parse(claimantEmpIdTextController.text),
         slNo: serialNumber,
         images: images,
         typeOfAsset:
@@ -680,7 +679,7 @@ class _CreateFoundState extends State<CreateFound> {
                     );
                   });
             },
-            onTap: (ArticleList list) {
+            onTap: (Organisation list) {
               print(list.name);
               selectedArtclelist = list;
               setState(() {});
@@ -800,7 +799,7 @@ class _CreateFoundState extends State<CreateFound> {
     if (locationSelectedlist == null &&
         state.getLocationsResponse != null &&
         widget.listuser == null) {
-      locationSelectedlist = Mumbai(id: 24, name: "DLF Square");
+      locationSelectedlist = Organisation(id: 24, name: "DLF Square");
       locationselectedText = 'DLF Square';
       await createFoundArticleCubit.getSerialnumberDetails('24', 'AF', context);
     }
@@ -1765,7 +1764,7 @@ class _CreateFoundState extends State<CreateFound> {
               return CustomExpansionListTexts(
                 getLocationsresponse:
                     state.getLocationsResponse ?? GetLocations(),
-                onTap: (Mumbai? list) async {
+                onTap: (Organisation? list) async {
                   print(list?.name);
                   await createFoundArticleCubit.getSerialnumberDetails(
                       list?.id.toString() ?? '', 'AF', context);

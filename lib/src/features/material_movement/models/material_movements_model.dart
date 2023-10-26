@@ -1,4 +1,5 @@
 import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/src/models/base_object.dart';
 
 import '../../../models/history.dart';
 import '../../../models/organisation.dart';
@@ -33,7 +34,7 @@ class MaterialMovementsModel {
       };
 }
 
-class MaterialMovementModel {
+class MaterialMovementModel extends BaseObject {
   int? id;
   String? slNo;
   String? inputDate;
@@ -177,8 +178,7 @@ class MaterialMovementModel {
         receiverEmail = json['receiverEmail'] as String?,
         receiverEmployeeId = json['receiverEmployeeId'] as String?,
         entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
-            ? User.fromJson(
-                json['entrySecurity'] as Map<String, dynamic>)
+            ? User.fromJson(json['entrySecurity'] as Map<String, dynamic>)
             : null,
         status = json['status'] as int?,
         modifiedBy = json['modifiedBy'] as String?,
@@ -249,8 +249,10 @@ class MaterialMovementModel {
         expectedDateOfReturn = json['expectedDateOfReturn'],
         rejectedBy = json['rejectedBy'],
         rejectionComment = json['rejectionComment'],
-        receiverDepartmenttName = json['receiverDepartmenttName'] as String?;
+        receiverDepartmenttName = json['receiverDepartmenttName'] as String?,
+        super.fromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => {
         'id': id,
         'slNo': slNo,

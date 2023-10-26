@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
+import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/models/entity.dart';
@@ -59,19 +60,19 @@ class GuardingMasterDataDetailsCubit
 
   void onModelValueChange(GuardingMastersDataModel model) {
     log('-onModelValueChange---');
-    emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
+    emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
   void onCheckBoxChange(GuardingMastersDataModel model) {
-    emit(state.copyWith(guardingMasterData: model, status: FormStatus.loading));
+    emit(state.copyWith(model: model, status: FormStatus.loading));
 
-    emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
+    emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
   void onAddParticipationDate(String participationDate) {
     log('-participationDate---$participationDate-');
 
-    emit(state.copyWith(guardingMasterData: model, status: FormStatus.loading));
+    emit(state.copyWith(model: model, status: FormStatus.loading));
     log('-state.participationDates---before---${state.participationDates}----');
     List<String>? dates = state.participationDates ?? [];
     dates.add(participationDate);
@@ -81,12 +82,12 @@ class GuardingMasterDataDetailsCubit
     );
 
     log('-state.participationDates---after---${state.participationDates}----');
-    state.guardingMasterData.csrParticipationDates =
+    state.model.csrParticipationDates =
         Utils().joinListWithComma(dates);
 
-    log('-state.guardingMasterData.csrParticipationDates---final---${state.guardingMasterData.csrParticipationDates}----');
+    log('-state.guardingMasterData.csrParticipationDates---final---${state.model.csrParticipationDates}----');
 
-    emit(state.copyWith(guardingMasterData: model, status: FormStatus.initial));
+    emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
   String _getCurrentDate() {
@@ -113,7 +114,7 @@ class GuardingMasterDataDetailsCubit
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       // Get Date of Creation
-      state.guardingMasterData.inputDate = _getCurrentDate();
+      state.model.inputDate = _getCurrentDate();
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
@@ -126,14 +127,16 @@ class GuardingMasterDataDetailsCubit
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
       EmployeeDepartments departments =
-          await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-      state.guardingMasterData.entrySecurity = loggedInUserDetails;
+          await commonServices.getDepartments(name: 'ATOM_VENDORS');
+      Vendors vendors =
+      await commonServices.getVendors(name: 'ATOM_VENDORS');
+      state.model.entrySecurity = loggedInUserDetails;
 
       log('-departments-length-----${departments.employeeDepartments?.length}--');
-      log('-guardRank--${state.guardingMasterData.guardRank}----');
+      log('-guardRank--${state.model.guardRank}----');
 
       List<String> participationDates = Utils().splitStringAfterComma(
-          state.guardingMasterData.csrParticipationDates ?? '');
+          state.model.csrParticipationDates ?? '');
       log('-participationDates---${participationDates.toString()}---');
 
       emit(
@@ -141,9 +144,9 @@ class GuardingMasterDataDetailsCubit
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          guardingMasterData: state.guardingMasterData,
+          model: state.model,
           users: users.t1Analyst,
-          departments: departments.employeeDepartments,
+          vendors: vendors.items,
           entrySecurities: entrySecurities,
           emailUsers: emailUsers.atomStaticUser,
           listOfEntities: entities.atomEntities,
@@ -151,13 +154,13 @@ class GuardingMasterDataDetailsCubit
           listOfQualifications: qualifications.guardQualifications,
           getQualificationsResponse: qualifications,
           participationDates: participationDates,
-          localAddressAttachments: state.guardingMasterData.localAddressProof !=
+          localAddressAttachments: state.model.localAddressProof !=
                   null
-              ? [state.guardingMasterData.localAddressProof ?? CreateImage()]
+              ? [state.model.localAddressProof ?? CreateImage()]
               : null,
 
-          bioDataAttachments: state.guardingMasterData.bopData != null
-              ? [state.guardingMasterData.bopData ?? CreateImage()]
+          bioDataAttachments: state.model.bopData != null
+              ? [state.model.bopData ?? CreateImage()]
               : null,
 
           // guardAttachments: state.guardingMasterData.pho !=
@@ -165,23 +168,23 @@ class GuardingMasterDataDetailsCubit
           //     ? [state.guardingMasterData.bopData ?? CreateImage()]
           //     : null,
 
-          deploymentAttachments: state.guardingMasterData.deploymentOrders,
+          deploymentAttachments: state.model.deploymentOrders,
 
           permanentAddressAttachments:
-              state.guardingMasterData.permanentAddressProof != null
+              state.model.permanentAddressProof != null
                   ? [
-                      state.guardingMasterData.permanentAddressProof ??
+                      state.model.permanentAddressProof ??
                           CreateImage()
                     ]
                   : null,
 
-          pVCAttachments: state.guardingMasterData.pvc,
+          pVCAttachments: state.model.pvc,
 
-          trainingAttachments: state.guardingMasterData.trainingCertificates,
+          trainingAttachments: state.model.trainingCertificates,
 
           // mSGBAttachments: state.guardingMasterData.m
 
-          medicalAttachments: state.guardingMasterData.medicalCertificates,
+          medicalAttachments: state.model.medicalCertificates,
         ),
       );
     } catch (e) {
@@ -225,37 +228,37 @@ class GuardingMasterDataDetailsCubit
         moduleCode: Constants.guardingMasterDataModule,
       );
 
-      state.guardingMasterData.location = location;
-      state.guardingMasterData.slNo = slNo.serialNo;
+      state.model.location = location;
+      state.model.slNo = slNo.serialNo;
     }
 
-    state.guardingMasterData.entity = entity ?? state.guardingMasterData.entity;
-    state.guardingMasterData.qualifications =
-        qualifications ?? state.guardingMasterData.qualifications;
-    state.guardingMasterData.vendor = vendor ?? state.guardingMasterData.vendor;
-    state.guardingMasterData.guardRank =
-        guardRank ?? state.guardingMasterData.guardRank;
-    state.guardingMasterData.dutyType =
-        dutyType ?? state.guardingMasterData.dutyType;
-    state.guardingMasterData.gender = gender ?? state.guardingMasterData.gender;
-    state.guardingMasterData.maritalStatus =
-        maritalStatus ?? state.guardingMasterData.maritalStatus;
-    state.guardingMasterData.systemAccess =
-        systemAccess ?? state.guardingMasterData.systemAccess;
-    state.guardingMasterData.status = status ?? state.guardingMasterData.status;
-    state.guardingMasterData.typeOfDeployment =
-        typeOfDeployment ?? state.guardingMasterData.typeOfDeployment;
-    state.guardingMasterData.msgbFormBSubmitted =
-        msgbFormBSubmitted ?? state.guardingMasterData.msgbFormBSubmitted;
+    state.model.entity = entity ?? state.model.entity;
+    state.model.qualifications =
+        qualifications ?? state.model.qualifications;
+    state.model.vendor = vendor ?? state.model.vendor;
+    state.model.guardRank =
+        guardRank ?? state.model.guardRank;
+    state.model.dutyType =
+        dutyType ?? state.model.dutyType;
+    state.model.gender = gender ?? state.model.gender;
+    state.model.maritalStatus =
+        maritalStatus ?? state.model.maritalStatus;
+    state.model.systemAccess =
+        systemAccess ?? state.model.systemAccess;
+    state.model.status = status ?? state.model.status;
+    state.model.typeOfDeployment =
+        typeOfDeployment ?? state.model.typeOfDeployment;
+    state.model.msgbFormBSubmitted =
+        msgbFormBSubmitted ?? state.model.msgbFormBSubmitted;
 
     // TODO: Object issue
     if (guard != null) {
       User userDetails = User(
           name: guard.name, userId: guard.id, userName: guard.name);
-      state.guardingMasterData.guard = userDetails;
+      state.model.guard = userDetails;
     }
     emit(state.copyWith(
-      guardingMasterData: state.guardingMasterData,
+      model: state.model,
       status: FormStatus.initial,
     ));
   }
@@ -285,7 +288,7 @@ class GuardingMasterDataDetailsCubit
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.guardingMasterData,
+          model: state.model,
           guardAttachments: guardImages,
           status: FormStatus.initial,
         ),
@@ -296,7 +299,7 @@ class GuardingMasterDataDetailsCubit
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.guardingMasterData,
+          model: state.model,
           deploymentAttachments: deploymentFiles,
           status: FormStatus.initial,
         ),
@@ -307,7 +310,7 @@ class GuardingMasterDataDetailsCubit
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.guardingMasterData,
+          model: state.model,
           bioDataAttachments: bioDataFiles,
           status: FormStatus.initial,
         ),
@@ -318,7 +321,7 @@ class GuardingMasterDataDetailsCubit
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.guardingMasterData,
+          model: state.model,
           permanentAddressAttachments: permanentAddressFiles,
           status: FormStatus.initial,
         ),
@@ -329,7 +332,7 @@ class GuardingMasterDataDetailsCubit
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.guardingMasterData,
+          model: state.model,
           localAddressAttachments: localAddressFiles,
           status: FormStatus.initial,
         ),
@@ -340,7 +343,7 @@ class GuardingMasterDataDetailsCubit
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.guardingMasterData,
+          model: state.model,
           pVCAttachments: pVCFiles,
           status: FormStatus.initial,
         ),
@@ -351,7 +354,7 @@ class GuardingMasterDataDetailsCubit
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.guardingMasterData,
+          model: state.model,
           trainingAttachments: trainingFiles,
           status: FormStatus.initial,
         ),
@@ -362,7 +365,7 @@ class GuardingMasterDataDetailsCubit
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.guardingMasterData,
+          model: state.model,
           mSGBAttachments: mSGBExemptionFiles,
           status: FormStatus.initial,
         ),
@@ -373,7 +376,7 @@ class GuardingMasterDataDetailsCubit
       emit(
         state.copyWith(
           eventId: eventIds,
-          guardingMasterData: state.guardingMasterData,
+          model: state.model,
           medicalAttachments: medicalFiles,
           status: FormStatus.initial,
         ),
@@ -383,7 +386,7 @@ class GuardingMasterDataDetailsCubit
     emit(
       state.copyWith(
         eventId: eventIds,
-        guardingMasterData: state.guardingMasterData,
+        model: state.model,
         loadAttachments: data,
         guardAttachments: guardImages,
         status: FormStatus.initial,
@@ -406,24 +409,24 @@ class GuardingMasterDataDetailsCubit
       ),
     );
     if (deploymentOrderSubmitted != null) {
-      state.guardingMasterData.deploymentOrderSubmitted =
+      state.model.deploymentOrderSubmitted =
           deploymentOrderSubmitted;
     }
     if (trainingCertificateProvided != null) {
-      state.guardingMasterData.trainingCertificateProvided =
+      state.model.trainingCertificateProvided =
           trainingCertificateProvided;
     }
     if (csrParticipation != null) {
-      state.guardingMasterData.csrParticipation = csrParticipation;
+      state.model.csrParticipation = csrParticipation;
     }
     if (specialAchievement != null) {
-      state.guardingMasterData.specialAchievement = specialAchievement;
+      state.model.specialAchievement = specialAchievement;
     }
     if (msgbExempted != null) {
-      state.guardingMasterData.msgbExempted = msgbExempted;
+      state.model.msgbExempted = msgbExempted;
     }
     emit(state.copyWith(
-      guardingMasterData: state.guardingMasterData,
+      model: state.model,
       status: FormStatus.initial,
     ));
   }
@@ -435,17 +438,17 @@ class GuardingMasterDataDetailsCubit
       ),
     );
 
-    if (state.guardingMasterData.status == 0 ||
-        state.guardingMasterData.status == null) {
-      state.guardingMasterData.status = 1;
+    if (state.model.status == 0 ||
+        state.model.status == null) {
+      state.model.status = 1;
     }
     // Setting time in milliseconds
-    state.guardingMasterData.inputDate =
+    state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // Create/Update API Call
     GuardingMasterDataRequest request =
-        GuardingMasterDataRequest(guardingMasterData: state.guardingMasterData);
+        GuardingMasterDataRequest(guardingMasterData: state.model);
 
     GenericCreateResponse response = GenericCreateResponse();
     try {

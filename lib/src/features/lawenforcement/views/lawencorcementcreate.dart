@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
@@ -14,7 +16,6 @@ import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
@@ -24,8 +25,6 @@ import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
 import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -37,13 +36,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../models/base_user.dart';
-import '../../../models/department.dart';
 import '../../../models/entity.dart';
-import '../../../models/entry_security.dart';
+import '../../../models/organisation.dart';
+import '../../createfound/models/user.dart';
 
 class CreateLawEnforcement extends StatefulWidget {
-  LawEnforcementDetails? listUser;
-  CreateLawEnforcement({super.key, this.listUser});
+  final LawEnforcementDetails? model;
+
+  const CreateLawEnforcement({super.key, this.model});
 
   @override
   State<CreateLawEnforcement> createState() => _CreateLawEnforcementState();
@@ -68,20 +68,25 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   TextEditingController emailidTextController2 = TextEditingController();
   TextEditingController contactnoTextController2 = TextEditingController();
   TextEditingController nameTextController3 = TextEditingController();
+  TextEditingController nameTextController4 = TextEditingController();
   TextEditingController designationTextController3 = TextEditingController();
+  TextEditingController designationTextController4 = TextEditingController();
   TextEditingController officeaddressTextController3 = TextEditingController();
   TextEditingController emailidTextController3 = TextEditingController();
   TextEditingController contactnoTextController3 = TextEditingController();
+  TextEditingController emailidTextController4 = TextEditingController();
+  TextEditingController contactnoTextController4 = TextEditingController();
   TextEditingController distributiongroupsTextController =
       TextEditingController();
   TextEditingController dateofcreationTextController = TextEditingController();
-
+  TextEditingController officeaddressTextController4 = TextEditingController();
   List<CreateImage>? getFiles;
   List<FoundImage>? getAttachments;
   late LawEnforcementState globalState;
   String? serialnumber;
   bool isDistrbuted = false;
- 
+
+  // int get index => 0;
 
   @override
   Widget build(BuildContext context) {
@@ -89,439 +94,414 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     final height = size.height;
     final width = size.width;
     return Scaffold(
-        appBar: AppHeader(
-          isTitleCenter: false,
-          title: widget.listUser != null
-              ? Constants.editlawenforcement
-              : Constants.createlawenforcement,
-          backBtn: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: SvgPicture.asset(AppIcon.backIcon,
-                color: AppColors.backgroundWhitecolor),
-          ),
-          action: [
-            GestureDetector(
-              onTap: () {
-                if(!isDistrbuted)
-               {
-                createLawEnforcement(
-                    false, widget.listUser?.id ?? 0, globalState);
-               }
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child:  isDistrbuted ? SvgPicture.asset(
-                  AppIcon.createfoundsaveicon,
-                  color: AppColors.disabletextfieldBackground.withOpacity(0.5),
-                ):  SvgPicture.asset(
-                  AppIcon.createfoundsaveicon,
-                 
-              ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-               if(!isDistrbuted)
-               {
-                lawenforcementValidations(context, globalState);
-               }
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: isDistrbuted ? Icon(
-                  Icons.send,
-                  color: AppColors.disabletextfieldBackground.withOpacity(0.5),
-                ): Icon(
-                  Icons.send,
-                  color: AppColors.backgroundWhitecolor,
-                ),
-                // SvgPicture.asset(
-                //   AppIcon.createfoundsaveicon,
-                //),
-              ),
-            ),
-          ],
-          //backgroundColor: AppColors.navigationSkybluecolor,
+      appBar: AppHeader(
+        isTitleCenter: false,
+        title: widget.model != null
+            ? Constants.editlawenforcement
+            : Constants.createlawenforcement,
+        backBtn: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: SvgPicture.asset(AppIcon.backIcon,
+              color: AppColors.backgroundWhitecolor),
         ),
-        backgroundColor: AppColors.backgroundWhitecolor,
-        body: BlocBuilder<LawEnforcementCubit, LawEnforcementState>(
-          builder: (context, state) {
-            // listOfEntities = state.getEntitiesResponse;
-            //leoDepartmentsResponse = state.getLeodepartmentsResponse;
-            // leoPurposeVisitResponse = state.getLeopurposeResponse;
+        action: [
+          GestureDetector(
+            onTap: () {
+              if (!isDistrbuted) {
+                createLawEnforcement(false, widget.model?.id ?? 0, globalState);
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: isDistrbuted
+                  ? SvgPicture.asset(
+                      AppIcon.createfoundsaveicon,
+                      color:
+                          AppColors.disabletextfieldBackground.withOpacity(0.5),
+                    )
+                  : SvgPicture.asset(
+                      AppIcon.createfoundsaveicon,
+                    ),
+            ),
+          ),
+        ],
+        //backgroundColor: AppColors.navigationSkybluecolor,
+      ),
+      backgroundColor: AppColors.backgroundWhitecolor,
+      body: BlocBuilder<LawEnforcementCubit, LawEnforcementState>(
+        builder: (context, state) {
+          // listOfEntities = state.getEntitiesResponse;
+          //leoDepartmentsResponse = state.getLeodepartmentsResponse;
+          // leoPurposeVisitResponse = state.getLeopurposeResponse;
 
-            if (state.getSerialnumberResponse != null) {
-              serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
-            }
-            globalState = state;
-            if (state.stateType == LawEnforcementStateType.addattachment) {
-              getFiles = state.loadAttachments ?? [];
-            }
-            initiallyLocationandSerialnumberdataset(state);
-            // if (widget.listuser != null) {
-            //   if (state.groups != null) {
+          if (state.getSerialnumberResponse != null) {
+            serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
+          }
+          globalState = state;
+          if (state.stateType == LawEnforcementStateType.addattachment) {
+            getFiles = state.loadAttachments ?? [];
+          }
+          initiallyLocationandSerialnumberdataset(state);
+          // if (widget.listuser != null) {
+          //   if (state.groups != null) {
 
-            //   }
-            // }
-            return Container(
-                color: AppColors.navigationSkybluecolor,
-                child: SingleChildScrollView(
-                    child: Column(children: [
+          //   }
+          // }
+          return Container(
+            color: AppColors.navigationSkybluecolor,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
                   Container(
                     height: height * 0.01,
                     color: AppColors.navigationSkybluecolor,
                   ),
                   Container(
-                      //padding: const EdgeInsets.all(20.0),
-                      decoration: const ShapeDecoration(
-                          color: AppColors.backgroundWhitecolor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(20.0)),
-                          )),
-                      child: AbsorbPointer(
-                        absorbing: widget.listUser?.status ==3,
-                        child: Form(
-                            key: lawenforcementFormKey,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20.0, right: 20),
-                                    child: Column(children: [
-                                      Container(
-                                        alignment: Alignment.topLeft,
-                                        child: Text(
-                                          Constants.generalinformation,
-                                          style: Styles.styleHeaderGreyText16,
-                                        ),
-                                      ),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
+                    //padding: const EdgeInsets.all(20.0),
+                    decoration: const ShapeDecoration(
+                        color: AppColors.backgroundWhitecolor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(20.0)),
+                        )),
+                    child: AbsorbPointer(
+                      absorbing: widget.model?.status == 3 ||
+                          widget.model?.status == 1,
+                      child: Form(
+                        key: lawenforcementFormKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20.0, right: 20),
+                              child: Column(children: [
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    Constants.generalinformation,
+                                    style: Styles.styleHeaderGreyText16,
+                                  ),
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
 
-                                      // Status
-                                      CommonWidgets.textDisplay(Constants.status,
-                                          Styles.textStyleBlack14),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.001),
-                                      FlutterInputField(
-                                        isEnable: false,
-                                        isDisableColor: true,
-                                        textFieldController: statusTextController,
-                                        textFormKey: Keys.statusTextController,
-                                        hintText: '',
-                                        onChange: (String username) {
-                                          //this.username = username;
-                                        },
-                                        validateTextField: (String? user) {},
-                                        suffixWidget: GestureDetector(
-                                          onTap: () {},
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(20.0),
-                                            child: SvgPicture.asset(
-                                              //AppIcon.dropdownicon,
-                                              AppIcon.dropdownicon,
-                                              //fit: BoxFit.,
-                                              color: AppColors.textgreyThemecolor,
-                                              width: 10,
-                                              height: 10,
-                                              key: const Key(Keys.userIcon),
-                                            ),
+                                // Status
+                                CommonWidgets.textDisplay(
+                                    Constants.status, Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                FlutterInputField(
+                                  isEnable: false,
+                                  isDisableColor: true,
+                                  textFieldController: statusTextController,
+                                  textFormKey: Keys.statusTextController,
+                                  hintText: '',
+                                  onChange: (String username) {
+                                    //this.username = username;
+                                  },
+                                  validateTextField: (String? user) {},
+                                  suffixWidget: GestureDetector(
+                                    onTap: () {},
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: SvgPicture.asset(
+                                        //AppIcon.dropdownicon,
+                                        AppIcon.dropdownicon,
+                                        //fit: BoxFit.,
+                                        color: AppColors.textgreyThemecolor,
+                                        width: 10,
+                                        height: 10,
+                                        key: const Key(Keys.userIcon),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                //created by
+
+                                CommonWidgets.horizentaltextHandling(
+                                    Constants.createdby,
+                                    '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
+
+                                // ),
+                                // Location
+                                CommonWidgets.textDisplay(Constants.location,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                locationWidgetDisplay(state),
+
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                // date of creation
+                                CommonWidgets.textDisplay(
+                                    Constants.dateofcreation,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                datecreateWidgetdisplay(),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                // slno
+
+                                CommonWidgets.horizentaltextHandling(
+                                    Constants.slno, serialnumber ?? ''),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                // Entity type
+                                CommonWidgets.textDisplay(
+                                    Constants.entity, Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                // articleaddButtonwidgetLoading(state),
+                                entityaddButtonwidgetLoading(state),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                //Actual time of visit
+                                CommonWidgets.textDisplay(
+                                    Constants.actualtimeofvisit,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                datepickerWidgetLoading(
+                                    actualdateTextController),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                // Officials ID Card Verified?
+                                CommonWidgets.textDisplay(
+                                    Constants.officialsidcardverified,
+                                    Styles.textStyleBlack14),
+                                radioButtonHandling(
+                                    state.isOfficialIdcardSelected ?? 1,
+                                    Constants.officialsidcardverified),
+
+                                // Purpose of visit
+                                CommonWidgets.textDisplay(
+                                    Constants.purposeofvsit,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                // articleaddButtonwidgetLoading(state),
+                                purposeofvisitaddButtonwidgetLoading(state),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                // Document if any to confirm purpose
+                                CommonWidgets.textDisplay(
+                                    Constants.documentifanytoconfirmpurpose,
+                                    Styles.textStyleBlack14),
+                                radioButtonHandling(
+                                    state.isDocumentifanySelected ?? 1,
+                                    Constants.documentifanytoconfirmpurpose),
+
+                                // In case of Police, was official in uniform?
+                                CommonWidgets.textDisplay(
+                                    Constants
+                                        .incaseofpolicewasofficialinuniform,
+                                    Styles.textStyleBlack14),
+                                radioButtonHandling(
+                                    state.isIncaseofpoliceSelected ?? 1,
+                                    Constants
+                                        .incaseofpolicewasofficialinuniform),
+
+                                // DB official want to meet
+                                CommonWidgets.textDisplay(
+                                    Constants.dbofficialwanttomeet,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                textfieldWidgetLoad(
+                                    dbofficailwanttimeetTextController,
+                                    0,
+                                    state),
+
+                                // DB official department
+                                CommonWidgets.textDisplay(
+                                    Constants.dbofficialdepartment,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                // articleaddButtonwidgetLoading(state),
+                                dbwanttodepartmentaddButtonwidgetLoading(state),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                //DB Official email ID Accompanied LEO official'
+                                CommonWidgets.textDisplay(
+                                    Constants
+                                        .dbofficialemailidaccompaniedleoofficial,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                // articleaddButtonwidgetLoading(state),
+                                dbofficialemailidaddButtonwidgetLoading(state),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                // additional information
+                                CommonWidgets.textDisplay(
+                                    Constants.additionalinformation,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                textfieldWidgetLoad(
+                                    additionalinformationTextController,
+                                    0,
+                                    state),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                              ]),
+                            ),
+
+                            // CommonWidgets.indentedDivider(Colors.black),
+                            const Divider(
+                              color: AppColors.textgreyThemecolor,
+                              thickness: 1,
+                            ),
+
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20.0, right: 20),
+                              child: Column(
+                                children: [
+                                  /// Visiting Official Details
+                                  CommonWidgets.textDisplay(
+                                      Constants.visitingofficialdetails,
+                                      Styles.textStyleDarkGrey16),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+
+                                  (state.getVisitsCount ?? 0) > 0
+                                      ? listVisitingOfficialDetails(
+                                          height,
+                                          width,
+                                          context,
+                                          state,
+                                          state.getVisitsCount ?? 0)
+                                      : Container(),
+                                  widget.model == null
+                                      ? CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01)
+                                      : Container(),
+
+                                  /// Add another visiting
+                                  GestureDetector(
+                                    onTap: () {
+                                      if ((state.getVisitsCount ?? 0) < 10) {
+                                        int value =
+                                            (state.getVisitsCount ?? 0) + 1;
+                                        List<VisitingOfficialsModel>?
+                                            getVisits1 = state.getVisits ?? [];
+                                        getVisits1
+                                            .add(VisitingOfficialsModel());
+                                        lawenforcementCubit.addingVisitis(
+                                            value, getVisits1);
+                                      } else {
+                                        Validator().showToast(
+                                          context,
+                                          "You have reached maximum visiting official details adding",
+                                        );
+                                      }
+                                    },
+                                    child: Row(
+                                      children: <Widget>[
+                                        // Expanded(
+                                        //child:
+                                        SvgPicture.asset(
+                                          AppIcon.pluscircle,
+                                          //color: AppColors.navigationSkybluecolor,
+                                        ),
+                                        // ),
+                                        const SizedBox(width: 10),
+                                        const Text(
+                                          Constants.addvisitingofficialdetails,
+                                          style: TextStyle(
+                                            color: AppColors
+                                                .navigationSkybluecolor,
+                                            decoration:
+                                                TextDecoration.underline,
                                           ),
                                         ),
-                                      ),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
-
-                                      //created by
-
-                                      CommonWidgets.horizentaltextHandling(
-                                          Constants.createdby,
-                                          '${state.getUserDetailsResponse
-                                                  ?.firstName ??
-                                              ''} ${state.getUserDetailsResponse
-                                               ?.lastName ??
-                                              ''}'),
-
-                                      // ),
-                                      // Location
-                                      CommonWidgets.textDisplay(
-                                          Constants.location,
-                                          Styles.textStyleBlack14),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.001),
-                                      locationWidgetDisplay(state),
-
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
-
-                                      // date of creation
-                                      CommonWidgets.textDisplay(
-                                          Constants.dateofcreation,
-                                          Styles.textStyleBlack14),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.001),
-                                      datecreateWidgetdisplay(),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
-
-                                      // slno
-
-                                      CommonWidgets.horizentaltextHandling(
-                                          Constants.slno, serialnumber ?? ''),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
-
-                                      // article type
-                                      CommonWidgets.textDisplay(Constants.entity,
-                                          Styles.textStyleBlack14),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.001),
-                                      // articleaddButtonwidgetLoading(state),
-                                      entityaddButtonwidgetLoading(state),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
-
-                                      // // Actual time of visit
-                                      // CommonWidgets.textDisplay(
-                                      //     Constants.actualtimeofvisit,
-                                      //     Styles.textStyleBlack14),
-                                      // CommonWidgets.verticalSpacerWidget(
-                                      //     height * 0.001),
-                                      // datepickerWidgetLoading(
-                                      //     actualdateTextController),
-                                      // CommonWidgets.verticalSpacerWidget(
-                                      //     height * 0.01),
-                                      //  Actual time of visit
-                                      CommonWidgets.textDisplay(
-                                          Constants.actualtimeofvisit,
-                                          Styles.textStyleBlack14),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.001),
-                                      datecreateWidgetdisplay(),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
-
-                                      // Officials ID Card Verified?
-                                      CommonWidgets.textDisplay(
-                                          Constants.officialsidcardverified,
-                                          Styles.textStyleBlack14),
-                                      radioButtonHandling(
-                                          state.isOfficialIdcardSelected ?? 1,
-                                          Constants.officialsidcardverified),
-
-                                      // Purpose of visit
-                                      CommonWidgets.textDisplay(
-                                          Constants.purposeofvsit,
-                                          Styles.textStyleBlack14),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.001),
-                                      // articleaddButtonwidgetLoading(state),
-                                      purposeofvisitaddButtonwidgetLoading(state),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
-
-                                      // Document if any to confirm purpose
-                                      CommonWidgets.textDisplay(
-                                          Constants.documentifanytoconfirmpurpose,
-                                          Styles.textStyleBlack14),
-                                      radioButtonHandling(
-                                          state.isDocumentifanySelected ?? 1,
-                                          Constants
-                                              .documentifanytoconfirmpurpose),
-
-                                      // In case of Police, was official in uniform?
-                                      CommonWidgets.textDisplay(
-                                          Constants
-                                              .incaseofpolicewasofficialinuniform,
-                                          Styles.textStyleBlack14),
-                                      radioButtonHandling(
-                                          state.isIncaseofpoliceSelected ?? 1,
-                                          Constants
-                                              .incaseofpolicewasofficialinuniform),
-
-                                      // DB official want to meet
-                                      CommonWidgets.textDisplay(
-                                          Constants.dbofficialwanttomeet,
-                                          Styles.textStyleBlack14),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.001),
-                                      textfieldWidgetLoad(
-                                          dbofficailwanttimeetTextController,
-                                          0,
-                                          state),
-
-                                      // DB official department
-                                      CommonWidgets.textDisplay(
-                                          Constants.dbofficialdepartment,
-                                          Styles.textStyleBlack14),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.001),
-                                      // articleaddButtonwidgetLoading(state),
-                                      dbwanttodepartmentaddButtonwidgetLoading(
-                                          state),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
-
-                                      //DB Official email ID Accompanied LEO official'
-                                      CommonWidgets.textDisplay(
-                                          Constants
-                                              .dbofficialemailidaccompaniedleoofficial,
-                                          Styles.textStyleBlack14),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.001),
-                                      // articleaddButtonwidgetLoading(state),
-                                      dbofficialemailidaddButtonwidgetLoading(
-                                          state),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
-
-                                      // additional information
-                                      CommonWidgets.textDisplay(
-                                          Constants.additionalinformation,
-                                          Styles.textStyleBlack14),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.001),
-                                      textfieldWidgetLoad(
-                                          additionalinformationTextController,
-                                          0,
-                                          state),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
-                                    ]),
+                                      ],
+                                    ),
                                   ),
 
-                                  // CommonWidgets.indentedDivider(Colors.black),
-                                  Divider(
-                                    color: AppColors.textgreyThemecolor,
-                                    thickness: 1,
-                                  ),
+                                  // Upload
+                                  widget.model == null
+                                      ? CommonWidgets.textDisplay(
+                                          Constants.upload,
+                                          Styles.textStyleBlack14)
+                                      : Container(),
+                                  widget.model == null
+                                      ? CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001)
+                                      : Container(),
+                                  widget.model == null
+                                      ? uploadWidget(state)
+                                      : Container(),
 
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20.0, right: 20),
-                                    child: Column(children: [
-                                      // Visiting Official Details
-                                      CommonWidgets.textDisplay(
-                                          Constants.visitingofficialdetails,
-                                          Styles.textStyleDarkGrey16),
+                                  // Attachments
+                                  getSpaceattchment(height),
+                                  getAttachement(height),
 
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
-                                      // Add another visiting
-                                      GestureDetector(
-                                        onTap: () {
-                                          if ((state.getVisitsCount ?? 0) < 3) {
-                                            int value =
-                                                (state.getVisitsCount ?? 0) + 1;
-                                            List<VistingOfficialsModel>?
-                                                getVisits1 =
-                                                state.getVisits ?? [];
-                                            getVisits1
-                                                .add(VistingOfficialsModel());
-                                            lawenforcementCubit.addingVisitis(
-                                                value, getVisits1);
-                                          } else {
-                                            Validator().showToast(
-                                              context,
-                                              "You have reached maximum visting official details adding",
-                                            );
-                                          }
-                                        },
-                                        child: Container(
-                                            child: Row(
-                                          children: <Widget>[
-                                            // Expanded(
-                                            //child:
-                                            SvgPicture.asset(
-                                              AppIcon.pluscircle,
-                                              //color: AppColors.navigationSkybluecolor,
-                                            ),
-                                            // ),
-                                            SizedBox(width: 10),
-
-                                            Text(
-                                              Constants
-                                                  .addanothervisitingofficialdetails,
-                                              style: TextStyle(
-                                                color: AppColors
-                                                    .navigationSkybluecolor,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                      ),
-
-                                      //
-
-                                      (state.getVisitsCount ?? 0) > 0
-                                          ? listVisitingOfficialDetails(
-                                              height,
-                                              width,
-                                              context,
-                                              state,
-                                              state.getVisitsCount ?? 0)
-                                          : Container(),
-                                      widget.listUser == null
-                                          ? CommonWidgets.verticalSpacerWidget(
-                                              height * 0.01)
-                                          : Container(),
-
-                                      // Upload
-                                      widget.listUser == null
-                                          ? CommonWidgets.textDisplay(
-                                              Constants.upload,
-                                              Styles.textStyleBlack14)
-                                          : Container(),
-                                      widget.listUser == null
-                                          ? CommonWidgets.verticalSpacerWidget(
-                                              height * 0.001)
-                                          : Container(),
-                                      widget.listUser == null
-                                          ? uploadWidget(state)
-                                          : Container(),
-
-                                      // Attachments
-                                      getSpaceattchment(height),
-                                      getAttachement(height),
-
-                                      // Distribution Groups
-                                      widget.listUser != null
-                                          ? CommonWidgets.textDisplay(
-                                              Constants.distributiongroups,
-                                              Styles.textStyleBlack14)
-                                          : Container(),
-                                      widget.listUser != null
-                                          ? CommonWidgets.verticalSpacerWidget(
-                                              height * 0.001)
-                                          : Container(),
-                                      widget.listUser != null
-                                          ? textfieldWidgetLoad(
-                                              distributiongroupsTextController,
-                                              0,
-                                              state)
-                                          : Container(),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.01),
-
-                                      // SubmitButton
-                                      Center(child: submitButtonDisplay()),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.005),
-                                    ]),
-                                  )
-                                ])),
-                      ))
-                ])));
-          },
-        )); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
+                                  if (widget.model?.status == 3) ...[
+                                    // Distribution Groups
+                                    widget.model?.status != 0
+                                        ? CommonWidgets.textDisplay(
+                                            Constants.distributiongroups,
+                                            Styles.textStyleBlack14)
+                                        : Container(),
+                                    widget.model?.status != 0
+                                        ? CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001)
+                                        : Container(),
+                                    widget.model?.status != 0
+                                        ? textfieldWidgetLoad(
+                                            distributiongroupsTextController,
+                                            0,
+                                            state)
+                                        : Container(),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+                                  ],
+                                  // SubmitButton
+                                  if (widget.model?.status != 3) ...[
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        cancelButtonDisplay(),
+                                        submitButtonDisplay()
+                                      ],
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
   Widget listVisitingOfficialDetails(
@@ -530,13 +510,15 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       BuildContext context,
       LawEnforcementState state,
       int visitingOfficialDetailsArray) {
-    return Column(children: <Widget>[
-      for (int i = 0; i < visitingOfficialDetailsArray; i++)
+    return Column(
+      children: <Widget>[
+        for (int i = 0; i < visitingOfficialDetailsArray; i++)
 
-        // Name
-        loadData(
-            height, width, context, state, visitingOfficialDetailsArray, i),
-    ]);
+          // Name
+          loadData(
+              height, width, context, state, visitingOfficialDetailsArray, i),
+      ],
+    );
   }
 
   Widget loadData(double height, double width, BuildContext context,
@@ -552,7 +534,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       GestureDetector(
           onTap: () {
             int value = (state.getVisitsCount ?? 0) - 1;
-            List<VistingOfficialsModel>? getVisits1 = state.getVisits ?? [];
+            List<VisitingOfficialsModel>? getVisits1 = state.getVisits ?? [];
             getVisits1.removeAt(index);
             lawenforcementCubit.addingVisitis(value, getVisits1);
           },
@@ -599,7 +581,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
 
       // Office Address
       CommonWidgets.textDisplay(
-          Constants.officeaddress, Styles.textStyleBlack14),
+          Constants.officeAddress, Styles.textStyleBlack14),
       CommonWidgets.verticalSpacerWidget(height * 0.001),
       textfieldWidgetLoad(
           index == 0
@@ -642,76 +624,70 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   @override
   void initState() {
     super.initState();
-    if (widget.listUser != null) {
+    if (widget.model != null) {
       editCreatefoundItems();
       lawenforcementCubit.getDistributionGroupsDetails(context);
     } else {
       lawenforcementCubit.initalization();
     }
 
-    getLawenforcementList();
+    getLawEnforcementList(context);
     _getCurrentDate();
   }
-  initiallyLocationandSerialnumberdataset(LawEnforcementState state)
-  async {
+
+  initiallyLocationandSerialnumberdataset(LawEnforcementState state) async {
     print(state.locationSelectedlist);
-     print(state.getLocationsResponse);
-      print(widget.listUser);
-    if(state.locationSelectedlist?.id == null && state.getLocationsResponse != null && widget.listUser == null && (serialnumber ?? '').isEmpty)
-            {
-              
-              Mumbai list = Mumbai(
-          id: 24,
-          name: "DLF Square") ;
-          lawenforcementCubit.getlocationsResponseData(list);
-           await lawenforcementCubit.getSerialnumberDetails(
-                      '24', 'LEO',context);
-          
-            }
-   
+    print(state.getLocationsResponse);
+    print(widget.model);
+    if (state.locationSelectedlist?.id == null &&
+        state.getLocationsResponse != null &&
+        widget.model == null &&
+        (serialnumber ?? '').isEmpty) {
+      Organisation list = Organisation(id: 24, name: "DLF Square");
+      lawenforcementCubit.getlocationsResponseData(list);
+      await lawenforcementCubit.getSerialnumberDetails('24', 'LEO', context);
+    }
   }
 
   editCreatefoundItems() async {
-    if (widget.listUser != null) {
-      await SharedPrefs.setFoundId(widget.listUser?.id ?? 0);
+    if (widget.model != null) {
+      await SharedPrefs.setFoundId(widget.model?.id ?? 0);
 
       additionalinformationTextController.text =
-          widget.listUser?.additionalInformation != null
-              ? widget.listUser?.additionalInformation.toString() ?? ""
+          widget.model?.additionalInformation != null
+              ? widget.model?.additionalInformation.toString() ?? ""
               : '';
       dbofficailwanttimeetTextController.text =
-          widget.listUser?.dbOfficialEmail != null
-              ? widget.listUser?.dbOfficialEmail.toString() ?? ""
+          widget.model?.dbOfficialEmail != null
+              ? widget.model?.dbOfficialEmail.toString() ?? ""
               : '';
-      actualdateTextController.text = widget.listUser?.timeOfVisit != null &&
-              widget.listUser?.timeOfVisit != '0'
-          ? Utils.timestamptoDateConversion(
-              int.parse(widget.listUser?.timeOfVisit ?? '0'),
-              Constants.fulldateFormat)
-          : '';
-      dateofcreationTextController.text = widget.listUser?.inputDate != null &&
-              widget.listUser?.inputDate != '0'
-          ? Utils.timestamptoDateConversion(
-              int.parse(widget.listUser?.inputDate ?? '0'),
-              Constants.fulldateFormat)
-          : dateofcreationTextController.text;
+      actualdateTextController.text =
+          widget.model?.timeOfVisit != null && widget.model?.timeOfVisit != '0'
+              ? Utils.timestamptoDateConversion(
+                  int.parse(widget.model?.timeOfVisit ?? '0'),
+                  Constants.fulldateFormat)
+              : '';
+      dateofcreationTextController.text =
+          widget.model?.inputDate != null && widget.model?.inputDate != '0'
+              ? Utils.timestamptoDateConversion(
+                  int.parse(widget.model?.inputDate ?? '0'),
+                  Constants.fulldateFormat)
+              : dateofcreationTextController.text;
       // List<VisitingOfficial>? visitingOfficials = widget.listuser?.visitingOfficials != null ? widget.listuser?.visitingOfficials ?? [] : [];
-      statusTextController.text = widget.listUser?.status == 0
+      statusTextController.text = widget.model?.status == 0
           ? "Draft"
-          : widget.listUser?.status == 1
+          : widget.model?.status == 1
               ? "Submitted"
-              : widget.listUser?.status == 3
+              : widget.model?.status == 3
                   ? "Distributed"
                   : "Handover";
-       
-       if (widget.listUser?.status == 3 ||  statusTextController.text == 'Distributed')
-       {
+
+      if (widget.model?.status == 3 ||
+          statusTextController.text == 'Distributed') {
         lawenforcementCubit.getDistributed(true);
         isDistrbuted = true;
-        setState(() {
-          
-        });
-       }
+        setState(() {});
+      }
       //state.serialnumberResponse?.serialNo
 
       //  state.getUserDetailsResponse  =  widget.listuser?.entrySecurity != null ? GetUserDetails(
@@ -719,25 +695,24 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       //     lastName: widget.listuser?.entrySecurity?.lastName ?? "") : GetUserDetails() ;
 
       //state.locationSelectedlist =
-      Mumbai mumbai = widget.listUser?.location != null
-          ? Mumbai(
-              id: widget.listUser?.location?.id ?? 0,
-              name: widget.listUser?.location?.name ?? "")
-          : Mumbai();
+      Organisation mumbai = widget.model?.location != null
+          ? Organisation(
+              id: widget.model?.location?.id ?? 0,
+              name: widget.model?.location?.name ?? "")
+          : Organisation();
 
-      serialnumber =
-          widget.listUser?.slNo != null ? widget.listUser?.slNo ?? '' : '';
+      serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
 
       await lawenforcementCubit.getSerialnumberDetails(
-          (widget.listUser?.location?.id ?? 0).toString(), 'LEO',context);
+          (widget.model?.location?.id ?? 0).toString(), 'LEO', context);
 
       lawenforcementCubit.getlocationsResponseData(mumbai);
       int isDocumentifanySelected1 =
-          ((widget.listUser?.documentVerified ?? false) == true) ? 1 : 0;
+          ((widget.model?.documentVerified ?? false) == true) ? 1 : 0;
       int isOfficialIdcardSelected1 =
-          ((widget.listUser?.officialCardVerified ?? false) == true) ? 1 : 0;
+          ((widget.model?.officialCardVerified ?? false) == true) ? 1 : 0;
       int isIncaseofpoliceSelected1 =
-          ((widget.listUser?.visitorInUniform ?? false) == true) ? 1 : 0;
+          ((widget.model?.visitorInUniform ?? false) == true) ? 1 : 0;
 
       lawenforcementCubit.getRadioButtonSelected(
           Constants.documentifanytoconfirmpurpose,
@@ -752,14 +727,14 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           isIncaseofpoliceSelected1,
           isIncaseofpoliceSelected1 == 1 ? "Yes" : "No");
 
-      if ((widget.listUser?.entities?.length ?? 0) > 0) {
+      if ((widget.model?.entities?.length ?? 0) > 0) {
         List<Entity> entities = [];
-        for (int i = 0; i < widget.listUser!.entities!.length; i++) {
-          Entity entity = widget.listUser?.entities != null &&
-                  (widget.listUser?.entities?.length ?? 0) > 0
+        for (int i = 0; i < widget.model!.entities!.length; i++) {
+          Entity entity = widget.model?.entities != null &&
+                  (widget.model?.entities?.length ?? 0) > 0
               ? Entity(
-                  id: widget.listUser?.entities![i].id ?? 0,
-                  name: widget.listUser?.entities![i].name ?? "")
+                  id: widget.model?.entities![i].id ?? 0,
+                  name: widget.model?.entities![i].name ?? "")
               : Entity();
           // AtomEntity entity = state.listOfEntities![i];
           //   DbOfficialEmailDepartment addentiity =
@@ -769,13 +744,13 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         lawenforcementCubit.getEntityData(entities);
       }
 
-      if ((widget.listUser?.mailList?.length ?? 0) > 0) {
+      if ((widget.model?.mailList?.length ?? 0) > 0) {
         //for (int i = 0; i < widget.listuser!.entities!.length; i++) {
-        DistributionGroup entity = widget.listUser?.mailList != null &&
-                (widget.listUser?.mailList?.length ?? 0) > 0
+        DistributionGroup entity = widget.model?.mailList != null &&
+                (widget.model?.mailList?.length ?? 0) > 0
             ? DistributionGroup(
-                id: widget.listUser?.mailList![0]["groupId"] ?? 0,
-                name: widget.listUser?.mailList![0]["name"] ?? "")
+                id: widget.model?.mailList![0]["groupId"] ?? 0,
+                name: widget.model?.mailList![0]["name"] ?? "")
             : DistributionGroup();
         // AtomEntity entity = state.listOfEntities![i];
         //   DbOfficialEmailDepartment addentiity =
@@ -783,42 +758,41 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         //distributionGroups.add(entity);
         lawenforcementCubit.geDistributonData(entity);
         distributiongroupsTextController.text =
-            widget.listUser?.mailList![0]["name"] ?? "";
+            widget.model?.mailList![0]["name"] ?? "";
       }
 
       // state.groups?.distributionGroups
       // }
 
-      AtomLeoPurposeVisit visit = widget.listUser?.visitPurpose != null
-          ? AtomLeoPurposeVisit(
-              id: widget.listUser?.visitPurpose?.id ?? 0,
-              name: widget.listUser?.visitPurpose?.name ?? "")
-          : AtomLeoPurposeVisit();
+      Organisation visit = widget.model?.visitPurpose != null
+          ? Organisation(
+              id: widget.model?.visitPurpose?.id ?? 0,
+              name: widget.model?.visitPurpose?.name ?? "")
+          : Organisation();
       lawenforcementCubit.getleopurposeResponseData(visit);
 
-      BaseUser staticUser =
-          widget.listUser?.dbOfficialEmailDepartment != null
-              ? BaseUser(
-                  id: widget.listUser?.dbOfficialEmailDepartment?.id ?? 0,
-                  name: widget.listUser?.dbOfficialEmailDepartment?.name ?? "",
-                  email: widget.listUser?.dbOfficialAccompaniedEmail ?? '')
-              : BaseUser();
+      BaseUser staticUser = widget.model?.dbOfficialEmailDepartment != null
+          ? BaseUser(
+              id: widget.model?.dbOfficialEmailDepartment?.id ?? 0,
+              name: widget.model?.dbOfficialEmailDepartment?.name ?? "",
+              email: widget.model?.dbOfficialAccompaniedEmail ?? '')
+          : BaseUser();
 
       lawenforcementCubit.geDBOfficialyData(staticUser);
 
       List<LawVisitingOfficial>? visiting =
-          widget.listUser?.visitingOfficials != null
-              ? widget.listUser?.visitingOfficials ?? []
+          widget.model?.visitingOfficials != null
+              ? widget.model?.visitingOfficials ?? []
               : [];
 
-      List<VistingOfficialsModel>? visitingOfficials = [];
-      if (visiting.length > 0) {
+      List<VisitingOfficialsModel>? visitingOfficials = [];
+      if (visiting.isNotEmpty) {
         for (int i = 0; i < visiting.length; i++) {
           LawVisitingOfficial model = visiting[i];
-          AtomLeoDepartment dept = AtomLeoDepartment(
+          Organisation dept = Organisation(
               id: model.department?.id ?? 1,
               name: model.department?.name ?? '');
-          VistingOfficialsModel obj = VistingOfficialsModel(
+          VisitingOfficialsModel obj = VisitingOfficialsModel(
               officialaddress: model.address ?? '',
               name: model.name ?? '',
               conatctno: model.contactNo ?? '',
@@ -866,49 +840,49 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           visitingOfficials.length, visitingOfficials);
 
       // state.selectedemployeeDepartmentResponse
-      Department emp =
-          widget.listUser?.dbOfficialEmailDepartment != null
-              ? Department(
-                  id: widget.listUser?.dbOfficialEmailDepartment?.id ?? 0,
-                  name: widget.listUser?.dbOfficialEmailDepartment?.name ?? '')
-              : Department();
+      Organisation emp = widget.model?.dbOfficialEmailDepartment != null
+          ? Organisation(
+              id: widget.model?.dbOfficialEmailDepartment?.id ?? 0,
+              name: widget.model?.dbOfficialEmailDepartment?.name ?? '')
+          : Organisation();
       lawenforcementCubit.getemployeeDepartmentsResponseData(emp);
       getAttachments =
-          widget.listUser?.images != null ? widget.listUser?.images ?? [] : [];
+          widget.model?.images != null ? widget.model?.images ?? [] : [];
     }
   }
 
-  getLawenforcementList() async {
+  getLawEnforcementList(context) async {
     var userid = await SharedPrefs.getUserId();
-    await lawenforcementCubit.getLocations('ATOM_LOCATIONS',context);
-    await lawenforcementCubit.getEntities('ATOM_ENTITIES',context);
-    await lawenforcementCubit.getLeopurposeofvisit('ATOM_LEO_PURPOSE_VISIT',context);
-    await lawenforcementCubit.getLeodepartments('ATOM_LEO_DEPARTMENTS',context);
-    await lawenforcementCubit.getEmployeeDepartments('EMPLOYEE_DEPARTMENTS',context);
-    await lawenforcementCubit.getDBofficialByRoleDepositor('ATOM_STATIC_USER',context);
-    await lawenforcementCubit.getUserDetails(userid,context);
+    await lawenforcementCubit.getLocations('ATOM_LOCATIONS', context);
+    await lawenforcementCubit.getEntities('ATOM_ENTITIES', context);
+    await lawenforcementCubit.getLeopurposeofvisit(
+        'ATOM_LEO_PURPOSE_VISIT', context);
+    await lawenforcementCubit.getLeodepartments(
+        'ATOM_LEO_DEPARTMENTS', context);
+    await lawenforcementCubit.getEmployeeDepartments(
+        'EMPLOYEE_DEPARTMENTS', context);
+    await lawenforcementCubit.getDBofficialByRoleDepositor(
+        'ATOM_STATIC_USER', context);
+    await lawenforcementCubit.getUserDetails(userid, context);
   }
 
   Widget submitButtonDisplay() {
-    return // Login button
-        AppButton(
+    return AppButton(
       //height: 50,
-      disableColor:  isDistrbuted,
+      disableColor: isDistrbuted,
       width: 150,
       key: const Key(Keys.submitButton),
       buttonText: Constants.submit,
       buttonTextKey: Keys.submitButton,
       onTap: () async {
-        //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
-        if((isDistrbuted ?? false ) == false)
-         {
-        try {
-           lawenforcementValidations(context, globalState);
-        } catch (e) {
-          // present userwith error message
+        if (isDistrbuted == false) {
+          try {
+            validateForm(context, globalState);
+          } catch (e) {
+            // present userwith error message
+          }
         }
-         }
       },
     );
   }
@@ -918,7 +892,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
-          activeColor: widget.listUser != null
+          activeColor: widget.model != null
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
           focusColor: AppColors.navigationSkybluecolor,
@@ -942,7 +916,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         ),
         const Text(Constants.yes),
         Radio(
-          activeColor: widget.listUser != null
+          activeColor: widget.model != null
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
           value: 0,
@@ -974,16 +948,19 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicatedepostorList:
+            duplicateDepostorList:
                 state.getDepositorResponse?.atomStaticUser ?? [],
-           leftimagename: AppIcon.addicon,
+            leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
-                barrierDismissible: false,
+                  barrierDismissible: false,
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return  CreateFoundNewUser(title: Constants.createnewuser,lawstate: state,);
+                    return CreateFoundNewUser(
+                      title: Constants.createnewuser,
+                      lawstate: state,
+                    );
                   });
             },
             onTap: (BaseUser list) {
@@ -1003,7 +980,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   Widget datepickerWidgetLoading(TextEditingController textfiled) {
     return GestureDetector(
       onTap: () {
-        if (widget.listUser == null || textfiled.text.isEmpty) {
+        if (widget.model == null || textfiled.text.isEmpty) {
           datePickerDialog(textfiled);
         }
       },
@@ -1011,21 +988,21 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         textFieldController: textfiled,
         textFormKey: textfiled == actualdateTextController
             ? Keys.founddateTextController
-            : Keys.actualdateTextController,
+            : Keys.handedoverdateTextController,
         hintText: '',
         isEnable: false,
         isDisableColor:
-            widget.listUser == null || textfiled.text.isEmpty ? false : true,
+            widget.model == null || textfiled.text.isEmpty ? false : true,
         onChange: (String username) {
           //this.username = username;
           print('dfwf');
 
-          // setState(() {});
+          setState(() {});
         },
         validateTextField: (String? user) {},
         suffixWidget: GestureDetector(
           onTap: () async {
-            if (widget.listUser == null || textfiled.text.isEmpty) {
+            if (widget.model == null || textfiled.text.isEmpty) {
               datePickerDialog(textfiled);
             }
           },
@@ -1060,9 +1037,9 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     if (textfield == actualdateTextController) {
       actualdateTextController.text = formattedDate;
     }
-    // setState(() {
-    //   // dateinput.text = formattedDate; //set output date to TextField value.
-    // });
+    setState(() {
+      // dateinput.text = formattedDate; //set output date to TextField value.
+    });
   }
 
   void _getCurrentDate() {
@@ -1070,19 +1047,19 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         DateFormat(Constants.fulldateFormat).format(DateTime.now());
     print(formattedDate);
     dateofcreationTextController.text = formattedDate;
-    if (widget.listUser == null) {
+    if (widget.model == null) {
       statusTextController.text = 'Draft';
     }
   }
 
   Widget uploadWidget(LawEnforcementState state) {
     return // upload
-        widget.listUser == null
+        widget.model == null
             ? Container(
                 height: 60,
                 decoration: BoxDecoration(
                     border: Border.all(
-                      color: Color(0xFFCACACA),
+                      color: const Color(0xFFCACACA),
                       width: 1.0,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(8))),
@@ -1100,8 +1077,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                             context: context,
                             builder: (BuildContext dialogContext) {
                               return UploadAttachment(
-                                userdetails: state.getUserDetailsResponse ??
-                                    EntrySecurity(),
+                                userdetails:
+                                    state.getUserDetailsResponse ?? User(),
                                 getFiles: getFiles ?? [],
                                 lawstate: state,
                               );
@@ -1146,7 +1123,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   Widget getAttachement(double height) {
     return (getAttachments == null ||
             getAttachments?.length == 0 ||
-            widget.listUser == null)
+            widget.model == null)
         ? getFiles?.length == 0 || getFiles == null
             ? Container()
             : attachmentListviews(getFiles, getAttachments)
@@ -1164,16 +1141,15 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     }
     return TextfieldAddButton(
       title: title,
-     height: (state.listOfEntities?.length ?? 0) >  4  ? (state.listOfEntities?.length ?? 0) >  9 ? 140 : 100 : 60,
-      isDisableColor: widget.listUser == null ||
-              ((state.listOfEntities?.length ?? 0) == 0 && (title.isEmpty))
-          ? false
-          : true,
+      height: (state.listOfEntities?.length ?? 0) > 4
+          ? (state.listOfEntities?.length ?? 0) > 9
+              ? 140
+              : 100
+          : 60,
+      isDisableColor: widget.model?.status != 3 ? false : true,
       onTap: () {
-        if (widget.listUser == null ||
-            (state.listOfEntities != null && (title.isEmpty))) {
-          entityTypeDialog(state);
-        }
+        entityTypeDialog(state);
+        // }
       },
     );
   }
@@ -1191,18 +1167,15 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
               showDialog(
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return  AddNewFields(
+                    return AddNewFields(
                       title: Constants.addentitytype,
                       lawstate: state,
                     );
                   });
-           
             },
             onTap: (List<Entity> list) {
               lawenforcementCubit.getEntityData(list);
-              setState(() {
-               
-             });
+              setState(() {});
             },
           );
         });
@@ -1213,22 +1186,20 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicateleopurposevisits:
+            duplicateLeoPurposeVisits:
                 state.getLeopurposeResponse?.atomLeoPurposeVisit ?? [],
-            leftimagename: AppIcon.addicon,
+            leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return  AddNewFields(
-                      title: Constants.addpurposeofvisittype,
-                      lawstate: state
-                    );
+                    return AddNewFields(
+                        title: Constants.addpurposeofvisittype,
+                        lawstate: state);
                   });
-           
             },
-            onTap: (AtomLeoPurposeVisit list) {
+            onTap: (Organisation list) {
               //print(list.name);
               lawenforcementCubit.getleopurposeResponseData(list);
             },
@@ -1241,22 +1212,22 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicateemployeeDepartments:
+            duplicateEmployeeDepartments:
                 state.employeeDepartment?.employeeDepartments ?? [],
-            leftimagename: AppIcon.addicon,
+            leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
-                barrierDismissible: false,
+                  barrierDismissible: false,
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return  AddEmployeeDepartment(
+                    return AddEmployeeDepartment(
                       title: Constants.addemployeedepartment,
                       lawState: state,
                     );
                   });
             },
-            onTap: (Department list) {
+            onTap: (Organisation list) {
               //print(list.name);
               lawenforcementCubit.getemployeeDepartmentsResponseData(list);
             },
@@ -1269,22 +1240,19 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicateleodepartments:
+            duplicateLeoDepartments:
                 state.getLeodepartmentsResponse?.atomLeoDepartments ?? [],
-            leftimagename: AppIcon.addicon,
+            leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
                   context: context,
                   builder: (BuildContext dialogContext) {
-                    return  AddNewFields(
-                      title: Constants.addleoofficialtype,
-                      lawstate: state
-                    );
+                    return AddNewFields(
+                        title: Constants.addleoofficialtype, lawstate: state);
                   });
-           
             },
-            onTap: (AtomLeoDepartment list) {
+            onTap: (Organisation list) {
               //print(list.name);
 
               if (state.getVisits!.isNotEmpty) {
@@ -1292,7 +1260,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                 print(state.getVisits![index].department?.id);
                 print(state.getVisits![index].name);
                 print(state.getVisits![index].designation);
-                VistingOfficialsModel model = state.getVisits![index];
+                VisitingOfficialsModel model = state.getVisits![index];
                 model.department = list;
               }
 
@@ -1306,41 +1274,35 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     return TextfieldAddButton(
       title: state.leoPurposeVisitResponse?.name ?? '',
       height: 60,
-      isDisableColor: widget.listUser == null ||
-              (state.leoPurposeVisitResponse != null &&
-                  ((state.leoPurposeVisitResponse?.name ?? '').isEmpty))
-          ? false
-          : true,
+      isDisableColor: widget.model?.status != 3 ? false : true,
       onTap: () {
-        if (widget.listUser == null ||
-            (state.leoPurposeVisitResponse != null &&
-                ((state.leoPurposeVisitResponse?.name ?? '').isEmpty))) {
-          leopurposeDialog(state);
-        }
+        // if (widget.listUser == null ||
+        //     (state.leoPurposeVisitResponse != null &&
+        //         ((state.leoPurposeVisitResponse?.name ?? '').isEmpty))) {
+        leopurposeDialog(state);
+        //  }
       },
     );
   }
 
   Widget departmentaddButtonwidgetLoading(
       LawEnforcementState state, int index) {
-    AtomLeoDepartment? dept = AtomLeoDepartment();
+    Organisation? dept = Organisation();
     if ((state.getVisits?.length ?? 0) > 0) {
       dept = state.getVisits![index].department;
     }
     return TextfieldAddButton(
       title: dept?.name ?? '',
       height: 60,
-      isDisableColor: widget.listUser == null || ((dept?.name ?? '').isEmpty)
-          ? false
-          : true,
+      //isDisableColor:'',
       onTap: () {
-        if (widget.listUser == null || ((dept?.name ?? '').isEmpty)) {
-          //   articleTypeDialog(state);
-          //lawenforcementCubit.getleoDepartmentsResponseData(list);
-          // }
-          //leodepartmentsDialog(state);
-          departmentsDialog(state, index);
-        }
+        // if (widget.listUser?.status==3) {
+        //   //   articleTypeDialog(state);
+        //   //lawenforcementCubit.getleoDepartmentsResponseData(list);
+        //   // }
+        //   //leodepartmentsDialog(state);
+        departmentsDialog(state, index);
+        // }
       },
     );
   }
@@ -1349,20 +1311,31 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     return TextfieldAddButton(
       title: state.selectedemployeeDepartmentResponse?.name ?? '',
       height: 60,
-      isDisableColor: widget.listUser == null ||
-              (state.selectedemployeeDepartmentResponse != null &&
-                  ((state.selectedemployeeDepartmentResponse?.name ?? '')
-                      .isEmpty))
-          ? false
-          : true,
+      isDisableColor: widget.model?.status != 3 ? false : true,
       onTap: () {
-        if (widget.listUser == null ||
-            (state.selectedemployeeDepartmentResponse != null &&
-                ((state.selectedemployeeDepartmentResponse?.name ?? '')
-                    .isEmpty))) {
-          //   articleTypeDialog(state);
-          leodepartmentsDialog(state);
-        }
+        // if (widget.listUser == null ||
+        //     (state.selectedemployeeDepartmentResponse != null &&
+        //         ((state.selectedemployeeDepartmentResponse?.name ?? '')
+        //             .isEmpty))) {
+        //   articleTypeDialog(state);
+        leodepartmentsDialog(state);
+        // }
+      },
+    );
+  }
+
+  Widget employeeDepartmentAddButtonWidgetLoading(LawEnforcementState state) {
+    return TextfieldAddButton(
+      title: state.createEmployeeDepartments?.name ?? '',
+      height: 60,
+      isDisableColor: widget.model?.status != 3 ? false : true,
+      onTap: () {
+        // if (widget.listUser == null ||
+        //     (state.createEmployeeDepartments != null &&
+        //         ((state.createEmployeeDepartments?.name ?? '').isEmpty))) {
+        //   articleTypeDialog(state);
+        leodepartmentsDialog(state);
+        // }
       },
     );
   }
@@ -1377,17 +1350,13 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
               ')')
           : '',
       height: 70,
-      isDisableColor: widget.listUser == null ||
-              (state.getuserResponse != null &&
-                  ((state.getuserResponse?.name ?? '').isEmpty))
-          ? false
-          : true,
+      isDisableColor: widget.model?.status != 3 ? false : true,
       onTap: () {
-        if (widget.listUser == null ||
-            (state.getuserResponse != null &&
-                ((state.getuserResponse?.name ?? '').isEmpty))) {
-          dbOfficialDialog(state);
-        }
+        // if (widget.listUser == null ||
+        //     (state.getuserResponse != null &&
+        //         ((state.getuserResponse?.name ?? '').isEmpty))) {
+        dbOfficialDialog(state);
+        // }
       },
     );
   }
@@ -1395,33 +1364,30 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   Widget locationWidgetDisplay(LawEnforcementState state) {
     return GestureDetector(
       onTap: () {
-        if (widget.listUser == null ||
-            (state.locationSelectedlist?.name ?? '').isEmpty) {
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              // print(state.getLocationsResponse);
-              return CustomExpansionListTexts(
-                getLocationsresponse: state.getLocationsResponse,
-                //GetLocations(),
-                onTap: (Mumbai? list) async {
-                  print(list?.name);
-                  await lawenforcementCubit.getSerialnumberDetails(
-                      list?.id.toString() ?? '', 'LEO',context);
-                  // locationselectedText = list?.name ?? '';
-                  // locationSelectedlist = list;
-                  lawenforcementCubit.getlocationsResponseData(list);
-                },
-              );
-            },
-          );
-        }
+        showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            // print(state.getLocationsResponse);
+            return CustomExpansionListTexts(
+              getLocationsresponse: state.getLocationsResponse,
+              //GetLocations(),
+              onTap: (Organisation? list) async {
+                print(list?.name);
+                await lawenforcementCubit.getSerialnumberDetails(
+                    list?.id.toString() ?? '', 'LEO', context);
+                // locationselectedText = list?.name ?? '';
+                // locationSelectedlist = list;
+                lawenforcementCubit.getlocationsResponseData(list);
+              },
+            );
+          },
+        );
       },
       child: Container(
           height: 60,
           decoration: BoxDecoration(
               border: Border.all(
-                color: Color(0xFFCACACA),
+                color: const Color(0xFFCACACA),
                 width: 1.0,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(8))),
@@ -1495,7 +1461,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     List<VisitingOfficial>? visitingOfficials = [];
     if (state.getVisits != null) {
       for (int i = 0; i < state.getVisits!.length; i++) {
-        VistingOfficialsModel model = state.getVisits![i];
+        VisitingOfficialsModel model = state.getVisits![i];
         DbOfficialEmailDepartment dept =
             DbOfficialEmailDepartment(id: model.department?.id ?? 1);
         VisitingOfficial obj = VisitingOfficial(
@@ -1519,15 +1485,15 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       // AtomEntity entity = state.listOfEntities![i];
       //   DbOfficialEmailDepartment addentiity =
       // DbOfficialEmailDepartment(id: entity.id ?? 1);
-      //distributionGroups.add(entity);
-      //lawenforcementCubit.geDistributonData(entity);
+      // distributionGroups.add(entity);
+      // lawenforcementCubit.geDistributonData(entity);
       loadGroups.add(entity);
     }
     List<CreateImage>? images = getFiles ?? [];
     LawEnforcement? lawEnforcement;
-    if (widget.listUser != null) {
+    if (widget.model != null) {
       lawEnforcement = LawEnforcement(
-          id: isFoundId ?? 0,
+          id: isFoundId,
           entrySecurity: entrysecurtity,
           inputDate: inputdate.toString(),
           slNo: serialnumber ?? '',
@@ -1539,16 +1505,13 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
           entities: entities,
-          additionalInformation: additionalinformationTextController.text ?? '',
+          additionalInformation: additionalinformationTextController.text,
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? ((state.getuserResponse?.name ?? '') +
-                  '(' +
-                  (state.getuserResponse?.email ?? '') +
-                  ')')
+              ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
               : '',
-          dbOfficialEmail: dbofficailwanttimeetTextController.text ?? '',
+          dbOfficialEmail: dbofficailwanttimeetTextController.text,
           visitPurpose: visitPurpose,
           mailList: loadGroups);
     } else {
@@ -1564,16 +1527,13 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
           entities: entities,
-          additionalInformation: additionalinformationTextController.text ?? '',
+          additionalInformation: additionalinformationTextController.text,
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? ((state.getuserResponse?.name ?? '') +
-                  '(' +
-                  (state.getuserResponse?.email ?? '') +
-                  ')')
+              ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
               : '',
-          dbOfficialEmail: dbofficailwanttimeetTextController.text ?? '',
+          dbOfficialEmail: dbofficailwanttimeetTextController.text,
           visitPurpose: visitPurpose,
           mailList: loadGroups);
     }
@@ -1586,12 +1546,10 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         isSubmit,
         context,
         username,
-        widget.listUser != null
-            ? 'edit LawEnforcement'
-            : 'Create LawEnforcement');
+        widget.model != null ? 'edit LawEnforcement' : 'Create LawEnforcement');
   }
 
-  lawenforcementValidations(BuildContext context, LawEnforcementState state) {
+  validateForm(BuildContext context, LawEnforcementState state) {
     if (statusTextController.text.isEmpty &&
         state.getUserDetailsResponse == null &&
         state.locationSelectedlist == null &&
@@ -1632,7 +1590,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     } else if (state.listOfEntities == null) {
       Validator().showToast(
         context,
-        "Please enter entitiy",
+        "Please enter entity",
       );
     } else if (actualdateTextController.text.isEmpty) {
       Validator().showToast(
@@ -1668,8 +1626,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         "Please enter additional information",
       );
     } else if (state.getVisits != null && state.getVisits!.isNotEmpty) {
-      for (int i = 0; i < state.getVisits!.length; i++) {
-        VistingOfficialsModel model = state.getVisits![i];
+      for (int i = 0; i < state.getVisits!.length;) {
+        VisitingOfficialsModel model = state.getVisits![i];
         if (model.name == null ||
             (model.name ?? '').isEmpty ||
             model.officialaddress == null ||
@@ -1684,17 +1642,17 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
             (model.designation ?? '').isEmpty) {
           Validator().showToast(
             context,
-            "Please enter visting offical details",
+            "Please enter visiting official details",
           );
           break;
         } else if (!Validator.isValidEmail(model.email)) {
           Validator().showToast(
             context,
-            "Please enter visting offical  details valid email",
+            "Please enter visiting official  details valid email",
           );
           break;
         } else {
-          if (widget.listUser != null &&
+          if (widget.model != null &&
               distributiongroupsTextController.text.isEmpty) {
             Validator().showToast(
               context,
@@ -1702,20 +1660,20 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
             );
             break;
           } else {
-            createLawEnforcement(true, widget.listUser?.id ?? 0, globalState);
+            createLawEnforcement(true, widget.model?.id ?? 0, globalState);
             break;
           }
         }
       }
     } else {
-      if (widget.listUser != null &&
+      if (widget.model != null &&
           distributiongroupsTextController.text.isEmpty) {
         Validator().showToast(
           context,
           "Please enter distribution groups",
         );
       } else {
-        createLawEnforcement(true, widget.listUser?.id ?? 0, globalState);
+        createLawEnforcement(true, widget.model?.id ?? 0, globalState);
       }
     }
   }
@@ -1728,10 +1686,23 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       isEnable: false,
       isDisableColor: true,
       onChange: (String username) {
-        //this.username = username;
-        // setState(() {});
+        setState(() {});
       },
       validateTextField: (String? user) {},
+    );
+  }
+
+  Widget cancelButtonDisplay() {
+    return AppButton(
+      // Customize the button properties as needed
+      width: 150,
+      backgroundColor: Colors.white,
+      key: const Key(Keys.cancelButton),
+      buttonText: Constants.cancel,
+      buttonTextKey: Keys.cancelButton,
+      onTap: () {
+        Navigator.pop(context);
+      },
     );
   }
 
@@ -1742,7 +1713,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Color(0xFFCACACA),
+          color: const Color(0xFFCACACA),
           style: BorderStyle.solid,
           width: 1.0,
         ),
@@ -1757,7 +1728,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           itemBuilder: (BuildContext context, int index) {
             CreateImage? imagedata;
             FoundImage? imagedata1;
-            if (widget.listUser != null) {
+            if (widget.model != null) {
               imagedata1 = attachmentListviews1?[index];
             } else {
               imagedata = attachmentListviews?[index];
@@ -1766,10 +1737,10 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
             return Column(
               children: <Widget>[
                 ListTile(
-                  trailing: widget.listUser != null
+                  trailing: widget.model != null
                       ? SvgPicture.asset(AppIcon.download,
                           color: AppColors.boldgreyBackground)
-                      : SizedBox(
+                      : const SizedBox(
                           height: 0,
                           width: 0,
                         ),
@@ -1777,12 +1748,12 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                     DownloadImage().saveImage(
                         context, imagedata1?.id ?? 0, imagedata1?.title ?? '');
                   },
-                  title: widget.listUser != null
+                  title: widget.model != null
                       ? Text(imagedata1?.title ?? '')
                       : Text(imagedata?.title ?? ''),
                 ),
 
-                Divider(
+                const Divider(
                   color: Color(0xFFCACACA),
                   thickness: 1,
                 ), //                           <-- Divider
@@ -1817,7 +1788,6 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         });
   }
 
-
   Widget textfieldWidgetLoad(TextEditingController textController, int index,
       LawEnforcementState state) {
     return FlutterInputField(
@@ -1829,21 +1799,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       },
       textFieldController: textController,
       textFormKey: Keys.colorTextController,
-      isEnable:
-          //widget.listuser == null
-          // ? true
-          // : (widget.listuser != null &&
-          //         (widget.listuser?.color ?? '')
-          //             .isEmpty) ?
-          // true
-          // : false,
-          // isDisableColor: (widget.listuser != null &&
-          //             (widget.listuser?.color ?? '')
-          //                 .isEmpty) ||
-          //         widget.listuser == null
-          //     ? false
-          //     :
-          true,
+      isEnable: true,
       hintText: '',
       onChange: (String username) {
         //this.username = username;
@@ -1851,42 +1807,42 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
             textController == nameTextController2 ||
             textController == nameTextController3) {
           if (state.getVisits!.isNotEmpty) {
-            VistingOfficialsModel model = state.getVisits![index];
+            VisitingOfficialsModel model = state.getVisits![index];
             model.name = username;
           }
         } else if (textController == designationTextController1 ||
             textController == designationTextController2 ||
             textController == designationTextController3) {
           if (state.getVisits!.isNotEmpty) {
-            VistingOfficialsModel model = state.getVisits![index];
+            VisitingOfficialsModel model = state.getVisits![index];
             model.designation = username;
           }
         } else if (textController == emailidTextController1 ||
             textController == emailidTextController2 ||
             textController == emailidTextController3) {
+          log('----state.getVisits-22-${state.getVisits}----');
           if (state.getVisits!.isNotEmpty) {
-            VistingOfficialsModel model = state.getVisits![index];
+            log('----state.getVisits------');
+            VisitingOfficialsModel model = state.getVisits![index];
             model.email = username;
           }
         } else if (textController == officeaddressTextController1 ||
             textController == officeaddressTextController2 ||
             textController == officeaddressTextController3) {
           if (state.getVisits!.isNotEmpty) {
-            VistingOfficialsModel model = state.getVisits![index];
+            VisitingOfficialsModel model = state.getVisits![index];
             model.officialaddress = username;
           }
         } else if (textController == contactnoTextController1 ||
             textController == contactnoTextController2 ||
             textController == contactnoTextController3) {
           if (state.getVisits!.isNotEmpty) {
-            VistingOfficialsModel model = state.getVisits![index];
+            VisitingOfficialsModel model = state.getVisits![index];
             model.conatctno = username;
           }
         }
       },
       validateTextField: (String? user) {},
-      // )
-      //)
     );
   }
 }

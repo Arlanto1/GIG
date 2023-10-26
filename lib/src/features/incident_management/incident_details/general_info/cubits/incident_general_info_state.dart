@@ -50,24 +50,17 @@ class IncidentGeneralInfoState extends Equatable {
   }
 
   ErrorResponse get isValidDraft {
-    log('---isValidDraft-1---');
     if (model.location == null) {
-      log('---isValidDraft-1-w--');
       return const ErrorResponse(status: false, message: 'Please add Location');
     }
-    log('---isValidDraft--2--');
     if (model.slNo == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter SL No.');
+      return const ErrorResponse(status: false, message: 'Please enter SL No.');
     }
 
     if (model.entrySecurity == null) {
       return const ErrorResponse(
           status: false, message: 'Created By is Mandatory.');
     }
-
-    log('---isValidDraft--3--');
-
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -89,11 +82,13 @@ class IncidentGeneralInfoState extends Equatable {
     //       status: false, message: 'Please add Incident Type');
     // }
 
-    if ((model.incidentType == 0 || model.incidentType == 1)  && model.typeOfAsset == null) {
+    if ((model.incidentType == 0 || model.incidentType == 1) &&
+        model.typeOfAsset == null) {
       return const ErrorResponse(
           status: false, message: 'Please add Asset Type');
     }
-    if ((model.incidentType == 0 || model.incidentType == 1)  && model.color == null) {
+    if ((model.incidentType == 0 || model.incidentType == 1) &&
+        model.color == null) {
       return const ErrorResponse(
           status: false, message: 'Please add Colour/Make/Model');
     }
