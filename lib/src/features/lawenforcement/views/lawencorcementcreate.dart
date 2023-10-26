@@ -57,10 +57,15 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   TextEditingController additionalinformationTextController =
       TextEditingController();
   TextEditingController nameTextController1 = TextEditingController();
+  TextEditingController nameVisitingOfficialTextController = TextEditingController();
   TextEditingController designationTextController1 = TextEditingController();
+  TextEditingController designationVisitingOfficialTextController = TextEditingController();
   TextEditingController officeaddressTextController1 = TextEditingController();
+  TextEditingController officeaddressVisitingOfficialTextController = TextEditingController();
   TextEditingController emailidTextController1 = TextEditingController();
+  TextEditingController emailidVisitingOfficialTextController = TextEditingController();
   TextEditingController contactnoTextController1 = TextEditingController();
+  TextEditingController contactnoVisitingOfficialTextController = TextEditingController();
   TextEditingController nameTextController2 = TextEditingController();
   TextEditingController designationTextController2 = TextEditingController();
   TextEditingController officeaddressTextController2 = TextEditingController();
@@ -382,6 +387,57 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 
+                                  // name
+                                  CommonWidgets.textDisplay(
+                                      Constants.name,
+                                      Styles.textStyleBlack14),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  textfieldWidgetLoad(
+                                      nameTextController2,
+                                      0,
+                                      state),
+                                  // Designation
+                                  CommonWidgets.textDisplay(
+                                      Constants.designation,
+                                      Styles.textStyleBlack14),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  textfieldWidgetLoad(
+                                      designationTextController2,
+                                      0,
+                                      state),
+                                  // Office Address
+                                  CommonWidgets.textDisplay(
+                                      Constants.officeAddress,
+                                      Styles.textStyleBlack14),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  textfieldWidgetLoad(
+                                      officeaddressTextController2,
+                                      0,
+                                      state),
+
+                                  // Email Id
+                                  CommonWidgets.textDisplay(
+                                      Constants.emailid,
+                                      Styles.textStyleBlack14),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  textfieldWidgetLoad(
+                                      emailidTextController2,
+                                      0,
+                                      state),
+                                  // Contact Number
+                                  CommonWidgets.textDisplay(
+                                      Constants.contactno,
+                                      Styles.textStyleBlack14),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  textfieldWidgetLoad(
+                                      contactnoTextController2,
+                                      0,
+                                      state),
                                   (state.getVisitsCount ?? 0) > 0
                                       ? listVisitingOfficialDetails(
                                           height,
@@ -394,7 +450,6 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                       ? CommonWidgets.verticalSpacerWidget(
                                           height * 0.01)
                                       : Container(),
-
                                   /// Add another visiting
                                   GestureDetector(
                                     onTap: () {
@@ -1640,13 +1695,15 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
             "Please enter visiting official details",
           );
           break;
-        } else if (!Validator.isValidEmail(model.email)) {
-          Validator().showToast(
-            context,
-            "Please enter visiting official  details valid email",
-          );
-          break;
-        } else {
+        }
+        // else if (!Validator.isValidEmail(model.email)) {
+        //   Validator().showToast(
+        //     context,
+        //     "Please enter visiting official  details valid email",
+        //   );
+        //   break;
+        // }
+        else {
           if (widget.model != null &&
               distributiongroupsTextController.text.isEmpty) {
             Validator().showToast(
