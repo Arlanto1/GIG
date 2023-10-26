@@ -200,9 +200,11 @@ class _RatesInfoState extends State<RatesInfo> {
                                     context: context,
                                     departments: state.departments,
                                     onTap: (Organisation department) {
-                                      BlocProvider.of<PayRateCubit>(context)
+                                      BlocProvider.of<
+                                          PayRateCubit>(
+                                          context)
                                           .updateDropdownValues(
-                                              vendor: department);
+                                          vendor: department);
                                     },
                                   );
                                 },
