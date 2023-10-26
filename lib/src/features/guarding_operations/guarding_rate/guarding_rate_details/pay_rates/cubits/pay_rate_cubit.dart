@@ -21,6 +21,7 @@ import '../../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../../createfound/models/get_locations_model.dart';
 import '../../../../../createfound/models/serial_number_model.dart';
 import '../../../../../createfound/models/user.dart';
+import '../../../../../createfound/models/vendors_model.dart';
 import '../../../../../lawenforcement/models/addentities.dart';
 
 part 'pay_rate_state.dart';
@@ -65,6 +66,9 @@ class PayRateCubit extends Cubit<PayRateState> {
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
+    Vendors vendors =
+    await commonServices.getVendors(name: 'ATOM_VENDORS');
+
     // Get Date of Creation
     state.rate.inputDate =
         DateFormat(Constants.fulldateFormat).format(DateTime.now());
@@ -80,6 +84,7 @@ class PayRateCubit extends Cubit<PayRateState> {
           rate: rate,
           departments: departments.employeeDepartments,
           items: payRates,
+          vendors: vendors.items,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
           status: FormStatus.initial,
@@ -139,9 +144,7 @@ class PayRateCubit extends Cubit<PayRateState> {
       state.rate.slNo = slNo.serialNo;
     }
 
-    if (vendor != null) {
-      state.rate.vendor = vendor;
-    }
+    state.rate.vendor = vendor ?? state.rate.vendor;
 
     if (entities != null) {
       state.rate.entities = entities;
