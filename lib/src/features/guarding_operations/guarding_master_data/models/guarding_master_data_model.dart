@@ -1,4 +1,3 @@
-import '../../../../models/entity.dart';
 import '../../../../models/organisation.dart';
 import '../../../createfound/models/create_found_request.dart';
 import '../../../createfound/models/user.dart';
@@ -45,7 +44,7 @@ class GuardingMastersDataModel {
   CreateImage? permanentAddressProof;
   CreateImage? bopData;
   CreateImage? photoGraph;
-  Entity? entity;
+  Organisation? entity;
   String? inputDate;
   String? csrParticipationDates;
   String? medicalCertificateValidUntil;
@@ -87,7 +86,7 @@ class GuardingMastersDataModel {
   String? securityExperience;
   String? permanentAddress;
   String? localAddress;
-  List<Entity>? qualifications;
+  List<Organisation>? qualifications;
   List<CreateImage>? pvc;
   bool trainingCertificateProvided;
   List<CreateImage>? trainingCertificates;
@@ -215,7 +214,7 @@ class GuardingMastersDataModel {
             ? CreateImage.fromJson(json['photoGraph'] as Map<String, dynamic>)
             : null,
         entity = (json['entity'] as Map<String, dynamic>?) != null
-            ? Entity.fromJson(json['entity'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['entity'] as Map<String, dynamic>)
             : null,
         inputDate = json['inputDate'] as String?,
         csrParticipationDates = json['csrParticipationDates'] as String?,
@@ -268,7 +267,7 @@ class GuardingMastersDataModel {
         permanentAddress = json['permanentAddress'] as String?,
         localAddress = json['localAddress'] as String?,
         qualifications = (json['qualifications'] as List?)
-            ?.map((dynamic e) => Entity.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
             .toList(),
         pvc = (json['pvc'] as List?)
             ?.map(

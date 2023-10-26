@@ -1,24 +1,22 @@
-import 'dart:developer';
-
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../constants/app_icon.dart';
-import '../../models/entity.dart';
 import '../../utils/app_themes/colors/app_color.dart';
 
 class CustomMultipleSelectionListTexts extends StatefulWidget {
-  final List<Entity> duplicateEntityList;
-  final List<Entity> mainSelectedEntityList;
-  final Function(List<Entity>) onTap;
+  final List<Organisation> allItems;
+  final List<Organisation> selectedValues;
+  final Function(List<Organisation>) onTap;
   final Function? onLeftButtonTap;
   final String? leftImageName;
 
   const CustomMultipleSelectionListTexts({
     Key? key,
-    required this.duplicateEntityList,
+    required this.allItems,
     required this.onTap,
-    required this.mainSelectedEntityList,
+    required this.selectedValues,
     this.onLeftButtonTap,
     this.leftImageName,
   }) : super(key: key);
@@ -32,20 +30,20 @@ class CustomMultipleSelectionListTextsState
     extends State<CustomMultipleSelectionListTexts> {
   final TextEditingController _searchCtrl = TextEditingController();
   Color borderColor = Colors.grey;
-  List<Entity> entityList = [];
+  List<Organisation> entityList = [];
 
   @override
   void initState() {
     super.initState();
 
-    entityList = List.from(widget.duplicateEntityList);
+    entityList = List.from(widget.allItems);
     _initializeSelection();
   }
 
   void _initializeSelection() {
-    for (final selectedEntity in widget.mainSelectedEntityList) {
+    for (final selectedEntity in widget.selectedValues) {
       final index =
-      entityList.indexWhere((entity) => entity.id == selectedEntity.id);
+          entityList.indexWhere((entity) => entity.id == selectedEntity.id);
       if (index != -1) {
         entityList[index].isSelected = true;
       }
@@ -60,8 +58,6 @@ class CustomMultipleSelectionListTextsState
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              log('----left tap---');
-
               widget.onLeftButtonTap != null ? widget.onLeftButtonTap!() : null;
             },
             child: SvgPicture.asset(
@@ -79,7 +75,7 @@ class CustomMultipleSelectionListTextsState
       ),
       backgroundColor: AppColors.backgroundWhitecolor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      content: Container(
+      content: SizedBox(
         height: 300,
         width: 300,
         child: Column(
@@ -93,11 +89,12 @@ class CustomMultipleSelectionListTextsState
         ElevatedButton(
           onPressed: () {
             // Collect selected entities
-            final selectedEntities =
-            entityList.where((entity) => entity.isSelected??false).toList();
+            final selectedEntities = entityList
+                .where((entity) => entity.isSelected ?? false)
+                .toList();
             widget.onTap(selectedEntities); // Call the callback
           },
-          child: Text('Confirm'),
+          child: const Text('Confirm'),
         ),
       ],
     );
@@ -109,7 +106,7 @@ class CustomMultipleSelectionListTextsState
       decoration: InputDecoration(
         hintText: 'Search',
         suffixIcon: IconButton(
-          icon: Icon(Icons.clear),
+          icon: const Icon(Icons.clear),
           onPressed: () {
             _searchCtrl.clear();
             _filterEntities('');
@@ -121,12 +118,14 @@ class CustomMultipleSelectionListTextsState
   }
 
   void _filterEntities(String text) {
-    setState(() {
-      entityList = widget.duplicateEntityList
-          .where((entity) =>
-          entity.name!.toLowerCase().contains(text.toLowerCase()))
-          .toList();
-    });
+    setState(
+      () {
+        entityList = widget.allItems
+            .where((entity) =>
+                entity.name!.toLowerCase().contains(text.toLowerCase()))
+            .toList();
+      },
+    );
   }
 
   Widget _buildEntityList() {
@@ -134,8 +133,9 @@ class CustomMultipleSelectionListTextsState
       child: ListView.builder(
         itemCount: entityList.length,
         itemBuilder: (BuildContext context, int index) {
-          final entity = entityList[index];
+          Organisation entity = entityList[index];
 
+          entity.isSelected ??= false;
           return ListTile(
             title: Text(entity.name ?? ''),
             leading: Checkbox(

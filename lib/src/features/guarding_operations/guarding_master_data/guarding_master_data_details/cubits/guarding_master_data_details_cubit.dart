@@ -8,7 +8,6 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
-import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -205,8 +204,8 @@ class GuardingMasterDataDetailsCubit
     BaseUser? user,
     Organisation? vendor,
     BaseUser? guard,
-    Entity? entity,
-    List<Entity>? qualifications,
+    Organisation? entity,
+    List<Organisation>? qualifications,
     int? status,
     int? systemAccess,
     int? guardRank,

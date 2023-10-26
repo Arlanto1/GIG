@@ -93,8 +93,8 @@ class _CreateFoundState extends State<CreateFound> {
   Organisation? locationSelectedlist;
   SubmitCreateFoundModel? createfoundResponse;
   SerialNumberModel? serialnumberResponse;
-  List<CreateImage>? getFiles;
-  List<FoundImage>? getAttachments;
+  List<CreateImage> getFiles=[];
+  List<FoundImage> getAttachments=[];
 
   @override
   void initState() {
@@ -265,12 +265,12 @@ class _CreateFoundState extends State<CreateFound> {
       "typeOfAsset":
           (assettypeTextController.text.toLowerCase()) == 'company' ? 1 : 0,
       "color":
-          colorTextController.text.length > 0 ? colorTextController.text : '',
+          colorTextController.text.isNotEmpty ? colorTextController.text : '',
       "slNo": serialNumber,
       "typeOfArticle": articleBody,
       "entrySecurity": entrySecurityBody,
       "foundLocation": foundLocationTextController.text,
-      "quantity": quantityTextController.text.length > 0
+      "quantity": quantityTextController.text.isNotEmpty
           ? int.parse(quantityTextController.text)
           : 0,
       "additionalInformation": additionalinformationTextController.text,
@@ -280,10 +280,10 @@ class _CreateFoundState extends State<CreateFound> {
       "location": locationBody,
       "depositorName": isDepositorDBEmployeeSelected == 1
           ? selecteddepositorList?.name ?? ''
-          : depositorTextController.text.length > 0
+          : depositorTextController.text.isNotEmpty
               ? depositorTextController.text
               : '',
-      "employeeId": depositorEmpIdTextController.text.length > 0
+      "employeeId": depositorEmpIdTextController.text.isNotEmpty
           ? depositorEmpIdTextController.text
           : '',
       "depositorDepartment": depositorDeptBody,
@@ -366,18 +366,18 @@ class _CreateFoundState extends State<CreateFound> {
         typeOfAsset:
             (assettypeTextController.text.toLowerCase()) == 'company' ? 1 : 0,
         typeOfArticle: typeOfArticle,
-        foundLocation: foundLocationTextController.text.length > 0
+        foundLocation: foundLocationTextController.text.isNotEmpty
             ? foundLocationTextController.text
             : '',
         additionalInformation:
-            additionalinformationTextController.text.length > 0
+            additionalinformationTextController.text.isNotEmpty
                 ? additionalinformationTextController.text
                 : '',
-        quantity: quantityTextController.text.length > 0
+        quantity: quantityTextController.text.isNotEmpty
             ? int.parse(quantityTextController.text)
             : 0,
         color:
-            colorTextController.text.length > 0 ? colorTextController.text : '',
+            colorTextController.text.isNotEmpty ? colorTextController.text : '',
         status: statusvalue,
         depositorDbEmp: isDepositorDBEmployeeSelectedvalue,
         inputDate: inputdate,
@@ -386,12 +386,12 @@ class _CreateFoundState extends State<CreateFound> {
         location: location,
         depositorName: isDepositorDBEmployeeSelected == 1
             ? selecteddepositorList?.name ?? ''
-            : depositorTextController.text.length > 0
+            : depositorTextController.text.isNotEmpty
                 ? depositorTextController.text
                 : '',
         depositor: depositor,
         depositorDepartment: depositordep,
-        employeeId: depositorEmpIdTextController.text.length > 0
+        employeeId: depositorEmpIdTextController.text.isNotEmpty
             ? depositorEmpIdTextController.text
             : '');
     found.eventProtection = widget.eventId;
@@ -650,7 +650,7 @@ class _CreateFoundState extends State<CreateFound> {
         context: context,
         builder: (BuildContext context) {
           return CustomSimpleListTexts(
-            texts: ["Personal", "company"],
+            texts: const ["Personal", "company"],
             onTap: (String value) {
               print(value);
               assettypeTextController.text = value;
@@ -1631,7 +1631,7 @@ class _CreateFoundState extends State<CreateFound> {
                                     height: 60,
                                     decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: Color(0xFFCACACA),
+                                          color: const Color(0xFFCACACA),
                                           width: 1.0,
                                         ),
                                         borderRadius: const BorderRadius.all(
@@ -1693,15 +1693,14 @@ class _CreateFoundState extends State<CreateFound> {
                                 : Container(),
                             getAttachments != null ||
                                     getFiles != null ||
-                                    getFiles?.length != 0 ||
-                                    getAttachments?.length != 0
+                                    getFiles.isNotEmpty ||
+                                    getAttachments.isNotEmpty
                                 ? CommonWidgets.verticalSpacerWidget(
                                     height * 0.01)
                                 : Container(),
-                            (getAttachments == null ||
-                                    getAttachments?.length == 0 ||
+                            (getAttachments.isEmpty ||
                                     widget.listuser == null)
-                                ? getFiles?.length == 0 || getFiles == null
+                                ? getFiles.isEmpty
                                     ? Container()
                                     : attachmentListviews(
                                         getFiles, getAttachments)
@@ -1783,7 +1782,7 @@ class _CreateFoundState extends State<CreateFound> {
           height: 60,
           decoration: BoxDecoration(
               border: Border.all(
-                color: Color(0xFFCACACA),
+                color: const Color(0xFFCACACA),
                 width: 1.0,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(8))),
@@ -1950,7 +1949,7 @@ class _CreateFoundState extends State<CreateFound> {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Color(0xFFCACACA),
+          color: const Color(0xFFCACACA),
           style: BorderStyle.solid,
           width: 1.0,
         ),
@@ -1977,7 +1976,7 @@ class _CreateFoundState extends State<CreateFound> {
                   trailing: widget.listuser != null
                       ? SvgPicture.asset(AppIcon.download,
                           color: AppColors.boldgreyBackground)
-                      : SizedBox(
+                      : const SizedBox(
                           height: 0,
                           width: 0,
                         ),
@@ -1990,7 +1989,7 @@ class _CreateFoundState extends State<CreateFound> {
                       : Text(imagedata?.title ?? ''),
                 ),
 
-                Divider(
+                const Divider(
                   color: Color(0xFFCACACA),
                   thickness: 1,
                 ), //                           <-- Divider

@@ -187,7 +187,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                           
                                         },
                                         onChange: (String password) {
-                                          this.oldPassword = password;
+                                          oldPassword = password;
                                         },
                                       ),
                                     ],
@@ -238,7 +238,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                           
                                         },
                                         onChange: (String password) {
-                                          this.newPassword = password;
+                                          newPassword = password;
                                         },
                                       ),
                                     ],

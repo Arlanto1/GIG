@@ -23,7 +23,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/base_user.dart';
-import '../../../../../models/entity.dart';
 import '../../../../../models/organisation.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
 import '../../../../createfound/models/user.dart';
@@ -579,7 +578,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     state.dayPasselementReason = Organisation();
   }
 
-  getEntityData(List<Entity> listOfEntities) async {
+  getEntityData(List<Organisation> listOfEntities) async {
     try {
       int eventIds = Random.secure().nextInt(5);
       emit(

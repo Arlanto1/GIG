@@ -11,8 +11,8 @@ class ContactInfoState extends Equatable {
   final List<CreateImage>? guardAttachments;
   final List<CreateImage>? deploymentAttachments;
   final List<CreateImage>? bioDataAttachments;
-  final List<Entity>? listOfEntities;
-  final List<Entity>? listOfQualifications;
+  final List<Organisation>? listOfEntities;
+  final List<Organisation>? listOfQualifications;
   final List<Organisation> departments;
   final AddQualifications? getQualificationsResponse;
   final AddEntities? getEntitiesResponse;
@@ -33,8 +33,8 @@ class ContactInfoState extends Equatable {
     required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
-    required final List<Entity>? listOfEntities,
-    required final List<Entity>? listOfQualifications,
+    required final List<Organisation>? listOfEntities,
+    required final List<Organisation>? listOfQualifications,
     required final AddEntities? getEntitiesResponse,
     required final AddQualifications? getQualificationsResponse,
     required final List<Organisation> departments,
@@ -132,8 +132,8 @@ class ContactInfoState extends Equatable {
     List<CreateImage>? guardAttachments,
     List<CreateImage>? deploymentAttachments,
     List<CreateImage>? bioDataAttachments,
-    List<Entity>? listOfEntities,
-    List<Entity>? listOfQualifications,
+    List<Organisation>? listOfEntities,
+    List<Organisation>? listOfQualifications,
     List<Organisation>? departments,
     AddQualifications? getQualificationsResponse,
     AddEntities? getEntitiesResponse,

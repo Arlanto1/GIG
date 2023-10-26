@@ -7,7 +7,7 @@ class IncidentGeneralInfoState extends Equatable {
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
-  final List<Entity>? listOfEntities;
+  final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
   final AddEntities? getEntitiesResponse;
   final GetArticleType? getArticleTypeResponse;
@@ -22,7 +22,7 @@ class IncidentGeneralInfoState extends Equatable {
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
-    required final List<Entity>? listOfEntities,
+    required final List<Organisation>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
     required final GetArticleType? getArticleTypeResponse,
     required final List<Organisation> departments,
@@ -183,7 +183,7 @@ class IncidentGeneralInfoState extends Equatable {
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
-    List<Entity>? listOfEntities,
+    List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     AddEntities? getEntitiesResponse,
     List<String>? participationDates,

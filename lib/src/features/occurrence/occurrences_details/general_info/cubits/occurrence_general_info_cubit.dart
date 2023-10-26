@@ -12,7 +12,6 @@ import 'package:db_atom/src/features/occurrence/occurrences_details/general_info
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
@@ -133,11 +132,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   }
 
   Future<void> updateDropdownValues({
-    List<Entity>? entities,
+    List<Organisation>? entities,
     Organisation? location,
     BaseUser? shiftTakenOverBy,
     Organisation? vendor,
-    Entity? entity,
+    Organisation? entity,
     int? status,
   }) async {
     emit(

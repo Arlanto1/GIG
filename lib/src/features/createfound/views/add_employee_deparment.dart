@@ -91,7 +91,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
-        return Container(
+        return SizedBox(
           height: height / 2.8,
           width: width,
           child: Scaffold(

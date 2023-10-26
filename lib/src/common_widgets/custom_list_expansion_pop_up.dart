@@ -107,7 +107,7 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
     final height = size.height;
     final width = size.width;
     return Center(
-        child: Container(
+        child: SizedBox(
       height: height / 1.5,
       width: width - 50,
       child: Card(

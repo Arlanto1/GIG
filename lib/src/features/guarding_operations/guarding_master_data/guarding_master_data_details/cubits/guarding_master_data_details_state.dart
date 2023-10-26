@@ -11,8 +11,8 @@ class GuardingMasterDataDetailsState extends Equatable {
   final List<CreateImage>? guardAttachments;
   final List<CreateImage>? deploymentAttachments;
   final List<CreateImage>? bioDataAttachments;
-  final List<Entity>? listOfEntities;
-  final List<Entity>? listOfQualifications;
+  final List<Organisation>? listOfEntities;
+  final List<Organisation>? listOfQualifications;
   final List<Organisation> departments;
   final AddQualifications? getQualificationsResponse;
   final AddEntities? getEntitiesResponse;
@@ -33,8 +33,8 @@ class GuardingMasterDataDetailsState extends Equatable {
     required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
-    required final List<Entity>? listOfEntities,
-    required final List<Entity>? listOfQualifications,
+    required final List<Organisation>? listOfEntities,
+    required final List<Organisation>? listOfQualifications,
     required final AddEntities? getEntitiesResponse,
     required final AddQualifications? getQualificationsResponse,
     required final List<Organisation> departments,
@@ -269,8 +269,8 @@ class GuardingMasterDataDetailsState extends Equatable {
     List<CreateImage>? guardAttachments,
     List<CreateImage>? deploymentAttachments,
     List<CreateImage>? bioDataAttachments,
-    List<Entity>? listOfEntities,
-    List<Entity>? listOfQualifications,
+    List<Organisation>? listOfEntities,
+    List<Organisation>? listOfQualifications,
     List<Organisation>? vendors,
     AddQualifications? getQualificationsResponse,
     AddEntities? getEntitiesResponse,
@@ -299,7 +299,7 @@ class GuardingMasterDataDetailsState extends Equatable {
       bioDataAttachments: bioDataAttachments ?? this.bioDataAttachments,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       listOfQualifications: listOfQualifications ?? this.listOfQualifications,
-      departments: vendors ?? this.departments,
+      departments: vendors ?? departments,
       getQualificationsResponse:
           getQualificationsResponse ?? this.getQualificationsResponse,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,

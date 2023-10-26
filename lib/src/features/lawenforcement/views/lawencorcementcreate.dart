@@ -36,7 +36,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../models/base_user.dart';
-import '../../../models/entity.dart';
 import '../../../models/organisation.dart';
 import '../../createfound/models/user.dart';
 
@@ -85,8 +84,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       TextEditingController();
   TextEditingController dateofcreationTextController = TextEditingController();
   TextEditingController officeaddressTextController4 = TextEditingController();
-  List<CreateImage>? getFiles;
-  List<FoundImage>? getAttachments;
+  List<CreateImage> getFiles = [];
+  List<FoundImage> getAttachments =[];
   late LawEnforcementState globalState;
   String? serialnumber;
   bool isDistrbuted = false;
@@ -783,14 +782,14 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           isIncaseofpoliceSelected1 == 1 ? "Yes" : "No");
 
       if ((widget.model?.entities?.length ?? 0) > 0) {
-        List<Entity> entities = [];
+        List<Organisation> entities = [];
         for (int i = 0; i < widget.model!.entities!.length; i++) {
-          Entity entity = widget.model?.entities != null &&
+          Organisation entity = widget.model?.entities != null &&
                   (widget.model?.entities?.length ?? 0) > 0
-              ? Entity(
+              ? Organisation(
                   id: widget.model?.entities![i].id ?? 0,
                   name: widget.model?.entities![i].name ?? "")
-              : Entity();
+              : Organisation();
           // AtomEntity entity = state.listOfEntities![i];
           //   DbOfficialEmailDepartment addentiity =
           // DbOfficialEmailDepartment(id: entity.id ?? 1);
@@ -1169,17 +1168,16 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   Widget getSpaceattchment(double height) {
     return getAttachments != null ||
             getFiles != null ||
-            getFiles?.length != 0 ||
-            getAttachments?.length != 0
+            getFiles.isNotEmpty ||
+            getAttachments.isNotEmpty
         ? CommonWidgets.verticalSpacerWidget(height * 0.01)
         : Container();
   }
 
   Widget getAttachement(double height) {
-    return (getAttachments == null ||
-            getAttachments?.length == 0 ||
+    return (getAttachments.isEmpty ||
             widget.model == null)
-        ? getFiles?.length == 0 || getFiles == null
+        ? getFiles.isEmpty
             ? Container()
             : attachmentListviews(getFiles, getAttachments)
         : attachmentListviews(getFiles, getAttachments);
@@ -1189,9 +1187,9 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     String title = '';
     if ((state.listOfEntities?.length ?? 0) > 0) {
       for (int i = 0; i < state.listOfEntities!.length; i++) {
-        Entity entity = state.listOfEntities![i];
+        Organisation entity = state.listOfEntities![i];
         String value = entity.name ?? '';
-        title = title + '  ' + value;
+        title = '$title  $value';
       }
     }
     return TextfieldAddButton(
@@ -1228,7 +1226,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                     );
                   });
             },
-            onTap: (List<Entity> list) {
+            onTap: (List<Organisation> list) {
               lawenforcementCubit.getEntityData(list);
               setState(() {});
             },
@@ -1399,10 +1397,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     return TextfieldAddButton(
       title: state.getuserResponse != null &&
               (state.getuserResponse?.name ?? '').isNotEmpty
-          ? ((state.getuserResponse?.name ?? '') +
-              '(' +
-              (state.getuserResponse?.email ?? '') +
-              ')')
+          ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
           : '',
       height: 70,
       isDisableColor: widget.model?.status != 3 ? false : true,
@@ -1502,7 +1497,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     List<DbOfficialEmailDepartment>? entities = [];
     if ((state.listOfEntities?.length ?? 0) > 0) {
       for (int i = 0; i < state.listOfEntities!.length; i++) {
-        Entity entity = state.listOfEntities![i];
+        Organisation entity = state.listOfEntities![i];
         DbOfficialEmailDepartment addentiity =
             DbOfficialEmailDepartment(id: entity.id ?? 1);
         entities.add(addentiity);

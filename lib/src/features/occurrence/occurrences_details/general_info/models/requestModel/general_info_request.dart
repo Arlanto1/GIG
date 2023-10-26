@@ -15,8 +15,8 @@ class OccurrenceGeneralInfoRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['occurrence'] = occurrence.toJson();
-    return _data;
+    final data = <String, dynamic>{};
+    data['occurrence'] = occurrence.toJson();
+    return data;
   }
 }

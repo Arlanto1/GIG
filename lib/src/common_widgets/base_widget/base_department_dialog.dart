@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/models/entity.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/app_icon.dart';
@@ -44,7 +43,7 @@ class BaseDepartmentDialog {
   userDialog({
     required BuildContext context,
     List<BaseUser>? users,
-    List<Entity>? entities,
+    List<Organisation>? entities,
     required Function onTap,
     bool enabled = true,
   }) {

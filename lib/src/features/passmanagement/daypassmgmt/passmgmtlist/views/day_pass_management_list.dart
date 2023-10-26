@@ -207,7 +207,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
             log('--state.stateType--${state.stateType}---');
             if (state.stateType == DayPassListStateType.success) {
               if (state.foundListModel?.items == null &&
-                  state.foundListModel?.items?.length == 0) {
+                  state.foundListModel!.items!.isEmpty) {
                 if (pageNumber == 0) {
                   log('--state.foundListModel?.items---${state.foundListModel?.items?.length}---');
                   localfoundlist = state.foundListModel?.items;

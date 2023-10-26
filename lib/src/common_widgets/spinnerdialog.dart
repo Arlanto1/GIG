@@ -13,7 +13,7 @@ Future<void> showLoadingDialog(BuildContext context) async {
         builder: (BuildContext context) {
           return WillPopScope(
               onWillPop: () async => false,
-              child: SimpleDialog(
+              child: const SimpleDialog(
                   elevation: 0.0,
                   backgroundColor: Colors.transparent,
                   children: <Widget>[

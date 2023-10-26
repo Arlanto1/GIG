@@ -73,7 +73,7 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
                 },
                 borderRadius: BorderRadius.circular(8),
                 child: Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: Column(children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
