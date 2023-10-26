@@ -149,7 +149,8 @@ class _CreateFoundState extends State<CreateFound> {
           widget.listuser?.additionalInformation != null
               ? widget.listuser?.additionalInformation.toString() ?? ""
               : '';
-      founddateTextController.text = widget.listuser?.foundDate != null
+      founddateTextController.text = widget.listuser?.foundDate != null && widget.listuser
+          ?.foundDate != '0'
           ? Utils.timestamptoDateConversion(
               int.parse(widget.listuser?.foundDate ?? '0'),
               Constants.fulldateFormat)
@@ -704,7 +705,8 @@ class _CreateFoundState extends State<CreateFound> {
     //you can implement different kind of Date Format here according to your requirement
     if (textfield == founddateTextController) {
       founddateTextController.text = formattedDate;
-    } else if (textfield == handedoverdatedateTextController) {
+    }
+    else if (textfield == handedoverdatedateTextController) {
       handedoverdatedateTextController.text = formattedDate;
     }
     setState(() {
@@ -1901,7 +1903,7 @@ class _CreateFoundState extends State<CreateFound> {
   Widget datepickerWidgetLoading(TextEditingController textfiled) {
     return GestureDetector(
       onTap: () {
-        if (widget.listuser?.status == 0) {
+        if ( widget.listuser == null) {
           datePickerDialog(textfiled);
         }
       },
