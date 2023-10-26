@@ -269,7 +269,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: eventStartDateController,
-                              //onlyDate: false,
+                              onlyDate: false,
                               onChange: (String value) {
                                 log('---value-$value------');
                                 state.model.eventStartDate =
@@ -1243,7 +1243,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               // CommonWidgets.verticalSpacerWidget(height * 0.01),
                               /// Proposed Vendors
                               CommonWidgets.textDisplay(
-                                Constants.entity,
+                                Constants.proposedVendors,
                                 Styles.textStyleBlack14,
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.001),
