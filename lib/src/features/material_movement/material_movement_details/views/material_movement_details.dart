@@ -14,6 +14,8 @@ import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/common_widgets/custom_pop_list_texts.dart';
 import 'package:db_atom/src/common_widgets/image_download.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
+import 'package:db_atom/src/common_widgets/signature_func.dart';
+import 'package:db_atom/src/common_widgets/signature_homepage.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -69,6 +71,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     "Returnable",
     "Non Returnable"
   ];
+
+  SignatureController? controller = SignatureController();
 
   @override
   void initState() {
@@ -1431,27 +1435,25 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       height * 0.01),
                                 ],
 
-                                /// Receiver Signature
+                                /// Receiver Signature test
                                 CommonWidgets.textDisplay(
                                     Constants.receiverSignature,
                                     Styles.textStyleBlack14),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  initialValue: state.model.receiverEmail,
-                                  textFormKey: Keys.receiverSignKey,
-                                  hintText: Constants.informationhere,
-                                  isEnable: state.model.status != 6,
-                                  isDisableColor: state.model.status == 6,
-                                  onChange: (String value) {
-                                    state.model.entrySecurityName = value;
-                                    context
-                                        .read<MaterialMovementDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      // Navigate to the new page when the button is clicked
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => const HomePage(),
+                                        ),
+                                      );
+                                    },
+                                    child: Text('Give Signature'),
+                                  ),
+
+
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -1461,20 +1463,16 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     Styles.textStyleBlack14),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  initialValue: state.model.materialDescription,
-                                  textFormKey: Keys.securitySignKey,
-                                  hintText: Constants.informationhere,
-                                  isEnable: state.model.status != 6,
-                                  isDisableColor: state.model.status == 6,
-                                  onChange: (String value) {
-                                    state.model.materialDescription = value;
-                                    context
-                                        .read<MaterialMovementDetailsCubit>()
-                                        .onModelValueChange(state.model);
+                                ElevatedButton(
+                                  onPressed: () {
+                                    // Navigate to the new page when the button is clicked
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => const HomePage(),
+                                      ),
+                                    );
                                   },
-                                  validateTextField: (String? user) {},
+                                  child: Text('Give Signature'),
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
