@@ -7,7 +7,7 @@ class SstIncidentGeneralInfoState extends Equatable {
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
-  final List<Entity>? listOfEntities;
+  final List<Organisation>? listOfEntities;
   //final List<Organisation> departments;
   final List<Organisation> vendors;
   final AddEntities? getEntitiesResponse;
@@ -22,7 +22,7 @@ class SstIncidentGeneralInfoState extends Equatable {
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
-    required final List<Entity>? listOfEntities,
+    required final List<Organisation>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
     //required final List<Organisation> departments,
     required final List<Organisation> vendors,
@@ -84,7 +84,7 @@ class SstIncidentGeneralInfoState extends Equatable {
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
-    List<Entity>? listOfEntities,
+    List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     List<Organisation>? vendors,
     AddEntities? getEntitiesResponse,

@@ -12,7 +12,6 @@ import 'package:intl/intl.dart';
 
 import '../../../../../../constants/constants.dart';
 import '../../../../../../enums/form_status.dart';
-import '../../../../../../models/entity.dart';
 import '../../../../../../models/organisation.dart';
 import '../../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../../models/responseModels/generic_create_response.dart';
@@ -72,6 +71,11 @@ class PayRateCubit extends Cubit<PayRateState> {
     AddEntities entities =
         await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
+    log('--entities---${entities.atomEntities?.length}--');
+    for (Organisation entity in entities.atomEntities ?? []) {
+      log('--entity.name---${entity.name}--');
+    }
+
     try {
       emit(
         state.copyWith(
@@ -97,7 +101,7 @@ class PayRateCubit extends Cubit<PayRateState> {
   }
 
   Future<void> updateModelValue() async {
-    if(state.rate.id != null) {
+    if (state.rate.id != null) {
       emit(
         state.copyWith(
           status: FormStatus.loading,
@@ -120,7 +124,7 @@ class PayRateCubit extends Cubit<PayRateState> {
   Future<void> updateDropdownValues({
     Organisation? location,
     Organisation? vendor,
-    List<Entity>? entities,
+    List<Organisation>? entities,
   }) async {
     emit(
       state.copyWith(
@@ -163,10 +167,8 @@ class PayRateCubit extends Cubit<PayRateState> {
       ),
     );
 
-
-    if(newPayRate != null) {
+    if (newPayRate != null) {
       if (newPayRate.fromDate != null) {
-
         log('--newPayRate.fromDate--${newPayRate.fromDate}--');
 
         newPayRate.fromDate = Utils().formatTime(newPayRate.fromDate ?? '');
@@ -201,9 +203,8 @@ class PayRateCubit extends Cubit<PayRateState> {
           break;
 
         default:
-
       }
-    } else{
+    } else {
       state.rate.securityGuardRates ??= [];
       state.rate.securityOfficerRates ??= [];
       state.rate.securitySupervisorRates ??= [];

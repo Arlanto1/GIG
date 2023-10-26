@@ -1,7 +1,6 @@
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
@@ -44,8 +43,8 @@ class BasePopUpItems extends StatefulWidget {
   final int? firstAidCertified;
   final int? firstAidNotCertified;
   final String? locationStr;
-  final Entity? locationEntity;
-  final Entity? locationRegionEntity;
+  final Organisation? locationEntity;
+  final Organisation? locationRegionEntity;
   final int? dutyType;
   final List<Label>? labels;
   final bool? isMaterGuard;

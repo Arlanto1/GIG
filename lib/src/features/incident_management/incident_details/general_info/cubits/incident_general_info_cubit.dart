@@ -11,7 +11,6 @@ import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
@@ -143,12 +142,12 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     BaseUser? complainantHR,
     BaseUser? incidentManager,
     BaseUser? incidentOwner,
-    List<Entity>? entities,
+    List<Organisation>? entities,
     Organisation? complainantDepartment,
     Organisation? location,
     // BaseUser? user,
     Organisation? vendor,
-    Entity? entity,
+    Organisation? entity,
     int? status,
     int? incidentType,
     int? typeOfAsset,

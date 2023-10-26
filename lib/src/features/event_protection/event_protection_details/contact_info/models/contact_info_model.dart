@@ -122,45 +122,45 @@ class ContactInfoModel {
   get annualPowerShutdown => null;
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['status'] = status;
-    _data['lsm1'] = lsm1?.toJson();
-    _data['lsm1ContactNo'] = lsm1ContactNo;
-    _data['lsm2'] = lsm2?.toJson();
-    _data['lsm2ContactNo'] = lsm2ContactNo;
-    _data['bu1'] = bu1?.toJson();
-    _data['bu1ContactNo'] = bu1ContactNo;
-    _data['bu2'] = bu2?.toJson();
-    _data['bu2ContactNo'] = bu2ContactNo;
-    _data['requesterDepartment'] = requesterDepartment?.toJson();
-    _data['epOfficers'] = epOfficers;
-    _data['srh1'] = srh1?.toJson();
-    _data['srh2'] = srh2?.toJson();
-    _data['epManager1'] = epManager1?.toJson();
-    _data['epManager2'] = epManager2?.toJson();
-    _data['bu1Dept'] = bu1Dept?.toJson();
-    _data['bu2Dept'] = bu2Dept?.toJson();
-    _data['systemVendor1'] = systemVendor1;
-    _data['systemVendor2'] = systemVendor2;
-    _data['systemVendor3'] = systemVendor3;
-    _data['systemVendor1ContactNo'] = systemVendor1ContactNo;
-    _data['systemVendor2ContactNo'] = systemVendor2ContactNo;
-    _data['systemVendor3ContactNo'] = systemVendor3ContactNo;
-    _data['vendor1Primary'] = vendor1Primary;
-    _data['vendor1PrimaryContact'] = vendor1PrimaryContact;
-    _data['vendor1Secondary'] = vendor1Secondary;
-    _data['vendor1SecondaryContact'] = vendor1SecondaryContact;
-    _data['vendor2Primary'] = vendor2Primary;
-    _data['vendor2PrimaryContact'] = vendor2PrimaryContact;
-    _data['vendor2Secondary'] = vendor2Secondary;
-    _data['vendor2SecondaryContact'] = vendor2SecondaryContact;
-    _data['vendor3Primary'] = vendor3Primary;
-    _data['vendor3PrimaryContact'] = vendor3PrimaryContact;
-    _data['vendor3Secondary'] = vendor3Secondary;
-    _data['vendor3SecondaryContact'] = vendor3SecondaryContact;
-    _data['extraSecurityDeployed'] = extraSecurityDeployed;
-    return _data;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['status'] = status;
+    data['lsm1'] = lsm1?.toJson();
+    data['lsm1ContactNo'] = lsm1ContactNo;
+    data['lsm2'] = lsm2?.toJson();
+    data['lsm2ContactNo'] = lsm2ContactNo;
+    data['bu1'] = bu1?.toJson();
+    data['bu1ContactNo'] = bu1ContactNo;
+    data['bu2'] = bu2?.toJson();
+    data['bu2ContactNo'] = bu2ContactNo;
+    data['requesterDepartment'] = requesterDepartment?.toJson();
+    data['epOfficers'] = epOfficers;
+    data['srh1'] = srh1?.toJson();
+    data['srh2'] = srh2?.toJson();
+    data['epManager1'] = epManager1?.toJson();
+    data['epManager2'] = epManager2?.toJson();
+    data['bu1Dept'] = bu1Dept?.toJson();
+    data['bu2Dept'] = bu2Dept?.toJson();
+    data['systemVendor1'] = systemVendor1;
+    data['systemVendor2'] = systemVendor2;
+    data['systemVendor3'] = systemVendor3;
+    data['systemVendor1ContactNo'] = systemVendor1ContactNo;
+    data['systemVendor2ContactNo'] = systemVendor2ContactNo;
+    data['systemVendor3ContactNo'] = systemVendor3ContactNo;
+    data['vendor1Primary'] = vendor1Primary;
+    data['vendor1PrimaryContact'] = vendor1PrimaryContact;
+    data['vendor1Secondary'] = vendor1Secondary;
+    data['vendor1SecondaryContact'] = vendor1SecondaryContact;
+    data['vendor2Primary'] = vendor2Primary;
+    data['vendor2PrimaryContact'] = vendor2PrimaryContact;
+    data['vendor2Secondary'] = vendor2Secondary;
+    data['vendor2SecondaryContact'] = vendor2SecondaryContact;
+    data['vendor3Primary'] = vendor3Primary;
+    data['vendor3PrimaryContact'] = vendor3PrimaryContact;
+    data['vendor3Secondary'] = vendor3Secondary;
+    data['vendor3SecondaryContact'] = vendor3SecondaryContact;
+    data['extraSecurityDeployed'] = extraSecurityDeployed;
+    return data;
   }
 }
 
@@ -213,20 +213,20 @@ class Lsm1 {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['userId'] = userId;
-    _data['userName'] = userName;
-    _data['email'] = email;
-    _data['firstName'] = firstName;
-    _data['lastName'] = lastName;
-    _data['phone'] = phone;
-    _data['roles'] = roles.map((e) => e.toJson()).toList();
-    _data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
-    _data['notApprovedRoles'] = notApprovedRoles;
-    _data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
-    _data['name'] = name;
-    _data['userStatus'] = userStatus;
-    return _data;
+    final data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['userName'] = userName;
+    data['email'] = email;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['phone'] = phone;
+    data['roles'] = roles.map((e) => e.toJson()).toList();
+    data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
+    data['notApprovedRoles'] = notApprovedRoles;
+    data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
+    data['name'] = name;
+    data['userStatus'] = userStatus;
+    return data;
   }
 }
 
@@ -279,20 +279,20 @@ class Lsm2 {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['userId'] = userId;
-    _data['userName'] = userName;
-    _data['email'] = email;
-    _data['firstName'] = firstName;
-    _data['lastName'] = lastName;
-    _data['phone'] = phone;
-    _data['roles'] = roles.map((e) => e.toJson()).toList();
-    _data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
-    _data['notApprovedRoles'] = notApprovedRoles;
-    _data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
-    _data['name'] = name;
-    _data['userStatus'] = userStatus;
-    return _data;
+    final data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['userName'] = userName;
+    data['email'] = email;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['phone'] = phone;
+    data['roles'] = roles.map((e) => e.toJson()).toList();
+    data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
+    data['notApprovedRoles'] = notApprovedRoles;
+    data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
+    data['name'] = name;
+    data['userStatus'] = userStatus;
+    return data;
   }
 }
 
@@ -345,20 +345,20 @@ class Bu1 {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['userId'] = userId;
-    _data['userName'] = userName;
-    _data['email'] = email;
-    _data['firstName'] = firstName;
-    _data['lastName'] = lastName;
-    _data['phone'] = phone;
-    _data['roles'] = roles.map((e) => e.toJson()).toList();
-    _data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
-    _data['notApprovedRoles'] = notApprovedRoles;
-    _data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
-    _data['name'] = name;
-    _data['userStatus'] = userStatus;
-    return _data;
+    final data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['userName'] = userName;
+    data['email'] = email;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['phone'] = phone;
+    data['roles'] = roles.map((e) => e.toJson()).toList();
+    data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
+    data['notApprovedRoles'] = notApprovedRoles;
+    data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
+    data['name'] = name;
+    data['userStatus'] = userStatus;
+    return data;
   }
 }
 
@@ -411,20 +411,20 @@ class Bu2 {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['userId'] = userId;
-    _data['userName'] = userName;
-    _data['email'] = email;
-    _data['firstName'] = firstName;
-    _data['lastName'] = lastName;
-    _data['phone'] = phone;
-    _data['roles'] = roles.map((e) => e.toJson()).toList();
-    _data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
-    _data['notApprovedRoles'] = notApprovedRoles;
-    _data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
-    _data['name'] = name;
-    _data['userStatus'] = userStatus;
-    return _data;
+    final data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['userName'] = userName;
+    data['email'] = email;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['phone'] = phone;
+    data['roles'] = roles.map((e) => e.toJson()).toList();
+    data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
+    data['notApprovedRoles'] = notApprovedRoles;
+    data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
+    data['name'] = name;
+    data['userStatus'] = userStatus;
+    return data;
   }
 }
 
@@ -443,10 +443,10 @@ class RequesterDepartment {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['name'] = name;
-    return _data;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    return data;
   }
 }
 
@@ -499,20 +499,20 @@ class Srh1 {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['userId'] = userId;
-    _data['userName'] = userName;
-    _data['email'] = email;
-    _data['firstName'] = firstName;
-    _data['lastName'] = lastName;
-    _data['phone'] = phone;
-    _data['roles'] = roles.map((e) => e.toJson()).toList();
-    _data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
-    _data['notApprovedRoles'] = notApprovedRoles;
-    _data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
-    _data['name'] = name;
-    _data['userStatus'] = userStatus;
-    return _data;
+    final data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['userName'] = userName;
+    data['email'] = email;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['phone'] = phone;
+    data['roles'] = roles.map((e) => e.toJson()).toList();
+    data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
+    data['notApprovedRoles'] = notApprovedRoles;
+    data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
+    data['name'] = name;
+    data['userStatus'] = userStatus;
+    return data;
   }
 }
 
@@ -565,20 +565,20 @@ class Srh2 {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['userId'] = userId;
-    _data['userName'] = userName;
-    _data['email'] = email;
-    _data['firstName'] = firstName;
-    _data['lastName'] = lastName;
-    _data['phone'] = phone;
-    _data['roles'] = roles.map((e) => e.toJson()).toList();
-    _data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
-    _data['notApprovedRoles'] = notApprovedRoles;
-    _data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
-    _data['name'] = name;
-    _data['userStatus'] = userStatus;
-    return _data;
+    final data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['userName'] = userName;
+    data['email'] = email;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['phone'] = phone;
+    data['roles'] = roles.map((e) => e.toJson()).toList();
+    data['roleExtensions'] = roleExtensions.map((e) => e.toJson()).toList();
+    data['notApprovedRoles'] = notApprovedRoles;
+    data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
+    data['name'] = name;
+    data['userStatus'] = userStatus;
+    return data;
   }
 }
 
@@ -626,20 +626,20 @@ class EpManager1 {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['userId'] = userId;
-    _data['userName'] = userName;
-    _data['email'] = email;
-    _data['firstName'] = firstName;
-    _data['lastName'] = lastName;
-    _data['phone'] = phone;
-    _data['roles'] = roles.map((e)=>e.toJson()).toList();
-    _data['roleExtensions'] = roleExtensions.map((e)=>e.toJson()).toList();
-    _data['notApprovedRoles'] = notApprovedRoles;
-    _data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
-    _data['name'] = name;
-    _data['userStatus'] = userStatus;
-    return _data;
+    final data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['userName'] = userName;
+    data['email'] = email;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['phone'] = phone;
+    data['roles'] = roles.map((e)=>e.toJson()).toList();
+    data['roleExtensions'] = roleExtensions.map((e)=>e.toJson()).toList();
+    data['notApprovedRoles'] = notApprovedRoles;
+    data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
+    data['name'] = name;
+    data['userStatus'] = userStatus;
+    return data;
   }
 }
 class EpManager2 {
@@ -686,19 +686,19 @@ class EpManager2 {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['userId'] = userId;
-    _data['userName'] = userName;
-    _data['email'] = email;
-    _data['firstName'] = firstName;
-    _data['lastName'] = lastName;
-    _data['phone'] = phone;
-    _data['roles'] = roles.map((e)=>e.toJson()).toList();
-    _data['roleExtensions'] = roleExtensions.map((e)=>e.toJson()).toList();
-    _data['notApprovedRoles'] = notApprovedRoles;
-    _data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
-    _data['name'] = name;
-    _data['userStatus'] = userStatus;
-    return _data;
+    final data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['userName'] = userName;
+    data['email'] = email;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['phone'] = phone;
+    data['roles'] = roles.map((e)=>e.toJson()).toList();
+    data['roleExtensions'] = roleExtensions.map((e)=>e.toJson()).toList();
+    data['notApprovedRoles'] = notApprovedRoles;
+    data['notApprovedRoleExtensions'] = notApprovedRoleExtensions;
+    data['name'] = name;
+    data['userStatus'] = userStatus;
+    return data;
   }
 }

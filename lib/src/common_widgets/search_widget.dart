@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SearchWidget extends StatelessWidget {
-  SearchWidget({
+  const SearchWidget({
     Key? key,
     this.border = AppColors.navigationSkybluecolor,
     this.hintText,

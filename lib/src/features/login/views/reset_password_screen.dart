@@ -255,7 +255,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                           }
                                         },
                                         onChange: (String password) {
-                                          this.newPassword = password;
+                                          newPassword = password;
                                         },
                                       ),
                                     ],

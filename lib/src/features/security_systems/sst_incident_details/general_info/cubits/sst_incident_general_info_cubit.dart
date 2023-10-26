@@ -10,7 +10,6 @@ import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -143,12 +142,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     BaseUser? asl,
     BaseUser? systemManager,
     BaseUser? lsm,
-    List<Entity>? entities,
+    List<Organisation>? entities,
     BaseUser? lt,
     Organisation? vendor,
     Organisation? location,
     // BaseUser? user,
-    Entity? entity,
+    Organisation? entity,
     int? status,
     int? incidentType,
     int? systemSLA,

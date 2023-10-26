@@ -12,7 +12,6 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -35,6 +34,7 @@ import '../models/general_info_model.dart';
 
 class GeneralInfoView extends StatefulWidget {
   final EventProtectionGi? model;
+
   const GeneralInfoView({
     this.model,
     super.key,
@@ -131,7 +131,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
     }
     if (state.model.eventEndDate != null) {
       eventEndDateController.text = Utils.timestamptoDateConversion(
-          int.tryParse(state.model.eventEndDate ?? '0'), Constants.fulldateFormat);
+          int.tryParse(state.model.eventEndDate ?? '0'),
+          Constants.fulldateFormat);
     }
   }
 
@@ -237,7 +238,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Constants.slno, state.model.slNo ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
                             /// Entity
                             CommonWidgets.textDisplay(
                               Constants.entity,
@@ -250,7 +250,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 selectedValues: state.model.entities ?? [],
                                 all: state.listOfEntities ?? [],
                                 enabled: !disableForm,
-                                onTap: (List<Entity> selectedEntities) {
+                                onTap: (List<Organisation> selectedEntities) {
                                   log('--selectedEntities----${selectedEntities.length}');
                                   BlocProvider.of<GeneralInfoCubit>(context)
                                       .updateDropdownValues(
@@ -309,41 +309,30 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
-                                selectedValue: state.model
-                                    .annualPowerShutdown
-                                    ? 1
-                                    : 0,
-                                onChangedYes: widget
-                                    .model?.status ==
-                                    0
+                                selectedValue:
+                                    state.model.annualPowerShutdown ? 1 : 0,
+                                onChangedYes: widget.model?.status == 0
                                     ? null
                                     : (val) {
-                                  state.model
-                                      .annualPowerShutdown = true;
-                                  BlocProvider.of<
-                                      GeneralInfoCubit>(
-                                      context)
-                                       .showFields(
-                                       annualPowerShutdown: true);
-                                 // .onModelValueChange(state.model
-                                 // );
-                                },
-                                onChangedNo:
-                                widget.model?.status == 0
+                                        state.model.annualPowerShutdown = true;
+                                        BlocProvider.of<GeneralInfoCubit>(
+                                                context)
+                                            .showFields(
+                                                annualPowerShutdown: true);
+                                        // .onModelValueChange(state.model
+                                        // );
+                                      },
+                                onChangedNo: widget.model?.status == 0
                                     ? null
                                     : (val) {
-                                  state.model
-                                      .annualPowerShutdown =
-                                  false;
-                                  BlocProvider.of<
-                                      GeneralInfoCubit>(
-                                      context)
-                                     .showFields(
-                                      annualPowerShutdown:
-                                      false);
-                                   // .onModelValueChange(state.model
-                                   //  );
-                                }),
+                                        state.model.annualPowerShutdown = false;
+                                        BlocProvider.of<GeneralInfoCubit>(
+                                                context)
+                                            .showFields(
+                                                annualPowerShutdown: false);
+                                        // .onModelValueChange(state.model
+                                        //  );
+                                      }),
                             if (state.model.annualPowerShutdown) ...[
                               /// Sub Regional Head (SRH) 1
                               CommonWidgets.textDisplay(
@@ -1230,27 +1219,48 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              /// Proposed Vendor
+                              // /// Proposed Vendors
+                              // CommonWidgets.textDisplay(
+                              //   Constants.proposedVendors,
+                              //   Styles.textStyleBlack14,
+                              // ),
+                              // TextfieldAddButton(
+                              //   title: state.model.proposedVendors?.name ?? '',
+                              //   height: 60,
+                              //   isDisableColor: disableForm,
+                              //   onTap: () {
+                              //     BaseDepartmentDialog().departmentDialog(
+                              //       context: context,
+                              //       departments: state.vendors,
+                              //       onTap: (Organisation vendors) {
+                              //         BlocProvider.of<GeneralInfoCubit>(context)
+                              //             .updateDropdownValues(
+                              //                 vendor: vendors);
+                              //       },
+                              //     );
+                              //   },
+                              // ),
+                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              /// Proposed Vendors
                               CommonWidgets.textDisplay(
-                                Constants.proposedVendors,
+                                Constants.entity,
                                 Styles.textStyleBlack14,
                               ),
-                              TextfieldAddButton(
-                                title: state.model.proposedVendors?.name ?? '',
-                                height: 60,
-                                isDisableColor: disableForm,
-                                onTap: () {
-                                  BaseDepartmentDialog().departmentDialog(
-                                    context: context,
-                                    departments: state.vendors,
-                                    onTap: (Organisation vendors) {
-                                      BlocProvider.of<GeneralInfoCubit>(context)
-                                          .updateDropdownValues(
-                                          vendor  : vendors);
-                                    },
-                                  );
-                                },
-                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                              BaseEntitiesSelection().entityDropDownSelection(
+                                  context: context,
+                                  selectedValues: state.model.proposedVendors ?? [],
+                                  all: state.vendors,
+                                  enabled: !disableForm,
+                                  onTap: (List<Organisation> selectedEntities) {
+                                    log('--selectedEntities----${selectedEntities.length}');
+                                    BlocProvider.of<GeneralInfoCubit>(context)
+                                        .updateDropdownValues(
+                                        vendors: selectedEntities);
+                                    Navigator.of(context)
+                                        .pop(); // Close the dialog
+                                  }),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               ///Budget Costs
@@ -1304,20 +1314,20 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                       ),
 
                       /// SubmitButton
-                      if(state.model?.status == 0)...[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          cancelButtonDisplay(),
-                          if (!disableForm) ...[
-                            submitButtonDisplay(onTap: () {
-                              FocusScope.of(context).unfocus();
-                              BlocProvider.of<GeneralInfoCubit>(context)
-                                  .submitForm(isSaveOnly: false);
-                            })
+                      if (state.model.status == 0) ...[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            cancelButtonDisplay(),
+                            if (!disableForm) ...[
+                              submitButtonDisplay(onTap: () {
+                                FocusScope.of(context).unfocus();
+                                BlocProvider.of<GeneralInfoCubit>(context)
+                                    .submitForm(isSaveOnly: false);
+                              })
+                            ],
                           ],
-                        ],
-                      ),
+                        ),
                       ],
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ]),
@@ -1472,6 +1482,4 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
       },
     );
   }
-
-
 }

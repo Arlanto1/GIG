@@ -1,10 +1,12 @@
 class Organisation {
   int? id;
   String? name;
+  bool? isSelected;
 
   Organisation({
     this.id,
     this.name,
+    this.isSelected = false,
   });
 
   Organisation.fromJson(Map<String, dynamic> json)

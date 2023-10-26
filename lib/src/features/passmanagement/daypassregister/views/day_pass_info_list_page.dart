@@ -151,7 +151,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
           builder: (context, state) {
              if (state.stateType == DayPassInfoStateType.success) {
               if (state.foundListModel?.list == null &&
-                  state.foundListModel?.list?.length == 0) {
+                  state.foundListModel!.list!.isEmpty) {
                 if (pageNumber == 0) {
                   localFoundList = state.foundListModel?.list;
                 }

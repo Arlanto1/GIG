@@ -37,7 +37,7 @@ class LawEnforcementService {
         },
         body: json.encode(requestBody),
       );
-      print("Response ${requestBody}");
+      print("Response $requestBody");
       if (response.statusCode == 200) {
         return SubmitLawEnforcementResponse.fromJson(
             json.decode(response.body));
