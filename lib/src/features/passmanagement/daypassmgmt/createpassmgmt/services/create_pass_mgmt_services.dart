@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:db_atom/main_DEV.dart';
 import 'package:db_atom/src/appservices/app_service_handler.dart';
@@ -28,7 +27,7 @@ class Apis {
   static final String _createPass = '$baseUrl/createPass?';
   static final String getOrganisation = '$baseUrl/getOrganisation?name=';
   static final String _getUsersByRole = '$baseUrl/getUsersByRole?roleName=';
-  static final String _getPassNo = '$baseUrl/getActivePassInfo?passType=?';
+  static final String _getPassNo = '$baseUrl/getActivePassInfo?passType=';
 }
 
 class CreatePassMgmtService {
