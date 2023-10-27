@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:get/get.dart';
-import '';
 
-import '../constants/constants.dart';
 
 class ReviewSignaturePage extends StatelessWidget {
   final Uint8List signature;
@@ -16,9 +14,9 @@ class ReviewSignaturePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFF2CAAE0),
+        backgroundColor: const Color(0xFF2CAAE0),
         appBar: AppBar(
-          backgroundColor: Color(0xFF2CAAE0),
+          backgroundColor: const Color(0xFF2CAAE0),
           leading: IconButton(
             onPressed: () {
               Navigator.pop(context);

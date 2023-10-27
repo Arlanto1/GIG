@@ -1,21 +1,20 @@
-import 'dart:typed_data';
-
-import 'package:db_atom/src/common_widgets/signature_func.dart';
-import 'package:db_atom/src/common_widgets/signature_signaturePage.dart';
+import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
+import 'package:db_atom/src/common_widgets/signature/signature_func.dart';
+import 'package:db_atom/src/common_widgets/signature/signature_signaturePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../constants/constants.dart';
-import 'base_widget/base_app_bar.dart';
+import '../../constants/constants.dart';
+import '../base_widget/base_app_bar.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class SignatureHomePage extends StatefulWidget {
+  const SignatureHomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<SignatureHomePage> createState() => _SignatureHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _SignatureHomePageState extends State<SignatureHomePage> {
   SignatureController? controller;
 
   @override
@@ -40,7 +39,6 @@ class _HomePageState extends State<HomePage> {
         showPopUp: false,
         showSaveButton: false,
       ),
-
       body: Column(
         children: [
           Expanded(
@@ -64,14 +62,14 @@ class _HomePageState extends State<HomePage> {
       behavior: HitTestBehavior.opaque,
       onTap: () {
         final newOrientation =
-        isPortrait ? Orientation.landscape : Orientation.portrait;
+            isPortrait ? Orientation.landscape : Orientation.portrait;
 
         controller!.clear();
 
         setOrientation(newOrientation);
       },
       child: Container(
-        color: Color(0xFF2CAAE0),
+        color: const Color(0xFF2CAAE0),
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -110,35 +108,39 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget? buttonWidgets(BuildContext context) => Container(
-    color: Color(0xFF2CAAE0),
-    child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-      IconButton(
-          onPressed: () async {
-            if (controller!.isNotEmpty) {
-              final signature = await exportSignature();
+        color: const Color(0xFF2CAAE0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButton(
+                onPressed: () async {
+                  if (controller!.isNotEmpty) {
+                    final signature = await exportSignature();
 
-              await Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: ((context) =>
-                      ReviewSignaturePage(signature: signature!)),
-                ),
-              );
+                    await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: ((context) =>
+                            ReviewSignaturePage(signature: signature!)),
+                      ),
+                    );
 
-              controller!.clear();
-            }
-          },
-          iconSize: 40,
-          color: Colors.white,
-          icon: const Icon(Icons.check)),
-      IconButton(
-          onPressed: () {
-            controller!.clear();
-          },
-          iconSize: 40,
-          color: Colors.red,
-          icon: const Icon(Icons.close)),
-    ]),
-  );
+                    controller!.clear();
+                  }
+                },
+                iconSize: 40,
+                color: Colors.white,
+                icon: const Icon(Icons.check)),
+            IconButton(
+              onPressed: () {
+                controller!.clear();
+              },
+              iconSize: 40,
+              color: Colors.red,
+              icon: const Icon(Icons.close),
+            ),
+          ],
+        ),
+      );
 
   Future<Uint8List?> exportSignature() async {
     final exportController = SignatureController(
