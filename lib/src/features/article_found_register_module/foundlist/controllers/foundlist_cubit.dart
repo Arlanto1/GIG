@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/main_DEV.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/controllers/foundlist_state.dart';
@@ -20,21 +22,25 @@ class FoundListCubit extends Cubit<FoundListState> {
         );
 
   // Found Article list API call
-  Future<void> getFoundList(
-      String startPosition, String maximumRecords, String userId,BuildContext context) async {
+  Future<void> getFoundList(String startPosition, String maximumRecords,
+      String userId, BuildContext context) async {
     if (startPosition == '0') {
       emit(state.copyWith(stateType: FoundListStateType.loading));
     }
     try {
-      FoundListModel foundListModelResponse = await foundListServices
-          .getFoundArticleList(startPosition, maximumRecords, userId,context);
-         
-           SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          // if (startPosition != '0')
-          // {
-          //    dismissLoadingDialog(context);
-          // }
-        });
+      FoundListModel foundListModelResponse =
+          await foundListServices.getFoundArticleList(
+              startPosition: startPosition,
+              maximumRecords: maximumRecords,
+              userId: userId,
+              context: context);
+
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        // if (startPosition != '0')
+        // {
+        //    dismissLoadingDialog(context);
+        // }
+      });
       emit(
         state.copyWith(
           foundListModel: foundListModelResponse,
@@ -42,11 +48,7 @@ class FoundListCubit extends Cubit<FoundListState> {
         ),
       );
     } catch (e) {
-      print(e);
-      //  if (startPosition != '0')
-      //     {
-      //        dismissLoadingDialog(context);
-      //     }
+      log('$e');
       if (startPosition == '0') {
         emit(
           state.copyWith(
@@ -54,18 +56,16 @@ class FoundListCubit extends Cubit<FoundListState> {
             stateType: FoundListStateType.failure,
           ),
         );
-      //    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      //    Utils.dynamicAlert(context, Constants.errorText, Constants.addarticletype,Constants.errorText);
-      // });
       }
     }
   }
 
   // Found Article detials by Id API call
-  Future<FoundListArticleDetails?>getArticleById(int articleId,BuildContext context) async {
+  Future<FoundListArticleDetails?> getArticleById(
+      int articleId, BuildContext context) async {
     try {
       FoundListArticleDetails foundArticleDetailsResponse =
-          await foundListServices.getArticleById(articleId,context);
+          await foundListServices.getArticleById(articleId, context);
       emit(
         state.copyWith(
           foundArticleDetails: foundArticleDetailsResponse,
@@ -73,17 +73,7 @@ class FoundListCubit extends Cubit<FoundListState> {
         ),
       );
       return foundArticleDetailsResponse;
-    } catch (e) {
-      // emit(
-      //   state.copyWith(
-      //     errorMessage: Constants.errorText,
-      //     stateType: FoundListStateType.failure,
-      //   ),
-      // );
-      // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      //    Utils.dynamicAlert(context, Constants.errorText, Constants.addarticletype,Constants.errorText);
-      // });
-    }
+    } catch (e) {}
     return null;
   }
 }
