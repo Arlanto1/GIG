@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../main_DEV.dart';
 import '../../../../../common_widgets/app_button.dart';
@@ -177,10 +178,14 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
     pvcIssuedDateController.text = Utils.timestamptoDateConversion(
         int.parse(widget.guardingMasterData?.pvcIssuedDate ?? '0'),
         Constants.dateFormat);
-    pvcExpiryDateController.text = Utils.timestamptoDateConversion(
-        int.parse(widget.guardingMasterData?.pvcExpiryDate ?? '0'),
-        Constants.dateFormat);
+    // pvcExpiryDateController.text = Utils.timestamptoDateConversion(
+    //     int.parse(widget.guardingMasterData?.pvcExpiryDate ?? '0'),
+    //     Constants.dateFormat);
 
+    pvcExpiryDateController.text = DateFormat(Constants.dateFormat).format(
+        DateFormat("dd/MM/yyyy").parse(pvcIssuedDateController.text).add(
+            Duration(days:1096 ,hours:0, minutes:0)  ),
+    );
     medicalCertificateValidUntilController.text =
         Utils.timestamptoDateConversion(
             int.parse(
@@ -1261,18 +1266,19 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: pvcIssuedDateController,
+                              onlyDate: true,
                               onChange: (String value) {
                                 log('---value-$value------');
                                 log('-----pvcIssuedDateController---value-${pvcIssuedDateController.text}------');
                                 state.model.pvcIssuedDate =
                                     Utils().formatTime(value);
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                                        context)
-                                    .onModelValueChange(state.model);
-                                // pvcIssuedDateController.text = state.guardingMasterData.pvcIssuedDate??'';
+                                    context
+                                ).onModelValueChange(state.model);
                               },
                               context: context,
                             ),
+
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// PVC Expiry Date
@@ -1284,15 +1290,18 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: pvcExpiryDateController,
+                                isDisabled: true,
                               onChange: (String value) {
-                                log('--fr-value-${pvcIssuedDateController.text}------');
-                                state.model.pvcExpiryDate =
-                                    Utils().formatTime(value);
-                                BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                                        context)
-                                    .onModelValueChange(state.model);
-                              },
-                              context: context,
+                                // log('--fr-value-${pvcExpiryDateController
+                                //     .text}------');
+                                // state.model.pvcExpiryDate =
+                             //     Utils().formatTime(value);
+                                //
+                                //   BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                //       context
+                                //   ).onModelValueChange(state.model);
+                                // //},
+                              }, context: context,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
