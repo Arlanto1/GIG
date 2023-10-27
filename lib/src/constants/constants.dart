@@ -277,6 +277,7 @@ class Constants {
 
   /// Material Movement
   static const String materialMovementsType = 'Material Movement Type';
+  static const String signatureTitle = 'Give Signature';
   static const String materialMovementsInwardTitle =
       'Inward Material Movement List';
   static const String materialMovementsOutwardTitle =

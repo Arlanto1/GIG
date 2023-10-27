@@ -33,6 +33,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common_widgets/base_widget/date_picker_dialog.dart';
+import '../../../../common_widgets/signature/signature_controller.dart';
+import '../../../../common_widgets/signature/signature_func.dart';
 import '../../../../enums/form_status.dart';
 import '../../../../models/base_user.dart';
 import '../../../../models/organisation.dart';
@@ -70,16 +72,35 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     "Non Returnable"
   ];
 
+  SignatureController receiverSignatureController = SignatureController();
+  SignatureController securitySignatureController = SignatureController();
+
   @override
   void initState() {
     super.initState();
+    receiverSignatureController = SignatureController(
+        penStrokeWidth: 2,
+        penColor: Colors.black,
+        exportBackgroundColor: Colors.white);
+
+    securitySignatureController = SignatureController(
+        penStrokeWidth: 2,
+        penColor: Colors.black,
+        exportBackgroundColor: Colors.white);
     BlocProvider.of<MaterialMovementDetailsCubit>(context).initializeValues();
+  }
+
+  @override
+  void dispose() {
+    receiverSignatureController.dispose();
+    securitySignatureController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final height = size.height;
+    double height = size.height;
     return BlocConsumer<MaterialMovementDetailsCubit,
         MaterialMovementDetailsState>(
       listener: (context, state) {
@@ -1431,53 +1452,38 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       height * 0.01),
                                 ],
 
-                                /// Receiver Signature
-                                CommonWidgets.textDisplay(
-                                    Constants.receiverSignature,
-                                    Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  initialValue: state.model.receiverEmail,
-                                  textFormKey: Keys.receiverSignKey,
-                                  hintText: Constants.informationhere,
-                                  isEnable: state.model.status != 6,
-                                  isDisableColor: state.model.status == 6,
-                                  onChange: (String value) {
-                                    state.model.entrySecurityName = value;
-                                    context
-                                        .read<MaterialMovementDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
+                                /// Receiver Signature test
+                                buildSignature(
+                                  controller: receiverSignatureController,
+                                  label: Constants.receiverSignature,
+                                  spaceHeight: height,
                                 ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
 
                                 /// Security Signature
-                                CommonWidgets.textDisplay(
-                                    Constants.securitySignature,
-                                    Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  initialValue: state.model.materialDescription,
-                                  textFormKey: Keys.securitySignKey,
-                                  hintText: Constants.informationhere,
-                                  isEnable: state.model.status != 6,
-                                  isDisableColor: state.model.status == 6,
-                                  onChange: (String value) {
-                                    state.model.materialDescription = value;
-                                    context
-                                        .read<MaterialMovementDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
+                                buildSignature(
+                                  controller: securitySignatureController,
+                                  label: Constants.securitySignature,
+                                  spaceHeight: height,
                                 ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                // CommonWidgets.textDisplay(
+                                //     Constants.securitySignature,
+                                //     Styles.textStyleBlack14),
+                                // CommonWidgets.verticalSpacerWidget(
+                                //     height * 0.001),
+                                // ElevatedButton(
+                                //   onPressed: () {
+                                //     // Navigate to the new page when the button is clicked
+                                //     Navigator.of(context).push(
+                                //       MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             const SignatureHomePage(),
+                                //       ),
+                                //     );
+                                //   },
+                                //   child: const Text('Give Signature'),
+                                // ),
+                                // CommonWidgets.verticalSpacerWidget(
+                                //     height * 0.01),
 
                                 /// Is Material Physically Checked
                                 CommonWidgets.textDisplay(
@@ -1578,6 +1584,48 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                         ])),
               ))
         ])));
+  }
+
+  Column buildSignature({
+    required SignatureController controller,
+    required String label,
+    required double spaceHeight,
+  }) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CommonWidgets.textDisplay(label, Styles.textStyleBlack14),
+            IconButton(
+              onPressed: () {
+                controller.clear();
+              },
+              iconSize: 20,
+              color: Colors.grey,
+              icon: const Icon(Icons.refresh),
+            ),
+          ],
+        ),
+        CommonWidgets.verticalSpacerWidget(spaceHeight * 0.001),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(2.0),
+            border: Border.all(
+              color: AppColors.gerylightBackground,
+              width: 1, // Border width
+            ),
+          ),
+          height: 100,
+          width: double.infinity,
+          child: Signature(
+            controller: controller,
+            backgroundColor: Colors.white,
+          ),
+        ),
+        CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
+      ],
+    );
   }
 
   String getStatusString(int status) {
@@ -1699,7 +1747,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                         builder: (BuildContext dialogContext) {
                           return UploadAttachment(
                             userdetails: state.loggedInUserDetails ?? User(),
-                            getFiles: getFiles ?? [],
+                            getFiles: getFiles,
                             inwardState: state,
                             onImageSelected: (CreateImage data) {
                               log('-------function---onImageSelected---------');

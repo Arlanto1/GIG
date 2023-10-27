@@ -12,14 +12,10 @@ import 'package:db_atom/src/features/createfound/models/serial_number_model.dart
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
-import '../../../models/organisation.dart';
 import '../models/user.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
-
-
-  static final String _getMaterialMovement = '$baseUrl/getMMById';
 
   static final String _addFound = '$baseUrl/addFound';
 }
@@ -47,14 +43,14 @@ class CreateFoundServices {
     BuildContext? context,
   }) async {
     var userId = await SharedPrefs.getUserId();
-    final String url =
-        "${Apis._addFound}?userEmail=$userId&isSubmit=$isSubmit";
+    final String url = "${Apis._addFound}?userEmail=$userId&isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),
     );
     return SubmitCreateFoundModel.fromJson(response);
   }
+
   Future<SubmitCreateFoundModel> createFoundArticleHandle(
       Map<String, dynamic> requestBody,
       bool isSubmit,
@@ -63,8 +59,7 @@ class CreateFoundServices {
     print(requestBody);
 
     var userId = await SharedPrefs.getUserId();
-    final String url =
-        "${Apis._addFound}?userEmail=$userId&isSubmit=$isSubmit";
+    final String url = "${Apis._addFound}?userEmail=$userId&isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: requestBody,
@@ -116,8 +111,6 @@ class CreateFoundServices {
   //
   //   return Organisation.fromJson(value);
   // }
-
-
 
   // Create user api call
   Future<CreateUserModel> createUser(String firstName, String lastName,
