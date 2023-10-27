@@ -1,4 +1,3 @@
-
 import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
 import 'package:db_atom/src/common_widgets/signature/signature_painter.dart';
 import 'package:flutter/material.dart';
@@ -69,52 +68,53 @@ class SignatureState extends State<Signature> {
       child: Container(
         decoration: BoxDecoration(color: widget.backgroundColor),
         child: Listener(
-            onPointerDown: (PointerDownEvent event) {
-              if (!widget.controller.disabled &&
-                  (activePointerId == null ||
-                      activePointerId == event.pointer)) {
-                activePointerId = event.pointer;
-                widget.controller.onDrawStart?.call();
-                _addPoint(event, PointType.tap);
-              }
-            },
-            onPointerUp: (PointerUpEvent event) {
-              _ensurePointerCleanup();
-              if (activePointerId == event.pointer) {
-                _addPoint(event, PointType.tap);
-                widget.controller.pushCurrentStateToUndoStack();
-                widget.controller.onDrawEnd?.call();
-                activePointerId = null;
-              }
-            },
-            onPointerCancel: (PointerCancelEvent event) {
-              _ensurePointerCleanup();
-              if (activePointerId == event.pointer) {
-                _addPoint(event, PointType.tap);
-                widget.controller.pushCurrentStateToUndoStack();
-                widget.controller.onDrawEnd?.call();
-                activePointerId = null;
-              }
-            },
-            onPointerMove: (PointerMoveEvent event) {
-              _ensurePointerCleanup();
-              if (activePointerId == event.pointer) {
-                _addPoint(event, PointType.move);
-                widget.controller.onDrawMove?.call();
-              }
-            },
-            child: RepaintBoundary(
-              child: CustomPaint(
-                painter: SignaturePainter(widget.controller),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                      minWidth: maxWidth,
-                      minHeight: maxHeight,
-                      maxWidth: maxWidth,
-                      maxHeight: maxHeight),
+          onPointerDown: (PointerDownEvent event) {
+            if (!widget.controller.disabled &&
+                (activePointerId == null || activePointerId == event.pointer)) {
+              activePointerId = event.pointer;
+              widget.controller.onDrawStart?.call();
+              _addPoint(event, PointType.tap);
+            }
+          },
+          onPointerUp: (PointerUpEvent event) {
+            _ensurePointerCleanup();
+            if (activePointerId == event.pointer) {
+              _addPoint(event, PointType.tap);
+              widget.controller.pushCurrentStateToUndoStack();
+              widget.controller.onDrawEnd?.call();
+              activePointerId = null;
+            }
+          },
+          onPointerCancel: (PointerCancelEvent event) {
+            _ensurePointerCleanup();
+            if (activePointerId == event.pointer) {
+              _addPoint(event, PointType.tap);
+              widget.controller.pushCurrentStateToUndoStack();
+              widget.controller.onDrawEnd?.call();
+              activePointerId = null;
+            }
+          },
+          onPointerMove: (PointerMoveEvent event) {
+            _ensurePointerCleanup();
+            if (activePointerId == event.pointer) {
+              _addPoint(event, PointType.move);
+              widget.controller.onDrawMove?.call();
+            }
+          },
+          child: RepaintBoundary(
+            child: CustomPaint(
+              painter: SignaturePainter(widget.controller),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minWidth: maxWidth,
+                  minHeight: maxHeight,
+                  maxWidth: maxWidth,
+                  maxHeight: maxHeight,
                 ),
               ),
-            )),
+            ),
+          ),
+        ),
       ),
     );
 
