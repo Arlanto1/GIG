@@ -133,12 +133,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
   void initializeDates(IncidentGeneralInfoState state) {
     if (state.model.incidentDate != null) {
       incidentDateTimeController.text = Utils.timestamptoDateConversion(
-          int.tryParse(state.model.incidentDate ?? '0'), Constants.dateFormat);
+          int.tryParse(state.model.incidentDate ?? '0'), Constants.fulldateFormat);
     }
     if (state.model.closureTargetDate != null) {
       closureTargetDateController.text = Utils.timestamptoDateConversion(
           int.tryParse(state.model.closureTargetDate ?? '0'),
-          Constants.dateFormat);
+          Constants.fulldateFormat);
     }
   }
 

@@ -39,6 +39,7 @@ import '../../../../enums/form_status.dart';
 import '../../../../models/base_user.dart';
 import '../../../../models/organisation.dart';
 import '../../../../utils/customalert.dart';
+import '../../../../utils/util.dart';
 
 class MaterialMovementDetails extends StatefulWidget {
   final MaterialMovementModel? materialMovement;
@@ -66,6 +67,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   TextEditingController takenOutOnDateController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
       TextEditingController();
+  TextEditingController actualDateOfReturnController =
+  TextEditingController();
   bool isDisabled = false;
   List<String> returnableDropDownValues = const [
     "Returnable",
@@ -161,6 +164,18 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
         );
       },
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
+  }
+
+  void initializeDates() {
+    expectedDateOfReturnController.text = Utils.timestamptoDateConversion(
+        int.tryParse(widget.materialMovement?.expectedDateOfReturn ?? '0'),
+        Constants.dateFormat);
+    // actualDateOfReturnController.text = Utils.timestamptoDateConversion(
+    //     int.tryParse(widget.materialMovement?.actualDateOfReturn ?? '0'),
+    //     Constants.dateFormat);
+    takenOutOnDateController.text = Utils.timestamptoDateConversion(
+        int.tryParse(widget.materialMovement?.takenOutOn ?? '0'),
+        Constants.dateFormat);
   }
 
   getBodybuilder(MaterialMovementDetailsState state, height) {
@@ -1015,19 +1030,19 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   BaseDate().datePickerWidgetLoading(
-                                      onlyDate: true,
-                                      textController:
-                                          expectedDateOfReturnController,
-                                      onChange: (String value) {
-                                        log('--expectedDateOfReturnController-value-${expectedDateOfReturnController.text}------');
-                                        widget.materialMovement
-                                            ?.expectedDateOfReturn = value;
-                                        BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                context)
-                                            .onModelValueChange(state.model);
-                                      },
-                                      context: context),
+                                    textController:
+                                        expectedDateOfReturnController,
+                                    onlyDate: true,
+                                    onChange: (String value) {
+                                      state.model.expectedDateOfReturn =
+                                          Utils().formatTime(value);
+                                      BlocProvider.of<
+                                                  MaterialMovementDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                    },
+                                    context: context,
+                                  ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
                                 ],
@@ -1135,24 +1150,26 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
+                                    //if (state.materialMovement.status == 2 && state.isInward == false) ...[
                                     /// Taken Out On
                                     CommonWidgets.textDisplay(
                                         Constants.takenOutOn,
                                         Styles.textStyleBlack14),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
-
                                     BaseDate().datePickerWidgetLoading(
-                                        textController:
-                                            takenOutOnDateController,
-                                        onChange: (String value) {
-                                          state.model.takenOutOn = value;
-                                          BlocProvider.of<
-                                                      MaterialMovementDetailsCubit>(
-                                                  context)
-                                              .onModelValueChange(state.model);
-                                        },
-                                        context: context),
+                                      textController: takenOutOnDateController,
+                                      onlyDate: true,
+                                      onChange: (String value) {
+                                        state.model.takenOutOn =
+                                            Utils().formatTime(value);
+                                        BlocProvider.of<
+                                                    MaterialMovementDetailsCubit>(
+                                                context)
+                                            .onModelValueChange(state.model);
+                                      },
+                                      context: context,
+                                    ),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
                                   ]
@@ -1484,7 +1501,12 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 // ),
                                 // CommonWidgets.verticalSpacerWidget(
                                 //     height * 0.01),
-
+                              ],
+                              if (state.model.status == 2 ||
+                                  state.model.status == 5 ||
+                                  state.model.status == 6 ||
+                                  widget.isInward ||
+                                  !widget.isInward) ...[
                                 /// Is Material Physically Checked
                                 CommonWidgets.textDisplay(
                                     Constants.isPhysicallyChecked,
