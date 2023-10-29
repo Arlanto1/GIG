@@ -1206,34 +1206,7 @@ class _CreateFoundState extends State<CreateFound> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            // FlutterInputField(
-                            //   onTap: () {
-                            //     colorDailog();
-                            //   },
-                            //   textFieldController: colorTextController,
-                            //   textFormKey: Keys.colorTextController,
-                            //   isEnable: widget.listuser == null
-                            //       ? true
-                            //       : (widget.listuser != null &&
-                            //               (widget.listuser?.color ?? '')
-                            //                   .isEmpty)
-                            //           ? true
-                            //           : false,
-                            //   isDisableColor: (widget.listuser != null &&
-                            //               (widget.listuser?.color ?? '')
-                            //                   .isEmpty) ||
-                            //           widget.listuser == null
-                            //       ? false
-                            //       : true,
-                            //   hintText: '',
-                            //   onChange: (String username) {
-                            //     //this.username = username;
-                            //     setState(() {});
-                            //   },
-                            //   validateTextField: (String? user) {},
-                            //   // )
-                            //   //)
-                            // ),
+
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -1338,6 +1311,8 @@ class _CreateFoundState extends State<CreateFound> {
                                 ? CommonWidgets.verticalSpacerWidget(
                                     height * 0.01)
                                 : Container(),
+
+
                             // employee department
                             isDepositorDBEmployeeSelected == 1
                                 ? CommonWidgets.textDisplay(
