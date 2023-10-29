@@ -215,7 +215,9 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                           BorderRadius.vertical(top: Radius.circular(20.0)),
                     )),
                 child: AbsorbPointer(
-                  absorbing: state.model.status == 6,
+                  absorbing: state.model.status != 6 &&
+                      state.model.status != 1 &&
+                      isDisabled,
                   child: Form(
                       key: _formKey,
                       autovalidateMode: isDisabled
