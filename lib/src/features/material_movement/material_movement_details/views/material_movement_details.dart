@@ -71,8 +71,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   TextEditingController takenOutOnDateController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
       TextEditingController();
-  TextEditingController actualDateOfReturnController =
-  TextEditingController();
+  TextEditingController actualDateOfReturnController = TextEditingController();
   bool isDisabled = false;
   List<String> returnableDropDownValues = const [
     "Returnable",
@@ -1080,18 +1079,19 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
                                     BaseDate().datePickerWidgetLoading(
-
-                                        textController:
-                                            expectedDateOfReturnController,onlyDate: true,
-                                        onChange: (String value) {
-                                          state.model.expectedDateOfReturn =
-                                          Utils().formatTime(value);
-                                          BlocProvider.of<
-                                                      MaterialMovementDetailsCubit>(
-                                                  context)
-                                              .onModelValueChange(state.model);
-                                        },
-                                        context: context,),
+                                      textController:
+                                          expectedDateOfReturnController,
+                                      onlyDate: true,
+                                      onChange: (String value) {
+                                        state.model.expectedDateOfReturn =
+                                            Utils().formatTime(value);
+                                        BlocProvider.of<
+                                                    MaterialMovementDetailsCubit>(
+                                                context)
+                                            .onModelValueChange(state.model);
+                                      },
+                                      context: context,
+                                    ),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
                                   ],
@@ -1201,7 +1201,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           height * 0.01),
 
                                       //if (state.materialMovement.status == 2 && state.isInward == false) ...[
-                                    /// Taken Out On
+                                      /// Taken Out On
                                       CommonWidgets.textDisplay(
                                           Constants.takenOutOn,
                                           Styles.textStyleBlack14),
@@ -1209,17 +1209,19 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           height * 0.001),
 
                                       BaseDate().datePickerWidgetLoading(
-                                          textController:
-                                              takenOutOnDateController,onlyDate: true,
-                                          onChange: (String value) {
-                                            state.model.takenOutOn = Utils().formatTime(value);
-                                            BlocProvider.of<
-                                                        MaterialMovementDetailsCubit>(
-                                                    context)
-                                                .onModelValueChange(
-                                                    state.model);
-                                          },
-                                          context: context,),
+                                        textController:
+                                            takenOutOnDateController,
+                                        onlyDate: true,
+                                        onChange: (String value) {
+                                          state.model.takenOutOn =
+                                              Utils().formatTime(value);
+                                          BlocProvider.of<
+                                                      MaterialMovementDetailsCubit>(
+                                                  context)
+                                              .onModelValueChange(state.model);
+                                        },
+                                        context: context,
+                                      ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.01),
                                     ]
@@ -1538,6 +1540,21 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     label: Constants.receiverSignature,
                                     spaceHeight: height,
                                     state: state,
+                                    onDoneTap: () async {
+                                      String imageBytes = await exportSignature(
+                                        context,
+                                        receiverSignatureController,
+                                      );
+                                      ImageContent imageContent =
+                                          ImageContent();
+                                      imageContent.imageContent = imageBytes;
+                                      (state.model.receiverSign ??= [])
+                                          .add(imageContent);
+                                      BlocProvider.of<
+                                                  MaterialMovementDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                    },
                                   ),
 
                                   /// Security Signature
@@ -1546,6 +1563,21 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     label: Constants.securitySignature,
                                     spaceHeight: height,
                                     state: state,
+                                    onDoneTap: () async {
+                                      String imageBytes = await exportSignature(
+                                        context,
+                                        securitySignatureController,
+                                      );
+                                      ImageContent imageContent =
+                                          ImageContent();
+                                      imageContent.imageContent = imageBytes;
+                                      (state.model.entrySecuritySign ??= [])
+                                          .add(imageContent);
+                                      BlocProvider.of<
+                                                  MaterialMovementDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                    },
                                   ),
                                   // CommonWidgets.textDisplay(
                                   //     Constants.securitySignature,
@@ -1566,12 +1598,13 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   // ),
                                   // CommonWidgets.verticalSpacerWidget(
                                   //     height * 0.01),
-],
+                                ],
                                 if (state.model.status == 2 ||
-                                  state.model.status == 5 ||
-                                  state.model.status == 6 ||
-                                  widget.isInward ||
-                                  !widget.isInward) ...[  /// Is Material Physically Checked
+                                    state.model.status == 5 ||
+                                    state.model.status == 6 ||
+                                    widget.isInward ||
+                                    !widget.isInward) ...[
+                                  /// Is Material Physically Checked
                                   CommonWidgets.textDisplay(
                                       Constants.isPhysicallyChecked,
                                       Styles.textStyleBlack14),
@@ -1684,6 +1717,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     required String label,
     required double spaceHeight,
     required MaterialMovementDetailsState state,
+    required void Function()? onDoneTap,
   }) {
     return Column(
       children: [
@@ -1691,28 +1725,27 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CommonWidgets.textDisplay(label, Styles.textStyleBlack14),
-            IconButton(
-              onPressed: () {
-                controller.clear();
-              },
-              iconSize: 20,
-              color: Colors.grey,
-              icon: const Icon(Icons.refresh),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    controller.clear();
+                  },
+                  iconSize: 20,
+                  color: Colors.grey,
+                  icon: const Icon(Icons.refresh),
+                ),
+                IconButton(
+                  onPressed: onDoneTap,
+                  iconSize: 20,
+                  color: Colors.grey,
+                  icon: const Icon(Icons.done_outlined),
+                ),
+              ],
             ),
           ],
         ),
         CommonWidgets.verticalSpacerWidget(spaceHeight * 0.001),
-        ElevatedButton(
-          onPressed: () async {
-            String imageBytes = await exportSignature(context, controller);
-            ImageContent imageContent = ImageContent();
-            imageContent.imageContent = imageBytes;
-            (state.model.receiverSign ??= []).add(imageContent);
-            BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                .onModelValueChange(state.model);
-          },
-          child: const Icon(Icons.add),
-        ),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(2.0),
