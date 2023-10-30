@@ -175,4 +175,7 @@ class Keys {
   static const String transportIncdntCommentsKey ='transportIncdntCommentsKey_occ';
   static const String notifyScriKey= 'notifyScriKey_occ';
   static const String commentsKey= 'commentsKey_occ';
+  static const String complainantManagerKey= 'complainantManagerKey_occ';
+  static const String shiftTakenOverByKey = 'shiftTakenOverByKey_occ';
+
 }

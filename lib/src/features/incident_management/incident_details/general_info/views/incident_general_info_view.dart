@@ -12,7 +12,6 @@ import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -33,8 +32,11 @@ import '../cubits/incident_general_info_cubit.dart';
 
 class IncidentGeneralInfoView extends StatefulWidget {
   const IncidentGeneralInfoView({
-       super.key,
+    super.key,
+    required this.viaOccurrence,
   });
+
+  final bool viaOccurrence;
 
   @override
   State<IncidentGeneralInfoView> createState() =>
@@ -47,6 +49,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
   TextEditingController closureTargetDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   TextEditingController assetTypeController = TextEditingController();
+  TextEditingController assetController = TextEditingController();
   TextEditingController incidentTypeController = TextEditingController();
   bool disableForm = false;
 
@@ -62,8 +65,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
     final height = size.height;
     return BlocConsumer<IncidentGeneralInfoCubit, IncidentGeneralInfoState>(
       listener: (context, state) {
-        log('-state.status---${state.status}-incidentType-${state.model.incidentType}--');
-
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: Constants.generalInformation,
@@ -73,10 +74,19 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
+              if (widget.viaOccurrence) {
+                return Navigator.pushNamed(
+                  context,
+                  occurrenceDetailsRoute,
+                  arguments: {
+                    'id': state.model.occurrence?.id,
+                    "title": Constants.editOccurrence,
+                  },
+                );
+              }
               Navigator.popAndPushNamed(
                 context,
-                incidentManagementRoute,
-                arguments: {},
+                incidentManagementsRoute,
               );
             },
           );
@@ -88,6 +98,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
         }
+        log('--state.message-----${state.message}-');
         if (state.status == FormStatus.error) {
           Validator().showToast(
             context,
@@ -96,10 +107,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
         }
       },
       builder: (context, state) {
-        log('--disableForm---$disableForm-');
-
-
-
         state.model.status ??= 0;
         if (state.model.status! > 0) {
           disableForm = true;
@@ -126,12 +133,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
   void initializeDates(IncidentGeneralInfoState state) {
     if (state.model.incidentDate != null) {
       incidentDateTimeController.text = Utils.timestamptoDateConversion(
-          int.tryParse(state.model.incidentDate ?? '0'), Constants.dateFormat);
+          int.tryParse(state.model.incidentDate ?? '0'), Constants.fulldateFormat);
     }
     if (state.model.closureTargetDate != null) {
       closureTargetDateController.text = Utils.timestamptoDateConversion(
           int.tryParse(state.model.closureTargetDate ?? '0'),
-          Constants.dateFormat);
+          Constants.fulldateFormat);
     }
   }
 
@@ -264,7 +271,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 selectedValues: state.model.entities ?? [],
                                 all: state.listOfEntities ?? [],
                                 enabled: !disableForm,
-                                onTap: (List<Entity> selectedEntities) {
+                                onTap: (List<Organisation> selectedEntities) {
                                   log('--selectedEntities----${selectedEntities.length}');
                                   BlocProvider.of<IncidentGeneralInfoCubit>(
                                           context)
@@ -288,73 +295,63 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               items: incidentTypeValues,
                               initialValue: state.model.incidentType.toString(),
                               onTap: () {
+                                BaseDropDown().assetTypeDialog(
+                                  context: context,
+                                  dropDownValues: incidentTypeValues
+                                      .map((label) => label.key)
+                                      .toList(),
+                                  onTap: (String value) {
+                                    Label? selectedLabel;
+                                    selectedLabel =
+                                        incidentTypeValues.firstWhere(
+                                      (label) => label.key == value,
+                                      orElse: () =>
+                                          const Label(key: '', value: ''),
+                                    );
+                                    BlocProvider.of<IncidentGeneralInfoCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            incidentType: int.tryParse(
+                                                selectedLabel.value));
+                                  },
+                                );
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            // /// Asset Type
+                             if (state.model.incidentType == 0 ||
+                                 state.model.incidentType == 1) ...[
+                              CommonWidgets.textDisplay(Constants.assetType,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              BaseDropDown().getDropDown(
+                                isDisabled: state.model.status != 6,
+                                textController: assetController,
+                                items: assetTypeValues,
+                                initialValue: state.model.typeOfAsset.toString(),
+                                onTap: () {
                                   BaseDropDown().assetTypeDialog(
                                     context: context,
-                                    dropDownValues: incidentTypeValues
+                                    dropDownValues: assetTypeValues
                                         .map((label) => label.key)
                                         .toList(),
                                     onTap: (String value) {
                                       Label? selectedLabel;
                                       selectedLabel =
-                                          incidentTypeValues.firstWhere(
-                                        (label) => label.key == value,
-                                        orElse: () =>
+                                          assetTypeValues.firstWhere(
+                                                (label) => label.key == value,
+                                            orElse: () =>
                                             const Label(key: '', value: ''),
-                                      );
+                                          );
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
-                                              context)
+                                          context)
                                           .updateDropdownValues(
-                                              incidentType: int.tryParse(
-                                                  selectedLabel.value));
+                                          typeOfAsset: int.tryParse(
+                                              selectedLabel.value));
                                     },
                                   );
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Asset Type
-                            if (state.model.incidentType == 0 ||
-                                state.model.incidentType == 1) ...[
-                              CommonWidgets.textDisplay(
-                                  Constants.assetType, Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              BaseDropDown().getDropDown(
-                                isDisabled:
-                                state.model.status != 6,
-                                textController: assetTypeController,
-                                items: assetTypeValues,
-                                initialValue: state
-                                    .model.typeOfAsset
-                                    .toString(),
-                                onTap: () {
-                                  //if (isDisabled) {
-                                    BaseDropDown().assetTypeDialog(
-                                      context: context,
-                                      dropDownValues:
-                                      assetTypeValues
-                                          .map((label) => label.key)
-                                          .toList(),
-                                      onTap: (String value) {
-                                        Label? selectedLabel;
-                                        selectedLabel =
-                                            assetTypeValues
-                                                .firstWhere(
-                                                  (label) => label.key == value,
-                                              orElse: () =>
-                                              const Label(key: '', value: ''),
-                                            );
-                                        BlocProvider.of<
-                                            IncidentGeneralInfoCubit>(
-                                            context)
-                                            .updateDropdownValues(
-                                            assetType: int.tryParse(
-                                                selectedLabel.value));
-                                      },
-                                    );
-                                 // }
                                 },
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -569,7 +566,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.text,
                               initialValue: state.model.incidentLocation,
                               textFormKey: Keys.lsm1ContactNOKey,
                               hintText: '',
@@ -692,11 +689,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           cancelButtonDisplay(),
-                         if (!disableForm) ...[
+                          if (!disableForm) ...[
                             submitButtonDisplay(onTap: () {
                               FocusScope.of(context).unfocus();
                               BlocProvider.of<IncidentGeneralInfoCubit>(context)
-                                  .submitForm(isSaveOnly: false, isSubmit: true);
+                                  .submitForm(
+                                      isSaveOnly: false, isSubmit: true);
                             })
                           ],
                         ],

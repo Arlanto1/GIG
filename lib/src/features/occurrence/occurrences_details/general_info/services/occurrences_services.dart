@@ -44,7 +44,7 @@ class OccurrenceDetailsServices {
     return Occurrence.fromJson(response);
   }
 
-  Future<GenericCreateResponse> createOccurrence({
+  Future<GenericCreateResponse> create({
     required OccurrenceGeneralInfoRequest body,
     required bool isSubmit,
   }) async {

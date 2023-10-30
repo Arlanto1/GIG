@@ -79,19 +79,19 @@ class FlutterInputField extends StatelessWidget {
               border: const OutlineInputBorder(),
               focusedBorder: OutlineInputBorder(
                 borderSide:
-                    const BorderSide(color: Color(0xFFCACACA), width: 1.0),
+                    const BorderSide(color: AppColors.gerylightBackground, width: 1.0),
                 borderRadius: BorderRadius.circular(8.0),
               ),
               enabledBorder: OutlineInputBorder(
                 //<-- SEE HERE
                 borderSide:
-                    const BorderSide(color: Color(0xFFCACACA), width: 1.0),
+                    const BorderSide(color: AppColors.gerylightBackground, width: 1.0),
                 borderRadius: BorderRadius.circular(8.0),
               ),
               disabledBorder: OutlineInputBorder(
                 //<-- SEE HERE
                 borderSide:
-                    const BorderSide(color: Color(0xFFCACACA), width: 1.0),
+                    const BorderSide(color: AppColors.gerylightBackground, width: 1.0),
                 borderRadius: BorderRadius.circular(8.0),
               ),
               hintText: hintText,

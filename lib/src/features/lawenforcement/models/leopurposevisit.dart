@@ -1,45 +1,23 @@
-// To parse this JSON data, do
-//
-//     final leoPurposeVisit = leoPurposeVisitFromJson(jsonString);
-
 import 'dart:convert';
+
+import '../../../models/organisation.dart';
 
 LeoPurposeVisit leoPurposeVisitFromJson(String str) => LeoPurposeVisit.fromJson(json.decode(str));
 
 String leoPurposeVisitToJson(LeoPurposeVisit data) => json.encode(data.toJson());
 
 class LeoPurposeVisit {
-    List<AtomLeoPurposeVisit>? atomLeoPurposeVisit;
+    List<Organisation>? atomLeoPurposeVisit;
 
     LeoPurposeVisit({
         this.atomLeoPurposeVisit,
     });
 
     factory LeoPurposeVisit.fromJson(Map<String, dynamic> json) => LeoPurposeVisit(
-        atomLeoPurposeVisit: json["ATOM_LEO_PURPOSE_VISIT"] == null ? [] : List<AtomLeoPurposeVisit>.from(json["ATOM_LEO_PURPOSE_VISIT"]!.map((x) => AtomLeoPurposeVisit.fromJson(x))),
+        atomLeoPurposeVisit: json["ATOM_LEO_PURPOSE_VISIT"] == null ? [] : List<Organisation>.from(json["ATOM_LEO_PURPOSE_VISIT"]!.map((x) => Organisation.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
         "ATOM_LEO_PURPOSE_VISIT": atomLeoPurposeVisit == null ? [] : List<dynamic>.from(atomLeoPurposeVisit!.map((x) => x.toJson())),
-    };
-}
-
-class AtomLeoPurposeVisit {
-    int? id;
-    String? name;
-
-    AtomLeoPurposeVisit({
-        this.id,
-        this.name,
-    });
-
-    factory AtomLeoPurposeVisit.fromJson(Map<String, dynamic> json) => AtomLeoPurposeVisit(
-        id: json["Id"],
-        name: json["Name"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "Id": id,
-        "Name": name,
     };
 }

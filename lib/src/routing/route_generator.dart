@@ -1,3 +1,4 @@
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/app.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -42,8 +43,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart';
-
-//import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
+//import '../features/event_protection/event_protection_details/general_info/cubits/occurrence_general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/views/general_info_view.dart';
 import '../features/event_protection/event_protections/bloc/event_protections_bloc.dart'
@@ -51,7 +51,7 @@ import '../features/event_protection/event_protections/bloc/event_protections_bl
 import '../features/event_protection/event_protections/views/event_protections_view.dart';
 import '../features/event_protection/services/event_protection_services.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data/bloc/guarding_master_data_bloc.dart';
-import '../features/guarding_operations/guarding_master_data/guarding_master_data/views/guarding_master_data.dart';
+import '../features/guarding_operations/guarding_master_data/guarding_master_data/views/guarding_master_data_view.dart';
 import '../features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_cubit.dart';
 import '../features/guarding_operations/guarding_master_data/models/guarding_master_data_model.dart';
 import '../features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
@@ -72,7 +72,7 @@ import '../features/material_movement/material_movements/bloc/material_movement_
 import '../features/material_movement/material_movements/views/material_movements.dart';
 import '../features/material_movement/models/material_movements_model.dart';
 import '../features/material_movement/services/material_movement_services.dart';
-import '../features/occurrence/occurrences_details/general_info/cubits/general_info_cubit.dart';
+import '../features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_cubit.dart';
 import '../features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import '../features/occurrenceList/bloc/occurrences_bloc.dart' as ocb;
 import '../features/occurrenceList/views/occurrences_view.dart';
@@ -120,15 +120,13 @@ class RouteGenerator {
       case otpVerificationRoute:
         if (settings.arguments != null) {
           final userRoutes = settings.arguments as Map<String, dynamic>;
-          if (userRoutes != null) {
-            VerifyOTPArguments? userDetails = userRoutes["userDetails"];
-            return MaterialPageRoute(
-                builder: (context) => OtpVerifyScreen(
-                      userName: userDetails?.name ?? '',
-                      password: userDetails?.pwd ?? '',
-                    ));
-          }
+          VerifyOTPArguments? userDetails = userRoutes["userDetails"];
           return MaterialPageRoute(
+              builder: (context) => OtpVerifyScreen(
+                    userName: userDetails?.name ?? '',
+                    password: userDetails?.pwd ?? '',
+                  ));
+                  return MaterialPageRoute(
               builder: (context) => const OtpVerifyScreen());
         }
         return MaterialPageRoute(builder: (context) => const OtpVerifyScreen());
@@ -136,16 +134,14 @@ class RouteGenerator {
       case createfoundScreenRoute:
         if (settings.arguments != null) {
           final listroutes = settings.arguments as Map<String, dynamic>;
-          if (listroutes != null) {
-            FoundListArticleDetails? listuser = listroutes["UserElement"];
-            int eventId = listroutes['eventId'];
-            return MaterialPageRoute(
-                builder: (context) => CreateFound(
-                      listuser: listuser,
-                      eventId: eventId,
-                    ));
-          }
-          return MaterialPageRoute(builder: (context) => const CreateFound());
+          FoundListArticleDetails? listuser = listroutes["UserElement"];
+          int eventId = listroutes['eventId'];
+          return MaterialPageRoute(
+              builder: (context) => CreateFound(
+                    listuser: listuser,
+                    eventId: eventId,
+                  ));
+                  return MaterialPageRoute(builder: (context) => const CreateFound());
         } else {
           return MaterialPageRoute(builder: (context) => const CreateFound());
         }
@@ -153,12 +149,10 @@ class RouteGenerator {
         // return MaterialPageRoute(builder: (context) => CreateLawenforcement());
         if (settings.arguments != null) {
           final listroutes = settings.arguments as Map<String, dynamic>;
-          if (listroutes != null) {
-            LawEnforcementDetails? listuser = listroutes["UserElement"];
-            return MaterialPageRoute(
-                builder: (context) => CreateLawEnforcement(listUser: listuser));
-          }
+          LawEnforcementDetails? listuser = listroutes["UserElement"];
           return MaterialPageRoute(
+              builder: (context) => CreateLawEnforcement(model: listuser));
+                  return MaterialPageRoute(
               builder: (context) => const CreateLawEnforcement());
         } else {
           return MaterialPageRoute(
@@ -185,31 +179,27 @@ class RouteGenerator {
       case daypassmanagementListRoute:
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
-          if (passRoutes != null) {
-            PassMngArguments? passMngArguments = passRoutes["passMngDetails"];
-            return MaterialPageRoute(
-                builder: (context) => DayPassManagementList(
-                      passId: passMngArguments?.passType ?? '',
-                      title: passMngArguments?.title ?? '',
-                    ));
-          }
+          PassMngArguments? passMngArguments = passRoutes["passMngDetails"];
           return MaterialPageRoute(
+              builder: (context) => DayPassManagementList(
+                    passId: passMngArguments?.passType ?? '',
+                    title: passMngArguments?.title ?? '',
+                  ));
+                  return MaterialPageRoute(
               builder: (context) => DayPassManagementList());
         }
         return MaterialPageRoute(builder: (context) => DayPassManagementList());
       case daypassregistertListRoute:
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
-          if (passRoutes != null) {
-            PassMngArguments? passMngArguments =
-                passRoutes["passMngRegisterDetails"];
-            return MaterialPageRoute(
-                builder: (context) => DayPassInfoListPage(
-                      passId: passMngArguments?.passType ?? '',
-                      title: passMngArguments?.title ?? '',
-                    ));
-          }
-          return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
+          PassMngArguments? passMngArguments =
+              passRoutes["passMngRegisterDetails"];
+          return MaterialPageRoute(
+              builder: (context) => DayPassInfoListPage(
+                    passId: passMngArguments?.passType ?? '',
+                    title: passMngArguments?.title ?? '',
+                  ));
+                  return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
         }
         return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
       case createpassmgmtRoute:
@@ -233,25 +223,32 @@ class RouteGenerator {
 
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
-          if (passRoutes != null) {
-            CreatePassMngArguments? passMngArguments =
-                passRoutes["passMngCreateDetails"];
-            return MaterialPageRoute(
-                builder: (context) => CreatePassManagement(
-                      passId: passMngArguments?.passType ?? '',
-                      title: passMngArguments?.title ?? '',
-                      dayPassItem: passMngArguments?.listuser,
-                    ));
-          }
+          CreatePassMngArguments? passMngArguments =
+              passRoutes["passMngCreateDetails"];
           return MaterialPageRoute(
+              builder: (context) => CreatePassManagement(
+                    passId: passMngArguments?.passType ?? '',
+                    title: passMngArguments?.title ?? '',
+                    model: passMngArguments?.model,
+                  ));
+                  return MaterialPageRoute(
               builder: (context) => CreatePassManagement());
         }
         return MaterialPageRoute(builder: (context) => CreatePassManagement());
 
-      case incidentManagementRoute:
+      case incidentManagementsRoute:
+        String occId = '';
+        int occType = 0;
+
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          occId = arguments['occId'];
+          occType = arguments['occType'] ?? 0;
+        }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<im.IncidentManagementsBloc>(
-            create: (_) => im.IncidentManagementsBloc()
+            create: (_) => im.IncidentManagementsBloc(occType, occId)
               ..add(const im.FetchData(startPos: 0, maxPos: 20)),
             child: const IncidentManagementsView(),
           ),
@@ -259,10 +256,14 @@ class RouteGenerator {
 
       case incidentManagementDetailsRoute:
         String id = '';
+        String occId = '';
+        int occType = 0;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          id = arguments['id'];
+          id = arguments['id'] ?? '';
+          occId = arguments['occId'] ?? '';
+          occType = arguments['occType'] ?? 0;
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<IncidentGeneralInfoCubit>(
@@ -270,8 +271,12 @@ class RouteGenerator {
               services: IncidentManagementServices(),
               commonServices: CommonServices(),
               id: id,
+              occId: occId,
+              occType: occType,
             ),
-            child:  const IncidentGeneralInfoView(),
+            child: IncidentGeneralInfoView(
+              viaOccurrence: !occId.isEmptyOrNull ? true : false,
+            ),
           ),
         );
 
@@ -284,20 +289,30 @@ class RouteGenerator {
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<sv.SstIncidentBloc>(
-            create: (_) => sv.SstIncidentBloc()
-              ..add(const sv.FetchData(startPos: 0, maxPos: 20)),
+            create: (_) => sv.SstIncidentBloc(
+              ticketType: 1,
+              staffType: isInternal ? 1 : 2,
+            )..add(const sv.FetchData(startPos: 0, maxPos: 20)),
             child: SstIncidentView(isInternal: isInternal),
           ),
         );
 
       case sstIncidentDetailsRoute:
         String id = '';
+        String occId = '';
+        int occType = 0;
         bool isInternal = false;
+
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          isInternal = arguments['isInternal'];
-          id = arguments['id'];
+          occId = arguments['occId'] ?? '';
+          id = arguments['id'] ?? '';
+          occType = arguments['occType'] ?? 0;
+
+          if (arguments.containsKey('isInternal')) {
+            isInternal = arguments['isInternal'];
+          }
         }
 
         return MaterialPageRoute(
@@ -305,10 +320,15 @@ class RouteGenerator {
             create: (_) => SstIncidentGeneralInfoCubit(
               services: SstIncidentServices(),
               commonServices: CommonServices(),
+              occId: occId,
+              occType: occType,
               id: id,
               isInternal: isInternal,
             ),
-            child: SstIncidentGeneralInfoView(isInternal: isInternal),
+            child: SstIncidentGeneralInfoView(
+              isInternal: isInternal,
+              viaOccurrence: !occId.isEmptyOrNull ? true : false,
+            ),
           ),
         );
       case occurrenceRoute:
@@ -328,7 +348,7 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments["title"];
-        id = arguments['id']??'';
+        id = arguments['id'] ?? '';
         return MaterialPageRoute(
             builder: (context) => BlocProvider<OccurrenceGeneralInfoCubit>(
                   create: (_) => OccurrenceGeneralInfoCubit(
@@ -558,7 +578,7 @@ class RouteGenerator {
             builder: (context) => BlocProvider<GuardingMasterDataBloc>(
                   create: (_) => GuardingMasterDataBloc()
                     ..add(const FetchDataList(startPos: 0, maxPos: 20)),
-                  child: const GuardingMasterData(),
+                  child: const GuardingMasterDataView(),
                 ));
 
       case guardingMasterDataDetailsRoute:

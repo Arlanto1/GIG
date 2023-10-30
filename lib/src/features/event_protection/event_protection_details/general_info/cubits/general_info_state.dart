@@ -7,8 +7,9 @@ class GeneralInfoState extends Equatable {
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
-  final List<Entity>? listOfEntities;
+  final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
+  final List<Organisation> vendors;
   final AddEntities? getEntitiesResponse;
   final List<String>? participationDates;
   final int? eventId;
@@ -21,9 +22,10 @@ class GeneralInfoState extends Equatable {
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
-    required final List<Entity>? listOfEntities,
+    required final List<Organisation>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
     required final List<Organisation> departments,
+    required final List<Organisation> vendors,
     required String errorMessage,
     required List<CreateImage> loadAttachments,
     List<User>? entrySecurities,
@@ -36,6 +38,7 @@ class GeneralInfoState extends Equatable {
       locations: locations,
       listOfEntities: listOfEntities,
       departments: departments,
+      vendors: vendors,
       getEntitiesResponse: getEntitiesResponse,
       users: users,
       emailUsers: emailUsers,
@@ -55,11 +58,13 @@ class GeneralInfoState extends Equatable {
     }
 
     if (model.eventStartDate == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Event Start Date');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Event Start Date');
     }
 
     if (model.eventEndDate == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Event End Date');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Event End Date');
     }
 
     if (model.lsm1 == null) {
@@ -87,7 +92,6 @@ class GeneralInfoState extends Equatable {
           status: false, message: 'Enter Requester Department');
     }
 
-
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -102,6 +106,7 @@ class GeneralInfoState extends Equatable {
     this.emailUsers,
     this.listOfEntities,
     required this.departments,
+    required this.vendors,
     this.getEntitiesResponse,
     this.participationDates,
     this.eventId,
@@ -117,8 +122,9 @@ class GeneralInfoState extends Equatable {
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
-    List<Entity>? listOfEntities,
+    List<Organisation>? listOfEntities,
     List<Organisation>? departments,
+    List<Organisation>? vendors,
     AddEntities? getEntitiesResponse,
     List<String>? participationDates,
     int? eventId,
@@ -134,6 +140,7 @@ class GeneralInfoState extends Equatable {
       emailUsers: emailUsers ?? this.emailUsers,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       departments: departments ?? this.departments,
+      vendors: vendors ?? this.vendors,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       participationDates: participationDates ?? this.participationDates,
       eventId: eventId ?? this.eventId,

@@ -12,7 +12,6 @@ import 'package:db_atom/src/features/occurrence/occurrences_details/general_info
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
@@ -27,9 +26,9 @@ import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
 import '../../../../createfound/models/serial_number_model.dart';
 
-part 'general_info_state.dart';
+part 'occurrence_general_info_state.dart';
 
-class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
+class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   final OccurrenceDetailsServices services;
   final String id;
   final CommonServices commonServices;
@@ -39,7 +38,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
     required this.commonServices,
     required this.id,
   }) : super(
-          GeneralInfoState.initial(
+          OccurrenceGeneralInfoState.initial(
             model: Occurrence(),
             locations: GetLocations(),
             users: const [],
@@ -76,9 +75,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
     var userId = await SharedPrefs.getUserId();
     try {
       Occurrence model = Occurrence();
-      if(!id.isEmptyOrNull) {
+      if (!id.isEmptyOrNull) {
         model = await OccurrenceDetailsServices().getOccurrence(id);
-
       }
 
       log('-model----${model.shiftBrfngAttnded}---');
@@ -103,9 +101,10 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
 
       List<User> entrySecurities = await commonServices.getUsers();
 
+      model.entrySecurity = loggedInUserDetails;
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-
+      state.model.status ?? 0;
       emit(
         state.copyWith(
           model: model,
@@ -133,11 +132,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
   }
 
   Future<void> updateDropdownValues({
-    List<Entity>? entities,
+    List<Organisation>? entities,
     Organisation? location,
-    // BaseUser? user,
+    BaseUser? shiftTakenOverBy,
     Organisation? vendor,
-    Entity? entity,
+    Organisation? entity,
     int? status,
   }) async {
     emit(
@@ -145,18 +144,29 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
         status: FormStatus.loading,
       ),
     );
-
-    /// Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.guardingRatesModule,
+        moduleCode: Constants.occurrenceModule,
       );
 
       state.model.location = location;
-      state.model.slNo = slNo.serialNo;
+      state.model.slNo = slNo.serialNo ?? '';
     }
 
+
+    if (status != null) {
+      state.model.status = status;
+    }
+    if (shiftTakenOverBy != null) {
+      User userDetails = User(
+        name: shiftTakenOverBy.name,
+        userId: shiftTakenOverBy.id,
+        userName: shiftTakenOverBy.name,
+        email: shiftTakenOverBy.email,
+      );
+      state.model.handOverSecurity = userDetails;
+    }
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
@@ -300,6 +310,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
         status: FormStatus.loading,
       ),
     );
+    state.model.inputDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     /// Create/Update API Call
     OccurrenceGeneralInfoRequest request =
@@ -309,7 +321,17 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
     GenericCreateResponse response = GenericCreateResponse();
     try {
       if (isSaveOnly) {
-        response = (await services.createOccurrence(
+        if (!state.isValidDraft.status) {
+          log('--isSaveOnly--else--if$isSaveOnly--');
+          emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValidDraft.message,
+            ),
+          );
+          return;
+        }
+        response = (await services.create(
           body: request,
           isSubmit: false,
         ));
@@ -324,8 +346,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
           );
           return;
         }
-        response =
-            (await services.createOccurrence(body: request, isSubmit: true));
+
+        response = (await services.create(
+          body: request,
+          isSubmit: true,
+        ));
       }
     } on Exception catch (e) {
       emit(
@@ -337,6 +362,13 @@ class OccurrenceGeneralInfoCubit extends Cubit<GeneralInfoState> {
     }
 
     // log('---response--msg--${response.message}---');
+
+    if (response.id != null) {
+      int? id = int.tryParse(response.id!);
+      if (id != null) {
+        state.model.id = id;
+      }
+    }
 
     emit(
       state.copyWith(

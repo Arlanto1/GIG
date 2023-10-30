@@ -4,7 +4,8 @@
 
 import 'dart:convert';
 
-import '../../../../models/entity.dart';
+import 'package:db_atom/src/models/organisation.dart';
+
 
 DayPassInfoResponseModel dayPassInfoResponseFromJson(String str) =>
     DayPassInfoResponseModel.fromJson(json.decode(str));
@@ -52,9 +53,9 @@ class DaypassInfoListElement {
   String? passNo;
   String? mifareNo;
   String? expiryDate;
-  InfoLocation? location;
-  Entity? region;
-  Entity? entity;
+  Organisation? location;
+  Organisation? region;
+  Organisation? entity;
   bool? dws;
   int? status;
 
@@ -80,9 +81,9 @@ class DaypassInfoListElement {
         expiryDate: json["expiryDate"],
         location: json["location"] == null
             ? null
-            : InfoLocation.fromJson(json["location"]),
-        region: json["region"] == null ? null : Entity.fromJson(json["region"]),
-        entity: json["entity"] == null ? null : Entity.fromJson(json["entity"]),
+            : Organisation.fromJson(json["location"]),
+        region: json["region"] == null ? null : Organisation.fromJson(json["region"]),
+        entity: json["entity"] == null ? null : Organisation.fromJson(json["entity"]),
         dws: json["dws"],
         status: json["status"],
       );
@@ -98,46 +99,6 @@ class DaypassInfoListElement {
         "entity": entity?.toJson(),
         "dws": dws,
         "status": status,
-      };
-}
-
-class InfoLocation {
-  int? id;
-  String? name;
-
-  InfoLocation({
-    this.id,
-    this.name,
-  });
-
-  factory InfoLocation.fromJson(Map<String, dynamic> json) => InfoLocation(
-        id: json["id"],
-        name: json["name"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-      };
-}
-
-class InfoRegion {
-  int? id;
-  String? name;
-
-  InfoRegion({
-    this.id,
-    this.name,
-  });
-
-  factory InfoRegion.fromJson(Map<String, dynamic> json) => InfoRegion(
-        id: json["id"],
-        name: json["name"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
       };
 }
 

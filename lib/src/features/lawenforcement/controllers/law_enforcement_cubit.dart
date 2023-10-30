@@ -24,7 +24,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../models/base_user.dart';
-import '../../../models/entity.dart';
 import '../../../models/organisation.dart';
 import '../../createfound/models/user.dart';
 
@@ -339,7 +338,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   Future<void> addingVisitis(
-      int value, List<VistingOfficialsModel>? getVisits) async {
+      int value, List<VisitingOfficialsModel>? getVisits) async {
     //int eventIds = Random.secure().nextInt(5);
     emit(
       state.copyWith(
@@ -378,9 +377,9 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     state.loadAttachments = [];
     //state.getUserDetailsResponse =  GetUserDetails();
     state.listOfEntities = [];
-    state.locationSelectedlist = Mumbai();
-    state.leoDepartmentsResponse = AtomLeoDepartment();
-    state.leoPurposeVisitResponse = AtomLeoPurposeVisit();
+    state.locationSelectedlist = Organisation();
+    state.leoDepartmentsResponse = Organisation();
+    state.leoPurposeVisitResponse = Organisation();
     state.loadAttachments = [];
     state.isDocumentifanySelected = 1;
     state.isIncaseofpoliceSelected = 1;
@@ -519,7 +518,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  getEntityData(List<Entity> listOfEntities) async {
+  getEntityData(List<Organisation> listOfEntities) async {
     try {
       int eventIds = Random.secure().nextInt(5);
       emit(
@@ -540,7 +539,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   getleoDepartmentsResponseData(
-      AtomLeoDepartment leoDepartmentsResponse) async {
+      Organisation leoDepartmentsResponse) async {
     try {
       emit(
         state.copyWith(
@@ -577,7 +576,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   getleopurposeResponseData(
-      AtomLeoPurposeVisit? leoPurposeVisitResponse) async {
+      Organisation? leoPurposeVisitResponse) async {
     try {
       emit(
         state.copyWith(
@@ -595,7 +594,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  getlocationsResponseData(Mumbai? locationSelectedlist) async {
+  getlocationsResponseData(Organisation? locationSelectedlist) async {
     try {
       emit(
         state.copyWith(

@@ -47,11 +47,11 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
     await createFoundArticleCubit.createUser(
         firstname, lastname, email, 'ATOM_STATIC_USER', context);
     }
-    else if (widget.createpassmgmtstate != null)
-    {
-       await createpassmgmtCubit.createUser(
-        firstname, lastname, email, 'ATOM_STATIC_USER', context);
-    }
+    // else if (widget.createpassmgmtstate != null)
+    // {
+    //    await createpassmgmtCubit.createUser(
+    //     firstname, lastname, email, 'ATOM_STATIC_USER', context);
+    // }
      else if (widget.lawstate != null)
     {
        await lawenforcementCubit.createUser(
@@ -84,7 +84,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
-        return Container(
+        return SizedBox(
           height: height / 1.8,
           width: width - 50,
           child: Scaffold(

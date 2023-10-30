@@ -50,6 +50,8 @@ class BaseDropDown {
     List<String>? dropDownValues,
     List<Label>? labelDropDownValue,
     required Function onTap,
+    final bool? pop,
+
   }) {
     showDialog(
       context: context,
@@ -58,6 +60,7 @@ class BaseDropDown {
           texts: dropDownValues ??
               labelDropDownValue?.map((label) => label.key).toList(),
           onTap: onTap,
+          pop: pop,
         );
       },
     );

@@ -16,7 +16,6 @@ import 'package:db_atom/src/features/createfound/controllers/create_found_cubit.
 import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_submit_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
@@ -34,6 +33,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../common_widgets/app_button.dart';
 import '../../../models/base_user.dart';
 import '../../../models/organisation.dart';
 import '../models/user.dart';
@@ -86,15 +86,15 @@ class _CreateFoundState extends State<CreateFound> {
   Organisation? selectedClaimdepartment;
   String claimantDepartmentName = '';
   String claimant = '';
-  ArticleList? selectedArtclelist;
+  Organisation? selectedArtclelist;
   BaseUser? selecteddepositorList;
   BaseUser? selectedClaimList;
   User? userDetails;
-  Mumbai? locationSelectedlist;
+  Organisation? locationSelectedlist;
   SubmitCreateFoundModel? createfoundResponse;
   SerialNumberModel? serialnumberResponse;
-  List<CreateImage>? getFiles;
-  List<FoundImage>? getAttachments;
+  List<CreateImage> getFiles=[];
+  List<FoundImage> getAttachments=[];
 
   @override
   void initState() {
@@ -116,10 +116,10 @@ class _CreateFoundState extends State<CreateFound> {
               name: widget.listuser?.depositor?.name ?? "")
           : BaseUser();
       selectedArtclelist = widget.listuser?.typeOfArticle != null
-          ? ArticleList(
+          ? Organisation(
               id: widget.listuser?.typeOfArticle?.id ?? 1,
               name: widget.listuser?.typeOfArticle?.name ?? "")
-          : ArticleList();
+          : Organisation();
       userDetails = widget.listuser?.entrySecurity != null
           ? User(
               userId: widget.listuser?.entrySecurity?.userId ?? 1,
@@ -129,10 +129,10 @@ class _CreateFoundState extends State<CreateFound> {
       serialNumber =
           widget.listuser?.slNo != null ? widget.listuser?.slNo ?? "" : '';
       locationSelectedlist = widget.listuser?.location != null
-          ? Mumbai(
+          ? Organisation(
               id: widget.listuser?.location?.id ?? 0,
               name: widget.listuser?.location?.name ?? "")
-          : Mumbai();
+          : Organisation();
       locationselectedText = locationSelectedlist?.name != null
           ? locationSelectedlist?.name ?? ""
           : '';
@@ -149,7 +149,8 @@ class _CreateFoundState extends State<CreateFound> {
           widget.listuser?.additionalInformation != null
               ? widget.listuser?.additionalInformation.toString() ?? ""
               : '';
-      founddateTextController.text = widget.listuser?.foundDate != null
+      founddateTextController.text = widget.listuser?.foundDate != null && widget.listuser
+          ?.foundDate != '0'
           ? Utils.timestamptoDateConversion(
               int.parse(widget.listuser?.foundDate ?? '0'),
               Constants.fulldateFormat)
@@ -264,12 +265,12 @@ class _CreateFoundState extends State<CreateFound> {
       "typeOfAsset":
           (assettypeTextController.text.toLowerCase()) == 'company' ? 1 : 0,
       "color":
-          colorTextController.text.length > 0 ? colorTextController.text : '',
+          colorTextController.text.isNotEmpty ? colorTextController.text : '',
       "slNo": serialNumber,
       "typeOfArticle": articleBody,
       "entrySecurity": entrySecurityBody,
       "foundLocation": foundLocationTextController.text,
-      "quantity": quantityTextController.text.length > 0
+      "quantity": quantityTextController.text.isNotEmpty
           ? int.parse(quantityTextController.text)
           : 0,
       "additionalInformation": additionalinformationTextController.text,
@@ -279,10 +280,10 @@ class _CreateFoundState extends State<CreateFound> {
       "location": locationBody,
       "depositorName": isDepositorDBEmployeeSelected == 1
           ? selecteddepositorList?.name ?? ''
-          : depositorTextController.text.length > 0
+          : depositorTextController.text.isNotEmpty
               ? depositorTextController.text
               : '',
-      "employeeId": depositorEmpIdTextController.text.length > 0
+      "employeeId": depositorEmpIdTextController.text.isNotEmpty
           ? depositorEmpIdTextController.text
           : '',
       "depositorDepartment": depositorDeptBody,
@@ -322,13 +323,13 @@ class _CreateFoundState extends State<CreateFound> {
         TypeOfArticle(id: selectedArtclelist?.id ?? 1);
     User? entrysecurtity = User(userId: userDetails?.userId ?? 1);
     Depositor? depositor = Depositor(userId: selecteddepositorList?.id ?? 1);
-    CreateLocation? location =
-        CreateLocation(id: locationSelectedlist?.id ?? 1);
+    Organisation? location =
+        Organisation(id: locationSelectedlist?.id ?? 1);
     DepositorDepartment? depositordep =
         DepositorDepartment(id: selectedEmployeedepartment?.id ?? 1);
     List<CreateImage>? images = getFiles ?? [];
-    CreateClaimantDepartment? createclaimantDepartment =
-        CreateClaimantDepartment(
+    Organisation? createclaimantDepartment =
+        Organisation(
             id: widget.listuser?.claimantDepartment?.id ?? 1,
             name: widget.listuser?.claimantDepartment?.name ?? '');
     CreateClaimant? claimant = CreateClaimant(
@@ -359,24 +360,24 @@ class _CreateFoundState extends State<CreateFound> {
         handoverDate: handoverdate,
         claimantEmployeeId: claimantEmpIdTextController.text.isEmpty
             ? 0
-            : int.parse(claimantEmpIdTextController.text) ?? 0,
+            : int.parse(claimantEmpIdTextController.text),
         slNo: serialNumber,
         images: images,
         typeOfAsset:
             (assettypeTextController.text.toLowerCase()) == 'company' ? 1 : 0,
         typeOfArticle: typeOfArticle,
-        foundLocation: foundLocationTextController.text.length > 0
+        foundLocation: foundLocationTextController.text.isNotEmpty
             ? foundLocationTextController.text
             : '',
         additionalInformation:
-            additionalinformationTextController.text.length > 0
+            additionalinformationTextController.text.isNotEmpty
                 ? additionalinformationTextController.text
                 : '',
-        quantity: quantityTextController.text.length > 0
+        quantity: quantityTextController.text.isNotEmpty
             ? int.parse(quantityTextController.text)
             : 0,
         color:
-            colorTextController.text.length > 0 ? colorTextController.text : '',
+            colorTextController.text.isNotEmpty ? colorTextController.text : '',
         status: statusvalue,
         depositorDbEmp: isDepositorDBEmployeeSelectedvalue,
         inputDate: inputdate,
@@ -385,12 +386,12 @@ class _CreateFoundState extends State<CreateFound> {
         location: location,
         depositorName: isDepositorDBEmployeeSelected == 1
             ? selecteddepositorList?.name ?? ''
-            : depositorTextController.text.length > 0
+            : depositorTextController.text.isNotEmpty
                 ? depositorTextController.text
                 : '',
         depositor: depositor,
         depositorDepartment: depositordep,
-        employeeId: depositorEmpIdTextController.text.length > 0
+        employeeId: depositorEmpIdTextController.text.isNotEmpty
             ? depositorEmpIdTextController.text
             : '');
     found.eventProtection = widget.eventId;
@@ -649,7 +650,7 @@ class _CreateFoundState extends State<CreateFound> {
         context: context,
         builder: (BuildContext context) {
           return CustomSimpleListTexts(
-            texts: ["Personal", "company"],
+            texts: const ["Personal", "company"],
             onTap: (String value) {
               print(value);
               assettypeTextController.text = value;
@@ -679,7 +680,7 @@ class _CreateFoundState extends State<CreateFound> {
                     );
                   });
             },
-            onTap: (ArticleList list) {
+            onTap: (Organisation list) {
               print(list.name);
               selectedArtclelist = list;
               setState(() {});
@@ -704,7 +705,8 @@ class _CreateFoundState extends State<CreateFound> {
     //you can implement different kind of Date Format here according to your requirement
     if (textfield == founddateTextController) {
       founddateTextController.text = formattedDate;
-    } else if (textfield == handedoverdatedateTextController) {
+    }
+    else if (textfield == handedoverdatedateTextController) {
       handedoverdatedateTextController.text = formattedDate;
     }
     setState(() {
@@ -799,7 +801,7 @@ class _CreateFoundState extends State<CreateFound> {
     if (locationSelectedlist == null &&
         state.getLocationsResponse != null &&
         widget.listuser == null) {
-      locationSelectedlist = Mumbai(id: 24, name: "DLF Square");
+      locationSelectedlist = Organisation(id: 24, name: "DLF Square");
       locationselectedText = 'DLF Square';
       await createFoundArticleCubit.getSerialnumberDetails('24', 'AF', context);
     }
@@ -823,10 +825,10 @@ class _CreateFoundState extends State<CreateFound> {
             icon: SvgPicture.asset(AppIcon.backIcon,
                 color: AppColors.backgroundWhitecolor),
           ),
+
           action: [
             Visibility(
-              visible:
-                  widget.listuser?.status == 0 && widget.listuser?.status == 1,
+              visible: widget.listuser?.status != 2,
               child: GestureDetector(
                 onTap: () {
                   //for now the new param is isSubmit added, if any new params needed we can add to this.
@@ -842,26 +844,26 @@ class _CreateFoundState extends State<CreateFound> {
                 ),
               ),
             ),
-        Visibility(
-          visible:
-          widget.listuser?.status == 0 && widget.listuser?.status == 1,
-         child: GestureDetector(
-              onTap: () {
-                //createNewuserBody(); //in this method createfoundValidations, calling the createNewuserBody
-                createfoundValidations(context);
-              },
-              child: const Padding(
-                padding: EdgeInsets.only(right: 20.0),
-                child: Icon(
-                  Icons.send,
-                  color: AppColors.backgroundWhitecolor,
-                ),
-                // SvgPicture.asset(
-                //   AppIcon.createfoundsaveicon,
-                //),
-              ),
-            ),
-        ),
+            //Visibility(
+            //   //visible:
+            //  // widget.listuser?.status == 0 && widget.listuser?.status == 1,
+            //  child: GestureDetector(
+            //       onTap: () {
+            //         //createNewuserBody(); //in this method createfoundValidations, calling the createNewuserBody
+            //         createfoundValidations(context);
+            //       },
+            //       child: const Padding(
+            //         padding: EdgeInsets.only(right: 20.0),
+            //         child: Icon(
+            //           Icons.send,
+            //           color: AppColors.backgroundWhitecolor,
+            //         ),
+            //         // SvgPicture.asset(
+            //         //   AppIcon.createfoundsaveicon,
+            //         //),
+            //       ),
+            //     ),
+            // ),
           ],
           //backgroundColor: AppColors.navigationSkybluecolor,
         ),
@@ -1204,34 +1206,7 @@ class _CreateFoundState extends State<CreateFound> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            // FlutterInputField(
-                            //   onTap: () {
-                            //     colorDailog();
-                            //   },
-                            //   textFieldController: colorTextController,
-                            //   textFormKey: Keys.colorTextController,
-                            //   isEnable: widget.listuser == null
-                            //       ? true
-                            //       : (widget.listuser != null &&
-                            //               (widget.listuser?.color ?? '')
-                            //                   .isEmpty)
-                            //           ? true
-                            //           : false,
-                            //   isDisableColor: (widget.listuser != null &&
-                            //               (widget.listuser?.color ?? '')
-                            //                   .isEmpty) ||
-                            //           widget.listuser == null
-                            //       ? false
-                            //       : true,
-                            //   hintText: '',
-                            //   onChange: (String username) {
-                            //     //this.username = username;
-                            //     setState(() {});
-                            //   },
-                            //   validateTextField: (String? user) {},
-                            //   // )
-                            //   //)
-                            // ),
+
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -1254,15 +1229,12 @@ class _CreateFoundState extends State<CreateFound> {
                                         ? ('${selecteddepositorList?.name ?? ''}(${selecteddepositorList?.email ?? ''})')
                                         : '',
                                     height: 70,
-                                    isDisableColor: widget.listuser == null ||
-                                            (selecteddepositorList?.name ?? '')
-                                                .isEmpty
-                                        ? false
-                                        : true,
+                                    isDisableColor: widget.listuser?.status != 0 && widget.listuser !=null
+                                        ? true
+                                        : false,
                                     onTap: () {
-                                      if (widget.listuser == null ||
-                                          (selecteddepositorList?.name ?? '')
-                                              .isEmpty) {
+                                      if (widget.listuser?.status == 0 || widget.listuser == null )
+                                         {
                                         depositorDialog(
                                             state, Constants.depositor);
                                       }
@@ -1339,6 +1311,8 @@ class _CreateFoundState extends State<CreateFound> {
                                 ? CommonWidgets.verticalSpacerWidget(
                                     height * 0.01)
                                 : Container(),
+
+
                             // employee department
                             isDepositorDBEmployeeSelected == 1
                                 ? CommonWidgets.textDisplay(
@@ -1355,17 +1329,12 @@ class _CreateFoundState extends State<CreateFound> {
                                     title:
                                         selectedEmployeedepartment?.name ?? '',
                                     height: 60,
-                                    isDisableColor: widget.listuser == null ||
-                                            (selectedEmployeedepartment?.name ??
-                                                    '')
-                                                .isEmpty
-                                        ? false
-                                        : true,
+                                    isDisableColor: widget.listuser != null && widget.listuser?.status != 0
+                                        ? true
+                                        : false,
                                     onTap: () {
-                                      if (widget.listuser == null ||
-                                          (selectedEmployeedepartment?.name ??
-                                                  '')
-                                              .isEmpty) {
+                                      if (widget.listuser == null ||widget.listuser?.status == 0)
+                                          {
                                         employeeDepartmentDialog(state,
                                             Constants.employeedepartment);
                                       }
@@ -1391,6 +1360,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       isClaimantDBEmployeeSelected,
                                       Constants.isclaimantdbemployee)
                                   : Container(),
+
                               // claimant
                               widget.listuser != null
                                   ? CommonWidgets.textDisplay(
@@ -1405,7 +1375,7 @@ class _CreateFoundState extends State<CreateFound> {
                                           claimantTextController,
                                       textFormKey: Keys.claimantTextController,
                                       hintText: claimant,
-                                      isEnable: widget.listuser == null
+                                      isEnable: widget.listuser?.status != 2
                                           ? true
                                           : (widget.listuser != null &&
                                                   (widget.listuser?.claimant
@@ -1415,7 +1385,7 @@ class _CreateFoundState extends State<CreateFound> {
                                               ? true
                                               : false,
                                       isDisableColor:
-                                          (widget.listuser != null &&
+                                          (widget.listuser?.status != 2 &&
                                                   (widget.listuser?.claimant
                                                               ?.lastName ??
                                                           '')
@@ -1433,17 +1403,11 @@ class _CreateFoundState extends State<CreateFound> {
                                       ? TextfieldAddButton(
                                           title: selectedClaimList?.name ?? '',
                                           height: 60,
-                                          isDisableColor: widget.listuser ==
-                                                      null ||
-                                                  (selectedClaimList?.name ??
-                                                          '')
-                                                      .isEmpty
+                                          isDisableColor: widget.listuser?.status !=2
                                               ? false
                                               : true,
                                           onTap: () {
-                                            if (widget.listuser == null ||
-                                                (selectedClaimList?.name ?? '')
-                                                    .isEmpty) {
+                                            if ( widget.listuser?.status !=2) {
                                               depositorDialog(
                                                   state, Constants.claimant);
                                             }
@@ -1481,7 +1445,7 @@ class _CreateFoundState extends State<CreateFound> {
                                           claimantEmpIdTextController,
                                       textFormKey:
                                           Keys.claimantEmpIdTextController,
-                                      isEnable: widget.listuser == null
+                                      isEnable:  widget.listuser?.status !=2
                                           ? true
                                           : (widget.listuser != null &&
                                                   (widget.listuser
@@ -1490,12 +1454,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                       .isEmpty)
                                               ? true
                                               : false,
-                                      isDisableColor: (widget.listuser !=
-                                                  null &&
-                                              (widget.listuser
-                                                          ?.claimantEmployeeId ??
-                                                      '')
-                                                  .isEmpty)
+                                      isDisableColor: ( widget.listuser?.status !=2)
                                           ? false
                                           : true,
                                       hintText: '',
@@ -1532,17 +1491,12 @@ class _CreateFoundState extends State<CreateFound> {
                                       title:
                                           (selectedClaimdepartment?.name ?? ''),
                                       height: 60,
-                                      isDisableColor: widget.listuser == null ||
-                                              (selectedClaimdepartment?.name ??
-                                                      '')
-                                                  .isEmpty
-                                          ? false
-                                          : true,
+                                      isDisableColor: widget.listuser == null && widget.listuser?.status == 3
+                                          ? true
+                                          : false,
                                       onTap: () {
-                                        if (widget.listuser == null ||
-                                            (selectedClaimdepartment?.name ??
-                                                    '')
-                                                .isEmpty) {
+                                       // if (widget.listuser == null ||widget.listuser?.status == 0)
+                                        {
                                           employeeDepartmentDialog(state,
                                               Constants.claimantdepartment);
                                         }
@@ -1652,7 +1606,7 @@ class _CreateFoundState extends State<CreateFound> {
                                     height: 60,
                                     decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: Color(0xFFCACACA),
+                                          color: const Color(0xFFCACACA),
                                           width: 1.0,
                                         ),
                                         borderRadius: const BorderRadius.all(
@@ -1714,19 +1668,28 @@ class _CreateFoundState extends State<CreateFound> {
                                 : Container(),
                             getAttachments != null ||
                                     getFiles != null ||
-                                    getFiles?.length != 0 ||
-                                    getAttachments?.length != 0
+                                    getFiles.isNotEmpty ||
+                                    getAttachments.isNotEmpty
                                 ? CommonWidgets.verticalSpacerWidget(
                                     height * 0.01)
                                 : Container(),
-                            (getAttachments == null ||
-                                    getAttachments?.length == 0 ||
+                            (getAttachments.isEmpty ||
                                     widget.listuser == null)
-                                ? getFiles?.length == 0 || getFiles == null
+                                ? getFiles.isEmpty
                                     ? Container()
                                     : attachmentListviews(
                                         getFiles, getAttachments)
                                 : attachmentListviews(getFiles, getAttachments),
+                            if (widget.listuser?.status != 2) ...[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  cancelButtonDisplay(),
+                                  submitButtonDisplay()
+                                ],
+                              ),
+                            ],
                           ],
                         )),
                   ),
@@ -1735,10 +1698,41 @@ class _CreateFoundState extends State<CreateFound> {
         ));
   }
 
+  Widget submitButtonDisplay() {
+    return // Login button
+        AppButton(
+      width: 150,
+      // disableColor: isHandedOver,
+      key: const Key(Keys.submitButton),
+      buttonText: Constants.submit,
+      buttonTextKey: Keys.submitButton,
+      onTap: () async {
+        //loginFormKey.currentState!.validate();
+        FocusScope.of(context).unfocus();
+        createfoundValidations(context);
+      },
+    );
+  }
+
+  Widget cancelButtonDisplay() {
+    return AppButton(
+      // Customize the button properties as needed
+      width: 150,
+      backgroundColor: Colors.white,
+      key: const Key(Keys.cancelButton),
+      buttonText: Constants.cancel,
+      buttonTextKey: Keys.cancelButton,
+      onTap: () {
+        Navigator.pop(context);
+      },
+    );
+  }
+
   Widget locationWidgetdislay(CreateFoundState state) {
     return GestureDetector(
       onTap: () {
-        if (widget.listuser == null || locationselectedText.isEmpty) {
+        //if (widget.listuser == null || locationselectedText.isEmpty)
+        {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
@@ -1746,7 +1740,7 @@ class _CreateFoundState extends State<CreateFound> {
               return CustomExpansionListTexts(
                 getLocationsresponse:
                     state.getLocationsResponse ?? GetLocations(),
-                onTap: (Mumbai? list) async {
+                onTap: (Organisation? list) async {
                   print(list?.name);
                   await createFoundArticleCubit.getSerialnumberDetails(
                       list?.id.toString() ?? '', 'AF', context);
@@ -1763,7 +1757,7 @@ class _CreateFoundState extends State<CreateFound> {
           height: 60,
           decoration: BoxDecoration(
               border: Border.all(
-                color: Color(0xFFCACACA),
+                color: const Color(0xFFCACACA),
                 width: 1.0,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(8))),
@@ -1869,15 +1863,11 @@ class _CreateFoundState extends State<CreateFound> {
     return TextfieldAddButton(
       title: selectedArtclelist?.name ?? '',
       height: 60,
-      isDisableColor: widget.listuser == null ||
-              (selectedArtclelist != null &&
-                  ((selectedArtclelist?.name ?? '').isEmpty))
-          ? false
-          : true,
+      isDisableColor: widget.listuser?.status != 2 && widget.listuser != null
+          ? true
+          : false,
       onTap: () {
-        if (widget.listuser == null ||
-            (selectedArtclelist != null &&
-                ((selectedArtclelist?.name ?? '').isEmpty))) {
+        if (widget.listuser?.status != 2) {
           articleTypeDialog(state);
         }
       },
@@ -1887,7 +1877,7 @@ class _CreateFoundState extends State<CreateFound> {
   Widget datepickerWidgetLoading(TextEditingController textfiled) {
     return GestureDetector(
       onTap: () {
-        if (widget.listuser == null || textfiled.text.isEmpty) {
+        if ( widget.listuser == null) {
           datePickerDialog(textfiled);
         }
       },
@@ -1934,7 +1924,7 @@ class _CreateFoundState extends State<CreateFound> {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Color(0xFFCACACA),
+          color: const Color(0xFFCACACA),
           style: BorderStyle.solid,
           width: 1.0,
         ),
@@ -1961,7 +1951,7 @@ class _CreateFoundState extends State<CreateFound> {
                   trailing: widget.listuser != null
                       ? SvgPicture.asset(AppIcon.download,
                           color: AppColors.boldgreyBackground)
-                      : SizedBox(
+                      : const SizedBox(
                           height: 0,
                           width: 0,
                         ),
@@ -1974,7 +1964,7 @@ class _CreateFoundState extends State<CreateFound> {
                       : Text(imagedata?.title ?? ''),
                 ),
 
-                Divider(
+                const Divider(
                   color: Color(0xFFCACACA),
                   thickness: 1,
                 ), //                           <-- Divider

@@ -9,7 +9,13 @@ class Constants {
   static const String materialMovementOutwardReturnableModule = 'MMOUTY';
   static const String materialMovementOutwardNonReturnableModule = 'MMOUTN';
   static const String guardingMasterDataModule = 'GM';
+  static const String passManagementModule = 'PMDYP';
+  static const String passManagementSEZModule = 'PMSEZ';
+  static const String visitorManagementModule = 'PMVSP';
+  static const String vendorPassManagementModule = 'PMVNP';
+  static const String eventProtectionModule = 'EP';
   static const String guardingRatesModule = 'GR';
+  static const String occurrenceModule = 'OCC';
   static const String incidentManagementModule = 'IM';
 
   static const String customFontFamily = 'Poppins';
@@ -173,7 +179,7 @@ class Constants {
   static const String addreasonforvendorpass = 'Add Reason for Vendor Pass';
   static const String save = 'Save';
   static const String cancel = 'Cancel';
-  static const String show = 'Show List';
+  static const String showList = 'Show List';
   static const String add = 'Add';
   static const String newuser = 'New User';
   static const String newuserdesc =
@@ -216,14 +222,14 @@ class Constants {
   static const String incaseofpolicewasofficialinuniform =
       'In case of Police, was official in uniform?';
   static const String designation = 'Designation';
-  static const String officeaddress = 'Office Address';
+  static const String officeAddress = 'Office Address';
   static const String emailid = 'Email Id';
   static const String contactno = 'Contact No';
   static const String department = 'Department';
   static const String distributiongroups = 'Distribution Groups';
   static const String upload = 'Upload';
   static const String uploadPhoto = 'Upload Photo';
-  static const String addanothervisitingofficialdetails =
+  static const String addvisitingofficialdetails =
       "Add Another Visiting Official Details";
   static const String visitingofficialdetails = "Visiting Official Details";
 
@@ -233,6 +239,7 @@ class Constants {
   static const String employeeid = 'Employee Id';
   static const String hostemployeeid = 'Host Employee Id';
   static const String host = 'Host';
+  static const String passIssuedOn = 'Pass Issued On';
   static const String passvlidfrom = 'Pass Valid From';
   static const String passvliduntil = 'Pass Valid Until';
   static const String escortedby = 'Escorted By';
@@ -270,6 +277,7 @@ class Constants {
 
   /// Material Movement
   static const String materialMovementsType = 'Material Movement Type';
+  static const String signatureTitle = 'Give Signature';
   static const String materialMovementsInwardTitle =
       'Inward Material Movement List';
   static const String materialMovementsOutwardTitle =
@@ -511,6 +519,7 @@ class Constants {
   static const String createOccurrence = 'Create Occurrence';
   static const String editOccurrence = 'Edit Occurrence';
   static const String shiftHandoverBy   = 'Shift Handover By  ';
+  static const String shiftTakenOverBy = 'Shift Taken Over By';
   static const String shiftBriefingAttended  ='Shift Briefing Attended';
   static const String premisesRoundTaken    ='Premises Round Taken';
    static const String medicalEmergency    ='Medical Emergency';
@@ -540,6 +549,8 @@ class Constants {
   static const String systemManager = 'System Manager';
   static const String lsm = 'LSM';
   static const String asl = 'ASL';
+  static const String system = 'System';
+  static const String vendorPoc = 'Vendor Poc';
   static const String locationTeam = 'Location Team';
   static const String shortIncidentDescription = 'Short Description of Incident';
   static const String detailIncidentDescription = 'Detail Description';
@@ -565,6 +576,11 @@ const List<Label> occurrenceStatusDropDownValues = [
   Label(key: 'Created', value: '0'),
   Label(key: 'Submitted', value: '1'),
 ];
+
+const List<Label> sstIncidentType = [
+  Label(key: 'Internal', value: '0'),
+  Label(key: 'External', value: '1'),
+];
 const List<Label> systemAccessDropDownValues = [
   Label(key: 'Yes', value: '1'),
   Label(key: 'No', value: '2'),
@@ -584,6 +600,15 @@ const List<Label> dutyTypeDropDownValues = [
   Label(key: 'Escort', value: '2'),
   Label(key: 'Facility', value: '3'),
   Label(key: 'Building & Escort', value: '4'),
+];
+
+const List<Label> systemDropDownValues = [
+  Label(key: 'Access Control System', value: '1'),
+  Label(key: 'Video Management System', value: '2'),
+  Label(key: 'Intrusion Detection System', value: '3'),
+  Label(key: 'ACS AND CCTV', value: '4'),
+  Label(key: 'IDS AND CCTV', value: '5'),
+  Label(key: 'ACS, CCTV AND IDS', value: '6'),
 ];
 
  const List<Label> assetTypeValues = [
@@ -679,6 +704,11 @@ const List<Label> guardRankDropDownValues = [
 const List<Label> deploymentTypeDropDownValues = [
   Label(key: 'New Deployment', value: '1'),
   Label(key: 'Redeployment', value: '2'),
+];
+
+const List<Label> categoryValues = [
+  Label(key: 'Permanent', value: '0'),
+  Label(key: 'Temporary', value: '1'),
 ];
 
 const List<Label> mSGBFormBSubmittedDropDownValues = [

@@ -1,8 +1,11 @@
 import 'dart:developer';
 
+import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';
-import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/cubits/general_info_cubit.dart';
+import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
+import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_cubit.dart';
+import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,6 +30,7 @@ import '../../../../../utils/util.dart';
 import '../../../../../utils/validators/validator.dart';
 import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import '../../../../createfound/models/create_found_request.dart';
+import '../../../../createfound/models/get_locations_model.dart';
 import '../../../../createfound/models/user.dart';
 
 class OccurrenceDetails extends StatefulWidget {
@@ -50,7 +54,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
       TextEditingController();
   TextEditingController powerFailureEndDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
-  bool isDisabled = true;
+  bool disableForm = true;
 
   get guardingMasterData => null;
 
@@ -64,9 +68,9 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    return BlocConsumer<OccurrenceGeneralInfoCubit, GeneralInfoState>(
+    return BlocConsumer<OccurrenceGeneralInfoCubit, OccurrenceGeneralInfoState>(
       listener: (context, state) {
-        log('-state.status---${state.status}----');
+        log('State Status: ${state.status}');
         // log('-deploymentOrderSubmitted---${state.guardingMasterData.deploymentOrderSubmitted}----');
 
         if (state.status == FormStatus.success) {
@@ -80,8 +84,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
               Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
-                guardingMasterDataRoute,
-                arguments: {},
+                occurrenceRoute,
               );
             },
           );
@@ -132,10 +135,12 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     //     Constants.dateFormat);
   }
 
-  getBodybuilder(GeneralInfoState state, height) {
+  getBodybuilder(OccurrenceGeneralInfoState state, height) {
     //returnableTextController.text =
     // state.materialMovement.returnable! ? 'Returnable' : 'Non Returnable';
-
+    if (state.model.status != null && state.model.status! > 0) {
+      disableForm = true;
+    }
     if (state.status == FormStatus.loading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -193,10 +198,10 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseDropDown().getDropDown(
-                                isDisabled: isDisabled,
+                                isDisabled: disableForm,
                                 textController: statusController,
                                 items: occurrenceStatusDropDownValues,
-                                initialValue: '${state.model.status ?? 0}',
+                                initialValue: '${state.model.status ??= 0}',
                                 onTap: () {
                                   BaseDropDown().assetTypeDialog(
                                     context: context,
@@ -213,6 +218,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                         orElse: () =>
                                             const Label(key: '', value: ''),
                                       );
+
                                       BlocProvider.of<
                                                   OccurrenceGeneralInfoCubit>(
                                               context)
@@ -231,12 +237,55 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                   '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                              /// Shift Taken Over by
+                              CommonWidgets.textDisplay(
+                                Constants.shiftTakenOverBy,
+                                Styles.textStyleBlack14,
+                              ),
+                              TextfieldAddButton(
+                                  title: state.model.handOverSecurity?.name,
+                                  height: 70,
+                                  isDisableColor:
+                                      state.model.status != 6 ? false : true,
+                                  onTap: () {
+                                    if (state.model.status != 6) {
+                                      BaseDepartmentDialog().userDialog(
+                                        context: context,
+                                        users: state.emailUsers!,
+                                        onTap: (BaseUser user) {
+                                          BlocProvider.of<
+                                                      OccurrenceGeneralInfoCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  shiftTakenOverBy: user);
+                                        },
+                                      );
+                                    }
+                                  }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                               /// Location
                               CommonWidgets.textDisplay(
                                   Constants.location, Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
-                              locationWidgetdislay(state),
+                              locationWidgetdislay(
+                                  selectedLocation:
+                                      state.model.location?.name ?? '',
+                                  enabled: state.model.id == null ||
+                                      (state.model.location?.name ?? '')
+                                          .isEmpty,
+                                  locations: state.locations,
+                                  onTap: (Organisation? location) async {
+                                    log('location?.name-----${location?.name}');
+
+                                    state.model.location = location;
+
+                                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            location: location);
+                                  }),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Date of creation
@@ -592,21 +641,18 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     Constants.incidentItemList,
                                     Styles.textStyleBlack14),
                                 GestureDetector(
-                                  onTap: () => {
-                                    Navigator.pushNamed(context,
-                                        incidentManagementDetailsRoute),
-                                  },
+                                  onTap: () => navigateToCreateIncident(
+                                    state: state,
+                                    occId: 1,
+                                    isSSTIncident: false,
+                                  ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      // Expanded(
-                                      //child
                                       const SizedBox(width: 14),
                                       SvgPicture.asset(
                                         AppIcon.pluscircle,
-                                        //color: AppColors.navigationSkybluecolor,
                                       ),
-                                      // ),
                                       const SizedBox(width: 10),
                                       const Text(
                                         'Add Incident Item List',
@@ -618,7 +664,13 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                       ),
                                       if (state.model.incidentItems !=
                                           null) ...[
-                                        showButtonDisplay(),
+                                        CommonWidgets.horizontalSpacerWidget(
+                                            height * 0.01),
+                                        showButtonDisplay(
+                                          occId: state.model.id.toString(),
+                                          occType: 1,
+                                          state: state,
+                                        ),
                                       ],
                                     ],
                                   ),
@@ -716,10 +768,11 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     Constants.incidentItemList,
                                     Styles.textStyleBlack14),
                                 GestureDetector(
-                                  onTap: () => {
-                                    Navigator.pushNamed(context,
-                                        incidentManagementDetailsRoute),
-                                  },
+                                  onTap: () => navigateToCreateIncident(
+                                    state: state,
+                                    occId: 2,
+                                    isSSTIncident: false,
+                                  ),
                                   child: Row(
                                     children: <Widget>[
                                       // Expanded(
@@ -739,6 +792,16 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
+                                      if (state.model.incidentItems !=
+                                          null) ...[
+                                        CommonWidgets.horizontalSpacerWidget(
+                                            height * 0.01),
+                                        showButtonDisplay(
+                                          occId: state.model.id.toString(),
+                                          occType: 2,
+                                          state: state,
+                                        ),
+                                      ],
                                     ],
                                   ),
                                 ),
@@ -859,54 +922,49 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                   Constants.securitySystemFailureIncidents,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.secSysFailureIncdnt ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
-                                      ? null
-                                      : (val) {
-                                          state.model.secSysFailureIncdnt =
-                                              true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  secSysFailureIncdnt: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: state.model.status == 4
-                                      ? null
-                                      : (val) {
-                                          state.model.secSysFailureIncdnt =
-                                              false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  secSysFailureIncdnt: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
-                                        }),
+                                status: state.model.status ?? 0,
+                                selectedValue:
+                                    state.model.secSysFailureIncdnt ? 1 : 0,
+                                onChangedYes: state.model.status == 6
+                                    ? null
+                                    : (val) {
+                                        state.model.secSysFailureIncdnt = true;
+                                        BlocProvider.of<
+                                                    OccurrenceGeneralInfoCubit>(
+                                                context)
+                                            .showFields(
+                                                secSysFailureIncdnt: true);
+                                        //.onModelValueChange(state.guardingMasterData
+                                        //);
+                                      },
+                                onChangedNo: state.model.status == 4
+                                    ? null
+                                    : (val) {
+                                        state.model.secSysFailureIncdnt = false;
+                                        BlocProvider.of<
+                                                    OccurrenceGeneralInfoCubit>(
+                                                context)
+                                            .showFields(
+                                                secSysFailureIncdnt: false);
+                                        // .onModelValueChange(state.guardingMasterData
+                                        //  );
+                                      },
+                              ),
                               if (state.model.secSysFailureIncdnt == true) ...[
                                 CommonWidgets.textDisplay(
                                     Constants.securitySystemSLAList,
                                     Styles.textStyleBlack14),
                                 GestureDetector(
-                                  onTap: () => {
-                                    Navigator.pushNamed(context,
-                                        incidentManagementDetailsRoute),
+                                  onTap: () {
+                                    openPopUp(state);
                                   },
                                   child: Row(
                                     children: <Widget>[
-                                      // Expanded(
-                                      //child:
                                       const SizedBox(width: 14),
                                       SvgPicture.asset(
                                         AppIcon.pluscircle,
                                         //color: AppColors.navigationSkybluecolor,
                                       ),
-                                      // ),
                                       const SizedBox(width: 10),
                                       const Text(
                                         'Add Security System SLA List',
@@ -916,6 +974,18 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
+                                      if (state.model.secSysFailureIncident !=
+                                          null) ...[
+                                        CommonWidgets.horizontalSpacerWidget(
+                                            height * 0.01),
+                                        showButtonDisplay(
+                                          occId: state.model.id.toString(),
+                                          occType: 2,
+                                          state: state,
+                                          isSSTIncident: true,
+                                          showPopUp: true,
+                                        ),
+                                      ],
                                     ],
                                   ),
                                 ),
@@ -1126,7 +1196,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                 BaseDate().datePickerWidgetLoading(
                                   textController:
                                       powerFailureStartDateController,
-                                  onlyDate: true,
                                   onChange: (String value) {
                                     state.model.powerFailureStartDate =
                                         Utils().formatTime(value);
@@ -1149,7 +1218,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
 
                                 BaseDate().datePickerWidgetLoading(
                                   textController: powerFailureEndDateController,
-                                  onlyDate: true,
                                   onChange: (String value) {
                                     state.model.powerFailureEndDate =
                                         Utils().formatTime(value);
@@ -1320,6 +1388,29 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
         ])));
   }
 
+  openPopUp(OccurrenceGeneralInfoState state) {
+    BaseDropDown().assetTypeDialog(
+      context: context,
+      dropDownValues: sstIncidentType.map((label) => label.key).toList(),
+      pop: false,
+      onTap: (String value) {
+        Label? selectedLabel;
+        selectedLabel = sstIncidentType.firstWhere(
+          (label) => label.key == value,
+          orElse: () => const Label(key: '', value: ''),
+        );
+
+        // Call navigateToCreateIncident here
+        navigateToCreateIncident(
+          state: state,
+          occId: 1,
+          isSSTIncident: true,
+          isInternal: selectedLabel.value == '0' ? true : false,
+        );
+      },
+    );
+  }
+
   String getStatusString(int status) {
     switch (status) {
       case 1:
@@ -1349,17 +1440,60 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     );
   }
 
-  Widget showButtonDisplay() {
+  Future<void> navigateToCreateIncident({
+    required OccurrenceGeneralInfoState state,
+    required int occId,
+    required bool isSSTIncident,
+    bool? isInternal,
+  }) async {
+    log('---navigateToCreateIncident--@@@-');
+    // if (state.model.id == null) {
+    //   BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
+    //       .submitForm(isSaveOnly: true);
+    // }
+
+    var map = {
+      'occId': state.model.id.toString(),
+      'occType': occId,
+    };
+    if (isInternal ?? false) {
+      map.putIfAbsent('isInternal', () => isInternal ?? false);
+    }
+    log('---navigateToCreateIncident--@@@----2----');
+
+    Navigator.pushNamed(
+      context,
+      isSSTIncident ? sstIncidentDetailsRoute : incidentManagementDetailsRoute,
+      arguments: map,
+    );
+  }
+
+  Widget showButtonDisplay({
+    required String occId,
+    required int occType,
+    bool? isSSTIncident,
+    bool? showPopUp,
+    required OccurrenceGeneralInfoState state,
+  }) {
     return AppButton(
       // Customize the button properties as needed
       height: 40,
       width: 100,
       backgroundColor: Colors.white,
       key: const Key(Keys.showButton),
-      buttonText: Constants.show,
+      buttonText: Constants.showList,
       buttonTextKey: Keys.showButton,
       onTap: () => {
-        Navigator.pushNamed(context, incidentManagementRoute),
+        showPopUp ?? false
+            ? openPopUp(state)
+            : Navigator.pushNamed(
+                context,
+                incidentManagementsRoute,
+                arguments: {
+                  'occId': occId,
+                  'occType': occType,
+                },
+              ),
       },
     );
   }
@@ -1429,35 +1563,35 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
   //   );
   // }
 
-  Widget locationWidgetdislay(GeneralInfoState state) {
+  Widget locationWidgetdislay({
+    required bool enabled,
+    GetLocations? locations,
+    required String selectedLocation,
+    Function? onTap,
+  }) {
     return GestureDetector(
       onTap: () {
-        // if (widget.occurrence == null ||
-        //     (state.occurrence.location?.name ?? '').isEmpty)
-        //     {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            // print(state.getLocationsResponse);
-            return CustomExpansionListTexts(
-              getLocationsresponse: state.locations,
-              onTap: (Organisation? list) async {
-                log('list?.name-----${list?.name}');
-
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
-                state.model.location = location;
-
-                BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
-                    .updateDropdownValues(location: location);
-              },
-            );
-          },
-        );
-        // }
+        if (enabled) {
+          selectLocation(
+            locations: locations,
+            onTap: onTap,
+          );
+        }
       },
-      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
+      child: SelectedTileValueWidget(name: selectedLocation),
+    );
+  }
+
+  void selectLocation({GetLocations? locations, Function? onTap}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        // print(state.getLocationsResponse);
+        return CustomExpansionListTexts(
+          getLocationsresponse: locations,
+          onTap: onTap,
+        );
+      },
     );
   }
 }

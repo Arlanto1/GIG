@@ -13,7 +13,6 @@ import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcemen
 import 'package:equatable/equatable.dart';
 
 import '../../../models/base_user.dart';
-import '../../../models/entity.dart';
 import '../../../models/organisation.dart';
 import '../../createfound/models/user.dart';
 
@@ -35,10 +34,10 @@ class LawEnforcementState extends Equatable {
   String? errorMessage;
   GetLocations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
-  List<Entity>? listOfEntities;
-  Mumbai? locationSelectedlist;
-  AtomLeoPurposeVisit? leoPurposeVisitResponse;
-  AtomLeoDepartment? leoDepartmentsResponse;
+  List<Organisation>? listOfEntities;
+  Organisation? locationSelectedlist;
+  Organisation? leoPurposeVisitResponse;
+  Organisation? leoDepartmentsResponse;
   SerialNumberModel? serialnumberResponse;
   String? radioButtonItem = '';
   int? isOfficialIdcardSelected;
@@ -51,7 +50,7 @@ class LawEnforcementState extends Equatable {
   EmployeeDepartments? employeeDepartment;
   Organisation? selectedemployeeDepartmentResponse;
   List<CreateImage>? loadAttachments = [];
-  List<VistingOfficialsModel>? getVisits = [];
+  List<VisitingOfficialsModel>? getVisits = [];
   int? getVisitsCount = 0;
   User? getUserDetailsResponse;
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
@@ -108,10 +107,10 @@ class LawEnforcementState extends Equatable {
     String? errorMessage,
     GetLocations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,
-    List<Entity>? listOfEntities,
-    Mumbai? locationSelectedlist,
-    AtomLeoPurposeVisit? leoPurposeVisitResponse,
-    AtomLeoDepartment? leoDepartmentsResponse,
+    List<Organisation>? listOfEntities,
+    Organisation? locationSelectedlist,
+    Organisation? leoPurposeVisitResponse,
+    Organisation? leoDepartmentsResponse,
     SerialNumberModel? serialnumberResponse,
     String? radioButtonItem = '',
     int? isOfficialIdcardSelected,
@@ -123,7 +122,7 @@ class LawEnforcementState extends Equatable {
     Organisation? selectedemployeeDepartmentResponse,
     List<CreateImage>? loadAttachments,
     int? getVisitsCount,
-    List<VistingOfficialsModel>? getVisits,
+    List<VisitingOfficialsModel>? getVisits,
     User? getUserDetailsResponse,
     SubmitLawEnforcementResponse? lawcreateFoundresponse,
     List<DistributionGroup>? loadGroups,

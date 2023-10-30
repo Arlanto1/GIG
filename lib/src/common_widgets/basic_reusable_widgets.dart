@@ -10,7 +10,9 @@ export 'package:flutter_svg/svg.dart';
 
 class CommonWidgets {
   static Widget svgAsset(String assetName,
-      {Color color = AppColors.navigationSkybluecolor, double width = 24.0, double height = 24.0}) {
+      {Color color = AppColors.navigationSkybluecolor,
+      double width = 24.0,
+      double height = 24.0}) {
     return SvgPicture.asset(
       assetName,
       color: color,
@@ -76,7 +78,8 @@ class CommonWidgets {
     );
   }
 
-  static Widget commonCard(Widget child, {Color borderColor = AppColors.cardBorder}) {
+  static Widget commonCard(Widget child,
+      {Color borderColor = AppColors.cardBorder}) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: circularBorderRadius8,
@@ -88,25 +91,52 @@ class CommonWidgets {
       child: child,
     );
   }
- static Widget textDisplay(String name, TextStyle? style) {
+
+  static Widget textDisplay(
+    String name,
+    TextStyle? style, {
+    bool? isMandatory = false,
+  }) {
     return Container(
       alignment: Alignment.topLeft,
-      child: Text(
-        name,
-        style: style,
+      child: Row(
+        children: [
+          Text(
+            name,
+            style: style,
+          ),
+          if (isMandatory ?? false) ...[
+            const Text(
+              ' *',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ],
       ),
     );
   }
 
-  static Widget horizentaltextHandling(String title, String desc) {
+  static Widget horizentaltextHandling(String title, String desc,{
+    bool? isMandatory = false,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
           alignment: Alignment.topLeft,
-          child: Text(
-            title,
-            style: Styles.textStyleBlack14,
+          child: Row(
+            children: [
+              Text(
+                title,
+                style: Styles.textStyleBlack14,
+              ),
+              if (isMandatory ?? false) ...[
+                const Text(
+                  ' *',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ],
+            ],
           ),
         ),
         const SizedBox(
@@ -123,6 +153,7 @@ class CommonWidgets {
       ],
     );
   }
+
   static Widget verticalTextHandling(String title, String desc) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,

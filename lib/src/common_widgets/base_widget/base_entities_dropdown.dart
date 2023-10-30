@@ -1,10 +1,8 @@
-import 'dart:developer';
-
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/app_icon.dart';
 import '../../constants/constants.dart';
-import '../../models/entity.dart';
 import '../create_fields.dart';
 import '../textfiled_addbutton.dart';
 import 'multiple_selection_pop_up.dart';
@@ -12,33 +10,30 @@ import 'multiple_selection_pop_up.dart';
 class BaseEntitiesSelection {
   Widget entityDropDownSelection({
     required BuildContext context,
-    required List<Entity> selectedValues,
-    required List<Entity> all,
-    required dynamic Function(List<Entity>) onTap,
-    bool enabled= true,
+    required List<Organisation> selectedValues,
+    required List<Organisation> all,
+    required dynamic Function(List<Organisation>) onTap,
+    bool enabled = true,
   }) {
     String title = '';
     if (selectedValues.isNotEmpty) {
       for (int i = 0; i < selectedValues.length; i++) {
-        Entity entity = selectedValues[i];
-        log('--entity name-${entity.name}--');
-
+        Organisation entity = selectedValues[i];
         String value = entity.name ?? '';
         title = '$title  $value';
       }
     }
 
-    log('--title-$title--');
     return TextfieldAddButton(
       title: title,
       height: (selectedValues.length) > 4
           ? (selectedValues.length) > 9
-          ? 140
-          : 100
+              ? 140
+              : 100
           : 60,
       isDisableColor: !enabled,
       onTap: () {
-        if(enabled) {
+        if (enabled) {
           _showEntitySelectionDialog(
             context: context,
             all: all,
@@ -52,9 +47,9 @@ class BaseEntitiesSelection {
 
   void _showEntitySelectionDialog({
     required BuildContext context,
-    required List<Entity> all,
-    required List<Entity> selectedValues,
-    required dynamic Function(List<Entity>) onTap,
+    required List<Organisation> all,
+    required List<Organisation> selectedValues,
+    required dynamic Function(List<Organisation>) onTap,
   }) {
     showDialog(
       context: context,
@@ -72,13 +67,12 @@ class BaseEntitiesSelection {
                   );
                 });
           },
-          duplicateEntityList: all,
-          mainSelectedEntityList: selectedValues,
+          allItems: all,
+          selectedValues: selectedValues,
           onTap: onTap,
           leftImageName: AppIcon.addicon, // Provide your left button icon
         );
       },
     );
   }
-
 }

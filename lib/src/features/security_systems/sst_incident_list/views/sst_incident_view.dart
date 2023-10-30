@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
@@ -103,6 +105,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
               child: CircularProgressIndicator(),
             );
           }
+          log('--build main body---');
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
@@ -118,62 +121,74 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                   : state.items.length + 1,
               itemBuilder: (context, index) {
                 List<Label> labels = [];
+
                 if (index < state.items.length) {
                   labels.add(Label(
-                      key: 'Date of Creation',
-                      value: state.items[index].createdDate != null
-                          ? Utils.timestamptoDateConversion(
-                              int.parse(state.items[index].createdDate ?? '0'),
-                              Constants.dateFormat)
-                          : ''));
+                    key: 'Date of Creation',
+                    value: state.items[index].createdDate != null
+                        ? Utils.timestamptoDateConversion(
+                            int.parse(state.items[index].createdDate ?? '0'),
+                            Constants.dateFormat)
+                        : '',
+                  ));
                   labels.add(Label(
-                      key: 'Location',
-                      value: state.items[index].location?.name ?? ''));
-                }
+                    key: 'Location',
+                    value: state.items[index].location?.name ?? '',
+                  ));
 
-                return index >= state.items.length
-                    ? const Center(
-                        child: CustomCircularProgressIndicator(),
-                      )
-                    : BaseListTileItem(
-                        id: state.items[index].id,
-                        labels: labels,
-                        status: state.items[index].status,
-                        isMasterGuard: false,
-                        onTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                labels: labels,
-                                slNo: state.items[selectedIndex].slNo,
-                                status: state.items[selectedIndex].status,
-                                isMasterGuard: false,
-                              );
-                            },
-                          );
-                        },
-                        onEditTap: (selectedIndex) {
-                          getId(
+                  return index >= state.items.length
+                      ? const Center(
+                          child: CustomCircularProgressIndicator(),
+                        )
+                      : BaseListTileItem(
+                          id: state.items[index].id,
+                          labels: labels,
+                          status: state.items[index].status,
+                          isMasterGuard: false,
+                          isEventProtectionStatus: false,
+                          isSLAViolationStatus: false,
+                        isOccurrenceStatus: true,
+                          onTap: (selectedIndex) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return BasePopUpItems(
+                                  id: state.items[selectedIndex].id.toString(),
+                                  labels: labels,
+                                  slNo: state.items[selectedIndex].slNo,
+                                  status: state.items[selectedIndex].status,
+                                  isMasterGuard: false,
+                                  isEventProtectionStatus: false,
+                                  isOccurrenceStatus: true,
+                                );
+                              },
+                            );
+                          },
+                          onEditTap: (selectedIndex) {
+                            getId(
                               id: state.items[index].id ?? 0,
-                              eventStatus: state.items[index].status ?? 0);
-                        },
-                        onViewTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                labels: labels,
-                                slNo: state.items[selectedIndex].slNo,
-                                status: state.items[selectedIndex].status,
-                              );
-                            },
-                          );
-                        },
-                        index: index,
-                      );
+                              eventStatus: state.items[index].status ?? 0,
+                            );
+                          },
+                          onViewTap: (selectedIndex) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return BasePopUpItems(
+                                  id: state.items[selectedIndex].id.toString(),
+                                  labels: labels,
+                                  slNo: state.items[selectedIndex].slNo,
+                                  status: state.items[selectedIndex].status,
+                                  isEventProtectionStatus: false,
+                                  isOccurrenceStatus: true,
+                                );
+                              },
+                            );
+                          },
+                          index: index,
+                        );
+                }
+                return const SizedBox();
               },
             ),
           );

@@ -11,12 +11,12 @@ class OccurrenceGeneralInfoRequest {
 
   OccurrenceGeneralInfoRequest.fromJson(Map<String, dynamic> json) {
     occurrence =
-        Occurrence.fromJson(json['occGi']);
+        Occurrence.fromJson(json['occurrence']);
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['occGi'] = occurrence.toJson();
-    return _data;
+    final data = <String, dynamic>{};
+    data['occurrence'] = occurrence.toJson();
+    return data;
   }
 }

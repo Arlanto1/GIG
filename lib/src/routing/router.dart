@@ -31,7 +31,7 @@ const String generalInfoCIRoute = '/generalInfoCIRoute';
 const String guardInfoRoute = '/guardInfoRoute';
 const String eventInfoRoute = '/eventInfoRoute';
 
-const String incidentManagementRoute = '/incidentManagementRoute';
+const String incidentManagementsRoute = '/incidentManagementRoute';
 const String incidentManagementDetailsRoute = '/incidentManagementDetailsRoute';
 
 

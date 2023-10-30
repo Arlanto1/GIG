@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:db_atom/main_DEV.dart';
 import 'package:db_atom/src/appservices/app_service_handler.dart';
@@ -26,25 +25,13 @@ class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
   static final String _createPass = '$baseUrl/createPass?';
+  static final String getOrganisation = '$baseUrl/getOrganisation?name=';
+  static final String _getUsersByRole = '$baseUrl/getUsersByRole?roleName=';
+  static final String _getPassNo = '$baseUrl/getActivePassInfo?passType=';
 }
 
 class CreatePassMgmtService {
   final endpoint = Environment().config.apiHost;
-
-  // Future<CreatePassMgmtResponse> createLawFoundArticle(
-  //     CreatePassMgmtBody requestBody,
-  //     bool isSubmit,
-  //     String username,
-  //     BuildContext context) async {
-  //   print(requestBody.toString());
-  //
-  //   var value = await AppServicesHandler().globalPostServiceCall(
-  //       '/createPass?isSubmit=$isSubmit&userEmail=username',
-  //       context,
-  //       json.encode(requestBody));
-  //
-  //   return CreatePassMgmtResponse.fromJson(value);
-  // }
 
   // Create user api call
   Future<CreateUserModel> createUser(String firstName, String lastName,
@@ -61,11 +48,10 @@ class CreatePassMgmtService {
     required CreatePassMgmtBody requestBody,
     required bool isSubmit,
   }) async {
-    var getUsername = await SharedPrefs.getUsername();
+    var getUsername = await SharedPrefs.getUserId();
 
     final String url =
-        "${Apis._createPass}?userEmail=$getUsername&isSubmit=$isSubmit";
-    log("API URL------2-2-2-2-2-: $url");
+        "${Apis._createPass}userEmail=$getUsername&isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: requestBody.toJson(),
@@ -86,32 +72,56 @@ class CreatePassMgmtService {
     return CreatePassMgmtResponse.fromJson(value);
   }
 
-  // get Entities api call
-  Future<AddEntities> getEntities(String name, BuildContext context) async {
-    var value = await AppServicesHandler()
-        .globalpopupGetServiceCall('/getOrganisation?name=$name', context);
-
-    return AddEntities.fromJson(value);
+  /// get Entities api call
+  Future<AddEntities> getEntities({
+    required String name,
+    required BuildContext context,
+  }) async {
+    String url = '${Apis.getOrganisation}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return AddEntities.fromJson(response);
   }
 
   //Get Depositor users by role
-  Future<GetDepositor> getUserByRoleDepositor(
-      String userRole, BuildContext context) async {
-    var value = await AppServicesHandler().globalpopupGetServiceCall(
-        '/getUsersByRole?roleName=$userRole', context);
+  // Future<GetDepositor> getUserByRoleDepositor(
+  //     String userRole, BuildContext context) async {
+  //   var value = await AppServicesHandler().globalpopupGetServiceCall(
+  //       '/getUsersByRole?roleName=$userRole', context);
+  //
+  //
+  //   return GetDepositor.fromJson(value);
+  // }
 
-    return GetDepositor.fromJson(value);
+  Future<GetDepositor> getUserByRoleDepositor({
+    required String roleName,
+  }) async {
+    String url = '${Apis._getUsersByRole}$roleName';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return GetDepositor.fromJson(response);
   }
 
   //Get locations
-  Future<GetLocations> getLocations(
-      String locationStr, BuildContext context) async {
-    var value = await AppServicesHandler().globalpopupGetServiceCall(
-        '/getOrganisation?name=$locationStr', context);
+  // Future<GetLocations> getLocations(
+  //     String locationStr, BuildContext context) async {
+  //   var value = await AppServicesHandler().globalpopupGetServiceCall(
+  //       '/getOrganisation?name=$locationStr', context);
+  //
+  //   return GetLocations.fromJson(value);
+  // }
 
-    return GetLocations.fromJson(value);
+  Future<GetLocations> getLocations({
+    required String name,
+  }) async {
+    String url = '${Apis.getOrganisation}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return GetLocations.fromJson(response);
   }
-
   // get serailnumber Details api call
   Future<SerialNumberModel> getSerialnumberDetails(
       String locationId, String moduleCode, BuildContext context) async {
@@ -174,11 +184,20 @@ class CreatePassMgmtService {
   }
 
   //  get pass api call
+  // Future<DayPassNumberLists> getPassno(
+  //     String passtype, String locatonid, BuildContext context) async {
+  //   var value = await AppServicesHandler().globalpopupGetServiceCall(
+  //       '/getActivePassInfo?passType=$passtype&locationId=$locatonid', context);
+  //
+  //   return DayPassNumberLists.fromJson(value);
+  // }
+
   Future<DayPassNumberLists> getPassno(
       String passtype, String locatonid, BuildContext context) async {
-    var value = await AppServicesHandler().globalpopupGetServiceCall(
-        '/getActivePassInfo?passType=$passtype&locationId=$locatonid', context);
-
-    return DayPassNumberLists.fromJson(value);
+    String url = '${Apis._getPassNo}$passtype&locationId=$locatonid';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return DayPassNumberLists.fromJson(response);
   }
 }

@@ -194,6 +194,7 @@ class Occurrence {
     'powerFailureStartDate':powerFailureStartDate,
     'powerFailureEndDate':powerFailureEndDate,
     'entrySecurity': entrySecurity?.toJson(),
+    'handOverSecurity': handOverSecurity?.toJson(),
     'location': location?.toJson(),
     'locationRegion': locationRegion?.toJson(),
     'shiftBrfngAttnded': shiftBrfngAttnded,

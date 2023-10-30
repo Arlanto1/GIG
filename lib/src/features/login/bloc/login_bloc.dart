@@ -12,6 +12,7 @@ import '../models/update_password_request.dart';
 import '../services/login_services.dart';
 
 part 'login_event.dart';
+
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
@@ -41,8 +42,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         await SharedPrefs.setUserId('${loginData.user?.userId}');
         await SharedPrefs.setEmail('${loginData.user?.email}');
         await SharedPrefs.setIdentifymenuindex(0);
-        await SharedPrefs.setToken(loginData.token??'');
-        await SharedPrefs.setRefreshToken(loginData.refreshToken??'');
+        await SharedPrefs.setToken(loginData.token ?? '');
+        await SharedPrefs.setRefreshToken(loginData.refreshToken ?? '');
         if (loginData.requirePasswordChange == true) {
           await SharedPrefs.setIsRequiredPasswordChange(true);
 
@@ -51,7 +52,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           emit(LoginVerifyOtpActionState());
         }
       } else {
-        emit(LoginSuccessState(message: loginData.msg ?? ''));
+        emit(LoginSuccessState(message: loginData.message ?? ''));
       }
     } catch (e) {
       // Handle API errors here
@@ -75,15 +76,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginResponseModel loginData =
           await loginService.forgotPwdAPI(event.requestModel);
 
-      emit(LoginSuccessState(message: loginData.msg ?? ''));
+      emit(
+        LoginSuccessState(message: loginData.message ?? ''),
+      );
     } catch (e) {
       if (e is GenericCreateResponse) {
-        emit(LoginFailureState(
-            message: e.message ?? 'Please try after sometime'));
+        emit(
+          LoginFailureState(message: e.message ?? 'Please try after sometime'),
+        );
       } else {
         // Handle other unexpected errors
         log('An unexpected error occurred: $e');
-        emit(LoginFailureState(message: 'An unexpected error occurred.'));
+        emit(
+          LoginFailureState(message: 'An unexpected error occurred.'),
+        );
       }
     }
   }
@@ -93,10 +99,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(LoginLoadingState());
     try {
       LoginResponseModel loginData =
-      await loginService.updatePassword(event.requestModel);
+          await loginService.updatePassword(event.requestModel);
       await SharedPrefs.setIsRequiredPasswordChange(false);
 
-      emit(LoginSuccessState(message: loginData.msg ?? ''));
+      emit(LoginSuccessState(message: loginData.message ?? ''));
     } catch (e) {
       if (e is GenericCreateResponse) {
         emit(LoginFailureState(

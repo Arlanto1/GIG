@@ -13,8 +13,8 @@ class GuardingMasterDataRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['guardingMaster'] = guardingMasterData.toJson();
-    return _data;
+    final data = <String, dynamic>{};
+    data['guardingMaster'] = guardingMasterData.toJson();
+    return data;
   }
 }

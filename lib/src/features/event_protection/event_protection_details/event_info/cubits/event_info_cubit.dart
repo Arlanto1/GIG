@@ -11,7 +11,6 @@ import 'package:db_atom/src/features/event_protection/services/event_protection_
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:email_validator/email_validator.dart';
@@ -65,12 +64,14 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     );
     try {
       EventInfoResponse model = EventInfoResponse();
+      log('--1111--$model');
       if (id.isNotEmpty) {
         model = await services.getEventInfo(id, eventDuration);
       }
+      log('--1111--$model');
       FoundListModel foundArticles = await services.getFoundArticleList(
           startPosition: '0', maximumRecords: '50', eventId: id.toString());
-
+      log('--2222--$foundArticles');
       List<String> emails = Utils().splitStringAfterComma(model.emails ?? '');
 
       emit(

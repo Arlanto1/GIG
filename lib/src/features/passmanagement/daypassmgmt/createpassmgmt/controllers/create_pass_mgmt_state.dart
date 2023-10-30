@@ -14,7 +14,6 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:equatable/equatable.dart';
 
 import '../../../../../models/base_user.dart';
-import '../../../../../models/entity.dart';
 import '../../../../../models/organisation.dart';
 import '../../../../createfound/models/user.dart';
 
@@ -35,8 +34,8 @@ class CreatePassMgmtState extends Equatable {
   String? errorMessage;
   GetLocations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
-  List<Entity>? listOfEntities;
-  Mumbai? locationSelectedlist;
+  List<Organisation>? listOfEntities;
+  Organisation? locationSelectedlist;
   SerialNumberModel? serialnumberResponse;
   BaseUser? getuserResponse;
   EmployeeDepartments? employeeDepartment;
@@ -50,13 +49,13 @@ class CreatePassMgmtState extends Equatable {
   CompanyTypes? companyTypes;
   Organisation? atomCompanyType;
   CreatePassMgmtResponse? createpassFoundresponse;
-  DayPassReasonElement? dayPasselementReason;
+  Organisation? dayPasselementReason;
   DayPassReason? dayPassReason;
   BaseUser? t1nameanalyst;
   Analyst? analyst;
   BaseUser? t1hostanalyst;
   BaseUser? t1dbsponsoranalyst;
-  ActivePassInfoList? activePassInfoList;
+  Organisation? activePassInfoList;
   DayPassNumberLists? passnumbelistresponse;
   String? radioButtonItem = '';
   int? escortedbyhost;
@@ -112,8 +111,8 @@ class CreatePassMgmtState extends Equatable {
     String? errorMessage,
     GetLocations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,
-    List<Entity>? listOfEntities,
-    Mumbai? locationSelectedlist,
+    List<Organisation>? listOfEntities,
+    Organisation? locationSelectedlist,
     SerialNumberModel? serialnumberResponse,
     GetDepositor? getDepositorResponse,
     BaseUser? getuserResponse,
@@ -127,13 +126,13 @@ class CreatePassMgmtState extends Equatable {
     CompanyTypes? companyTypes,
     Organisation? atomCompanyType,
     CreatePassMgmtResponse? createpassFoundresponse,
-    DayPassReasonElement? dayPasselementReason,
+    Organisation? dayPasselementReason,
     DayPassReason? dayPassReason,
     BaseUser? t1nameanalyst,
     Analyst? analyst,
     BaseUser? t1hostanalyst,
     BaseUser? t1dbsponsoranalyst,
-    ActivePassInfoList? activePassInfoList,
+    Organisation? activePassInfoList,
     DayPassNumberLists? passnumbelistresponse,
     String? radioButtonItem = '',
     int? escortedbyhost,

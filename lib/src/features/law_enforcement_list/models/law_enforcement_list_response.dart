@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:db_atom/src/models/organisation.dart';
+
 import '../../createfound/models/user.dart';
 
 LawEnforcementListResponse lawEnforcementListResponseFromJson(String str) =>
@@ -50,15 +52,15 @@ class LawEnforcementListElement {
   int? id;
   String? slNo;
   String? inputDate;
-  LawEnforcementLocation? location;
-  LawEnforcementLocation? locationRegion;
+  Organisation? location;
+  Organisation? locationRegion;
   String? timeOfVisit;
   bool? officialCardVerified;
-  LawEnforcementLocation? visitPurpose;
+  Organisation? visitPurpose;
   bool? documentVerified;
   bool? visitorInUniform;
   String? dbOfficialEmail;
-  LawEnforcementLocation? dbOfficialEmailDepartment;
+  Organisation? dbOfficialEmailDepartment;
   String? dbOfficialAccompaniedEmail;
   User? entrySecurity;
   String? additionalInformation;
@@ -99,15 +101,15 @@ class LawEnforcementListElement {
         inputDate: json["inputDate"],
         location: json["location"] == null
             ? null
-            : LawEnforcementLocation.fromJson(json["location"]),
+            : Organisation.fromJson(json["location"]),
         locationRegion: json["locationRegion"] == null
             ? null
-            : LawEnforcementLocation.fromJson(json["locationRegion"]),
+            : Organisation.fromJson(json["locationRegion"]),
         timeOfVisit: json["timeOfVisit"],
         officialCardVerified: json["officialCardVerified"],
         visitPurpose: json["visitPurpose"] == null
             ? null
-            : LawEnforcementLocation.fromJson(json["visitPurpose"]),
+            : Organisation.fromJson(json["visitPurpose"]),
         documentVerified: json["documentVerified"],
         visitorInUniform: json["visitorInUniform"],
         dbOfficialEmail: json["dbOfficialEmail"],
@@ -143,27 +145,6 @@ class LawEnforcementListElement {
 
         "entityDesc": entityDesc,
         "entrySecurityName": entrySecurityName,
-      };
-}
-
-class LawEnforcementLocation {
-  int? id;
-  String? name;
-
-  LawEnforcementLocation({
-    this.id,
-    this.name,
-  });
-
-  factory LawEnforcementLocation.fromJson(Map<String, dynamic> json) =>
-      LawEnforcementLocation(
-        id: json["id"],
-        name: json["name"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
       };
 }
 

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
@@ -23,9 +24,16 @@ class SstIncidentServices {
     required String startPosition,
     required String maximumRecords,
     required String userId,
+    required int ticketType,
+    required int staffType,
+    String? occId,
   }) async {
     String url =
-        '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords&userId=${await SharedPrefs.getUserId()}';
+        '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords&userId=${await SharedPrefs.getUserId()}'
+        '&ticketType=$ticketType&staffType=$staffType';
+    if (!occId.isEmptyOrNull) {
+      url = '$url&occuId=$occId';
+    }
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -56,7 +64,7 @@ class SstIncidentServices {
     required bool isSubmit,
   }) async {
     var userId = await SharedPrefs.getUserId();
-    final String url = "${Apis._create}?userEmail=$userId&isSubmit=$isSubmit";
+    final String url = "${Apis._create}userEmail=$userId&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
 
     dynamic response;
@@ -65,7 +73,6 @@ class SstIncidentServices {
         url: url,
         requestedData: body.toJson(),
       );
-
     } catch (e) {
       log("--throw exception--: $e");
       if (response is GenericErrorResponse) {
@@ -79,5 +86,4 @@ class SstIncidentServices {
     log("response----create---: ${response.toString()}");
     return GenericCreateResponse.fromJson(response);
   }
-
 }

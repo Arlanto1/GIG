@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -8,13 +9,16 @@ import '../../../../enums/form_status.dart';
 import '../../models/incidents_response.dart';
 import '../../services/incident_management_services.dart';
 
-
 part 'incident_management_event.dart';
 part 'incident_management_state.dart';
 
 class IncidentManagementsBloc
     extends Bloc<IncidentManagementsEvent, IncidentManagementsState> {
-  IncidentManagementsBloc() : super(const IncidentManagementsState()) {
+  final String? occId;
+  final int? occType;
+
+  IncidentManagementsBloc(this.occType, this.occId,)
+      : super(const IncidentManagementsState()) {
     on<FetchData>(
       _fetchList,
       transformer: droppable(),
@@ -28,11 +32,14 @@ class IncidentManagementsBloc
     try {
       if (state.hasReachedMax) return;
 
+      log('-_fetchList-occId---$occId--');
       if (state.status == FormStatus.initial) {
         IncidentsResponse response = await _services.getIncidents(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '7',
+          occId: occId,
+          occType: occType,
         );
 
         return emit(
@@ -48,6 +55,8 @@ class IncidentManagementsBloc
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '7',
+        occId: occId,
+        occType: occType,
       );
 
       if (response.items?.isEmpty == true) {

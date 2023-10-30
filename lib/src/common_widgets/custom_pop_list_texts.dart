@@ -2,13 +2,7 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
-import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -16,7 +10,6 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 
 import '../models/base_user.dart';
-import '../models/entity.dart';
 
 class CustomListTexts extends StatefulWidget {
   CustomListTexts({
@@ -41,21 +34,21 @@ class CustomListTexts extends StatefulWidget {
 
   final String? imageName;
   List<Organisation>? duplicateEmployeeDepartments;
-  List<ArticleList>? duplicateArticleList;
-  List<Entity>? duplicateEntityList;
+  List<Organisation>? duplicateArticleList;
+  List<Organisation>? duplicateEntityList;
   List<BaseUser>? duplicateDepostorList;
-  List<AtomLeoDepartment>? duplicateLeoDepartments;
-  List<AtomLeoPurposeVisit>? duplicateLeoPurposeVisits;
+  List<Organisation>? duplicateLeoDepartments;
+  List<Organisation>? duplicateLeoPurposeVisits;
   final Function? onTap;
   final Function? onLeftButtonTap;
   final String? leftImageName;
   List<DistributionGroup>? duplicateloadGroups;
   List<Organisation>? duplicateatomCompanyTypes;
-  List<DayPassReasonElement>? duplicatedayPassReason;
+  List<Organisation>? duplicatedayPassReason;
   List<BaseUser>? duplicatet1Analyst;
-  List<ActivePassInfoList>? duplicateactivePassInfoList;
+  List<Organisation>? duplicateactivePassInfoList;
 
-  List<QuantityUnit>? duplicateQuantityUnitList;
+  List<Organisation>? duplicateQuantityUnitList;
 
   @override
   State<CustomListTexts> createState() => CustomListTextsState();
@@ -66,17 +59,17 @@ class CustomListTextsState extends State<CustomListTexts> {
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
   List<Organisation> employeeDepartments = [];
-  List<ArticleList> articleList = [];
-  List<Entity> entityList = [];
+  List<Organisation> articleList = [];
+  List<Organisation> entityList = [];
   List<BaseUser> depostorList = [];
-  List<AtomLeoDepartment> leodepartments = [];
-  List<AtomLeoPurposeVisit> leopurposevisits = [];
+  List<Organisation> leodepartments = [];
+  List<Organisation> leopurposevisits = [];
   List<DistributionGroup> loadGroups = [];
   List<Organisation> companyTypes = [];
-  List<DayPassReasonElement> dayPassReason = [];
+  List<Organisation> dayPassReason = [];
   List<BaseUser> t1analysts = [];
-  List<ActivePassInfoList> activePassInfoList = [];
-  List<QuantityUnit> quantityUnitList = [];
+  List<Organisation> activePassInfoList = [];
+  List<Organisation> quantityUnitList = [];
 
   @override
   void initState() {
@@ -126,7 +119,7 @@ class CustomListTextsState extends State<CustomListTexts> {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
-        return Container(
+        return SizedBox(
           height: height / 2,
           width: width - 40,
           child: Padding(
@@ -209,11 +202,11 @@ class CustomListTextsState extends State<CustomListTexts> {
         return;
       }
 
-      widget.duplicateArticleList!.forEach((userDetail) {
+      for (var userDetail in widget.duplicateArticleList!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           articleList.add(userDetail);
         }
-      });
+      }
     } else if (widget.duplicateDepostorList != null) {
       depostorList.clear();
       if (text.isEmpty) {
@@ -221,11 +214,11 @@ class CustomListTextsState extends State<CustomListTexts> {
         return;
       }
 
-      widget.duplicateDepostorList!.forEach((userDetail) {
+      for (var userDetail in widget.duplicateDepostorList!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           depostorList.add(userDetail);
         }
-      });
+      }
     } else if (widget.duplicateEntityList != null) {
       entityList.clear();
       if (text.isEmpty) {
@@ -233,11 +226,11 @@ class CustomListTextsState extends State<CustomListTexts> {
         return;
       }
 
-      widget.duplicateEntityList!.forEach((userDetail) {
+      for (var userDetail in widget.duplicateEntityList!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           entityList.add(userDetail);
         }
-      });
+      }
     } else if (widget.duplicateLeoDepartments != null) {
       leodepartments.clear();
       if (text.isEmpty) {
@@ -245,11 +238,11 @@ class CustomListTextsState extends State<CustomListTexts> {
         return;
       }
 
-      widget.duplicateLeoDepartments!.forEach((userDetail) {
+      for (var userDetail in widget.duplicateLeoDepartments!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           leodepartments.add(userDetail);
         }
-      });
+      }
     } else if (widget.duplicateLeoPurposeVisits != null) {
       leopurposevisits.clear();
       if (text.isEmpty) {
@@ -257,11 +250,11 @@ class CustomListTextsState extends State<CustomListTexts> {
         return;
       }
 
-      widget.duplicateLeoPurposeVisits!.forEach((userDetail) {
+      for (var userDetail in widget.duplicateLeoPurposeVisits!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           leopurposevisits.add(userDetail);
         }
-      });
+      }
     } else if (widget.duplicateloadGroups != null) {
       loadGroups.clear();
       if (text.isEmpty) {
@@ -269,11 +262,11 @@ class CustomListTextsState extends State<CustomListTexts> {
         return;
       }
 
-      widget.duplicateloadGroups!.forEach((userDetail) {
+      for (var userDetail in widget.duplicateloadGroups!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           loadGroups.add(userDetail);
         }
-      });
+      }
     } else if (widget.duplicateatomCompanyTypes != null) {
       companyTypes.clear();
       if (text.isEmpty) {
@@ -281,11 +274,11 @@ class CustomListTextsState extends State<CustomListTexts> {
         return;
       }
 
-      widget.duplicateatomCompanyTypes!.forEach((userDetail) {
+      for (var userDetail in widget.duplicateatomCompanyTypes!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           companyTypes.add(userDetail);
         }
-      });
+      }
     } else if (widget.duplicatedayPassReason != null) {
       dayPassReason.clear();
       if (text.isEmpty) {
@@ -293,11 +286,11 @@ class CustomListTextsState extends State<CustomListTexts> {
         return;
       }
 
-      widget.duplicatedayPassReason!.forEach((userDetail) {
+      for (var userDetail in widget.duplicatedayPassReason!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           dayPassReason.add(userDetail);
         }
-      });
+      }
     } else if (widget.duplicatet1Analyst != null) {
       t1analysts.clear();
       if (text.isEmpty) {
@@ -305,11 +298,11 @@ class CustomListTextsState extends State<CustomListTexts> {
         return;
       }
 
-      widget.duplicatet1Analyst!.forEach((userDetail) {
+      for (var userDetail in widget.duplicatet1Analyst!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           t1analysts.add(userDetail);
         }
-      });
+      }
     } else if (widget.duplicateactivePassInfoList != null) {
       activePassInfoList.clear();
       if (text.isEmpty) {
@@ -317,11 +310,11 @@ class CustomListTextsState extends State<CustomListTexts> {
         return;
       }
 
-      widget.duplicateactivePassInfoList!.forEach((userDetail) {
+      for (var userDetail in widget.duplicateactivePassInfoList!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           activePassInfoList.add(userDetail);
         }
-      });
+      }
     } else if (widget.duplicateQuantityUnitList != null) {
       activePassInfoList.clear();
       if (text.isEmpty) {
@@ -329,11 +322,11 @@ class CustomListTextsState extends State<CustomListTexts> {
         return;
       }
 
-      widget.duplicateQuantityUnitList!.forEach((quantity) {
+      for (var quantity in widget.duplicateQuantityUnitList!) {
         if (quantity.name!.toLowerCase().contains(text.toLowerCase())) {
           quantityUnitList.add(quantity);
         }
-      });
+      }
     }
 
     setState(() {});
@@ -518,7 +511,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateArticleList != null) {
-              ArticleList? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && articleList.isNotEmpty)) {
                 articleItem = articleList[index];
               } else {
@@ -591,16 +584,13 @@ class CustomListTextsState extends State<CustomListTexts> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       //articleItem?.name ?? '',
-                      ((articleItem?.name ?? '') +
-                          '(' +
-                          (articleItem?.email ?? '') +
-                          ')'),
+                      ('${articleItem?.name ?? ''}(${articleItem?.email ?? ''})'),
                       style: Styles.textStyleRegularGrey16,
                       textAlign: TextAlign.left,
                     ),
                   ));
             } else if (widget.duplicateEntityList != null) {
-              Entity? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && entityList.isNotEmpty)) {
                 articleItem = entityList[index];
               } else {
@@ -639,7 +629,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateLeoPurposeVisits != null) {
-              AtomLeoPurposeVisit? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty &&
                   leopurposevisits.isNotEmpty)) {
                 articleItem = leopurposevisits[index];
@@ -679,7 +669,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateLeoDepartments != null) {
-              AtomLeoDepartment? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && leodepartments.isNotEmpty)) {
                 articleItem = leodepartments[index];
               } else {
@@ -718,7 +708,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateQuantityUnitList != null) {
-              QuantityUnit? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty &&
                   quantityUnitList.isNotEmpty)) {
                 articleItem = quantityUnitList[index];
@@ -836,7 +826,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicatedayPassReason != null) {
-              DayPassReasonElement? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && companyTypes.isNotEmpty)) {
                 articleItem = dayPassReason[index];
               } else {
@@ -914,7 +904,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateactivePassInfoList != null) {
-              ActivePassInfoList? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty &&
                   activePassInfoList.isNotEmpty)) {
                 articleItem = activePassInfoList[index];
@@ -954,6 +944,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             }
+            return null;
           },
         ),
       );

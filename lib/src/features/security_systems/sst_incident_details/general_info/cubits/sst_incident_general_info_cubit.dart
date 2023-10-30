@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
@@ -10,7 +10,6 @@ import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -23,6 +22,8 @@ import '../../../../../models/responseModels/generic_create_response.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
+import '../../../../createfound/models/vendors_model.dart';
+import '../../../../occurrence/occurrences_details/general_info/models/general_info_model.dart';
 import '../../../models/requestModel/general_info_request.dart';
 import '../../../services/sst_incident_services.dart';
 
@@ -31,10 +32,14 @@ part 'sst_incident_general_info_state.dart';
 class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
   final SstIncidentServices services;
   final String id;
+  final String occId;
   final bool isInternal;
   final CommonServices commonServices;
+  final int occType;
 
-  SstIncidentGeneralInfoCubit({
+  SstIncidentGeneralInfoCubit( {
+    required this.occType,
+    required this.occId,
     required this.services,
     required this.commonServices,
     required this.id, required this. isInternal,
@@ -49,7 +54,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
             eventId: null,
             listOfEntities: const [],
             getEntitiesResponse: null,
-            departments: const [],
+            // departments: const [],
+            vendors: const [],
             loggedInUserDetails: null,
           ),
         );
@@ -98,11 +104,13 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
-
       List<User> entrySecurities = await commonServices.getUsers();
+      //
+      // EmployeeDepartments departments =
+      //     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
-      EmployeeDepartments departments =
-          await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+      Vendors vendors =
+      await commonServices.getVendors(name: 'ATOM_VENDORS');
 
       emit(
         state.copyWith(
@@ -112,7 +120,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           status: FormStatus.initial,
           users: users.t1Analyst,
           emailUsers: emailUsers.atomStaticUser,
-          departments: departments.employeeDepartments,
+         // departments: departments.employeeDepartments,
+          vendors: vendors.items,
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
@@ -133,15 +142,15 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     BaseUser? asl,
     BaseUser? systemManager,
     BaseUser? lsm,
-    List<Entity>? entities,
-    BaseUser? locationTeam,
+    List<Organisation>? entities,
+    BaseUser? lt,
+    Organisation? vendor,
     Organisation? location,
     // BaseUser? user,
-    Organisation? vendor,
-    Entity? entity,
+    Organisation? entity,
     int? status,
     int? incidentType,
-    int? assetType,
+    int? systemSLA,
   }) async {
     emit(
       state.copyWith(
@@ -152,7 +161,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     //     incidentType ?? state.model.incidentType;
     log('--incidentType----$incidentType--');
 
+    state.model.systemSLA =
+        systemSLA ?? state.model.systemSLA;
 
+    if (vendor != null) {
+      state.model.vendor = vendor;
+    }
 
     if (asl != null) {
       User userDetails = User(
@@ -162,6 +176,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       );
       state.model.asl = userDetails;
     }
+
 
     if (systemManager != null) {
       User userDetails = User(
@@ -183,13 +198,13 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     }
 
 
-    if (locationTeam != null) {
+    if (lt != null) {
       User userDetails = User(
-        name: locationTeam.name,
-        userId: locationTeam.id,
-        userName: locationTeam.name,
+        name: lt.name,
+        userId: lt.id,
+        userName: lt.name,
       );
-      // state.model.location = userDetails; // TODO: need json property
+       state.model.lt = userDetails; // TODO: need json property
     }
 
     ////Get Sl No from API
@@ -282,9 +297,13 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     state.model.createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
+    state.model.occurrence ??= Occurrence();
+    state.model.occurrence?.id = occId.toIntOrNull() ?? 0;
+    state.model.occType = occType;
     /// Create/Update API Call
     SecuritySystemTicketIncidentRequest request =
     SecuritySystemTicketIncidentRequest(sstIncident: state.model);
+
 
     log('--isSaveOnly----$isSaveOnly--');
     GenericCreateResponse response = GenericCreateResponse();
@@ -325,7 +344,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
     emit(
       state.copyWith(
-        // message: response.message,
+        message: response.message,
         status: FormStatus.success,
       ),
     );

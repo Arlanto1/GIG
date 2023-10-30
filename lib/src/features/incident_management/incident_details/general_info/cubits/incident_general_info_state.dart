@@ -7,7 +7,7 @@ class IncidentGeneralInfoState extends Equatable {
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
-  final List<Entity>? listOfEntities;
+  final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
   final AddEntities? getEntitiesResponse;
   final GetArticleType? getArticleTypeResponse;
@@ -22,7 +22,7 @@ class IncidentGeneralInfoState extends Equatable {
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
-    required final List<Entity>? listOfEntities,
+    required final List<Organisation>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
     required final GetArticleType? getArticleTypeResponse,
     required final List<Organisation> departments,
@@ -49,23 +49,52 @@ class IncidentGeneralInfoState extends Equatable {
     );
   }
 
-  ErrorResponse get isValid {
-    if (model.status == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Status');
-    }
-    if (model.entities == null || model.entities!.isEmpty) {
-      return const ErrorResponse(status: false, message: 'Please add Entities');
-    }
+  ErrorResponse get isValidDraft {
     if (model.location == null) {
       return const ErrorResponse(status: false, message: 'Please add Location');
     }
-    if (model.incidentType == null) {
+    if (model.slNo == null) {
+      return const ErrorResponse(status: false, message: 'Please enter SL No.');
+    }
+
+    if (model.entrySecurity == null) {
       return const ErrorResponse(
-          status: false, message: 'Please add Incident Type');
+          status: false, message: 'Created By is Mandatory.');
+    }
+    return const ErrorResponse(status: true, message: 'Form is Valid');
+  }
+
+  ErrorResponse get isValid {
+    log('---isValid--1--');
+    if (model.status == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Status');
+    }
+
+    if (model.location == null) {
+      return const ErrorResponse(status: false, message: 'Please add Location');
+    }
+
+    if (model.entities == null || model.entities!.isEmpty) {
+      return const ErrorResponse(status: false, message: 'Please add Entities');
+    }
+    // if (model.incidentType == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please add Incident Type');
+    // }
+
+    if ((model.incidentType == 0 || model.incidentType == 1) &&
+        model.typeOfAsset == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Asset Type');
+    }
+    if ((model.incidentType == 0 || model.incidentType == 1) &&
+        model.color == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Colour/Make/Model');
     }
     if (model.complainantName == null && model.complainantDbEmp == false) {
       return const ErrorResponse(
-          status: false, message: 'Please add Complainant');
+          status: false, message: 'Please add Complainant Name');
     }
 
     if (model.complainantDbEmp && model.complainant == null) {
@@ -77,7 +106,7 @@ class IncidentGeneralInfoState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant Name');
     }
-    if (model.complainantDbEmp == true) {
+    if (model.complainantDbEmp == true && model.employeeId == null) {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant Employee Id');
     }
@@ -86,10 +115,10 @@ class IncidentGeneralInfoState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant Department');
     }
-    if (model.complainantName == null && model.complainantDbEmp == true) {
-      return const ErrorResponse(
-          status: false, message: 'Please add Complainant');
-    }
+    // if (model.complainant == null && model.complainantDbEmp == true) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please add Complainant');
+    // }
     if (model.complainantHr == null) {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant Manager');
@@ -97,6 +126,11 @@ class IncidentGeneralInfoState extends Equatable {
     if (model.incidentDate == null || model.incidentDate!.isEmpty) {
       return const ErrorResponse(
           status: false, message: 'Please add Incident Date and Time');
+    }
+
+    if (model.incidentLocation == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Incident Location');
     }
 
     if (model.incidentManager == null) {
@@ -149,7 +183,7 @@ class IncidentGeneralInfoState extends Equatable {
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
-    List<Entity>? listOfEntities,
+    List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     AddEntities? getEntitiesResponse,
     List<String>? participationDates,
