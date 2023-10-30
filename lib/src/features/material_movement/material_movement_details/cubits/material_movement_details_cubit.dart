@@ -189,6 +189,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.receiverEmail = receiverEmailUser.email;
     }
 
+    if (receiverEmailUser != null) {
+      state.model.receiverEmail = receiverEmailUser.email;
+    }
+
     if (requesterEmailUser != null) {
       state.model.requestorEmail = requesterEmailUser.email;
     }

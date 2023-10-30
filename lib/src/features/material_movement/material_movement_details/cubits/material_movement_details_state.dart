@@ -78,9 +78,11 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Quantity');
     }
-    if (model.materialComingFrom == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Sender\'s Name');
+    if (model.inwardMovement ?? false) {
+      if (model.materialComingFrom == null) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Sender\'s Name');
+      }
     }
 
     if (model.unit == null) {
