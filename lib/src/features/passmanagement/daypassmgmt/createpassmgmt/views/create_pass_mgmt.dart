@@ -115,7 +115,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           action: [
             if (widget.model?.status != 0 ||
                 widget.model?.status == 0 ||
-                widget.model?.status == 1) ...[
+                widget.model?.status != 1) ...[
               GestureDetector(
                 onTap: () {
                   passSubmit(false, widget.model?.id ?? 0, globalState);
@@ -495,6 +495,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 widget.passId == "3"
                                     ? textfieldWidgetLoad(
                                         nameTextController, 0, state)
+
                                     : Container(),
 
                                 ///Contact No / Email
@@ -1165,9 +1166,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.01),
 
                                 // SubmitButton
-                                if (widget.model?.status == 0 ||
-                                    widget.model?.status != 0 ||
-                                    widget.model?.status == 1) ...[
+                                 if (widget.model?.status == 0 ||
+                                     widget.model?.status != 0 ) ...[
                                   Center(child: submitButtonDisplay()),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.005),
@@ -2801,37 +2801,39 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter MTP application no",
       );
-    } else if (widget.passId == '0' &&
+    } else if (( widget.passId == '0' || widget.passId == '1'|| widget.passId == '2'||   widget.passId == '3')&&
         ((state.atomCompanyType?.name ?? '').toLowerCase() == 'exceptions' &&
-            (state.hostResponse?.name ?? '').isEmpty)) {
+            hostemployeeidTextController.text.isEmpty)) {
       Validator().showToast(
         context,
         "Please enter host",
       );
-    } else if (widget.passId == '0' &&
+    } else if (( widget.passId == '0' || widget.passId == '1'|| widget.passId == '2'||   widget.passId == '3')&&
         ((state.atomCompanyType?.name ?? '').toLowerCase() == 'exceptions' &&
             hostemployeeidTextController.text.isEmpty)) {
       Validator().showToast(
         context,
         "Please enter host employeed id",
       );
-    } else if ((widget.passId == '1' ||
-            widget.passId == '2' ||
-            widget.passId == '3') &&
-        (state.hostResponse?.name ?? '').isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter host",
-      );
-    } else if ((widget.passId == '1' ||
-            widget.passId == '2' ||
-            widget.passId == '3') &&
-        hostemployeeidTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter host employeed id",
-      );
-    } else if ((widget.passId == '0' &&
+    }
+    // else if ((widget.passId == '1' ||
+    //         widget.passId == '2' ||
+    //         widget.passId == '3') &&
+    //     (state.hostResponse?.name ?? '').isEmpty  && state.companyTypes == 'Exception') {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter host",
+    //   );
+    // } else if ((widget.passId == '1' ||
+    //         widget.passId == '2' ||
+    //         widget.passId == '3') &&
+    //     hostemployeeidTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter host employeed id",
+    //   );
+    // }
+    else if ((widget.passId == '0' &&
         (state.selectedemployeeDepartmentResponse == null ||
             (state.selectedemployeeDepartmentResponse?.name ?? '').isEmpty))) {
       Validator().showToast(

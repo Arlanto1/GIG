@@ -16,7 +16,7 @@ class SignaturePainter extends CustomPainter {
   final Paint _penStyle;
 
   @override
-  void paint(Canvas canvas, _) {
+  void paint(Canvas canvas, size) {
     final List<Point> points = _controller.value;
     if (points.isEmpty) {
       return;

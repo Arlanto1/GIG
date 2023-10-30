@@ -48,9 +48,9 @@ class MaterialMovementModel extends BaseObject {
   String? materialFromAddress;
   String? materialDescription;
   int? quantity;
-  List<Image>? images;
-  List<Image>? receiverSign;
-  List<Image>? entrySecuritySign;
+  List<ImageContent>? images;
+  List<ImageContent>? receiverSign;
+  List<ImageContent>? entrySecuritySign;
   String? receiverEmail;
   String? receiverEmployeeId;
   User? entrySecurity;
@@ -174,7 +174,7 @@ class MaterialMovementModel extends BaseObject {
         materialDescription = json['materialDescription'] as String?,
         quantity = json['quantity'] as int?,
         images =
-            List.from(json['images']).map((e) => Image.fromJson(e)).toList(),
+            List.from(json['images']).map((e) => ImageContent.fromJson(e)).toList(),
         receiverEmail = json['receiverEmail'] as String?,
         receiverEmployeeId = json['receiverEmployeeId'] as String?,
         entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
@@ -186,10 +186,10 @@ class MaterialMovementModel extends BaseObject {
             ?.map((dynamic e) => History.fromJson(e as Map<String, dynamic>))
             .toList(),
         receiverSign = (json['receiverSign'] as List?)
-            ?.map((dynamic e) => Image.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) => ImageContent.fromJson(e as Map<String, dynamic>))
             .toList(),
         entrySecuritySign = (json['entrySecuritySign'] as List?)
-            ?.map((dynamic e) => Image.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) => ImageContent.fromJson(e as Map<String, dynamic>))
             .toList(),
         requestorEmail = json['requestorEmail'] as String?,
         requestorEmployeeId = json['requestorEmployeeId'] as String?,
@@ -314,20 +314,20 @@ class MaterialMovementModel extends BaseObject {
       };
 }
 
-class Image {
-  final String? contentType;
-  final String? title;
-  final int? fileSize;
-  final String? imageContent;
+class ImageContent {
+  String? contentType;
+  String? title;
+  int? fileSize;
+  String? imageContent;
 
-  Image({
+  ImageContent({
     this.contentType,
     this.title,
     this.fileSize,
     this.imageContent,
   });
 
-  Image.fromJson(Map<String, dynamic> json)
+  ImageContent.fromJson(Map<String, dynamic> json)
       : contentType = json['contentType'] as String?,
         title = json['title'] as String?,
         fileSize = json['fileSize'] as int?,
