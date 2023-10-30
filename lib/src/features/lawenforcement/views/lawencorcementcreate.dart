@@ -57,15 +57,20 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   TextEditingController additionalinformationTextController =
       TextEditingController();
   TextEditingController nameTextController1 = TextEditingController();
-  TextEditingController nameVisitingOfficialTextController = TextEditingController();
+  TextEditingController nameVisitingOfficialTextController =
+      TextEditingController();
   TextEditingController designationTextController1 = TextEditingController();
-  TextEditingController designationVisitingOfficialTextController = TextEditingController();
+  TextEditingController designationVisitingOfficialTextController =
+      TextEditingController();
   TextEditingController officeaddressTextController1 = TextEditingController();
-  TextEditingController officeaddressVisitingOfficialTextController = TextEditingController();
+  TextEditingController officeaddressVisitingOfficialTextController =
+      TextEditingController();
   TextEditingController emailidTextController1 = TextEditingController();
-  TextEditingController emailidVisitingOfficialTextController = TextEditingController();
+  TextEditingController emailidVisitingOfficialTextController =
+      TextEditingController();
   TextEditingController contactnoTextController1 = TextEditingController();
-  TextEditingController contactnoVisitingOfficialTextController = TextEditingController();
+  TextEditingController contactnoVisitingOfficialTextController =
+      TextEditingController();
   TextEditingController nameTextController2 = TextEditingController();
   TextEditingController designationTextController2 = TextEditingController();
   TextEditingController officeaddressTextController2 = TextEditingController();
@@ -85,7 +90,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   TextEditingController dateofcreationTextController = TextEditingController();
   TextEditingController officeaddressTextController4 = TextEditingController();
   List<CreateImage> getFiles = [];
-  List<FoundImage> getAttachments =[];
+  List<FoundImage> getAttachments = [];
   late LawEnforcementState globalState;
   String? serialnumber;
   bool isDistrbuted = false;
@@ -389,14 +394,11 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
 
                                   // name
                                   CommonWidgets.textDisplay(
-                                      Constants.name,
-                                      Styles.textStyleBlack14),
+                                      Constants.name, Styles.textStyleBlack14),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   textfieldWidgetLoad(
-                                      nameTextController2,
-                                      0,
-                                      state),
+                                      nameTextController2, 0, state),
                                   // Designation
                                   CommonWidgets.textDisplay(
                                       Constants.designation,
@@ -404,9 +406,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   textfieldWidgetLoad(
-                                      designationTextController2,
-                                      0,
-                                      state),
+                                      designationTextController2, 0, state),
                                   // Office Address
                                   CommonWidgets.textDisplay(
                                       Constants.officeAddress,
@@ -414,30 +414,22 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   textfieldWidgetLoad(
-                                      officeaddressTextController2,
-                                      0,
-                                      state),
+                                      officeaddressTextController2, 0, state),
 
                                   // Email Id
-                                  CommonWidgets.textDisplay(
-                                      Constants.emailid,
+                                  CommonWidgets.textDisplay(Constants.emailid,
                                       Styles.textStyleBlack14),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   textfieldWidgetLoad(
-                                      emailidTextController2,
-                                      0,
-                                      state),
+                                      emailidTextController2, 0, state),
                                   // Contact Number
-                                  CommonWidgets.textDisplay(
-                                      Constants.contactno,
+                                  CommonWidgets.textDisplay(Constants.contactno,
                                       Styles.textStyleBlack14),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   textfieldWidgetLoad(
-                                      contactnoTextController2,
-                                      0,
-                                      state),
+                                      contactnoTextController2, 0, state),
                                   (state.getVisitsCount ?? 0) > 0
                                       ? listVisitingOfficialDetails(
                                           height,
@@ -450,6 +442,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                       ? CommonWidgets.verticalSpacerWidget(
                                           height * 0.01)
                                       : Container(),
+
                                   /// Add another visiting
                                   GestureDetector(
                                     onTap: () {
@@ -510,7 +503,9 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                   getSpaceattchment(height),
                                   getAttachement(height),
 
-                                  if (widget.model?.status == 3) ...[
+                                  if (widget.model?.status == 1 ||
+                                      widget.model?.status == 2 ||
+                                      widget.model?.status == 3) ...[
                                     // Distribution Groups
                                     widget.model?.status != 0
                                         ? CommonWidgets.textDisplay(
@@ -1175,8 +1170,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   }
 
   Widget getAttachement(double height) {
-    return (getAttachments.isEmpty ||
-            widget.model == null)
+    return (getAttachments.isEmpty || widget.model == null)
         ? getFiles.isEmpty
             ? Container()
             : attachmentListviews(getFiles, getAttachments)

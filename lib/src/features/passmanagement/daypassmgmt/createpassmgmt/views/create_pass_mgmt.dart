@@ -83,9 +83,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       TextEditingController();
 
   List<CreateImage> getFiles = [];
-  List<FoundImage> getAttachments =[];
-  List<CreateImage> photogetFiles=[];
-  List<FoundImage> photogetAttachments=[];
+  List<FoundImage> getAttachments = [];
+  List<CreateImage> photogetFiles = [];
+  List<FoundImage> photogetAttachments = [];
   late CreatePassMgmtState globalState;
   String? serialnumber;
   String createdBy = '';
@@ -113,9 +113,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           ),
 
           action: [
-            if (widget.model?.status != 0 ||
-                widget.model?.status == 0 ||
-                widget.model?.status != 1) ...[
+            if (widget.model?.status == 0 ||
+                widget.model?.status == 1 ||
+                widget.model?.status == 2 ||
+                widget.model?.status == 3) ...[
               GestureDetector(
                 onTap: () {
                   passSubmit(false, widget.model?.id ?? 0, globalState);
@@ -148,9 +149,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         ),
         backgroundColor: AppColors.backgroundWhitecolor,
         body: BlocBuilder<CreatePassMgmtCubit, CreatePassMgmtState>(
-
           builder: (context, state) {
-            if(widget.model?.status != null && widget.model!.status! > 0){
+            if (widget.model?.status != null && widget.model!.status! > 0) {
               isDisabled == true;
             }
             // listOfEntities = state.getEntitiesResponse;
@@ -495,7 +495,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 widget.passId == "3"
                                     ? textfieldWidgetLoad(
                                         nameTextController, 0, state)
-
                                     : Container(),
 
                                 ///Contact No / Email
@@ -955,12 +954,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                   },
                                   child: FlutterInputField(
                                       isEnable: false,
-                                      isDisableColor:
-                                          widget.model == null ||
-                                                  daypassnoTextController
-                                                      .text.isEmpty
-                                              ? false
-                                              : true,
+                                      isDisableColor: widget.model == null ||
+                                              daypassnoTextController
+                                                  .text.isEmpty
+                                          ? false
+                                          : true,
                                       textFieldController:
                                           daypassnoTextController,
                                       textFormKey: Keys.statusTextController,
@@ -1121,19 +1119,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.01)
                                     : Container(),
 
-                                widget.passId == '1' &&
-                                        widget.model == null
+                                widget.passId == '1' && widget.model == null
                                     ? CommonWidgets.textDisplay(
                                         'Photo of Visitor',
                                         Styles.textStyleBlack14)
                                     : Container(),
-                                widget.passId == '1' &&
-                                        widget.model == null
+                                widget.passId == '1' && widget.model == null
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
                                     : Container(),
-                                widget.passId == '1' &&
-                                        widget.model == null
+                                widget.passId == '1' && widget.model == null
                                     ? uploadWidget(state, true)
                                     : Container(),
 
@@ -1166,8 +1161,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.01),
 
                                 // SubmitButton
-                                 if (widget.model?.status == 0 ||
-                                     widget.model?.status != 0 ) ...[
+                                if (widget.model?.status == 0 ||
+                                    widget.model?.status == 1 ||
+                                    widget.model?.status == 2 ||
+                                    widget.model?.status == 3) ...[
                                   Center(child: submitButtonDisplay()),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.005),
@@ -1282,10 +1279,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       escortedbyTextController.text = widget.model?.escortedByName != null
           ? widget.model?.escortedByName.toString() ?? ""
           : '';
-      hostemployeeidTextController.text =
-          widget.model?.hostEmployeeId != null
-              ? widget.model?.hostEmployeeId.toString() ?? ""
-              : '';
+      hostemployeeidTextController.text = widget.model?.hostEmployeeId != null
+          ? widget.model?.hostEmployeeId.toString() ?? ""
+          : '';
       var userId = await SharedPrefs.getUserId();
       // BaseUser host1 = widget.dayPassItem?.host != null
 
@@ -1318,15 +1314,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //createpassmgmtCubit.getnameanalystsResponseData(name1);
       createpassmgmtCubit.getnameUsersResponseData(name1);
       dateofcreationTextController.text =
-          widget.model?.inputDate != null &&
-                  widget.model?.inputDate != '0'
+          widget.model?.inputDate != null && widget.model?.inputDate != '0'
               ? Utils.timestamptoDateConversion(
                   int.parse(widget.model?.inputDate ?? '0'),
                   Constants.fulldateFormat)
               : dateofcreationTextController.text;
       passvalidfromTextController.text =
-          widget.model?.startTime != null &&
-                  widget.model?.startTime != '0'
+          widget.model?.startTime != null && widget.model?.startTime != '0'
               ? Utils.timestamptoDateConversion(
                   int.parse(widget.model?.startTime ?? '0'),
                   Constants.fulldateFormat)
@@ -1334,8 +1328,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       passvaliduntilTextController.text = widget.model?.endTime != null &&
               widget.model?.endTime != '0'
           ? Utils.timestamptoDateConversion(
-              int.parse(widget.model?.endTime ?? '0'),
-              Constants.fulldateFormat)
+              int.parse(widget.model?.endTime ?? '0'), Constants.fulldateFormat)
           : passvaliduntilTextController.text;
 
       // List<VisitingOfficial>? visitingOfficials = widget.listuser?.visitingOfficials != null ? widget.listuser?.visitingOfficials ?? [] : [];
@@ -1397,9 +1390,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               name: widget.model?.location?.name ?? "")
           : Organisation();
 
-      serialnumber = widget.model?.slNo != null
-          ? widget.model?.slNo ?? ''
-          : '';
+      serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
 
       await createpassmgmtCubit.getSerialnumberDetails(
           (widget.model?.location?.id ?? 0).toString(),
@@ -1472,8 +1463,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     widget.listuser?.visitorImage != null ? widget.listuser?.visitorImage ?? [] : [];
 
       emailTextController.text = widget.model?.email ?? '';
-      purposeofvisitTextController.text =
-          widget.model?.visitingPurpose ?? '';
+      purposeofvisitTextController.text = widget.model?.visitingPurpose ?? '';
       mtpApplicationNoTextController.text = widget.model?.mifareNo ?? '';
       visitorcomingfromTextController.text =
           widget.model?.visitorComingFrom ?? '';
@@ -1649,9 +1639,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       title: state.selectedemployeeDepartmentResponse?.name ?? '',
       height: 60,
       isDisableColor:
-          widget.model?.status != 0 && widget.model != null
-              ? true
-              : false,
+          widget.model?.status != 0 && widget.model != null ? true : false,
       onTap: () {
         if (widget.model == null || widget.model?.status == 0) {
           //  articleTypeDialog(state);
@@ -1666,9 +1654,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       title: state.dayPasselementReason?.name ?? '',
       height: 60,
       isDisableColor:
-          widget.model?.status != 0 && widget.model != null
-              ? true
-              : false,
+          widget.model?.status != 0 && widget.model != null ? true : false,
       onTap: () {
         if (widget.model == null || widget.model?.status == 0) {
           //articleTypeDialog(state);
@@ -1842,8 +1828,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   Widget getAttachement(double height) {
-    return (getAttachments.isEmpty ||
-            widget.model == null)
+    return (getAttachments.isEmpty || widget.model == null)
         ? getFiles.isEmpty
             ? Container()
             : attachmentListviews(getFiles, getAttachments)
@@ -1860,8 +1845,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   Widget photogetAttachement(double height) {
-    return (photogetAttachments.isEmpty ||
-            widget.model == null)
+    return (photogetAttachments.isEmpty || widget.model == null)
         ? photogetFiles.isEmpty
             ? Container()
             : attachmentListviews(photogetFiles, photogetAttachments)
@@ -1884,8 +1868,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? 140
               : 100
           : 60,
-      isDisableColor: widget.model?.status != 0 &&
-              widget.model != null
+      isDisableColor: widget.model?.status != 0 && widget.model != null
           // widget.dayPassItem == null ||
           //         ((state.listOfEntities?.length ?? 0) == 0 && (title.isEmpty))
           ? true
@@ -1957,9 +1940,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       title: state.atomCompanyType?.name ?? '',
       height: 60,
       isDisableColor:
-          widget.model?.status != 0 && widget.model != null
-              ? true
-              : false,
+          widget.model?.status != 0 && widget.model != null ? true : false,
       onTap: () {
         if (widget.model == null || widget.model?.status == 0) {
           companyTypeDialog(state);
@@ -1988,7 +1969,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             },
             onTap: (Organisation organisation) {
               //print(list.name);
-              isEditable = true;
+              // isEditable = true;
               companynameTextController.text = "";
               if ((organisation.name ?? '').toLowerCase() == 'fte') {
                 companynameTextController.text = "Deutsche Bank";
@@ -2090,9 +2071,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       title: state.hostResponse?.name, //state.t1hostanalyst?.name ?? '',
       height: 60,
       isDisableColor:
-          widget.model?.status != 0 || widget.model != null
-              ? false
-              : true,
+          widget.model?.status != 0 || widget.model != null ? false : true,
       onTap: () {
         if (widget.model == null || widget.model?.status == 0) {
           hostTypeDialog(state);
@@ -2134,9 +2113,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       title: state.dbsponsorResponse?.name ?? '',
       height: 60,
       isDisableColor:
-          widget.model?.status != 0 && widget.model != null
-              ? true
-              : false,
+          widget.model?.status != 0 && widget.model != null ? true : false,
       onTap: () {
         if (widget.model == null || widget.model?.status == 0) {
           dbsponsorTypeDialog(state);
@@ -2487,7 +2464,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       passtypeIdentify = 0;
     }
     int idValidationType = 0;
-    if (photofidentityextController.text == "Adhar Card") {
+    if (photofidentityextController.text == "Aadhaar Card") {
       idValidationType = 0;
     } else if (photofidentityextController.text == "Pan Card") {
       idValidationType = 1;
@@ -2499,7 +2476,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       idValidationType = 4;
     }
     int category = 0;
-    if (passCategoryTextController.text == "Permenant") {
+    if (passCategoryTextController.text == "Permanent") {
       category = 0;
     } else if (passCategoryTextController.text == "Temporary") {
       category = 1;
@@ -2511,7 +2488,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         PassEntrySecurity(userId: state.getUserDetailsResponse?.userId ?? 1);
 
     log('--passinfo type-22-${passInfo.passType}--------');
-
 
     if (statusTextController.text.isEmptyOrNull) {
       Validator().showToast(
@@ -2801,14 +2777,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter MTP application no",
       );
-    } else if (( widget.passId == '0' || widget.passId == '1'|| widget.passId == '2'||   widget.passId == '3')&&
+    } else if ((widget.passId == '0' ||
+            widget.passId == '1' ||
+            widget.passId == '2' ||
+            widget.passId == '3') &&
         ((state.atomCompanyType?.name ?? '').toLowerCase() == 'exceptions' &&
             hostemployeeidTextController.text.isEmpty)) {
       Validator().showToast(
         context,
         "Please enter host",
       );
-    } else if (( widget.passId == '0' || widget.passId == '1'|| widget.passId == '2'||   widget.passId == '3')&&
+    } else if ((widget.passId == '0' ||
+            widget.passId == '1' ||
+            widget.passId == '2' ||
+            widget.passId == '3') &&
         ((state.atomCompanyType?.name ?? '').toLowerCase() == 'exceptions' &&
             hostemployeeidTextController.text.isEmpty)) {
       Validator().showToast(
