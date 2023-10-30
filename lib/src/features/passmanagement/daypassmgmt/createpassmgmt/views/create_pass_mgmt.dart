@@ -1300,7 +1300,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           ? BaseUser(id: int.parse(userid), name: nameTextController.text)
           : BaseUser();
       //createpassmgmtCubit.getnameanalystsResponseData(name1);
-      createpassmgmtCubit.getnameUsersResponseData(name1);
+      createpassmgmtCubit.getNameUsersResponseData(name1);
       dateofcreationTextController.text =
           widget.model?.inputDate != null && widget.model?.inputDate != '0'
               ? Utils.timestamptoDateConversion(
@@ -2048,7 +2048,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             onTap: (BaseUser list) {
               //print(list.name);
               //createpassmgmtCubit.getnameanalystsResponseData(list);
-              createpassmgmtCubit.getnameUsersResponseData(list);
+              createpassmgmtCubit.getNameUsersResponseData(list);
             },
           );
         });
@@ -2338,28 +2338,28 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     log('-inputdate---sss--$inputdate----');
 
-    int statusvalue = 0;
+    int statusValue = 0;
 
     if (statusTextController.text.toLowerCase() == "created") {
-      statusvalue = 0;
+      statusValue = 0;
     } else if (statusTextController.text.toLowerCase() == "handed over") {
-      statusvalue = 1;
+      statusValue = 1;
     } else if (statusTextController.text.toLowerCase() == "returned") {
-      statusvalue = 2;
+      statusValue = 2;
     } else if (statusTextController.text.toLowerCase() == "non returned") {
-      statusvalue = 3;
+      statusValue = 3;
     } else if (statusTextController.text.toLowerCase() == "lost") {
-      statusvalue = 4;
+      statusValue = 4;
     } else if (statusTextController.text.toLowerCase() == "damaged") {
-      statusvalue = 5;
+      statusValue = 5;
     } else if (statusTextController.text.toLowerCase() == "defaced") {
-      statusvalue = 6;
+      statusValue = 6;
     } else if (statusTextController.text.toLowerCase() == "cancelled") {
-      statusvalue = 7;
+      statusValue = 7;
     } else if (statusTextController.text.toLowerCase() == "returned damaged") {
-      statusvalue = 8;
+      statusValue = 8;
     } else {
-      statusvalue = 9;
+      statusValue = 9;
     }
 
     int updatestatusvalue = 0;
@@ -2380,52 +2380,59 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       updatestatusvalue = 9;
     }
 
-    List<PassMgmtTypEntity>? entities = [];
+    List<Organisation>? entities = [];
     if ((state.listOfEntities?.length ?? 0) > 0) {
       for (int i = 0; i < state.listOfEntities!.length; i++) {
         Organisation entity = state.listOfEntities![i];
-        PassMgmtTypEntity addentiity = PassMgmtTypEntity(id: entity.id ?? 1);
+        Organisation addentiity = Organisation(id: entity.id ?? 1);
         entities.add(addentiity);
       }
     }
-    PassMgmtLocation? location = PassMgmtLocation(
+    Organisation? location = Organisation(
         id: (state.locationSelectedlist?.id == 0)
             ? 1
             : state.locationSelectedlist?.id ?? 1,
         name: state.locationSelectedlist?.name ?? '');
 
-    PassMgmtLocation? daypass = PassMgmtLocation(
+    Organisation? daypass = Organisation(
         id: (state.dayPasselementReason?.id == 0)
             ? 1
             : state.dayPasselementReason?.id ?? 1,
         name: state.dayPasselementReason?.name ?? '');
 
-    PassCompanyType? companyType = PassCompanyType(
+    Organisation? companyType = Organisation(
         id: (state.atomCompanyType?.id == 0)
             ? 1
             : state.atomCompanyType?.id ?? 1,
         name: state.atomCompanyType?.name ?? '');
-    PassMgmtLocationregion? locregion = PassMgmtLocationregion(
+    Organisation? locregion = Organisation(
         id: (state.locationSelectedlist?.id == 0)
             ? 1
             : state.locationSelectedlist?.id ?? 1,
         name: state.locationSelectedlist?.name ?? '');
 
-    PassDept? dept2 = PassDept(
+    Organisation? dept2 = Organisation(
         id: (state.selectedemployeeDepartmentResponse?.id == 0)
             ? 1
             : state.selectedemployeeDepartmentResponse?.id ?? 1,
         name: state.selectedemployeeDepartmentResponse?.name ?? '');
-    PassmgmtInfo info = PassmgmtInfo(
-        passType: passInfo.passType,
-        id: (state.activePassInfoList?.id == 0)
-            ? 1
-            : state.activePassInfoList?.id ??
-                ((widget.passId == "3") ? 9151 : 3),
-        //9151 //int.parse(sezpassinfoTextController.text ?? '1')
-        passNo: sezpassinfoTextController.text,
-        mifareNo: mtpApplicationNoTextController.text);
+    PassmgmtInfo info;
 
+    log('widget.passId------------${widget.passId}');
+    passInfo.passNo = passInfo.passNo;
+    if (widget.passId == "3") {
+      info = passInfo;
+    } else {
+      info = PassmgmtInfo(
+          passType: passInfo.passType,
+          id: (state.activePassInfoList?.id == 0)
+              ? 1
+              : state.activePassInfoList?.id ??
+                  ((widget.passId == "3") ? 9151 : 3),
+          //9151 //int.parse(sezpassinfoTextController.text ?? '1')
+          passNo: sezpassinfoTextController.text,
+          mifareNo: mtpApplicationNoTextController.text);
+    }
     User? host2 = User(
         userId: (state.hostResponse?.id == 0) ? 1 : state.hostResponse?.id ?? 1,
         email: state.hostResponse?.email ?? '');
@@ -2512,7 +2519,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         inputDate: inputdate.toString(),
         slNo: serialnumber ?? '',
         location: location,
-        status: statusvalue,
+        status: statusValue,
         locationRegion: locregion,
         companyName: companynameTextController.text,
         employeeName: state.nameResponse?.name == null
@@ -2563,7 +2570,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           inputDate: inputdate.toString(),
           slNo: serialnumber ?? '',
           location: location,
-          status: statusvalue,
+          status: statusValue,
           locationRegion: locregion,
           companyName: companynameTextController.text,
           employeeName: state.nameResponse?.name == null
