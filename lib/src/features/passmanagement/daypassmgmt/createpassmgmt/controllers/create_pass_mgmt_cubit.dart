@@ -309,11 +309,14 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // Get pass number call
-  Future<void> getPassnumber(
-      String passtype, String locationid, BuildContext context) async {
+  Future<void> getPassNumber(
+    String passType,
+    String locationId,
+    BuildContext context,
+  ) async {
     try {
       DayPassNumberLists companyTypes =
-          await createpassmgmtServices.getPassno(passtype, locationid, context);
+          await createpassmgmtServices.getPassNo(passType, locationId, context);
       emit(
         state.copyWith(
           passnumbelistresponse: companyTypes,
@@ -439,8 +442,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       // Analyst companyTypes =
       //     await createpassmgmtServices.getAnalyst(companyStr, context);
 
-      Analyst companyTypes =
-      await commonServices.getUsersByRole(roleName: companyStr, context:context);
+      Analyst companyTypes = await commonServices.getUsersByRole(
+          roleName: companyStr, context: context);
       emit(
         state.copyWith(
           analyst: companyTypes,
@@ -513,7 +516,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-// Get entities api call
+  /// Get entities api call
   Future<void> getEntities(String name, BuildContext context) async {
     try {
       AddEntities entities = await createpassmgmtServices.getEntities(
@@ -559,7 +562,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       //     await createpassmgmtServices.getUserDetails(userId, context);
 
       User getUserData =
-      await commonServices.getUserDetails(userId: userId,context: context);
+          await commonServices.getUserDetails(userId: userId, context: context);
       emit(
         state.copyWith(
           getUserDetailsResponse: getUserData,
@@ -576,7 +579,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  initalization() {
+  initialization() {
     state.selectedemployeeDepartmentResponse = Organisation();
     state.employeeDepartment = EmployeeDepartments();
     state.companyTypes = CompanyTypes();
