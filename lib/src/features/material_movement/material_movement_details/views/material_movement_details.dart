@@ -1825,25 +1825,28 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
           ],
         ),
         CommonWidgets.verticalSpacerWidget(spaceHeight * 0.001),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(2.0),
-            border: Border.all(
-              color: AppColors.gerylightBackground,
-              width: 1, // Border width
+        ClipRect(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(2.0),
+              border: Border.all(
+                color: AppColors.gerylightBackground,
+                width: 1, // Border width
+              ),
             ),
-          ),
-          height: 100,
-          width: double.infinity,
-          child: Signature(
-            controller: controller,
-            backgroundColor: Colors.white,
+            height: 100,
+            width: double.infinity,
+            child: Signature(
+              controller: controller,
+              backgroundColor: Colors.white,
+            ),
           ),
         ),
         CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
       ],
     );
   }
+
 
   String getStatusString(int status) {
     switch (status) {
