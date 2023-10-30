@@ -71,8 +71,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   TextEditingController takenOutOnDateController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
       TextEditingController();
-  TextEditingController actualDateOfReturnController =
-  TextEditingController();
+  TextEditingController actualDateOfReturnController = TextEditingController();
   bool isDisabled = false;
   List<String> returnableDropDownValues = const [
     "Returnable",
@@ -216,7 +215,9 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                           BorderRadius.vertical(top: Radius.circular(20.0)),
                     )),
                 child: AbsorbPointer(
-                  absorbing: state.model.status == 6,
+                  absorbing: state.model.status != 6 &&
+                      state.model.status != 1 &&
+                      isDisabled,
                   child: Form(
                       key: _formKey,
                       autovalidateMode: isDisabled
@@ -247,8 +248,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                 /// Material Movement Type
                                 CommonWidgets.textDisplay(
-                                    'Material Movement Type',
-                                    Styles.textStyleBlack14),
+                                  'Material Movement Type',
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
 
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -269,36 +272,39 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 BaseDropDown().getDropDown(
-                                    isDisabled: state.model.status != 6,
-                                    textController: returnableTextController,
-                                    onTap: () {
-                                      if (!isDisabled & !widget.isInward) {
-                                        BaseDropDown().assetTypeDialog(
-                                            context: context,
-                                            dropDownValues:
-                                                returnableDropDownValues,
-                                            onTap: (String value) {
-                                              bool isReturnable =
-                                                  value == 'Returnable'
-                                                      ? true
-                                                      : false;
-                                              state.model.returnable =
-                                                  isReturnable;
-                                              BlocProvider.of<
-                                                          MaterialMovementDetailsCubit>(
-                                                      context)
-                                                  .updateDropdownValues(
-                                                      isReturnable:
-                                                          isReturnable);
-                                            });
-                                      }
-                                    }),
+                                  isDisabled: state.model.status != 6,
+                                  textController: returnableTextController,
+                                  onTap: () {
+                                    if (!isDisabled & !widget.isInward) {
+                                      BaseDropDown().assetTypeDialog(
+                                        context: context,
+                                        dropDownValues:
+                                            returnableDropDownValues,
+                                        onTap: (String value) {
+                                          bool isReturnable =
+                                              value == 'Returnable'
+                                                  ? true
+                                                  : false;
+                                          state.model.returnable = isReturnable;
+                                          BlocProvider.of<
+                                                      MaterialMovementDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  isReturnable: isReturnable);
+                                        },
+                                      );
+                                    }
+                                  },
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
                                 /// Status
                                 CommonWidgets.textDisplay(
-                                    Constants.status, Styles.textStyleBlack14),
+                                  Constants.status,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
@@ -322,8 +328,11 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     height * 0.01),
 
                                 /// Location
-                                CommonWidgets.textDisplay(Constants.location,
-                                    Styles.textStyleBlack14),
+                                CommonWidgets.textDisplay(
+                                  Constants.location,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 locationWidgetdislay(state),
@@ -333,8 +342,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                 /// Date of creation
                                 CommonWidgets.textDisplay(
-                                    Constants.dateofcreation,
-                                    Styles.textStyleBlack14),
+                                  Constants.dateofcreation,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 datecreateWidgetdisplay(
@@ -344,13 +355,19 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                 /// Sl No.
                                 CommonWidgets.horizentaltextHandling(
-                                    Constants.slno, state.model.slNo ?? ''),
+                                  Constants.slno,
+                                  state.model.slNo ?? '',
+                                  isMandatory: true,
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
                                 /// Challan/ Invoice Nos/ Gate Pass
                                 CommonWidgets.textDisplay(
-                                    Constants.challan, Styles.textStyleBlack14),
+                                  Constants.challan,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
@@ -373,8 +390,11 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                 if (widget.isInward) ...[
                                   /// PO Number
-                                  CommonWidgets.textDisplay(Constants.poNumber,
-                                      Styles.textStyleBlack14),
+                                  CommonWidgets.textDisplay(
+                                    Constants.poNumber,
+                                    Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                  ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
@@ -411,8 +431,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                 /// Material Brief Description
                                 CommonWidgets.textDisplay(
-                                    Constants.materialBriefDescription,
-                                    Styles.textStyleBlack14),
+                                  Constants.materialBriefDescription,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
@@ -435,8 +457,11 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     height * 0.01),
 
                                 /// Quantity
-                                CommonWidgets.textDisplay(Constants.quantity,
-                                    Styles.textStyleBlack14),
+                                CommonWidgets.textDisplay(
+                                  Constants.quantity,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
 
@@ -500,8 +525,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 if (!widget.isInward) ...[
                                   /// Equipment No/Identification
                                   CommonWidgets.textDisplay(
-                                      Constants.equipmentNo,
-                                      Styles.textStyleBlack14),
+                                    Constants.equipmentNo,
+                                    Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                  ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
@@ -524,8 +551,11 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       height * 0.01),
 
                                   /// Address
-                                  CommonWidgets.textDisplay(Constants.address,
-                                      Styles.textStyleBlack14),
+                                  CommonWidgets.textDisplay(
+                                    Constants.address,
+                                    Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                  ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
@@ -553,6 +583,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       CommonWidgets.textDisplay(
                                         Constants.requestorEmail,
                                         Styles.textStyleBlack14,
+                                  isMandatory: true,
                                       ),
                                       widget.materialMovement?.status != 6
                                           ? TextfieldAddButton(
@@ -599,8 +630,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                   /// Requestor Employee Id
                                   CommonWidgets.textDisplay(
-                                      Constants.requestorEmployeeId,
-                                      Styles.textStyleBlack14),
+                                    Constants.requestorEmployeeId,
+                                    Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                  ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
 
@@ -627,6 +660,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.requestorDepartment,
                                     Styles.textStyleBlack14,
+                                  isMandatory: true,
                                   ),
                                   widget.materialMovement?.status == 6
                                       ? FlutterInputField(
@@ -688,8 +722,11 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       height * 0.01),
 
                                   /// Sent To
-                                  CommonWidgets.textDisplay(Constants.sentTo,
-                                      Styles.textStyleBlack14),
+                                  CommonWidgets.textDisplay(
+                                    Constants.sentTo,
+                                    Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                  ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
 
@@ -712,8 +749,11 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       height * 0.01),
 
                                   /// Purpose
-                                  CommonWidgets.textDisplay(Constants.purpose,
-                                      Styles.textStyleBlack14),
+                                  CommonWidgets.textDisplay(
+                                    Constants.purpose,
+                                    Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                  ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
 
@@ -749,8 +789,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                   /// Prepared By
                                   CommonWidgets.textDisplay(
-                                      Constants.preparedBy,
-                                      Styles.textStyleBlack14),
+                                    Constants.preparedBy,
+                                    Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                  ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
 
@@ -790,6 +832,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.preparedByDepartment,
                                     Styles.textStyleBlack14,
+                                  isMandatory: true,
                                   ),
                                   widget.materialMovement?.status == 6
                                       ? FlutterInputField(
@@ -854,6 +897,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       CommonWidgets.textDisplay(
                                         Constants.approver1Email,
                                         Styles.textStyleBlack14,
+                                  isMandatory: true,
                                       ),
                                       widget.materialMovement?.status != 6
                                           ? TextfieldAddButton(
@@ -902,6 +946,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.approver1Department,
                                     Styles.textStyleBlack14,
+                                  isMandatory: true,
                                   ),
                                   widget.materialMovement?.status == 6
                                       ? FlutterInputField(
@@ -966,6 +1011,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       CommonWidgets.textDisplay(
                                         Constants.approver2Email,
                                         Styles.textStyleBlack14,
+                                  isMandatory: true,
                                       ),
                                       widget.materialMovement?.status != 6
                                           ? TextfieldAddButton(
@@ -1015,6 +1061,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.approver2Department,
                                     Styles.textStyleBlack14,
+                                  isMandatory: true,
                                   ),
                                   widget.materialMovement?.status == 6
                                       ? FlutterInputField(
@@ -1075,23 +1122,25 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   if (state.model.returnable == true) ...[
                                     /// Expected Date Of Return
                                     CommonWidgets.textDisplay(
-                                        Constants.expectedDateOfReturn,
-                                        Styles.textStyleBlack14),
+                                      Constants.expectedDateOfReturn,
+                                      Styles.textStyleBlack14,
+                                    ),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
                                     BaseDate().datePickerWidgetLoading(
-
-                                        textController:
-                                            expectedDateOfReturnController,onlyDate: true,
-                                        onChange: (String value) {
-                                          state.model.expectedDateOfReturn =
-                                          Utils().formatTime(value);
-                                          BlocProvider.of<
-                                                      MaterialMovementDetailsCubit>(
-                                                  context)
-                                              .onModelValueChange(state.model);
-                                        },
-                                        context: context,),
+                                      textController:
+                                          expectedDateOfReturnController,
+                                      onlyDate: true,
+                                      onChange: (String value) {
+                                        state.model.expectedDateOfReturn =
+                                            Utils().formatTime(value);
+                                        BlocProvider.of<
+                                                    MaterialMovementDetailsCubit>(
+                                                context)
+                                            .onModelValueChange(state.model);
+                                      },
+                                      context: context,
+                                    ),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
                                   ],
@@ -1124,8 +1173,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                       /// Taken Out By
                                       CommonWidgets.textDisplay(
-                                          Constants.takenOutBy,
-                                          Styles.textStyleBlack14),
+                                        Constants.takenOutBy,
+                                        Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                      ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
 
@@ -1149,8 +1200,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                       /// Taken Out By Contact No.
                                       CommonWidgets.textDisplay(
-                                          Constants.takenOutByContactNo,
-                                          Styles.textStyleBlack14),
+                                        Constants.takenOutByContactNo,
+                                        Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                      ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
 
@@ -1175,8 +1228,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                       /// Taken Out Address
                                       CommonWidgets.textDisplay(
-                                          Constants.takenOutAddress,
-                                          Styles.textStyleBlack14),
+                                        Constants.takenOutAddress,
+                                        Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                      ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
 
@@ -1201,25 +1256,29 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           height * 0.01),
 
                                       //if (state.materialMovement.status == 2 && state.isInward == false) ...[
-                                    /// Taken Out On
+                                      /// Taken Out On
                                       CommonWidgets.textDisplay(
-                                          Constants.takenOutOn,
-                                          Styles.textStyleBlack14),
+                                        Constants.takenOutOn,
+                                        Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                      ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
 
                                       BaseDate().datePickerWidgetLoading(
-                                          textController:
-                                              takenOutOnDateController,onlyDate: true,
-                                          onChange: (String value) {
-                                            state.model.takenOutOn = Utils().formatTime(value);
-                                            BlocProvider.of<
-                                                        MaterialMovementDetailsCubit>(
-                                                    context)
-                                                .onModelValueChange(
-                                                    state.model);
-                                          },
-                                          context: context,),
+                                        textController:
+                                            takenOutOnDateController,
+                                        onlyDate: true,
+                                        onChange: (String value) {
+                                          state.model.takenOutOn =
+                                              Utils().formatTime(value);
+                                          BlocProvider.of<
+                                                      MaterialMovementDetailsCubit>(
+                                                  context)
+                                              .onModelValueChange(state.model);
+                                        },
+                                        context: context,
+                                      ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.01),
                                     ]
@@ -1253,8 +1312,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 if (widget.isInward) ...[
                                   /// Senders Name
                                   CommonWidgets.textDisplay(
-                                      Constants.sendersName,
-                                      Styles.textStyleBlack14),
+                                    Constants.sendersName,
+                                    Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                  ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
@@ -1278,9 +1339,11 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                   /// Material Coming From Address
                                   CommonWidgets.textDisplay(
-                                      Constants
-                                          .materialComingFromBriefDescription,
-                                      Styles.textStyleBlack14),
+                                    Constants
+                                        .materialComingFromBriefDescription,
+                                    Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                  ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
@@ -1305,8 +1368,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                   /// Is original receiver receiving
                                   CommonWidgets.textDisplay(
-                                      Constants.isOriginalReceiverReceiving,
-                                      Styles.textStyleBlack14),
+                                    Constants.isOriginalReceiverReceiving,
+                                    Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                  ),
                                   RadioButtonsYesNo(
                                     status: state.model.status ?? 0,
                                     selectedValue:
@@ -1345,6 +1410,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             ? Constants.receivedFor
                                             : Constants.receivedBy,
                                         Styles.textStyleBlack14,
+                                  isMandatory: true,
                                       ),
                                       widget.materialMovement?.status != 6
                                           ? TextfieldAddButton(
@@ -1392,10 +1458,12 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                   /// Received for Employee Id
                                   CommonWidgets.textDisplay(
-                                      !state.model.originalReceiver
-                                          ? Constants.receivedForEmployeeId
-                                          : Constants.receiverEmployeeId,
-                                      Styles.textStyleBlack14),
+                                    !state.model.originalReceiver
+                                        ? Constants.receivedForEmployeeId
+                                        : Constants.receiverEmployeeId,
+                                    Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                  ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
                                   FlutterInputField(
@@ -1421,6 +1489,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.receiverDepartment,
                                     Styles.textStyleBlack14,
+                                  isMandatory: true,
                                   ),
                                   widget.materialMovement?.status == 6
                                       ? FlutterInputField(
@@ -1481,8 +1550,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   if (!state.model.originalReceiver) ...[
                                     /// Received by
                                     CommonWidgets.textDisplay(
-                                        Constants.receivedBy,
-                                        Styles.textStyleBlack14),
+                                      Constants.receivedBy,
+                                      Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                    ),
 
                                     FlutterInputField(
                                       initialValue:
@@ -1506,8 +1577,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                     /// Received by Employee Id
                                     CommonWidgets.textDisplay(
-                                        Constants.receiverEmployeeId,
-                                        Styles.textStyleBlack14),
+                                      Constants.receiverEmployeeId,
+                                      Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                    ),
 
                                     FlutterInputField(
                                       initialValue:
@@ -1538,6 +1611,21 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     label: Constants.receiverSignature,
                                     spaceHeight: height,
                                     state: state,
+                                    onDoneTap: () async {
+                                      String imageBytes = await exportSignature(
+                                        context,
+                                        receiverSignatureController,
+                                      );
+                                      ImageContent imageContent =
+                                          ImageContent();
+                                      imageContent.imageContent = imageBytes;
+                                      (state.model.receiverSign ??= [])
+                                          .add(imageContent);
+                                      BlocProvider.of<
+                                                  MaterialMovementDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                    },
                                   ),
 
                                   /// Security Signature
@@ -1546,10 +1634,25 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     label: Constants.securitySignature,
                                     spaceHeight: height,
                                     state: state,
+                                    onDoneTap: () async {
+                                      String imageBytes = await exportSignature(
+                                        context,
+                                        securitySignatureController,
+                                      );
+                                      ImageContent imageContent =
+                                          ImageContent();
+                                      imageContent.imageContent = imageBytes;
+                                      (state.model.entrySecuritySign ??= [])
+                                          .add(imageContent);
+                                      BlocProvider.of<
+                                                  MaterialMovementDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                    },
                                   ),
                                   // CommonWidgets.textDisplay(
                                   //     Constants.securitySignature,
-                                  //     Styles.textStyleBlack14),
+                                  //     Styles.textStyleBlack14,),
                                   // CommonWidgets.verticalSpacerWidget(
                                   //     height * 0.001),
                                   // ElevatedButton(
@@ -1566,15 +1669,18 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   // ),
                                   // CommonWidgets.verticalSpacerWidget(
                                   //     height * 0.01),
-],
+                                ],
                                 if (state.model.status == 2 ||
-                                  state.model.status == 5 ||
-                                  state.model.status == 6 ||
-                                  widget.isInward ||
-                                  !widget.isInward) ...[  /// Is Material Physically Checked
+                                    state.model.status == 5 ||
+                                    state.model.status == 6 ||
+                                    widget.isInward ||
+                                    !widget.isInward) ...[
+                                  /// Is Material Physically Checked
                                   CommonWidgets.textDisplay(
-                                      Constants.isPhysicallyChecked,
-                                      Styles.textStyleBlack14),
+                                    Constants.isPhysicallyChecked,
+                                    Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                  ),
                                   RadioButtonsYesNo(
                                       status: state.model.status ?? 0,
                                       selectedValue:
@@ -1611,8 +1717,11 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   /// Comment
                                   if (!state
                                       .model.materialPhysicallyChecked) ...[
-                                    CommonWidgets.textDisplay(Constants.comment,
-                                        Styles.textStyleBlack14),
+                                    CommonWidgets.textDisplay(
+                                      Constants.comment,
+                                      Styles.textStyleBlack14,
+                                      isMandatory: true,
+                                    ),
                                     FlutterInputField(
                                       initialValue:
                                           state.model.materialNotCheckedComment,
@@ -1684,35 +1793,38 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     required String label,
     required double spaceHeight,
     required MaterialMovementDetailsState state,
+    required void Function()? onDoneTap,
   }) {
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CommonWidgets.textDisplay(label, Styles.textStyleBlack14),
-            IconButton(
-              onPressed: () {
-                controller.clear();
-              },
-              iconSize: 20,
-              color: Colors.grey,
-              icon: const Icon(Icons.refresh),
+            CommonWidgets.textDisplay(
+              label,
+              Styles.textStyleBlack14,
+            ),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    controller.clear();
+                  },
+                  iconSize: 20,
+                  color: Colors.grey,
+                  icon: const Icon(Icons.refresh),
+                ),
+                IconButton(
+                  onPressed: onDoneTap,
+                  iconSize: 20,
+                  color: Colors.grey,
+                  icon: const Icon(Icons.done_outlined),
+                ),
+              ],
             ),
           ],
         ),
         CommonWidgets.verticalSpacerWidget(spaceHeight * 0.001),
-        ElevatedButton(
-          onPressed: () async {
-            String imageBytes = await exportSignature(context, controller);
-            ImageContent imageContent = ImageContent();
-            imageContent.imageContent = imageBytes;
-            (state.model.receiverSign ??= []).add(imageContent);
-            BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                .onModelValueChange(state.model);
-          },
-          child: const Icon(Icons.add),
-        ),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(2.0),
