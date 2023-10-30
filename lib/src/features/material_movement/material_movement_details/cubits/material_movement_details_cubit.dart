@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
 import 'package:dart_extensions/dart_extensions.dart';
+import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -16,6 +18,9 @@ import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../constants/constants.dart';
@@ -184,6 +189,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.receiverEmail = receiverEmailUser.email;
     }
 
+    if (receiverEmailUser != null) {
+      state.model.receiverEmail = receiverEmailUser.email;
+    }
+
     if (requesterEmailUser != null) {
       state.model.requestorEmail = requesterEmailUser.email;
     }
@@ -271,7 +280,54 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     ));
   }
 
-  Future<void> submitForm({bool isSaveOnly = false}) async {
+  Future<void> pushSignature({
+    required SignatureController controller,
+    required isReceiverSignature,
+  }) async {
+    String imageBytes = await exportSignature(
+      controller,
+    );
+    if(imageBytes.isEmptyOrNull) {
+      return;
+    }
+    ImageContent imageContent = ImageContent();
+    imageContent.imageContent = imageBytes;
+    if (isReceiverSignature) {
+      (state.model.receiverSign ??= []).add(imageContent);
+    } else {
+      (state.model.entrySecuritySign ??= []).add(imageContent);
+    }
+    emit(state.copyWith(model: model, status: FormStatus.initial));
+  }
+
+  Future<String> exportSignature(
+    SignatureController controller,
+  ) async {
+    final exportController = SignatureController(
+      penStrokeWidth: 2,
+      exportBackgroundColor: Colors.white,
+      penColor: Colors.black,
+      points: controller.points,
+    );
+
+    Uint8List? signature = await exportController.toPngBytes();
+    if(signature == null ){
+      return '';
+    }
+    String bs4str = base64Encode(signature);
+
+    //clean up the memory
+    exportController.dispose();
+
+    return bs4str;
+    // saveSignature(context, signature!);
+  }
+
+  Future<void> submitForm({
+    bool isSaveOnly = false,
+    required SignatureController receiverSignatureController,
+    required SignatureController securitySignatureController,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -281,6 +337,16 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     // Setting time in milliseconds
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    /// Adding Signature to request Body
+    pushSignature(
+      controller: receiverSignatureController,
+      isReceiverSignature: true,
+    );
+    pushSignature(
+      controller: securitySignatureController,
+      isReceiverSignature: false,
+    );
 
     // Create/Update API Call
     MaterialMovementRequest request =

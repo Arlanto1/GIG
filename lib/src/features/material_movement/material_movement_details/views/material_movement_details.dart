@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dart_extensions/dart_extensions.dart';
@@ -33,10 +32,7 @@ import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../common_widgets/base_widget/date_picker_dialog.dart';
 import '../../../../enums/form_status.dart';
@@ -158,8 +154,11 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                 : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                  .submitForm(isSaveOnly: true);
+              BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
+                isSaveOnly: true,
+                receiverSignatureController: receiverSignatureController,
+                securitySignatureController: securitySignatureController,
+              );
             },
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
@@ -393,7 +392,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.poNumber,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
@@ -527,7 +526,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.equipmentNo,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
@@ -554,7 +553,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.address,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
@@ -583,7 +582,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       CommonWidgets.textDisplay(
                                         Constants.requestorEmail,
                                         Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                        isMandatory: true,
                                       ),
                                       widget.materialMovement?.status != 6
                                           ? TextfieldAddButton(
@@ -632,7 +631,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.requestorEmployeeId,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
@@ -660,7 +659,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.requestorDepartment,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   widget.materialMovement?.status == 6
                                       ? FlutterInputField(
@@ -725,7 +724,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.sentTo,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
@@ -752,7 +751,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.purpose,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
@@ -791,7 +790,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.preparedBy,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
@@ -832,7 +831,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.preparedByDepartment,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   widget.materialMovement?.status == 6
                                       ? FlutterInputField(
@@ -897,7 +896,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       CommonWidgets.textDisplay(
                                         Constants.approver1Email,
                                         Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                        isMandatory: true,
                                       ),
                                       widget.materialMovement?.status != 6
                                           ? TextfieldAddButton(
@@ -946,7 +945,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.approver1Department,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   widget.materialMovement?.status == 6
                                       ? FlutterInputField(
@@ -1011,7 +1010,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       CommonWidgets.textDisplay(
                                         Constants.approver2Email,
                                         Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                        isMandatory: true,
                                       ),
                                       widget.materialMovement?.status != 6
                                           ? TextfieldAddButton(
@@ -1061,7 +1060,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.approver2Department,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   widget.materialMovement?.status == 6
                                       ? FlutterInputField(
@@ -1175,7 +1174,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       CommonWidgets.textDisplay(
                                         Constants.takenOutBy,
                                         Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                        isMandatory: true,
                                       ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
@@ -1202,7 +1201,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       CommonWidgets.textDisplay(
                                         Constants.takenOutByContactNo,
                                         Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                        isMandatory: true,
                                       ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
@@ -1230,7 +1229,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       CommonWidgets.textDisplay(
                                         Constants.takenOutAddress,
                                         Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                        isMandatory: true,
                                       ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
@@ -1260,7 +1259,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       CommonWidgets.textDisplay(
                                         Constants.takenOutOn,
                                         Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                        isMandatory: true,
                                       ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
@@ -1314,7 +1313,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.sendersName,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
@@ -1342,7 +1341,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     Constants
                                         .materialComingFromBriefDescription,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
@@ -1370,7 +1369,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.isOriginalReceiverReceiving,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   RadioButtonsYesNo(
                                     status: state.model.status ?? 0,
@@ -1410,7 +1409,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             ? Constants.receivedFor
                                             : Constants.receivedBy,
                                         Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                        isMandatory: true,
                                       ),
                                       widget.materialMovement?.status != 6
                                           ? TextfieldAddButton(
@@ -1462,7 +1461,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         ? Constants.receivedForEmployeeId
                                         : Constants.receiverEmployeeId,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
@@ -1489,7 +1488,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.receiverDepartment,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   widget.materialMovement?.status == 6
                                       ? FlutterInputField(
@@ -1552,7 +1551,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     CommonWidgets.textDisplay(
                                       Constants.receivedBy,
                                       Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                      isMandatory: true,
                                     ),
 
                                     FlutterInputField(
@@ -1579,7 +1578,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     CommonWidgets.textDisplay(
                                       Constants.receiverEmployeeId,
                                       Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                      isMandatory: true,
                                     ),
 
                                     FlutterInputField(
@@ -1611,21 +1610,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     label: Constants.receiverSignature,
                                     spaceHeight: height,
                                     state: state,
-                                    onDoneTap: () async {
-                                      String imageBytes = await exportSignature(
-                                        context,
-                                        receiverSignatureController,
-                                      );
-                                      ImageContent imageContent =
-                                          ImageContent();
-                                      imageContent.imageContent = imageBytes;
-                                      (state.model.receiverSign ??= [])
-                                          .add(imageContent);
-                                      BlocProvider.of<
-                                                  MaterialMovementDetailsCubit>(
-                                              context)
-                                          .onModelValueChange(state.model);
-                                    },
                                   ),
 
                                   /// Security Signature
@@ -1634,21 +1618,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     label: Constants.securitySignature,
                                     spaceHeight: height,
                                     state: state,
-                                    onDoneTap: () async {
-                                      String imageBytes = await exportSignature(
-                                        context,
-                                        securitySignatureController,
-                                      );
-                                      ImageContent imageContent =
-                                          ImageContent();
-                                      imageContent.imageContent = imageBytes;
-                                      (state.model.entrySecuritySign ??= [])
-                                          .add(imageContent);
-                                      BlocProvider.of<
-                                                  MaterialMovementDetailsCubit>(
-                                              context)
-                                          .onModelValueChange(state.model);
-                                    },
                                   ),
                                   // CommonWidgets.textDisplay(
                                   //     Constants.securitySignature,
@@ -1679,7 +1648,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.isPhysicallyChecked,
                                     Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                    isMandatory: true,
                                   ),
                                   RadioButtonsYesNo(
                                       status: state.model.status ?? 0,
@@ -1775,7 +1744,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   cancelButtonDisplay(),
-                                  submitButtonDisplay()
+                                  submitButtonDisplay(state)
                                 ],
                               ),
                             ],
@@ -1793,7 +1762,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     required String label,
     required double spaceHeight,
     required MaterialMovementDetailsState state,
-    required void Function()? onDoneTap,
   }) {
     return Column(
       children: [
@@ -1814,12 +1782,12 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                   color: Colors.grey,
                   icon: const Icon(Icons.refresh),
                 ),
-                IconButton(
-                  onPressed: onDoneTap,
-                  iconSize: 20,
-                  color: Colors.grey,
-                  icon: const Icon(Icons.done_outlined),
-                ),
+                // IconButton(
+                //   onPressed: onDoneTap,
+                //   iconSize: 20,
+                //   color: Colors.grey,
+                //   icon: const Icon(Icons.done_outlined),
+                // ),
               ],
             ),
           ],
@@ -1929,7 +1897,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     );
   }
 
-  Widget submitButtonDisplay() {
+  Widget submitButtonDisplay(MaterialMovementDetailsState state) {
     return AppButton(
       width: 150,
       key: const Key(Keys.submitButton),
@@ -1937,7 +1905,11 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm();
+
+        BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
+          receiverSignatureController: receiverSignatureController,
+          securitySignatureController: securitySignatureController,
+        );
       },
     );
   }
@@ -2128,50 +2100,5 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
             );
           }),
     );
-  }
-
-  Future<String> exportSignature(
-    BuildContext context,
-    SignatureController controller,
-  ) async {
-    log('--exportSignature----');
-    final exportController = SignatureController(
-      penStrokeWidth: 2,
-      exportBackgroundColor: Colors.white,
-      penColor: Colors.black,
-      points: controller.points,
-    );
-
-    Uint8List? signature = await exportController.toPngBytes();
-    log('--signature--$signature--');
-    String bs4str = base64Encode(signature!);
-    log('--bs4str--$bs4str--');
-
-    // TODO: signature check if these bytes can be saved to API
-
-    //clean up the memory
-    exportController.dispose();
-
-    return bs4str;
-    // saveSignature(context, signature!);
-  }
-
-  Future? saveSignature(BuildContext context, Uint8List signature) async {
-    final status = await Permission.storage.status;
-
-    if (!status.isGranted) {
-      await Permission.storage.request();
-    }
-
-    //making signature name unique
-    final time = DateTime.now().toIso8601String().replaceAll('.', ':');
-    final name = 'signature_$time';
-    print(name);
-
-    final result = await ImageGallerySaver.saveImage(signature, name: name);
-    final isSuccessful = result['isSuccess'];
-
-    if (isSuccessful) {
-    } else {}
   }
 }
