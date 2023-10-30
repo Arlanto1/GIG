@@ -108,7 +108,7 @@ class AddNewFieldsState extends State<AddNewFields> {
           name, 'EMPLOYEE_DEPARTMENTS', context);
     }
     else if (widget.createpassmgmtstate != null) {
-      await createpassmgmtCubit.createEmplyeeDepartments(
+      await createpassmgmtCubit.createEmployeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     }
   }

@@ -184,7 +184,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
     pvcExpiryDateController.text = DateFormat(Constants.dateFormat).format(
         DateFormat("dd/MM/yyyy").parse(pvcIssuedDateController.text).add(
-            Duration(days:1096 ,hours:0, minutes:0)  ),
+            const Duration(days:1096 ,hours:0, minutes:0)  ),
     );
     medicalCertificateValidUntilController.text =
         Utils.timestamptoDateConversion(
