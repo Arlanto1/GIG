@@ -576,7 +576,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     state.selectedemployeeDepartmentResponse = Organisation();
     state.employeeDepartment = EmployeeDepartments();
     state.companyTypes = CompanyTypes();
-    state.activePassInfoList = Organisation();
+    state.vendorPassInfo = Organisation();
     state.loadAttachments = [];
     state.atomCompanyType = Organisation();
     state.listOfEntities = [];
