@@ -93,8 +93,8 @@ class _CreateFoundState extends State<CreateFound> {
   Organisation? locationSelectedlist;
   SubmitCreateFoundModel? createfoundResponse;
   SerialNumberModel? serialnumberResponse;
-  List<CreateImage> getFiles=[];
-  List<FoundImage> getAttachments=[];
+  List<CreateImage> getFiles = [];
+  List<FoundImage> getAttachments = [];
 
   @override
   void initState() {
@@ -149,8 +149,8 @@ class _CreateFoundState extends State<CreateFound> {
           widget.listuser?.additionalInformation != null
               ? widget.listuser?.additionalInformation.toString() ?? ""
               : '';
-      founddateTextController.text = widget.listuser?.foundDate != null && widget.listuser
-          ?.foundDate != '0'
+      founddateTextController.text = widget.listuser?.foundDate != null &&
+              widget.listuser?.foundDate != '0'
           ? Utils.timestamptoDateConversion(
               int.parse(widget.listuser?.foundDate ?? '0'),
               Constants.fulldateFormat)
@@ -323,15 +323,13 @@ class _CreateFoundState extends State<CreateFound> {
         TypeOfArticle(id: selectedArtclelist?.id ?? 1);
     User? entrysecurtity = User(userId: userDetails?.userId ?? 1);
     Depositor? depositor = Depositor(userId: selecteddepositorList?.id ?? 1);
-    Organisation? location =
-        Organisation(id: locationSelectedlist?.id ?? 1);
+    Organisation? location = Organisation(id: locationSelectedlist?.id ?? 1);
     DepositorDepartment? depositordep =
         DepositorDepartment(id: selectedEmployeedepartment?.id ?? 1);
     List<CreateImage>? images = getFiles ?? [];
-    Organisation? createclaimantDepartment =
-        Organisation(
-            id: widget.listuser?.claimantDepartment?.id ?? 1,
-            name: widget.listuser?.claimantDepartment?.name ?? '');
+    Organisation? createclaimantDepartment = Organisation(
+        id: widget.listuser?.claimantDepartment?.id ?? 1,
+        name: widget.listuser?.claimantDepartment?.name ?? '');
     CreateClaimant? claimant = CreateClaimant(
         userId: widget.listuser?.claimant?.userId ?? 1,
         userName: widget.listuser?.claimant?.userName ?? '',
@@ -705,8 +703,7 @@ class _CreateFoundState extends State<CreateFound> {
     //you can implement different kind of Date Format here according to your requirement
     if (textfield == founddateTextController) {
       founddateTextController.text = formattedDate;
-    }
-    else if (textfield == handedoverdatedateTextController) {
+    } else if (textfield == handedoverdatedateTextController) {
       handedoverdatedateTextController.text = formattedDate;
     }
     setState(() {
@@ -1003,15 +1000,14 @@ class _CreateFoundState extends State<CreateFound> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             GestureDetector(
                               onTap: () {
-                                if (widget.listuser == null ||
-                                    assettypeTextController.text.isEmpty) {
+                                if (widget.listuser?.status == 0 ||
+                                    widget.listuser == null) {
                                   assetTypeDialog();
                                 }
                               },
                               child: FlutterInputField(
                                   isEnable: false,
-                                  isDisableColor: widget.listuser == null ||
-                                          assettypeTextController.text.isEmpty
+                                  isDisableColor: widget.listuser?.status == 0
                                       ? false
                                       : true,
                                   textFieldController: assettypeTextController,
@@ -1022,8 +1018,8 @@ class _CreateFoundState extends State<CreateFound> {
                                     setState(() {});
                                   },
                                   onTap: () {
-                                    if (widget.listuser == null ||
-                                        assettypeTextController.text.isEmpty) {
+                                    if (widget.listuser?.status == 0 ||
+                                        widget.listuser == null) {
                                       assetTypeDialog();
                                     }
                                   },
@@ -1066,19 +1062,12 @@ class _CreateFoundState extends State<CreateFound> {
                               textFieldController: foundLocationTextController,
                               textFormKey: Keys.foundLocationTextController,
                               hintText: '',
-                              isEnable: widget.listuser == null
-                                  ? true
-                                  : (widget.listuser != null &&
-                                          (widget.listuser?.foundLocation ?? '')
-                                              .isEmpty)
-                                      ? true
-                                      : false,
-                              isDisableColor: (widget.listuser != null &&
-                                          (widget.listuser?.foundLocation ?? '')
-                                              .isEmpty) ||
+                              isEnable: widget.listuser?.status == 0 ||
                                       widget.listuser == null
-                                  ? false
-                                  : true,
+                                  ? true
+                                  : false,
+                              isDisableColor:
+                                  widget.listuser?.status == 0 ? false : true,
                               onChange: (String username) {
                                 //this.username = username;
                                 setState(() {});
@@ -1099,23 +1088,12 @@ class _CreateFoundState extends State<CreateFound> {
                               textFormKey:
                                   Keys.additionalinformationTextController,
                               hintText: Constants.informationhere,
-                              isEnable: widget.listuser == null
-                                  ? true
-                                  : (widget.listuser != null &&
-                                          (widget.listuser
-                                                      ?.additionalInformation ??
-                                                  '')
-                                              .isEmpty)
-                                      ? true
-                                      : false,
-                              isDisableColor: (widget.listuser != null &&
-                                          (widget.listuser
-                                                      ?.additionalInformation ??
-                                                  '')
-                                              .isEmpty) ||
+                              isEnable: widget.listuser?.status == 0 ||
                                       widget.listuser == null
-                                  ? false
-                                  : true,
+                                  ? true
+                                  : false,
+                              isDisableColor:
+                                  widget.listuser?.status == 0 ? false : true,
                               onChange: (String username) {
                                 //this.username = username;
                                 setState(() {});
@@ -1160,17 +1138,12 @@ class _CreateFoundState extends State<CreateFound> {
                               textFieldController: quantityTextController,
                               textFormKey: Keys.quantityTextController,
                               hintText: '',
-                              isEnable: widget.listuser == null
+                              isEnable: widget.listuser?.status == 0 ||
+                                      widget.listuser == null
                                   ? true
-                                  : (widget.listuser != null &&
-                                          (widget.listuser?.quantity == null))
-                                      ? true
-                                      : false,
-                              isDisableColor: (widget.listuser != null &&
-                                          (widget.listuser?.quantity != null) ||
-                                      widget.listuser == null)
-                                  ? false
-                                  : true,
+                                  : false,
+                              isDisableColor:
+                                  widget.listuser?.status == 0 ? false : true,
                               onChange: (String username) {
                                 //this.username = username;
                                 setState(() {});
@@ -1187,26 +1160,18 @@ class _CreateFoundState extends State<CreateFound> {
                               textFieldController: colorTextController,
                               textFormKey: Keys.colorTextController,
                               hintText: '',
-                              isEnable: widget.listuser == null
-                                  ? true
-                                  : (widget.listuser != null &&
-                                          (widget.listuser?.color ?? '')
-                                              .isEmpty)
-                                      ? true
-                                      : false,
-                              isDisableColor: (widget.listuser != null &&
-                                          (widget.listuser?.color ?? '')
-                                              .isEmpty) ||
+                              isEnable: widget.listuser?.status == 0 ||
                                       widget.listuser == null
-                                  ? false
-                                  : true,
+                                  ? true
+                                  : false,
+                              isDisableColor:
+                                  widget.listuser?.status == 0 ? false : true,
                               onChange: (String username) {
                                 //this.username = username;
                                 setState(() {});
                               },
                               validateTextField: (String? user) {},
                             ),
-
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -1229,12 +1194,14 @@ class _CreateFoundState extends State<CreateFound> {
                                         ? ('${selecteddepositorList?.name ?? ''}(${selecteddepositorList?.email ?? ''})')
                                         : '',
                                     height: 70,
-                                    isDisableColor: widget.listuser?.status != 0 && widget.listuser !=null
-                                        ? true
-                                        : false,
+                                    isDisableColor:
+                                        widget.listuser?.status == 1 ||
+                                                widget.listuser?.status == 2
+                                            ? true
+                                            : false,
                                     onTap: () {
-                                      if (widget.listuser?.status == 0 || widget.listuser == null )
-                                         {
+                                      if (widget.listuser?.status == 0 ||
+                                          widget.listuser == null) {
                                         depositorDialog(
                                             state, Constants.depositor);
                                       }
@@ -1244,19 +1211,10 @@ class _CreateFoundState extends State<CreateFound> {
                                         depositorTextController,
                                     textFormKey: Keys.depositorTextController,
                                     hintText: '',
-                                    isEnable: widget.listuser == null
+                                    isEnable: widget.listuser?.status == 0
                                         ? true
-                                        : (widget.listuser != null &&
-                                                (widget.listuser
-                                                            ?.depositorName ??
-                                                        '')
-                                                    .isEmpty)
-                                            ? true
-                                            : false,
-                                    isDisableColor: (widget.listuser != null &&
-                                            (widget.listuser?.depositorName ??
-                                                    '')
-                                                .isEmpty)
+                                        : false,
+                                    isDisableColor: widget.listuser?.status != 0
                                         ? false
                                         : true,
                                     onChange: (String username) {
@@ -1284,20 +1242,10 @@ class _CreateFoundState extends State<CreateFound> {
                                     textFormKey:
                                         Keys.depositorEmpIdTextController,
                                     hintText: '',
-                                    isEnable: widget.listuser == null
+                                    isEnable: widget.listuser?.status == 0
                                         ? true
-                                        : (widget.listuser != null &&
-                                                (widget.listuser?.employeeId ??
-                                                        '')
-                                                    .isEmpty)
-                                            ? true
-                                            : false,
-                                    isDisableColor: (widget.listuser?.status ==
-                                                    2 &&
-                                                (widget.listuser?.employeeId ??
-                                                        '')
-                                                    .isEmpty) ||
-                                            widget.listuser == null
+                                        : false,
+                                    isDisableColor: widget.listuser?.status != 0
                                         ? false
                                         : true,
                                     onChange: (String username) {
@@ -1311,7 +1259,6 @@ class _CreateFoundState extends State<CreateFound> {
                                 ? CommonWidgets.verticalSpacerWidget(
                                     height * 0.01)
                                 : Container(),
-
 
                             // employee department
                             isDepositorDBEmployeeSelected == 1
@@ -1329,12 +1276,14 @@ class _CreateFoundState extends State<CreateFound> {
                                     title:
                                         selectedEmployeedepartment?.name ?? '',
                                     height: 60,
-                                    isDisableColor: widget.listuser != null && widget.listuser?.status != 0
-                                        ? true
-                                        : false,
+                                    isDisableColor:
+                                        widget.listuser?.status == 1 ||
+                                                widget.listuser?.status == 2
+                                            ? true
+                                            : false,
                                     onTap: () {
-                                      if (widget.listuser == null ||widget.listuser?.status == 0)
-                                          {
+                                      if (widget.listuser == null ||
+                                          widget.listuser?.status == 0) {
                                         employeeDepartmentDialog(state,
                                             Constants.employeedepartment);
                                       }
@@ -1403,11 +1352,12 @@ class _CreateFoundState extends State<CreateFound> {
                                       ? TextfieldAddButton(
                                           title: selectedClaimList?.name ?? '',
                                           height: 60,
-                                          isDisableColor: widget.listuser?.status !=2
-                                              ? false
-                                              : true,
+                                          isDisableColor:
+                                              widget.listuser?.status != 2
+                                                  ? false
+                                                  : true,
                                           onTap: () {
-                                            if ( widget.listuser?.status !=2) {
+                                            if (widget.listuser?.status != 2) {
                                               depositorDialog(
                                                   state, Constants.claimant);
                                             }
@@ -1445,7 +1395,7 @@ class _CreateFoundState extends State<CreateFound> {
                                           claimantEmpIdTextController,
                                       textFormKey:
                                           Keys.claimantEmpIdTextController,
-                                      isEnable:  widget.listuser?.status !=2
+                                      isEnable: widget.listuser?.status != 2
                                           ? true
                                           : (widget.listuser != null &&
                                                   (widget.listuser
@@ -1454,9 +1404,10 @@ class _CreateFoundState extends State<CreateFound> {
                                                       .isEmpty)
                                               ? true
                                               : false,
-                                      isDisableColor: ( widget.listuser?.status !=2)
-                                          ? false
-                                          : true,
+                                      isDisableColor:
+                                          (widget.listuser?.status != 2)
+                                              ? false
+                                              : true,
                                       hintText: '',
                                       onChange: (String username) {
                                         //this.username = username;
@@ -1491,11 +1442,12 @@ class _CreateFoundState extends State<CreateFound> {
                                       title:
                                           (selectedClaimdepartment?.name ?? ''),
                                       height: 60,
-                                      isDisableColor: widget.listuser == null && widget.listuser?.status == 3
+                                      isDisableColor: widget.listuser == null &&
+                                              widget.listuser?.status == 3
                                           ? true
                                           : false,
                                       onTap: () {
-                                       // if (widget.listuser == null ||widget.listuser?.status == 0)
+                                        // if (widget.listuser == null ||widget.listuser?.status == 0)
                                         {
                                           employeeDepartmentDialog(state,
                                               Constants.claimantdepartment);
@@ -1673,8 +1625,7 @@ class _CreateFoundState extends State<CreateFound> {
                                 ? CommonWidgets.verticalSpacerWidget(
                                     height * 0.01)
                                 : Container(),
-                            (getAttachments.isEmpty ||
-                                    widget.listuser == null)
+                            (getAttachments.isEmpty || widget.listuser == null)
                                 ? getFiles.isEmpty
                                     ? Container()
                                     : attachmentListviews(
@@ -1806,9 +1757,10 @@ class _CreateFoundState extends State<CreateFound> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
-          activeColor: widget.listuser != null
-              ? AppColors.disabletextfieldBackground
-              : AppColors.navigationSkybluecolor,
+          activeColor:
+              widget.listuser?.status == 1 || widget.listuser?.status == 2
+                  ? AppColors.disabletextfieldBackground
+                  : AppColors.navigationSkybluecolor,
           // focusColor:
           //     AppColors.navigationSkybluecolor,
 
@@ -1832,9 +1784,10 @@ class _CreateFoundState extends State<CreateFound> {
         ),
         const Text(Constants.yes),
         Radio(
-          activeColor: widget.listuser != null
-              ? AppColors.disabletextfieldBackground
-              : AppColors.navigationSkybluecolor,
+          activeColor:
+              widget.listuser?.status == 1 || widget.listuser?.status == 2
+                  ? AppColors.disabletextfieldBackground
+                  : AppColors.navigationSkybluecolor,
           value: 0,
           groupValue: selectedValue,
           onChanged: (val) {
@@ -1863,11 +1816,13 @@ class _CreateFoundState extends State<CreateFound> {
     return TextfieldAddButton(
       title: selectedArtclelist?.name ?? '',
       height: 60,
-      isDisableColor: widget.listuser?.status != 2 && widget.listuser != null
+      isDisableColor: widget.listuser?.status == 1 ||
+              widget.listuser?.status == 2 ||
+              widget.listuser != null
           ? true
           : false,
       onTap: () {
-        if (widget.listuser?.status != 2) {
+        if (widget.listuser?.status != 1 || widget.listuser?.status != 2) {
           articleTypeDialog(state);
         }
       },
@@ -1877,7 +1832,7 @@ class _CreateFoundState extends State<CreateFound> {
   Widget datepickerWidgetLoading(TextEditingController textfiled) {
     return GestureDetector(
       onTap: () {
-        if ( widget.listuser == null) {
+        if (widget.listuser?.status == 0) {
           datePickerDialog(textfiled);
         }
       },
@@ -1888,8 +1843,7 @@ class _CreateFoundState extends State<CreateFound> {
             : Keys.handedoverdateTextController,
         hintText: '',
         isEnable: false,
-        isDisableColor:
-            widget.listuser == null || textfiled.text.isEmpty ? false : true,
+        isDisableColor: widget.listuser?.status != 0 ? false : true,
         onChange: (String username) {
           //this.username = username;
           print('dfwf');
@@ -1899,7 +1853,9 @@ class _CreateFoundState extends State<CreateFound> {
         validateTextField: (String? user) {},
         suffixWidget: GestureDetector(
           onTap: () async {
-            if (widget.listuser == null || textfiled.text.isEmpty) {
+            if (widget.listuser == null ||
+                textfiled.text.isEmpty ||
+                widget.listuser?.status == 0) {
               datePickerDialog(textfiled);
             }
           },
