@@ -302,7 +302,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     state.model.occurrence ??= Occurrence();
-    state.model.occurrence?.id = occId.toIntOrNull() ?? 0;
+    state.model.occurrence?.id = occId.toIntOrNull();
     state.model.occType = occType;
 
     log('---state.model.occurrence-save---${state.model.occurrence?.id}--');

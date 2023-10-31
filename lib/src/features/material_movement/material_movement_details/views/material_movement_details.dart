@@ -136,6 +136,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
         }
       },
       builder: (context, state) {
+        log('--status langu--1--${state.language?.en?.comarlantoatommaterialMovementstatus}-----');
         log('--isDisabled--1--$isDisabled-----');
         if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
           isDisabled = true;
@@ -302,7 +303,9 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
 
                                 /// Status
                                 CommonWidgets.textDisplay(
-                                  Constants.status,
+                                  state.language?.en
+                                          ?.comarlantoatommaterialMovementstatus ??
+                                      Constants.status,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -500,20 +503,20 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       name: state.model.unit?.name ?? 'Unit',
                                       width: 70,
                                     ),
-
-                                    if(!isDisabled)...[
-                                    InkWell(
-                                      onTap: () {
-                                        quantityUnitDialog(
-                                          context: context,
-                                          quantityUnits: state.quantityUnits,
-                                        );
-                                      },
-                                      child:  AddButtonWidget(
-                                        height: 50,
-                                        isDisableColor: isDisabled,
+                                    if (!isDisabled) ...[
+                                      InkWell(
+                                        onTap: () {
+                                          quantityUnitDialog(
+                                            context: context,
+                                            quantityUnits: state.quantityUnits,
+                                          );
+                                        },
+                                        child: AddButtonWidget(
+                                          height: 50,
+                                          isDisableColor: isDisabled,
+                                        ),
                                       ),
-                                    ),],
+                                    ],
                                   ],
                                 ),
 
@@ -2007,7 +2010,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
             return CustomExpansionListTexts(
               getLocationsresponse: state.locations,
               onTap: (Organisation? list) async {
-
                 Organisation location = Organisation();
                 location.id = list?.id;
                 location.name = list?.name;
