@@ -479,12 +479,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.001),
                                 widget.passId == "0" || widget.passId == "3"
                                     ? textFieldWidgetLoad(
-                                        //isEnable :false,
-                                        companynameTextController,
-                                        0,
-                                        state)
-                                    : textFieldWidgetLoad(
-                                        nameTextController, 0, state),
+                                        companynameTextController, 0, state)
+                                  : textFieldWidgetLoad(
+                                      nameTextController, 0, state),
 
                                 ///Vendor Company Name
                                 widget.passId == "2"
@@ -1500,6 +1497,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       contactnoTextController.text = widget.model?.contactNo ?? '';
       employeeidTextController.text = widget.model?.employeeId ?? '';
       sezpassinfoTextController.text = widget.model?.passNo ?? '';
+      //sezpassinfoTextController.text = widget.model?.passNo ?? '';
       dbsponsorTextController.text = widget.model?.hostEmployeeId ?? '';
     }
   }
@@ -1572,7 +1570,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             onTap: (String value) {
               print(value);
               passtypeTextController.text = value;
-              setState(() {});
             },
           );
         });
@@ -2049,9 +2046,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.nameResponse?.name ?? '', //state.t1nameanalyst?.name ?? '',
       height: 60,
-      isDisableColor: widget.model == null ||
-              (state.nameResponse != null &&
-                  ((state.nameResponse?.name ?? '').isEmpty))
+      isDisableColor: widget.model?.status != 0 ||widget.model != null
           ? false
           : true,
       onTap: () {
@@ -2457,7 +2452,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         id: (state.atomCompanyType?.id == 0)
             ? 1
             : state.atomCompanyType?.id ?? 1,
-        name: state.atomCompanyType?.name ?? '');
+        name: state.atomCompanyType?.name ?? ''
+    );
     log('--state.locationSelectedlist?.id--${state.location?.id}----');
     Organisation? locationRegion = Organisation(
         id: (state.location?.id == 0) ? 1 : state.location?.id ?? 1,
@@ -2894,7 +2890,23 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter day pass no",
       );
-    } else if ((widget.passId == '1' || widget.passId == '2') &&
+    } else if (widget.passId == '1' &&
+        (state.activePassInfoList == null ||
+            (state.activePassInfoList?.name ?? '').isEmpty)) {
+      Validator().showToast(
+        context,
+        "Please enter Visitor pass no",
+      );
+    }
+    else if (widget.passId == '2' &&
+        (state.activePassInfoList == null ||
+            (state.activePassInfoList?.name ?? '').isEmpty)) {
+      Validator().showToast(
+        context,
+        "Please enter Vendor pass no",
+      );
+    }
+    else if ((widget.passId == '1' || widget.passId == '2') &&
         (state.activePassInfoList == null ||
             (state.activePassInfoList?.name ?? '').isEmpty)) {
       Validator().showToast(
