@@ -513,7 +513,18 @@ class Utils {
   }
 
   Widget buildPassManagementStatusRow(int status) {
-    String statusText;
+    String statusText = buildPassManagementStatus(status);
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
+
+  String buildPassManagementStatus(int? status) {
+     String statusText;
 
     switch (status) {
       case 0:
@@ -549,13 +560,7 @@ class Utils {
       default:
         statusText = ''; // Handle the default case if needed
     }
-    return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status: ', statusText),
-        ],
-      ),
-    );
+    return statusText;
   }
 
   Widget passManagementPassTypeRow(int passType) {
