@@ -54,12 +54,10 @@ class CreatePassManagement extends StatefulWidget {
 class _CreatePassManagementState extends State<CreatePassManagement> {
   final GlobalKey<FormState> lawenforcementFormKey = GlobalKey<FormState>();
   TextEditingController statusTextController = TextEditingController();
-  TextEditingController updatestatusTextController = TextEditingController();
+  TextEditingController updateStatusTextController = TextEditingController();
   TextEditingController passvalidfromTextController = TextEditingController();
   TextEditingController passvaliduntilTextController = TextEditingController();
   TextEditingController companynameTextController = TextEditingController();
-  TextEditingController vendorCompanynameTextController =
-      TextEditingController();
   TextEditingController employeeidTextController = TextEditingController();
   TextEditingController hostemployeeidTextController = TextEditingController();
   TextEditingController escortedbyTextController = TextEditingController();
@@ -301,7 +299,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           isEnable: false,
                                           isDisableColor: true,
                                           textFieldController:
-                                              updatestatusTextController,
+                                              updateStatusTextController,
                                           textFormKey:
                                               Keys.statusTextController,
                                           hintText: '',
@@ -467,14 +465,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                 /// Vendor Name // Visitor Name // Company Name
                                 CommonWidgets.textDisplay(
-                                    widget.passId == "0" || widget.passId == "3"
-                                        ? Constants.companyname
-                                        : widget.passId == "2"
-                                            ? "Vendor Name"
-                                            : widget.passId == "0"
-                                                ? Constants.name
-                                                : "Visitor Name",
-                                    Styles.textStyleBlack14),
+                                  widget.passId == "0" || widget.passId == "3"
+                                      ? Constants.companyname
+                                      : widget.passId == "2"
+                                          ? "Vendor Name"
+                                          : widget.passId == "0"
+                                              ? Constants.name
+                                              : "Visitor Name",
+                                  Styles.textStyleBlack14,
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 widget.passId == "0" || widget.passId == "3"
@@ -1593,7 +1592,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   ],
             onTap: (String value) {
               print(value);
-              updatestatusTextController.text = value;
+              updateStatusTextController.text = value;
               setState(() {});
             },
           );
@@ -2366,6 +2365,28 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         return;
       }
     }
+
+    if (widget.passId == '1') {
+      if (daypassnoTextController.text.isEmptyOrNull) {
+        Validator().showToast(
+          context,
+          "Please enter Visitor Pass No",
+        );
+        return;
+      }
+    }
+
+    if (widget.passId == '2') {
+      if (state.vendorPassInfo == null) {
+        Validator().showToast(
+          context,
+          "Vendor Pass No",
+        );
+        return;
+      }
+    }
+
+
     PassInfo passInfo = widget.model?.passInfo ?? PassInfo();
     switch (passtypeTextController.text) {
       case 'DAY_PASS':
@@ -2422,17 +2443,17 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
 
     int updatestatusvalue = 0;
-    if (updatestatusTextController.text.toLowerCase() == "returned") {
+    if (updateStatusTextController.text.toLowerCase() == "returned") {
       updatestatusvalue = 2;
-    } else if (updatestatusTextController.text.toLowerCase() == "lost") {
+    } else if (updateStatusTextController.text.toLowerCase() == "lost") {
       updatestatusvalue = 4;
-    } else if (updatestatusTextController.text.toLowerCase() == "damaged") {
+    } else if (updateStatusTextController.text.toLowerCase() == "damaged") {
       updatestatusvalue = 5;
-    } else if (updatestatusTextController.text.toLowerCase() == "defaced") {
+    } else if (updateStatusTextController.text.toLowerCase() == "defaced") {
       updatestatusvalue = 6;
-    } else if (updatestatusTextController.text.toLowerCase() == "cancelled") {
+    } else if (updateStatusTextController.text.toLowerCase() == "cancelled") {
       updatestatusvalue = 7;
-    } else if (updatestatusTextController.text.toLowerCase() ==
+    } else if (updateStatusTextController.text.toLowerCase() ==
         "returned damaged") {
       updatestatusvalue = 8;
     } else {
@@ -2467,9 +2488,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else {
       info = PassInfo(
           passType: passInfo.passType,
-          id: (state.activePassInfoList?.id == 0)
+          id: (state.vendorPassInfo?.id == 0)
               ? 1
-              : state.activePassInfoList?.id ??
+              : state.vendorPassInfo?.id ??
                   ((widget.passId == "3") ? 9151 : 3),
           //9151 //int.parse(sezpassinfoTextController.text ?? '1')
           passNo: sezpassinfoTextController.text,
@@ -2879,29 +2900,29 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             : "Please enter reason for day pass",
       );
     } else if (widget.passId == '0' &&
-        (state.activePassInfoList == null ||
-            (state.activePassInfoList?.name ?? '').isEmpty)) {
+        (state.vendorPassInfo == null ||
+            (state.vendorPassInfo?.name ?? '').isEmpty)) {
       Validator().showToast(
         context,
         "Please enter day pass no",
       );
     } else if (widget.passId == '1' &&
-        (state.activePassInfoList == null ||
-            (state.activePassInfoList?.name ?? '').isEmpty)) {
+        (state.vendorPassInfo == null ||
+            (state.vendorPassInfo?.name ?? '').isEmpty)) {
       Validator().showToast(
         context,
         "Please enter Visitor pass no",
       );
     } else if (widget.passId == '2' &&
-        (state.activePassInfoList == null ||
-            (state.activePassInfoList?.name ?? '').isEmpty)) {
+        (state.vendorPassInfo == null ||
+            (state.vendorPassInfo?.name ?? '').isEmpty)) {
       Validator().showToast(
         context,
         "Please enter Vendor pass no",
       );
     } else if ((widget.passId == '1' || widget.passId == '2') &&
-        (state.activePassInfoList == null ||
-            (state.activePassInfoList?.name ?? '').isEmpty)) {
+        (state.vendorPassInfo == null ||
+            (state.vendorPassInfo?.name ?? '').isEmpty)) {
       Validator().showToast(
         context,
         widget.passId == '2'
