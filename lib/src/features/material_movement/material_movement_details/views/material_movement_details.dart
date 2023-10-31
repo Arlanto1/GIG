@@ -177,11 +177,12 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     expectedDateOfReturnController.text = Utils.timestamptoDateConversion(
         int.tryParse(widget.materialMovement?.expectedDateOfReturn ?? '0'),
         Constants.dateFormat);
+
     // actualDateOfReturnController.text = Utils.timestamptoDateConversion(
     //     int.tryParse(widget.materialMovement?.actualDateOfReturn ?? '0'),
     //     Constants.dateFormat);
     takenOutOnDateController.text = Utils.timestamptoDateConversion(
-        int.tryParse(widget.materialMovement?.takenOutOn ?? '0'),
+        int.tryParse(widget.materialMovement?.takenOutDate ?? '0'),
         Constants.dateFormat);
   }
 
@@ -201,7 +202,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
       getFiles = state.loadAttachments ?? [];
       log('---getFiles----builder----${getFiles.length}-----');
     }
-
+    bool isQuanityDisabled = state.model.status != 6;
     return Container(
       color: AppColors.navigationSkybluecolor,
       child: SingleChildScrollView(
@@ -397,7 +398,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.poNumber,
                                     Styles.textStyleBlack14,
-                                    isMandatory: true,
+                                   // isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
@@ -506,10 +507,13 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     if (!isDisabled) ...[
                                       InkWell(
                                         onTap: () {
-                                          quantityUnitDialog(
-                                            context: context,
-                                            quantityUnits: state.quantityUnits,
-                                          );
+                                          if (isQuanityDisabled) {
+                                            quantityUnitDialog(
+                                              context: context,
+                                              quantityUnits:
+                                                  state.quantityUnits,
+                                            );
+                                          }
                                         },
                                         child: AddButtonWidget(
                                           height: 50,
@@ -1130,6 +1134,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     ),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
+
                                     BaseDate().datePickerWidgetLoading(
                                       textController:
                                           expectedDateOfReturnController,
@@ -1273,7 +1278,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             takenOutOnDateController,
                                         onlyDate: true,
                                         onChange: (String value) {
-                                          state.model.takenOutOn =
+                                          state.model.takenOutDate =
                                               Utils().formatTime(value);
                                           BlocProvider.of<
                                                       MaterialMovementDetailsCubit>(

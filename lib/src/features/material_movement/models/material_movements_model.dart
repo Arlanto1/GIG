@@ -91,7 +91,7 @@ class MaterialMovementModel extends BaseObject {
   String? approvedBy;
   String? approvedDate;
   String? expectedDateOfReturn;
-  String? takenOutOn;
+  String? takenOutDate;
 
   MaterialMovementModel({
     this.id,
@@ -149,7 +149,7 @@ class MaterialMovementModel extends BaseObject {
     this.rejectionComment,
     this.approvedBy,
     this.approvedDate,
-    this.takenOutOn,
+    this.takenOutDate,
     this.expectedDateOfReturn,
   });
 
@@ -207,7 +207,7 @@ class MaterialMovementModel extends BaseObject {
             : null,
         preparedBy = json['preparedBy'] as String?,
         approvedDate = json['approvedDate'],
-        takenOutOn = json['takenOutOn'],
+        takenOutDate = json['takenOutDate'],
         preparedByDepartment =
             (json['preparedByDepartment'] as Map<String, dynamic>?) != null
                 ? Organisation.fromJson(
@@ -283,7 +283,7 @@ class MaterialMovementModel extends BaseObject {
         'address': address,
         'rejectedBy': rejectedBy,
         'rejectedDate': rejectedDate,
-        'takenOutOn': takenOutOn,
+        'takenOutDate': takenOutDate,
         'rejectionComment': rejectionComment,
         'approvedBy': approvedBy,
         'approvedDate': approvedDate,

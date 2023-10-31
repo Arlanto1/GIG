@@ -1270,7 +1270,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   height * 0.001),
                               FlutterInputField(
                                 keyboardType: TextInputType.number,
-                                initialValue: '${state.model.budget ?? ''}',
+                                initialValue: ((state.model.securityGuardCountHrs?.toDouble() ?? 0.0) +
+                                    ( state.model.securitySupervisorCountHrs?.toDouble() ?? 0.0) +
+                                    (state.model.securityOfficerCountHrs?.toDouble() ?? 0.0 )+
+                                    (state.model.securityFacilitatorCountHrs?.toDouble() ?? 0.0)/ 24).toStringAsFixed(2),
                                 textFormKey: Keys.budgetKey,
                                 hintText: '',
                                 isEnable: !disableForm,
