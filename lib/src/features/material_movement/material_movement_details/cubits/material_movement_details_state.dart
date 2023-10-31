@@ -14,6 +14,7 @@ class MaterialMovementDetailsState extends Equatable {
   final int? eventId;
   final String? message;
   final bool? isInward;
+  final Language? language;
 
   factory MaterialMovementDetailsState.initial({
     required MaterialMovementModel model,
@@ -118,6 +119,7 @@ class MaterialMovementDetailsState extends Equatable {
     this.eventId,
     this.message,
     this.isInward,
+    this.language,
   });
 
   MaterialMovementDetailsState copyWith({
@@ -132,6 +134,7 @@ class MaterialMovementDetailsState extends Equatable {
     List<Organisation>? quantityUnits,
     int? eventId,
     String? message,
+    Language? language,
   }) {
     return MaterialMovementDetailsState(
       status: status ?? this.status,
@@ -145,6 +148,7 @@ class MaterialMovementDetailsState extends Equatable {
       quantityUnits: quantityUnits ?? this.quantityUnits,
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
+      language: language??this.language,
     );
   }
 }

@@ -332,6 +332,15 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     GenericCreateResponse response = GenericCreateResponse();
     try {
       if (isSaveOnly) {
+        if (!state.isValidDraft.status) {
+          emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValidDraft.message,
+            ),
+          );
+          return;
+        }
         response = (await services.createEventGeneralInfo(
           body: request,
           isSubmit: false,

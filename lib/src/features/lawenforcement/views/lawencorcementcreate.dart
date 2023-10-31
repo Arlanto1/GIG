@@ -368,7 +368,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 textfieldWidgetLoad(
                                     additionalinformationTextController,
                                     0,
-                                    state),
+                                    state,),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                               ]),
@@ -578,9 +578,12 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     // TextEditingController emailid = TextEditingController();
     // TextEditingController designation = TextEditingController();
 
-    //}
-    return Column(children: [
-      GestureDetector(
+
+    log('-contactnoTextController1----${contactnoTextController1.text}----');
+
+    return Column(
+      children: [
+        GestureDetector(
           onTap: () {
             int value = (state.getVisitsCount ?? 0) - 1;
             List<VisitingOfficialsModel>? getVisits1 = state.getVisits ?? [];
@@ -593,81 +596,88 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
               AppIcon.closeicon,
               color: AppColors.navigationSkybluecolor,
             ),
-          ) //Icon(Icons.cancel)
-          ),
-      CommonWidgets.verticalSpacerWidget(height * 0.002),
-      CommonWidgets.textDisplay(Constants.name, Styles.textStyleBlack14),
-      CommonWidgets.verticalSpacerWidget(height * 0.001),
-      textfieldWidgetLoad(
+          ), //Icon(Icons.cancel)
+        ),
+        CommonWidgets.verticalSpacerWidget(height * 0.002),
+        CommonWidgets.textDisplay(Constants.name, Styles.textStyleBlack14),
+        CommonWidgets.verticalSpacerWidget(height * 0.001),
+        textfieldWidgetLoad(
           index == 0
               ? nameTextController1
               : index == 1
                   ? nameTextController2
                   : nameTextController3,
           index,
-          state),
-      CommonWidgets.verticalSpacerWidget(height * 0.01),
+          state,
+        ),
+        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-      // Designation
-      CommonWidgets.textDisplay(Constants.designation, Styles.textStyleBlack14),
-      CommonWidgets.verticalSpacerWidget(height * 0.001),
-      textfieldWidgetLoad(
+        // Designation
+        CommonWidgets.textDisplay(
+            Constants.designation, Styles.textStyleBlack14),
+        CommonWidgets.verticalSpacerWidget(height * 0.001),
+        textfieldWidgetLoad(
           index == 0
               ? designationTextController1
               : index == 1
                   ? designationTextController2
                   : designationTextController3,
           index,
-          state),
-      CommonWidgets.verticalSpacerWidget(height * 0.01),
+          state,
+        ),
+        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-      // Department
-      CommonWidgets.textDisplay(Constants.department, Styles.textStyleBlack14),
-      CommonWidgets.verticalSpacerWidget(height * 0.001),
-      // articleaddButtonwidgetLoading(state),
-      departmentaddButtonwidgetLoading(state, index),
-      CommonWidgets.verticalSpacerWidget(height * 0.01),
+        // Department
+        CommonWidgets.textDisplay(
+            Constants.department, Styles.textStyleBlack14),
+        CommonWidgets.verticalSpacerWidget(height * 0.001),
+        // articleaddButtonwidgetLoading(state),
+        departmentaddButtonwidgetLoading(state, index),
+        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-      // Office Address
-      CommonWidgets.textDisplay(
-          Constants.officeAddress, Styles.textStyleBlack14),
-      CommonWidgets.verticalSpacerWidget(height * 0.001),
-      textfieldWidgetLoad(
-          index == 0
-              ? officeaddressTextController1
-              : index == 1
-                  ? officeaddressTextController2
-                  : officeaddressTextController3,
-          index,
-          state),
-      CommonWidgets.verticalSpacerWidget(height * 0.01),
+        // Office Address
+        CommonWidgets.textDisplay(
+            Constants.officeAddress, Styles.textStyleBlack14),
+        CommonWidgets.verticalSpacerWidget(height * 0.001),
+        textfieldWidgetLoad(
+            index == 0
+                ? officeaddressTextController1
+                : index == 1
+                    ? officeaddressTextController2
+                    : officeaddressTextController3,
+            index,
+            state),
+        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-      // Email Id
-      CommonWidgets.textDisplay(Constants.emailid, Styles.textStyleBlack14),
-      CommonWidgets.verticalSpacerWidget(height * 0.001),
-      textfieldWidgetLoad(
+        // Email Id
+        CommonWidgets.textDisplay(Constants.emailid, Styles.textStyleBlack14),
+        CommonWidgets.verticalSpacerWidget(height * 0.001),
+        textfieldWidgetLoad(
           index == 0
               ? emailidTextController1
               : index == 1
                   ? emailidTextController2
                   : emailidTextController3,
           index,
-          state),
-      CommonWidgets.verticalSpacerWidget(height * 0.01),
+          state,
+        ),
+        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-      // Conatct No
-      CommonWidgets.textDisplay(Constants.contactno, Styles.textStyleBlack14),
-      CommonWidgets.verticalSpacerWidget(height * 0.001),
-      textfieldWidgetLoad(
+        /// Contact No
+        CommonWidgets.textDisplay(Constants.contactno, Styles.textStyleBlack14),
+        CommonWidgets.verticalSpacerWidget(height * 0.001),
+        textfieldWidgetLoad(
           index == 0
               ? contactnoTextController1
               : index == 1
                   ? contactnoTextController2
                   : contactnoTextController3,
           index,
-          state),
-      CommonWidgets.verticalSpacerWidget(height * 0.02),
-    ]);
+          state,
+        ),
+        CommonWidgets.verticalSpacerWidget(height * 0.02),
+      ],
+    );
   }
 
   @override
@@ -1497,12 +1507,13 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         entities.add(addentiity);
       }
     }
-    LawEntrySecurity? entrysecurtity =
+    LawEntrySecurity? entrySecurtity =
         LawEntrySecurity(userId: state.getUserDetailsResponse?.userId ?? 1);
     LawLocation? location = LawLocation(
         id: state.locationSelectedlist?.id ?? 1,
         name: state.locationSelectedlist?.name ?? '');
     List<VisitingOfficial>? visitingOfficials = [];
+
     if (state.getVisits != null) {
       for (int i = 0; i < state.getVisits!.length; i++) {
         VisitingOfficialsModel model = state.getVisits![i];
@@ -1538,7 +1549,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     if (widget.model != null) {
       lawEnforcement = LawEnforcement(
           id: isFoundId,
-          entrySecurity: entrysecurtity,
+          entrySecurity: entrySecurtity,
           inputDate: inputdate.toString(),
           slNo: serialnumber ?? '',
           location: location,
@@ -1560,7 +1571,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           mailList: loadGroups);
     } else {
       lawEnforcement = LawEnforcement(
-          entrySecurity: entrysecurtity,
+          entrySecurity: entrySecurtity,
           inputDate: inputdate.toString(),
           slNo: serialnumber ?? '',
           location: location,
@@ -1582,15 +1593,14 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           mailList: loadGroups);
     }
     showLoadingDialog(context);
-    var username = await SharedPrefs.getUsername();
     LawEnforcementRequestBody body =
         LawEnforcementRequestBody(lawEnforcement: lawEnforcement);
-    lawenforcementCubit.lawcreateNewFoundArticle(
-        body,
-        isSubmit,
-        context,
-        username,
-        widget.model != null ? 'edit LawEnforcement' : 'Create LawEnforcement');
+    BlocProvider.of<LawEnforcementCubit>(context).submitForm(
+      body,
+      isSubmit,
+      context,
+      widget.model != null ? 'edit LawEnforcement' : 'Create LawEnforcement',
+    );
   }
 
   validateForm(BuildContext context, LawEnforcementState state) {

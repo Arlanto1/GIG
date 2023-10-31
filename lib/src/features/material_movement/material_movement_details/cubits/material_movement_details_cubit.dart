@@ -14,6 +14,7 @@ import 'package:db_atom/src/features/material_movement/models/material_movements
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
 import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
+import 'package:db_atom/src/models/language.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/util.dart';
@@ -41,24 +42,25 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   final bool? isInward;
   final bool? returnable;
 
-  MaterialMovementDetailsCubit(
-      {required this.materialMovementServices,
-      required this.commonServices,
-      this.model,
-      this.isInward,
-      this.returnable})
-      : super(
+  MaterialMovementDetailsCubit({
+    required this.materialMovementServices,
+    required this.commonServices,
+    this.model,
+    this.isInward,
+    this.returnable,
+  }) : super(
           MaterialMovementDetailsState.initial(
-              model: model ?? MaterialMovementModel(),
-              locations: GetLocations(),
-              loggedInUserDetails: User(),
-              users: const [],
-              emailUsers: const [],
-              errorMessage: '',
-              departments: const [],
-              loadAttachments: const [],
-              quantityUnits: const [],
-              eventId: null),
+            model: model ?? MaterialMovementModel(),
+            locations: GetLocations(),
+            loggedInUserDetails: User(),
+            users: const [],
+            emailUsers: const [],
+            errorMessage: '',
+            departments: const [],
+            loadAttachments: const [],
+            quantityUnits: const [],
+            eventId: null,
+          ),
         );
 
   void onModelValueChange(MaterialMovementModel model) {
@@ -100,6 +102,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
+      Language uilabels =
+      await commonServices.getUiLabels(language: 'EMPLOYEE_DEPARTMENTS');
+
+      log('--uilabels-----${uilabels.en}--');
+      log('--uilabels---2232--${uilabels.en?.comarlantoatomguardingMastermaritalStatus}--');
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
@@ -118,6 +125,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           emailUsers: emailUsers.atomStaticUser,
           departments: departments.employeeDepartments,
           quantityUnits: quantityUnits.units,
+          language: uilabels
         ),
       );
     } catch (e) {
@@ -287,7 +295,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     String imageBytes = await exportSignature(
       controller,
     );
-    if(imageBytes.isEmptyOrNull) {
+    if (imageBytes.isEmptyOrNull) {
       return;
     }
     ImageContent imageContent = ImageContent();
@@ -311,7 +319,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
 
     Uint8List? signature = await exportController.toPngBytes();
-    if(signature == null ){
+    if (signature == null) {
       return '';
     }
     String bs4str = base64Encode(signature);
