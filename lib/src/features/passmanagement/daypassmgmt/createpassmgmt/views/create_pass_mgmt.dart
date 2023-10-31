@@ -1176,7 +1176,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 // SubmitButton
                                 if (widget.model?.status == null ||
                                     widget.model?.status == 0 ||
-                                    widget.model?.status != 1 ||
+                                    widget.model?.status == 1 ||
                                     widget.model?.status == 2 ||
                                     widget.model?.status == 3) ...[
                                   Center(child: submitButtonDisplay()),
@@ -2452,7 +2452,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         id: (state.atomCompanyType?.id == 0)
             ? 1
             : state.atomCompanyType?.id ?? 1,
-        name: state.atomCompanyType?.name ?? '');
+        name: state.atomCompanyType?.name ?? ''
+    );
     log('--state.locationSelectedlist?.id--${state.location?.id}----');
     Organisation? locationRegion = Organisation(
         id: (state.location?.id == 0) ? 1 : state.location?.id ?? 1,
