@@ -141,6 +141,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
           isDisabled = true;
         }
         log('--isDisabled--2--$isDisabled-----');
+        if (state.model.status == null) {
+          isDisabled = false;
+        }
+        log('--isDisabled--2--$isDisabled-----');
 
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
@@ -214,9 +218,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                           BorderRadius.vertical(top: Radius.circular(20.0)),
                     )),
                 child: AbsorbPointer(
-                  absorbing: state.model.status != 6 &&
-                      state.model.status != 1 &&
-                      isDisabled,
+                  absorbing: isDisabled,
                   child: Form(
                       key: _formKey,
                       autovalidateMode: isDisabled
@@ -494,25 +496,24 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         validateTextField: (String? user) {},
                                       ),
                                     ),
-                                    // CommonWidgets.horizontalSpacerWidget(
-                                    //     width * 0.01),
                                     TileWidget(
                                       name: state.model.unit?.name ?? 'Unit',
                                       width: 70,
                                     ),
-                                    // CommonWidgets.horizontalSpacerWidget(
-                                    //     width * 0.01),
 
+                                    if(!isDisabled)...[
                                     InkWell(
-                                        onTap: () {
-                                          quantityUnitDialog(
-                                              context: context,
-                                              quantityUnits:
-                                                  state.quantityUnits);
-                                        },
-                                        child: const AddButtonWidget(
-                                          height: 50,
-                                        )),
+                                      onTap: () {
+                                        quantityUnitDialog(
+                                          context: context,
+                                          quantityUnits: state.quantityUnits,
+                                        );
+                                      },
+                                      child:  AddButtonWidget(
+                                        height: 50,
+                                        isDisableColor: isDisabled,
+                                      ),
+                                    ),],
                                   ],
                                 ),
 
@@ -1815,7 +1816,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     );
   }
 
-
   String getStatusString(int status) {
     switch (status) {
       case 0:
@@ -2001,17 +2001,12 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   Widget locationWidgetdislay(MaterialMovementDetailsState state) {
     return GestureDetector(
       onTap: () {
-        // if (widget.occurrence == null ||
-        //     (state.occurrence.location?.name ?? '').isEmpty)
-        //     {
         showDialog(
           context: context,
           builder: (BuildContext dialogContext) {
-            // print(state.getLocationsResponse);
             return CustomExpansionListTexts(
               getLocationsresponse: state.locations,
               onTap: (Organisation? list) async {
-                log('list?.name-----${list?.name}');
 
                 Organisation location = Organisation();
                 location.id = list?.id;
@@ -2046,9 +2041,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     List<CreateImage>? attachmentListviews,
     List<FoundImage>? attachmentListviews1,
   ) {
-    log('----attachmentListviews-----${attachmentListviews?.length}-----------');
-    log('----attachmentListviews1-----${attachmentListviews1?.length}-----------');
-
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
