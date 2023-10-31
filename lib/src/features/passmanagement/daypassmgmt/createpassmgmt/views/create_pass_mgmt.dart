@@ -2386,7 +2386,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       }
     }
 
-
     PassInfo passInfo = widget.model?.passInfo ?? PassInfo();
     switch (passtypeTextController.text) {
       case 'DAY_PASS':
@@ -2490,8 +2489,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           passType: passInfo.passType,
           id: (state.vendorPassInfo?.id == 0)
               ? 1
-              : state.vendorPassInfo?.id ??
-                  ((widget.passId == "3") ? 9151 : 3),
+              : state.vendorPassInfo?.id ?? ((widget.passId == "3") ? 9151 : 3),
           //9151 //int.parse(sezpassinfoTextController.text ?? '1')
           passNo: sezpassinfoTextController.text,
           mifareNo: mtpApplicationNoTextController.text);
