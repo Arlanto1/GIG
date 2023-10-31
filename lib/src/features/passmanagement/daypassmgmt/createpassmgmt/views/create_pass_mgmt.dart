@@ -2046,9 +2046,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextfieldAddButton(
       title: state.nameResponse?.name ?? '', //state.t1nameanalyst?.name ?? '',
       height: 60,
-      isDisableColor: widget.model == null ||
-              (state.nameResponse != null &&
-                  ((state.nameResponse?.name ?? '').isEmpty))
+      isDisableColor: widget.model?.status != 0 ||widget.model != null
           ? false
           : true,
       onTap: () {
