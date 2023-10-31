@@ -35,7 +35,8 @@ class CreatePassMgmtState extends Equatable {
   GetLocations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
   List<Organisation>? listOfEntities;
-  Organisation? locationSelectedlist;
+  Organisation? location;
+  Organisation? locationRegion;
   SerialNumberModel? serialnumberResponse;
   BaseUser? getuserResponse;
   EmployeeDepartments? employeeDepartment;
@@ -73,7 +74,8 @@ class CreatePassMgmtState extends Equatable {
     this.getLocationsResponse,
     this.getSerialnumberResponse,
     this.listOfEntities,
-    this.locationSelectedlist,
+    this.location,
+    this.locationRegion,
     this.serialnumberResponse,
     this.getDepositorResponse,
     this.getuserResponse,
@@ -112,7 +114,8 @@ class CreatePassMgmtState extends Equatable {
     GetLocations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,
     List<Organisation>? listOfEntities,
-    Organisation? locationSelectedlist,
+    Organisation? location,
+    Organisation? locationRegion,
     SerialNumberModel? serialnumberResponse,
     GetDepositor? getDepositorResponse,
     BaseUser? getuserResponse,
@@ -151,7 +154,8 @@ class CreatePassMgmtState extends Equatable {
       getSerialnumberResponse:
           getSerialnumberResponse ?? this.getSerialnumberResponse,
       listOfEntities: listOfEntities ?? this.listOfEntities,
-      locationSelectedlist: locationSelectedlist ?? this.locationSelectedlist,
+      location: location ?? this.location,
+      locationRegion: locationRegion ?? this.locationRegion,
       serialnumberResponse: serialnumberResponse ?? this.serialnumberResponse,
       getDepositorResponse: getDepositorResponse ?? this.getDepositorResponse,
       getuserResponse: getuserResponse ?? this.getuserResponse,
@@ -199,7 +203,8 @@ class CreatePassMgmtState extends Equatable {
         getLocationsResponse,
         getSerialnumberResponse,
         listOfEntities,
-        locationSelectedlist,
+        location,
+        locationRegion,
         serialnumberResponse,
         getDepositorResponse,
         getuserResponse,

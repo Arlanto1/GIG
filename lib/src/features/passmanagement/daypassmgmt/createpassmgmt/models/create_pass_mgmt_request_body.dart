@@ -4,6 +4,7 @@ import 'package:db_atom/src/features/createfound/models/create_found_request.dar
 import 'package:db_atom/src/models/organisation.dart';
 
 import '../../../../createfound/models/user.dart';
+import '../../passmgmtlist/models/day_passlist_model.dart';
 
 CreatePassMgmtBody createPassMgmtBodyFromJson(String str) =>
     CreatePassMgmtBody.fromJson(json.decode(str));
@@ -49,7 +50,7 @@ class PassManagement {
   String? email;
   String? hostEmployeeId;
   bool? exceptionalApproval;
-  PassmgmtInfo? passInfo;
+  PassInfo? passInfo;
   String? endTime;
   List<dynamic>? evidenceDocuments;
   String? contactNo;
@@ -160,7 +161,7 @@ class PassManagement {
         exceptionalApproval: json["exceptionalApproval"],
         passInfo: json["passInfo"] == null
             ? null
-            : PassmgmtInfo.fromJson(json["passInfo"]),
+            : PassInfo.fromJson(json["passInfo"]),
         endTime: json["endTime"],
         evidenceDocuments: json["evidenceDocuments"] == null
             ? []
@@ -306,45 +307,5 @@ class PassHost {
         "firstName": firstName,
         "lastName": lastName,
         "name": name,
-      };
-}
-
-class PassmgmtInfo {
-  int? id;
-  int? passType;
-  String? passNo;
-  String? mifareNo;
-  String? expiryDate;
-  bool? dws;
-  int? status;
-
-  PassmgmtInfo({
-    this.id,
-    this.passType,
-    this.passNo,
-    this.mifareNo,
-    this.expiryDate,
-    this.dws,
-    this.status,
-  });
-
-  factory PassmgmtInfo.fromJson(Map<String, dynamic> json) => PassmgmtInfo(
-        id: json["id"],
-        passType: json["passType"],
-        passNo: json["passNo"],
-        mifareNo: json["mifareNo"],
-        expiryDate: json["expiryDate"],
-        dws: json["dws"],
-        status: json["status"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "passType": passType,
-        "passNo": passNo,
-        "mifareNo": mifareNo,
-        "expiryDate": expiryDate,
-        "dws": dws,
-        "status": status,
       };
 }

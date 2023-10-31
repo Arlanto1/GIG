@@ -580,7 +580,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     state.loadAttachments = [];
     state.atomCompanyType = Organisation();
     state.listOfEntities = [];
-    state.locationSelectedlist = Organisation();
+    state.location = Organisation();
     state.photoAttachments = [];
     state.getuserResponse = BaseUser();
     state.serialnumberResponse?.serialNo = '';
@@ -636,7 +636,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     try {
       emit(
         state.copyWith(
-          locationSelectedlist: location,
+          location: location,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -669,7 +669,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // Create new Found Article successfully API call
-  Future<void> creatpasseNewFoundArticle(
+  Future<void> createPass(
       CreatePassMgmtBody bodyRequest,
       bool isSubmit,
       BuildContext context,
