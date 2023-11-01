@@ -634,9 +634,13 @@ class _CreateFoundState extends State<CreateFound> {
               "Please enter claimant department",
             );
           }
-        } else if (isClaimantDBEmployeeSelected == 0 &&
+        } else if (widget.model?.status != 0 && isClaimantDBEmployeeSelected == 0 &&
             claimantTextController.text.isEmpty) {
-          Validator().showToast(context, "Please enter claim");
+
+          log('--isClaimantDBEmployeeSelected--$isClaimantDBEmployeeSelected-------');
+          if(claimant.isEmptyOrNull) {
+            Validator().showToast(context, "Please enter claim");
+          }
         } else {
           createRequestBody(true, widget.model?.id ?? 0);
         }
