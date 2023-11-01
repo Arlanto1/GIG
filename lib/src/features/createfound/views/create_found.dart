@@ -349,11 +349,7 @@ class _CreateFoundState extends State<CreateFound> {
     }
 
     log('-assettypeTextController.text---${assettypeTextController.text}----');
-    log('---condition type assest---${!assettypeTextController.text.isEmptyOrNull
-        ? ((assettypeTextController.text.toLowerCase()) == 'company'
-        ? 1
-        : 0)
-        : null}----');
+    log('---condition type assest---${!assettypeTextController.text.isEmptyOrNull ? ((assettypeTextController.text.toLowerCase()) == 'company' ? 1 : 0) : null}----');
     Found? found = Found(
         claimantConfirmByEmail: isClaimantSelectedByEmail,
         id: widget.model?.id,
@@ -1184,12 +1180,16 @@ class _CreateFoundState extends State<CreateFound> {
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // is depositor employee
+                            /// is Depositor DBEmployee
                             CommonWidgets.textDisplay(
                                 Constants.isdepositordbemployee,
                                 Styles.textStyleBlack14),
                             radioButtonHandling(isDepositorDBEmployeeSelected,
-                                Constants.isdepositordbemployee),
+                                Constants.isdepositordbemployee,
+                                isDisableColor: (widget.model?.status == null ||
+                                        widget.model?.status == 0)
+                                    ? false
+                                    : true),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -1305,7 +1305,7 @@ class _CreateFoundState extends State<CreateFound> {
                                 : Container(),
 
                             if (widget.model?.status == 1) ...[
-                              // is claimant db employee
+                              /// is claimant db employee
                               widget.model != null
                                   ? CommonWidgets.textDisplay(
                                       Constants.isclaimantdbemployee,
@@ -1315,7 +1315,8 @@ class _CreateFoundState extends State<CreateFound> {
                               widget.model != null
                                   ? radioButtonHandling(
                                       isClaimantDBEmployeeSelected,
-                                      Constants.isclaimantdbemployee)
+                                      Constants.isclaimantdbemployee,
+                                      isDisableColor: false)
                                   : Container(),
 
                               /// claimant
@@ -1483,7 +1484,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       Constants.isclaimantacceptedbyemail)
                                   : Container(),
 
-                              // is claimant accepted to sign
+                              /// is claimant accepted to sign
 
                               widget.model != null
                                   ? CommonWidgets.textDisplay(
@@ -1497,39 +1498,41 @@ class _CreateFoundState extends State<CreateFound> {
                                       Constants.isclaimantacceptedtosign)
                                   : Container(),
 
-                              widget.model != null &&
-                                      isClaimantAcceptedtoSignSelected == 1
-                                  ? CommonWidgets.textDisplay(
-                                      Constants.claimantsignature,
-                                      Styles.textStyleBlack14)
-                                  : Container(),
-                              widget.model != null &&
-                                      isClaimantAcceptedtoSignSelected == 1
-                                  ? CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001)
-                                  : Container(),
-                              widget.model != null &&
-                                      isClaimantAcceptedtoSignSelected == 1
-                                  ? FlutterInputField(
-                                      lineHeight: 6,
-                                      textFieldController:
-                                          claimantsignatureTextController,
-                                      isEnable: false,
-                                      textFormKey:
-                                          Keys.claimantsignatureTextController,
-                                      isDisableColor: true,
-                                      hintText: '',
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                        setState(() {});
-                                      },
-                                      validateTextField: (String? user) {},
-                                    )
-                                  : Container(),
-                              widget.model != null
-                                  ? CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01)
-                                  : Container(),
+                              //TODO: Need to work on signature
+                              /// Claimant Signature
+                              // widget.model != null &&
+                              //         isClaimantAcceptedtoSignSelected == 1
+                              //     ? CommonWidgets.textDisplay(
+                              //         Constants.claimantsignature,
+                              //         Styles.textStyleBlack14)
+                              //     : Container(),
+                              // widget.model != null &&
+                              //         isClaimantAcceptedtoSignSelected == 1
+                              //     ? CommonWidgets.verticalSpacerWidget(
+                              //         height * 0.001)
+                              //     : Container(),
+                              // widget.model != null &&
+                              //         isClaimantAcceptedtoSignSelected == 1
+                              //     ? FlutterInputField(
+                              //         lineHeight: 6,
+                              //         textFieldController:
+                              //             claimantsignatureTextController,
+                              //         isEnable: false,
+                              //         textFormKey:
+                              //             Keys.claimantsignatureTextController,
+                              //         isDisableColor: true,
+                              //         hintText: '',
+                              //         onChange: (String username) {
+                              //           //this.username = username;
+                              //           setState(() {});
+                              //         },
+                              //         validateTextField: (String? user) {},
+                              //       )
+                              //     : Container(),
+                              // widget.model != null
+                              //     ? CommonWidgets.verticalSpacerWidget(
+                              //         height * 0.01)
+                              //     : Container(),
                             ],
 
                             /// Item Handover By
@@ -1767,12 +1770,18 @@ class _CreateFoundState extends State<CreateFound> {
     );
   }
 
-  Widget radioButtonHandling(int selectedValue, String name) {
+  Widget radioButtonHandling(
+    int selectedValue,
+    String name, {
+    bool? isDisableColor = false,
+  }) {
+    isDisableColor ??= widget.model?.status == 1 || widget.model?.status == 2;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
-          activeColor: widget.model?.status == 1 || widget.model?.status == 2
+          activeColor: isDisableColor
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
           // focusColor:
@@ -1798,7 +1807,7 @@ class _CreateFoundState extends State<CreateFound> {
         ),
         const Text(Constants.yes),
         Radio(
-          activeColor: widget.model?.status == 1 || widget.model?.status == 2
+          activeColor: isDisableColor
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
           value: 0,
