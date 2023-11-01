@@ -331,7 +331,8 @@ class _CreateFoundState extends State<CreateFound> {
         userId: selecteddepositorList?.id ?? widget.model?.depositor?.userId);
     Organisation? location = Organisation(
         id: locationSelectedlist?.id ?? widget.model?.location?.id);
-    Organisation? depositorDepartment = widget.model?.depositorDepartment;
+    Organisation? depositorDepartment =
+        selectedEmployeedepartment ?? widget.model?.depositorDepartment;
     List<CreateImage>? images = getFiles;
     Organisation? claimantDepartment = widget.model?.claimantDepartment;
     User? claimant = widget.model?.claimant;
@@ -787,12 +788,15 @@ class _CreateFoundState extends State<CreateFound> {
                     );
                   });
             },
-            onTap: (Organisation list) {
-              print(list.name);
+            onTap: (Organisation department) {
+              print(department.name);
               if (name == Constants.employeedepartment) {
-                selectedEmployeedepartment = list;
+                log('--department--${department.name}--');
+                selectedEmployeedepartment = department;
+
+                log('--selectedEmployeedepartment--${selectedEmployeedepartment?.name}--');
               } else {
-                selectedClaimdepartment = list;
+                selectedClaimdepartment = department;
               }
               setState(() {});
             },
