@@ -616,7 +616,7 @@ class _CreateFoundState extends State<CreateFound> {
       }
     } else {
       //createNewuserBody(true, widget.listuser?.id ?? 0);
-      if (widget.model != null) {
+      if (widget.model != null && widget.model?.status != 0) {
         if (isClaimantDBEmployeeSelected == 1 &&
             ((claimant.isEmpty) ||
                 (claimantEmpIdTextController.text.isEmpty) ||
