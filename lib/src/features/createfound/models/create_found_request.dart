@@ -36,7 +36,7 @@ class Found {
   int? eventProtection;
   int? typeOfAsset;
   int? id;
-  TypeOfArticle? typeOfArticle;
+  Organisation? typeOfArticle;
   String? foundLocation;
   String? additionalInformation;
   int? quantity;
@@ -47,15 +47,15 @@ class Found {
   int? handoverDate;
   User? entrySecurity;
   Organisation? location;
-  Depositor? depositor;
-  DepositorDepartment? depositorDepartment;
+  User? depositor;
+  Organisation? depositorDepartment;
   List<CreateImage>? images;
   String? depositorName;
   int? status;
   String? employeeId;
-  CreateClaimant? claimant;
+  User? claimant;
   Organisation? claimantDepartment;
-  CreateHandoverSecurity? handoverSecurity;
+  User? handoverSecurity;
   bool? claimantDbEmp;
   bool? claimantNoSign;
   bool? claimantConfirmByEmail;
@@ -98,7 +98,7 @@ class Found {
         typeOfAsset: json["typeOfAsset"],
         typeOfArticle: json["typeOfArticle"] == null
             ? null
-            : TypeOfArticle.fromJson(json["typeOfArticle"]),
+            : Organisation.fromJson(json["typeOfArticle"]),
         foundLocation: json["foundLocation"],
         additionalInformation: json["additionalInformation"],
         quantity: json["quantity"],
@@ -117,28 +117,26 @@ class Found {
         location: json["location"] == null
             ? null
             : Organisation.fromJson(json["location"]),
-        depositor: json["depositor"] == null
-            ? null
-            : Depositor.fromJson(json["depositor"]),
+        depositor:
+            json["depositor"] == null ? null : User.fromJson(json["depositor"]),
         images: json["images"] == null
             ? []
             : List<CreateImage>.from(
                 json["images"]!.map((x) => CreateImage.fromJson(x))),
         depositorDepartment: json["depositorDepartment"] == null
             ? null
-            : DepositorDepartment.fromJson(json["depositorDepartment"]),
+            : Organisation.fromJson(json["depositorDepartment"]),
         status: json["status"],
         depositorName: json["depositorName"],
         employeeId: json["employeeId"],
-        claimant: json["claimant"] == null
-            ? null
-            : CreateClaimant.fromJson(json["claimant"]),
+        claimant:
+            json["claimant"] == null ? null : User.fromJson(json["claimant"]),
         claimantDepartment: json["claimantDepartment"] == null
             ? null
             : Organisation.fromJson(json["claimantDepartment"]),
         handoverSecurity: json["handoverSecurity"] == null
             ? null
-            : CreateHandoverSecurity.fromJson(json["handoverSecurity"]),
+            : User.fromJson(json["handoverSecurity"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -175,104 +173,6 @@ class Found {
       };
 }
 
-class CreateHandoverSecurity {
-  int? userId;
-
-  CreateHandoverSecurity({
-    this.userId,
-  });
-
-  factory CreateHandoverSecurity.fromJson(Map<String, dynamic> json) =>
-      CreateHandoverSecurity(
-        userId: json["userId"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "userId": userId,
-      };
-}
-
-class CreateClaimant {
-  int? userId;
-  String? userName;
-  String? email;
-  String? firstName;
-  String? lastName;
-
-  CreateClaimant({
-    this.userId,
-    this.userName,
-    this.email,
-    this.firstName,
-    this.lastName,
-  });
-
-  factory CreateClaimant.fromJson(Map<String, dynamic> json) => CreateClaimant(
-        userId: json["userId"],
-        userName: json["userName"],
-        email: json["email"],
-        firstName: json["firstName"],
-        lastName: json["lastName"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "userId": userId,
-        "userName": userName,
-        "email": email,
-        "firstName": firstName,
-        "lastName": lastName,
-      };
-}
-
-class DepositorDepartment {
-  int? id;
-
-  DepositorDepartment({
-    this.id,
-  });
-
-  factory DepositorDepartment.fromJson(Map<String, dynamic> json) =>
-      DepositorDepartment(
-        id: json["id"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-      };
-}
-
-class Depositor {
-  int? userId;
-  String? userName;
-  String? email;
-  String? firstName;
-  String? lastName;
-
-  Depositor({
-    this.userId,
-    this.userName,
-    this.email,
-    this.firstName,
-    this.lastName,
-  });
-
-  factory Depositor.fromJson(Map<String, dynamic> json) => Depositor(
-        userId: json["userId"],
-        userName: json["userName"],
-        email: json["email"],
-        firstName: json["firstName"],
-        lastName: json["lastName"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "userId": userId,
-        "userName": userName,
-        "email": email,
-        "firstName": firstName,
-        "lastName": lastName,
-      };
-}
-
 class CreateImage {
   String? ownerName;
   String? contentType;
@@ -302,21 +202,5 @@ class CreateImage {
         "title": title,
         "fileSize": fileSize,
         "imageContent": imageContent,
-      };
-}
-
-class TypeOfArticle {
-  int? id;
-
-  TypeOfArticle({
-    this.id,
-  });
-
-  factory TypeOfArticle.fromJson(Map<String, dynamic> json) => TypeOfArticle(
-        id: json["id"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
       };
 }
