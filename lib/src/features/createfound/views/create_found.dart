@@ -26,7 +26,6 @@ import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/customalert.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/network_handler.dart' as network_handler;
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -316,9 +315,10 @@ class _CreateFoundState extends State<CreateFound> {
     int handoverDate = Utils.datetoTimestampConversion(
         handedoverdatedateTextController.text, Constants.fulldateFormat);
     var username = await SharedPrefs.getUsername();
-    bool isDepositorDBEmployeeSelectedvalue =
+    bool isDepositorDBEmployeeSelectedValue =
         isDepositorDBEmployeeSelected == 1 ? true : false;
-    bool isClaimDBEmployeeSelectedValue = false;
+    bool isClaimDBEmployeeSelectedValue =
+        isClaimantDBEmployeeSelected == 1 ? true : false;
     bool isClaimSignSelectedValue =
         isClaimantAcceptedtoSignSelected == 1 ? true : false;
     bool isClaimantSelectedByEmail =
@@ -331,10 +331,20 @@ class _CreateFoundState extends State<CreateFound> {
         userId: selecteddepositorList?.id ?? widget.model?.depositor?.userId);
     Organisation? location = Organisation(
         id: locationSelectedlist?.id ?? widget.model?.location?.id);
-    Organisation? depositorDepartment = widget.model?.depositorDepartment;
+    Organisation? depositorDepartment =
+        selectedEmployeedepartment ?? widget.model?.depositorDepartment;
     List<CreateImage>? images = getFiles;
-    Organisation? claimantDepartment = widget.model?.claimantDepartment;
+    Organisation? claimantDepartment =
+        selectedClaimdepartment ?? widget.model?.claimantDepartment;
+
+    isClaimantDBEmployeeSelected;
     User? claimant = widget.model?.claimant;
+    if (selectedClaimList != null) {
+      claimant = User(
+        userId: selectedClaimList?.id,
+        name: selectedClaimList?.name,
+      );
+    }
     User? handoverSecurity = User(
         userId: widget.model?.claimant?.userId ??
             widget.model?.handoverSecurity?.userId);
@@ -383,7 +393,7 @@ class _CreateFoundState extends State<CreateFound> {
         color:
             colorTextController.text.isNotEmpty ? colorTextController.text : '',
         status: statusValue,
-        depositorDbEmp: isDepositorDBEmployeeSelectedvalue,
+        depositorDbEmp: isDepositorDBEmployeeSelectedValue,
         inputDate: inputDate,
         foundDate: foundDate,
         entrySecurity: entrySecurity,
@@ -440,19 +450,6 @@ class _CreateFoundState extends State<CreateFound> {
     setState(() {
       // dateinput.text = formattedDate; //set output date to TextField value.
     });
-  }
-
-  _createFoundAlert(BuildContext context, String messgae) {
-    var dialog = CustomAlertDialog(
-        title: 'Create Found',
-        message: messgae,
-        onPostivePressed: () {
-          Navigator.pop(context);
-          Navigator.pop(context);
-        },
-        positiveBtnText: Constants.yes,
-        negativeBtnText: '');
-    showDialog(context: context, builder: (BuildContext context) => dialog);
   }
 
   // createdraftValidations(BuildContext context) {
@@ -651,17 +648,18 @@ class _CreateFoundState extends State<CreateFound> {
 
   assetTypeDialog() {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return CustomSimpleListTexts(
-            texts: const ["Personal", "company"],
-            onTap: (String value) {
-              print(value);
-              assettypeTextController.text = value;
-              setState(() {});
-            },
-          );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return CustomSimpleListTexts(
+          texts: const ["Personal", "company"],
+          onTap: (String value) {
+            print(value);
+            assettypeTextController.text = value;
+            setState(() {});
+          },
+        );
+      },
+    );
   }
 
   articleTypeDialog(CreateFoundState state) {
@@ -787,12 +785,15 @@ class _CreateFoundState extends State<CreateFound> {
                     );
                   });
             },
-            onTap: (Organisation list) {
-              print(list.name);
+            onTap: (Organisation department) {
+              print(department.name);
               if (name == Constants.employeedepartment) {
-                selectedEmployeedepartment = list;
+                log('--department--${department.name}--');
+                selectedEmployeedepartment = department;
+
+                log('--selectedEmployeedepartment--${selectedEmployeedepartment?.name}--');
               } else {
-                selectedClaimdepartment = list;
+                selectedClaimdepartment = department;
               }
               setState(() {});
             },

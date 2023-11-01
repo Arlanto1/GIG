@@ -181,7 +181,7 @@ class CreatePassMgmtState extends Equatable {
       t1hostanalyst: t1hostanalyst ?? this.t1hostanalyst,
       analyst: analyst ?? this.analyst,
       t1dbsponsoranalyst: t1dbsponsoranalyst ?? this.t1dbsponsoranalyst,
-      vendorPassInfo: activePassInfoList ?? this.vendorPassInfo,
+      vendorPassInfo: activePassInfoList ?? vendorPassInfo,
       passnumbelistresponse:
           passnumbelistresponse ?? this.passnumbelistresponse,
       escortedbyhost: escortedbyhost ?? this.escortedbyhost,
