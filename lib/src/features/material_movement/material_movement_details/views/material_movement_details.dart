@@ -2058,45 +2058,48 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount:
-              attachmentListviews1?.length ?? attachmentListviews?.length ?? 0,
-          itemBuilder: (BuildContext context, int index) {
-            CreateImage? imagedata;
-            FoundImage? imagedata1;
-            if (widget.materialMovement != null) {
-              imagedata1 = attachmentListviews1?[index];
-            } else {
-              imagedata = attachmentListviews?[index];
-            }
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: (attachmentListviews1?.length ?? 0) >
+                (attachmentListviews?.length ?? 0)
+            ? attachmentListviews1?.length
+            : attachmentListviews?.length ?? 0,
+        itemBuilder: (BuildContext context, int index) {
+          CreateImage? imageData;
+          FoundImage? imageData1;
+          if (widget.materialMovement != null) {
+            imageData1 = attachmentListviews1?[index];
+          } else {
+            imageData = attachmentListviews?[index];
+          }
 
-            return Column(
-              children: <Widget>[
-                ListTile(
-                  trailing: widget.materialMovement != null
-                      ? SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground)
-                      : const SizedBox(
-                          height: 0,
-                          width: 0,
-                        ),
-                  onTap: () {
-                    DownloadImage().saveImage(
-                        context, imagedata1?.id ?? 0, imagedata1?.title ?? '');
-                  },
-                  title: widget.materialMovement != null
-                      ? Text(imagedata1?.title ?? '')
-                      : Text(imagedata?.title ?? ''),
-                ),
+          return Column(
+            children: <Widget>[
+              ListTile(
+                trailing: widget.materialMovement != null
+                    ? SvgPicture.asset(AppIcon.download,
+                        color: AppColors.boldgreyBackground)
+                    : const SizedBox(
+                        height: 0,
+                        width: 0,
+                      ),
+                onTap: () {
+                  DownloadImage().saveImage(
+                      context, imageData1?.id ?? 0, imageData1?.title ?? '');
+                },
+                title: widget.materialMovement != null
+                    ? Text(imageData1?.title ?? '')
+                    : Text(imageData?.title ?? ''),
+              ),
 
-                const Divider(
-                  color: Color(0xFFCACACA),
-                  thickness: 1,
-                ), //
-              ],
-            );
-          }),
+              const Divider(
+                color: Color(0xFFCACACA),
+                thickness: 1,
+              ), //
+            ],
+          );
+        },
+      ),
     );
   }
 }
