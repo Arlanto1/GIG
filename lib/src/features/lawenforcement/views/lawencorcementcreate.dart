@@ -144,6 +144,9 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           //leoDepartmentsResponse = state.getLeodepartmentsResponse;
           // leoPurposeVisitResponse = state.getLeopurposeResponse;
 
+          if (state.getVisitsCount < 1) {
+            manageAddVisitOfficialDetailWidget(state);
+          }
           if (state.getSerialnumberResponse != null) {
             serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
           }
@@ -201,7 +204,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 /// Status
                                 CommonWidgets.textDisplay(
                                     Constants.status, Styles.textStyleBlack14,
-                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
                                   isEnable: false,
@@ -236,11 +240,12 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
 
                                 CommonWidgets.horizentaltextHandling(
                                     Constants.createdby,
-                                    isMandatory: true,'${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
+                                    isMandatory: true,
+                                    '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
 
                                 // / Location
-                                CommonWidgets.textDisplay(Constants.location,
-                                    Styles.textStyleBlack14,
+                                CommonWidgets.textDisplay(
+                                    Constants.location, Styles.textStyleBlack14,
                                     isMandatory: true),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -253,7 +258,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 CommonWidgets.textDisplay(
                                     Constants.dateofcreation,
                                     Styles.textStyleBlack14,
-                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 datecreateWidgetdisplay(),
                                 CommonWidgets.verticalSpacerWidget(
@@ -263,13 +269,15 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
 
                                 CommonWidgets.horizentaltextHandling(
                                     Constants.slno, serialnumber ?? '',
-                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
                                 /// Entity type
                                 CommonWidgets.textDisplay(
                                     Constants.entity, Styles.textStyleBlack14,
-                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
 
                                 entityaddButtonwidgetLoading(state),
@@ -280,7 +288,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 CommonWidgets.textDisplay(
                                     Constants.actualtimeofvisit,
                                     Styles.textStyleBlack14,
-                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 datepickerWidgetLoading(
                                     actualDateTextController),
@@ -291,7 +300,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 CommonWidgets.textDisplay(
                                     Constants.officialsidcardverified,
                                     Styles.textStyleBlack14,
-                                isMandatory: true),radioButtonHandling(
+                                    isMandatory: true),
+                                radioButtonHandling(
                                     state.isOfficialIdcardSelected ?? 1,
                                     Constants.officialsidcardverified),
 
@@ -299,7 +309,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 CommonWidgets.textDisplay(
                                     Constants.purposeofvsit,
                                     Styles.textStyleBlack14,
-                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
 
                                 purposeofvisitaddButtonwidgetLoading(state),
@@ -310,7 +321,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 CommonWidgets.textDisplay(
                                     Constants.documentifanytoconfirmpurpose,
                                     Styles.textStyleBlack14,
-                                isMandatory: true),radioButtonHandling(
+                                    isMandatory: true),
+                                radioButtonHandling(
                                     state.isDocumentifanySelected ?? 1,
                                     Constants.documentifanytoconfirmpurpose),
 
@@ -319,7 +331,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                     Constants
                                         .incaseofpolicewasofficialinuniform,
                                     Styles.textStyleBlack14,
-                                isMandatory: true),radioButtonHandling(
+                                    isMandatory: true),
+                                radioButtonHandling(
                                     state.isIncaseofpoliceSelected ?? 1,
                                     Constants
                                         .incaseofpolicewasofficialinuniform),
@@ -328,7 +341,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 CommonWidgets.textDisplay(
                                     Constants.dbofficialwanttomeet,
                                     Styles.textStyleBlack14,
-                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 textfieldWidgetLoad(
                                     dbOfficailWanttimeetTextController,
@@ -339,7 +353,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 CommonWidgets.textDisplay(
                                     Constants.dbofficialdepartment,
                                     Styles.textStyleBlack14,
-                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
 
                                 dbwanttodepartmentaddButtonwidgetLoading(state),
@@ -351,7 +366,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                     Constants
                                         .dbofficialemailidaccompaniedleoofficial,
                                     Styles.textStyleBlack14,
-                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
 
                                 dbofficialemailidaddButtonwidgetLoading(state),
@@ -387,9 +403,11 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 children: [
                                   /// Visiting Official Details
                                   CommonWidgets.textDisplay(
-                                      Constants.visitingofficialdetails,
-                                      Styles.textStyleDarkGrey16,
-                                  isMandatory: true),CommonWidgets.verticalSpacerWidget(
+                                    Constants.visitingofficialdetails,
+                                    Styles.textStyleDarkGrey16,
+                                    isMandatory: true,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
                                   //
                                   // // name
@@ -432,13 +450,14 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                   //     contactnoTextController2, 0, state),
                                   //
 
-                                  (state.getVisitsCount ?? 0) > 0
+                                  (state.getVisitsCount) > 0
                                       ? listVisitingOfficialDetails(
                                           height,
                                           width,
                                           context,
                                           state,
-                                          state.getVisitsCount ?? 0)
+                                          state.getVisitsCount,
+                                        )
                                       : Container(),
                                   widget.model == null
                                       ? CommonWidgets.verticalSpacerWidget(
@@ -448,15 +467,9 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                   /// Add another visiting
                                   GestureDetector(
                                     onTap: () {
-                                      if ((state.getVisitsCount ?? 0) < 10) {
-                                        int value =
-                                            (state.getVisitsCount ?? 0) + 1;
-                                        List<VisitingOfficialsModel>?
-                                            getVisits1 = state.getVisits ?? [];
-                                        getVisits1
-                                            .add(VisitingOfficialsModel());
-                                        lawenforcementCubit.addingVisitis(
-                                            value, getVisits1);
+                                      if ((state.getVisitsCount) < 10) {
+                                        manageAddVisitOfficialDetailWidget(
+                                            state);
                                       } else {
                                         Validator().showToast(
                                           context,
@@ -555,6 +568,17 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
+  void manageAddVisitOfficialDetailWidget(LawEnforcementState state) {
+    int visitCount = (state.getVisitsCount) + 1;
+    List<VisitingOfficialsModel>? getVisits = state.getVisits ?? [];
+
+    getVisits.add(VisitingOfficialsModel());
+    lawenforcementCubit.addingVisits(
+      visitCount: visitCount,
+      getVisits: getVisits,
+    );
+  }
+
   Widget listVisitingOfficialDetails(
       double height,
       double width,
@@ -580,16 +604,15 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     // TextEditingController emailid = TextEditingController();
     // TextEditingController designation = TextEditingController();
 
-    log('-contactnoTextController1----${contactnoTextController1.text}----');
-
     return Column(
       children: [
         GestureDetector(
           onTap: () {
-            int value = (state.getVisitsCount ?? 0) - 1;
+            int value = (state.getVisitsCount) - 1;
             List<VisitingOfficialsModel>? getVisits1 = state.getVisits ?? [];
             getVisits1.removeAt(index);
-            lawenforcementCubit.addingVisitis(value, getVisits1);
+            lawenforcementCubit.addingVisits(
+                visitCount: value, getVisits: getVisits1);
           },
           child: Align(
             alignment: Alignment.centerRight,
@@ -641,13 +664,14 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
             Constants.officeAddress, Styles.textStyleBlack14),
         CommonWidgets.verticalSpacerWidget(height * 0.001),
         textfieldWidgetLoad(
-            index == 0
-                ? officeaddressTextController1
-                : index == 1
-                    ? officeaddressTextController2
-                    : officeaddressTextController3,
-            index,
-            state),
+          index == 0
+              ? officeaddressTextController1
+              : index == 1
+                  ? officeaddressTextController2
+                  : officeaddressTextController3,
+          index,
+          state,
+        ),
         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
         // Email Id
@@ -896,8 +920,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         }
       }
 
-      lawenforcementCubit.addingVisitis(
-          visitingOfficials.length, visitingOfficials);
+      lawenforcementCubit.addingVisits(
+          visitCount: visitingOfficials.length, getVisits: visitingOfficials);
 
       // state.selectedemployeeDepartmentResponse
       Organisation emp = widget.model?.dbOfficialEmailDepartment != null
@@ -1139,7 +1163,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                               return UploadAttachment(
                                 userdetails:
                                     state.getUserDetailsResponse ?? User(),
-                                getFiles: getFiles ?? [],
+                                getFiles: getFiles,
                                 lawstate: state,
                               );
                             });
@@ -1172,8 +1196,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   }
 
   Widget getSpaceattchment(double height) {
-    return getAttachments != null ||
-            getFiles != null ||
+    return
             getFiles.isNotEmpty ||
             getAttachments.isNotEmpty
         ? CommonWidgets.verticalSpacerWidget(height * 0.01)
@@ -1823,12 +1846,32 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   }
 
   distributiongroupsDailog(LawEnforcementState state) {
+    // BaseEntitiesSelection().entityDropDownSelection(
+    //     context: context,
+    //     selectedValues: widget.model.,
+    //     all: state.groups?.distributionGroups ?? [],
+    //     enabled: true,
+    //     onTap: (List<Organisation> selectedEntities) {
+    //       log('--selectedEntities----${selectedEntities.length}');
+    //
+    //
+    //       distributiongroupsTextController.text = organisation.name ?? '';
+    //       lawenforcementCubit.geDistributonData(organisation);
+    //
+    //
+    //       BlocProvider.of<IncidentGeneralInfoCubit>(
+    //           context)
+    //           .updateDropdownValues(
+    //           entities: selectedEntities);
+    //       Navigator.of(context)
+    //           .pop(); // Close the dialog
+    //     });
+
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         return CustomListTexts(
           duplicateloadGroups: state.groups?.distributionGroups ?? [],
-
           onTap: (Organisation organisation) {
             log('--organisation.name---${organisation.name}');
 
