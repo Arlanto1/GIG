@@ -1542,6 +1542,18 @@ class _CreateFoundState extends State<CreateFound> {
                                     : attachmentListviews(
                                         getFiles, getAttachments)
                                 : attachmentListviews(getFiles, getAttachments),
+
+                            // TODO: Need to use this to view the attachments
+                            // if (!getAttachments.isEmptyOrNull ) ...[
+                            //   BaseImageUpload().getAttachment(
+                            //     height: height,
+                            //     attachments: getAttachments,
+                            //     files: getFiles,
+                            //     showDownloadIcon:
+                            //         widget.model != null ? true : false,
+                            //   ),
+                            // ],
+
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             if (widget.model?.status != 2) ...[
                               Row(
@@ -1560,20 +1572,6 @@ class _CreateFoundState extends State<CreateFound> {
                 ])));
           },
         ));
-  }
-
-  Widget getSpaceattchment(double height) {
-    return getFiles.isNotEmpty || getAttachments.isNotEmpty
-        ? CommonWidgets.verticalSpacerWidget(height * 0.01)
-        : Container();
-  }
-
-  Widget getAttachement(double height) {
-    return (getAttachments.isEmpty || widget.model == null)
-        ? getFiles.isEmpty
-            ? Container()
-            : attachmentListviews(getFiles, getAttachments)
-        : attachmentListviews(getFiles, getAttachments);
   }
 
   Widget submitButtonDisplay() {
