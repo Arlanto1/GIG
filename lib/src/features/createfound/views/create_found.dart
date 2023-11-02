@@ -1302,6 +1302,7 @@ class _CreateFoundState extends State<CreateFound> {
                               widget.model != null &&
                                       isClaimantDBEmployeeSelected == 1
                                   ? FlutterInputField(
+                                keyboardType: TextInputType.number,
                                       textFieldController:
                                           claimantEmpIdTextController,
                                       textFormKey:
