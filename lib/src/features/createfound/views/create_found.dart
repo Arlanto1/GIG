@@ -725,6 +725,7 @@ class _CreateFoundState extends State<CreateFound> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
+    bool isDisabled = false;
     return Scaffold(
         appBar: AppHeader(
           isTitleCenter: false,
@@ -783,6 +784,10 @@ class _CreateFoundState extends State<CreateFound> {
         backgroundColor: AppColors.backgroundWhitecolor,
         body: BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
           builder: (context, state) {
+            if (widget.model?.status == 2) {
+              isDisabled = true;
+            }
+
             createfoundResponse = state.createFoundResponse;
 
             if (state.stateType == CreateFoundStateType.addattachment) {
@@ -830,752 +835,782 @@ class _CreateFoundState extends State<CreateFound> {
                           borderRadius:
                               BorderRadius.vertical(top: Radius.circular(20.0)),
                         )),
-                    child: Form(
-                        key: createfoundFormKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
+                    child: AbsorbPointer(
+                      absorbing: isDisabled,
+                      child: Form(
+                          key: createfoundFormKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  Constants.generalinformation,
+                                  style: Styles.styleHeaderGreyText16,
+                                ),
                               ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Status
-                            CommonWidgets.textDisplay(
-                                Constants.status, Styles.textStyleBlack14,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              isEnable: false,
-                              isDisableColor: true,
-                              textFieldController: statusTextController,
-                              textFormKey: Keys.statusTextController,
-                              hintText: '',
-                              onChange: (String username) {
-                                //this.username = username;
-                                setState(() {});
-                              },
-                              validateTextField: (String? user) {},
-                              suffixWidget: GestureDetector(
-                                onTap: () {},
-                                child: Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: SvgPicture.asset(
-                                    //AppIcon.dropdownicon,
-                                    AppIcon.dropdownicon,
-                                    //fit: BoxFit.,
-                                    color: AppColors.textgreyThemecolor,
-                                    width: 10,
-                                    height: 10,
-                                    key: const Key(Keys.userIcon),
+                              /// Status
+                              CommonWidgets.textDisplay(
+                                  Constants.status, Styles.textStyleBlack14,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                isEnable: false,
+                                isDisableColor: true,
+                                textFieldController: statusTextController,
+                                textFormKey: Keys.statusTextController,
+                                hintText: '',
+                                onChange: (String username) {
+                                  //this.username = username;
+                                  setState(() {});
+                                },
+                                validateTextField: (String? user) {},
+                                suffixWidget: GestureDetector(
+                                  onTap: () {},
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: SvgPicture.asset(
+                                      //AppIcon.dropdownicon,
+                                      AppIcon.dropdownicon,
+                                      //fit: BoxFit.,
+                                      color: AppColors.textgreyThemecolor,
+                                      width: 10,
+                                      height: 10,
+                                      key: const Key(Keys.userIcon),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///created by
+                              ///created by
 
-                            CommonWidgets.horizentaltextHandling(
-                                Constants.createdby,
-                                isMandatory: true,
-                                '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
+                              CommonWidgets.horizentaltextHandling(
+                                  Constants.createdby,
+                                  isMandatory: true,
+                                  '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
 
-                            // ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              // ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Location
+                              /// Location
 
-                            CommonWidgets.textDisplay(
-                                Constants.location, Styles.textStyleBlack14,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            locationWidgetdislay(state),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.textDisplay(
+                                  Constants.location, Styles.textStyleBlack14,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              locationWidgetdislay(state),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// date of creation
-                            CommonWidgets.textDisplay(Constants.dateofcreation,
-                                Styles.textStyleBlack14,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              /// date of creation
+                              CommonWidgets.textDisplay(
+                                  Constants.dateofcreation,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              datecreateWidgetdisplay(),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// slno
+                              /// slno
 
-                            CommonWidgets.horizentaltextHandling(
-                                Constants.slno, serialNumber,
-                                isMandatory: true),
+                              CommonWidgets.horizentaltextHandling(
+                                  Constants.slno, serialNumber,
+                                  isMandatory: true),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// asset type
-                            CommonWidgets.textDisplay(
-                                Constants.assettype, Styles.textStyleBlack14,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            GestureDetector(
-                              onTap: () {
-                                if (widget.model?.status == 0 ||
-                                    widget.model == null) {
-                                  assetTypeDialog();
-                                }
-                              },
-                              child: FlutterInputField(
-                                  isEnable: false,
-                                  isDisableColor:
-                                      widget.model?.status == 0 ? false : true,
-                                  textFieldController: assettypeTextController,
-                                  textFormKey: Keys.statusTextController,
-                                  hintText: '',
-                                  onChange: (String username) {
-                                    //this.username = username;
-                                    setState(() {});
-                                  },
-                                  onTap: () {
-                                    if (widget.model?.status == 0 ||
-                                        widget.model == null) {
-                                      assetTypeDialog();
-                                    }
-                                  },
-                                  validateTextField: (String? user) {},
-                                  suffixWidget: IconButton(
-                                      icon: SvgPicture.asset(
-                                          width: 10,
-                                          height: 10,
-                                          AppIcon.dropdownicon,
-                                          key: const Key('closed_eye')),
-                                      onPressed: () {
-                                        assetTypeDialog();
-                                      })),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// article type
-                            CommonWidgets.textDisplay(
-                                Constants.articleType, Styles.textStyleBlack14,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            articleaddButtonwidgetLoading(state),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// found date
-                            CommonWidgets.textDisplay(
-                                Constants.founddate, Styles.textStyleBlack14,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datepickerWidgetLoading(foundDateTextController),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// found location
-
-                            CommonWidgets.textDisplay(Constants.foundlocation,
-                                Styles.textStyleBlack14,
-                                isMandatory: true),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              textFieldController: foundLocationTextController,
-                              textFormKey: Keys.foundLocationTextController,
-                              hintText: '',
-                              isEnable: widget.model?.status == 0 ||
-                                      widget.model == null
-                                  ? true
-                                  : false,
-                              isDisableColor:
-                                  widget.model?.status == 0 ? false : true,
-                              onChange: (String username) {
-                                //this.username = username;
-                                setState(() {});
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// additional information
-                            CommonWidgets.textDisplay(
-                                Constants.additionalinformation,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              lineHeight: 6,
-                              textFieldController:
-                                  additionalinformationTextController,
-                              textFormKey:
-                                  Keys.additionalinformationTextController,
-                              hintText: Constants.informationhere,
-                              isEnable: widget.model?.status == 0 ||
-                                      widget.model == null
-                                  ? true
-                                  : false,
-                              isDisableColor:
-                                  widget.model?.status == 0 ? false : true,
-                              onChange: (String username) {
-                                //this.username = username;
-                                setState(() {});
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// quantitiy
-                            CommonWidgets.textDisplay(
-                                Constants.quantity, Styles.textStyleBlack14,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              keyboardType: TextInputType.number,
-                              textFieldController: quantityTextController,
-                              textFormKey: Keys.quantityTextController,
-                              hintText: '',
-                              isEnable: widget.model?.status == 0 ||
-                                      widget.model == null
-                                  ? true
-                                  : false,
-                              isDisableColor:
-                                  widget.model?.status == 0 ? false : true,
-                              onChange: (String username) {
-                                //this.username = username;
-                                setState(() {});
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// color
-                            CommonWidgets.textDisplay(
-                                Constants.colour, Styles.textStyleBlack14,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              textFieldController: colorTextController,
-                              textFormKey: Keys.colorTextController,
-                              hintText: '',
-                              isEnable: widget.model?.status == 0 ||
-                                      widget.model == null
-                                  ? true
-                                  : false,
-                              isDisableColor:
-                                  widget.model?.status == 0 ? false : true,
-                              onChange: (String username) {
-                                //this.username = username;
-                                setState(() {});
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// is Depositor DBEmployee
-                            CommonWidgets.textDisplay(
-                                Constants.isdepositordbemployee,
-                                Styles.textStyleBlack14,
-                                isMandatory: true),
-                            radioButtonHandling(isDepositorDBEmployeeSelected,
-                                Constants.isdepositordbemployee,
-                                isDisableColor: (widget.model?.status == null ||
-                                        widget.model?.status == 0)
-                                    ? false
-                                    : true
-                            ),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// depositor
-                            CommonWidgets.textDisplay(
-                                Constants.depositor, Styles.textStyleBlack14,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            isDepositorDBEmployeeSelected == 1
-                                ? TextfieldAddButton(
-                                    title: selecteddepositorList?.name != null
-                                        ? ('${selecteddepositorList?.name ?? ''}(${selecteddepositorList?.email ?? ''})')
-                                        : '',
-                                    height: 70,
-                                    isDisableColor: widget.model?.status == 1 ||
-                                            widget.model?.status == 2
-                                        ? true
-                                        : false,
+                              /// asset type
+                              CommonWidgets.textDisplay(
+                                  Constants.assettype, Styles.textStyleBlack14,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              GestureDetector(
+                                onTap: () {
+                                  if (widget.model?.status == 0 ||
+                                      widget.model == null) {
+                                    assetTypeDialog();
+                                  }
+                                },
+                                child: FlutterInputField(
+                                    isEnable: false,
+                                    isDisableColor: widget.model?.status == 0
+                                        ? false
+                                        : true,
+                                    textFieldController:
+                                        assettypeTextController,
+                                    textFormKey: Keys.statusTextController,
+                                    hintText: '',
+                                    onChange: (String username) {
+                                      //this.username = username;
+                                      setState(() {});
+                                    },
                                     onTap: () {
                                       if (widget.model?.status == 0 ||
                                           widget.model == null) {
-                                        depositorDialog(
-                                            state, Constants.depositor);
-                                      }
-                                    })
-                                : FlutterInputField(
-                                    textFieldController:
-                                        depositorTextController,
-                                    textFormKey: Keys.depositorTextController,
-                                    hintText: '',
-                                    isEnable: widget.model?.status == 0
-                                        ? true
-                                        : false,
-                                    isDisableColor: widget.model?.status != 0
-                                        ? false
-                                        : true,
-                                    onChange: (String username) {
-                                      //this.username = username;
-                                      setState(() {});
-                                    },
-                                    validateTextField: (String? user) {},
-                                  ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Depositor Employee id
-                            isDepositorDBEmployeeSelected == 1
-                                ? CommonWidgets.textDisplay(
-                                    Constants.depositoremployeeid,
-                                    Styles.textStyleBlack14,
-                                    isMandatory: true)
-                                : Container(),
-                            isDepositorDBEmployeeSelected == 1
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                : Container(),
-
-                            isDepositorDBEmployeeSelected == 1
-                                ? FlutterInputField(
-                                    textFieldController:
-                                        depositorEmpIdTextController,
-                                    textFormKey:
-                                        Keys.depositorEmpIdTextController,
-                                    hintText: '',
-                                    isEnable: (widget.model?.status == null ||
-                                            widget.model?.status == 0)
-                                        ? true
-                                        : false,
-                                    isDisableColor: widget.model?.status != 0
-                                        ? false
-                                        : true,
-                                    onChange: (String username) {
-                                      //this.username = username;
-                                      setState(() {});
-                                    },
-                                    validateTextField: (String? user) {},
-                                  )
-                                : Container(),
-                            isDepositorDBEmployeeSelected == 1
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01)
-                                : Container(),
-
-                            /// Employee department
-                            isDepositorDBEmployeeSelected == 1
-                                ? CommonWidgets.textDisplay(
-                                    Constants.employeedepartment,
-                                    Styles.textStyleBlack14,
-                                    isMandatory: true)
-                                : Container(),
-                            isDepositorDBEmployeeSelected == 1
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                : Container(),
-                            isDepositorDBEmployeeSelected == 1
-                                ? TextfieldAddButton(
-                                    title:
-                                        selectedEmployeedepartment?.name ?? '',
-                                    height: 60,
-                                    isDisableColor: widget.model?.status == 1 ||
-                                            widget.model?.status == 2
-                                        ? true
-                                        : false,
-                                    onTap: () {
-                                      if (widget.model == null ||
-                                          widget.model?.status == 0) {
-                                        employeeDepartmentDialog(state,
-                                            Constants.employeedepartment);
+                                        assetTypeDialog();
                                       }
                                     },
-                                  )
-                                : Container(),
-                            widget.model != null &&
-                                    isDepositorDBEmployeeSelected == 1
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01)
-                                : Container(),
+                                    validateTextField: (String? user) {},
+                                    suffixWidget: IconButton(
+                                        icon: SvgPicture.asset(
+                                            width: 10,
+                                            height: 10,
+                                            AppIcon.dropdownicon,
+                                            key: const Key('closed_eye')),
+                                        onPressed: () {
+                                          assetTypeDialog();
+                                        })),
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            if (widget.model?.status != 0) ...[
-                              /// is claimant db employee
-                              widget.model != null
-                                  ? CommonWidgets.textDisplay(
-                                      Constants.isclaimantdbemployee,
-                                      Styles.textStyleBlack14,
-                                      isMandatory: true)
-                                  : Container(),
-                              widget.model != null
-                                  ? radioButtonHandling(
-                                      isClaimantDBEmployeeSelected,
-                                      Constants.isclaimantdbemployee,
-                                      isDisableColor: false)
-                                  : Container(),
+                              /// article type
+                              CommonWidgets.textDisplay(Constants.articleType,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              articleaddButtonwidgetLoading(state),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              /// claimant
-                              widget.model != null
-                                  ? CommonWidgets.textDisplay(
-                                      Constants.claimant,
-                                      Styles.textStyleBlack14,
-                                      isMandatory: true)
-                                  : Container(),
-                              widget.model != null &&
-                                      isClaimantDBEmployeeSelected == 0
-                                  ? FlutterInputField(
-                                      textFieldController:
-                                          claimantTextController,
-                                      textFormKey: Keys.claimantTextController,
-                                      hintText: claimant,
-                                      isEnable: widget.model?.status != 2
-                                          ? true
-                                          : (widget.model != null &&
-                                                  (widget.model?.claimant
-                                                              ?.lastName ??
-                                                          '')
-                                                      .isEmpty)
-                                              ? true
-                                              : false,
-                                      isDisableColor:
-                                          (widget.model?.status != 2 &&
-                                                  (widget.model?.claimant
-                                                              ?.lastName ??
-                                                          '')
-                                                      .isEmpty)
-                                              ? false
-                                              : true,
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                        claimant = username;
-                                        setState(() {});
-                                      },
-                                      validateTextField: (String? user) {},
-                                    )
-                                  : widget.model != null
-                                      ? TextfieldAddButton(
-                                          title: selectedClaimList?.name ?? '',
-                                          height: 60,
-                                          isDisableColor:
-                                              widget.model?.status != 2
-                                                  ? false
-                                                  : true,
-                                          onTap: () {
-                                            if (widget.model?.status != 2) {
-                                              depositorDialog(
-                                                  state, Constants.claimant);
-                                            }
-                                          },
-                                        )
-                                      : Container(),
-                              isClaimantDBEmployeeSelected == 1
-                                  ? CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001)
-                                  : Container(),
+                              /// found date
+                              CommonWidgets.textDisplay(
+                                  Constants.founddate, Styles.textStyleBlack14,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              datepickerWidgetLoading(foundDateTextController),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              widget.model != null
-                                  ? CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01)
-                                  : Container(),
+                              /// found location
 
-                              /// Claimant employee id
+                              CommonWidgets.textDisplay(Constants.foundlocation,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
 
-                              widget.model != null &&
-                                      isClaimantDBEmployeeSelected == 1
-                                  ? CommonWidgets.textDisplay(
-                                      Constants.claimantemployeeid,
-                                      Styles.textStyleBlack14,
-                                      isMandatory: true)
-                                  : Container(),
-                              widget.model != null &&
-                                      isClaimantDBEmployeeSelected == 1
-                                  ? CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001)
-                                  : Container(),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                textFieldController:
+                                    foundLocationTextController,
+                                textFormKey: Keys.foundLocationTextController,
+                                hintText: '',
+                                isEnable: widget.model?.status == 0 ||
+                                        widget.model == null
+                                    ? true
+                                    : false,
+                                isDisableColor:
+                                    widget.model?.status == 0 ? false : true,
+                                onChange: (String username) {
+                                  //this.username = username;
+                                  setState(() {});
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              widget.model != null &&
-                                      isClaimantDBEmployeeSelected == 1
-                                  ? FlutterInputField(
-                                      textFieldController:
-                                          claimantEmpIdTextController,
-                                      textFormKey:
-                                          Keys.claimantEmpIdTextController,
-                                      isEnable: widget.model?.status != 2
-                                          ? true
-                                          : (widget.model != null &&
-                                                  (widget.model
-                                                              ?.claimantEmployeeId ??
-                                                          '')
-                                                      .isEmpty)
-                                              ? true
-                                              : false,
-                                      isDisableColor:
-                                          (widget.model?.status != 2)
-                                              ? false
-                                              : true,
-                                      hintText: '',
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                        setState(() {});
-                                      },
-                                      validateTextField: (String? user) {},
-                                    )
-                                  : Container(),
+                              /// additional information
+                              CommonWidgets.textDisplay(
+                                  Constants.additionalinformation,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                lineHeight: 6,
+                                textFieldController:
+                                    additionalinformationTextController,
+                                textFormKey:
+                                    Keys.additionalinformationTextController,
+                                hintText: Constants.informationhere,
+                                isEnable: widget.model?.status == 0 ||
+                                        widget.model == null
+                                    ? true
+                                    : false,
+                                isDisableColor:
+                                    widget.model?.status == 0 ? false : true,
+                                onChange: (String username) {
+                                  //this.username = username;
+                                  setState(() {});
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              widget.model != null &&
-                                      isClaimantDBEmployeeSelected == 1
-                                  ? CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01)
-                                  : Container(),
+                              /// quantitiy
+                              CommonWidgets.textDisplay(
+                                  Constants.quantity, Styles.textStyleBlack14,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                keyboardType: TextInputType.number,
+                                textFieldController: quantityTextController,
+                                textFormKey: Keys.quantityTextController,
+                                hintText: '',
+                                isEnable: widget.model?.status == 0 ||
+                                        widget.model == null
+                                    ? true
+                                    : false,
+                                isDisableColor:
+                                    widget.model?.status == 0 ? false : true,
+                                onChange: (String username) {
+                                  //this.username = username;
+                                  setState(() {});
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              /// claimant department
+                              /// color
+                              CommonWidgets.textDisplay(
+                                  Constants.colour, Styles.textStyleBlack14,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                textFieldController: colorTextController,
+                                textFormKey: Keys.colorTextController,
+                                hintText: '',
+                                isEnable: widget.model?.status == 0 ||
+                                        widget.model == null
+                                    ? true
+                                    : false,
+                                isDisableColor:
+                                    widget.model?.status == 0 ? false : true,
+                                onChange: (String username) {
+                                  //this.username = username;
+                                  setState(() {});
+                                },
+                                validateTextField: (String? user) {},
+                              ),
 
-                              widget.model != null &&
-                                      isClaimantDBEmployeeSelected == 1
-                                  ? CommonWidgets.textDisplay(
-                                      Constants.claimantdepartment,
-                                      Styles.textStyleBlack14,
-                                      isMandatory: true)
-                                  : Container(),
-                              isClaimantDBEmployeeSelected == 1
-                                  ? CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001)
-                                  : Container(),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              widget.model != null &&
-                                      isClaimantDBEmployeeSelected == 1
+                              /// is Depositor DBEmployee
+                              CommonWidgets.textDisplay(
+                                  Constants.isdepositordbemployee,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
+                              radioButtonHandling(isDepositorDBEmployeeSelected,
+                                  Constants.isdepositordbemployee,
+                                  isDisableColor:
+                                      (widget.model?.status == null ||
+                                              widget.model?.status == 0)
+                                          ? false
+                                          : true),
+
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// depositor
+                              CommonWidgets.textDisplay(
+                                  Constants.depositor, Styles.textStyleBlack14,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              isDepositorDBEmployeeSelected == 1
                                   ? TextfieldAddButton(
-                                      title:
-                                          (selectedClaimdepartment?.name ?? ''),
-                                      height: 60,
-                                      isDisableColor: widget.model == null &&
-                                              widget.model?.status == 3
+                                      title: selecteddepositorList?.name != null
+                                          ? ('${selecteddepositorList?.name ?? ''}(${selecteddepositorList?.email ?? ''})')
+                                          : '',
+                                      height: 70,
+                                      isDisableColor:
+                                          widget.model?.status == 1 ||
+                                                  widget.model?.status == 2
+                                              ? true
+                                              : false,
+                                      onTap: () {
+                                        if (widget.model?.status == 0 ||
+                                            widget.model == null) {
+                                          depositorDialog(
+                                              state, Constants.depositor);
+                                        }
+                                      })
+                                  : FlutterInputField(
+                                      textFieldController:
+                                          depositorTextController,
+                                      textFormKey: Keys.depositorTextController,
+                                      hintText: '',
+                                      isEnable: widget.model?.status == 0
                                           ? true
                                           : false,
+                                      isDisableColor: widget.model?.status != 0
+                                          ? false
+                                          : true,
+                                      onChange: (String username) {
+                                        //this.username = username;
+                                        setState(() {});
+                                      },
+                                      validateTextField: (String? user) {},
+                                    ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Depositor Employee id
+                              isDepositorDBEmployeeSelected == 1
+                                  ? CommonWidgets.textDisplay(
+                                      Constants.depositoremployeeid,
+                                      Styles.textStyleBlack14,
+                                      isMandatory: true)
+                                  : Container(),
+                              isDepositorDBEmployeeSelected == 1
+                                  ? CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001)
+                                  : Container(),
+
+                              isDepositorDBEmployeeSelected == 1
+                                  ? FlutterInputField(
+                                      textFieldController:
+                                          depositorEmpIdTextController,
+                                      textFormKey:
+                                          Keys.depositorEmpIdTextController,
+                                      hintText: '',
+                                      isEnable: (widget.model?.status == null ||
+                                              widget.model?.status == 0)
+                                          ? true
+                                          : false,
+                                      isDisableColor: widget.model?.status != 0
+                                          ? false
+                                          : true,
+                                      onChange: (String username) {
+                                        //this.username = username;
+                                        setState(() {});
+                                      },
+                                      validateTextField: (String? user) {},
+                                    )
+                                  : Container(),
+                              isDepositorDBEmployeeSelected == 1
+                                  ? CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01)
+                                  : Container(),
+
+                              /// Employee department
+                              isDepositorDBEmployeeSelected == 1
+                                  ? CommonWidgets.textDisplay(
+                                      Constants.employeedepartment,
+                                      Styles.textStyleBlack14,
+                                      isMandatory: true)
+                                  : Container(),
+                              isDepositorDBEmployeeSelected == 1
+                                  ? CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001)
+                                  : Container(),
+                              isDepositorDBEmployeeSelected == 1
+                                  ? TextfieldAddButton(
+                                      title: selectedEmployeedepartment?.name ??
+                                          '',
+                                      height: 60,
+                                      isDisableColor:
+                                          widget.model?.status == 1 ||
+                                                  widget.model?.status == 2
+                                              ? true
+                                              : false,
                                       onTap: () {
-                                        // if (widget.listuser == null ||widget.listuser?.status == 0)
-                                        {
+                                        if (widget.model == null ||
+                                            widget.model?.status == 0) {
                                           employeeDepartmentDialog(state,
-                                              Constants.claimantdepartment);
+                                              Constants.employeedepartment);
                                         }
                                       },
                                     )
                                   : Container(),
-                              isClaimantDBEmployeeSelected == 1
+                              widget.model != null &&
+                                      isDepositorDBEmployeeSelected == 1
                                   ? CommonWidgets.verticalSpacerWidget(
                                       height * 0.01)
                                   : Container(),
 
-                              /// is claimant accepted by email
+                              if (widget.model?.status != 0) ...[
+                                /// is claimant db employee
+                                widget.model != null
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.isclaimantdbemployee,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true)
+                                    : Container(),
+                                widget.model != null
+                                    ? radioButtonHandling(
+                                        isClaimantDBEmployeeSelected,
+                                        Constants.isclaimantdbemployee,
+                                        isDisableColor: isDisabled,
+                                      )
+                                    : Container(),
 
-                              widget.model != null &&
-                                      isClaimantDBEmployeeSelected == 1
-                                  ? CommonWidgets.textDisplay(
-                                      Constants.isclaimantacceptedbyemail,
-                                      Styles.textStyleBlack14,
-                                      isMandatory: true)
-                                  : Container(),
-                              widget.model != null &&
-                                      isClaimantDBEmployeeSelected == 1
-                                  ? radioButtonHandling(
-                                      isClaimantAcceptedByemail,
-                                      Constants.isclaimantacceptedbyemail)
-                                  : Container(),
+                                /// claimant
+                                widget.model != null
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.claimant,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true)
+                                    : Container(),
+                                widget.model != null &&
+                                        isClaimantDBEmployeeSelected == 0
+                                    ? FlutterInputField(
+                                        textFieldController:
+                                            claimantTextController,
+                                        textFormKey:
+                                            Keys.claimantTextController,
+                                        hintText: claimant,
+                                        isEnable: widget.model?.status != 2
+                                            ? true
+                                            : (widget.model != null &&
+                                                    (widget.model?.claimant
+                                                                ?.lastName ??
+                                                            '')
+                                                        .isEmpty)
+                                                ? true
+                                                : false,
+                                        isDisableColor:
+                                            (widget.model?.status != 2 &&
+                                                    (widget.model?.claimant
+                                                                ?.lastName ??
+                                                            '')
+                                                        .isEmpty)
+                                                ? false
+                                                : true,
+                                        onChange: (String username) {
+                                          //this.username = username;
+                                          claimant = username;
+                                          setState(() {});
+                                        },
+                                        validateTextField: (String? user) {},
+                                      )
+                                    : widget.model != null
+                                        ? TextfieldAddButton(
+                                            title:
+                                                selectedClaimList?.name ?? '',
+                                            height: 60,
+                                            isDisableColor:
+                                                widget.model?.status != 2
+                                                    ? false
+                                                    : true,
+                                            onTap: () {
+                                              if (widget.model?.status != 2) {
+                                                depositorDialog(
+                                                    state, Constants.claimant);
+                                              }
+                                            },
+                                          )
+                                        : Container(),
+                                isClaimantDBEmployeeSelected == 1
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                    : Container(),
 
-                              /// is claimant accepted to sign
+                                widget.model != null
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01)
+                                    : Container(),
 
-                              widget.model != null
-                                  ? CommonWidgets.textDisplay(
-                                      Constants.isclaimantacceptedtosign,
-                                      Styles.textStyleBlack14,
-                                      isMandatory: true)
-                                  : Container(),
-                              widget.model != null
-                                  ? radioButtonHandling(
-                                      isClaimantAcceptedtoSignSelected,
-                                      Constants.isclaimantacceptedtosign)
-                                  : Container(),
+                                /// Claimant employee id
 
-                              ///TODO: Need to work on signature
-                              /// Claimant Signature
-                              // widget.model != null &&
-                              //         isClaimantAcceptedtoSignSelected == 1
-                              //     ? CommonWidgets.textDisplay(
-                              //         Constants.claimantsignature,
-                              //         Styles.textStyleBlack14,
-                              //         isMandatory: true)
-                              //     : Container(),
-                              // widget.model != null &&
-                              //         isClaimantAcceptedtoSignSelected == 1
-                              //     ? CommonWidgets.verticalSpacerWidget(
-                              //         height * 0.001)
-                              //     : Container(),
-                              // widget.model != null &&
-                              //         isClaimantAcceptedtoSignSelected == 1
-                              //     ? FlutterInputField(
-                              //         lineHeight: 6,
-                              //         textFieldController:
-                              //             claimantsignatureTextController,
-                              //         isEnable: false,
-                              //         textFormKey:
-                              //             Keys.claimantsignatureTextController,
-                              //         isDisableColor: true,
-                              //         hintText: '',
-                              //         onChange: (String username) {
-                              //           //this.username = username;
-                              //           setState(() {});
-                              //         },
-                              //         validateTextField: (String? user) {},
-                              //       )
-                              //     : Container(),
-                              // widget.model != null
-                              //     ? CommonWidgets.verticalSpacerWidget(
-                              //         height * 0.01)
-                              //     : Container(),
-                              buildSignature(
-                                controller: claimantSignature,
-                                label: Constants.claimantsignature,
-                                spaceHeight: height,
-                                state: state,
-                              ),
-                            ],
+                                widget.model != null &&
+                                        isClaimantDBEmployeeSelected == 1
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.claimantemployeeid,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true)
+                                    : Container(),
+                                widget.model != null &&
+                                        isClaimantDBEmployeeSelected == 1
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                    : Container(),
 
-                            /// Item Handover By
-                            if (widget.model?.status == 2) ...[
-                              widget.model?.status == 2
-                                  ? CommonWidgets.horizentaltextHandling(
-                                      Constants.itemhandoverby,
-                                      itemhandoverByValue,
-                                      isMandatory: true)
-                                  : Container(),
+                                widget.model != null &&
+                                        isClaimantDBEmployeeSelected == 1
+                                    ? FlutterInputField(
+                                        textFieldController:
+                                            claimantEmpIdTextController,
+                                        textFormKey:
+                                            Keys.claimantEmpIdTextController,
+                                        isEnable: widget.model?.status != 2
+                                            ? true
+                                            : (widget.model != null &&
+                                                    (widget.model
+                                                                ?.claimantEmployeeId ??
+                                                            '')
+                                                        .isEmpty)
+                                                ? true
+                                                : false,
+                                        isDisableColor:
+                                            (widget.model?.status != 2)
+                                                ? false
+                                                : true,
+                                        hintText: '',
+                                        onChange: (String username) {
+                                          //this.username = username;
+                                          setState(() {});
+                                        },
+                                        validateTextField: (String? user) {},
+                                      )
+                                    : Container(),
 
-                              /// Handed over date
+                                widget.model != null &&
+                                        isClaimantDBEmployeeSelected == 1
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01)
+                                    : Container(),
 
-                              widget.model != null
-                                  ? CommonWidgets.textDisplay(
-                                      Constants.handedoverdate,
-                                      Styles.textStyleBlack14,
-                                      isMandatory: true)
-                                  : Container(),
-                              widget.model != null
-                                  ? CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001)
-                                  : Container(),
-                              widget.model != null
-                                  ? datepickerWidgetLoading(
-                                      handedoverdatedateTextController)
-                                  : Container(),
+                                /// claimant department
+
+                                widget.model != null &&
+                                        isClaimantDBEmployeeSelected == 1
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.claimantdepartment,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true)
+                                    : Container(),
+                                isClaimantDBEmployeeSelected == 1
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                    : Container(),
+
+                                widget.model != null &&
+                                        isClaimantDBEmployeeSelected == 1
+                                    ? TextfieldAddButton(
+                                        title: (selectedClaimdepartment?.name ??
+                                            ''),
+                                        height: 60,
+                                        isDisableColor: widget.model == null &&
+                                                widget.model?.status == 3
+                                            ? true
+                                            : false,
+                                        onTap: () {
+                                          // if (widget.listuser == null ||widget.listuser?.status == 0)
+                                          {
+                                            employeeDepartmentDialog(state,
+                                                Constants.claimantdepartment);
+                                          }
+                                        },
+                                      )
+                                    : Container(),
+                                isClaimantDBEmployeeSelected == 1
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01)
+                                    : Container(),
+
+                                /// is claimant accepted by email
+
+                                widget.model != null &&
+                                        isClaimantDBEmployeeSelected == 1
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.isclaimantacceptedbyemail,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true)
+                                    : Container(),
+                                widget.model != null &&
+                                        isClaimantDBEmployeeSelected == 1
+                                    ? radioButtonHandling(
+                                        isClaimantAcceptedByemail,
+                                        Constants.isclaimantacceptedbyemail,
+                                        isDisableColor: isDisabled,
+                                      )
+                                    : Container(),
+
+                                /// is claimant accepted to sign
+
+                                widget.model != null
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.isclaimantacceptedtosign,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true)
+                                    : Container(),
+                                widget.model != null
+                                    ? radioButtonHandling(
+                                        isClaimantAcceptedtoSignSelected,
+                                        Constants.isclaimantacceptedtosign,
+                                        isDisableColor: isDisabled,
+                                      )
+                                    : Container(),
+
+                                ///TODO: Need to work on signature
+                                /// Claimant Signature
+                                // widget.model != null &&
+                                //         isClaimantAcceptedtoSignSelected == 1
+                                //     ? CommonWidgets.textDisplay(
+                                //         Constants.claimantsignature,
+                                //         Styles.textStyleBlack14,
+                                //         isMandatory: true)
+                                //     : Container(),
+                                // widget.model != null &&
+                                //         isClaimantAcceptedtoSignSelected == 1
+                                //     ? CommonWidgets.verticalSpacerWidget(
+                                //         height * 0.001)
+                                //     : Container(),
+                                // widget.model != null &&
+                                //         isClaimantAcceptedtoSignSelected == 1
+                                //     ? FlutterInputField(
+                                //         lineHeight: 6,
+                                //         textFieldController:
+                                //             claimantsignatureTextController,
+                                //         isEnable: false,
+                                //         textFormKey:
+                                //             Keys.claimantsignatureTextController,
+                                //         isDisableColor: true,
+                                //         hintText: '',
+                                //         onChange: (String username) {
+                                //           //this.username = username;
+                                //           setState(() {});
+                                //         },
+                                //         validateTextField: (String? user) {},
+                                //       )
+                                //     : Container(),
+                                // widget.model != null
+                                //     ? CommonWidgets.verticalSpacerWidget(
+                                //         height * 0.01)
+                                //     : Container(),
+                                buildSignature(
+                                  controller: claimantSignature,
+                                  label: Constants.claimantsignature,
+                                  spaceHeight: height,
+                                  state: state,
+                                ),
+                              ],
+
+                              /// Item Handover By
+                              if (widget.model?.status == 2) ...[
+                                widget.model?.status == 2
+                                    ? CommonWidgets.horizentaltextHandling(
+                                        Constants.itemhandoverby,
+                                        itemhandoverByValue,
+                                        isMandatory: true)
+                                    : Container(),
+
+                                /// Handed over date
+
+                                widget.model != null
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.handedoverdate,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true)
+                                    : Container(),
+                                widget.model != null
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001)
+                                    : Container(),
+                                widget.model != null
+                                    ? datepickerWidgetLoading(
+                                        handedoverdatedateTextController)
+                                    : Container(),
+                                widget.model == null
+                                    ? CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01)
+                                    : Container(),
+                              ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// upload
                               widget.model == null
+                                  ? Container(
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: const Color(0xFFCACACA),
+                                            width: 1.0,
+                                          ),
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(8))),
+                                      child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 5.0),
+                                              child: ElevatedButton.icon(
+                                                style: ElevatedButton.styleFrom(
+                                                    fixedSize:
+                                                        const Size(140, 50)),
+                                                onPressed: () {
+                                                  // Navigator.pushNamed(context,
+                                                  //     createFoundAttachmentRoute);
+                                                  //UploadAttachment();
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          dialogContext) {
+                                                        return UploadAttachment(
+                                                          userdetails:
+                                                              userDetails,
+                                                          getFiles: getFiles,
+                                                          createoundstate:
+                                                              state,
+                                                        );
+                                                      });
+                                                },
+
+                                                icon: SvgPicture.asset(
+                                                  //AppIcon.dropdownicon,
+                                                  AppIcon.uploadicon,
+                                                  //fit: BoxFit.,
+                                                  color: AppColors
+                                                      .backgroundWhitecolor,
+                                                  width: 13,
+                                                  height: 13,
+                                                  key: const Key(Keys.userIcon),
+                                                ),
+                                                // const Icon(
+                                                //   // <-- Icon
+                                                //   Icons.upload,
+                                                //   color: AppColors.backgroundWhitecolor,
+                                                //   size: 24.0,
+                                                // ),
+                                                label: const Text(
+                                                  Constants.clicktoupload,
+                                                  style: Styles
+                                                      .textStyleRegularNormalWhite12,
+                                                ), // <-- Text
+                                              ),
+                                            ),
+                                          ]),
+                                    )
+                                  : Container(),
+
+                              getFiles.isNotEmpty || getAttachments.isNotEmpty
                                   ? CommonWidgets.verticalSpacerWidget(
                                       height * 0.01)
                                   : Container(),
+                              (getAttachments.isEmpty || widget.model == null)
+                                  ? getFiles.isEmpty
+                                      ? Container()
+                                      : attachmentListviews(
+                                          getFiles, getAttachments)
+                                  : attachmentListviews(
+                                      getFiles, getAttachments),
+
+                              // TODO: Need to use this to view the attachments
+                              // if (!getAttachments.isEmptyOrNull ) ...[
+                              //   BaseImageUpload().getAttachment(
+                              //     height: height,
+                              //     attachments: getAttachments,
+                              //     files: getFiles,
+                              //     showDownloadIcon:
+                              //         widget.model != null ? true : false,
+                              //   ),
+                              // ],
+
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              if (widget.model?.status != 2) ...[
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    cancelButtonDisplay(),
+                                    submitButtonDisplay()
+                                  ],
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.03),
+                              ],
                             ],
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// upload
-                            widget.model == null
-                                ? Container(
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: const Color(0xFFCACACA),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(8))),
-                                    child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 5.0),
-                                            child: ElevatedButton.icon(
-                                              style: ElevatedButton.styleFrom(
-                                                  fixedSize:
-                                                      const Size(140, 50)),
-                                              onPressed: () {
-                                                // Navigator.pushNamed(context,
-                                                //     createFoundAttachmentRoute);
-                                                //UploadAttachment();
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext
-                                                        dialogContext) {
-                                                      return UploadAttachment(
-                                                        userdetails:
-                                                            userDetails,
-                                                        getFiles: getFiles,
-                                                        createoundstate: state,
-                                                      );
-                                                    });
-                                              },
-
-                                              icon: SvgPicture.asset(
-                                                //AppIcon.dropdownicon,
-                                                AppIcon.uploadicon,
-                                                //fit: BoxFit.,
-                                                color: AppColors
-                                                    .backgroundWhitecolor,
-                                                width: 13,
-                                                height: 13,
-                                                key: const Key(Keys.userIcon),
-                                              ),
-                                              // const Icon(
-                                              //   // <-- Icon
-                                              //   Icons.upload,
-                                              //   color: AppColors.backgroundWhitecolor,
-                                              //   size: 24.0,
-                                              // ),
-                                              label: const Text(
-                                                Constants.clicktoupload,
-                                                style: Styles
-                                                    .textStyleRegularNormalWhite12,
-                                              ), // <-- Text
-                                            ),
-                                          ),
-                                        ]),
-                                  )
-                                : Container(),
-
-                            getFiles.isNotEmpty || getAttachments.isNotEmpty
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01)
-                                : Container(),
-                            (getAttachments.isEmpty || widget.model == null)
-                                ? getFiles.isEmpty
-                                    ? Container()
-                                    : attachmentListviews(
-                                        getFiles, getAttachments)
-                                : attachmentListviews(getFiles, getAttachments),
-
-                            // TODO: Need to use this to view the attachments
-                            // if (!getAttachments.isEmptyOrNull ) ...[
-                            //   BaseImageUpload().getAttachment(
-                            //     height: height,
-                            //     attachments: getAttachments,
-                            //     files: getFiles,
-                            //     showDownloadIcon:
-                            //         widget.model != null ? true : false,
-                            //   ),
-                            // ],
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            if (widget.model?.status != 2) ...[
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  cancelButtonDisplay(),
-                                  submitButtonDisplay()
-                                ],
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.03),
-                            ],
-                          ],
-                        )),
+                          )),
+                    ),
                   ),
                 ])));
           },
