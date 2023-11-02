@@ -1082,7 +1082,8 @@ class _CreateFoundState extends State<CreateFound> {
                                 isDisableColor: (widget.model?.status == null ||
                                         widget.model?.status == 0)
                                     ? false
-                                    : true),
+                                    : true
+                            ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -1200,7 +1201,7 @@ class _CreateFoundState extends State<CreateFound> {
                                     height * 0.01)
                                 : Container(),
 
-                            if (widget.model?.status == 1) ...[
+                            if (widget.model?.status != 0) ...[
                               /// is claimant db employee
                               widget.model != null
                                   ? CommonWidgets.textDisplay(
