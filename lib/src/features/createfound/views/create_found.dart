@@ -157,11 +157,12 @@ class _CreateFoundState extends State<CreateFound> {
                   int.parse(widget.model?.foundDate ?? '0'),
                   Constants.fulldateFormat)
               : '';
-      dateofcreationTextController.text = widget.model?.inputDate != null
+      dateofcreationTextController.text =
+      widget.model?.inputDate != null && widget.model?.inputDate != '0'
           ? Utils.timestamptoDateConversion(
-              int.parse(widget.model?.inputDate ?? '0'),
-              Constants.fulldateFormat)
-          : '';
+          int.parse(widget.model?.inputDate ?? '0'),
+          Constants.fulldateFormat)
+          : dateofcreationTextController.text;
       assettypeTextController.text = widget.model?.typeOfAsset != null
           ? (widget.model?.typeOfAsset == 0 ? "Personal" : "Company")
           : '';
@@ -242,8 +243,9 @@ class _CreateFoundState extends State<CreateFound> {
 
     int foundDate = Utils.dateToTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
-    int inputDate = Utils.dateToTimestampConversion(
-        dateofcreationTextController.text, Constants.fulldateFormat);
+    // int inputDate = Utils.dateToTimestampConversion(
+    //     dateofcreationTextController.text, Constants.fulldateFormat);
+    int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     Map<String, dynamic> entrySecurityBody = {
       "userId": userDetails?.userId ?? 0,
     };
@@ -278,7 +280,7 @@ class _CreateFoundState extends State<CreateFound> {
           : 0,
       "additionalInformation": additionalinformationTextController.text,
       "depositorDbEmp": isDepositorDBEmployeeSelectedValue,
-      "inputDate": inputDate,
+      "inputDate": inputdate,
       "foundDate": foundDate,
       "location": locationBody,
       "depositorName": isDepositorDBEmployeeSelected == 1
@@ -311,8 +313,9 @@ class _CreateFoundState extends State<CreateFound> {
     log('-createRequestBody-----');
     int foundDate = Utils.dateToTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
-    int inputDate = Utils.dateToTimestampConversion(
-        dateofcreationTextController.text, Constants.fulldateFormat);
+    // int inputDate = Utils.dateToTimestampConversion(
+    //     dateofcreationTextController.text, Constants.fulldateFormat);
+    int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     int handoverDate = Utils.dateToTimestampConversion(
         handedoverdatedateTextController.text, Constants.fulldateFormat);
     var username = await SharedPrefs.getUsername();
@@ -395,7 +398,7 @@ class _CreateFoundState extends State<CreateFound> {
             colorTextController.text.isNotEmpty ? colorTextController.text : '',
         status: widget.model?.status ?? 0,
         depositorDbEmp: isDepositorDBEmployeeSelectedValue,
-        inputDate: inputDate,
+        inputDate: inputdate,
         foundDate: foundDate,
         entrySecurity: entrySecurity,
         location: location,
@@ -440,8 +443,9 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   void _getCurrentDate() {
+    final currentDate = DateTime.now();
     String formattedDate =
-        DateFormat(Constants.fulldateFormat).format(DateTime.now());
+    DateFormat(Constants.fulldateFormat).format(currentDate);
     //you can implement different kind of Date Format here according to your requirement
     dateofcreationTextController.text = formattedDate;
     statusTextController.text = 'Found';
@@ -1114,7 +1118,7 @@ class _CreateFoundState extends State<CreateFound> {
                                         depositorTextController,
                                     textFormKey: Keys.depositorTextController,
                                     hintText: '',
-                                    isEnable: widget.model?.status == 0
+                                    isEnable: widget.model?.status == 0 || widget.model == null
                                         ? true
                                         : false,
                                     isDisableColor: widget.model?.status != 0
@@ -1201,7 +1205,7 @@ class _CreateFoundState extends State<CreateFound> {
                                     height * 0.01)
                                 : Container(),
 
-                            if (widget.model?.status != 0) ...[
+                            if (widget.model?.status != 0 || widget.model !=null) ...[
                               /// is claimant db employee
                               widget.model != null
                                   ? CommonWidgets.textDisplay(
@@ -1298,6 +1302,7 @@ class _CreateFoundState extends State<CreateFound> {
                               widget.model != null &&
                                       isClaimantDBEmployeeSelected == 1
                                   ? FlutterInputField(
+                                keyboardType: TextInputType.number,
                                       textFieldController:
                                           claimantEmpIdTextController,
                                       textFormKey:
@@ -1383,7 +1388,6 @@ class _CreateFoundState extends State<CreateFound> {
                                       isClaimantAcceptedByemail,
                                       Constants.isclaimantacceptedbyemail)
                                   : Container(),
-
                               /// is claimant accepted to sign
 
                               widget.model != null
@@ -1434,6 +1438,8 @@ class _CreateFoundState extends State<CreateFound> {
                               //     ? CommonWidgets.verticalSpacerWidget(
                               //         height * 0.01)
                               //     : Container(),
+                            ],
+                            if (widget.model?.status == 1 ||widget.model?.status == 2) ...[
                               buildSignature(
                                 controller: claimantSignature,
                                 label: Constants.claimantsignature,
@@ -1441,7 +1447,6 @@ class _CreateFoundState extends State<CreateFound> {
                                 state: state,
                               ),
                             ],
-
                             /// Item Handover By
                             if (widget.model?.status == 2) ...[
                               widget.model?.status == 2
@@ -1735,12 +1740,11 @@ class _CreateFoundState extends State<CreateFound> {
       isDisableColor: true,
       onChange: (String username) {
         //this.username = username;
-        setState(() {});
+        //setState(() {});
       },
       validateTextField: (String? user) {},
     );
   }
-
   Widget radioButtonHandling(
     int selectedValue,
     String name, {

@@ -1498,8 +1498,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       bool isSubmit, int isFoundId, LawEnforcementState state) async {
     int actualdate = Utils.dateToTimestampConversion(
         actualDateTextController.text, Constants.fulldateFormat);
-    int inputdate = Utils.dateToTimestampConversion(
-        dateofcreationTextController.text, Constants.fulldateFormat);
+    int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     int statusvalue = 0;
     if (statusTextController.text.toLowerCase() == "draft") {
       statusvalue = 0;
