@@ -230,19 +230,19 @@ class _CreateFoundState extends State<CreateFound> {
 
     bool isDepositorDBEmployeeSelectedValue =
         isDepositorDBEmployeeSelected == 1 ? true : false;
-    int statusValue = 0;
-    if (statusTextController.text.toLowerCase() == "found") {
-      statusValue = 0;
-    } else if (statusTextController.text.toLowerCase() ==
-        "under security custody") {
-      statusValue = 0;
-    } else {
-      statusValue = 2;
-    }
+    // int statusValue = 0;
+    // if (statusTextController.text.toLowerCase() == "found") {
+    //   statusValue = 0;
+    // } else if (statusTextController.text.toLowerCase() ==
+    //     "under security custody") {
+    //   statusValue = 0;
+    // } else {
+    //   statusValue = 2;
+    // }
 
-    int foundDate = Utils.datetoTimestampConversion(
+    int foundDate = Utils.dateToTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
-    int inputDate = Utils.datetoTimestampConversion(
+    int inputDate = Utils.dateToTimestampConversion(
         dateofcreationTextController.text, Constants.fulldateFormat);
     Map<String, dynamic> entrySecurityBody = {
       "userId": userDetails?.userId ?? 0,
@@ -263,7 +263,7 @@ class _CreateFoundState extends State<CreateFound> {
       "id": selectedEmployeedepartment?.id ?? 1,
     };
     Map<String, dynamic> foundBody = {
-      "status": statusValue,
+      "status": widget.model?.status ?? 0,
       "typeOfAsset": assettypeTextController.text.isEmptyOrNull
           ? ((assettypeTextController.text.toLowerCase()) == 'company' ? 1 : 0)
           : null,
@@ -292,7 +292,7 @@ class _CreateFoundState extends State<CreateFound> {
       "depositorDepartment": depositorDeptBody,
       "depositor": depositorBody,
       "eventProtection": widget.eventId,
-      "images": getFiles ?? []
+      "images": getFiles
     };
     Map<String, dynamic> requestBody = {
       "found": foundBody,
@@ -309,11 +309,11 @@ class _CreateFoundState extends State<CreateFound> {
 
   Future createRequestBody(bool isSubmit, int isFoundId) async {
     log('-createRequestBody-----');
-    int foundDate = Utils.datetoTimestampConversion(
+    int foundDate = Utils.dateToTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
-    int inputDate = Utils.datetoTimestampConversion(
+    int inputDate = Utils.dateToTimestampConversion(
         dateofcreationTextController.text, Constants.fulldateFormat);
-    int handoverDate = Utils.datetoTimestampConversion(
+    int handoverDate = Utils.dateToTimestampConversion(
         handedoverdatedateTextController.text, Constants.fulldateFormat);
     var username = await SharedPrefs.getUsername();
     bool isDepositorDBEmployeeSelectedValue =
@@ -349,15 +349,15 @@ class _CreateFoundState extends State<CreateFound> {
     User? handoverSecurity = User(
         userId: widget.model?.claimant?.userId ??
             widget.model?.handoverSecurity?.userId);
-    int statusValue = 0;
-    if (statusTextController.text.toLowerCase() == "found") {
-      statusValue = 0;
-    } else if (statusTextController.text.toLowerCase() ==
-        "under security custody") {
-      statusValue = 0;
-    } else {
-      statusValue = 2;
-    }
+    // int statusValue = 0;
+    // if (statusTextController.text.toLowerCase() == "found") {
+    //   statusValue = 0;
+    // } else if (statusTextController.text.toLowerCase() ==
+    //     "under security custody") {
+    //   statusValue = 0;
+    // } else {
+    //   statusValue = 2;
+    // }
 
     log('-assettypeTextController.text---${assettypeTextController.text}----');
     log('---condition type assest---${!assettypeTextController.text.isEmptyOrNull ? ((assettypeTextController.text.toLowerCase()) == 'company' ? 1 : 0) : null}----');
@@ -393,7 +393,7 @@ class _CreateFoundState extends State<CreateFound> {
             : 0,
         color:
             colorTextController.text.isNotEmpty ? colorTextController.text : '',
-        status: statusValue,
+        status: widget.model?.status ?? 0,
         depositorDbEmp: isDepositorDBEmployeeSelectedValue,
         inputDate: inputDate,
         foundDate: foundDate,
@@ -442,8 +442,6 @@ class _CreateFoundState extends State<CreateFound> {
   void _getCurrentDate() {
     String formattedDate =
         DateFormat(Constants.fulldateFormat).format(DateTime.now());
-    print(
-        formattedDate); //formatted date output using intl package =>  2021-03-16
     //you can implement different kind of Date Format here according to your requirement
     dateofcreationTextController.text = formattedDate;
     statusTextController.text = 'Found';
@@ -589,7 +587,6 @@ class _CreateFoundState extends State<CreateFound> {
         return CustomSimpleListTexts(
           texts: const ["Personal", "company"],
           onTap: (String value) {
-            print(value);
             assettypeTextController.text = value;
             setState(() {});
           },
@@ -619,7 +616,6 @@ class _CreateFoundState extends State<CreateFound> {
                   });
             },
             onTap: (Organisation list) {
-              print(list.name);
               selectedArtclelist = list;
               setState(() {});
             },
@@ -635,11 +631,8 @@ class _CreateFoundState extends State<CreateFound> {
         firstDate: DateTime(2000),
         lastDate: DateTime(2101));
 
-    print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
     String formattedDate = DateFormat(Constants.fulldateFormat)
         .format(pickedDate ?? DateTime.now());
-    print(
-        formattedDate); //formatted date output using intl package =>  2021-03-16
     //you can implement different kind of Date Format here according to your requirement
     if (textfield == foundDateTextController) {
       foundDateTextController.text = formattedDate;
@@ -672,7 +665,6 @@ class _CreateFoundState extends State<CreateFound> {
                   });
             },
             onTap: (BaseUser list) {
-              print(list.name);
               if (name.toLowerCase() == 'depositor') {
                 selecteddepositorList = list;
               } else {
@@ -705,7 +697,6 @@ class _CreateFoundState extends State<CreateFound> {
                   });
             },
             onTap: (Organisation department) {
-              print(department.name);
               if (name == Constants.employeedepartment) {
                 log('--department--${department.name}--');
                 selectedEmployeedepartment = department;
@@ -734,7 +725,6 @@ class _CreateFoundState extends State<CreateFound> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    final width = size.width;
     return Scaffold(
         appBar: AppHeader(
           isTitleCenter: false,
@@ -962,8 +952,6 @@ class _CreateFoundState extends State<CreateFound> {
                                           AppIcon.dropdownicon,
                                           key: const Key('closed_eye')),
                                       onPressed: () {
-                                        print('suffixIcon pressed');
-
                                         assetTypeDialog();
                                       })),
                             ),
@@ -1518,8 +1506,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                       return UploadAttachment(
                                                         userdetails:
                                                             userDetails,
-                                                        getFiles:
-                                                            getFiles ?? [],
+                                                        getFiles: getFiles,
                                                         createoundstate: state,
                                                       );
                                                     });
@@ -1552,10 +1539,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   )
                                 : Container(),
 
-                            getAttachments != null ||
-                                    getFiles != null ||
-                                    getFiles.isNotEmpty ||
-                                    getAttachments.isNotEmpty
+                            getFiles.isNotEmpty || getAttachments.isNotEmpty
                                 ? CommonWidgets.verticalSpacerWidget(
                                     height * 0.01)
                                 : Container(),
@@ -1565,6 +1549,17 @@ class _CreateFoundState extends State<CreateFound> {
                                     : attachmentListviews(
                                         getFiles, getAttachments)
                                 : attachmentListviews(getFiles, getAttachments),
+
+                            // TODO: Need to use this to view the attachments
+                            // if (!getAttachments.isEmptyOrNull ) ...[
+                            //   BaseImageUpload().getAttachment(
+                            //     height: height,
+                            //     attachments: getAttachments,
+                            //     files: getFiles,
+                            //     showDownloadIcon:
+                            //         widget.model != null ? true : false,
+                            //   ),
+                            // ],
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             if (widget.model?.status != 2) ...[
@@ -1682,12 +1677,10 @@ class _CreateFoundState extends State<CreateFound> {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
-              print(state.getLocationsResponse);
               return CustomExpansionListTexts(
                 getLocationsresponse:
                     state.getLocationsResponse ?? GetLocations(),
                 onTap: (Organisation? list) async {
-                  print(list?.name);
                   await createFoundArticleCubit.getSerialnumberDetails(
                       list?.id.toString() ?? '', 'AF', context);
                   locationselectedText = list?.name ?? '';
@@ -1845,8 +1838,6 @@ class _CreateFoundState extends State<CreateFound> {
         isDisableColor: widget.model?.status != 0 ? false : true,
         onChange: (String username) {
           //this.username = username;
-          print('dfwf');
-
           setState(() {});
         },
         validateTextField: (String? user) {},
@@ -1887,45 +1878,47 @@ class _CreateFoundState extends State<CreateFound> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount:
-              attachmentListviews1?.length ?? attachmentListviews?.length ?? 0,
-          itemBuilder: (BuildContext context, int index) {
-            CreateImage? imagedata;
-            FoundImage? imagedata1;
-            if (widget.model != null) {
-              imagedata1 = attachmentListviews1?[index];
-            } else {
-              imagedata = attachmentListviews?[index];
-            }
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: (attachmentListviews1?.length ?? 0) >
+                (attachmentListviews?.length ?? 0)
+            ? attachmentListviews1?.length
+            : attachmentListviews?.length ?? 0,
+        itemBuilder: (BuildContext context, int index) {
+          CreateImage? imageData;
+          FoundImage? imageData1;
+          if (widget.model != null) {
+            imageData1 = attachmentListviews1?[index];
+          } else {
+            imageData = attachmentListviews?[index];
+          }
+          return Column(
+            children: <Widget>[
+              ListTile(
+                trailing: widget.model != null
+                    ? SvgPicture.asset(AppIcon.download,
+                        color: AppColors.boldgreyBackground)
+                    : const SizedBox(
+                        height: 0,
+                        width: 0,
+                      ),
+                onTap: () {
+                  DownloadImage().saveImage(
+                      context, imageData1?.id ?? 0, imageData1?.title ?? '');
+                },
+                title: widget.model != null
+                    ? Text(imageData1?.title ?? '')
+                    : Text(imageData?.title ?? ''),
+              ),
 
-            return Column(
-              children: <Widget>[
-                ListTile(
-                  trailing: widget.model != null
-                      ? SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground)
-                      : const SizedBox(
-                          height: 0,
-                          width: 0,
-                        ),
-                  onTap: () {
-                    DownloadImage().saveImage(
-                        context, imagedata1?.id ?? 0, imagedata1?.title ?? '');
-                  },
-                  title: widget.model != null
-                      ? Text(imagedata1?.title ?? '')
-                      : Text(imagedata?.title ?? ''),
-                ),
-
-                const Divider(
-                  color: Color(0xFFCACACA),
-                  thickness: 1,
-                ), //                           <-- Divider
-              ],
-            );
-          }),
+              const Divider(
+                color: Color(0xFFCACACA),
+                thickness: 1,
+              ), //
+            ],
+          );
+        },
+      ),
     );
   }
 }

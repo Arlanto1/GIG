@@ -22,7 +22,6 @@ import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_cubit.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
-import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
 import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -49,12 +48,12 @@ class CreateLawEnforcement extends StatefulWidget {
 }
 
 class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
-  final GlobalKey<FormState> lawenforcementFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> lawEnforcementFormKey = GlobalKey<FormState>();
   TextEditingController statusTextController = TextEditingController();
-  TextEditingController actualdateTextController = TextEditingController();
-  TextEditingController dbofficailwanttimeetTextController =
+  TextEditingController actualDateTextController = TextEditingController();
+  TextEditingController dbOfficailWanttimeetTextController =
       TextEditingController();
-  TextEditingController additionalinformationTextController =
+  TextEditingController additionalInformationTextController =
       TextEditingController();
   TextEditingController nameTextController1 = TextEditingController();
   TextEditingController nameVisitingOfficialTextController =
@@ -179,7 +178,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                       absorbing: widget.model?.status == 3 ||
                           widget.model?.status == 1,
                       child: Form(
-                        key: lawenforcementFormKey,
+                        key: lawEnforcementFormKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -202,8 +201,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 /// Status
                                 CommonWidgets.textDisplay(
                                     Constants.status, Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
+                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
                                   isEnable: false,
@@ -238,12 +236,11 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
 
                                 CommonWidgets.horizentaltextHandling(
                                     Constants.createdby,
-                                    isMandatory: true,
-                                    '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
+                                    isMandatory: true,'${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
 
-                                /// Location
-                                CommonWidgets.textDisplay(
-                                    Constants.location, Styles.textStyleBlack14,
+                                // / Location
+                                CommonWidgets.textDisplay(Constants.location,
+                                    Styles.textStyleBlack14,
                                     isMandatory: true),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -256,8 +253,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 CommonWidgets.textDisplay(
                                     Constants.dateofcreation,
                                     Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
+                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 datecreateWidgetdisplay(),
                                 CommonWidgets.verticalSpacerWidget(
@@ -267,29 +263,27 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
 
                                 CommonWidgets.horizentaltextHandling(
                                     Constants.slno, serialnumber ?? '',
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
+                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
                                 /// Entity type
                                 CommonWidgets.textDisplay(
                                     Constants.entity, Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
+                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
+
                                 entityaddButtonwidgetLoading(state),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
-                                /// Actual time of visit
+                                ///Actual time of visit
                                 CommonWidgets.textDisplay(
                                     Constants.actualtimeofvisit,
                                     Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
+                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 datepickerWidgetLoading(
-                                    actualdateTextController),
+                                    actualDateTextController),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -297,8 +291,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 CommonWidgets.textDisplay(
                                     Constants.officialsidcardverified,
                                     Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                radioButtonHandling(
+                                isMandatory: true),radioButtonHandling(
                                     state.isOfficialIdcardSelected ?? 1,
                                     Constants.officialsidcardverified),
 
@@ -306,9 +299,9 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 CommonWidgets.textDisplay(
                                     Constants.purposeofvsit,
                                     Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
+                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
+
                                 purposeofvisitaddButtonwidgetLoading(state),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
@@ -317,8 +310,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 CommonWidgets.textDisplay(
                                     Constants.documentifanytoconfirmpurpose,
                                     Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                radioButtonHandling(
+                                isMandatory: true),radioButtonHandling(
                                     state.isDocumentifanySelected ?? 1,
                                     Constants.documentifanytoconfirmpurpose),
 
@@ -327,8 +319,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                     Constants
                                         .incaseofpolicewasofficialinuniform,
                                     Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                radioButtonHandling(
+                                isMandatory: true),radioButtonHandling(
                                     state.isIncaseofpoliceSelected ?? 1,
                                     Constants
                                         .incaseofpolicewasofficialinuniform),
@@ -337,11 +328,10 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 CommonWidgets.textDisplay(
                                     Constants.dbofficialwanttomeet,
                                     Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
+                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 textfieldWidgetLoad(
-                                    dbofficailwanttimeetTextController,
+                                    dbOfficailWanttimeetTextController,
                                     0,
                                     state),
 
@@ -349,21 +339,21 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 CommonWidgets.textDisplay(
                                     Constants.dbofficialdepartment,
                                     Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
+                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
+
                                 dbwanttodepartmentaddButtonwidgetLoading(state),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
-                                /// DB Official email ID Accompanied LEO official'
+                                ///DB Official email ID Accompanied LEO official'
                                 CommonWidgets.textDisplay(
                                     Constants
                                         .dbofficialemailidaccompaniedleoofficial,
                                     Styles.textStyleBlack14,
-                                    isMandatory: true),
-                                CommonWidgets.verticalSpacerWidget(
+                                isMandatory: true),CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
+
                                 dbofficialemailidaddButtonwidgetLoading(state),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
@@ -375,7 +365,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 textfieldWidgetLoad(
-                                  additionalinformationTextController,
+                                  additionalInformationTextController,
                                   0,
                                   state,
                                 ),
@@ -399,8 +389,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                   CommonWidgets.textDisplay(
                                       Constants.visitingofficialdetails,
                                       Styles.textStyleDarkGrey16,
-                                      isMandatory: true),
-                                  CommonWidgets.verticalSpacerWidget(
+                                  isMandatory: true),CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
                                   //
                                   // // name
@@ -724,15 +713,15 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     if (widget.model != null) {
       await SharedPrefs.setFoundId(widget.model?.id ?? 0);
 
-      additionalinformationTextController.text =
+      additionalInformationTextController.text =
           widget.model?.additionalInformation != null
               ? widget.model?.additionalInformation.toString() ?? ""
               : '';
-      dbofficailwanttimeetTextController.text =
+      dbOfficailWanttimeetTextController.text =
           widget.model?.dbOfficialEmail != null
               ? widget.model?.dbOfficialEmail.toString() ?? ""
               : '';
-      actualdateTextController.text =
+      actualDateTextController.text =
           widget.model?.timeOfVisit != null && widget.model?.timeOfVisit != '0'
               ? Utils.timestamptoDateConversion(
                   int.parse(widget.model?.timeOfVisit ?? '0'),
@@ -817,12 +806,12 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
 
       if ((widget.model?.mailList?.length ?? 0) > 0) {
         //for (int i = 0; i < widget.listuser!.entities!.length; i++) {
-        DistributionGroup entity = widget.model?.mailList != null &&
+        Organisation entity = widget.model?.mailList != null &&
                 (widget.model?.mailList?.length ?? 0) > 0
-            ? DistributionGroup(
+            ? Organisation(
                 id: widget.model?.mailList![0]["groupId"] ?? 0,
                 name: widget.model?.mailList![0]["name"] ?? "")
-            : DistributionGroup();
+            : Organisation();
         // AtomEntity entity = state.listOfEntities![i];
         //   DbOfficialEmailDepartment addentiity =
         // DbOfficialEmailDepartment(id: entity.id ?? 1);
@@ -1057,7 +1046,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       },
       child: FlutterInputField(
         textFieldController: textfiled,
-        textFormKey: textfiled == actualdateTextController
+        textFormKey: textfiled == actualDateTextController
             ? Keys.founddateTextController
             : Keys.handedoverdateTextController,
         hintText: '',
@@ -1105,8 +1094,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
     print(
         formattedDate); //formatted date output using intl package =>  2021-03-16
     //you can implement different kind of Date Format here according to your requirement
-    if (textfield == actualdateTextController) {
-      actualdateTextController.text = formattedDate;
+    if (textfield == actualDateTextController) {
+      actualDateTextController.text = formattedDate;
     }
     setState(() {
       // dateinput.text = formattedDate; //set output date to TextField value.
@@ -1484,9 +1473,9 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
 
   Future createLawEnforcement(
       bool isSubmit, int isFoundId, LawEnforcementState state) async {
-    int actualdate = Utils.datetoTimestampConversion(
-        actualdateTextController.text, Constants.fulldateFormat);
-    int inputdate = Utils.datetoTimestampConversion(
+    int actualdate = Utils.dateToTimestampConversion(
+        actualDateTextController.text, Constants.fulldateFormat);
+    int inputdate = Utils.dateToTimestampConversion(
         dateofcreationTextController.text, Constants.fulldateFormat);
     int statusvalue = 0;
     if (statusTextController.text.toLowerCase() == "draft") {
@@ -1572,13 +1561,13 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
           entities: entities,
-          additionalInformation: additionalinformationTextController.text,
+          additionalInformation: additionalInformationTextController.text,
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
               ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
               : '',
-          dbOfficialEmail: dbofficailwanttimeetTextController.text,
+          dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
           mailList: loadGroups);
     } else {
@@ -1594,13 +1583,13 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
           entities: entities,
-          additionalInformation: additionalinformationTextController.text,
+          additionalInformation: additionalInformationTextController.text,
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail: state.getuserResponse != null
               ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
               : '',
-          dbOfficialEmail: dbofficailwanttimeetTextController.text,
+          dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
           mailList: loadGroups);
     }
@@ -1622,10 +1611,10 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         dateofcreationTextController.text.isEmpty &&
         serialnumber == null &&
         state.listOfEntities == null &&
-        actualdateTextController.text.isEmpty &&
+        actualDateTextController.text.isEmpty &&
         state.leoPurposeVisitResponse == null &&
-        dbofficailwanttimeetTextController.text.isEmpty &&
-        additionalinformationTextController.text.isEmpty &&
+        dbOfficailWanttimeetTextController.text.isEmpty &&
+        additionalInformationTextController.text.isEmpty &&
         state.selectedemployeeDepartmentResponse == null) {
       Validator().showToast(
         context,
@@ -1658,7 +1647,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         context,
         "Please enter entity",
       );
-    } else if (actualdateTextController.text.isEmpty) {
+    } else if (actualDateTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter actual date",
@@ -1669,7 +1658,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         context,
         "Please enter purpose of visit",
       );
-    } else if (dbofficailwanttimeetTextController.text.isEmpty) {
+    } else if (dbOfficailWanttimeetTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter db official want to meet",
@@ -1686,7 +1675,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         context,
         "Please enter db official email id accompanied leo official",
       );
-    } else if (additionalinformationTextController.text.isEmpty) {
+    } else if (additionalInformationTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter additional information",
@@ -1791,15 +1780,17 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       child: ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount:
-              attachmentListviews1?.length ?? attachmentListviews?.length ?? 0,
+          itemCount: (attachmentListviews1?.length ?? 0) >
+                  (attachmentListviews?.length ?? 0)
+              ? attachmentListviews1?.length
+              : attachmentListviews?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
-            CreateImage? imagedata;
-            FoundImage? imagedata1;
+            CreateImage? imageData;
+            FoundImage? imageData1;
             if (widget.model != null) {
-              imagedata1 = attachmentListviews1?[index];
+              imageData1 = attachmentListviews1?[index];
             } else {
-              imagedata = attachmentListviews?[index];
+              imageData = attachmentListviews?[index];
             }
 
             return Column(
@@ -1814,11 +1805,11 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                         ),
                   onTap: () {
                     DownloadImage().saveImage(
-                        context, imagedata1?.id ?? 0, imagedata1?.title ?? '');
+                        context, imageData1?.id ?? 0, imageData1?.title ?? '');
                   },
                   title: widget.model != null
-                      ? Text(imagedata1?.title ?? '')
-                      : Text(imagedata?.title ?? ''),
+                      ? Text(imageData1?.title ?? '')
+                      : Text(imageData?.title ?? ''),
                 ),
 
                 const Divider(
@@ -1833,24 +1824,26 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
 
   distributiongroupsDailog(LawEnforcementState state) {
     showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomListTexts(
-            duplicateloadGroups: state.groups?.distributionGroups ?? [],
-            onTap: (DistributionGroup list) {
-              print(list.name);
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return CustomListTexts(
+          duplicateloadGroups: state.groups?.distributionGroups ?? [],
 
-              distributiongroupsTextController.text = list.name ?? '';
-              lawenforcementCubit.geDistributonData(list);
-            },
-          );
-        });
+          onTap: (Organisation organisation) {
+            log('--organisation.name---${organisation.name}');
+
+            distributiongroupsTextController.text = organisation.name ?? '';
+            lawenforcementCubit.geDistributonData(organisation);
+          },
+        );
+      },
+    );
   }
 
   Widget textfieldWidgetLoad(TextEditingController textController, int index,
       LawEnforcementState state) {
     return FlutterInputField(
-      lineHeight: textController == additionalinformationTextController ? 6 : 1,
+      lineHeight: textController == additionalInformationTextController ? 6 : 1,
       onTap: () {
         if (textController == distributiongroupsTextController) {
           distributiongroupsDailog(state);

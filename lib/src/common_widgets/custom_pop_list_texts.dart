@@ -42,7 +42,7 @@ class CustomListTexts extends StatefulWidget {
   final Function? onTap;
   final Function? onLeftButtonTap;
   final String? leftImageName;
-  List<DistributionGroup>? duplicateloadGroups;
+  List<Organisation>? duplicateloadGroups;
   List<Organisation>? duplicateatomCompanyTypes;
   List<Organisation>? duplicatedayPassReason;
   List<BaseUser>? duplicatet1Analyst;
@@ -64,7 +64,7 @@ class CustomListTextsState extends State<CustomListTexts> {
   List<BaseUser> depostorList = [];
   List<Organisation> leodepartments = [];
   List<Organisation> leopurposevisits = [];
-  List<DistributionGroup> loadGroups = [];
+  List<Organisation> loadGroups = [];
   List<Organisation> companyTypes = [];
   List<Organisation> dayPassReason = [];
   List<BaseUser> t1analysts = [];
@@ -748,7 +748,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateloadGroups != null) {
-              DistributionGroup? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && loadGroups.isNotEmpty)) {
                 articleItem = loadGroups[index];
               } else {
