@@ -1482,9 +1482,9 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
 
   Future createLawEnforcement(bool isSubmit, int isFoundId,
       LawEnforcementState state) async {
-    int actualdate = Utils.datetoTimestampConversion(
+    int actualdate = Utils.dateToTimestampConversion(
         actualdateTextController.text, Constants.fulldateFormat);
-    int inputdate = Utils.datetoTimestampConversion(
+    int inputdate = Utils.dateToTimestampConversion(
         dateofcreationTextController.text, Constants.fulldateFormat);
     int statusvalue = 0;
     if (statusTextController.text.toLowerCase() == "draft") {

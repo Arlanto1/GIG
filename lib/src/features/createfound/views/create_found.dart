@@ -239,9 +239,9 @@ class _CreateFoundState extends State<CreateFound> {
     //   statusValue = 2;
     // }
 
-    int foundDate = Utils.datetoTimestampConversion(
+    int foundDate = Utils.dateToTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
-    int inputDate = Utils.datetoTimestampConversion(
+    int inputDate = Utils.dateToTimestampConversion(
         dateofcreationTextController.text, Constants.fulldateFormat);
     Map<String, dynamic> entrySecurityBody = {
       "userId": userDetails?.userId ?? 0,
@@ -291,7 +291,7 @@ class _CreateFoundState extends State<CreateFound> {
       "depositorDepartment": depositorDeptBody,
       "depositor": depositorBody,
       "eventProtection": widget.eventId,
-      "images": getFiles ?? []
+      "images": getFiles
     };
     Map<String, dynamic> requestBody = {
       "found": foundBody,
@@ -308,11 +308,11 @@ class _CreateFoundState extends State<CreateFound> {
 
   Future createRequestBody(bool isSubmit, int isFoundId) async {
     log('-createRequestBody-----');
-    int foundDate = Utils.datetoTimestampConversion(
+    int foundDate = Utils.dateToTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
-    int inputDate = Utils.datetoTimestampConversion(
+    int inputDate = Utils.dateToTimestampConversion(
         dateofcreationTextController.text, Constants.fulldateFormat);
-    int handoverDate = Utils.datetoTimestampConversion(
+    int handoverDate = Utils.dateToTimestampConversion(
         handedoverdatedateTextController.text, Constants.fulldateFormat);
     var username = await SharedPrefs.getUsername();
     bool isDepositorDBEmployeeSelectedValue =
@@ -724,7 +724,6 @@ class _CreateFoundState extends State<CreateFound> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    final width = size.width;
     return Scaffold(
         appBar: AppHeader(
           isTitleCenter: false,
@@ -1500,8 +1499,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                       return UploadAttachment(
                                                         userdetails:
                                                             userDetails,
-                                                        getFiles:
-                                                            getFiles ?? [],
+                                                        getFiles: getFiles,
                                                         createoundstate: state,
                                                       );
                                                     });
@@ -1534,10 +1532,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   )
                                 : Container(),
 
-                            getAttachments != null ||
-                                    getFiles != null ||
-                                    getFiles.isNotEmpty ||
-                                    getAttachments.isNotEmpty
+                            getFiles.isNotEmpty || getAttachments.isNotEmpty
                                 ? CommonWidgets.verticalSpacerWidget(
                                     height * 0.01)
                                 : Container(),
@@ -1547,7 +1542,6 @@ class _CreateFoundState extends State<CreateFound> {
                                     : attachmentListviews(
                                         getFiles, getAttachments)
                                 : attachmentListviews(getFiles, getAttachments),
-
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             if (widget.model?.status != 2) ...[
                               Row(
@@ -1566,6 +1560,20 @@ class _CreateFoundState extends State<CreateFound> {
                 ])));
           },
         ));
+  }
+
+  Widget getSpaceattchment(double height) {
+    return getFiles.isNotEmpty || getAttachments.isNotEmpty
+        ? CommonWidgets.verticalSpacerWidget(height * 0.01)
+        : Container();
+  }
+
+  Widget getAttachement(double height) {
+    return (getAttachments.isEmpty || widget.model == null)
+        ? getFiles.isEmpty
+            ? Container()
+            : attachmentListviews(getFiles, getAttachments)
+        : attachmentListviews(getFiles, getAttachments);
   }
 
   Widget submitButtonDisplay() {
@@ -1807,45 +1815,47 @@ class _CreateFoundState extends State<CreateFound> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount:
-              attachmentListviews1?.length ?? attachmentListviews?.length ?? 0,
-          itemBuilder: (BuildContext context, int index) {
-            CreateImage? imagedata;
-            FoundImage? imagedata1;
-            if (widget.model != null) {
-              imagedata1 = attachmentListviews1?[index];
-            } else {
-              imagedata = attachmentListviews?[index];
-            }
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: (attachmentListviews1?.length ?? 0) >
+                (attachmentListviews?.length ?? 0)
+            ? attachmentListviews1?.length
+            : attachmentListviews?.length ?? 0,
+        itemBuilder: (BuildContext context, int index) {
+          CreateImage? imageData;
+          FoundImage? imageData1;
+          if (widget.model != null) {
+            imageData1 = attachmentListviews1?[index];
+          } else {
+            imageData = attachmentListviews?[index];
+          }
+          return Column(
+            children: <Widget>[
+              ListTile(
+                trailing: widget.model != null
+                    ? SvgPicture.asset(AppIcon.download,
+                        color: AppColors.boldgreyBackground)
+                    : const SizedBox(
+                        height: 0,
+                        width: 0,
+                      ),
+                onTap: () {
+                  DownloadImage().saveImage(
+                      context, imageData1?.id ?? 0, imageData1?.title ?? '');
+                },
+                title: widget.model != null
+                    ? Text(imageData1?.title ?? '')
+                    : Text(imageData?.title ?? ''),
+              ),
 
-            return Column(
-              children: <Widget>[
-                ListTile(
-                  trailing: widget.model != null
-                      ? SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground)
-                      : const SizedBox(
-                          height: 0,
-                          width: 0,
-                        ),
-                  onTap: () {
-                    DownloadImage().saveImage(
-                        context, imagedata1?.id ?? 0, imagedata1?.title ?? '');
-                  },
-                  title: widget.model != null
-                      ? Text(imagedata1?.title ?? '')
-                      : Text(imagedata?.title ?? ''),
-                ),
-
-                const Divider(
-                  color: Color(0xFFCACACA),
-                  thickness: 1,
-                ), //                           <-- Divider
-              ],
-            );
-          }),
+              const Divider(
+                color: Color(0xFFCACACA),
+                thickness: 1,
+              ), //
+            ],
+          );
+        },
+      ),
     );
   }
 }
