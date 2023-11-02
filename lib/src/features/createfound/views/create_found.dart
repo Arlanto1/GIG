@@ -452,75 +452,6 @@ class _CreateFoundState extends State<CreateFound> {
     });
   }
 
-  // createdraftValidations(BuildContext context) {
-  //   if ((locationSelectedlist?.name ?? "").isEmpty) {
-  //     Validator().showToast(
-  //       context,
-  //       "Please enter location",
-  //     );
-  //   } else if ((selectedArtclelist?.name ?? "").isEmpty) {
-  //     Validator().showToast(
-  //       context,
-  //       "Please enter article name",
-  //     );
-  //   } else if (isDepositorDBEmployeeSelected == 0 &&
-  //       depositorTextController.text.isEmpty) {
-  //     Validator().showToast(context, "Please enter depositor");
-  //   } else if (isDepositorDBEmployeeSelected == 1 &&
-  //       (((selecteddepositorList?.name ?? "").isEmpty) ||
-  //           (depositorEmpIdTextController.text.isEmpty) ||
-  //           ((selectedEmployeedepartment?.name ?? "").isEmpty))) {
-  //     if ((selecteddepositorList?.name ?? "").isEmpty) {
-  //       Validator().showToast(
-  //         context,
-  //         "Please enter depositor",
-  //       );
-  //     } else if (depositorEmpIdTextController.text.isEmpty) {
-  //       Validator().showToast(
-  //         context,
-  //         "Please enter depositor employee id",
-  //       );
-  //     } else if ((selectedEmployeedepartment?.name ?? "").isEmpty) {
-  //       Validator().showToast(
-  //         context,
-  //         "Please enter employee department",
-  //       );
-  //     }
-  //   } else {
-  //     //createNewuserBody(true, widget.listuser?.id ?? 0);
-  //     if (widget.listuser != null) {
-  //       if (isClaimantDBEmployeeSelected == 1 &&
-  //           ((claimant.isEmpty) ||
-  //               (claimantEmpIdTextController.text.isEmpty) ||
-  //               ((selectedClaimdepartment?.name ?? '').isEmpty))) {
-  //         if (claimant.isEmpty) {
-  //           Validator().showToast(
-  //             context,
-  //             "Please enter claimant",
-  //           );
-  //         } else if (claimantEmpIdTextController.text.isEmpty) {
-  //           Validator().showToast(
-  //             context,
-  //             "Please enter claimant employee id",
-  //           );
-  //         } else if ((selectedClaimdepartment?.name ?? '').isEmpty) {
-  //           Validator().showToast(
-  //             context,
-  //             "Please enter claimant department",
-  //           );
-  //         }
-  //       } else if (isClaimantDBEmployeeSelected == 0 &&
-  //           claimantTextController.text.isEmpty) {
-  //         Validator().showToast(context, "Please enter claim");
-  //       } else {
-  //         createNewuserBody(true, widget.listuser?.id ?? 0);
-  //       }
-  //     } else {
-  //       createFoundBody(false, widget.listuser?.id ?? 0);
-  //     }
-  //   }
-  // }
-
   createFoundValidations(BuildContext context) {
     if (statusTextController.text.isEmpty &&
         createdByValue.isEmpty &&
@@ -634,11 +565,11 @@ class _CreateFoundState extends State<CreateFound> {
               "Please enter claimant department",
             );
           }
-        } else if (widget.model?.status != 0 && isClaimantDBEmployeeSelected == 0 &&
+        } else if (widget.model?.status != 0 &&
+            isClaimantDBEmployeeSelected == 0 &&
             claimantTextController.text.isEmpty) {
-
           log('--isClaimantDBEmployeeSelected--$isClaimantDBEmployeeSelected-------');
-          if(claimant.isEmptyOrNull) {
+          if (claimant.isEmptyOrNull) {
             Validator().showToast(context, "Please enter claim");
           }
         } else {
@@ -718,23 +649,6 @@ class _CreateFoundState extends State<CreateFound> {
       // dateinput.text = formattedDate; //set output date to TextField value.
     });
   }
-
-  // colorDailog() {
-  //   showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return CustomSimpleListTexts(
-  //           texts: const ["Red", "Yellow", "White", "Black", "Orange"],
-  //           onTap: (String value) {
-  //             print(value);
-  //             colorTextController.text = value;
-  //             FocusScope.of(context).unfocus();
-  //             colorTextController.clear;
-  //             setState(() {});
-  //           },
-  //         );
-  //       });
-  // }
 
   depositorDialog(CreateFoundState state, String name) {
     showDialog(
@@ -941,9 +855,10 @@ class _CreateFoundState extends State<CreateFound> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // Status
+                            /// Status
                             CommonWidgets.textDisplay(
-                                Constants.status, Styles.textStyleBlack14),
+                                Constants.status, Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               isEnable: false,
@@ -974,40 +889,45 @@ class _CreateFoundState extends State<CreateFound> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            //created by
+                            ///created by
 
                             CommonWidgets.horizentaltextHandling(
                                 Constants.createdby,
+                                isMandatory: true,
                                 '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
 
                             // ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // Location
+                            /// Location
 
                             CommonWidgets.textDisplay(
-                                Constants.location, Styles.textStyleBlack14),
+                                Constants.location, Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             locationWidgetdislay(state),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // date of creation
+                            /// date of creation
                             CommonWidgets.textDisplay(Constants.dateofcreation,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             datecreateWidgetdisplay(),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // slno
+                            /// slno
 
                             CommonWidgets.horizentaltextHandling(
-                                Constants.slno, serialNumber),
+                                Constants.slno, serialNumber,
+                                isMandatory: true),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // asset type
+                            /// asset type
                             CommonWidgets.textDisplay(
-                                Constants.assettype, Styles.textStyleBlack14),
+                                Constants.assettype, Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             GestureDetector(
                               onTap: () {
@@ -1048,24 +968,27 @@ class _CreateFoundState extends State<CreateFound> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // article type
+                            /// article type
                             CommonWidgets.textDisplay(
-                                Constants.articleType, Styles.textStyleBlack14),
+                                Constants.articleType, Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             articleaddButtonwidgetLoading(state),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // found date
+                            /// found date
                             CommonWidgets.textDisplay(
-                                Constants.founddate, Styles.textStyleBlack14),
+                                Constants.founddate, Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             datepickerWidgetLoading(foundDateTextController),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // found location
+                            /// found location
 
                             CommonWidgets.textDisplay(Constants.foundlocation,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
@@ -1086,7 +1009,7 @@ class _CreateFoundState extends State<CreateFound> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // additional information
+                            /// additional information
                             CommonWidgets.textDisplay(
                                 Constants.additionalinformation,
                                 Styles.textStyleBlack14),
@@ -1112,36 +1035,10 @@ class _CreateFoundState extends State<CreateFound> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // // quantitiy
-                            // CommonWidgets.textDisplay(
-                            //     Constants.quantity, Styles.textStyleBlack14),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            // FlutterInputField(
-                            //   keyboardType: TextInputType.number,
-                            //   textFieldController: quantityTextController,
-                            //   textFormKey: Keys.quantityTextController,
-                            //   hintText: '',
-                            //   isEnable: widget.listuser == null
-                            //       ? true
-                            //       : (widget.listuser != null &&
-                            //               (widget.listuser?.quantity == null))
-                            //           ? false
-                            //           : true,
-                            //   isDisableColor: (widget.listuser != null &&
-                            //           (widget.listuser?.quantity != null))
-                            //       ? true
-                            //       : false,
-                            //   onChange: (String username) {
-                            //     //this.username = username;
-                            //     setState(() {});
-                            //   },
-                            //   validateTextField: (String? user) {},
-                            // ),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            // quantitiy
+                            /// quantitiy
                             CommonWidgets.textDisplay(
-                                Constants.quantity, Styles.textStyleBlack14),
+                                Constants.quantity, Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.number,
@@ -1162,9 +1059,10 @@ class _CreateFoundState extends State<CreateFound> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // color
+                            /// color
                             CommonWidgets.textDisplay(
-                                Constants.colour, Styles.textStyleBlack14),
+                                Constants.colour, Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               textFieldController: colorTextController,
@@ -1188,7 +1086,8 @@ class _CreateFoundState extends State<CreateFound> {
                             /// is Depositor DBEmployee
                             CommonWidgets.textDisplay(
                                 Constants.isdepositordbemployee,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
                             radioButtonHandling(isDepositorDBEmployeeSelected,
                                 Constants.isdepositordbemployee,
                                 isDisableColor: (widget.model?.status == null ||
@@ -1198,9 +1097,10 @@ class _CreateFoundState extends State<CreateFound> {
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // depositor
+                            /// depositor
                             CommonWidgets.textDisplay(
-                                Constants.depositor, Styles.textStyleBlack14),
+                                Constants.depositor, Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             isDepositorDBEmployeeSelected == 1
                                 ? TextfieldAddButton(
@@ -1242,7 +1142,8 @@ class _CreateFoundState extends State<CreateFound> {
                             isDepositorDBEmployeeSelected == 1
                                 ? CommonWidgets.textDisplay(
                                     Constants.depositoremployeeid,
-                                    Styles.textStyleBlack14)
+                                    Styles.textStyleBlack14,
+                                    isMandatory: true)
                                 : Container(),
                             isDepositorDBEmployeeSelected == 1
                                 ? CommonWidgets.verticalSpacerWidget(
@@ -1279,7 +1180,8 @@ class _CreateFoundState extends State<CreateFound> {
                             isDepositorDBEmployeeSelected == 1
                                 ? CommonWidgets.textDisplay(
                                     Constants.employeedepartment,
-                                    Styles.textStyleBlack14)
+                                    Styles.textStyleBlack14,
+                                    isMandatory: true)
                                 : Container(),
                             isDepositorDBEmployeeSelected == 1
                                 ? CommonWidgets.verticalSpacerWidget(
@@ -1315,7 +1217,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   ? CommonWidgets.textDisplay(
                                       Constants.isclaimantdbemployee,
                                       Styles.textStyleBlack14,
-                                    )
+                                      isMandatory: true)
                                   : Container(),
                               widget.model != null
                                   ? radioButtonHandling(
@@ -1329,7 +1231,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   ? CommonWidgets.textDisplay(
                                       Constants.claimant,
                                       Styles.textStyleBlack14,
-                                    )
+                                      isMandatory: true)
                                   : Container(),
                               widget.model != null &&
                                       isClaimantDBEmployeeSelected == 0
@@ -1394,7 +1296,8 @@ class _CreateFoundState extends State<CreateFound> {
                                       isClaimantDBEmployeeSelected == 1
                                   ? CommonWidgets.textDisplay(
                                       Constants.claimantemployeeid,
-                                      Styles.textStyleBlack14)
+                                      Styles.textStyleBlack14,
+                                      isMandatory: true)
                                   : Container(),
                               widget.model != null &&
                                       isClaimantDBEmployeeSelected == 1
@@ -1443,7 +1346,8 @@ class _CreateFoundState extends State<CreateFound> {
                                       isClaimantDBEmployeeSelected == 1
                                   ? CommonWidgets.textDisplay(
                                       Constants.claimantdepartment,
-                                      Styles.textStyleBlack14)
+                                      Styles.textStyleBlack14,
+                                      isMandatory: true)
                                   : Container(),
                               isClaimantDBEmployeeSelected == 1
                                   ? CommonWidgets.verticalSpacerWidget(
@@ -1480,7 +1384,8 @@ class _CreateFoundState extends State<CreateFound> {
                                       isClaimantDBEmployeeSelected == 1
                                   ? CommonWidgets.textDisplay(
                                       Constants.isclaimantacceptedbyemail,
-                                      Styles.textStyleBlack14)
+                                      Styles.textStyleBlack14,
+                                      isMandatory: true)
                                   : Container(),
                               widget.model != null &&
                                       isClaimantDBEmployeeSelected == 1
@@ -1495,7 +1400,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   ? CommonWidgets.textDisplay(
                                       Constants.isclaimantacceptedtosign,
                                       Styles.textStyleBlack14,
-                                    )
+                                      isMandatory: true)
                                   : Container(),
                               widget.model != null
                                   ? radioButtonHandling(
@@ -1503,41 +1408,42 @@ class _CreateFoundState extends State<CreateFound> {
                                       Constants.isclaimantacceptedtosign)
                                   : Container(),
 
-                              //TODO: Need to work on signature
+                              ///TODO: Need to work on signature
                               /// Claimant Signature
-                              // widget.model != null &&
-                              //         isClaimantAcceptedtoSignSelected == 1
-                              //     ? CommonWidgets.textDisplay(
-                              //         Constants.claimantsignature,
-                              //         Styles.textStyleBlack14)
-                              //     : Container(),
-                              // widget.model != null &&
-                              //         isClaimantAcceptedtoSignSelected == 1
-                              //     ? CommonWidgets.verticalSpacerWidget(
-                              //         height * 0.001)
-                              //     : Container(),
-                              // widget.model != null &&
-                              //         isClaimantAcceptedtoSignSelected == 1
-                              //     ? FlutterInputField(
-                              //         lineHeight: 6,
-                              //         textFieldController:
-                              //             claimantsignatureTextController,
-                              //         isEnable: false,
-                              //         textFormKey:
-                              //             Keys.claimantsignatureTextController,
-                              //         isDisableColor: true,
-                              //         hintText: '',
-                              //         onChange: (String username) {
-                              //           //this.username = username;
-                              //           setState(() {});
-                              //         },
-                              //         validateTextField: (String? user) {},
-                              //       )
-                              //     : Container(),
-                              // widget.model != null
-                              //     ? CommonWidgets.verticalSpacerWidget(
-                              //         height * 0.01)
-                              //     : Container(),
+                              widget.model != null &&
+                                      isClaimantAcceptedtoSignSelected == 1
+                                  ? CommonWidgets.textDisplay(
+                                      Constants.claimantsignature,
+                                      Styles.textStyleBlack14,
+                                      isMandatory: true)
+                                  : Container(),
+                              widget.model != null &&
+                                      isClaimantAcceptedtoSignSelected == 1
+                                  ? CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001)
+                                  : Container(),
+                              widget.model != null &&
+                                      isClaimantAcceptedtoSignSelected == 1
+                                  ? FlutterInputField(
+                                      lineHeight: 6,
+                                      textFieldController:
+                                          claimantsignatureTextController,
+                                      isEnable: false,
+                                      textFormKey:
+                                          Keys.claimantsignatureTextController,
+                                      isDisableColor: true,
+                                      hintText: '',
+                                      onChange: (String username) {
+                                        //this.username = username;
+                                        setState(() {});
+                                      },
+                                      validateTextField: (String? user) {},
+                                    )
+                                  : Container(),
+                              widget.model != null
+                                  ? CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01)
+                                  : Container(),
                             ],
 
                             /// Item Handover By
@@ -1545,16 +1451,17 @@ class _CreateFoundState extends State<CreateFound> {
                               widget.model?.status == 2
                                   ? CommonWidgets.horizentaltextHandling(
                                       Constants.itemhandoverby,
-                                      itemhandoverByValue)
+                                      itemhandoverByValue,
+                                      isMandatory: true)
                                   : Container(),
 
-                              // Handed over date
+                              /// Handed over date
 
                               widget.model != null
                                   ? CommonWidgets.textDisplay(
                                       Constants.handedoverdate,
                                       Styles.textStyleBlack14,
-                                    )
+                                      isMandatory: true)
                                   : Container(),
                               widget.model != null
                                   ? CommonWidgets.verticalSpacerWidget(
