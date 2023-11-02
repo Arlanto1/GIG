@@ -154,7 +154,7 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
               ],
             ),
           ],
-          if (widget.userItem?.claimantName != null) ...[
+          if (widget.userItem?.claimantName != null && widget.userItem?.status ==1) ...[
             CommonWidgets.verticalSpacerWidget(8),
             Row(
               children: [
