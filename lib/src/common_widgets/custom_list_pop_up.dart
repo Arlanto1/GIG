@@ -172,7 +172,7 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
                   widget.userItem?.handoverDate != null
                       ? Utils.timestamptoDateConversion(
                           int.parse(widget.userItem?.handoverDate ?? '0'),
-                          Constants.dateFormat)
+                          Constants.fulldateFormat)
                       : ''),
             ],
           ),
