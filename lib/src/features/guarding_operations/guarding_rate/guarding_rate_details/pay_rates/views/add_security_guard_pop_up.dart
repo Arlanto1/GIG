@@ -90,7 +90,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                     children: <Widget>[
                       /// Monthly Cost
                       CommonWidgets.textDisplay(
-                        Constants.monthlyCost,
+                        Constants.monthlyCost,isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -120,7 +120,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
 
                       /// Days
                       CommonWidgets.textDisplay(
-                        Constants.days,
+                        Constants.days,isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -151,7 +151,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
 
                       /// Per Hour
                       CommonWidgets.textDisplay(
-                        Constants.perHour,
+                        Constants.perHour,isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -173,7 +173,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
 
                       /// From Date
                       CommonWidgets.textDisplay(
-                        Constants.fromDate,
+                        Constants.fromDate,isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -193,7 +193,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
 
                       /// To Date
                       CommonWidgets.textDisplay(
-                        Constants.toDate,
+                        Constants.toDate,isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -222,6 +222,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                         lineHeight: 6,
                         textFormKey: Keys.commentKey,
                         hintText: '',
+                        showBorder: true,
                         isEnable: true,
                         isDisableColor: false,
                         onChange: (String value) {

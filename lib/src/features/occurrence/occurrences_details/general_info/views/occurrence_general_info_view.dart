@@ -192,7 +192,9 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
 
                               /// Status
                               CommonWidgets.textDisplay(
-                                  Constants.status, Styles.textStyleBlack14),
+                                  Constants.status,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               CommonWidgets.verticalSpacerWidget(
@@ -232,14 +234,16 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Shift Handover By
-                              CommonWidgets.verticalTextHandling(
+                              CommonWidgets.horizentaltextHandling(
                                   Constants.shiftHandoverBy,
+                                  isMandatory: true,
                                   '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Shift Taken Over by
                               CommonWidgets.textDisplay(
                                 Constants.shiftTakenOverBy,
+                                isMandatory: true,
                                 Styles.textStyleBlack14,
                               ),
                               TextfieldAddButton(
@@ -266,7 +270,9 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
 
                               /// Location
                               CommonWidgets.textDisplay(
-                                  Constants.location, Styles.textStyleBlack14),
+                                  Constants.location,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               locationWidgetdislay(
@@ -291,6 +297,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               /// Date of creation
                               CommonWidgets.textDisplay(
                                   Constants.dateofcreation,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -300,12 +307,15 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
 
                               /// Sl No.
                               CommonWidgets.horizentaltextHandling(
-                                  Constants.slno, state.model.slNo ?? ''),
+                                  Constants.slno,
+                                  isMandatory: true,
+                                  state.model.slNo ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               ///Shift Briefing Attended
                               CommonWidgets.textDisplay(
                                   Constants.shiftBriefingAttended,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
@@ -339,6 +349,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               ///premises Round Taken
                               CommonWidgets.textDisplay(
                                   Constants.premisesRoundTaken,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
@@ -396,6 +407,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               ///Medical Emergency
                               CommonWidgets.textDisplay(
                                   Constants.medicalEmergency,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
@@ -450,6 +462,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               ///Material Movement
                               CommonWidgets.textDisplay(
                                   Constants.materialMovement,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
@@ -482,7 +495,9 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
 
                               ///LEO Visit
                               CommonWidgets.textDisplay(
-                                  Constants.lEOVisit, Styles.textStyleBlack14),
+                                  Constants.lEOVisit,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue: state.model.leoVisit ? 1 : 0,
@@ -512,6 +527,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               ///Social Engineering Incidents
                               CommonWidgets.textDisplay(
                                   Constants.socialEngineeringIncidents,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
@@ -569,6 +585,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               ///Found Article Transaction
                               CommonWidgets.textDisplay(
                                   Constants.foundArticleTransaction,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
@@ -604,6 +621,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               ///Process Breach Incident
                               CommonWidgets.textDisplay(
                                   Constants.processBreachIncident,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
@@ -680,6 +698,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               ///Any Infrastructural Issue
                               CommonWidgets.textDisplay(
                                   Constants.anyInfrastructuralIssue,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
@@ -732,6 +751,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               ///Any Suspicious Activity
                               CommonWidgets.textDisplay(
                                   Constants.anySuspiciousActivity,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
@@ -810,6 +830,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               ///Fire Alarm Emergency Occurred
                               CommonWidgets.textDisplay(
                                   Constants.fireAlarmEmergencyOccurred,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
@@ -865,7 +886,9 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               ],
 
                               ///Landlord Issue
-                              CommonWidgets.textDisplay(Constants.landlordIssue,
+                              CommonWidgets.textDisplay(
+                                  Constants.landlordIssue,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
@@ -920,6 +943,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               ///Security System Failure Incidents
                               CommonWidgets.textDisplay(
                                   Constants.securitySystemFailureIncidents,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
@@ -994,6 +1018,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               ///Any System Alarm Received
                               CommonWidgets.textDisplay(
                                   Constants.anySystemAlarmReceived,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
@@ -1048,6 +1073,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               ///Transport Incident
                               CommonWidgets.textDisplay(
                                   Constants.transportIncident,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
@@ -1103,7 +1129,9 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
 
                               ///Any Event
                               CommonWidgets.textDisplay(
-                                  Constants.anyEvent, Styles.textStyleBlack14),
+                                  Constants.anyEvent,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue: state.model.anyEvent ? 1 : 0,
@@ -1155,7 +1183,9 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               ],
 
                               ///Power Failure
-                              CommonWidgets.textDisplay(Constants.powerFailure,
+                              CommonWidgets.textDisplay(
+                                  Constants.powerFailure,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
@@ -1231,7 +1261,9 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     height * 0.01),
 
                                 ///DG Working
-                                CommonWidgets.textDisplay(Constants.dgWrking,
+                                CommonWidgets.textDisplay(
+                                    Constants.dgWrking,
+                                    isMandatory: true,
                                     Styles.textStyleBlack14),
                                 RadioButtonsYesNo(
                                     status: state.model.status ?? 0,
@@ -1263,6 +1295,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               ///ATM Vendor Visit
                               CommonWidgets.textDisplay(
                                   Constants.aTMVendorVisit,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
@@ -1294,7 +1327,9 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
 
                               ///CWM Visit
                               CommonWidgets.textDisplay(
-                                  Constants.cWMVisit, Styles.textStyleBlack14),
+                                  Constants.cWMVisit,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue: state.model.cwmVisit ? 1 : 0,
@@ -1323,7 +1358,9 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
 
                               /// Follow up actions for next shift
                               CommonWidgets.textDisplay(
-                                  Constants.followUp, Styles.textStyleBlack14),
+                                  Constants.followUp,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
                               FlutterInputField(
                                 lineHeight: 6,
                                 initialValue: state.model.comments,
@@ -1343,7 +1380,9 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               ///Followed Up
-                              CommonWidgets.textDisplay(Constants.followedUp,
+                              CommonWidgets.textDisplay(
+                                  Constants.followedUp,
+                                  isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,

@@ -34,6 +34,7 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:signature/signature.dart';
 
 import '../../../common_widgets/app_button.dart';
 import '../../../models/base_user.dart';
@@ -68,8 +69,6 @@ class _CreateFoundState extends State<CreateFound> {
   TextEditingController claimantEmpIdTextController = TextEditingController();
   TextEditingController additionalinformationTextController =
       TextEditingController();
-  TextEditingController claimantsignatureTextController =
-      TextEditingController();
   TextEditingController foundDateTextController = TextEditingController();
   TextEditingController handedoverdatedateTextController =
       TextEditingController();
@@ -97,6 +96,8 @@ class _CreateFoundState extends State<CreateFound> {
   SerialNumberModel? serialnumberResponse;
   List<CreateImage> getFiles = [];
   List<FoundImage> getAttachments = [];
+
+  SignatureController claimantSignature = SignatureController();
 
   @override
   void initState() {
@@ -1398,40 +1399,46 @@ class _CreateFoundState extends State<CreateFound> {
 
                               ///TODO: Need to work on signature
                               /// Claimant Signature
-                              widget.model != null &&
-                                      isClaimantAcceptedtoSignSelected == 1
-                                  ? CommonWidgets.textDisplay(
-                                      Constants.claimantsignature,
-                                      Styles.textStyleBlack14,
-                                      isMandatory: true)
-                                  : Container(),
-                              widget.model != null &&
-                                      isClaimantAcceptedtoSignSelected == 1
-                                  ? CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001)
-                                  : Container(),
-                              widget.model != null &&
-                                      isClaimantAcceptedtoSignSelected == 1
-                                  ? FlutterInputField(
-                                      lineHeight: 6,
-                                      textFieldController:
-                                          claimantsignatureTextController,
-                                      isEnable: false,
-                                      textFormKey:
-                                          Keys.claimantsignatureTextController,
-                                      isDisableColor: true,
-                                      hintText: '',
-                                      onChange: (String username) {
-                                        //this.username = username;
-                                        setState(() {});
-                                      },
-                                      validateTextField: (String? user) {},
-                                    )
-                                  : Container(),
-                              widget.model != null
-                                  ? CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01)
-                                  : Container(),
+                              // widget.model != null &&
+                              //         isClaimantAcceptedtoSignSelected == 1
+                              //     ? CommonWidgets.textDisplay(
+                              //         Constants.claimantsignature,
+                              //         Styles.textStyleBlack14,
+                              //         isMandatory: true)
+                              //     : Container(),
+                              // widget.model != null &&
+                              //         isClaimantAcceptedtoSignSelected == 1
+                              //     ? CommonWidgets.verticalSpacerWidget(
+                              //         height * 0.001)
+                              //     : Container(),
+                              // widget.model != null &&
+                              //         isClaimantAcceptedtoSignSelected == 1
+                              //     ? FlutterInputField(
+                              //         lineHeight: 6,
+                              //         textFieldController:
+                              //             claimantsignatureTextController,
+                              //         isEnable: false,
+                              //         textFormKey:
+                              //             Keys.claimantsignatureTextController,
+                              //         isDisableColor: true,
+                              //         hintText: '',
+                              //         onChange: (String username) {
+                              //           //this.username = username;
+                              //           setState(() {});
+                              //         },
+                              //         validateTextField: (String? user) {},
+                              //       )
+                              //     : Container(),
+                              // widget.model != null
+                              //     ? CommonWidgets.verticalSpacerWidget(
+                              //         height * 0.01)
+                              //     : Container(),
+                              buildSignature(
+                                controller: claimantSignature,
+                                label: Constants.claimantsignature,
+                                spaceHeight: height,
+                                state: state,
+                              ),
                             ],
 
                             /// Item Handover By
@@ -1572,6 +1579,64 @@ class _CreateFoundState extends State<CreateFound> {
                 ])));
           },
         ));
+  }
+
+  Column buildSignature({
+    required SignatureController controller,
+    required String label,
+    required double spaceHeight,
+    required CreateFoundState state,
+  }) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CommonWidgets.textDisplay(
+              label,
+              Styles.textStyleBlack14,
+            ),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    controller.clear();
+                  },
+                  iconSize: 20,
+                  color: Colors.grey,
+                  icon: const Icon(Icons.refresh),
+                ),
+                // IconButton(
+                //   onPressed: onDoneTap,
+                //   iconSize: 20,
+                //   color: Colors.grey,
+                //   icon: const Icon(Icons.done_outlined),
+                // ),
+              ],
+            ),
+          ],
+        ),
+        CommonWidgets.verticalSpacerWidget(spaceHeight * 0.001),
+        ClipRect(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(2.0),
+              border: Border.all(
+                color: AppColors.gerylightBackground,
+                width: 1, // Border width
+              ),
+            ),
+            height: 100,
+            width: double.infinity,
+            child: Signature(
+              controller: controller,
+              backgroundColor: Colors.white,
+            ),
+          ),
+        ),
+        CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
+      ],
+    );
   }
 
   Widget submitButtonDisplay() {
