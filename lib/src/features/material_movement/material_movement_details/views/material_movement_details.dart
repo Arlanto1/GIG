@@ -398,7 +398,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   CommonWidgets.textDisplay(
                                     Constants.poNumber,
                                     Styles.textStyleBlack14,
-                                   // isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),

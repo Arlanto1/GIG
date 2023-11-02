@@ -10,7 +10,7 @@ class IncidentGeneralInfoState extends Equatable {
   final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
   final AddEntities? getEntitiesResponse;
-  final GetArticleType? getArticleTypeResponse;
+  final List<Organisation> getArticleTypeResponse;
   final List<String>? participationDates;
   final int? eventId;
   final String? message;
@@ -24,7 +24,7 @@ class IncidentGeneralInfoState extends Equatable {
     final List<BaseUser>? emailUsers,
     required final List<Organisation>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
-    required final GetArticleType? getArticleTypeResponse,
+    required final List<Organisation> getArticleTypeResponse,
     required final List<Organisation> departments,
     required String errorMessage,
     required List<CreateImage> loadAttachments,
@@ -115,9 +115,9 @@ class IncidentGeneralInfoState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant Department');
     }
-    // if (model.complainant == null && model.complainantDbEmp == true) {
+    // if (model.typeOfArticle == null) {
     //   return const ErrorResponse(
-    //       status: false, message: 'Please add Complainant');
+    //       status: false, message: 'Please Article Type');
     // }
     if (model.complainantHr == null) {
       return const ErrorResponse(
@@ -167,7 +167,7 @@ class IncidentGeneralInfoState extends Equatable {
     this.listOfEntities,
     required this.departments,
     this.getEntitiesResponse,
-    this.getArticleTypeResponse,
+    required this.getArticleTypeResponse,
     this.participationDates,
     this.eventId,
     this.message,
@@ -179,7 +179,7 @@ class IncidentGeneralInfoState extends Equatable {
     FormStatus? status,
     Incident? model,
     GetLocations? locations,
-    GetArticleType? articleType,
+    List<Organisation>? articleType,
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
@@ -200,6 +200,7 @@ class IncidentGeneralInfoState extends Equatable {
       emailUsers: emailUsers ?? this.emailUsers,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       departments: departments ?? this.departments,
+      getArticleTypeResponse: articleType ?? getArticleTypeResponse,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       participationDates: participationDates ?? this.participationDates,
       eventId: eventId ?? this.eventId,
