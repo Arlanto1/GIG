@@ -2360,7 +2360,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       if (sezpassinfoTextController.text.isEmptyOrNull) {
         Validator().showToast(
           context,
-          "Please enter Sez Pass Number",
+          "Please enter Sez Pass Info",
         );
         return;
       }
@@ -2409,7 +2409,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     log('-passtypeTextController-----${passtypeTextController.text}----');
     log('-sezpassinfoTextController-----${sezpassinfoTextController.text}----');
     log('-mtpApplicationNoTextController-----${mtpApplicationNoTextController.text}----');
-    log('-passCategoryTextController-----${passCategoryTextController.text}----');
+    log('-passCategoryTextController111-----${passCategoryTextController.text}----');
     int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     int passvaliduntildate = (DateTime.now().millisecondsSinceEpoch ~/ 1000) +
         12 * 3600; // Adding 12 hours
@@ -2944,7 +2944,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
     } else if ((widget.passId == '0' ||
             widget.passId == '1' ||
-            widget.passId == '2') &&
+            widget.passId == '2') && ((state.escortedbyhost ?? 0) == 0) &&
         (escortedbyTextController.text.isEmpty)) {
       Validator().showToast(
         context,
@@ -2952,7 +2952,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
     } else if ((widget.passId == '0' ||
             widget.passId == '1' ||
-            widget.passId == '2') &&
+            widget.passId == '2') && ((state.escortedbyhost ?? 0) == 0) &&
         (escortedemployeedidbyTextController.text.isEmpty)) {
       Validator().showToast(
         context,
