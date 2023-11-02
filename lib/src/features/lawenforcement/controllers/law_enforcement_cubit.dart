@@ -298,13 +298,13 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         stateType: LawEnforcementStateType.addattachment));
   }
 
-  Future<void> addingVisitis(
-      int value, List<VisitingOfficialsModel>? getVisits) async {
+  Future<void> addingVisits(
+      {required int visitCount, List<VisitingOfficialsModel>? getVisits}) async {
     //int eventIds = Random.secure().nextInt(5);
     emit(
       state.copyWith(
         getVisits: getVisits,
-        getVisitsCount: value,
+        getVisitsCount: visitCount,
         stateType: LawEnforcementStateType.success,
       ),
     );
