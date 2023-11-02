@@ -31,9 +31,11 @@ import '../cubits/sst_incident_general_info_cubit.dart';
 class SstIncidentGeneralInfoView extends StatefulWidget {
   final bool isInternal;
   final bool viaOccurrence;
+
   const SstIncidentGeneralInfoView({
     super.key,
-    required this.isInternal, required this. viaOccurrence,
+    required this.isInternal,
+    required this.viaOccurrence,
   });
 
   @override
@@ -181,14 +183,17 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Created By
-                            CommonWidgets.verticalTextHandling(
+                            CommonWidgets.horizentaltextHandling(
                                 Constants.createdby,
+                                isMandatory: true,
                                 '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status
                             CommonWidgets.textDisplay(
-                                Constants.status, Styles.textStyleBlack14),
+                                Constants.status,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
                                 isDisabled: state.model.status != 0,
@@ -225,7 +230,9 @@ class _SstIncidentGeneralInfoViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Date of creation
-                            CommonWidgets.textDisplay(Constants.dateofcreation,
+                            CommonWidgets.textDisplay(
+                                Constants.dateofcreation,
+                                isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDate().creationDateDisplay(
@@ -234,7 +241,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Location
                             CommonWidgets.textDisplay(
-                                Constants.location, Styles.textStyleBlack14),
+                                Constants.location,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             locationWidgetdislay(
                                 selectedLocation:
@@ -255,21 +264,23 @@ class _SstIncidentGeneralInfoViewState
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
-                                Constants.slno, state.model.slNo ?? ''),
+                                Constants.slno,
+                                isMandatory: true,
+                                state.model.slNo ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// System
                             CommonWidgets.textDisplay(
-                                Constants.system, Styles.textStyleBlack14),
+                                Constants.system,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled:
-                                state.model.status != 6,
+                                isDisabled: state.model.status != 6,
                                 textController: systemController,
                                 items: systemDropDownValues,
-                                initialValue: state.model.systemSLA
-                                    .toString(),
+                                initialValue: state.model.systemSLA.toString(),
                                 onTap: () {
                                   if (isDisabled) {
                                     BaseDropDown().assetTypeDialog(
@@ -281,25 +292,25 @@ class _SstIncidentGeneralInfoViewState
                                           Label? selectedLabel;
                                           selectedLabel =
                                               systemDropDownValues.firstWhere(
-                                                    (label) => label.key == value,
-                                                orElse: () =>
+                                            (label) => label.key == value,
+                                            orElse: () =>
                                                 const Label(key: '', value: ''),
-                                              );
+                                          );
                                           BlocProvider.of<
-                                              SstIncidentGeneralInfoCubit>(
-                                              context)
+                                                      SstIncidentGeneralInfoCubit>(
+                                                  context)
                                               .updateDropdownValues(
-                                              systemSLA: int.tryParse(
-                                                  selectedLabel.value));
+                                                  systemSLA: int.tryParse(
+                                                      selectedLabel.value));
                                         });
                                   }
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
                             /// Vendor
                             CommonWidgets.textDisplay(
                               Constants.vendor,
+                              isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
                             TextfieldAddButton(
@@ -313,8 +324,8 @@ class _SstIncidentGeneralInfoViewState
                                   departments: state.vendors,
                                   onTap: (Organisation user) {
                                     BlocProvider.of<
-                                        SstIncidentGeneralInfoCubit>(
-                                        context)
+                                                SstIncidentGeneralInfoCubit>(
+                                            context)
                                         .updateDropdownValues(
                                       vendor: user,
                                     );
@@ -324,12 +335,12 @@ class _SstIncidentGeneralInfoViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
                             /// Vendor Poc
-                            CommonWidgets.textDisplay(Constants.vendorPoc,
+                            CommonWidgets.textDisplay(
+                                Constants.vendorPoc,
+                                isMandatory: true,
                                 Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 1,
                               initialValue: state.model.vendorPoc,
@@ -350,6 +361,7 @@ class _SstIncidentGeneralInfoViewState
                             /// System Manager
                             CommonWidgets.textDisplay(
                               Constants.systemManager,
+                              isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
                             TextfieldAddButton(
@@ -377,6 +389,7 @@ class _SstIncidentGeneralInfoViewState
                             /// LSM
                             CommonWidgets.textDisplay(
                               Constants.lsm,
+                              isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
                             TextfieldAddButton(
@@ -404,6 +417,7 @@ class _SstIncidentGeneralInfoViewState
                             /// ASL
                             CommonWidgets.textDisplay(
                               Constants.asl,
+                              isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
                             TextfieldAddButton(
@@ -431,6 +445,7 @@ class _SstIncidentGeneralInfoViewState
                             /// Location Team
                             CommonWidgets.textDisplay(
                               Constants.locationTeam,
+                              isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
                             TextfieldAddButton(
@@ -458,6 +473,7 @@ class _SstIncidentGeneralInfoViewState
                             /// Short Description of Incident
                             CommonWidgets.textDisplay(
                                 Constants.shortIncidentDescription,
+                                isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
@@ -481,6 +497,7 @@ class _SstIncidentGeneralInfoViewState
                             /// Detail Description
                             CommonWidgets.textDisplay(
                                 Constants.detailIncidentDescription,
+                                isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
@@ -503,7 +520,9 @@ class _SstIncidentGeneralInfoViewState
 
                             /// IPB Area
                             CommonWidgets.textDisplay(
-                                Constants.ipbArea, Styles.textStyleBlack14),
+                                Constants.ipbArea,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                               status: state.model.status ?? 0,
                               selectedValue: state.model.ipbArea ? 1 : 0,
