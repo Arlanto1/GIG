@@ -1118,7 +1118,7 @@ class _CreateFoundState extends State<CreateFound> {
                                         depositorTextController,
                                     textFormKey: Keys.depositorTextController,
                                     hintText: '',
-                                    isEnable: widget.model?.status == 0
+                                    isEnable: widget.model?.status == 0 || widget.model == null
                                         ? true
                                         : false,
                                     isDisableColor: widget.model?.status != 0
