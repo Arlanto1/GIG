@@ -575,7 +575,7 @@ class _CreateFoundState extends State<CreateFound> {
           createRequestBody(true, widget.model?.id ?? 0);
         }
       } else {
-        createFoundBody(true, widget.model?.id ?? 0);
+        createRequestBody(true, widget.model?.id ?? 0);
       }
     }
   }
