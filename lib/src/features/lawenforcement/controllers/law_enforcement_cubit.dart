@@ -461,7 +461,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  geDistributonData(DistributionGroup listOfdept) async {
+  geDistributonData(Organisation listOfdept) async {
     try {
       emit(
         state.copyWith(
