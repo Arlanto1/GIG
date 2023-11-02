@@ -450,13 +450,13 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                   //     contactnoTextController2, 0, state),
                                   //
 
-                                  (state.getVisitsCount ?? 0) > 0
+                                  (state.getVisitsCount) > 0
                                       ? listVisitingOfficialDetails(
                                           height,
                                           width,
                                           context,
                                           state,
-                                          state.getVisitsCount ?? 0,
+                                          state.getVisitsCount,
                                         )
                                       : Container(),
                                   widget.model == null
@@ -467,7 +467,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                   /// Add another visiting
                                   GestureDetector(
                                     onTap: () {
-                                      if ((state.getVisitsCount ?? 0) < 10) {
+                                      if ((state.getVisitsCount) < 10) {
                                         manageAddVisitOfficialDetailWidget(
                                             state);
                                       } else {
@@ -569,7 +569,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   }
 
   void manageAddVisitOfficialDetailWidget(LawEnforcementState state) {
-    int visitCount = (state.getVisitsCount ?? 0) + 1;
+    int visitCount = (state.getVisitsCount) + 1;
     List<VisitingOfficialsModel>? getVisits = state.getVisits ?? [];
 
     getVisits.add(VisitingOfficialsModel());
@@ -608,7 +608,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       children: [
         GestureDetector(
           onTap: () {
-            int value = (state.getVisitsCount ?? 0) - 1;
+            int value = (state.getVisitsCount) - 1;
             List<VisitingOfficialsModel>? getVisits1 = state.getVisits ?? [];
             getVisits1.removeAt(index);
             lawenforcementCubit.addingVisits(
@@ -1163,7 +1163,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                               return UploadAttachment(
                                 userdetails:
                                     state.getUserDetailsResponse ?? User(),
-                                getFiles: getFiles ?? [],
+                                getFiles: getFiles,
                                 lawstate: state,
                               );
                             });
@@ -1196,8 +1196,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   }
 
   Widget getSpaceattchment(double height) {
-    return getAttachments != null ||
-            getFiles != null ||
+    return
             getFiles.isNotEmpty ||
             getAttachments.isNotEmpty
         ? CommonWidgets.verticalSpacerWidget(height * 0.01)
