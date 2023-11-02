@@ -229,15 +229,15 @@ class _CreateFoundState extends State<CreateFound> {
 
     bool isDepositorDBEmployeeSelectedValue =
         isDepositorDBEmployeeSelected == 1 ? true : false;
-    int statusValue = 0;
-    if (statusTextController.text.toLowerCase() == "found") {
-      statusValue = 0;
-    } else if (statusTextController.text.toLowerCase() ==
-        "under security custody") {
-      statusValue = 0;
-    } else {
-      statusValue = 2;
-    }
+    // int statusValue = 0;
+    // if (statusTextController.text.toLowerCase() == "found") {
+    //   statusValue = 0;
+    // } else if (statusTextController.text.toLowerCase() ==
+    //     "under security custody") {
+    //   statusValue = 0;
+    // } else {
+    //   statusValue = 2;
+    // }
 
     int foundDate = Utils.datetoTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
@@ -262,7 +262,7 @@ class _CreateFoundState extends State<CreateFound> {
       "id": selectedEmployeedepartment?.id ?? 1,
     };
     Map<String, dynamic> foundBody = {
-      "status": statusValue,
+      "status": widget.model?.status ?? 0,
       "typeOfAsset": assettypeTextController.text.isEmptyOrNull
           ? ((assettypeTextController.text.toLowerCase()) == 'company' ? 1 : 0)
           : null,
@@ -348,15 +348,15 @@ class _CreateFoundState extends State<CreateFound> {
     User? handoverSecurity = User(
         userId: widget.model?.claimant?.userId ??
             widget.model?.handoverSecurity?.userId);
-    int statusValue = 0;
-    if (statusTextController.text.toLowerCase() == "found") {
-      statusValue = 0;
-    } else if (statusTextController.text.toLowerCase() ==
-        "under security custody") {
-      statusValue = 0;
-    } else {
-      statusValue = 2;
-    }
+    // int statusValue = 0;
+    // if (statusTextController.text.toLowerCase() == "found") {
+    //   statusValue = 0;
+    // } else if (statusTextController.text.toLowerCase() ==
+    //     "under security custody") {
+    //   statusValue = 0;
+    // } else {
+    //   statusValue = 2;
+    // }
 
     log('-assettypeTextController.text---${assettypeTextController.text}----');
     log('---condition type assest---${!assettypeTextController.text.isEmptyOrNull ? ((assettypeTextController.text.toLowerCase()) == 'company' ? 1 : 0) : null}----');
@@ -392,7 +392,7 @@ class _CreateFoundState extends State<CreateFound> {
             : 0,
         color:
             colorTextController.text.isNotEmpty ? colorTextController.text : '',
-        status: statusValue,
+        status: widget.model?.status ?? 0,
         depositorDbEmp: isDepositorDBEmployeeSelectedValue,
         inputDate: inputDate,
         foundDate: foundDate,
@@ -441,8 +441,6 @@ class _CreateFoundState extends State<CreateFound> {
   void _getCurrentDate() {
     String formattedDate =
         DateFormat(Constants.fulldateFormat).format(DateTime.now());
-    print(
-        formattedDate); //formatted date output using intl package =>  2021-03-16
     //you can implement different kind of Date Format here according to your requirement
     dateofcreationTextController.text = formattedDate;
     statusTextController.text = 'Found';
@@ -634,11 +632,11 @@ class _CreateFoundState extends State<CreateFound> {
               "Please enter claimant department",
             );
           }
-        } else if (widget.model?.status != 0 && isClaimantDBEmployeeSelected == 0 &&
+        } else if (widget.model?.status != 0 &&
+            isClaimantDBEmployeeSelected == 0 &&
             claimantTextController.text.isEmpty) {
-
           log('--isClaimantDBEmployeeSelected--$isClaimantDBEmployeeSelected-------');
-          if(claimant.isEmptyOrNull) {
+          if (claimant.isEmptyOrNull) {
             Validator().showToast(context, "Please enter claim");
           }
         } else {
@@ -657,7 +655,6 @@ class _CreateFoundState extends State<CreateFound> {
         return CustomSimpleListTexts(
           texts: const ["Personal", "company"],
           onTap: (String value) {
-            print(value);
             assettypeTextController.text = value;
             setState(() {});
           },
@@ -687,7 +684,6 @@ class _CreateFoundState extends State<CreateFound> {
                   });
             },
             onTap: (Organisation list) {
-              print(list.name);
               selectedArtclelist = list;
               setState(() {});
             },
@@ -703,11 +699,8 @@ class _CreateFoundState extends State<CreateFound> {
         firstDate: DateTime(2000),
         lastDate: DateTime(2101));
 
-    print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
     String formattedDate = DateFormat(Constants.fulldateFormat)
         .format(pickedDate ?? DateTime.now());
-    print(
-        formattedDate); //formatted date output using intl package =>  2021-03-16
     //you can implement different kind of Date Format here according to your requirement
     if (textfield == foundDateTextController) {
       foundDateTextController.text = formattedDate;
@@ -726,7 +719,6 @@ class _CreateFoundState extends State<CreateFound> {
   //         return CustomSimpleListTexts(
   //           texts: const ["Red", "Yellow", "White", "Black", "Orange"],
   //           onTap: (String value) {
-  //             print(value);
   //             colorTextController.text = value;
   //             FocusScope.of(context).unfocus();
   //             colorTextController.clear;
@@ -757,7 +749,6 @@ class _CreateFoundState extends State<CreateFound> {
                   });
             },
             onTap: (BaseUser list) {
-              print(list.name);
               if (name.toLowerCase() == 'depositor') {
                 selecteddepositorList = list;
               } else {
@@ -790,7 +781,6 @@ class _CreateFoundState extends State<CreateFound> {
                   });
             },
             onTap: (Organisation department) {
-              print(department.name);
               if (name == Constants.employeedepartment) {
                 log('--department--${department.name}--');
                 selectedEmployeedepartment = department;
@@ -1041,8 +1031,6 @@ class _CreateFoundState extends State<CreateFound> {
                                           AppIcon.dropdownicon,
                                           key: const Key('closed_eye')),
                                       onPressed: () {
-                                        print('suffixIcon pressed');
-
                                         assetTypeDialog();
                                       })),
                             ),
@@ -1710,12 +1698,10 @@ class _CreateFoundState extends State<CreateFound> {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
-              print(state.getLocationsResponse);
               return CustomExpansionListTexts(
                 getLocationsresponse:
                     state.getLocationsResponse ?? GetLocations(),
                 onTap: (Organisation? list) async {
-                  print(list?.name);
                   await createFoundArticleCubit.getSerialnumberDetails(
                       list?.id.toString() ?? '', 'AF', context);
                   locationselectedText = list?.name ?? '';
@@ -1873,8 +1859,6 @@ class _CreateFoundState extends State<CreateFound> {
         isDisableColor: widget.model?.status != 0 ? false : true,
         onChange: (String username) {
           //this.username = username;
-          print('dfwf');
-
           setState(() {});
         },
         validateTextField: (String? user) {},
