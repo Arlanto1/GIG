@@ -255,8 +255,11 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       moduleCode = Constants.passManagementModule;
     } else if (passId == "1") {
       moduleCode = Constants.visitorManagementModule;
-    } else if (passId == "2") {
+    }
+    else if (passId == "2") {
       moduleCode = Constants.vendorPassManagementModule;
+    }else if (passId == "3") {
+      moduleCode = Constants.passManagementSEZModule;
     }
     try {
       SerialNumberModel serialNumberResponse = await commonServices.getSlNo(

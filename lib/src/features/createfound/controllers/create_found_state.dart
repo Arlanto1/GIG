@@ -21,10 +21,10 @@ class CreateFoundState extends Equatable {
   Organisation? createOrganisationResponse;
   Organisation? createEmployeeDepartments;
   CreateUserModel? createUserResponse;
-  User? getUserDetailsResponse;
+  User? loggedInUser;
   SubmitCreateFoundModel? createFoundResponse;
   SerialNumberModel? getSerialnumberResponse;
-  final String? errorMessage;
+  final String? message;
   final CreateFoundStateType stateType;
   List<CreateImage>? loadAttachments = [];
    final int? eventId;
@@ -37,11 +37,11 @@ class CreateFoundState extends Equatable {
     this.createOrganisationResponse,
     this.createEmployeeDepartments,
     this.createUserResponse,
-    this.getUserDetailsResponse,
+    this.loggedInUser,
     this.createFoundResponse,
     this.getSerialnumberResponse,
     required this.stateType,
-    this.errorMessage,
+    this.message,
     this.loadAttachments,
     this.eventId
   });
@@ -54,10 +54,10 @@ class CreateFoundState extends Equatable {
     Organisation? createOrganisationResponse,
     Organisation? createEmployeeDepartments,
     CreateUserModel? createUserResponse,
-    User? getUserDetailsResponse,
+    User? loggedInUser,
     SubmitCreateFoundModel? createFoundResponse,
     SerialNumberModel? getSerialnumberResponse,
-    String? errorMessage,
+    String? message,
     CreateFoundStateType? stateType,
     List<CreateImage>? loadAttachments,
     final int? eventId,
@@ -74,12 +74,12 @@ class CreateFoundState extends Equatable {
         createEmployeeDepartments:
             createEmployeeDepartments ?? this.createEmployeeDepartments,
         createUserResponse: createUserResponse ?? this.createUserResponse,
-        getUserDetailsResponse:
-            getUserDetailsResponse ?? this.getUserDetailsResponse,
+        loggedInUser:
+            loggedInUser ?? this.loggedInUser,
         createFoundResponse: createFoundResponse ?? this.createFoundResponse,
         getSerialnumberResponse:
             getSerialnumberResponse ?? this.getSerialnumberResponse,
-        errorMessage: errorMessage ?? this.errorMessage,
+        message: message ?? this.message,
         stateType: stateType ?? this.stateType,
         loadAttachments: loadAttachments ?? this.loadAttachments,
         eventId :   eventId ?? this.eventId);
@@ -94,10 +94,10 @@ class CreateFoundState extends Equatable {
         createOrganisationResponse,
         createEmployeeDepartments,
         createUserResponse,
-        getUserDetailsResponse,
+        loggedInUser,
         createFoundResponse,
         getSerialnumberResponse,
-        errorMessage,
+        message,
         stateType,
         loadAttachments,
         eventId
