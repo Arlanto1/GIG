@@ -195,7 +195,6 @@ class _CreateFoundState extends State<CreateFound> {
       claimantDepartmentName = widget.model?.claimantDepartmentName != null
           ? widget.model?.claimantDepartmentName ?? ''
           : '';
-      itemhandoverByValue = widget.model?.handOverSecurityName ?? '';
       handedoverdatedateTextController.text = widget.model?.handoverDate != null
           ? Utils.timestamptoDateConversion(
               int.parse(widget.model?.handoverDate ?? '0'),
@@ -207,6 +206,9 @@ class _CreateFoundState extends State<CreateFound> {
       claimant = widget.model?.claimant?.lastName != null
           ? widget.model?.claimant?.lastName ?? ''
           : '';
+      itemhandoverByValue =
+           widget.model?.handoverSecurity?.name ?? ''
+         ;
 
       log('---widget.model?.claimant?.lastName-----${widget.model?.claimant?.lastName}----');
       claimantTextController.text = widget.model?.claimant?.name != null
@@ -1205,7 +1207,7 @@ class _CreateFoundState extends State<CreateFound> {
                                     height * 0.01)
                                 : Container(),
 
-                            if (widget.model?.status != 0 || widget.model !=null) ...[
+                            if (widget.model?.status == 1 || widget.model?.status == 2) ...[
                               /// is claimant db employee
                               widget.model != null
                                   ? CommonWidgets.textDisplay(
