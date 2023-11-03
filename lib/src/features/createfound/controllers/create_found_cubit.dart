@@ -21,6 +21,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../models/organisation.dart';
+import '../../../utils/shared_preferences.dart';
 import '../models/user.dart';
 
 class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
@@ -75,7 +76,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -119,7 +120,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -166,7 +167,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -190,7 +191,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -214,7 +215,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -239,7 +240,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -273,7 +274,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -313,7 +314,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -354,7 +355,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -362,21 +363,49 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     }
   }
 
+  Future<void> initializeValues() async {
+    //Show Loader and emit loading state
+    emit(
+      state.copyWith(
+        stateType: CreateFoundStateType.loading,
+      ),
+    );
+    var userId = await SharedPrefs.getUserId();
+    try {
+      User loggedInUserDetails =
+      await commonServices.getUserDetails(userId: userId);
+
+      emit(
+        state.copyWith(
+            loggedInUser: loggedInUserDetails,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          message: Constants.errorText,
+          // TODO: error message should be dynamic
+          stateType: CreateFoundStateType.failure,
+        ),
+      );
+    }
+  }
   // Get user details call
   Future<void> getUserDetails(String userId, BuildContext context) async {
     try {
-      User getUserData =
+      User user =
           await commonServices.getUserDetails(userId: userId, context: context);
+
       emit(
         state.copyWith(
-          getUserDetailsResponse: getUserData,
+          loggedInUser: user,
           stateType: CreateFoundStateType.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -398,7 +427,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
