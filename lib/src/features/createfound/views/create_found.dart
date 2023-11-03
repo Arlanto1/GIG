@@ -1205,8 +1205,12 @@ class _CreateFoundState extends State<CreateFound> {
                               widget.model != null
                                   ? radioButtonHandling(
                                       isClaimantDBEmployeeSelected,
+                                  isDisableColor: (
+                                      widget.model?.status == 2)
+                                      ? true
+                                      : false,
                                       Constants.isclaimantdbemployee,
-                                      isDisableColor: false)
+                                     )
                                   : Container(),
 
                               /// claimant
@@ -1344,13 +1348,15 @@ class _CreateFoundState extends State<CreateFound> {
                                       title:
                                           (selectedClaimdepartment?.name ?? ''),
                                       height: 60,
-                                      isDisableColor: widget.model == null &&
-                                              widget.model?.status == 3
-                                          ? true
-                                          : false,
+                                isDisableColor:
+                                widget.model?.status != 2
+                                    ? false
+                                    : true,
                                       onTap: () {
-                                        employeeDepartmentDialog(state,
-                                            Constants.claimantdepartment);
+                                        if (widget.model?.status != 2) {
+                                          employeeDepartmentDialog(state,
+                                              Constants.claimantdepartment);
+                                        }
                                       },
                                     )
                                   : Container(),
@@ -1372,6 +1378,10 @@ class _CreateFoundState extends State<CreateFound> {
                                       isClaimantDBEmployeeSelected == 1
                                   ? radioButtonHandling(
                                       isClaimantAcceptedByemail,
+                                  isDisableColor: (
+                                      widget.model?.status == 2)
+                                      ? true
+                                      : false,
                                       Constants.isclaimantacceptedbyemail)
                                   : Container(),
 
@@ -1386,6 +1396,10 @@ class _CreateFoundState extends State<CreateFound> {
                               widget.model != null
                                   ? radioButtonHandling(
                                       isClaimantAcceptedtoSignSelected,
+                                  isDisableColor: (
+                                      widget.model?.status == 2)
+                                      ? true
+                                      : false,
                                       Constants.isclaimantacceptedtosign)
                                   : Container(),
 
@@ -1744,14 +1758,18 @@ class _CreateFoundState extends State<CreateFound> {
           onChanged: (val) {
             radioButtonItem = 'Yes';
             selectedValue = 1;
-            if (name == Constants.isclaimantacceptedtosign) {
+            if (name == Constants.isclaimantacceptedtosign &&
+                widget.model?.status != 2) {
               isClaimantAcceptedtoSignSelected = selectedValue;
-            } else if (name == Constants.isclaimantacceptedbyemail) {
+            } else if (name == Constants.isclaimantacceptedbyemail &&
+                widget.model?.status != 2) {
               isClaimantAcceptedByemail = selectedValue;
-            } else if (name == Constants.isclaimantdbemployee) {
+            } else if (name == Constants.isclaimantdbemployee &&
+                widget.model?.status != 2) {
               isClaimantDBEmployeeSelected = selectedValue;
             } else if (name == Constants.isdepositordbemployee &&
-                widget.model?.status != 1) {
+                widget.model?.status != 1 &&
+                widget.model?.status != 2) {
               isDepositorDBEmployeeSelected = selectedValue;
             }
             setState(() {});
@@ -1767,14 +1785,18 @@ class _CreateFoundState extends State<CreateFound> {
           onChanged: (val) {
             radioButtonItem = 'No';
             selectedValue = 0;
-            if (name == Constants.isclaimantacceptedtosign) {
+            if (name == Constants.isclaimantacceptedtosign&&
+                widget.model?.status != 2) {
               isClaimantAcceptedtoSignSelected = selectedValue;
-            } else if (name == Constants.isclaimantacceptedbyemail) {
+            } else if (name == Constants.isclaimantacceptedbyemail &&
+                widget.model?.status != 2) {
               isClaimantAcceptedByemail = selectedValue;
-            } else if (name == Constants.isclaimantdbemployee) {
+            } else if (name == Constants.isclaimantdbemployee &&
+                widget.model?.status != 2) {
               isClaimantDBEmployeeSelected = selectedValue;
             } else if (name == Constants.isdepositordbemployee &&
-                widget.model?.status != 1) {
+                widget.model?.status != 1 &&
+                widget.model?.status != 2)  {
               isDepositorDBEmployeeSelected = selectedValue;
             }
             setState(() {});
@@ -1795,7 +1817,7 @@ class _CreateFoundState extends State<CreateFound> {
           ? true
           : false,
       onTap: () {
-        if (widget.model?.status != 1 || widget.model?.status != 2) {
+        if (widget.model?.status == 0 || widget.model == null) {
           articleTypeDialog(state);
         }
       },

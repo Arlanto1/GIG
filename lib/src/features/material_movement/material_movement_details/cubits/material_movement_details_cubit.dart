@@ -102,11 +102,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
-      Language uilabels =
-      await commonServices.getUiLabels(language: 'EMPLOYEE_DEPARTMENTS');
+      // Language uilabels =
+      // await commonServices.getUiLabels(language: 'EMPLOYEE_DEPARTMENTS');
 
-      log('--uilabels-----${uilabels.en}--');
-      log('--uilabels---2232--${uilabels.en?.comarlantoatomguardingMastermaritalStatus}--');
+      // log('--uilabels-----${uilabels.en}--');
+      // log('--uilabels---2232--${uilabels.en?.comarlantoatomguardingMastermaritalStatus}--');
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
@@ -125,7 +125,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           emailUsers: emailUsers.atomStaticUser,
           departments: departments.employeeDepartments,
           quantityUnits: quantityUnits.units,
-          language: uilabels
+        //  language: uilabels
         ),
       );
     } catch (e) {
