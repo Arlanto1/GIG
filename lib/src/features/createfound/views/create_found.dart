@@ -1441,14 +1441,14 @@ class _CreateFoundState extends State<CreateFound> {
                               //         height * 0.01)
                               //     : Container(),
                             ],
-                            if (widget.model?.status == 1 ||widget.model?.status == 2) ...[
-                              buildSignature(
-                                controller: claimantSignature,
-                                label: Constants.claimantsignature,
-                                spaceHeight: height,
-                                state: state,
-                              ),
-                            ],
+                            // if (widget.model?.status == 1 ||widget.model?.status == 2) ...[
+                            //   buildSignature(
+                            //     controller: claimantSignature,
+                            //     label: Constants.claimantsignature,
+                            //     spaceHeight: height,
+                            //     state: state,
+                            //   ),
+                            // ],
                             /// Item Handover By
                             if (widget.model?.status == 2) ...[
                               widget.model?.status == 2
