@@ -404,8 +404,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
 
-                            /// DB Complainant
-                            CommonWidgets.textDisplay(Constants.dbComplainant,
+                            /// DB Complaint
+                            CommonWidgets.textDisplay(Constants.dbComplaint,
                                 Styles.textStyleBlack14,isMandatory: true),
                             RadioButtonsYesNo(
                               status: state.model.status ?? 0,
@@ -432,7 +432,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             /// Complainant
                             if (state.model.complainantDbEmp == true) ...[
                               CommonWidgets.textDisplay(
-                                Constants.complainant,
+                                Constants.complaint,
                                 Styles.textStyleBlack14,isMandatory: true
                               ),
                               TextfieldAddButton(
@@ -459,7 +459,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                             if (state.model.complainantDbEmp == false) ...[
                               /// Complainant
-                              CommonWidgets.textDisplay(Constants.complainant,
+                              CommonWidgets.textDisplay(Constants.complaint,
                                   Styles.textStyleBlack14,isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -484,7 +484,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             if (state.model.complainantDbEmp) ...[
                               /// Complainant Employee Id
                               CommonWidgets.textDisplay(
-                                  Constants.complainantEmployeeId,
+                                  Constants.complaintEmployeeId,
                                   Styles.textStyleBlack14,isMandatory: true),
 
                               FlutterInputField(
@@ -506,7 +506,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                               /// Complainant Department
                               CommonWidgets.textDisplay(
-                                Constants.complainantDepartment,
+                                Constants.complaintDepartment,
                                 Styles.textStyleBlack14,isMandatory: true
                               ),
                               TextfieldAddButton(
@@ -532,7 +532,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                             /// Complainant Manager/Host
                             CommonWidgets.textDisplay(
-                              Constants.complainantHR,
+                              Constants.complaintHR,
                               Styles.textStyleBlack14,isMandatory: true
                             ),
                             TextfieldAddButton(

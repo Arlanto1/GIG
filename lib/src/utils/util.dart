@@ -861,6 +861,26 @@ class Utils {
       ),
     );
   }
+  Widget passCategory(int category) {
+    String categoryTypeText;
+    switch (category) {
+      case 0:
+        categoryTypeText = 'Loss';
+        break;
+      case 1:
+        categoryTypeText = 'Damage';
+        break;
+      default:
+        categoryTypeText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Pass Category: ', categoryTypeText),
+        ],
+      ),
+    );
+  }
 
   Widget textHandling(String title, String desc) {
     return RichText(

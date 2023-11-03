@@ -105,6 +105,7 @@ class _CreateFoundState extends State<CreateFound> {
     if (widget.model != null) {
       populateData();
     }
+    BlocProvider.of<CreateFoundArticleCubit>(context).initializeValues();
     _getFoundArticleList();
     _getCurrentDate();
   }
@@ -157,11 +158,12 @@ class _CreateFoundState extends State<CreateFound> {
                   int.parse(widget.model?.foundDate ?? '0'),
                   Constants.fulldateFormat)
               : '';
-      dateofcreationTextController.text = widget.model?.inputDate != null
-          ? Utils.timestamptoDateConversion(
-              int.parse(widget.model?.inputDate ?? '0'),
-              Constants.fulldateFormat)
-          : '';
+      dateofcreationTextController.text =
+          widget.model?.inputDate != null && widget.model?.inputDate != '0'
+              ? Utils.timestamptoDateConversion(
+                  int.parse(widget.model?.inputDate ?? '0'),
+                  Constants.fulldateFormat)
+              : dateofcreationTextController.text;
       assettypeTextController.text = widget.model?.typeOfAsset != null
           ? (widget.model?.typeOfAsset == 0 ? "Personal" : "Company")
           : '';
@@ -194,7 +196,6 @@ class _CreateFoundState extends State<CreateFound> {
       claimantDepartmentName = widget.model?.claimantDepartmentName != null
           ? widget.model?.claimantDepartmentName ?? ''
           : '';
-      itemhandoverByValue = widget.model?.handOverSecurityName ?? '';
       handedoverdatedateTextController.text = widget.model?.handoverDate != null
           ? Utils.timestamptoDateConversion(
               int.parse(widget.model?.handoverDate ?? '0'),
@@ -206,6 +207,7 @@ class _CreateFoundState extends State<CreateFound> {
       claimant = widget.model?.claimant?.lastName != null
           ? widget.model?.claimant?.lastName ?? ''
           : '';
+      itemhandoverByValue = widget.model?.handoverSecurity?.name ?? '';
 
       log('---widget.model?.claimant?.lastName-----${widget.model?.claimant?.lastName}----');
       claimantTextController.text = widget.model?.claimant?.name != null
@@ -242,8 +244,9 @@ class _CreateFoundState extends State<CreateFound> {
 
     int foundDate = Utils.dateToTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
-    int inputDate = Utils.dateToTimestampConversion(
-        dateofcreationTextController.text, Constants.fulldateFormat);
+    // int inputDate = Utils.dateToTimestampConversion(
+    //     dateofcreationTextController.text, Constants.fulldateFormat);
+    int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     Map<String, dynamic> entrySecurityBody = {
       "userId": userDetails?.userId ?? 0,
     };
@@ -278,7 +281,7 @@ class _CreateFoundState extends State<CreateFound> {
           : 0,
       "additionalInformation": additionalinformationTextController.text,
       "depositorDbEmp": isDepositorDBEmployeeSelectedValue,
-      "inputDate": inputDate,
+      "inputDate": inputdate,
       "foundDate": foundDate,
       "location": locationBody,
       "depositorName": isDepositorDBEmployeeSelected == 1
@@ -307,12 +310,14 @@ class _CreateFoundState extends State<CreateFound> {
         widget.model != null ? Constants.editfound : Constants.createfound);
   }
 
-  Future createRequestBody(bool isSubmit, int isFoundId) async {
+  /// Submit Form
+  Future submitForm(bool isSubmit, int isFoundId, {CreateFoundState? state}) async {
     log('-createRequestBody-----');
     int foundDate = Utils.dateToTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
-    int inputDate = Utils.dateToTimestampConversion(
-        dateofcreationTextController.text, Constants.fulldateFormat);
+    // int inputDate = Utils.dateToTimestampConversion(
+    //     dateofcreationTextController.text, Constants.fulldateFormat);
+    int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     int handoverDate = Utils.dateToTimestampConversion(
         handedoverdatedateTextController.text, Constants.fulldateFormat);
     var username = await SharedPrefs.getUsername();
@@ -346,9 +351,12 @@ class _CreateFoundState extends State<CreateFound> {
         name: selectedClaimList?.name,
       );
     }
-    User? handoverSecurity = User(
-        userId: widget.model?.claimant?.userId ??
-            widget.model?.handoverSecurity?.userId);
+    log('--2222-state?.loggedInUser-${state?.loggedInUser}--');
+    User? handoverSecurity;
+    if(widget.model?.status == 1) {
+      log('---state?.loggedInUser-${state?.loggedInUser}--');
+      handoverSecurity = state?.loggedInUser;
+    }
     // int statusValue = 0;
     // if (statusTextController.text.toLowerCase() == "found") {
     //   statusValue = 0;
@@ -440,8 +448,9 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   void _getCurrentDate() {
+    final currentDate = DateTime.now();
     String formattedDate =
-        DateFormat(Constants.fulldateFormat).format(DateTime.now());
+        DateFormat(Constants.fulldateFormat).format(currentDate);
     //you can implement different kind of Date Format here according to your requirement
     dateofcreationTextController.text = formattedDate;
     statusTextController.text = 'Found';
@@ -451,7 +460,7 @@ class _CreateFoundState extends State<CreateFound> {
     });
   }
 
-  createFoundValidations(BuildContext context) {
+  createFoundValidations(BuildContext context, CreateFoundState state) {
     if (statusTextController.text.isEmpty &&
         createdByValue.isEmpty &&
         (locationSelectedlist?.name ?? "").isEmpty &&
@@ -572,10 +581,10 @@ class _CreateFoundState extends State<CreateFound> {
             Validator().showToast(context, "Please enter claim");
           }
         } else {
-          createRequestBody(true, widget.model?.id ?? 0);
+          submitForm(true, widget.model?.id ?? 0, state: state);
         }
       } else {
-        createRequestBody(true, widget.model?.id ?? 0);
+        submitForm( true, widget.model?.id ?? 0, state: state);
       }
     }
   }
@@ -748,7 +757,7 @@ class _CreateFoundState extends State<CreateFound> {
                   //for now the new param is isSubmit added, if any new params needed we can add to this.
                   //createNewuserBody(false); //for save
                   //createdraftValidations(context);
-                  createRequestBody(false, 0);
+                  submitForm( false, 0);
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(right: 20.0),
@@ -758,26 +767,6 @@ class _CreateFoundState extends State<CreateFound> {
                 ),
               ),
             ),
-            //Visibility(
-            //   //visible:
-            //  // widget.listuser?.status == 0 && widget.listuser?.status == 1,
-            //  child: GestureDetector(
-            //       onTap: () {
-            //         //createNewuserBody(); //in this method createfoundValidations, calling the createNewuserBody
-            //         createfoundValidations(context);
-            //       },
-            //       child: const Padding(
-            //         padding: EdgeInsets.only(right: 20.0),
-            //         child: Icon(
-            //           Icons.send,
-            //           color: AppColors.backgroundWhitecolor,
-            //         ),
-            //         // SvgPicture.asset(
-            //         //   AppIcon.createfoundsaveicon,
-            //         //),
-            //       ),
-            //     ),
-            // ),
           ],
           //backgroundColor: AppColors.navigationSkybluecolor,
         ),
@@ -806,7 +795,7 @@ class _CreateFoundState extends State<CreateFound> {
             // }
             initiallyLocationandSerialnumberdataset(state);
             if (widget.model == null) {
-              userDetails = state.getUserDetailsResponse ?? User();
+              userDetails = state.loggedInUser ?? User();
               if (userDetails != null) {
                 createdByValue =
                     '${userDetails?.firstName ?? ''} ${userDetails?.lastName ?? ''}';
@@ -893,7 +882,7 @@ class _CreateFoundState extends State<CreateFound> {
                               CommonWidgets.horizentaltextHandling(
                                   Constants.createdby,
                                   isMandatory: true,
-                                  '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
+                                  '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}'),
 
                               // ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1023,7 +1012,7 @@ class _CreateFoundState extends State<CreateFound> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                lineHeight: 6,
+                                showBorder: true,lineHeight: 6,
                                 textFieldController:
                                     additionalinformationTextController,
                                 textFormKey:
@@ -1034,7 +1023,8 @@ class _CreateFoundState extends State<CreateFound> {
                                     ? true
                                     : false,
                                 isDisableColor:
-                                    widget.model?.status == 0 ? false : true,
+                                    widget.model?.status == 0 ||
+                                      widget.model == null? false : true,
                                 onChange: (String username) {
                                   //this.username = username;
                                   setState(() {});
@@ -1137,8 +1127,8 @@ class _CreateFoundState extends State<CreateFound> {
                                           depositorTextController,
                                       textFormKey: Keys.depositorTextController,
                                       hintText: '',
-                                      isEnable: widget.model?.status == 0
-                                          ? true
+                                      isEnable: widget.model?.status == 0||
+                                          widget.model == null? true
                                           : false,
                                       isDisableColor: widget.model?.status != 0
                                           ? false
@@ -1225,7 +1215,8 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.01)
                                   : Container(),
 
-                              if (widget.model?.status != 0) ...[
+                              if (widget.model?.status == 1 ||
+                                widget.model?.status == 2) ...[
                                 /// is claimant db employee
                                 widget.model != null
                                     ? CommonWidgets.textDisplay(
@@ -1325,7 +1316,7 @@ class _CreateFoundState extends State<CreateFound> {
                                 widget.model != null &&
                                         isClaimantDBEmployeeSelected == 1
                                     ? FlutterInputField(
-                                        textFieldController:
+                                        keyboardType: TextInputType.number,textFieldController:
                                             claimantEmpIdTextController,
                                         textFormKey:
                                             Keys.claimantEmpIdTextController,
@@ -1382,11 +1373,10 @@ class _CreateFoundState extends State<CreateFound> {
                                             ? true
                                             : false,
                                         onTap: () {
-                                          // if (widget.listuser == null ||widget.listuser?.status == 0)
-                                          {
+
                                             employeeDepartmentDialog(state,
                                                 Constants.claimantdepartment);
-                                          }
+
                                         },
                                       )
                                     : Container(),
@@ -1465,43 +1455,39 @@ class _CreateFoundState extends State<CreateFound> {
                                 //     ? CommonWidgets.verticalSpacerWidget(
                                 //         height * 0.01)
                                 //     : Container(),
-                                buildSignature(
-                                  controller: claimantSignature,
-                                  label: Constants.claimantsignature,
-                                  spaceHeight: height,
-                                  state: state,
-                                ),
                               ],
+                            // if (widget.model?.status == 1 ||
+                            //     widget.model?.status == 2) ...[
+                            //  buildSignature(
+                              //    controller: claimantSignature,
+                              //    label: Constants.claimantsignature,
+                              //    spaceHeight: height,
+                              //    state: state,
+                              //  ),
+                              //],
 
                               /// Item Handover By
                               if (widget.model?.status == 2) ...[
-                                widget.model?.status == 2
-                                    ? CommonWidgets.horizentaltextHandling(
+                                 CommonWidgets.horizentaltextHandling(
                                         Constants.itemhandoverby,
                                         itemhandoverByValue,
                                         isMandatory: true)
-                                    : Container(),
+                                    ,
 
                                 /// Handed over date
 
-                                widget.model != null
-                                    ? CommonWidgets.textDisplay(
+                                 CommonWidgets.textDisplay(
                                         Constants.handedoverdate,
                                         Styles.textStyleBlack14,
-                                        isMandatory: true)
-                                    : Container(),
-                                widget.model != null
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001)
-                                    : Container(),
-                                widget.model != null
-                                    ? datepickerWidgetLoading(
-                                        handedoverdatedateTextController)
-                                    : Container(),
-                                widget.model == null
-                                    ? CommonWidgets.verticalSpacerWidget(
+                                        isMandatory: true,
+                                    ),
+                                     CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                     datepickerWidgetLoading(
+                                        handedoverdatedateTextController),
+                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01)
-                                    : Container(),
+                                    ,
                               ],
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -1602,7 +1588,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     cancelButtonDisplay(),
-                                    submitButtonDisplay()
+                                    submitButtonDisplay(state)
                                   ],
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
@@ -1675,7 +1661,7 @@ class _CreateFoundState extends State<CreateFound> {
     );
   }
 
-  Widget submitButtonDisplay() {
+  Widget submitButtonDisplay(CreateFoundState state) {
     return // Login button
         AppButton(
       width: 150,
@@ -1686,7 +1672,7 @@ class _CreateFoundState extends State<CreateFound> {
       onTap: () async {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
-        createFoundValidations(context);
+        createFoundValidations(context, state);
       },
     );
   }
@@ -1770,7 +1756,7 @@ class _CreateFoundState extends State<CreateFound> {
       isDisableColor: true,
       onChange: (String username) {
         //this.username = username;
-        setState(() {});
+        //setState(() {});
       },
       validateTextField: (String? user) {},
     );
