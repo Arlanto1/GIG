@@ -1731,8 +1731,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         //   break;
         // }
         else {
-          if (widget.model != null &&
-              distributiongroupsTextController.text.isEmpty) {
+          if (widget.model?.status !=0 && (widget.model != null &&
+          distributiongroupsTextController.text.isEmpty)) {
             Validator().showToast(
               context,
               "Please enter distribution groups",
