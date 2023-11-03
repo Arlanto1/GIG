@@ -55,7 +55,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
             getEntitiesResponse: null,
             departments: const [],
             loggedInUserDetails: null,
-            getArticleTypeResponse: GetArticleType(),
+            getArticleTypeResponse:  const [],
           ),
         );
 
@@ -115,7 +115,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         state.copyWith(
           model: model,
           locations: getLocationsData,
-          articleType: getArticleType,
+          articleType: getArticleType.articleList,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           emailUsers: emailUsers.atomStaticUser,
@@ -123,6 +123,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
+
         ),
       );
     } catch (e) {
@@ -145,6 +146,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     List<Organisation>? entities,
     Organisation? complainantDepartment,
     Organisation? location,
+    Organisation? typeOfArticle,
     // BaseUser? user,
     Organisation? vendor,
     Organisation? entity,
@@ -201,6 +203,9 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
     if (complainantDepartment != null) {
       state.model.complainantDepartment = complainantDepartment;
+    }
+    if (typeOfArticle != null) {
+      state.model.typeOfArticle = typeOfArticle;
     }
 
     ////Get Sl No from API
@@ -302,7 +307,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     state.model.occurrence ??= Occurrence();
-    state.model.occurrence?.id = occId.toIntOrNull() ?? 0;
+    state.model.occurrence?.id = occId.toIntOrNull();
     state.model.occType = occType;
 
     log('---state.model.occurrence-save---${state.model.occurrence?.id}--');

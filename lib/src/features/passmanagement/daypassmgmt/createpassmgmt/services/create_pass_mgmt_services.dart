@@ -192,7 +192,7 @@ class CreatePassMgmtService {
   //   return DayPassNumberLists.fromJson(value);
   // }
 
-  Future<DayPassNumberLists> getPassno(
+  Future<DayPassNumberLists> getPassNo(
       String passtype, String locatonid, BuildContext context) async {
     String url = '${Apis._getPassNo}$passtype&locationId=$locatonid';
     final response = await BaseApiService().getRequest(

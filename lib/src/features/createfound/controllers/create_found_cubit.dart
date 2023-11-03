@@ -1,4 +1,5 @@
-import 'dart:math';
+import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:db_atom/main_DEV.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
@@ -20,6 +21,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../models/organisation.dart';
+import '../../../utils/shared_preferences.dart';
 import '../models/user.dart';
 
 class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
@@ -74,7 +76,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -118,7 +120,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -135,13 +137,15 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     // List<CreateImage> value = createFoundArticleCubit.loadAttachments ?? [];
     // loadAttachments ??= [];
     // loadAttachments?.add(data);
-    // print(loadAttachments);
-    int eventIds = Random.secure().nextInt(5);
+    int eventIds = math.Random.secure().nextInt(5);
 
-    emit(state.copyWith(
-        eventId: eventIds,
-        loadAttachments: data,
-        stateType: CreateFoundStateType.addattachment));
+    log('--data---${data?.length}');
+    emit(
+      state.copyWith(
+          eventId: eventIds,
+          loadAttachments: data,
+          stateType: CreateFoundStateType.addattachment),
+    );
   }
 
   // get depositor user by role API call
@@ -163,7 +167,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -187,7 +191,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -211,7 +215,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -236,7 +240,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -270,7 +274,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -310,7 +314,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -330,11 +334,11 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       //     firstName, lastName, email, role, context);
 
       CreateUserModel createUserData = await commonServices.createUser(
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          role: role,
-          context: context,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        role: role,
+        context: context,
       );
       emit(
         state.copyWith(
@@ -351,7 +355,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -359,21 +363,49 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     }
   }
 
+  Future<void> initializeValues() async {
+    //Show Loader and emit loading state
+    emit(
+      state.copyWith(
+        stateType: CreateFoundStateType.loading,
+      ),
+    );
+    var userId = await SharedPrefs.getUserId();
+    try {
+      User loggedInUserDetails =
+      await commonServices.getUserDetails(userId: userId);
+
+      emit(
+        state.copyWith(
+            loggedInUser: loggedInUserDetails,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          message: Constants.errorText,
+          // TODO: error message should be dynamic
+          stateType: CreateFoundStateType.failure,
+        ),
+      );
+    }
+  }
   // Get user details call
   Future<void> getUserDetails(String userId, BuildContext context) async {
     try {
-      User getUserData =
+      User user =
           await commonServices.getUserDetails(userId: userId, context: context);
+
       emit(
         state.copyWith(
-          getUserDetailsResponse: getUserData,
+          loggedInUser: user,
           stateType: CreateFoundStateType.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -395,7 +427,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );

@@ -82,6 +82,21 @@ class GuardingMasterDataDetailsState extends Equatable {
     );
   }
 
+  ErrorResponse get isValidDraft {
+    log('-model.status---${model.status}--');
+
+    if (model.location == null) {
+      log('-model.location-----isValidDraft-');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Location');
+    }
+    if (model.status == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Status');
+    }
+
+    return const ErrorResponse(status: true, message: 'Form is Valid');
+  }
+
   ErrorResponse get isValid {
     if (model.status == null) {
       return const ErrorResponse(

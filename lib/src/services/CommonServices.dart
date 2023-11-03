@@ -9,6 +9,7 @@ import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dar
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
+import 'package:db_atom/src/models/language.dart';
 import 'package:db_atom/src/models/organisation.dart';
 
 import '../features/createfound/models/create_user_model.dart';
@@ -23,7 +24,7 @@ class Apis {
   static const String v2 = '';
 
   // static const String v2 = '/v2';
-
+  static final String _getUiLabels = '$baseUrl/getLabels?locale=en';
   static final String _getLocations = '$baseUrl/getOrganisation?name=';
   static final String _getArticleType = '$baseUrl/getOrganisation?name=';
   static final String _getUserDetails = '$baseUrl/getUserDetails?userId=';
@@ -40,6 +41,18 @@ class Apis {
 }
 
 class CommonServices {
+
+  Future<Language> getUiLabels({
+    required String language,
+    BuildContext? context,
+  }) async {
+    String url = '${Apis._getUiLabels}$language';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return Language.fromJson(response);
+  }
+
   Future<GetLocations> getLocations({
     required String name,
     BuildContext? context,

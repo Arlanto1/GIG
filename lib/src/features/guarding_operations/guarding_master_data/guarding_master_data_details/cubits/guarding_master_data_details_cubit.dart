@@ -81,8 +81,7 @@ class GuardingMasterDataDetailsCubit
     );
 
     log('-state.participationDates---after---${state.participationDates}----');
-    state.model.csrParticipationDates =
-        Utils().joinListWithComma(dates);
+    state.model.csrParticipationDates = Utils().joinListWithComma(dates);
 
     log('-state.guardingMasterData.csrParticipationDates---final---${state.model.csrParticipationDates}----');
 
@@ -127,15 +126,14 @@ class GuardingMasterDataDetailsCubit
 
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'ATOM_VENDORS');
-      Vendors vendors =
-      await commonServices.getVendors(name: 'ATOM_VENDORS');
+      Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
       state.model.entrySecurity = loggedInUserDetails;
 
       log('-departments-length-----${departments.employeeDepartments?.length}--');
       log('-guardRank--${state.model.guardRank}----');
 
-      List<String> participationDates = Utils().splitStringAfterComma(
-          state.model.csrParticipationDates ?? '');
+      List<String> participationDates = Utils()
+          .splitStringAfterComma(state.model.csrParticipationDates ?? '');
       log('-participationDates---${participationDates.toString()}---');
 
       emit(
@@ -153,8 +151,7 @@ class GuardingMasterDataDetailsCubit
           listOfQualifications: qualifications.guardQualifications,
           getQualificationsResponse: qualifications,
           participationDates: participationDates,
-          localAddressAttachments: state.model.localAddressProof !=
-                  null
+          localAddressAttachments: state.model.localAddressProof != null
               ? [state.model.localAddressProof ?? CreateImage()]
               : null,
 
@@ -169,13 +166,9 @@ class GuardingMasterDataDetailsCubit
 
           deploymentAttachments: state.model.deploymentOrders,
 
-          permanentAddressAttachments:
-              state.model.permanentAddressProof != null
-                  ? [
-                      state.model.permanentAddressProof ??
-                          CreateImage()
-                    ]
-                  : null,
+          permanentAddressAttachments: state.model.permanentAddressProof != null
+              ? [state.model.permanentAddressProof ?? CreateImage()]
+              : null,
 
           pVCAttachments: state.model.pvc,
 
@@ -232,18 +225,13 @@ class GuardingMasterDataDetailsCubit
     }
 
     state.model.entity = entity ?? state.model.entity;
-    state.model.qualifications =
-        qualifications ?? state.model.qualifications;
+    state.model.qualifications = qualifications ?? state.model.qualifications;
     state.model.vendor = vendor ?? state.model.vendor;
-    state.model.guardRank =
-        guardRank ?? state.model.guardRank;
-    state.model.dutyType =
-        dutyType ?? state.model.dutyType;
+    state.model.guardRank = guardRank ?? state.model.guardRank;
+    state.model.dutyType = dutyType ?? state.model.dutyType;
     state.model.gender = gender ?? state.model.gender;
-    state.model.maritalStatus =
-        maritalStatus ?? state.model.maritalStatus;
-    state.model.systemAccess =
-        systemAccess ?? state.model.systemAccess;
+    state.model.maritalStatus = maritalStatus ?? state.model.maritalStatus;
+    state.model.systemAccess = systemAccess ?? state.model.systemAccess;
     state.model.status = status ?? state.model.status;
     state.model.typeOfDeployment =
         typeOfDeployment ?? state.model.typeOfDeployment;
@@ -252,8 +240,8 @@ class GuardingMasterDataDetailsCubit
 
     // TODO: Object issue
     if (guard != null) {
-      User userDetails = User(
-          name: guard.name, userId: guard.id, userName: guard.name);
+      User userDetails =
+          User(name: guard.name, userId: guard.id, userName: guard.name);
       state.model.guard = userDetails;
     }
     emit(state.copyWith(
@@ -408,12 +396,10 @@ class GuardingMasterDataDetailsCubit
       ),
     );
     if (deploymentOrderSubmitted != null) {
-      state.model.deploymentOrderSubmitted =
-          deploymentOrderSubmitted;
+      state.model.deploymentOrderSubmitted = deploymentOrderSubmitted;
     }
     if (trainingCertificateProvided != null) {
-      state.model.trainingCertificateProvided =
-          trainingCertificateProvided;
+      state.model.trainingCertificateProvided = trainingCertificateProvided;
     }
     if (csrParticipation != null) {
       state.model.csrParticipation = csrParticipation;
@@ -437,8 +423,7 @@ class GuardingMasterDataDetailsCubit
       ),
     );
 
-    if (state.model.status == 0 ||
-        state.model.status == null) {
+    if (state.model.status == 0 || state.model.status == null) {
       state.model.status = 1;
     }
     // Setting time in milliseconds
@@ -452,6 +437,15 @@ class GuardingMasterDataDetailsCubit
     GenericCreateResponse response = GenericCreateResponse();
     try {
       if (isSaveOnly) {
+        if (!state.isValidDraft.status) {
+          emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValidDraft.message,
+            ),
+          );
+          return;
+        }
         response = (await services.createGuardingMasterData(
             body: request, isSubmit: false));
       } else {

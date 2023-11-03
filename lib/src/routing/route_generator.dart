@@ -138,7 +138,7 @@ class RouteGenerator {
           int eventId = listroutes['eventId'];
           return MaterialPageRoute(
               builder: (context) => CreateFound(
-                    listuser: listuser,
+                    model: listuser,
                     eventId: eventId,
                   ));
                   return MaterialPageRoute(builder: (context) => const CreateFound());

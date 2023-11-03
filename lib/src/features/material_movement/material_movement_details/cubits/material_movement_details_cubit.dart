@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
 import 'package:dart_extensions/dart_extensions.dart';
+import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -12,10 +14,14 @@ import 'package:db_atom/src/features/material_movement/models/material_movements
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
 import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
+import 'package:db_atom/src/models/language.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../constants/constants.dart';
@@ -36,24 +42,25 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   final bool? isInward;
   final bool? returnable;
 
-  MaterialMovementDetailsCubit(
-      {required this.materialMovementServices,
-      required this.commonServices,
-      this.model,
-      this.isInward,
-      this.returnable})
-      : super(
+  MaterialMovementDetailsCubit({
+    required this.materialMovementServices,
+    required this.commonServices,
+    this.model,
+    this.isInward,
+    this.returnable,
+  }) : super(
           MaterialMovementDetailsState.initial(
-              model: model ?? MaterialMovementModel(),
-              locations: GetLocations(),
-              loggedInUserDetails: User(),
-              users: const [],
-              emailUsers: const [],
-              errorMessage: '',
-              departments: const [],
-              loadAttachments: const [],
-              quantityUnits: const [],
-              eventId: null),
+            model: model ?? MaterialMovementModel(),
+            locations: GetLocations(),
+            loggedInUserDetails: User(),
+            users: const [],
+            emailUsers: const [],
+            errorMessage: '',
+            departments: const [],
+            loadAttachments: const [],
+            quantityUnits: const [],
+            eventId: null,
+          ),
         );
 
   void onModelValueChange(MaterialMovementModel model) {
@@ -95,6 +102,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
+      Language uilabels =
+      await commonServices.getUiLabels(language: 'EMPLOYEE_DEPARTMENTS');
+
+      log('--uilabels-----${uilabels.en}--');
+      log('--uilabels---2232--${uilabels.en?.comarlantoatomguardingMastermaritalStatus}--');
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
@@ -113,6 +125,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           emailUsers: emailUsers.atomStaticUser,
           departments: departments.employeeDepartments,
           quantityUnits: quantityUnits.units,
+          language: uilabels
         ),
       );
     } catch (e) {
@@ -178,6 +191,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
     if (user != null) {
       state.model.otherReceiverName = user.name;
+    }
+
+    if (receiverEmailUser != null) {
+      state.model.receiverEmail = receiverEmailUser.email;
     }
 
     if (receiverEmailUser != null) {
@@ -271,7 +288,54 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     ));
   }
 
-  Future<void> submitForm({bool isSaveOnly = false}) async {
+  Future<void> pushSignature({
+    required SignatureController controller,
+    required isReceiverSignature,
+  }) async {
+    String imageBytes = await exportSignature(
+      controller,
+    );
+    if (imageBytes.isEmptyOrNull) {
+      return;
+    }
+    ImageContent imageContent = ImageContent();
+    imageContent.imageContent = imageBytes;
+    if (isReceiverSignature) {
+      (state.model.receiverSign ??= []).add(imageContent);
+    } else {
+      (state.model.entrySecuritySign ??= []).add(imageContent);
+    }
+    emit(state.copyWith(model: model, status: FormStatus.initial));
+  }
+
+  Future<String> exportSignature(
+    SignatureController controller,
+  ) async {
+    final exportController = SignatureController(
+      penStrokeWidth: 2,
+      exportBackgroundColor: Colors.white,
+      penColor: Colors.black,
+      points: controller.points,
+    );
+
+    Uint8List? signature = await exportController.toPngBytes();
+    if (signature == null) {
+      return '';
+    }
+    String bs4str = base64Encode(signature);
+
+    //clean up the memory
+    exportController.dispose();
+
+    return bs4str;
+    // saveSignature(context, signature!);
+  }
+
+  Future<void> submitForm({
+    bool isSaveOnly = false,
+    required SignatureController receiverSignatureController,
+    required SignatureController securitySignatureController,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -281,6 +345,16 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     // Setting time in milliseconds
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    /// Adding Signature to request Body
+    pushSignature(
+      controller: receiverSignatureController,
+      isReceiverSignature: true,
+    );
+    pushSignature(
+      controller: securitySignatureController,
+      isReceiverSignature: false,
+    );
 
     // Create/Update API Call
     MaterialMovementRequest request =

@@ -141,7 +141,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  getnameUsersResponseData(BaseUser? userresponsedata) async {
+  getNameUsersResponseData(BaseUser? userresponsedata) async {
     try {
       emit(
         state.copyWith(
@@ -188,7 +188,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // law organisation call
-  Future<void> createEmplyeeDepartments(
+  Future<void> createEmployeeDepartments(
       String name, String orgName, BuildContext context) async {
     try {
       Organisation createEmployeeDeptData = await createpassmgmtServices
@@ -250,26 +250,22 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     String passId,
     BuildContext context,
   ) async {
-    print('--getSerialnumberDetails-----');
     String moduleCode = Constants.passManagementModule;
     if (passId == "0") {
       moduleCode = Constants.passManagementModule;
     } else if (passId == "1") {
       moduleCode = Constants.visitorManagementModule;
-    } else if (passId == "2") {
+    }
+    else if (passId == "2") {
       moduleCode = Constants.vendorPassManagementModule;
+    }else if (passId == "3") {
+      moduleCode = Constants.passManagementSEZModule;
     }
     try {
-      print('--getSerialnumberDetails---22--');
-      // SerialNumberModel serialNumberResponse = await createpassmgmtServices
-      //     .getSerialnumberDetails(locationId, moduleCode, context);
-
       SerialNumberModel serialNumberResponse = await commonServices.getSlNo(
         locationId: locationId,
         moduleCode: moduleCode,
       );
-      print('--serialNumberResponse--${serialNumberResponse.serialNo}---');
-
       emit(
         state.copyWith(
           getSerialnumberResponse: serialNumberResponse,
@@ -309,11 +305,14 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // Get pass number call
-  Future<void> getPassnumber(
-      String passtype, String locationid, BuildContext context) async {
+  Future<void> getPassNumber(
+    String passType,
+    String locationId,
+    BuildContext context,
+  ) async {
     try {
       DayPassNumberLists companyTypes =
-          await createpassmgmtServices.getPassno(passtype, locationid, context);
+          await createpassmgmtServices.getPassNo(passType, locationId, context);
       emit(
         state.copyWith(
           passnumbelistresponse: companyTypes,
@@ -439,8 +438,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       // Analyst companyTypes =
       //     await createpassmgmtServices.getAnalyst(companyStr, context);
 
-      Analyst companyTypes =
-      await commonServices.getUsersByRole(roleName: companyStr, context:context);
+      Analyst companyTypes = await commonServices.getUsersByRole(
+          roleName: companyStr, context: context);
       emit(
         state.copyWith(
           analyst: companyTypes,
@@ -513,7 +512,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-// Get entities api call
+  /// Get entities api call
   Future<void> getEntities(String name, BuildContext context) async {
     try {
       AddEntities entities = await createpassmgmtServices.getEntities(
@@ -559,7 +558,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       //     await createpassmgmtServices.getUserDetails(userId, context);
 
       User getUserData =
-      await commonServices.getUserDetails(userId: userId,context: context);
+          await commonServices.getUserDetails(userId: userId, context: context);
       emit(
         state.copyWith(
           getUserDetailsResponse: getUserData,
@@ -576,15 +575,15 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  initalization() {
+  initialization() {
     state.selectedemployeeDepartmentResponse = Organisation();
     state.employeeDepartment = EmployeeDepartments();
     state.companyTypes = CompanyTypes();
-    state.activePassInfoList = Organisation();
+    state.vendorPassInfo = Organisation();
     state.loadAttachments = [];
     state.atomCompanyType = Organisation();
     state.listOfEntities = [];
-    state.locationSelectedlist = Organisation();
+    state.location = Organisation();
     state.photoAttachments = [];
     state.getuserResponse = BaseUser();
     state.serialnumberResponse?.serialNo = '';
@@ -640,7 +639,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     try {
       emit(
         state.copyWith(
-          locationSelectedlist: location,
+          location: location,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -673,7 +672,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // Create new Found Article successfully API call
-  Future<void> creatpasseNewFoundArticle(
+  Future<void> createPass(
       CreatePassMgmtBody bodyRequest,
       bool isSubmit,
       BuildContext context,

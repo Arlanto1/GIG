@@ -66,7 +66,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
       await createFoundArticleCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     } else if (widget.createPassMgmtState != null) {
-      await createpassmgmtCubit.createEmplyeeDepartments(
+      await createpassmgmtCubit.createEmployeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     }
   }

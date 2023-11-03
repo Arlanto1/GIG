@@ -2,7 +2,6 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -42,7 +41,7 @@ class CustomListTexts extends StatefulWidget {
   final Function? onTap;
   final Function? onLeftButtonTap;
   final String? leftImageName;
-  List<DistributionGroup>? duplicateloadGroups;
+  List<Organisation>? duplicateloadGroups;
   List<Organisation>? duplicateatomCompanyTypes;
   List<Organisation>? duplicatedayPassReason;
   List<BaseUser>? duplicatet1Analyst;
@@ -64,7 +63,7 @@ class CustomListTextsState extends State<CustomListTexts> {
   List<BaseUser> depostorList = [];
   List<Organisation> leodepartments = [];
   List<Organisation> leopurposevisits = [];
-  List<DistributionGroup> loadGroups = [];
+  List<Organisation> loadGroups = [];
   List<Organisation> companyTypes = [];
   List<Organisation> dayPassReason = [];
   List<BaseUser> t1analysts = [];
@@ -748,7 +747,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     ),
                   ));
             } else if (widget.duplicateloadGroups != null) {
-              DistributionGroup? articleItem;
+              Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && loadGroups.isNotEmpty)) {
                 articleItem = loadGroups[index];
               } else {

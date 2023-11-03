@@ -118,69 +118,30 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // Create new Found Article successfully API call
-  Future<void> lawcreateNewFoundArticle(
-      LawEnforcementRequestBody bodyRequest,
-      bool isSubmit,
-      BuildContext context,
-      String username,
-      String title) async {
+  Future<void> submitForm(
+    LawEnforcementRequestBody bodyRequest,
+    bool isSubmit,
+    BuildContext context,
+    String title,
+  ) async {
     try {
-      SubmitLawEnforcementResponse? lawcreateFoundresponse =
-          await lawenforcementServices.createLawFoundArticle(bodyRequest,
-              isSubmit, username); //replace empty model with bodyRequest
+      SubmitLawEnforcementResponse? response =
+          await lawenforcementServices.createLawFoundArticle(
+        body: bodyRequest,
+        isSubmit: isSubmit,
+        context: context,
+      ); //replace empty model with bodyRequest
       emit(
         state.copyWith(
-          lawcreateFoundresponse: lawcreateFoundresponse,
+          lawcreateFoundresponse: response,
           stateType: LawEnforcementStateType.success,
         ),
       );
 
-      if (lawcreateFoundresponse.message != null) {
+      if (response.message != null) {
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
           dismissLoadingDialog(context);
-          Utils.dynamicAlert(
-              context, lawcreateFoundresponse.message ?? '', title, '');
-        });
-      }
-    } catch (e) {
-      emit(
-        state.copyWith(
-          errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
-        ),
-      );
-
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        dismissLoadingDialog(context);
-        Utils.dynamicAlert(
-            context, Constants.errorText, title, Constants.errorText);
-      });
-    }
-  }
-
-  // Create new Found Article successfully API call
-  Future<void> lawcreateFoundArticleHandle(
-      Map<String, dynamic> bodyRequest,
-      bool isSubmit,
-      BuildContext context,
-      String username,
-      String title) async {
-    try {
-      SubmitLawEnforcementResponse? lawcreateFoundresponse =
-          await lawenforcementServices.createLawFoundArticleHandle(bodyRequest,
-              isSubmit, username); //replace empty model with bodyRequest
-      emit(
-        state.copyWith(
-          lawcreateFoundresponse: lawcreateFoundresponse,
-          stateType: LawEnforcementStateType.success,
-        ),
-      );
-
-      if (lawcreateFoundresponse.message != null) {
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          dismissLoadingDialog(context);
-          Utils.dynamicAlert(
-              context, lawcreateFoundresponse.message ?? '', title, '');
+          Utils.dynamicAlert(context, response.message ?? '', title, '');
         });
       }
     } catch (e) {
@@ -337,13 +298,13 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         stateType: LawEnforcementStateType.addattachment));
   }
 
-  Future<void> addingVisitis(
-      int value, List<VisitingOfficialsModel>? getVisits) async {
+  Future<void> addingVisits(
+      {required int visitCount, List<VisitingOfficialsModel>? getVisits}) async {
     //int eventIds = Random.secure().nextInt(5);
     emit(
       state.copyWith(
         getVisits: getVisits,
-        getVisitsCount: value,
+        getVisitsCount: visitCount,
         stateType: LawEnforcementStateType.success,
       ),
     );
@@ -500,7 +461,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  geDistributonData(DistributionGroup listOfdept) async {
+  geDistributonData(Organisation listOfdept) async {
     try {
       emit(
         state.copyWith(
@@ -538,8 +499,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  getleoDepartmentsResponseData(
-      Organisation leoDepartmentsResponse) async {
+  getleoDepartmentsResponseData(Organisation leoDepartmentsResponse) async {
     try {
       emit(
         state.copyWith(
@@ -575,8 +535,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  getleopurposeResponseData(
-      Organisation? leoPurposeVisitResponse) async {
+  getleopurposeResponseData(Organisation? leoPurposeVisitResponse) async {
     try {
       emit(
         state.copyWith(

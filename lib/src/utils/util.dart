@@ -30,11 +30,9 @@ class Utils {
     int length = timestamp.toString().length; // 7
     final DateTime dt;
     if (length > 10) {
-      dt = DateTime.fromMillisecondsSinceEpoch((timestamp ?? 0));
-      // print(dt);
+      dt = DateTime.fromMillisecondsSinceEpoch((timestamp));
     } else {
-      dt = DateTime.fromMillisecondsSinceEpoch((timestamp ?? 0) * 1000);
-      // print(dt);
+      dt = DateTime.fromMillisecondsSinceEpoch((timestamp) * 1000);
     }
 
     // 12 Hour format:
@@ -48,7 +46,7 @@ class Utils {
     return date;
   }
 
-  static int datetoTimestampConversion(String? date, String format) {
+  static int dateToTimestampConversion(String? date, String format) {
     // final df = new DateFormat(Constants.fulldateFormat);
     //df.format(new DateTime.fromMillisecondsSinceEpoch(myvalue*1000)));
     // DateTime dt = HttpDate.parse(date ?? '');
@@ -60,14 +58,8 @@ class Utils {
     }
 
     // Timestamp myTimeStamp = Timestamp.fromDate(dt);
-    // print(myTimeStamp.seconds);
-    //  print(myTimeStamp.nanoseconds);
-    //   print(myTimeStamp.nanoseconds);
     double timestamp = (dt?.millisecondsSinceEpoch ?? 0) / 1000;
 
-    //print(dt); // 2020-01-02 03:04:05.000
-    // int timestamp = dt.second;
-    //  print(dt);
     return timestamp.toInt(); //myTimeStamp.seconds;
   }
 
@@ -127,7 +119,7 @@ class Utils {
       return formattedDate;
     } catch (e) {
       // Handle any parsing or formatting errors here
-      print('Error formatting Unix timestamp: $e');
+      log('Error formatting Unix timestamp: $e');
       return 'Invalid Date';
     }
   }
@@ -513,6 +505,17 @@ class Utils {
   }
 
   Widget buildPassManagementStatusRow(int status) {
+    String statusText = buildPassManagementStatus(status);
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
+
+  String buildPassManagementStatus(int? status) {
     String statusText;
 
     switch (status) {
@@ -549,13 +552,7 @@ class Utils {
       default:
         statusText = ''; // Handle the default case if needed
     }
-    return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status: ', statusText),
-        ],
-      ),
-    );
+    return statusText;
   }
 
   Widget passManagementPassTypeRow(int passType) {
@@ -860,6 +857,26 @@ class Utils {
       child: Row(
         children: [
           textHandling('Incident Type: ', incidentTypeText),
+        ],
+      ),
+    );
+  }
+  Widget passCategory(int category) {
+    String categoryTypeText;
+    switch (category) {
+      case 0:
+        categoryTypeText = 'Loss';
+        break;
+      case 1:
+        categoryTypeText = 'Damage';
+        break;
+      default:
+        categoryTypeText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Pass Category: ', categoryTypeText),
         ],
       ),
     );

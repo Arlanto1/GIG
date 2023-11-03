@@ -154,7 +154,7 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
               ],
             ),
           ],
-          if (widget.userItem?.claimantName != null) ...[
+          if (widget.userItem?.claimantName != null && widget.userItem?.status !=0) ...[
             CommonWidgets.verticalSpacerWidget(8),
             Row(
               children: [
@@ -163,7 +163,7 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
               ],
             ),
           ],
-          if(widget.userItem?.handoverDate != null)...[
+          if(widget.userItem?.handoverDate != null && widget.userItem?.status == 2)...[
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
@@ -172,7 +172,7 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
                   widget.userItem?.handoverDate != null
                       ? Utils.timestamptoDateConversion(
                           int.parse(widget.userItem?.handoverDate ?? '0'),
-                          Constants.dateFormat)
+                          Constants.fulldateFormat)
                       : ''),
             ],
           ),

@@ -121,7 +121,7 @@ class _RatesInfoState extends State<RatesInfo> {
                         /// Created By
                         Row(
                           children: [
-                            Column(
+                            Row(
                               children: [
                                 CommonWidgets.verticalTextHandling(
                                     Constants.createdby,
@@ -137,7 +137,7 @@ class _RatesInfoState extends State<RatesInfo> {
 
                         /// Location
                         CommonWidgets.textDisplay(
-                            Constants.location, Styles.textStyleBlack14),
+                            Constants.location,isMandatory: true, Styles.textStyleBlack14),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         locationWidgetdislay(state),
 
@@ -145,19 +145,19 @@ class _RatesInfoState extends State<RatesInfo> {
 
                         /// Date of creation
                         CommonWidgets.textDisplay(
-                            Constants.dateofcreation, Styles.textStyleBlack14),
+                            Constants.dateofcreation,isMandatory: true, Styles.textStyleBlack14),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         datecreateWidgetdisplay(state.rate.inputDate ?? ''),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Sl No.
                         CommonWidgets.horizentaltextHandling(
-                            Constants.slno, state.rate.slNo ?? ''),
+                            Constants.slno,isMandatory: true, state.rate.slNo ?? ''),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Entity
                         CommonWidgets.textDisplay(
-                          Constants.entity,
+                          Constants.entity,isMandatory: true,
                           Styles.textStyleBlack14,
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -177,7 +177,7 @@ class _RatesInfoState extends State<RatesInfo> {
 
                         /// Vendor
                         CommonWidgets.textDisplay(
-                          Constants.vendor,
+                          Constants.vendor,isMandatory: true,
                           Styles.textStyleBlack14,
                         ),
                         widget.rate == null

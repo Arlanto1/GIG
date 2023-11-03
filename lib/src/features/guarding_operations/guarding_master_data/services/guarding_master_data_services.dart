@@ -54,7 +54,7 @@ class GuardingMasterDataServices {
     required bool isSubmit,
   }) async {
     final String url =
-        "${Apis._createGuardingMasterData}?userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
+        "${Apis._createGuardingMasterData}userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,

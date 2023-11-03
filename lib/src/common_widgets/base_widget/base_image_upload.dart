@@ -48,7 +48,10 @@ class BaseImageUpload {
               //AppIcon.dropdownicon,
               AppIcon.uploadicon,
               //fit: BoxFit.,
-              color: AppColors.backgroundWhitecolor,
+              colorFilter: const ColorFilter.mode(
+                AppColors.backgroundWhitecolor,
+                BlendMode.srcIn,
+              ),
               width: 13,
               height: 13,
               key: const Key(Keys.userIcon),
@@ -82,7 +85,10 @@ class BaseImageUpload {
       );
     }
 
-    return const SizedBox(height: 0,width: 0,);
+    return const SizedBox(
+      height: 0,
+      width: 0,
+    );
   }
 
   Widget _attachmentListviews({
@@ -111,8 +117,13 @@ class BaseImageUpload {
             children: <Widget>[
               ListTile(
                 trailing: showDownloadIcon
-                    ? SvgPicture.asset(AppIcon.download,
-                        color: AppColors.boldgreyBackground)
+                    ? SvgPicture.asset(
+                        AppIcon.download,
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.backgroundWhitecolor,
+                          BlendMode.srcIn,
+                        ),
+                      )
                     : const SizedBox(
                         height: 0,
                         width: 0,

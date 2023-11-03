@@ -57,7 +57,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } catch (e) {
       // Handle API errors here
       if (e is GenericCreateResponse) {
-        emit(LoginFailureState(message: e.message ?? 'errrrorrrrr'));
+        emit(LoginFailureState(message: e.message ?? 'An unexpected error occurred.'));
       } else {
         // Handle other unexpected errors
         log('An unexpected error occurred: $e');
