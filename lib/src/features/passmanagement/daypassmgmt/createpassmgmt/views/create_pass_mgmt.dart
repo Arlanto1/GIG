@@ -1043,7 +1043,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 ],
                                 if (widget.passId == '3') ...[
                                   CommonWidgets.textDisplay(
-                                      Constants.passIssuedOn,isMandatory: true,
+                                      Constants.passIssuedOn,
+                                      isMandatory: true,
                                       Styles.textStyleBlack14),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
@@ -2471,13 +2472,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         id: (state.location?.id == 0) ? 1 : state.location?.id ?? 1,
         name: state.location?.name ?? '');
 
-    Organisation? companyType = widget.model?.companyType;
+    // Organisation? companyType = widget.model?.companyType;
     log('--state.locationSelectedlist?.id--${state.location?.id}----');
     Organisation? locationRegion = Organisation(
         id: (state.location?.id == 0) ? 1 : state.location?.id ?? 1,
         name: state.location?.name ?? '');
 
-    Organisation? dept2 = widget.model?.department;
+    // Organisation? dept2 = widget.model?.department;
     PassInfo info;
 
     log('widget.passId------------${widget.passId}');
@@ -2504,6 +2505,26 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             ? 1
             : state.dbsponsorResponse?.id ?? 1,
         name: state.dbsponsorResponse?.name ?? '');
+
+    // Organisation? companyType = widget.model?.companyType;
+    // log('--state.locationSelectedlist?.id--${state.location?.id}----');
+    Organisation? companyType = Organisation(
+        id: (state.atomCompanyType?.id == 0)
+            ? 1
+            : state.atomCompanyType?.id ?? 1,
+        name: state.atomCompanyType?.name ?? '');
+
+    Organisation? dept2 = Organisation(
+        id: (state.selectedemployeeDepartmentResponse?.id == 0)
+            ? 1
+            : state.selectedemployeeDepartmentResponse?.id ?? 1,
+        name: state.selectedemployeeDepartmentResponse?.name ?? '');
+
+    Organisation? dayPass = Organisation(
+        id: (state.dayPasselementReason?.id == 0)
+            ? 1
+            : state.dayPasselementReason?.id ?? 1,
+        name: state.dayPasselementReason?.name ?? '');
 
     int passtypeIdentify = 0;
     if (passtypeTextController.text == "VISITOR_PASS") {
@@ -2568,7 +2589,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       return;
     }
 
-    Organisation? dayPass = widget.model?.dayPassReason;
+    //Organisation? dayPass = widget.model?.dayPassReason;
     PassManagement? passmgmtbody;
     log('--pass info id--${passInfo.id}---');
     if (widget.model != null) {
@@ -2944,7 +2965,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
     } else if ((widget.passId == '0' ||
             widget.passId == '1' ||
-            widget.passId == '2') && ((state.escortedbyhost ?? 0) == 0) &&
+            widget.passId == '2') &&
+        ((state.escortedbyhost ?? 0) == 0) &&
         (escortedbyTextController.text.isEmpty)) {
       Validator().showToast(
         context,
@@ -2952,7 +2974,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
     } else if ((widget.passId == '0' ||
             widget.passId == '1' ||
-            widget.passId == '2') && ((state.escortedbyhost ?? 0) == 0) &&
+            widget.passId == '2') &&
+        ((state.escortedbyhost ?? 0) == 0) &&
         (escortedemployeedidbyTextController.text.isEmpty)) {
       Validator().showToast(
         context,
