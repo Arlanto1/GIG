@@ -996,12 +996,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                   child: FlutterInputField(
                                       isEnable: false,
                                       isDisableColor: widget.model == null ||
-                                          passCategoryTextController
+                                              passCategoryTextController
                                                   .text.isEmpty
                                           ? false
                                           : true,
-                                      textFieldController:widget.passId == '3'?
-                                      passCategoryTextController: daypassnoTextController,
+                                      textFieldController: widget.passId == '3'
+                                          ? passCategoryTextController
+                                          : daypassnoTextController,
                                       textFormKey: Keys.statusTextController,
                                       hintText: '',
                                       onChange: (String username) {
@@ -1652,21 +1653,35 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     //     });
 
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return CustomSimpleListTexts(
-            texts: widget.passId == "3"
-                ? ["Permanent", "Temporary"]
-                // : widget.passId == "2"
-                //     ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
-                : [],
-            onTap: (String value) {
-              print(value);
-              passCategoryTextController.text = value;
-              setState(() {});
-            },
-          );
-        },);
+      context: context,
+      builder: (BuildContext context) {
+        return CustomSimpleListTexts(
+          texts: widget.passId == "3"
+              ? ["Permanent", "Temporary"]
+              // : widget.passId == "2"
+              //     ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
+              : [],
+          onTap: (String value) {
+            print(value);
+            passCategoryTextController.text = value;
+
+            //TODO: Make below code functional
+            // final currentDate = DateTime.now();
+            // if(value.equalsIgnoreCase('Permanent')) {
+            //   String nextformattedDate = DateFormat(Constants.fulldateFormat)
+            //       .format(currentDate.add(const Duration(days: 12)));
+            //   passvaliduntilTextController.text = nextformattedDate;
+            // } else{
+            //   String nextformattedDate = DateFormat(Constants.fulldateFormat)
+            //       .format(currentDate.add(const Duration(hours: 12)));
+            //   passvaliduntilTextController.text = nextformattedDate;
+            // }
+
+            setState(() {});
+          },
+        );
+      },
+    );
   }
 
   photoIdentityTypeDialog() {
