@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
 import 'package:equatable/equatable.dart';
@@ -10,6 +11,7 @@ import 'package:equatable/equatable.dart';
 import '../../../../enums/form_status.dart';
 
 part 'material_movement_event.dart';
+
 part 'material_movement_state.dart';
 
 class MaterialMovementBloc
@@ -38,7 +40,6 @@ class MaterialMovementBloc
             await _materialMovementServices.getMaterialMovements(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-
           userId: '77',
           mmType: isInward ? 1 : 0,
         );

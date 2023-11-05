@@ -1,4 +1,4 @@
-import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
+import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
 
 class MaterialMovementRequest {
   MaterialMovementRequest({
