@@ -3038,8 +3038,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       child: ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount:
-              attachmentListviews1?.length ?? attachmentListviews?.length ?? 0,
+          itemCount: (attachmentListviews1?.length ?? 0) >
+              (attachmentListviews?.length ?? 0)
+              ? attachmentListviews1?.length
+              : attachmentListviews?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
             CreateImage? imagedata;
             FoundImage? imagedata1;
