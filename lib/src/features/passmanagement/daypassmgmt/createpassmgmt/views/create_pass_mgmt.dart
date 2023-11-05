@@ -2586,8 +2586,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     List<CreateImage>? images = getFiles ?? [];
     List<CreateImage>? photoimages = photogetFiles ?? [];
-    PassEntrySecurity? entrysecurtity =
-        PassEntrySecurity(userId: state.getUserDetailsResponse?.userId ?? 1);
+    User? entrySecurity = widget.model?.entrySecurity ??
+        User(userId: state.getUserDetailsResponse?.userId ?? 1);
 
     log('--passinfo type-22-${passInfo.passType}--------');
 
@@ -2670,7 +2670,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         //mifareNo: mtpapplicationnoTextController.text ?? '',
         category: category,
         dayPassReason: dayPass,
-        entrySecurity: entrysecurtity,
+        entrySecurity: entrySecurity,
+        entrySecurityName:
+            '${entrySecurity.firstName ?? ''} ${entrySecurity.lastName ?? ''}',
       );
     } else {
       log('--passinfo type--333----${passInfo.passType}--------');
@@ -2721,7 +2723,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           category: category,
           dayPassReason: dayPass,
           email: emailTextController.text,
-          entrySecurity: entrysecurtity);
+          entrySecurity: entrySecurity);
     }
     showLoadingDialog(context);
     var username = await SharedPrefs.getUsername();

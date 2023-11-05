@@ -76,7 +76,7 @@ class PassManagement {
   List<CreateImage>? visitorImage;
   Organisation? visitingDepartment;
   String? startTime;
-  PassEntrySecurity? entrySecurity;
+  User? entrySecurity;
 
   PassManagement({
     this.id,
@@ -200,7 +200,7 @@ class PassManagement {
         startTime: json["startTime"],
         entrySecurity: json["entrySecurity"] == null
             ? null
-            : PassEntrySecurity.fromJson(json["entrySecurity"]),
+            : User.fromJson(json["entrySecurity"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -258,23 +258,6 @@ class PassManagement {
         "startTime": startTime,
         "updatedStatus": updatedStatus,
         "entrySecurity": entrySecurity?.toJson(),
-      };
-}
-
-class PassEntrySecurity {
-  int? userId;
-
-  PassEntrySecurity({
-    this.userId,
-  });
-
-  factory PassEntrySecurity.fromJson(Map<String, dynamic> json) =>
-      PassEntrySecurity(
-        userId: json["userId"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "userId": userId,
       };
 }
 
