@@ -969,15 +969,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                 /// Day  pass no
                                 CommonWidgets.textDisplay(
-                                    widget.passId == "1"
-                                        ? "Visitor Pass No"
-                                        : widget.passId == "2"
-                                            ? "Vendor Pass No"
-                                            : widget.passId == '3'
-                                                ? 'Pass Category'
-                                                : Constants.daypassno,
-                                    isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                  widget.passId == "1"
+                                      ? "Visitor Pass No"
+                                      : widget.passId == "2"
+                                          ? "Vendor Pass No"
+                                          : widget.passId == '3'
+                                              ? 'Pass Category'
+                                              : Constants.daypassno,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14,
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 GestureDetector(
@@ -995,12 +996,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                   child: FlutterInputField(
                                       isEnable: false,
                                       isDisableColor: widget.model == null ||
-                                              daypassnoTextController
+                                          passCategoryTextController
                                                   .text.isEmpty
                                           ? false
                                           : true,
-                                      textFieldController:
-                                          daypassnoTextController,
+                                      textFieldController:widget.passId == '3'?
+                                      passCategoryTextController: daypassnoTextController,
                                       textFormKey: Keys.statusTextController,
                                       hintText: '',
                                       onChange: (String username) {
@@ -1453,6 +1454,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       Organisation active = Organisation(
           id: widget.model?.passInfo?.id ?? 0,
           name: widget.model?.passInfo?.passNo ?? '');
+      passCategoryTextController.text =
+          widget.model?.category == 1 ? 'Temporary' : 'Permanent';
+      log('-passCategoryTextController.text----${passCategoryTextController.text}-');
+
       // daypassnoTextController.text =
       //     widget.dayPassItem?.category.toString() ?? '';
 
@@ -1657,11 +1662,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 : [],
             onTap: (String value) {
               print(value);
-              daypassnoTextController.text = value;
+              passCategoryTextController.text = value;
               setState(() {});
             },
           );
-        });
+        },);
   }
 
   photoIdentityTypeDialog() {
