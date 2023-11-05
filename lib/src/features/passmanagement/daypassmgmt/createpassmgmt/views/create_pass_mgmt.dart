@@ -118,7 +118,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               widget.model?.status == 3) ...[
             GestureDetector(
               onTap: () {
-                passSubmit(false, widget.model?.id ?? 0, globalState);
+                submitForm(false, widget.model?.id ?? 0, globalState);
               },
               child: Padding(
                 padding: const EdgeInsets.only(right: 20.0),
@@ -1465,7 +1465,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               id: widget.model?.companyType?.id ?? 0,
               name: widget.model?.companyType?.name ?? '')
           : Organisation();
-      createpassmgmtCubit.getAtomCompanyTypeResponseData(emp);
+      createpassmgmtCubit.selectedCompanyType(emp);
 
       /// vendorPassReason
       Organisation day = widget.model != null
@@ -1484,7 +1484,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               id: widget.model?.department?.id ?? 0,
               name: widget.model?.department?.name ?? '')
           : Organisation();
-      createpassmgmtCubit.getemployeeDepartmentsResponseData(dep);
+      createpassmgmtCubit.selectedEmployeeDepartment(dep);
       // getAttachments =
       //     widget.listuser?.images != null ? widget.listuser?.images ?? [] : [];
       // photogetAttachments =
@@ -1664,7 +1664,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget departmentaddButtonwidgetLoading(CreatePassMgmtState state) {
     return TextfieldAddButton(
-      title: state.selectedemployeeDepartmentResponse?.name ?? '',
+      title: state.selectedDepartment?.name ?? '',
       height: 60,
       isDisableColor:
           widget.model?.status != 0 && widget.model != null ? true : false,
@@ -1958,7 +1958,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             },
             onTap: (Organisation list) {
               //print(list.name);
-              createpassmgmtCubit.getemployeeDepartmentsResponseData(list);
+              createpassmgmtCubit.selectedEmployeeDepartment(list);
             },
           );
         });
@@ -2004,7 +2004,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 companynameTextController.text = "Deutsche Bank";
                 isFTECompanyNameEditable = false;
               }
-              createpassmgmtCubit.getAtomCompanyTypeResponseData(organisation);
+              createpassmgmtCubit.selectedCompanyType(organisation);
             },
           );
         });
@@ -2346,7 +2346,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   //     child: SelectedTileValueWidget(name: state.location?.name ?? ''),
   //   );
   // }
-  Future passSubmit(
+  Future submitForm(
       bool isSubmit, int isFoundId, CreatePassMgmtState state) async {
     if (widget.passId == '0') {
       if (daypassnoTextController.text.isEmptyOrNull) {
@@ -2405,7 +2405,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         passInfo.passType = 0;
         break;
     }
-    passInfo.passNo = sezpassinfoTextController.text;
+    if(widget.passId == '3') {
+      passInfo.passNo = sezpassinfoTextController.text;
+    } else {
+      passInfo.passNo = daypassnoTextController.text;
+    }
     passInfo.mifareNo = mtpApplicationNoTextController.text;
     log('-passtypeTextController-----${passtypeTextController.text}----');
     log('-sezpassinfoTextController-----${sezpassinfoTextController.text}----');
@@ -2508,19 +2512,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     // Organisation? companyType = widget.model?.companyType;
     // log('--state.locationSelectedlist?.id--${state.location?.id}----');
-    Organisation? companyType = Organisation(
-        id: (state.atomCompanyType?.id == 0)
-            ? 1
-            : state.atomCompanyType?.id ?? 1,
-        name: state.atomCompanyType?.name ?? '');
+    Organisation? companyType =
+        state.atomCompanyType ?? widget.model?.companyType;
 
-    Organisation? dept2 = Organisation(
-        id: (state.selectedemployeeDepartmentResponse?.id == 0)
-            ? 1
-            : state.selectedemployeeDepartmentResponse?.id ?? 1,
-        name: state.selectedemployeeDepartmentResponse?.name ?? '');
-
-    Organisation? dayPass = Organisation(
+    Organisation? department =
+        state.selectedDepartment ?? widget.model?.department;
+    Organisation? dayPass =
+        state.dayPasselementReason ?? widget.model?.dayPassReason;
+    Organisation(
         id: (state.dayPasselementReason?.id == 0)
             ? 1
             : state.dayPasselementReason?.id ?? 1,
@@ -2630,12 +2629,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         companyType: companyType,
         images: images,
         entities: entities,
-        department: dept2,
+        department: department,
         passInfo: passInfo,
         host: dbsponsorTextController.text.isEmpty ? host2 : dbsponsor,
         email: emailTextController.text,
         contactNo: contactnoTextController.text,
-        visitingDepartment: dept2,
+        visitingDepartment: department,
         visitorName: nameTextController.text,
         visitorImage: photoimages,
         visitorComingFrom: visitorcomingfromTextController.text,
@@ -2681,11 +2680,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           companyType: companyType,
           images: images,
           entities: entities,
-          department: dept2,
+          department: department,
           passInfo: info,
           host: dbsponsorTextController.text.isEmpty ? host2 : dbsponsor,
           contactNo: contactnoTextController.text,
-          visitingDepartment: dept2,
+          visitingDepartment: department,
           visitorName: nameTextController.text,
           visitorImage: photoimages,
           visitorComingFrom: visitorcomingfromTextController.text,
@@ -2718,7 +2717,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         mtpApplicationNoTextController.text.isEmpty &&
         escortedbyTextController.text.isEmpty &&
         passtypeTextController.text.isEmpty &&
-        state.selectedemployeeDepartmentResponse == null &&
+        state.selectedDepartment == null &&
         state.atomCompanyType == null &&
         state.dayPasselementReason == null) {
       Validator().showToast(
@@ -2890,15 +2889,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     //   );
     // }
     else if ((widget.passId == '0' &&
-        (state.selectedemployeeDepartmentResponse == null ||
-            (state.selectedemployeeDepartmentResponse?.name ?? '').isEmpty))) {
+        (state.selectedDepartment == null ||
+            (state.selectedDepartment?.name ?? '').isEmpty))) {
       Validator().showToast(
         context,
         "Please enter department",
       );
     } else if (((widget.passId == '1' || widget.passId == '2') &&
-        (state.selectedemployeeDepartmentResponse == null ||
-            (state.selectedemployeeDepartmentResponse?.name ?? '').isEmpty))) {
+        (state.selectedDepartment == null ||
+            (state.selectedDepartment?.name ?? '').isEmpty))) {
       Validator().showToast(
         context,
         "Please enter visit department",
@@ -2982,7 +2981,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "Please enter escort employeed id",
       );
     } else {
-      passSubmit(true, widget.model?.id ?? 0, globalState);
+      submitForm(true, widget.model?.id ?? 0, globalState);
     }
   }
 

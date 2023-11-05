@@ -371,11 +371,11 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  getAtomCompanyTypeResponseData(Organisation? companyTypeResponse) async {
+  selectedCompanyType(Organisation? companyTypeResponse) async {
     try {
       emit(
         state.copyWith(
-          atomCompanyType: companyTypeResponse,
+          selectedCompanyType: companyTypeResponse,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -576,7 +576,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   initialization() {
-    state.selectedemployeeDepartmentResponse = Organisation();
+    state.selectedDepartment = Organisation();
     state.employeeDepartment = EmployeeDepartments();
     state.companyTypes = CompanyTypes();
     state.vendorPassInfo = Organisation();
@@ -617,11 +617,11 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  getemployeeDepartmentsResponseData(Organisation employeedepartment) async {
+  selectedEmployeeDepartment(Organisation employeeDepartment) async {
     try {
       emit(
         state.copyWith(
-          selectedemployeeDepartmentResponse: employeedepartment,
+          selectedEmployeeDepartment: employeeDepartment,
           stateType: CreatePassMgmtStateType.success,
         ),
       );

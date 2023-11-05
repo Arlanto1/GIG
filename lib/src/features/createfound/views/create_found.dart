@@ -311,7 +311,8 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   /// Submit Form
-  Future submitForm(bool isSubmit, int isFoundId, {CreateFoundState? state}) async {
+  Future submitForm(bool isSubmit, int isFoundId,
+      {CreateFoundState? state}) async {
     log('-createRequestBody-----');
     int foundDate = Utils.dateToTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
@@ -353,7 +354,7 @@ class _CreateFoundState extends State<CreateFound> {
     }
     log('--2222-state?.loggedInUser-${state?.loggedInUser}--');
     User? handoverSecurity;
-    if(widget.model?.status == 1) {
+    if (widget.model?.status == 1) {
       log('---state?.loggedInUser-${state?.loggedInUser}--');
       handoverSecurity = state?.loggedInUser;
     }
@@ -584,7 +585,7 @@ class _CreateFoundState extends State<CreateFound> {
           submitForm(true, widget.model?.id ?? 0, state: state);
         }
       } else {
-        submitForm( true, widget.model?.id ?? 0, state: state);
+        submitForm(true, widget.model?.id ?? 0, state: state);
       }
     }
   }
@@ -757,7 +758,7 @@ class _CreateFoundState extends State<CreateFound> {
                   //for now the new param is isSubmit added, if any new params needed we can add to this.
                   //createNewuserBody(false); //for save
                   //createdraftValidations(context);
-                  submitForm( false, 0);
+                  submitForm(false, 0);
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(right: 20.0),
@@ -1012,7 +1013,8 @@ class _CreateFoundState extends State<CreateFound> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                showBorder: true,lineHeight: 6,
+                                showBorder: true,
+                                lineHeight: 6,
                                 textFieldController:
                                     additionalinformationTextController,
                                 textFormKey:
@@ -1022,9 +1024,10 @@ class _CreateFoundState extends State<CreateFound> {
                                         widget.model == null
                                     ? true
                                     : false,
-                                isDisableColor:
-                                    widget.model?.status == 0 ||
-                                      widget.model == null? false : true,
+                                isDisableColor: widget.model?.status == 0 ||
+                                        widget.model == null
+                                    ? false
+                                    : true,
                                 onChange: (String username) {
                                   //this.username = username;
                                   setState(() {});
@@ -1127,8 +1130,9 @@ class _CreateFoundState extends State<CreateFound> {
                                           depositorTextController,
                                       textFormKey: Keys.depositorTextController,
                                       hintText: '',
-                                      isEnable: widget.model?.status == 0||
-                                          widget.model == null? true
+                                      isEnable: widget.model?.status == 0 ||
+                                              widget.model == null
+                                          ? true
                                           : false,
                                       isDisableColor: widget.model?.status != 0
                                           ? false
@@ -1216,24 +1220,24 @@ class _CreateFoundState extends State<CreateFound> {
                                   : Container(),
 
                               if (widget.model?.status == 1 ||
-                                widget.model?.status == 2) ...[
-                              /// is claimant db employee
-                              widget.model != null
-                                  ? CommonWidgets.textDisplay(
-                                      Constants.isclaimantdbemployee,
-                                      Styles.textStyleBlack14,
-                                      isMandatory: true)
-                                  : Container(),
-                              widget.model != null
-                                  ? radioButtonHandling(
-                                      isClaimantDBEmployeeSelected,
-                                  isDisableColor: (
-                                      widget.model?.status == 2)
-                                      ? true
-                                      : false,
-                                      Constants.isclaimantdbemployee,
-                                     )
-                                  : Container(),
+                                  widget.model?.status == 2) ...[
+                                /// is claimant db employee
+                                widget.model != null
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.isclaimantdbemployee,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true)
+                                    : Container(),
+                                widget.model != null
+                                    ? radioButtonHandling(
+                                        isClaimantDBEmployeeSelected,
+                                        isDisableColor:
+                                            (widget.model?.status == 2)
+                                                ? true
+                                                : false,
+                                        Constants.isclaimantdbemployee,
+                                      )
+                                    : Container(),
 
                                 /// claimant
                                 widget.model != null
@@ -1319,7 +1323,8 @@ class _CreateFoundState extends State<CreateFound> {
                                 widget.model != null &&
                                         isClaimantDBEmployeeSelected == 1
                                     ? FlutterInputField(
-                                        keyboardType: TextInputType.number,textFieldController:
+                                        keyboardType: TextInputType.number,
+                                        textFieldController:
                                             claimantEmpIdTextController,
                                         textFormKey:
                                             Keys.claimantEmpIdTextController,
@@ -1365,21 +1370,21 @@ class _CreateFoundState extends State<CreateFound> {
                                         height * 0.001)
                                     : Container(),
 
-                              widget.model != null &&
-                                      isClaimantDBEmployeeSelected == 1
-                                  ? TextfieldAddButton(
-                                      title:
-                                          (selectedClaimdepartment?.name ?? ''),
-                                      height: 60,
-                                isDisableColor:
-                                widget.model?.status != 2
-                                    ? false
-                                    : true,
-                                      onTap: () {
-                                        if (widget.model?.status != 2) {
-                                          employeeDepartmentDialog(state,
-                                              Constants.claimantdepartment);
-                                        }
+                                widget.model != null &&
+                                        isClaimantDBEmployeeSelected == 1
+                                    ? TextfieldAddButton(
+                                        title: (selectedClaimdepartment?.name ??
+                                            ''),
+                                        height: 60,
+                                        isDisableColor:
+                                            widget.model?.status != 2
+                                                ? false
+                                                : true,
+                                        onTap: () {
+                                          if (widget.model?.status != 2) {
+                                            employeeDepartmentDialog(state,
+                                                Constants.claimantdepartment);
+                                          }
                                         },
                                       )
                                     : Container(),
@@ -1401,11 +1406,7 @@ class _CreateFoundState extends State<CreateFound> {
                                         isClaimantDBEmployeeSelected == 1
                                     ? radioButtonHandling(
                                         isClaimantAcceptedByemail,
-                                    isDisableColor: (
-                                      widget.model?.status == 2)
-                                      ? true
-                                      : false,
-                                      Constants.isclaimantacceptedbyemail,
+                                        Constants.isclaimantacceptedbyemail,
                                         isDisableColor: isDisabled,
                                       )
                                     : Container(),
@@ -1421,11 +1422,7 @@ class _CreateFoundState extends State<CreateFound> {
                                 widget.model != null
                                     ? radioButtonHandling(
                                         isClaimantAcceptedtoSignSelected,
-                                    isDisableColor: (
-                                      widget.model?.status == 2)
-                                      ? true
-                                      : false,
-                                      Constants.isclaimantacceptedtosign,
+                                        Constants.isclaimantacceptedtosign,
                                         isDisableColor: isDisabled,
                                       )
                                     : Container(),
@@ -1467,9 +1464,9 @@ class _CreateFoundState extends State<CreateFound> {
                                 //         height * 0.01)
                                 //     : Container(),
                               ],
-                            // if (widget.model?.status == 1 ||
-                            //     widget.model?.status == 2) ...[
-                            //  buildSignature(
+                              // if (widget.model?.status == 1 ||
+                              //     widget.model?.status == 2) ...[
+                              //  buildSignature(
                               //    controller: claimantSignature,
                               //    label: Constants.claimantsignature,
                               //    spaceHeight: height,
@@ -1479,26 +1476,24 @@ class _CreateFoundState extends State<CreateFound> {
 
                               /// Item Handover By
                               if (widget.model?.status == 2) ...[
-                                 CommonWidgets.horizentaltextHandling(
-                                        Constants.itemhandoverby,
-                                        itemhandoverByValue,
-                                        isMandatory: true)
-                                    ,
+                                CommonWidgets.horizentaltextHandling(
+                                    Constants.itemhandoverby,
+                                    itemhandoverByValue,
+                                    isMandatory: true),
 
                                 /// Handed over date
 
-                                 CommonWidgets.textDisplay(
-                                        Constants.handedoverdate,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true,
-                                    ),
-                                     CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                     datepickerWidgetLoading(
-                                        handedoverdatedateTextController),
-                                     CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01)
-                                    ,
+                                CommonWidgets.textDisplay(
+                                  Constants.handedoverdate,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                datepickerWidgetLoading(
+                                    handedoverdatedateTextController),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
                               ],
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -1822,7 +1817,7 @@ class _CreateFoundState extends State<CreateFound> {
           onChanged: (val) {
             radioButtonItem = 'No';
             selectedValue = 0;
-            if (name == Constants.isclaimantacceptedtosign&&
+            if (name == Constants.isclaimantacceptedtosign &&
                 widget.model?.status != 2) {
               isClaimantAcceptedtoSignSelected = selectedValue;
             } else if (name == Constants.isclaimantacceptedbyemail &&
@@ -1833,7 +1828,7 @@ class _CreateFoundState extends State<CreateFound> {
               isClaimantDBEmployeeSelected = selectedValue;
             } else if (name == Constants.isdepositordbemployee &&
                 widget.model?.status != 1 &&
-                widget.model?.status != 2)  {
+                widget.model?.status != 2) {
               isDepositorDBEmployeeSelected = selectedValue;
             }
             setState(() {});
