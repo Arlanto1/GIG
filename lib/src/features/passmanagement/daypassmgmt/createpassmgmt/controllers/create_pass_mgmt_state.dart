@@ -34,7 +34,7 @@ class CreatePassMgmtState extends Equatable {
   String? errorMessage;
   GetLocations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
-  List<Organisation>? listOfEntities;
+  List<Organisation>? selectedEntities;
   Organisation? location;
   Organisation? locationRegion;
   SerialNumberModel? serialnumberResponse;
@@ -54,16 +54,16 @@ class CreatePassMgmtState extends Equatable {
   DayPassReason? dayPassReason;
   BaseUser? t1nameanalyst;
   Analyst? analyst;
-  BaseUser? t1hostanalyst;
-  BaseUser? t1dbsponsoranalyst;
+  User? t1hostanalyst;
+  User? t1dbsponsoranalyst;
   Organisation? vendorPassInfo;
   DayPassNumberLists? passnumbelistresponse;
   String? radioButtonItem = '';
   int? escortedbyhost;
 
   CreateUserModel? createUserResponse;
-  BaseUser? hostResponse;
-  BaseUser? dbsponsorResponse;
+  User? hostResponse;
+  User? dbsponsorResponse;
   BaseUser? nameResponse;
   bool showIdentifiedFields;
 
@@ -74,7 +74,7 @@ class CreatePassMgmtState extends Equatable {
     this.errorMessage,
     this.getLocationsResponse,
     this.getSerialnumberResponse,
-    this.listOfEntities,
+    this.selectedEntities,
     this.location,
     this.locationRegion,
     this.serialnumberResponse,
@@ -115,7 +115,7 @@ class CreatePassMgmtState extends Equatable {
     String? errorMessage,
     GetLocations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,
-    List<Organisation>? listOfEntities,
+    List<Organisation>? selectedEntities,
     Organisation? location,
     Organisation? locationRegion,
     SerialNumberModel? serialnumberResponse,
@@ -136,16 +136,16 @@ class CreatePassMgmtState extends Equatable {
     DayPassReason? dayPassReason,
     BaseUser? t1nameanalyst,
     Analyst? analyst,
-    BaseUser? t1hostanalyst,
-    BaseUser? t1dbsponsoranalyst,
+    User? t1hostanalyst,
+    User? t1dbsponsoranalyst,
     Organisation? activePassInfoList,
     DayPassNumberLists? passnumbelistresponse,
     String? radioButtonItem = '',
     int? escortedbyhost,
     List<CreateImage>? photoAttachments,
     CreateUserModel? createUserResponse,
-    BaseUser? hostResponse,
-    BaseUser? dbsponsorResponse,
+    User? hostResponse,
+    User? dbsponsorResponse,
     BaseUser? nameResponse,
   }) {
     return CreatePassMgmtState(
@@ -156,7 +156,7 @@ class CreatePassMgmtState extends Equatable {
       getLocationsResponse: getLocationsResponse ?? this.getLocationsResponse,
       getSerialnumberResponse:
           getSerialnumberResponse ?? this.getSerialnumberResponse,
-      listOfEntities: listOfEntities ?? this.listOfEntities,
+      selectedEntities: selectedEntities ?? this.selectedEntities,
       location: location ?? this.location,
       locationRegion: locationRegion ?? this.locationRegion,
       serialnumberResponse: serialnumberResponse ?? this.serialnumberResponse,
@@ -206,7 +206,7 @@ class CreatePassMgmtState extends Equatable {
         errorMessage,
         getLocationsResponse,
         getSerialnumberResponse,
-        listOfEntities,
+        selectedEntities,
         location,
         locationRegion,
         serialnumberResponse,

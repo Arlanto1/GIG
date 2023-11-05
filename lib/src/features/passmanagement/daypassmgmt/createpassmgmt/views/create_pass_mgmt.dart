@@ -1318,8 +1318,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   populateData() async {
     if (widget.model != null) {
-
-      createpassmgmtCubit.initializeIdentifiedFields(widget.model!);
+      createpassmgmtCubit.initializeValues(widget.model!);
       if (widget.model?.companyType?.name?.toLowerCase() == 'fte') {
         isFTECompanyNameEditable = false;
       }
@@ -1353,9 +1352,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       hostTextController.text = widget.model?.hostName != null
           ? widget.model?.hostName.toString() ?? ""
           : '';
-      BaseUser host1 = hostTextController.text.isNotEmpty
-          ? BaseUser(id: int.parse(userId), name: hostTextController.text)
-          : BaseUser();
+
+      log('-widget.model?.host----${widget.model?.host?.userName}----');
+      User? host1 = widget.model?.host ??
+          User(userId: int.parse(userId), name: hostTextController.text);
 
       createpassmgmtCubit.gethostanalystsResponseData(host1);
       createpassmgmtCubit.getdbsponsoranalystsResponseData(host1);
@@ -1364,9 +1364,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       dbsponsorTextController.text = widget.model?.hostName != null
           ? widget.model?.hostName.toString() ?? ""
           : '';
-      BaseUser dbSponsor1 = dbsponsorTextController.text.isNotEmpty
-          ? BaseUser(id: int.parse(userId), name: dbsponsorTextController.text)
-          : BaseUser();
+      // BaseUser dbSponsor1 = dbsponsorTextController.text.isNotEmpty
+      //     ? BaseUser(id: int.parse(userId), name: dbsponsorTextController.text)
+      //     : BaseUser();
+
+      User? dbSponsor1 = widget.model?.host ??
+          User(userId: int.parse(userId), name: dbsponsorTextController.text);
+
       createpassmgmtCubit.getdbsponsorUsersResponseData(dbSponsor1);
       nameTextController.text =
           widget.passId == '1' && widget.model?.employeeName != null
@@ -1902,17 +1906,17 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget entityaddButtonwidgetLoading(CreatePassMgmtState state) {
     String title = '';
-    if ((state.listOfEntities?.length ?? 0) > 0) {
-      for (int i = 0; i < state.listOfEntities!.length; i++) {
-        Organisation entity = state.listOfEntities![i];
+    if ((state.selectedEntities?.length ?? 0) > 0) {
+      for (int i = 0; i < state.selectedEntities!.length; i++) {
+        Organisation entity = state.selectedEntities![i];
         String value = entity.name ?? '';
         title = '$title  $value';
       }
     }
     return TextfieldAddButton(
       title: title,
-      height: (state.listOfEntities?.length ?? 0) > 4
-          ? (state.listOfEntities?.length ?? 0) > 9
+      height: (state.selectedEntities?.length ?? 0) > 4
+          ? (state.selectedEntities?.length ?? 0) > 9
               ? 140
               : 100
           : 60,
@@ -1936,7 +1940,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           return CustomMultipleSelectionListTexts(
             duplicateentityList: state.getEntitiesResponse?.atomEntities ?? [],
             leftimagename: AppIcon.addicon,
-            mainselectedentityList: state.listOfEntities ?? [],
+            mainselectedentityList: state.selectedEntities ?? [],
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
@@ -2145,9 +2149,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     );
                   });
             },
-            onTap: (BaseUser list) {
+            onTap: (BaseUser baseUser) {
               //print(list.name);
-              createpassmgmtCubit.gethostUsersResponseData(list);
+
+              createpassmgmtCubit.gethostUsersResponseData(
+                  User(userId: baseUser.id, name: baseUser.name));
             },
           );
         });
@@ -2188,10 +2194,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     );
                   });
             },
-            onTap: (BaseUser list) {
+            onTap: (BaseUser baseUser) {
               //print(list.name);
               //dbsponsorTextController.text = list.name??'';
-              createpassmgmtCubit.getdbsponsorUsersResponseData(list);
+              createpassmgmtCubit.getdbsponsorUsersResponseData(
+                  User(userId: baseUser.id, name: baseUser.name));
             },
           );
         });
@@ -2483,14 +2490,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       updatestatusvalue = 9;
     }
 
-    List<Organisation>? entities = [];
-    if ((state.listOfEntities?.length ?? 0) > 0) {
-      for (int i = 0; i < state.listOfEntities!.length; i++) {
-        Organisation entity = state.listOfEntities![i];
-        Organisation addentiity = Organisation(id: entity.id ?? 1);
-        entities.add(addentiity);
-      }
-    }
+    log('-state.selectedEntities?.length--${state.selectedEntities?.length}---');
+    List<Organisation>? entities = state.selectedEntities;
+    // if ((state.selectedEntities?.length ?? 0) > 0) {
+    //   for (int i = 0; i < state.selectedEntities!.length; i++) {
+    //     Organisation entity = state.selectedEntities![i];
+    //     // Organisation addentiity = Organisation(id: entity.id ?? 1);
+    //     entities.add(entity);
+    //   }
+    // }
     Organisation? location = Organisation(
         id: (state.location?.id == 0) ? 1 : state.location?.id ?? 1,
         name: state.location?.name ?? '');
@@ -2518,16 +2526,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           passNo: sezpassinfoTextController.text,
           mifareNo: mtpApplicationNoTextController.text);
     }
-    User? host2 = User(
-        userId: (state.hostResponse?.id == 0) ? 1 : state.hostResponse?.id ?? 1,
-        email: state.hostResponse?.email ?? '');
+
+    // createpassmgmtCubit.gethostanalystsResponseData(host1);
+    // createpassmgmtCubit.getdbsponsoranalystsResponseData(host1);
+    // createpassmgmtCubit.gethostUsersResponseData(host1);
+
+    User? host2 = state.hostResponse;
     //userName: state.hostResponse?.userName ?? '');
 
-    User? dbsponsor = User(
-        userId: (state.dbsponsorResponse?.id == 0)
-            ? 1
-            : state.dbsponsorResponse?.id ?? 1,
-        name: state.dbsponsorResponse?.name ?? '');
+    User? dbSponsor = state.dbsponsorResponse;
 
     // Organisation? companyType = widget.model?.companyType;
     // log('--state.locationSelectedlist?.id--${state.location?.id}----');
@@ -2650,7 +2657,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         entities: entities,
         department: department,
         passInfo: passInfo,
-        host: dbsponsorTextController.text.isEmpty ? host2 : dbsponsor,
+        host: dbsponsorTextController.text.isEmpty ? host2 : dbSponsor,
         email: emailTextController.text,
         contactNo: contactnoTextController.text,
         visitingDepartment: department,
@@ -2701,7 +2708,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           entities: entities,
           department: department,
           passInfo: info,
-          host: dbsponsorTextController.text.isEmpty ? host2 : dbsponsor,
+          host: dbsponsorTextController.text.isEmpty ? host2 : dbSponsor,
           contactNo: contactnoTextController.text,
           visitingDepartment: department,
           visitorName: nameTextController.text,
@@ -2729,7 +2736,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         state.location == null &&
         dateofcreationTextController.text.isEmpty &&
         serialnumber == null &&
-        state.listOfEntities == null &&
+        state.selectedEntities == null &&
         passvalidfromTextController.text.isEmpty &&
         passvaliduntilTextController.text.isEmpty &&
         escortedemployeedidbyTextController.text.isEmpty &&
@@ -2764,7 +2771,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter serial number",
       );
-    } else if (state.listOfEntities == null) {
+    } else if (state.selectedEntities == null) {
       Validator().showToast(
         context,
         "Please enter entitiy",
@@ -3039,7 +3046,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: (attachmentListviews1?.length ?? 0) >
-              (attachmentListviews?.length ?? 0)
+                  (attachmentListviews?.length ?? 0)
               ? attachmentListviews1?.length
               : attachmentListviews?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {

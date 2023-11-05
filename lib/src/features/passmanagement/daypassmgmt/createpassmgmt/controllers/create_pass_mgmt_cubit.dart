@@ -106,7 +106,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  gethostUsersResponseData(BaseUser? hostResponse) async {
+  gethostUsersResponseData(User? hostResponse) async {
     try {
       emit(
         state.copyWith(
@@ -124,7 +124,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  getdbsponsorUsersResponseData(BaseUser? dbsponsorResponse) async {
+  getdbsponsorUsersResponseData(User? dbsponsorResponse) async {
     try {
       emit(
         state.copyWith(
@@ -492,7 +492,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  gethostanalystsResponseData(BaseUser? host) async {
+  gethostanalystsResponseData(User? host) async {
     try {
       emit(
         state.copyWith(
@@ -511,7 +511,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   getdbsponsoranalystsResponseData(
-    BaseUser? companytypeResponse,
+    User? companytypeResponse,
   ) async {
     try {
       emit(
@@ -601,27 +601,34 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     state.vendorPassInfo = Organisation();
     state.loadAttachments = [];
     state.selectedCompanyType = Organisation();
-    state.listOfEntities = [];
+    state.selectedEntities = [];
     state.location = Organisation();
     state.photoAttachments = [];
     state.getuserResponse = BaseUser();
     state.serialnumberResponse?.serialNo = '';
     state.getSerialnumberResponse = SerialNumberModel();
-    state.t1hostanalyst = BaseUser();
+    state.t1hostanalyst = User();
     state.t1nameanalyst = BaseUser();
-    state.hostResponse = BaseUser();
+    state.hostResponse = User();
     state.nameResponse = BaseUser();
-    state.dbsponsorResponse = BaseUser();
+    state.dbsponsorResponse = User();
     state.getUserDetailsResponse = User();
     state.dayPasselementReason = Organisation();
   }
 
-  initializeIdentifiedFields(DayPassListElement model) async {
+  initializeValues(DayPassListElement model) async {
 
+    emit(
+      state.copyWith(
+        selectedEntities: model.entities,
+        stateType: CreatePassMgmtStateType.success,
+      ),
+    );
     try {
       if (model.companyType?.name != null && model.companyType!.name!.contains('CWR')) {
         emit(
           state.copyWith(
+            selectedEntities: model.entities,
             showIdentifiedFields: true,
             stateType: CreatePassMgmtStateType.success,
           ),
@@ -644,13 +651,13 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  getEntityData(List<Organisation> listOfEntities) async {
+  getEntityData(List<Organisation> selectedEntities) async {
     try {
       int eventIds = Random.secure().nextInt(5);
       emit(
         state.copyWith(
           eventId: eventIds,
-          listOfEntities: listOfEntities,
+          selectedEntities: selectedEntities,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
