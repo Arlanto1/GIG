@@ -48,7 +48,7 @@ class CreatePassMgmtState extends Equatable {
   Organisation? createOrganisationResponse;
   Organisation? createEmployeeDepartments;
   CompanyTypes? companyTypes;
-  Organisation? atomCompanyType;
+  Organisation? selectedCompanyType;
   CreatePassMgmtResponse? createpassFoundresponse;
   Organisation? dayPasselementReason;
   DayPassReason? dayPassReason;
@@ -65,6 +65,7 @@ class CreatePassMgmtState extends Equatable {
   BaseUser? hostResponse;
   BaseUser? dbsponsorResponse;
   BaseUser? nameResponse;
+  bool showIdentifiedFields;
 
   CreatePassMgmtState({
     this.getEntitiesResponse,
@@ -87,7 +88,8 @@ class CreatePassMgmtState extends Equatable {
     this.createEmployeeDepartments,
     this.createOrganisationResponse,
     this.companyTypes,
-    this.atomCompanyType,
+    this.selectedCompanyType,
+    this.showIdentifiedFields = false,
     this.createpassFoundresponse,
     this.dayPassReason,
     this.dayPasselementReason,
@@ -119,6 +121,7 @@ class CreatePassMgmtState extends Equatable {
     SerialNumberModel? serialnumberResponse,
     GetDepositor? getDepositorResponse,
     BaseUser? getuserResponse,
+    bool? showIdentifiedFields,
     EmployeeDepartments? employeeDepartment,
     Organisation? selectedEmployeeDepartment,
     List<CreateImage>? loadAttachments,
@@ -162,6 +165,7 @@ class CreatePassMgmtState extends Equatable {
       employeeDepartment: employeeDepartment ?? this.employeeDepartment,
       selectedDepartment: selectedEmployeeDepartment ??
           this.selectedDepartment,
+      showIdentifiedFields: showIdentifiedFields??this.showIdentifiedFields,
       loadAttachments: loadAttachments ?? this.loadAttachments,
       getUserDetailsResponse:
           getUserDetailsResponse ?? this.getUserDetailsResponse,
@@ -172,7 +176,7 @@ class CreatePassMgmtState extends Equatable {
       createOrganisationResponse:
           createOrganisationResponse ?? this.createOrganisationResponse,
       companyTypes: companyTypes ?? this.companyTypes,
-      atomCompanyType: selectedCompanyType ?? this.atomCompanyType,
+      selectedCompanyType: selectedCompanyType ?? this.selectedCompanyType,
       createpassFoundresponse:
           createpassFoundresponse ?? this.createpassFoundresponse,
       dayPassReason: dayPassReason ?? this.dayPassReason,
@@ -216,7 +220,7 @@ class CreatePassMgmtState extends Equatable {
         createEmployeeDepartments,
         createOrganisationResponse,
         companyTypes,
-        atomCompanyType,
+        selectedCompanyType,
         createpassFoundresponse,
         dayPassReason,
         dayPasselementReason,

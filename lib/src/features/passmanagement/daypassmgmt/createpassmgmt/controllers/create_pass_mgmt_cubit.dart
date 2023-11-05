@@ -17,6 +17,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgmt_services.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
@@ -255,10 +256,9 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       moduleCode = Constants.passManagementModule;
     } else if (passId == "1") {
       moduleCode = Constants.visitorManagementModule;
-    }
-    else if (passId == "2") {
+    } else if (passId == "2") {
       moduleCode = Constants.vendorPassManagementModule;
-    }else if (passId == "3") {
+    } else if (passId == "3") {
       moduleCode = Constants.passManagementSEZModule;
     }
     try {
@@ -371,11 +371,29 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  selectedCompanyType(Organisation? companyTypeResponse) async {
+  selectedCompanyType(Organisation companyType) async {
+    if (companyType.name != null && companyType.name!.contains('CWR')) {
+      emit(
+        state.copyWith(
+          showIdentifiedFields: true,
+          selectedCompanyType: companyType,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          showIdentifiedFields: false,
+          selectedCompanyType: companyType,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    }
+
     try {
       emit(
         state.copyWith(
-          selectedCompanyType: companyTypeResponse,
+          selectedCompanyType: companyType,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -576,12 +594,13 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   initialization() {
+    state.showIdentifiedFields = false;
     state.selectedDepartment = Organisation();
     state.employeeDepartment = EmployeeDepartments();
     state.companyTypes = CompanyTypes();
     state.vendorPassInfo = Organisation();
     state.loadAttachments = [];
-    state.atomCompanyType = Organisation();
+    state.selectedCompanyType = Organisation();
     state.listOfEntities = [];
     state.location = Organisation();
     state.photoAttachments = [];
@@ -595,6 +614,34 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     state.dbsponsorResponse = BaseUser();
     state.getUserDetailsResponse = User();
     state.dayPasselementReason = Organisation();
+  }
+
+  initializeIdentifiedFields(DayPassListElement model) async {
+
+    try {
+      if (model.companyType?.name != null && model.companyType!.name!.contains('CWR')) {
+        emit(
+          state.copyWith(
+            showIdentifiedFields: true,
+            stateType: CreatePassMgmtStateType.success,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            showIdentifiedFields: false,
+            stateType: CreatePassMgmtStateType.success,
+          ),
+        );
+      }
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
   }
 
   getEntityData(List<Organisation> listOfEntities) async {
@@ -672,12 +719,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // Create new Found Article successfully API call
-  Future<void> createPass(
-      CreatePassMgmtBody bodyRequest,
-      bool isSubmit,
-      BuildContext context,
-      String username,
-      String title) async {
+  Future<void> createPass(CreatePassMgmtBody bodyRequest, bool isSubmit,
+      BuildContext context, String username, String title) async {
     try {
       CreatePassMgmtResponse? response =
           await createpassmgmtServices.createPass(

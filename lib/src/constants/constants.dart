@@ -244,6 +244,8 @@ class Constants {
   static const String passvliduntil = 'Pass Valid Until';
   static const String escortedby = 'Escorted By';
   static const String escortedbyemployeeid = 'Escorted by Employee Id';
+  static const String identifiedBy = 'Identified By';
+  static const String identifiedByEmployeeId = 'Identified By Employee Id';
   static const String reasonfordaypass = 'Reason for Day Pass';
   static const String daypassno = 'Day Pass No';
   static const String passtype = 'Pass Type';
