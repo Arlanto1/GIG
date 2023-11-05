@@ -1080,19 +1080,21 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     : Container(),
 
                                 /// Escorted By
-                                widget.passId == '0' ||
+                                (widget.passId == '0' ||
                                         widget.passId == '2' ||
-                                        widget.passId == '3' ||
                                         (widget.passId == '1' &&
-                                            (state.escortedbyhost ?? 0) == 0)
+                                            (state.escortedbyhost ?? 0) == 0) ) && widget.model?.companyType?.name?.toLowerCase() != 'cwr t1'
                                     ? CommonWidgets.textDisplay(
                                         Constants.escortedby,
                                         isMandatory: true,
                                         Styles.textStyleBlack14)
-                                    : Container(),
+                                    // :CommonWidgets.textDisplay(
+                                    // Constants.identifiedBy,
+                                    // isMandatory: true,
+                                    // Styles.textStyleBlack14),
+                                :Container(),
                                 widget.passId == '0' ||
                                         widget.passId == '2' ||
-                                        widget.passId == '3' ||
                                         (widget.passId == '1' &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? CommonWidgets.verticalSpacerWidget(
@@ -1100,7 +1102,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     : Container(),
                                 widget.passId == '0' ||
                                         widget.passId == '2' ||
-                                        widget.passId == '3' ||
                                         (widget.passId == '1' &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? textFieldWidgetLoad(
@@ -1118,7 +1119,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 /// Escorted By Employee Id
                                 widget.passId == '0' ||
                                         widget.passId == '2' ||
-                                        widget.passId == '3' ||
                                         (widget.passId == '1' &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? CommonWidgets.textDisplay(
@@ -1128,7 +1128,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     : Container(),
                                 widget.passId == '0' ||
                                         widget.passId == '2' ||
-                                        widget.passId == '3' ||
                                         (widget.passId == '1' &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? CommonWidgets.verticalSpacerWidget(
@@ -1136,7 +1135,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     : Container(),
                                 widget.passId == '0' ||
                                         widget.passId == '2' ||
-                                        widget.passId == '3' ||
                                         (widget.passId == '1' &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? textFieldWidgetLoad(
@@ -1146,7 +1144,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     : Container(),
                                 widget.passId == '0' ||
                                         widget.passId == '2' ||
-                                        widget.passId == '3' ||
                                         (widget.passId == '1' &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? CommonWidgets.verticalSpacerWidget(

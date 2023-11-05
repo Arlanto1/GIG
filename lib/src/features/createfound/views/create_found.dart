@@ -1412,7 +1412,6 @@ class _CreateFoundState extends State<CreateFound> {
                                     : Container(),
 
                                 /// is claimant accepted to sign
-
                                 widget.model != null
                                     ? CommonWidgets.textDisplay(
                                         Constants.isclaimantacceptedtosign,
