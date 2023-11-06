@@ -175,16 +175,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   }
 
   void initializeDates() {
-
     log('-widget.materialMovement?.expectedDateOfReturn--${widget.materialMovement?.expectedDateOfReturn}--');
 
     expectedDateOfReturnController.text = Utils.timestamptoDateConversion(
         int.tryParse(widget.materialMovement?.expectedDateOfReturn ?? '0'),
         Constants.dateFormat);
-
-    // actualDateOfReturnController.text = Utils.timestamptoDateConversion(
-    //     int.tryParse(widget.materialMovement?.actualDateOfReturn ?? '0'),
-    //     Constants.dateFormat);
+    actualDateOfReturnController.text = Utils.timestamptoDateConversion(
+        int.tryParse(widget.materialMovement?.actualDateOfReturn ?? '0'),
+        Constants.dateFormat);
     takenOutOnDateController.text = Utils.timestamptoDateConversion(
         int.tryParse(widget.materialMovement?.takenOutDate ?? '0'),
         Constants.dateFormat);
@@ -1694,6 +1692,148 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                     // materialMovement: materialMovement,
                                                   );
                                                 }),
+
+                                  if (state.model.status == 2 ||
+                                      state.model.status == 5 ||
+                                      state.model.status == 6) ...[
+                                    /// Actual Date Of Return
+                                    CommonWidgets.textDisplay(
+                                      Constants.actualDateOfReturn,
+                                      Styles.textStyleBlack14,
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+
+                                    BaseDate().datePickerWidgetLoading(
+                                      textController:
+                                          actualDateOfReturnController,
+                                      onlyDate: true,
+                                      onChange: (String value) {
+                                        state.model.actualDateOfReturn =
+                                            Utils().formatTime(value);
+                                        BlocProvider.of<
+                                                    MaterialMovementDetailsCubit>(
+                                                context)
+                                            .onModelValueChange(state.model);
+                                      },
+                                      context: context,
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+
+                                    ///Material Returned Challan No
+                                    CommonWidgets.textDisplay(
+                                      Constants.materialReturnedChallanNo,
+                                      Styles.textStyleBlack14,
+                                      isMandatory: true,
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                    FlutterInputField(
+                                      keyboardType: TextInputType.text,
+                                      textFormKey: Keys.challanKey,
+                                      initialValue:
+                                          state.model.materialReturnedChallanNo,
+                                      hintText: '',
+                                      isEnable: state.model.status != 6,
+                                      isDisableColor: state.model.status == 6,
+                                      onChange: (String? value) {
+                                        if (value != null) {
+                                          state.model.materialReturnedChallanNo =
+                                              value;
+                                        }
+                                        context
+                                            .read<
+                                            MaterialMovementDetailsCubit>()
+                                            .onModelValueChange(state.model);
+                                      },
+                                      validateTextField: (String? user) {},
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+
+                                    ///Return Receiver Email
+                                    Column(
+                                      children: [
+                                        CommonWidgets.textDisplay(
+                                          Constants.returnReceiverEmail,
+                                          Styles.textStyleBlack14,
+                                          isMandatory: true,
+                                        ),
+                                        widget.materialMovement?.status != 6
+                                            ? TextfieldAddButton(
+                                                title: state
+                                                    .model.returnReceiverMailId,
+                                                height: 70,
+                                                isDisableColor:
+                                                    state.model.status != 6
+                                                        ? false
+                                                        : true,
+                                                onTap: () {
+                                                  if (state.model.status != 6) {
+                                                    BaseDepartmentDialog()
+                                                        .userDialog(
+                                                      context: context,
+                                                      users: state.emailUsers!,
+                                                      onTap: (BaseUser user) {
+                                                        BlocProvider.of<
+                                                                    MaterialMovementDetailsCubit>(
+                                                                context)
+                                                            .updateDropdownValues(
+                                                                returnReceiverMailId:
+                                                                    user);
+                                                      },
+                                                    );
+                                                  }
+                                                })
+                                            : FlutterInputField(
+                                                initialValue:
+                                                    state.model.approver1Email,
+                                                textFormKey:
+                                                    Keys.returnReceiverEmailKey,
+                                                hintText: '',
+                                                isEnable:
+                                                    state.model.status != 6,
+                                                isDisableColor:
+                                                    state.model.status == 6,
+                                                onChange: (String username) {},
+                                                validateTextField:
+                                                    (String? user) {},
+                                              ),
+                                      ],
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+
+                                    ///Returned Quantity
+                                    CommonWidgets.textDisplay(
+                                      Constants.returnedQuantity,
+                                      Styles.textStyleBlack14,
+                                      isMandatory: true,
+                                    ),
+                                    FlutterInputField(
+                                      initialValue:
+                                          '${state.model.returnQuantity ?? ''}',
+                                      textFormKey:
+                                          Keys.returnQuantityTextController,
+                                      isEnable: state.model.status != 6,
+                                      isDisableColor: state.model.status == 6,
+                                      hintText: '',
+                                      onChange: (String? value) {
+                                        if (value != null) {
+                                          state.model.returnQuantity =
+                                              int.parse(value);
+                                        }
+                                        context
+                                            .read<
+                                                MaterialMovementDetailsCubit>()
+                                            .onModelValueChange(state.model);
+                                      },
+                                      // validateTextField: (String? user) {},
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+                                  ],
 
                                   /// Comment
                                   if (!state

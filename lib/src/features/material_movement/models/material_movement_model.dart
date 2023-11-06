@@ -52,6 +52,7 @@ class MaterialMovementModel extends BaseObject {
   String? materialReturnedChallanNo;
   String? returnReceiverMailId;
   String? poNumber;
+  int? returnQuantity;
   bool originalReceiver;
   String? otherReceiverName;
   String? otherReceiverEmployeeId;
@@ -67,6 +68,7 @@ class MaterialMovementModel extends BaseObject {
   String? approvedDate;
   String? expectedDateOfReturn;
   String? takenOutDate;
+  String? actualDateOfReturn;
 
   final Organisation? takenOutDepartment;
   List<ImageContent>? gatePassSecuritySign;
@@ -80,6 +82,7 @@ class MaterialMovementModel extends BaseObject {
     this.location,
     this.locationRegion,
     this.entities,
+    this.returnQuantity,
     this.inwardMovement = false,
     this.returnable = false,
     this.challanNo,
@@ -131,6 +134,7 @@ class MaterialMovementModel extends BaseObject {
     this.approvedDate,
     this.takenOutDate,
     this.expectedDateOfReturn,
+    this.actualDateOfReturn,
   });
 
   factory MaterialMovementModel.fromJson(Map<String, dynamic> json) =>

@@ -34,6 +34,7 @@ MaterialMovementModel _$MaterialMovementModelFromJson(
       materialFromAddress: json['materialFromAddress'] as String?,
       materialDescription: json['materialDescription'] as String?,
       quantity: json['quantity'] as int?,
+          returnQuantity: json['returnQuantity'] as int?,
       images: (json['images'] as List<dynamic>?)
               ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -109,6 +110,7 @@ MaterialMovementModel _$MaterialMovementModelFromJson(
       approvedDate: json['approvedDate'] as String?,
       takenOutDate: json['takenOutDate'] as String?,
       expectedDateOfReturn: json['expectedDateOfReturn'] as String?,
+      actualDateOfReturn: json['actualDateOfReturn'] as String?,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$MaterialMovementModelToJson(
@@ -128,6 +130,7 @@ Map<String, dynamic> _$MaterialMovementModelToJson(
       'materialFromAddress': instance.materialFromAddress,
       'materialDescription': instance.materialDescription,
       'quantity': instance.quantity,
+          'returnQuantity': instance.returnQuantity,
       'images': instance.images,
       'receiverSign': instance.receiverSign,
       'entrySecuritySign': instance.entrySecuritySign,
@@ -171,6 +174,7 @@ Map<String, dynamic> _$MaterialMovementModelToJson(
       'approvedBy': instance.approvedBy,
       'approvedDate': instance.approvedDate,
       'expectedDateOfReturn': instance.expectedDateOfReturn,
+      'actualDateOfReturn': instance.actualDateOfReturn,
       'takenOutDate': instance.takenOutDate,
       'takenOutDepartment': instance.takenOutDepartment,
       'gatePassSecuritySign': instance.gatePassSecuritySign,
