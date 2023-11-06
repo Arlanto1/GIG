@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
+
 import '../../createfound/models/user.dart';
 
 LawEnforcementDetails lawEnforcementDetailsFromJson(String str) => LawEnforcementDetails.fromJson(json.decode(str));
@@ -33,7 +35,7 @@ class LawEnforcementDetails {
     String? modifiedBy;
     List<dynamic>? history;
     List<LawVisitingOfficial>? visitingOfficials;
-    List<dynamic>? mailList;
+    List<MailList>? mailList;
     String? entityDesc;
     String? entrySecurityName;
 
@@ -88,7 +90,9 @@ class LawEnforcementDetails {
         modifiedBy: json["modifiedBy"],
         history: json["history"] == null ? [] : List<dynamic>.from(json["history"]!.map((x) => x)),
         visitingOfficials: json["visitingOfficials"] == null ? [] : List<LawVisitingOfficial>.from(json["visitingOfficials"]!.map((x) => LawVisitingOfficial.fromJson(x))),
-        mailList: json["mailList"] == null ? [] : List<dynamic>.from(json["mailList"]!.map((x) => x)),
+        mailList: json["mailList"] == null ? [] : List<MailList>.from(json["entities"]!.map((x) => MailList.fromJson(x))),
+        // mailList: json["mailList"] == null ? null : MailList.fromJson(json["mailList"]),
+        // mailList: json["mailList"] == null ? [] : List<dynamic>.from(json["mailList"]!.map((x) => x)),
         entityDesc: json["entityDesc"],
         entrySecurityName: json["entrySecurityName"],
     );
@@ -116,7 +120,7 @@ class LawEnforcementDetails {
         "modifiedBy": modifiedBy,
         "history": history == null ? [] : List<dynamic>.from(history!.map((x) => x)),
         "visitingOfficials": visitingOfficials == null ? [] : List<dynamic>.from(visitingOfficials!.map((x) => x.toJson())),
-        "mailList": mailList == null ? [] : List<dynamic>.from(mailList!.map((x) => x)),
+        'mailList': mailList?.map((e) => e.toJson()).toList(),
         "entityDesc": entityDesc,
         "entrySecurityName": entrySecurityName,
     };

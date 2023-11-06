@@ -148,26 +148,6 @@ class LawEnforcementListElement {
       };
 }
 
-class MailList {
-  int? groupId;
-  String? name;
-
-  MailList({
-    this.groupId,
-    this.name,
-  });
-
-  factory MailList.fromJson(Map<String, dynamic> json) => MailList(
-        groupId: json["groupId"],
-        name: json["name"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "groupId": groupId,
-        "name": name,
-      };
-}
-
 class VisitingOfficial {
   int? id;
   String? name;

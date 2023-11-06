@@ -138,10 +138,12 @@ class DbOfficialEmailDepartment {
 class MailList {
     int? groupId;
     String? name;
+    bool? isSelected;
 
     MailList({
         this.groupId,
         this.name,
+        this.isSelected = false,
     });
 
     factory MailList.fromJson(Map<String, dynamic> json) => MailList(
