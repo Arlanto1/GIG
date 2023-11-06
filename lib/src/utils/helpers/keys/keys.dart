@@ -19,6 +19,10 @@ class Keys {
       'external_createfound_claimantempid_textfield';
   static const String statusTextController =
       'external_createfound_status_textfield';
+
+  static const String updateStatusTextControllerKey =
+      'external_createfound_status_textfield_pass';
+
   static const String dateofcreationTextController =
       'external_createfound_dateofcreationid_textfield';
   static const String assettypeTextController =

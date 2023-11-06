@@ -155,7 +155,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           log('--widget.model?.status----${widget.model?.status != null}---');
           log('--widget.model?.status != 0----${widget.model?.status != 0}---');
 
-          if (widget.model?.status != null && widget.model?.status != 0) {
+          if (widget.model?.status != null &&
+              widget.model?.status != 0 &&
+              widget.model?.status != 1) {
             log('--isDisabled-ifffffff--$isDisabled---');
 
             isDisabled = true;
@@ -276,71 +278,93 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
                                     : Container(),
-                                (widget.model != null &&
-                                        (statusTextController.text
-                                                    .toLowerCase() ==
-                                                "created" ||
-                                            statusTextController.text
-                                                    .toLowerCase() ==
-                                                "handed over"))
-                                    ? GestureDetector(
-                                        onTap: () {
-                                          if (statusTextController.text
-                                                  .toLowerCase() ==
-                                              "created") {
-                                            updatestausTypeDialog();
-                                          } else {
-                                            updatestausTypeDialog();
-                                          }
-                                        },
-                                        child: FlutterInputField(
-                                          isEnable: false,
-                                          isDisableColor: true,
-                                          textFieldController:
-                                              updateStatusTextController,
-                                          textFormKey:
-                                              Keys.statusTextController,
-                                          hintText: '',
-                                          onChange: (String username) {
-                                            //this.username = username;
-                                          },
-                                          validateTextField: (String? user) {},
-                                          suffixWidget: GestureDetector(
-                                            onTap: () {
-                                              if (statusTextController.text
-                                                      .toLowerCase() ==
-                                                  "created") {
-                                                updatestausTypeDialog();
-                                              } else {
-                                                updatestausTypeDialog();
-                                              }
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(20.0),
-                                              child: SvgPicture.asset(
-                                                //AppIcon.dropdownicon,
-                                                AppIcon.dropdownicon,
-                                                //fit: BoxFit.,
-                                                color: AppColors
-                                                    .textgreyThemecolor,
-                                                width: 10,
-                                                height: 10,
-                                                key: const Key(Keys.userIcon),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    : Container(),
-                                (statusTextController.text.toLowerCase() ==
+
+                                if ((widget.model != null &&
+                                    (statusTextController.text.toLowerCase() ==
                                             "created" ||
                                         statusTextController.text
                                                 .toLowerCase() ==
-                                            "handed over")
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01)
-                                    : Container(),
+                                            "handed over"))) ...[
+                                  InkWell(
+                                    onTap: () {
+                                      log('-ontap-----statusTextController.text----${statusTextController.text}---');
+                                      if (statusTextController.text
+                                              .toLowerCase() ==
+                                          "created") {
+                                        updatestausTypeDialog();
+                                      } else {
+                                        updatestausTypeDialog();
+                                      }
+                                    },
+                                    child: FlutterInputField(
+                                      isEnable: false,
+                                      isDisableColor: true,
+                                      textFieldController:
+                                          updateStatusTextController,
+                                      textFormKey:
+                                          Keys.updateStatusTextControllerKey,
+                                      hintText: '',
+                                      onChange: (String value) {},
+                                      validateTextField: (String? user) {},
+                                      suffixIcon: Icons.arrow_drop_down,
+                                    ),
+                                  ),
+                                  // GestureDetector(
+                                  //   onTap: () {
+                                  //     log('-ontap-----statusTextController.text----${statusTextController.text}---');
+                                  //     if (statusTextController.text
+                                  //             .toLowerCase() ==
+                                  //         "created") {
+                                  //       updatestausTypeDialog();
+                                  //     } else {
+                                  //       updatestausTypeDialog();
+                                  //     }
+                                  //   },
+                                  //   child: FlutterInputField(
+                                  //     isEnable: false,
+                                  //     isDisableColor: true,
+                                  //     textFieldController:
+                                  //         updateStatusTextController,
+                                  //     textFormKey:
+                                  //         Keys.updateStatusTextControllerKey,
+                                  //     hintText: '',
+                                  //     onChange: (String value) {},
+                                  //     validateTextField: (String? user) {},
+                                  //     suffixWidget: GestureDetector(
+                                  //       onTap: () {
+                                  //         log('--FlutterInputField----onTap--');
+                                  //         if (statusTextController.text
+                                  //                 .toLowerCase() ==
+                                  //             "created") {
+                                  //           updatestausTypeDialog();
+                                  //         } else {
+                                  //           updatestausTypeDialog();
+                                  //         }
+                                  //       },
+                                  //       child: Padding(
+                                  //         padding: const EdgeInsets.all(20.0),
+                                  //         child: SvgPicture.asset(
+                                  //           //AppIcon.dropdownicon,
+                                  //           AppIcon.dropdownicon,
+                                  //           //fit: BoxFit.,
+                                  //           color: AppColors.textgreyThemecolor,
+                                  //           width: 10,
+                                  //           height: 10,
+                                  //           key: const Key(Keys.userIcon),
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  (statusTextController.text.toLowerCase() ==
+                                              "created" ||
+                                          statusTextController.text
+                                                  .toLowerCase() ==
+                                              "handed over")
+                                      ? CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01)
+                                      : Container(),
+                                ],
 
                                 /// Created By
                                 CommonWidgets.horizentaltextHandling(
@@ -1407,6 +1431,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       statusTextController.text =
           Utils().buildPassManagementStatus(widget.model?.status);
 
+      log('---statusTextController.text--${statusTextController.text}-');
       if (widget.model?.passType == 1) {
         passtypeTextController.text = 'VISITOR_PASS';
       } else if (widget.model?.passType == 5) {
@@ -1598,6 +1623,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   updatestausTypeDialog() {
+    log('----updatestausTypeDialog-');
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -2450,7 +2477,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     log('-sezpassinfoTextController-----${sezpassinfoTextController.text}----');
     log('-mtpApplicationNoTextController-----${mtpApplicationNoTextController.text}----');
     log('-passCategoryTextController111-----${passCategoryTextController.text}----');
-
 
     int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     int passvaliduntildate = (DateTime.now().millisecondsSinceEpoch ~/ 1000) +
