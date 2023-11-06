@@ -90,6 +90,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
         penColor: Colors.black,
         exportBackgroundColor: Colors.white);
     BlocProvider.of<MaterialMovementDetailsCubit>(context).initializeValues();
+    initializeDates();
   }
 
   @override
@@ -174,6 +175,9 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   }
 
   void initializeDates() {
+
+    log('-widget.materialMovement?.expectedDateOfReturn--${widget.materialMovement?.expectedDateOfReturn}--');
+
     expectedDateOfReturnController.text = Utils.timestamptoDateConversion(
         int.tryParse(widget.materialMovement?.expectedDateOfReturn ?? '0'),
         Constants.dateFormat);
