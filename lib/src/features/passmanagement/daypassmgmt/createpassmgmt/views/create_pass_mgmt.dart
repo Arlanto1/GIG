@@ -2784,7 +2784,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "Please fill all required fields",
       );
     } else if (state.getUserDetailsResponse != null &&
-        (state.getUserDetailsResponse?.lastName ?? '').isEmpty) {
+        (state.getUserDetailsResponse?.firstName ?? '').isEmpty && (state.getUserDetailsResponse?.lastName ?? '').isEmpty) {
       Validator().showToast(
         context,
         "Please enter creator name",

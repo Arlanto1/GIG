@@ -19,7 +19,8 @@ class Keys {
       'external_createfound_claimantempid_textfield';
   static const String statusTextController =
       'external_createfound_status_textfield';
-
+  static const String returnQuantityTextController =
+      'external_materialMovement_returnQuantity_textfield';
   static const String updateStatusTextControllerKey =
       'external_createfound_status_textfield_pass';
 
@@ -72,6 +73,7 @@ class Keys {
   static const String preparedByDepartmentKey = 'preparedByKey_mmo';
   static const String requesterDepartmentKey = 'requesterDepartmentKey_mmo';
   static const String approver1EmailKey = 'approver1Email_mmo';
+  static const String returnReceiverEmailKey = 'returnReceiverEmail_mmo';
   static const String approver2EmailKey = 'approver2Email_mmo';
   static const String requesterEmailKey = 'requesterEmail_mmo';
   static const String sentToKey = 'sentToKey_mm';

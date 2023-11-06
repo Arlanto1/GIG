@@ -294,7 +294,9 @@ class Constants {
   static const String editMaterialMovementOutwardTitle =
       'Edit OutWard Material Movement';
   static const String entryBy = 'Entry By';
+  static const String materialReturnedChallanNo = 'Material Returned Challan No';
   static const String inwardMaterialMovementType = 'Inward';
+  static const String returnedQuantity = 'Returned Quantity';
   static const String outwardMaterialMovementType = 'Outward';
   static const String challan = 'Challan/ Invoice Nos/ Gate Pass';
   static const String poNumber = 'PO Number';
@@ -316,6 +318,7 @@ class Constants {
   static const String comment = 'Comment';
   static const String isMaterialPhysicallyChecked =
       'Is Material Physically Checked';
+  static const String actualDateOfReturn = 'Actual Date Of Return';
   static const String equipmentNo = 'Equipment No/Identification';
   static const String address = 'Address';
   static const String requestorEmail = 'Requestor Email';
@@ -326,6 +329,7 @@ class Constants {
   static const String preparedBy = 'Prepared By';
   static const String preparedByDepartment = 'Prepared By Department';
   static const String approver1Email = 'Approver1 Email';
+  static const String returnReceiverEmail = 'Return Receiver Email';
   static const String approver2Email = 'Approver2 Email';
   static const String approver1Department = 'Approver1 Department ';
   static const String approver2Department = 'Approver2 Department ';
