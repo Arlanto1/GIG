@@ -1514,12 +1514,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         createpassmgmtCubit.getEntityData(entities);
       }
 
-      Organisation emp = widget.model != null
-          ? Organisation(
-              id: widget.model?.companyType?.id ?? 0,
-              name: widget.model?.companyType?.name ?? '')
-          : Organisation();
-      createpassmgmtCubit.selectedCompanyType(emp);
+    Organisation companyType = widget.model?.companyType ?? Organisation();
+
+      createpassmgmtCubit.selectedCompanyType(companyType);
 
       /// vendorPassReason
       Organisation? day = widget.model != null
@@ -2578,16 +2575,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     Organisation? companyType =
         state.selectedCompanyType ?? widget.model?.companyType;
 
-    log('-state.selectedDepartment---${state.selectedDepartment?.id}---');
+    log('-state.selectedCompanyType.id--${state.selectedCompanyType?.id}---');
+    log('-companyType--${companyType?.id}---');
     Organisation? department =
         state.selectedDepartment ?? widget.model?.department;
     Organisation? dayPass =
         state.dayPasselementReason ?? widget.model?.dayPassReason;
-    Organisation(
-        id: (state.dayPasselementReason?.id == 0)
-            ? 1
-            : state.dayPasselementReason?.id ?? 1,
-        name: state.dayPasselementReason?.name ?? '');
 
     int passtypeIdentify = 0;
     if (passtypeTextController.text == "VISITOR_PASS") {
@@ -3015,7 +3008,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             ? "Please enter vendor pass no"
             : "Please enter visit pass no",
       );
-    } else if (widget.passId == '3' && daypassnoTextController.text.isEmpty) {
+    } else if (widget.passId == '3' && passCategoryTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter pass category",
