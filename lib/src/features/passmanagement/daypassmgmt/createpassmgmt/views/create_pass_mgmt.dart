@@ -1497,22 +1497,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       createpassmgmtCubit.selectedCompanyType(emp);
 
       /// vendorPassReason
-      Organisation day = widget.model != null
+      Organisation? day = widget.model != null
           ? widget.model?.vendorPassReason?.id != null
-              ? Organisation(
-                  id: widget.model?.vendorPassReason?.id ?? 0,
-                  name: widget.model?.vendorPassReason?.name ?? '')
-              : Organisation(
-                  id: widget.model?.dayPassReason?.id ?? 0,
-                  name: widget.model?.dayPassReason?.name ?? '')
+              ? widget.model?.vendorPassReason
+              : widget.model?.dayPassReason
           : Organisation();
       createpassmgmtCubit.getdaypassreasonResponseData(day);
 
-      Organisation dep = widget.model != null
-          ? Organisation(
-              id: widget.model?.department?.id ?? 0,
-              name: widget.model?.department?.name ?? '')
-          : Organisation();
+      Organisation dep = widget.model?.department ?? Organisation();
       createpassmgmtCubit.selectedEmployeeDepartment(dep);
       // getAttachments =
       //     widget.listuser?.images != null ? widget.listuser?.images ?? [] : [];
@@ -2561,6 +2553,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     Organisation? companyType =
         state.selectedCompanyType ?? widget.model?.companyType;
 
+    log('-state.selectedDepartment---${state.selectedDepartment?.id}---');
     Organisation? department =
         state.selectedDepartment ?? widget.model?.department;
     Organisation? dayPass =

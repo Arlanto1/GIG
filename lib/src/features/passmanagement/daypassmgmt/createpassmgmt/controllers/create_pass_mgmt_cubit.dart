@@ -595,7 +595,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
   initialization() {
     state.showIdentifiedFields = false;
-    state.selectedDepartment = Organisation();
+    state.selectedDepartment = null;
     state.employeeDepartment = EmployeeDepartments();
     state.companyTypes = CompanyTypes();
     state.vendorPassInfo = Organisation();
