@@ -64,6 +64,7 @@ class Keys {
 
   /// Material Movement
   static const String challanKey = 'material_inward_challan_key';
+  static const String returnChallanKey = 'material_outward_returnChallanKey_key';
   static const String poNumberKey = 'po_number_mmi';
   static const String quantityKey = 'material_inward_quantity_key';
   static const String returnableKey = 'returnableKey_mmo';

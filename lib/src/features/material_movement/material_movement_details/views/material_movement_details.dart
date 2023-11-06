@@ -1693,9 +1693,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                   );
                                                 }),
 
-                                  if (state.model.status == 2 ||
-                                      state.model.status == 5 ||
-                                      state.model.status == 6) ...[
+                                  if (state.model.status == 5) ...[
                                     /// Actual Date Of Return
                                     CommonWidgets.textDisplay(
                                       Constants.actualDateOfReturn,
@@ -1731,7 +1729,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         height * 0.001),
                                     FlutterInputField(
                                       keyboardType: TextInputType.text,
-                                      textFormKey: Keys.challanKey,
+                                      textFormKey: Keys.returnChallanKey,
                                       initialValue:
                                           state.model.materialReturnedChallanNo,
                                       hintText: '',
@@ -1739,12 +1737,13 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       isDisableColor: state.model.status == 6,
                                       onChange: (String? value) {
                                         if (value != null) {
-                                          state.model.materialReturnedChallanNo =
+                                          state.model
+                                                  .materialReturnedChallanNo =
                                               value;
                                         }
                                         context
                                             .read<
-                                            MaterialMovementDetailsCubit>()
+                                                MaterialMovementDetailsCubit>()
                                             .onModelValueChange(state.model);
                                       },
                                       validateTextField: (String? user) {},
