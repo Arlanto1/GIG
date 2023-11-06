@@ -243,13 +243,14 @@ class Constants {
   static const String passvlidfrom = 'Pass Valid From';
   static const String passvliduntil = 'Pass Valid Until';
   static const String escortedby = 'Escorted By';
-  static const String escortedbyemployeeid = 'Escorted by Employee Id';
   static const String identifiedBy = 'Identified By';
+  static const String escortedbyemployeeid = 'Escorted by Employee Id';
   static const String identifiedByEmployeeId = 'Identified By Employee Id';
   static const String reasonfordaypass = 'Reason for Day Pass';
   static const String daypassno = 'Day Pass No';
   static const String passtype = 'Pass Type';
   static const String sezPassInfo = 'Sez Pass';
+  static const String passValidUntil = '31/03/2023';
 
   //List page - Found Article
   static const String searchHintText = 'Search....';

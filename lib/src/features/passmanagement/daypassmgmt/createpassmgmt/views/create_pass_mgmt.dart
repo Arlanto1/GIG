@@ -1659,13 +1659,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
             final currentDate = DateTime.now();
             if (value.equalsIgnoreCase('Permanent')) {
-              String nextformattedDate = DateFormat(Constants.fulldateFormat)
+              String nextformattedDate = DateFormat(Constants.dateFormat)
                   .format(currentDate.add(const Duration(days: 1241)));
               passvaliduntilTextController.text = nextformattedDate;
             } else {
-              String nextformattedDate = DateFormat(Constants.fulldateFormat)
-                  .format(currentDate.add(const Duration(days: 30)));
-              passvaliduntilTextController.text = nextformattedDate;
+              passvaliduntilTextController.text = Constants.passValidUntil;
             }
 
             setState(() {});
