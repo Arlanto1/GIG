@@ -1657,17 +1657,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             print(value);
             passCategoryTextController.text = value;
 
-            //TODO: Make below code functional
-            // final currentDate = DateTime.now();
-            // if(value.equalsIgnoreCase('Permanent')) {
-            //   String nextformattedDate = DateFormat(Constants.fulldateFormat)
-            //       .format(currentDate.add(const Duration(days: 12)));
-            //   passvaliduntilTextController.text = nextformattedDate;
-            // } else{
-            //   String nextformattedDate = DateFormat(Constants.fulldateFormat)
-            //       .format(currentDate.add(const Duration(hours: 12)));
-            //   passvaliduntilTextController.text = nextformattedDate;
-            // }
+            final currentDate = DateTime.now();
+            if (value.equalsIgnoreCase('Permanent')) {
+              String nextformattedDate = DateFormat(Constants.dateFormat)
+                  .format(currentDate.add(const Duration(days: 1241)));
+              passvaliduntilTextController.text = nextformattedDate;
+            } else {
+              passvaliduntilTextController.text = Constants.passValidUntil;
+            }
 
             setState(() {});
           },
@@ -2453,6 +2450,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     log('-sezpassinfoTextController-----${sezpassinfoTextController.text}----');
     log('-mtpApplicationNoTextController-----${mtpApplicationNoTextController.text}----');
     log('-passCategoryTextController111-----${passCategoryTextController.text}----');
+
+
     int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     int passvaliduntildate = (DateTime.now().millisecondsSinceEpoch ~/ 1000) +
         12 * 3600; // Adding 12 hours

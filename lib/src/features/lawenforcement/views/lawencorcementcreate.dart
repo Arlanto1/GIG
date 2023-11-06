@@ -1758,8 +1758,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
         }
       }
     } else {
-      if (widget.model != null &&
-          distributiongroupsTextController.text.isEmpty) {
+      if (widget.model?.status !=0 && (widget.model != null &&
+          distributiongroupsTextController.text.isEmpty))  {
         Validator().showToast(
           context,
           "Please enter distribution groups",
@@ -1797,7 +1797,6 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
       },
     );
   }
-
   Widget attachmentListviews(List<CreateImage>? attachmentListviews,
       List<FoundImage>? attachmentListviews1,) {
     return Container(
