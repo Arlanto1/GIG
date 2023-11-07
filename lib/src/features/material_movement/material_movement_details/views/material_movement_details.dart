@@ -1205,10 +1205,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         height * 0.001),
 
                                     BaseDate().datePickerWidgetLoading(
-                                      isDisabled: widget
-                                                  .materialMovement?.status !=
-                                              6 ||
-                                          widget.materialMovement?.status != 1,
+                                      showBackDate: false,
+                                      isDisabled: (widget.materialMovement
+                                                      ?.status ==
+                                                  6 ||
+                                              widget.materialMovement?.status ==
+                                                  1)
+                                          ? true
+                                          : false,
                                       textController:
                                           expectedDateOfReturnController,
                                       onlyDate: true,
@@ -1914,12 +1918,11 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   ],
 
                                   /// Comment
-                                  if (!state
-                                      .model.materialPhysicallyChecked) ...[
+                                  if (!state.model.materialPhysicallyChecked &&
+                                      widget.materialMovement?.status == 5) ...[
                                     CommonWidgets.textDisplay(
                                       Constants.comment,
                                       Styles.textStyleBlack14,
-                                      isMandatory: true,
                                     ),
                                     FlutterInputField(
                                       initialValue:
@@ -1970,15 +1973,26 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// SubmitButton
-                            if (state.model.status != 6 &&
-                                state.model.status != 1 &&
-                                !isDisabled) ...[
+                            if ((state.model.status == 6 ||
+                                    state.model.status == 1)
+                                ? false
+                                : true) ...[
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   cancelButtonDisplay(),
                                   submitButtonDisplay(state)
+                                ],
+                              ),
+                            ],
+
+                            if ((state.model.status == 6 ||
+                                state.model.status == 1)) ...[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  cancelButtonDisplay(),
                                 ],
                               ),
                             ],

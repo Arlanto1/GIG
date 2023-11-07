@@ -1252,11 +1252,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       submitButtonDisplay()
                                     ],
                                   ),
+                                ],
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.03),
-                                ],
-                              ],
-                            ),
+                            ],),
                           ),
                         ],
                       ),
@@ -1567,6 +1566,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
     await createpassmgmtCubit.companyTypes('ATOM_COMPANY_TYPES', context);
     await createpassmgmtCubit.getDayPassreasons('DAY_PASS_REASON', context);
+    await createpassmgmtCubit.getVendorPassreasons('VENDOR_PASS_REASON', context);
     //await createpassmgmtCubit.getAnalysts('T1_Analyst');
     await createpassmgmtCubit.getUserByRoleDepositor(
         'ATOM_STATIC_USER', context);
@@ -1762,8 +1762,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           widget.model?.status != 0 && widget.model != null ? true : false,
       onTap: () {
         if (widget.model == null || widget.model?.status == 0) {
-          //articleTypeDialog(state);
+        if(widget.passId == '0') {
           reasondaypassDialog(state);
+        }else if(widget.passId == '2') {
+          vendorPassReasonDialog(state);
+       }
         }
       },
     );
@@ -2115,6 +2118,40 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             onTap: (Organisation list) {
               //print(list.name);
               createpassmgmtCubit.getdaypassreasonResponseData(list);
+            },
+          );
+        });
+  }
+
+  vendorPassReasonDialog(CreatePassMgmtState state) {
+    showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return CustomListTexts(
+            duplicatedayPassReason:
+            state.vendorPassReason?.vendorPassReason ?? [],
+            leftImageName: widget.passId == '0' || widget.passId == '2'
+                ? AppIcon.addicon
+                : null,
+            onLeftButtonTap: () {
+              if (widget.passId == '0' || widget.passId == '2') {
+                Navigator.pop(context);
+                showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (BuildContext dialogContext) {
+                      return AddNewFields(
+                        title: widget.passId == '0'
+                            ? Constants.addreasonfordaypass
+                            : Constants.addreasonforvendorpass,
+                        createpassmgmtstate: state,
+                      );
+                    });
+              }
+            },
+            onTap: (Organisation list) {
+              //print(list.name);
+              createpassmgmtCubit.getVendorPassReasonResponseData(list);
             },
           );
         });

@@ -16,6 +16,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_response.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/vendor_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgmt_services.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
@@ -61,7 +62,10 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       } else if (Constants.addreasonfordaypass == title ||
           Constants.addreasonforvendorpass == title) {
         await createpassmgmtCubit.getDayPassreasons('DAY_PASS_REASON', context);
-      } else if (Constants.addentitytype == title) {
+      } else if (Constants.addreasonforvendorpass == title ||
+          Constants.addreasonforvendorpass == title) {
+        await createpassmgmtCubit.getVendorPassreasons('VENDOR_PASS_REASON', context);
+      }else if (Constants.addentitytype == title) {
         await createpassmgmtCubit.getEntities('ATOM_ENTITIES', context);
       }
       dismissLoadingDialog(context);
@@ -450,6 +454,46 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
+  Future<void> getVendorPassreasons(
+      String companyStr, BuildContext context) async {
+    try {
+      // DayPassReason dayPassreasons =
+      //     await createpassmgmtServices.getDayPassreason(companyStr, context);
+
+      VendorPassReason vendorPassreasons = await commonServices.getVendorPassReason(
+          name: companyStr, context: context);
+      emit(
+        state.copyWith(
+          vendorPassReason: vendorPassreasons,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
+  getVendorPassReasonResponseData(Organisation? vendorPassReasonResponse) async {
+    try {
+      emit(
+        state.copyWith(
+          vendorPasselementReason: vendorPassReasonResponse,
+          stateType: CreatePassMgmtStateType.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: Constants.errorText,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
+    }
+  }
   // Get analysts response
   Future<void> getAnalysts(String companyStr, BuildContext context) async {
     try {

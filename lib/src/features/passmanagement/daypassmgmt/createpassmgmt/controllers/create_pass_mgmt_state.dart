@@ -16,6 +16,7 @@ import 'package:equatable/equatable.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../../models/organisation.dart';
 import '../../../../createfound/models/user.dart';
+import '../models/vendor_pass_reason_model.dart';
 
 enum CreatePassMgmtStateType {
   initial,
@@ -51,7 +52,9 @@ class CreatePassMgmtState extends Equatable {
   Organisation? selectedCompanyType;
   CreatePassMgmtResponse? createpassFoundresponse;
   Organisation? dayPasselementReason;
+  Organisation? vendorPasselementReason;
   DayPassReason? dayPassReason;
+  VendorPassReason? vendorPassReason;
   BaseUser? t1nameanalyst;
   Analyst? analyst;
   User? t1hostanalyst;
@@ -92,7 +95,9 @@ class CreatePassMgmtState extends Equatable {
     this.showIdentifiedFields = false,
     this.createpassFoundresponse,
     this.dayPassReason,
+    this.vendorPassReason,
     this.dayPasselementReason,
+    this.vendorPasselementReason,
     this.t1nameanalyst,
     this.analyst,
     this.t1hostanalyst,
@@ -133,7 +138,9 @@ class CreatePassMgmtState extends Equatable {
     Organisation? selectedCompanyType,
     CreatePassMgmtResponse? createpassFoundresponse,
     Organisation? dayPasselementReason,
+    Organisation? vendorPasselementReason,
     DayPassReason? dayPassReason,
+    VendorPassReason? vendorPassReason,
     BaseUser? t1nameanalyst,
     Analyst? analyst,
     User? t1hostanalyst,
@@ -180,7 +187,9 @@ class CreatePassMgmtState extends Equatable {
       createpassFoundresponse:
           createpassFoundresponse ?? this.createpassFoundresponse,
       dayPassReason: dayPassReason ?? this.dayPassReason,
+      vendorPassReason: vendorPassReason ?? this.vendorPassReason,
       dayPasselementReason: dayPasselementReason ?? this.dayPasselementReason,
+      vendorPasselementReason:vendorPasselementReason?? this.vendorPasselementReason,
       t1nameanalyst: t1nameanalyst ?? this.t1nameanalyst,
       t1hostanalyst: t1hostanalyst ?? this.t1hostanalyst,
       analyst: analyst ?? this.analyst,
@@ -223,7 +232,9 @@ class CreatePassMgmtState extends Equatable {
         selectedCompanyType,
         createpassFoundresponse,
         dayPassReason,
+    vendorPassReason,
         dayPasselementReason,
+    vendorPasselementReason,
         t1nameanalyst,
         t1hostanalyst,
         analyst,
