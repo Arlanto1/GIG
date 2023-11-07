@@ -33,6 +33,7 @@ import '../../../../models/responseModels/error_response_validation.dart';
 import '../../../../models/responseModels/generic_create_response.dart';
 import '../../../createfound/models/emplyee_departments_model.dart';
 import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
+import '../../models/mm_ui_labels.dart';
 
 part 'material_movement_details_state.dart';
 
@@ -103,10 +104,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
-      // Language uilabels =
-      // await commonServices.getUiLabels(language: 'EMPLOYEE_DEPARTMENTS');
-
-      // log('--uilabels-----${uilabels.en}--');
+      // MmUiLabels uilabels =
+      // await commonServices.getUiLabels(language: 'en', moduleCode: Constants.materialMovementModuleCode);
+      //
+      // log('--uilabels-----${uilabels.}--');
       // log('--uilabels---2232--${uilabels.en?.comarlantoatomguardingMastermaritalStatus}--');
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
