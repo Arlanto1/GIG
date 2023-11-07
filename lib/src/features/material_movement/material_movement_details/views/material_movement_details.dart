@@ -1205,10 +1205,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         height * 0.001),
 
                                     BaseDate().datePickerWidgetLoading(
-                                      isDisabled: widget
-                                                  .materialMovement?.status !=
-                                              6 ||
-                                          widget.materialMovement?.status != 1,
+                                      showBackDate:false,
+                                      isDisabled: (widget.materialMovement
+                                                      ?.status ==
+                                                  6 ||
+                                              widget.materialMovement?.status ==
+                                                  1)
+                                          ? true
+                                          : false,
                                       textController:
                                           expectedDateOfReturnController,
                                       onlyDate: true,
