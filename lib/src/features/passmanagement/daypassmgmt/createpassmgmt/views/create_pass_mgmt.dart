@@ -1244,7 +1244,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     widget.model?.status == 1 ||
                                     widget.model?.status == 2 ||
                                     widget.model?.status == 3) ...[
-                                  Center(child: submitButtonDisplay()),
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      cancelButtonDisplay(),
+                                      submitButtonDisplay()
+                                    ],
+                                  ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.03),
                                 ],
@@ -1586,6 +1593,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     );
   }
 
+  Widget cancelButtonDisplay() {
+    return AppButton(
+      // Customize the button properties as needed
+      width: 150,
+      backgroundColor: Colors.white,
+      key: const Key(Keys.cancelButton),
+      buttonText: Constants.cancel,
+      buttonTextKey: Keys.cancelButton,
+      onTap: () {
+        Navigator.pop(context);
+      },
+    );
+  }
   daypassNoDialog() {
     showDialog(
         context: context,

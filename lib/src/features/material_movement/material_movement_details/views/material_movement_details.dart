@@ -204,7 +204,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
       getFiles = state.loadAttachments ?? [];
       log('---getFiles----builder----${getFiles.length}-----');
     }
-    bool isQuanityDisabled = state.model.status != 6;
+    bool isQuantityDisabled =
+        (state.model.status == 6 || state.model.status == 1);
     return Container(
       color: AppColors.navigationSkybluecolor,
       child: SingleChildScrollView(
@@ -280,7 +281,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   isDisabled: state.model.status != 6,
                                   textController: returnableTextController,
                                   onTap: () {
-                                    if (!isDisabled & !widget.isInward) {
+                                    if ((!isDisabled & !widget.isInward) &&
+                                        state.model.status != 1) {
                                       BaseDropDown().assetTypeDialog(
                                         context: context,
                                         dropDownValues:
@@ -382,8 +384,12 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   textFormKey: Keys.challanKey,
                                   initialValue: state.model.challanNo,
                                   hintText: '',
-                                  isEnable: state.model.status != 6,
-                                  isDisableColor: state.model.status == 6,
+                                  isEnable: state.model.status == 6 ||
+                                          state.model.status == 1
+                                      ? false
+                                      : true,
+                                  isDisableColor: state.model.status == 6 ||
+                                      state.model.status == 1,
                                   onChange: (String value) {
                                     state.model.challanNo = value;
                                     context
@@ -449,8 +455,12 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   textFormKey: Keys.materialBreifDescKey,
                                   hintText: Constants.informationhere,
                                   showBorder: true,
-                                  isEnable: state.model.status != 6,
-                                  isDisableColor: state.model.status == 6,
+                                  isEnable: state.model.status == 6 ||
+                                          state.model.status == 1
+                                      ? false
+                                      : true,
+                                  isDisableColor: state.model.status == 6 ||
+                                      state.model.status == 1,
                                   onChange: (String value) {
                                     state.model.materialDescription = value;
                                     context
@@ -486,8 +496,15 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             '${state.model.quantity ?? ''}',
                                         textFormKey: Keys.quantityKey,
                                         hintText: '',
-                                        isEnable: state.model.status != 6,
-                                        isDisableColor: state.model.status == 6,
+                                        isEnable: state.model.status == 6 ||
+                                                state.model.status == 1
+                                            ? false
+                                            : true,
+                                        isDisableColor:
+                                            state.model.status != 6 ||
+                                                    state.model.status != 1
+                                                ? true
+                                                : false,
                                         onChange: (String? value) {
                                           if (value != null) {
                                             state.model.quantity =
@@ -508,7 +525,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     if (!isDisabled) ...[
                                       InkWell(
                                         onTap: () {
-                                          if (isQuanityDisabled) {
+                                          if (!isQuantityDisabled) {
                                             quantityUnitDialog(
                                               context: context,
                                               quantityUnits:
@@ -518,7 +535,15 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         },
                                         child: AddButtonWidget(
                                           height: 50,
-                                          isDisableColor: isDisabled,
+                                          isDisableColor: (widget
+                                                          .materialMovement
+                                                          ?.status ==
+                                                      6 ||
+                                                  widget.materialMovement
+                                                          ?.status ==
+                                                      1)
+                                              ? true
+                                              : false,
                                         ),
                                       ),
                                     ],
@@ -545,8 +570,12 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     showBorder: true,
                                     textFormKey: Keys.equipmentNoKey,
                                     hintText: '',
-                                    isEnable: state.model.status != 6,
-                                    isDisableColor: state.model.status == 6,
+                                    isEnable: state.model.status == 6 ||
+                                            state.model.status == 1
+                                        ? false
+                                        : true,
+                                    isDisableColor: state.model.status == 6 ||
+                                        state.model.status == 1,
                                     onChange: (String value) {
                                       state.model.modelInfo = value;
                                       context
@@ -572,8 +601,12 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     showBorder: true,
                                     textFormKey: Keys.addressKey,
                                     hintText: '',
-                                    isEnable: state.model.status != 6,
-                                    isDisableColor: state.model.status == 6,
+                                    isEnable: state.model.status == 6 ||
+                                            state.model.status == 1
+                                        ? false
+                                        : true,
+                                    isDisableColor: state.model.status == 6 ||
+                                        state.model.status == 1,
                                     onChange: (String value) {
                                       state.model.address = value;
                                       context
@@ -593,16 +626,22 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         Styles.textStyleBlack14,
                                         isMandatory: true,
                                       ),
-                                      widget.materialMovement?.status != 6
+                                      widget.materialMovement?.status != 6 ||
+                                              state.model.status != 1
                                           ? TextfieldAddButton(
                                               title: state.model.requestorEmail,
                                               height: 70,
                                               isDisableColor:
-                                                  state.model.status != 6
-                                                      ? false
-                                                      : true,
+                                                  (state.model.status == 6 ||
+                                                          state.model.status ==
+                                                              1)
+                                                      ? true
+                                                      : false,
                                               onTap: () {
-                                                if (state.model.status != 6) {
+                                                if (state.model.status == 6 ||
+                                                        state.model.status == 1
+                                                    ? false
+                                                    : true) {
                                                   BaseDepartmentDialog()
                                                       .userDialog(
                                                     context: context,
@@ -624,9 +663,12 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               textFormKey:
                                                   Keys.requesterEmailKey,
                                               hintText: '',
-                                              isEnable: state.model.status != 6,
+                                              isEnable:
+                                                  (state.model.status != 6 ||
+                                                      state.model.status != 1),
                                               isDisableColor:
-                                                  state.model.status == 6,
+                                                  state.model.status == 6 ||
+                                                      state.model.status == 1,
                                               onChange: (String username) {},
                                               validateTextField:
                                                   (String? user) {},
@@ -651,8 +693,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                         state.model.requestorEmployeeId,
                                     textFormKey: Keys.requestorEmployeeKey,
                                     hintText: '',
-                                    isEnable: state.model.status != 6,
-                                    isDisableColor: state.model.status == 6,
+                                    isEnable: state.model.status == 6 ||
+                                            state.model.status == 1
+                                        ? false
+                                        : true,
+                                    isDisableColor: (state.model.status == 6 ||
+                                            state.model.status == 1)
+                                        ? true
+                                        : false,
                                     onChange: (String value) {
                                       state.model.requestorEmployeeId = value;
                                       context
@@ -696,11 +744,15 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               .model.requestorDepartment?.name,
                                           height: 70,
                                           isDisableColor:
-                                              state.model.status != 6
-                                                  ? false
-                                                  : true,
+                                              (state.model.status == 6 ||
+                                                      state.model.status == 1)
+                                                  ? true
+                                                  : false,
                                           onTap: () {
-                                            if (state.model.status != 6) {
+                                            if (state.model.status == 6 ||
+                                                    state.model.status == 1
+                                                ? false
+                                                : true) {
                                               BaseDepartmentDialog()
                                                   .departmentDialog(
                                                 context: context,
@@ -743,7 +795,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     initialValue: state.model.sentTo,
                                     textFormKey: Keys.sentToKey,
                                     hintText: '',
-                                    isEnable: state.model.status != 6,
+                                    isEnable: state.model.status == 6 ||
+                                            state.model.status == 1
+                                        ? false
+                                        : true,
                                     isDisableColor: state.model.status == 6,
                                     onChange: (String value) {
                                       state.model.sentTo = value;
@@ -770,20 +825,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     initialValue: state.model.purpose,
                                     textFormKey: Keys.purposeKey,
                                     hintText: '',
-                                    isEnable: widget.materialMovement == null
-                                        ? true
-                                        : (widget.materialMovement != null &&
-                                                (widget.materialMovement
-                                                        ?.purpose ==
-                                                    null))
-                                            ? false
-                                            : true,
-                                    isDisableColor: (widget.materialMovement !=
-                                                null &&
-                                            (widget.materialMovement?.purpose !=
-                                                null))
-                                        ? true
-                                        : false,
+                                    isEnable: (state.model.status != 6 ||
+                                            state.model.status != 1)
+                                        ? false
+                                        : true,
+                                    isDisableColor: (state.model.status != 6 ||
+                                            state.model.status != 1)
+                                        ? false
+                                        : true,
                                     onChange: (String value) {
                                       state.model.purpose = value;
                                       context
@@ -809,21 +858,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     initialValue: state.model.preparedBy,
                                     textFormKey: Keys.preparedByKey,
                                     hintText: '',
-                                    isEnable: widget.materialMovement == null
-                                        ? true
-                                        : (widget.materialMovement != null &&
-                                                (widget.materialMovement
-                                                        ?.preparedBy ==
-                                                    null))
-                                            ? false
-                                            : true,
-                                    isDisableColor:
-                                        (widget.materialMovement != null &&
-                                                (widget.materialMovement
-                                                        ?.preparedBy !=
-                                                    null))
-                                            ? true
-                                            : false,
+                                    isEnable: (state.model.status != 6 ||
+                                            state.model.status != 1)
+                                        ? false
+                                        : true,
+                                    isDisableColor: (state.model.status != 6 ||
+                                            state.model.status != 1)
+                                        ? false
+                                        : true,
                                     onChange: (String value) {
                                       state.model.preparedBy = value;
                                       BlocProvider.of<
@@ -849,7 +891,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           textFormKey:
                                               Keys.preparedByDepartmentKey,
                                           hintText: '',
-                                          isEnable: state.model.status != 6,
+                                          isEnable: (state.model.status == 6 ||
+                                                  state.model.status == 1)
+                                              ? true
+                                              : false,
                                           isDisableColor:
                                               state.model.status == 6,
                                           onChange: (String value) {
@@ -868,11 +913,15 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               .model.preparedByDepartment?.name,
                                           height: 70,
                                           isDisableColor:
-                                              state.model.status != 6
-                                                  ? false
-                                                  : true,
+                                              (state.model.status == 6 ||
+                                                      state.model.status == 1)
+                                                  ? true
+                                                  : false,
                                           onTap: () {
-                                            if (state.model.status != 6) {
+                                            if ((state.model.status == 6 ||
+                                                    state.model.status == 1)
+                                                ? false
+                                                : true) {
                                               BaseDepartmentDialog()
                                                   .departmentDialog(
                                                 context: context,
@@ -912,11 +961,16 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               title: state.model.approver1Email,
                                               height: 70,
                                               isDisableColor:
-                                                  state.model.status != 6
-                                                      ? false
-                                                      : true,
+                                                  (state.model.status == 6 ||
+                                                          state.model.status ==
+                                                              1)
+                                                      ? true
+                                                      : false,
                                               onTap: () {
-                                                if (state.model.status != 6) {
+                                                if ((state.model.status == 6 ||
+                                                        state.model.status == 1)
+                                                    ? false
+                                                    : true) {
                                                   BaseDepartmentDialog()
                                                       .userDialog(
                                                     context: context,
@@ -982,11 +1036,15 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               .model.approver1Department?.name,
                                           height: 70,
                                           isDisableColor:
-                                              state.model.status != 6
-                                                  ? false
-                                                  : true,
+                                              (state.model.status == 6 ||
+                                                      state.model.status == 1)
+                                                  ? true
+                                                  : false,
                                           onTap: () {
-                                            if (state.model.status != 6) {
+                                            if ((state.model.status == 6 ||
+                                                    state.model.status == 1)
+                                                ? false
+                                                : true) {
                                               BaseDepartmentDialog()
                                                   .departmentDialog(
                                                 context: context,
@@ -1026,11 +1084,16 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               title: state.model.approver2Email,
                                               height: 70,
                                               isDisableColor:
-                                                  state.model.status != 6
-                                                      ? false
-                                                      : true,
+                                                  (state.model.status == 6 ||
+                                                          state.model.status ==
+                                                              1)
+                                                      ? true
+                                                      : false,
                                               onTap: () {
-                                                if (state.model.status != 6) {
+                                                if ((state.model.status == 6 ||
+                                                        state.model.status == 1)
+                                                    ? false
+                                                    : true) {
                                                   BaseDepartmentDialog()
                                                       .userDialog(
                                                     context: context,
@@ -1096,11 +1159,15 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                               .model.approver2Department?.name,
                                           height: 70,
                                           isDisableColor:
-                                              state.model.status != 6
-                                                  ? false
-                                                  : true,
+                                              (state.model.status == 6 ||
+                                                      state.model.status == 1)
+                                                  ? true
+                                                  : false,
                                           onTap: () {
-                                            if (state.model.status != 6) {
+                                            if ((state.model.status == 6 ||
+                                                    state.model.status == 1)
+                                                ? false
+                                                : true) {
                                               BaseDepartmentDialog()
                                                   .departmentDialog(
                                                 context: context,
@@ -1132,11 +1199,16 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     CommonWidgets.textDisplay(
                                       Constants.expectedDateOfReturn,
                                       Styles.textStyleBlack14,
+                                      isMandatory: true,
                                     ),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
 
                                     BaseDate().datePickerWidgetLoading(
+                                      isDisabled: widget
+                                                  .materialMovement?.status !=
+                                              6 ||
+                                          widget.materialMovement?.status != 1,
                                       textController:
                                           expectedDateOfReturnController,
                                       onlyDate: true,
@@ -1666,32 +1738,38 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           state.model.materialPhysicallyChecked
                                               ? 1
                                               : 0,
-                                      onChangedYes:
-                                          widget.materialMovement?.status == 6
-                                              ? null
-                                              : (val) {
-                                                  BlocProvider.of<
-                                                              MaterialMovementDetailsCubit>(
-                                                          context)
-                                                      .showFields(
-                                                    isMaterialPhysicallyChecked:
-                                                        true,
-                                                    // materialMovement: materialMovement,
-                                                  );
-                                                },
-                                      onChangedNo:
-                                          widget.materialMovement?.status == 6
-                                              ? null
-                                              : (val) {
-                                                  BlocProvider.of<
-                                                              MaterialMovementDetailsCubit>(
-                                                          context)
-                                                      .showFields(
-                                                    isMaterialPhysicallyChecked:
-                                                        false,
-                                                    // materialMovement: materialMovement,
-                                                  );
-                                                }),
+                                      onChangedYes: (widget.materialMovement
+                                                      ?.status ==
+                                                  6 ||
+                                              widget.materialMovement?.status ==
+                                                  1)
+                                          ? null
+                                          : (val) {
+                                              BlocProvider.of<
+                                                          MaterialMovementDetailsCubit>(
+                                                      context)
+                                                  .showFields(
+                                                isMaterialPhysicallyChecked:
+                                                    true,
+                                                // materialMovement: materialMovement,
+                                              );
+                                            },
+                                      onChangedNo: widget.materialMovement
+                                                      ?.status ==
+                                                  6 ||
+                                              widget.materialMovement?.status ==
+                                                  1
+                                          ? null
+                                          : (val) {
+                                              BlocProvider.of<
+                                                          MaterialMovementDetailsCubit>(
+                                                      context)
+                                                  .showFields(
+                                                isMaterialPhysicallyChecked:
+                                                    false,
+                                                // materialMovement: materialMovement,
+                                              );
+                                            }),
 
                                   if (state.model.status == 5) ...[
                                     /// Actual Date Of Return
@@ -1735,7 +1813,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       hintText: '',
                                       isEnable: state.model.status != 6,
                                       isDisableColor: state.model.status == 6,
-                                      onChange: (String? value) {
+                                      onChange: (String value) {
+                                        log('--value---$value');
                                         if (value != null) {
                                           state.model
                                                   .materialReturnedChallanNo =
@@ -1847,9 +1926,13 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                           state.model.materialNotCheckedComment,
                                       textFormKey:
                                           Keys.claimantEmpIdTextController,
-                                      isEnable: state.model.status != 6,
-                                      isDisableColor: state.model.status == 6,
                                       hintText: '',
+                                      isEnable: state.model.status == 6 ||
+                                              state.model.status == 1
+                                          ? false
+                                          : true,
+                                      isDisableColor: state.model.status == 6 ||
+                                          state.model.status == 1,
                                       onChange: (String value) {
                                         state.model.materialNotCheckedComment =
                                             value;
@@ -1995,7 +2078,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
       height: 70,
       isDisableColor: state.model.quantity == null ? false : true,
       onTap: () {
-        if (state.model.status != 6) {
+        if ((state.model.status != 6 || state.model.status != 1)) {
           quantityUnitDialog(
               context: context, quantityUnits: state.quantityUnits);
         }
@@ -2151,24 +2234,28 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   Widget locationWidgetdislay(MaterialMovementDetailsState state) {
     return GestureDetector(
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            return CustomExpansionListTexts(
-              getLocationsresponse: state.locations,
-              onTap: (Organisation? list) async {
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
-                state.model.location = location;
+        if ((widget.materialMovement?.status == 6 ||
+                widget.materialMovement?.status == 1)
+            ? false
+            : true) {
+          showDialog(
+            context: context,
+            builder: (BuildContext dialogContext) {
+              return CustomExpansionListTexts(
+                getLocationsresponse: state.locations,
+                onTap: (Organisation? list) async {
+                  Organisation location = Organisation();
+                  location.id = list?.id;
+                  location.name = list?.name;
+                  state.model.location = location;
 
-                BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                    .updateDropdownValues(location: location);
-              },
-            );
-          },
-        );
-        // }
+                  BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                      .updateDropdownValues(location: location);
+                },
+              );
+            },
+          );
+        }
       },
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
