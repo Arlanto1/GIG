@@ -1755,17 +1755,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget reasonforadaypassaddButtonwidgetLoading(CreatePassMgmtState state) {
     log('-state.dayPasselementReason?.name---${state.dayPasselementReason?.name}-');
+    log('-state.vendorPasselementReason?.name---${state.vendorPasselementReason?.name}--');
     return TextfieldAddButton(
-      title: state.dayPasselementReason?.name ?? '',
+      title: widget.passId == '0'?state.dayPasselementReason?.name ?? '':state.vendorPasselementReason?.name ?? '',
       height: 60,
       isDisableColor:
           widget.model?.status != 0 && widget.model != null ? true : false,
       onTap: () {
         if (widget.model == null || widget.model?.status == 0) {
-        if(widget.passId == '0') {
-          reasondaypassDialog(state);
-        }else if(widget.passId == '2') {
-          vendorPassReasonDialog(state);
+          if(widget.passId == '2') {
+            vendorPassReasonDialog(state);
+        }else if(widget.passId == '0') {
+            reasondaypassDialog(state);
        }
         }
       },
@@ -2130,19 +2131,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           return CustomListTexts(
             duplicatedayPassReason:
             state.vendorPassReason?.vendorPassReason ?? [],
-            leftImageName: widget.passId == '0' || widget.passId == '2'
+            leftImageName:  widget.passId == '2'
                 ? AppIcon.addicon
                 : null,
             onLeftButtonTap: () {
-              if (widget.passId == '0' || widget.passId == '2') {
+              if ( widget.passId == '2') {
                 Navigator.pop(context);
                 showDialog(
                     barrierDismissible: false,
                     context: context,
                     builder: (BuildContext dialogContext) {
                       return AddNewFields(
-                        title: widget.passId == '0'
-                            ? Constants.addreasonfordaypass
+                        title: widget.passId == '2'
+                            ? Constants.addreasonforvendorpass
                             : Constants.addreasonforvendorpass,
                         createpassmgmtstate: state,
                       );
