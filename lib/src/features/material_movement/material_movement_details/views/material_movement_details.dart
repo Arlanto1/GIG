@@ -825,8 +825,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     initialValue: state.model.purpose,
                                     textFormKey: Keys.purposeKey,
                                     hintText: '',
-                                    isEnable: (state.model.status != 6 ||
-                                            state.model.status != 1)
+                                    isEnable: state.model.status == 6 ||
+                                        state.model.status == 1
                                         ? false
                                         : true,
                                     isDisableColor: (state.model.status != 6 ||
@@ -858,10 +858,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     initialValue: state.model.preparedBy,
                                     textFormKey: Keys.preparedByKey,
                                     hintText: '',
-                                    isEnable: (state.model.status != 6 ||
-                                            state.model.status != 1)
-                                        ? false
-                                        : true,
+                                    isEnable:state.model.status == 6 ||
+                                  state.model.status == 1
+                                    ? false
+                                    : true,
                                     isDisableColor: (state.model.status != 6 ||
                                             state.model.status != 1)
                                         ? false
