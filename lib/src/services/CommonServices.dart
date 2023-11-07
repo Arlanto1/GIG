@@ -18,6 +18,7 @@ import '../features/createfound/models/get_depositor_model.dart';
 import '../features/createfound/models/user.dart';
 import '../features/createfound/models/vendors_model.dart';
 import '../features/lawenforcement/models/addentities.dart';
+import '../features/material_movement/models/mm_ui_labels.dart';
 import '../features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
 
 class Apis {
@@ -43,7 +44,7 @@ class Apis {
 
 class CommonServices {
 
-  Future<Language> getUiLabels({
+  Future<Language> getUiLabelsOld({
     required String language,
     BuildContext? context,
   }) async {
@@ -52,6 +53,18 @@ class CommonServices {
       url: url,
     );
     return Language.fromJson(response);
+  }
+
+  Future<MmUiLabels> getUiLabels({
+    required String language,
+    required String moduleCode,
+    BuildContext? context,
+  }) async {
+    String url = '${Apis._getUiLabels}$language';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return MmUiLabels.fromJson(response);
   }
 
   Future<GetLocations> getLocations({

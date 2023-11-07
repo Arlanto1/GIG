@@ -16,13 +16,9 @@ class MaterialMovementsModel {
   });
 
   MaterialMovementsModel.fromJson(Map<String, dynamic> json) {
-    log('--totalCount---${json['totalCount']}');
-
     List list = json['list'] as List;
-    log('--list---${list.length}');
     List<MaterialMovementModel> modellist = list.map((e) {
       try {
-        log('e----val----$e---');
         return MaterialMovementModel.fromJson(e as Map<String, dynamic>);
       } catch (e) {
         // Handle the exception, you can log it or take any appropriate action.

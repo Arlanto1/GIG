@@ -34,6 +34,7 @@ import 'package:db_atom/src/features/login/views/forgot_pwd_screen.dart';
 import 'package:db_atom/src/features/login/views/login_screen.dart';
 import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
 import 'package:db_atom/src/features/login/views/reset_password_screen.dart';
+import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart';
 import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
@@ -70,7 +71,6 @@ import '../features/material_movement/material_movement_details/cubits/material_
 import '../features/material_movement/material_movement_details/views/material_movement_details.dart';
 import '../features/material_movement/material_movements/bloc/material_movement_bloc.dart';
 import '../features/material_movement/material_movements/views/material_movements.dart';
-import '../features/material_movement/models/material_movements_model.dart';
 import '../features/material_movement/services/material_movement_services.dart';
 import '../features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_cubit.dart';
 import '../features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
