@@ -9,6 +9,7 @@ import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dar
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
+import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/vendor_pass_reason_model.dart';
 import 'package:db_atom/src/models/language.dart';
 import 'package:db_atom/src/models/organisation.dart';
 
@@ -84,6 +85,17 @@ class CommonServices {
       url: url,
     );
     return DayPassReason.fromJson(response);
+  }
+
+  Future<VendorPassReason> getVendorPassReason({
+    required String name,
+    BuildContext? context,
+  }) async {
+    String url = '${Apis._getLocations}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return VendorPassReason.fromJson(response);
   }
 
   Future<EmployeeDepartments> getDepartments({
