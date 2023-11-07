@@ -114,7 +114,10 @@ class FlutterInputField extends StatelessWidget {
         onChange(str);
       },
       validator: (String? value) {
-        return validateTextField!(value);
+        if(validateTextField != null) {
+          return validateTextField!(value);
+        }
+        return null;
       },
       onTap: () {
         onTap != null ? onTap!() : null;
