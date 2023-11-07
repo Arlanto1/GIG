@@ -549,6 +549,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
                                   ],
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
                                   // SubmitButton
                                   if (widget.model?.status != 3) ...[
                                     Row(
@@ -560,6 +562,8 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
                                       ],
                                     ),
                                   ],
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
                                 ],
                               ),
                             )
