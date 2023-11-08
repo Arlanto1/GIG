@@ -89,6 +89,11 @@ class MaterialMovementDetailsState extends Equatable {
     if (model.unit == null) {
       return const ErrorResponse(status: false, message: 'Please enter Unit');
     }
+    if (model.status == 2 &&model.materialPhysicallyChecked == false) {
+      return const ErrorResponse(
+          status: false, message: 'Please Select Material Physically Checked as true');
+    }
+
     if (model.materialDescription.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Material Description');

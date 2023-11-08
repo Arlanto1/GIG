@@ -1099,7 +1099,7 @@ class _CreateFoundState extends State<CreateFound> {
                                           ? false
                                           : true),
 
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                               /// depositor
                               CommonWidgets.textDisplay(
