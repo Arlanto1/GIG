@@ -1728,7 +1728,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                 if ((state.model.status == 2 ||
                                     state.model.status == 5 ||
                                     state.model.status == 6 )&&
-                                    (widget.isInward || !widget.isInward)) ...[
+                                    (!widget.isInward) || widget.isInward) ...[
                                   /// Is Material Physically Checked
                                   CommonWidgets.textDisplay(
                                     Constants.isPhysicallyChecked,
