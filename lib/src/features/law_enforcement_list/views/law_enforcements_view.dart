@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/features/law_enforcement_list/bloc/law_enforcement_bloc.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -20,14 +23,14 @@ import '../models/law_enforcement_details.dart';
 import 'law_enforcement_list_item.dart';
 import 'le_custom_list_pop_up.dart';
 
-class LnListPageList extends StatelessWidget {
-  const LnListPageList({super.key});
+class LawEnforcementsView extends StatelessWidget {
+  const LawEnforcementsView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<LawEnforcementBloc>(
       create: (_) => LawEnforcementBloc()
-        ..add( LawEnforcementFetch(startPos: 0, maxPos: 20,cont: context)),
+        ..add(LawEnforcementFetch(startPos: 0, maxPos: 20, cont: context)),
       child: const LnPage(),
     );
   }
@@ -64,9 +67,8 @@ class _LnPageState extends State<LnPage> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context
-          .read<LawEnforcementBloc>()
-          .add(LawEnforcementFetch(startPos: pageNumber, maxPos: 20,cont: context));
+      context.read<LawEnforcementBloc>().add(
+          LawEnforcementFetch(startPos: pageNumber, maxPos: 20, cont: context));
     }
   }
 
@@ -79,15 +81,15 @@ class _LnPageState extends State<LnPage> {
         backgroundColor: AppColors.navigationSkybluecolor,
         foregroundColor: AppColors.backgroundWhitecolor,
         onPressed: () {
-         // Navigator.pushNamed(context, lawenforcementScreenRoute);
-          Navigator.pushNamed(context, lawenforcementScreenRoute).then((value) async {
-            if(value != null && value == true)
-            {
+          // Navigator.pushNamed(context, lawenforcementScreenRoute);
+          Navigator.pushNamed(context, lawenforcementScreenRoute)
+              .then((value) async {
+            if (value != null && value == true) {
               print(value);
               //localfoundlist?.clear();
               pageNumber = 0;
-          bloc.add( LawEnforcementFetch(startPos: 0, maxPos: 20,cont: context));
-
+              bloc.add(
+                  LawEnforcementFetch(startPos: 0, maxPos: 20, cont: context));
             }
           });
         },
@@ -115,11 +117,11 @@ class _LnPageState extends State<LnPage> {
               String userid = await SharedPrefs.getUserId();
               print(value);
               if (value == 0) {
-                DownloadImage().exportExcel(
-                    context, int.parse(userid), 'export.xslx', 0, 20,'/exportLEOExcel');
+                DownloadImage().exportExcel(context, int.parse(userid),
+                    'export.xslx', 0, 20, '/exportLEOExcel');
               } else if (value == 1) {
-                DownloadImage()
-                    .exportPdf(context, int.parse(userid), 'export.pdf', 0, 20, '/exportLEOPDF');
+                DownloadImage().exportPdf(context, int.parse(userid),
+                    'export.pdf', 0, 20, '/exportLEOPDF');
               }
             },
             popupimagename: AppIcon.morewhiteicon,
@@ -164,10 +166,11 @@ class _LnPageState extends State<LnPage> {
                         );
                         //do the detail edit of user found
                       },
-                      oneditTap: (selectedIndex) {
-                        getLawEnforcementId(state.lawEnforceItems[index].id ?? 0);
+                      onEditTap: (selectedIndex) {
+                        getLawEnforcementId(
+                            state.lawEnforceItems[index].id ?? 0);
                       },
-                      onviewTap: (selectedIndex) {
+                      onViewTap: (selectedIndex) {
                         showDialog(
                           context: context,
                           builder: (BuildContext dialogContext) {
@@ -187,17 +190,29 @@ class _LnPageState extends State<LnPage> {
 
   getLawEnforcementId(int lawEnforcementId) async {
     showLoadingDialog(context);
-    LawEnforcementDetails? foundArticleDetailsResponse =
-        await lawEnforcementListCubit.getLawEnforcementById(lawEnforcementId, context);
+    LawEnforcementDetails? model =
+        await lawEnforcementListCubit.getById(
+            lawEnforcementId, context);
 
-    editDataLoading(foundArticleDetailsResponse);
+    log('-model--maillist--${model?.mailList}-');
+
+    editDataLoading(model);
   }
-  void editDataLoading( LawEnforcementDetails? foundArticleDetailsResponse)
-  {
+
+  void editDataLoading(LawEnforcementDetails? model) {
     dismissLoadingDialog(context);
-    if (foundArticleDetailsResponse != null)
-     {
-    Navigator.pushNamed(context, lawenforcementScreenRoute,arguments:{"UserElement" : foundArticleDetailsResponse}  );
-     }
+    if (model != null) {
+
+      for(Organisation organisation in model.entities??[]) {
+        log('-111--organisation.name--populateData--en-${organisation.name}');
+      }
+
+      for(Organisation organisation in model.mailList??[]) {
+        log('--111-organisation.name--populateData---${organisation.name}');
+      }
+
+      Navigator.pushNamed(context, lawenforcementScreenRoute,
+          arguments: {"UserElement": model});
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
@@ -16,21 +17,13 @@ import '../../../models/base_user.dart';
 import '../../../models/organisation.dart';
 import '../../createfound/models/user.dart';
 
-enum LawEnforcementStateType {
-  initial,
-  loading,
-  success,
-  failure,
-  addattachment
-}
-
 class LawEnforcementState extends Equatable {
   GetDepositor? getDepositorResponse;
   AddEntities? getEntitiesResponse;
   LeoDepartments? getLeodepartmentsResponse;
   LeoPurposeVisit? getLeopurposeResponse;
   late final int? eventId;
-  final LawEnforcementStateType stateType;
+  final FormStatus stateType;
   String? errorMessage;
   GetLocations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
@@ -103,7 +96,7 @@ class LawEnforcementState extends Equatable {
     LeoDepartments? getLeodepartmentsResponse,
     LeoPurposeVisit? getLeopurposeResponse,
     final int? eventId,
-    LawEnforcementStateType? stateType,
+    FormStatus? stateType,
     String? errorMessage,
     GetLocations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,

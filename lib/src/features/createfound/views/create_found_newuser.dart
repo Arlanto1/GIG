@@ -54,7 +54,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
     // }
      else if (widget.lawstate != null)
     {
-       await lawenforcementCubit.createUser(
+       await lawEnforcementCubit.createUser(
         firstname, lastname, email, 'ATOM_STATIC_USER', context);
     }
   }

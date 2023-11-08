@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
+import 'package:db_atom/src/models/organisation.dart';
 
 import '../../createfound/models/user.dart';
 
@@ -16,17 +17,17 @@ class LawEnforcementDetails {
     int? id;
     String? slNo;
     String? inputDate;
-    LawDbOfficialEmailDepartment? location;
-    LawDbOfficialEmailDepartment? locationRegion;
+    Organisation? location;
+    Organisation? locationRegion;
     String? timeOfVisit;
     bool? officialCardVerified;
-    LawDbOfficialEmailDepartment? visitPurpose;
+    Organisation? visitPurpose;
     bool? documentVerified;
     List<FoundImage>? images;
-    List<LawDbOfficialEmailDepartment>? entities;
+    List<Organisation>? entities;
     bool? visitorInUniform;
     String? dbOfficialEmail;
-    LawDbOfficialEmailDepartment? dbOfficialEmailDepartment;
+    Organisation? dbOfficialEmailDepartment;
     String? dbOfficialAccompaniedEmail;
     User? entrySecurity;
     String? additionalInformation;
@@ -35,7 +36,7 @@ class LawEnforcementDetails {
     String? modifiedBy;
     List<dynamic>? history;
     List<LawVisitingOfficial>? visitingOfficials;
-    List<MailList>? mailList;
+    List<Organisation>? mailList;
     String? entityDesc;
     String? entrySecurityName;
 
@@ -71,17 +72,17 @@ class LawEnforcementDetails {
         id: json["id"],
         slNo: json["slNo"],
         inputDate: json["inputDate"],
-        location: json["location"] == null ? null : LawDbOfficialEmailDepartment.fromJson(json["location"]),
-        locationRegion: json["locationRegion"] == null ? null : LawDbOfficialEmailDepartment.fromJson(json["locationRegion"]),
+        location: json["location"] == null ? null : Organisation.fromJson(json["location"]),
+        locationRegion: json["locationRegion"] == null ? null : Organisation.fromJson(json["locationRegion"]),
         timeOfVisit: json["timeOfVisit"],
         officialCardVerified: json["officialCardVerified"],
-        visitPurpose: json["visitPurpose"] == null ? null : LawDbOfficialEmailDepartment.fromJson(json["visitPurpose"]),
+        visitPurpose: json["visitPurpose"] == null ? null : Organisation.fromJson(json["visitPurpose"]),
         documentVerified: json["documentVerified"],
         images: json["images"] == null ? [] : List<FoundImage>.from(json["images"]!.map((x) => FoundImage.fromJson(x))),
-        entities: json["entities"] == null ? [] : List<LawDbOfficialEmailDepartment>.from(json["entities"]!.map((x) => LawDbOfficialEmailDepartment.fromJson(x))),
+        entities: json["entities"] == null ? [] : List<Organisation>.from(json["entities"]!.map((x) => Organisation.fromJson(x))),
         visitorInUniform: json["visitorInUniform"],
         dbOfficialEmail: json["dbOfficialEmail"],
-        dbOfficialEmailDepartment: json["dbOfficialEmailDepartment"] == null ? null : LawDbOfficialEmailDepartment.fromJson(json["dbOfficialEmailDepartment"]),
+        dbOfficialEmailDepartment: json["dbOfficialEmailDepartment"] == null ? null : Organisation.fromJson(json["dbOfficialEmailDepartment"]),
         dbOfficialAccompaniedEmail: json["dbOfficialAccompaniedEmail"],
         entrySecurity: json["entrySecurity"] == null ? null : User.fromJson(json["entrySecurity"]),
         additionalInformation: json["additionalInformation"],
@@ -90,9 +91,7 @@ class LawEnforcementDetails {
         modifiedBy: json["modifiedBy"],
         history: json["history"] == null ? [] : List<dynamic>.from(json["history"]!.map((x) => x)),
         visitingOfficials: json["visitingOfficials"] == null ? [] : List<LawVisitingOfficial>.from(json["visitingOfficials"]!.map((x) => LawVisitingOfficial.fromJson(x))),
-        mailList: json["mailList"] == null ? [] : List<MailList>.from(json["entities"]!.map((x) => MailList.fromJson(x))),
-        // mailList: json["mailList"] == null ? null : MailList.fromJson(json["mailList"]),
-        // mailList: json["mailList"] == null ? [] : List<dynamic>.from(json["mailList"]!.map((x) => x)),
+        mailList: json["mailList"] == null ? [] : List<Organisation>.from(json["mailList"]!.map((x) => Organisation.fromJson(x))),
         entityDesc: json["entityDesc"],
         entrySecurityName: json["entrySecurityName"],
     );
@@ -123,26 +122,6 @@ class LawEnforcementDetails {
         'mailList': mailList?.map((e) => e.toJson()).toList(),
         "entityDesc": entityDesc,
         "entrySecurityName": entrySecurityName,
-    };
-}
-
-class LawDbOfficialEmailDepartment {
-    int? id;
-    String? name;
-
-    LawDbOfficialEmailDepartment({
-        this.id,
-        this.name,
-    });
-
-    factory LawDbOfficialEmailDepartment.fromJson(Map<String, dynamic> json) => LawDbOfficialEmailDepartment(
-        id: json["id"],
-        name: json["name"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
     };
 }
 
@@ -270,7 +249,7 @@ class LawVisitingOfficial {
     int? id;
     String? name;
     String? designation;
-    LawDbOfficialEmailDepartment? department;
+    Organisation? department;
     String? address;
     String? contactNo;
     String? email;
@@ -291,7 +270,7 @@ class LawVisitingOfficial {
         id: json["id"],
         name: json["name"],
         designation: json["designation"],
-        department: json["department"] == null ? null : LawDbOfficialEmailDepartment.fromJson(json["department"]),
+        department: json["department"] == null ? null : Organisation.fromJson(json["department"]),
         address: json["address"],
         contactNo: json["contactNo"],
         email: json["email"],

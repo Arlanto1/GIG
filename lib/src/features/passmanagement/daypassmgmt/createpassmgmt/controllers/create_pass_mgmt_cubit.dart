@@ -58,15 +58,15 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         ),
       );
       if (Constants.addcompanytype == title) {
-        await createpassmgmtCubit.companyTypes('ATOM_COMPANY_TYPES', context);
+        await createPassMgmtCubit.companyTypes('ATOM_COMPANY_TYPES', context);
       } else if (Constants.addreasonfordaypass == title ||
           Constants.addreasonforvendorpass == title) {
-        await createpassmgmtCubit.getDayPassreasons('DAY_PASS_REASON', context);
+        await createPassMgmtCubit.getDayPassreasons('DAY_PASS_REASON', context);
       } else if (Constants.addreasonforvendorpass == title ||
           Constants.addreasonforvendorpass == title) {
-        await createpassmgmtCubit.getVendorPassreasons('VENDOR_PASS_REASON', context);
+        await createPassMgmtCubit.getVendorPassreasons('VENDOR_PASS_REASON', context);
       }else if (Constants.addentitytype == title) {
-        await createpassmgmtCubit.getEntities('ATOM_ENTITIES', context);
+        await createPassMgmtCubit.getEntities('ATOM_ENTITIES', context);
       }
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
@@ -176,7 +176,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           stateType: CreatePassMgmtStateType.success,
         ),
       );
-      await createpassmgmtCubit.getAnalysts('T1_Analyst', context);
+      await createPassMgmtCubit.getAnalysts('T1_Analyst', context);
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser, '');
@@ -205,7 +205,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         ),
       );
       dismissLoadingDialog(context);
-      await lawenforcementCubit.getEmployeeDepartments(
+      await lawEnforcementCubit.getEmployeeDepartments(
           'EMPLOYEE_DEPARTMENTS', context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(

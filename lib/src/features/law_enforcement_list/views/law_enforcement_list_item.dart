@@ -13,15 +13,16 @@ import 'package:flutter/services.dart';
 
 class LawEnforcementListItem extends StatefulWidget {
   final Function? onTap;
-  final Function? oneditTap;
-  final Function? onviewTap;
-  LawEnforcementListElement userItem;
-  int? index;
-  LawEnforcementListItem({
+  final Function? onEditTap;
+  final Function? onViewTap;
+  final LawEnforcementListElement userItem;
+  final int? index;
+
+  const LawEnforcementListItem({
     Key? key,
     this.onTap,
-    this.oneditTap,
-    this.onviewTap,
+    this.onEditTap,
+    this.onViewTap,
     required this.userItem,
     this.index,
   }) : super(key: key);
@@ -31,7 +32,6 @@ class LawEnforcementListItem extends StatefulWidget {
 }
 
 class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
- 
   Widget textHandling(String title, String desc) {
     return Expanded(
       child: RichText(
@@ -66,7 +66,7 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
             child: InkWell(
                 onTap: () {
                   HapticFeedback.lightImpact();
-                 widget.onTap != null ? widget.onTap!(widget.index) : null;
+                  widget.onTap != null ? widget.onTap!(widget.index) : null;
                 },
                 borderRadius: BorderRadius.circular(8),
                 child: Padding(
@@ -83,14 +83,18 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                                 IconButton(
                                   onPressed: () {
                                     //do action on view
-                                    widget.oneditTap != null ? widget.oneditTap!(widget.index) : null;
+                                    widget.onEditTap != null
+                                        ? widget.onEditTap!(widget.index)
+                                        : null;
                                   },
                                   icon: SvgPicture.asset(AppIcon.editIcon),
                                 ),
                                 IconButton(
                                   onPressed: () {
                                     //do action on view
-                                    widget.onviewTap != null ? widget.onviewTap!(widget.index) : null;
+                                    widget.onViewTap != null
+                                        ? widget.onViewTap!(widget.index)
+                                        : null;
                                   },
                                   icon: SvgPicture.asset(AppIcon.viewIcon),
                                 ),
@@ -105,30 +109,34 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                               widget.userItem.locationRegion?.name ?? ''),
                         ],
                       ),
-                       CommonWidgets.verticalSpacerWidget(5),
+                      CommonWidgets.verticalSpacerWidget(5),
                       Row(
                         children: [
                           textHandling('Location : ',
                               widget.userItem.location?.name ?? ''),
                         ],
                       ),
-                       CommonWidgets.verticalSpacerWidget(5),
+                      CommonWidgets.verticalSpacerWidget(5),
                       Row(
                         children: [
                           textHandling(
                               'Date: ',
-                          widget.userItem.inputDate != null ? Utils.timestamptoDateConversion(
-                              int.parse(widget.userItem.inputDate ?? '0'), Constants.dateFormat): ''
-                             ),
+                              widget.userItem.inputDate != null
+                                  ? Utils.timestamptoDateConversion(
+                                      int.parse(
+                                          widget.userItem.inputDate ?? '0'),
+                                      Constants.dateFormat)
+                                  : ''),
                         ],
                       ),
-                       CommonWidgets.verticalSpacerWidget(5),
-                    Row(
+                      CommonWidgets.verticalSpacerWidget(5),
+                      Row(
                         children: [
-                      Utils().buildLeoStatusRow(widget.userItem.status ?? 0)
-                    ],),
-                        ])))),
-         CommonWidgets.verticalSpacerWidget(5),
+                          Utils().buildLeoStatusRow(widget.userItem.status ?? 0)
+                        ],
+                      ),
+                    ])))),
+        CommonWidgets.verticalSpacerWidget(5),
       ],
     );
   }

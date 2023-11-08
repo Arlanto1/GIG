@@ -72,14 +72,14 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
 
   void _getpassFoundArticleList() async {
     String userid = await SharedPrefs.getUserId();
-    await daypassListCubit.getFoundList(
+    await dayPassListCubit.getFoundList(
         pageNumber.toString(), '20', userid, '${widget.passId}', context);
   }
 
   getpassFoundArticleListId(int articleid) async {
     showLoadingDialog(context);
     DayPassListElement? foundArticleDetailsResponse =
-        await daypassListCubit.getpassArticleById(articleid, context);
+        await dayPassListCubit.getpassArticleById(articleid, context);
 
     editDataLoading(foundArticleDetailsResponse);
   }
@@ -201,7 +201,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
         ],
       ),
       body: BlocBuilder<DayPassListCubit, DayPassListState>(
-          bloc: daypassListCubit,
+          bloc: dayPassListCubit,
           builder: (context, state) {
             log('--state.foundListModel?.items---${state.foundListModel?.items?.length}---');
             log('--state.stateType--${state.stateType}---');

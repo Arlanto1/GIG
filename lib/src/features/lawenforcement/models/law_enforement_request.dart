@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
+import 'package:db_atom/src/models/organisation.dart';
 
 LawEnforcementRequestBody lawEnforcementRequestBodyFromJson(String str) => LawEnforcementRequestBody.fromJson(json.decode(str));
 
@@ -44,7 +45,7 @@ class LawEnforcement {
     DbOfficialEmailDepartment? visitPurpose;
     String? additionalInformation;
     List<VisitingOfficial>? visitingOfficials;
-    List<MailList>? mailList;
+    List<Organisation>? mailList;
     List<CreateImage>? images;
 
     LawEnforcement({
@@ -87,7 +88,7 @@ class LawEnforcement {
         visitPurpose: json["visitPurpose"] == null ? null : DbOfficialEmailDepartment.fromJson(json["visitPurpose"]),
         additionalInformation: json["additionalInformation"],
         visitingOfficials: json["visitingOfficials"] == null ? [] : List<VisitingOfficial>.from(json["visitingOfficials"]!.map((x) => VisitingOfficial.fromJson(x))),
-        mailList: json["mailList"] == null ? [] : List<MailList>.from(json["mailList"]),
+        mailList: json["mailList"] == null ? [] : List<Organisation>.from(json["mailList"]),
         images: json["images"] == null
             ? []
             : List<CreateImage>.from(
@@ -132,28 +133,6 @@ class DbOfficialEmailDepartment {
 
     Map<String, dynamic> toJson() => {
         "id": id,
-    };
-}
-
-class MailList {
-    int? groupId;
-    String? name;
-    bool? isSelected;
-
-    MailList({
-        this.groupId,
-        this.name,
-        this.isSelected = false,
-    });
-
-    factory MailList.fromJson(Map<String, dynamic> json) => MailList(
-        groupId: json["groupId"],
-        name: json["name"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "groupId": groupId,
-        "name": name,
     };
 }
 

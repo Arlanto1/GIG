@@ -49,43 +49,43 @@ class AddNewFieldsState extends State<AddNewFields> {
     if (widget.lawstate != null) {
       if(widget.title == Constants.addcompanytype)
       {
-      await lawenforcementCubit.createOrganisation(
+      await lawEnforcementCubit.createOrganisation(
           name, 'ATOM_COMPANY_TYPES', context,widget.title);
       }
       else if(widget.title == Constants.addreasonfordaypass ||widget.title == Constants.addreasonforvendorpass )
       {
-         await lawenforcementCubit.createOrganisation(
+         await lawEnforcementCubit.createOrganisation(
           name, 'DAY_PASS_REASON', context,widget.title);
       }
       else if(widget.title == Constants.addentitytype )
       {
-         await lawenforcementCubit.createOrganisation(
+         await lawEnforcementCubit.createOrganisation(
           name, 'ATOM_ENTITIES', context,widget.title);
       }
       else if(widget.title == Constants.addpurposeofvisittype )
       {
-         await lawenforcementCubit.createOrganisation(
+         await lawEnforcementCubit.createOrganisation(
           name, 'ATOM_LEO_PURPOSE_VISIT', context,widget.title);
       }
       else if(widget.title == Constants.addleoofficialtype )
       {
-         await lawenforcementCubit.createOrganisation(
+         await lawEnforcementCubit.createOrganisation(
           name, 'ATOM_LEO_DEPARTMENTS', context,widget.title);
       }
     } else if (widget.createpassmgmtstate != null) {
       if(widget.title == Constants.addcompanytype)
       {
-      await createpassmgmtCubit.createOrganisation(
+      await createPassMgmtCubit.createOrganisation(
           name, 'ATOM_COMPANY_TYPES', context,widget.title);
       }
       else if(widget.title == Constants.addreasonfordaypass ||widget.title == Constants.addreasonforvendorpass )
       {
-         await createpassmgmtCubit.createOrganisation(
+         await createPassMgmtCubit.createOrganisation(
           name, 'DAY_PASS_REASON', context,widget.title);
       }
       else if(widget.title == Constants.addentitytype )
       {
-         await createpassmgmtCubit.createOrganisation(
+         await createPassMgmtCubit.createOrganisation(
           name, 'ATOM_ENTITIES', context,widget.title);
       }
       
@@ -93,7 +93,7 @@ class AddNewFieldsState extends State<AddNewFields> {
     } else if (widget.payRateState != null) {
 
 
-      await createpassmgmtCubit.createOrganisation(
+      await createPassMgmtCubit.createOrganisation(
           name, 'ATOM_ENTITIES', context,widget.title);
     }
   }
@@ -101,14 +101,14 @@ class AddNewFieldsState extends State<AddNewFields> {
   void _createEmployeeDepartment(String name, String key) async {
     showLoadingDialog(context);
     if (widget.lawstate != null) {
-      await lawenforcementCubit.createEmplyeeDepartments(
+      await lawEnforcementCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     } else if (widget.createoundstate != null) {
       await createFoundArticleCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     }
     else if (widget.createpassmgmtstate != null) {
-      await createpassmgmtCubit.createEmployeeDepartments(
+      await createPassMgmtCubit.createEmployeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     }
   }

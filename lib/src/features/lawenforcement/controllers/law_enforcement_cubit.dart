@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
@@ -17,7 +18,7 @@ import 'package:db_atom/src/features/lawenforcement/models/law_enforement_reques
 import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
-import 'package:db_atom/src/features/lawenforcement/services/lawenforcementservice.dart';
+import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -28,15 +29,15 @@ import '../../../models/organisation.dart';
 import '../../createfound/models/user.dart';
 
 class LawEnforcementCubit extends Cubit<LawEnforcementState> {
-  LawEnforcementService lawenforcementServices;
+  LawEnforcementServices services;
   List<CreateImage>? loadAttachments;
 
   LawEnforcementCubit(
-      {required this.lawenforcementServices, this.loadAttachments})
+      {required this.services, this.loadAttachments})
       : super(
           LawEnforcementState(
             //lawenforcementServices: SubmitCreateFoundModel(),
-            stateType: LawEnforcementStateType.initial,
+            stateType: FormStatus.initial,
           ),
         );
 
@@ -45,21 +46,21 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> createOrganisation(
       String name, String orgName, BuildContext context, String title) async {
     try {
-      Organisation createOrganisationData = await lawenforcementServices
+      Organisation createOrganisationData = await services
           .createOrganisation(name, orgName, context);
       emit(
         state.copyWith(
           createOrganisationResponse: createOrganisationData,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
       if (Constants.addentitytype == title) {
-        await lawenforcementCubit.getEntities('ATOM_ENTITIES', context);
+        await lawEnforcementCubit.getEntities('ATOM_ENTITIES', context);
       } else if (Constants.addpurposeofvisittype == title) {
-        await lawenforcementCubit.getLeopurposeofvisit(
+        await lawEnforcementCubit.getLeopurposeofvisit(
             'ATOM_LEO_PURPOSE_VISIT', context);
       } else if (Constants.addleoofficialtype == title) {
-        await lawenforcementCubit.getLeodepartments(
+        await lawEnforcementCubit.getLeodepartments(
             'ATOM_LEO_DEPARTMENTS', context);
       }
 
@@ -72,7 +73,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
       dismissLoadingDialog(context);
@@ -87,16 +88,16 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> createEmplyeeDepartments(
       String name, String orgName, BuildContext context) async {
     try {
-      Organisation createEmployeeDeptData = await lawenforcementServices
+      Organisation createEmployeeDeptData = await services
           .createOrganisation(name, orgName, context);
       emit(
         state.copyWith(
           createEmployeeDepartments: createEmployeeDeptData,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
       dismissLoadingDialog(context);
-      await lawenforcementCubit.getEmployeeDepartments(
+      await lawEnforcementCubit.getEmployeeDepartments(
           'EMPLOYEE_DEPARTMENTS', context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
@@ -106,7 +107,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
       dismissLoadingDialog(context);
@@ -126,7 +127,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   ) async {
     try {
       SubmitLawEnforcementResponse? response =
-          await lawenforcementServices.createLawFoundArticle(
+          await services.createLawFoundArticle(
         body: bodyRequest,
         isSubmit: isSubmit,
         context: context,
@@ -134,7 +135,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           lawcreateFoundresponse: response,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
 
@@ -148,7 +149,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
 
@@ -164,18 +165,18 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> getLocations(String locationsStr, BuildContext context) async {
     try {
       GetLocations getLocationsData =
-          await lawenforcementServices.getLocations(locationsStr, context);
+          await services.getLocations(locationsStr, context);
       emit(
         state.copyWith(
           getLocationsResponse: getLocationsData,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -185,19 +186,19 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> getSerialnumberDetails(
       String locationid, String modulecode, BuildContext context) async {
     try {
-      SerialNumberModel getserialnumberResponse = await lawenforcementServices
+      SerialNumberModel getserialnumberResponse = await services
           .getSerialnumberDetails(locationid, modulecode, context);
       emit(
         state.copyWith(
           getSerialnumberResponse: getserialnumberResponse,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -207,18 +208,18 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> getDistributionGroupsDetails(BuildContext context) async {
     try {
       DistributionGroupModel getResponse =
-          await lawenforcementServices.getDistributiongroupDetails(context);
+          await services.getDistributiongroupDetails(context);
       emit(
         state.copyWith(
           groups: getResponse,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -228,19 +229,19 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> getEmployeeDepartments(
       String departmentStr, BuildContext context) async {
     try {
-      EmployeeDepartments getEmployeeDepartments = await lawenforcementServices
+      EmployeeDepartments getEmployeeDepartments = await services
           .getEmployeeDepartments(departmentStr, context);
       emit(
         state.copyWith(
           employeeDepartment: getEmployeeDepartments,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -250,19 +251,19 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> getCompanytypes(
       String departmentStr, BuildContext context) async {
     try {
-      EmployeeDepartments getEmployeeDepartments = await lawenforcementServices
+      EmployeeDepartments getEmployeeDepartments = await services
           .getEmployeeDepartments(departmentStr, context);
       emit(
         state.copyWith(
           employeeDepartment: getEmployeeDepartments,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -272,18 +273,18 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> getEntities(String name, BuildContext context) async {
     try {
       AddEntities entities =
-          await lawenforcementServices.getEntities(name, context);
+          await services.getEntities(name, context);
       emit(
         state.copyWith(
           getEntitiesResponse: entities,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -295,7 +296,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     emit(state.copyWith(
         eventId: eventIds,
         loadAttachments: data,
-        stateType: LawEnforcementStateType.addattachment));
+        stateType: FormStatus.addAttachment));
   }
 
   Future<void> addingVisits(
@@ -305,7 +306,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       state.copyWith(
         getVisits: getVisits,
         getVisitsCount: visitCount,
-        stateType: LawEnforcementStateType.success,
+        stateType: FormStatus.success,
       ),
     );
   }
@@ -314,25 +315,25 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> getUserDetails(String userId, BuildContext context) async {
     try {
       User getUserData =
-          await lawenforcementServices.getUserDetails(userId, context);
+          await services.getUserDetails(userId, context);
       emit(
         state.copyWith(
           getUserDetailsResponse: getUserData,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
   }
 
   initalization() {
-    lawenforcementCubit.state.getVisits = [];
+    lawEnforcementCubit.state.getVisits = [];
     state.getVisitsCount = 0;
     state.selectedemployeeDepartmentResponse = Organisation();
     state.loadAttachments = [];
@@ -354,18 +355,18 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> getLeodepartments(String name, BuildContext context) async {
     try {
       LeoDepartments leodepartments =
-          await lawenforcementServices.getLeodepartments(name, context);
+          await services.getLeodepartments(name, context);
       emit(
         state.copyWith(
           getLeodepartmentsResponse: leodepartments,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -375,16 +376,16 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> createUser(String firstName, String lastName, String email,
       String role, BuildContext context) async {
     try {
-      CreateUserModel createUserData = await lawenforcementServices.createUser(
+      CreateUserModel createUserData = await services.createUser(
           firstName, lastName, email, role, context);
       emit(
         state.copyWith(
           createUserResponse: createUserData,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
       dismissLoadingDialog(context);
-      await lawenforcementCubit.getDBofficialByRoleDepositor(
+      await lawEnforcementCubit.getDBofficialByRoleDepositor(
           'ATOM_STATIC_USER', context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser, '');
@@ -393,7 +394,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
       dismissLoadingDialog(context);
@@ -404,18 +405,18 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> getLeopurposeofvisit(String name, BuildContext context) async {
     try {
       LeoPurposeVisit leorespnose =
-          await lawenforcementServices.getLeopurposeofvisit(name, context);
+          await services.getLeopurposeofvisit(name, context);
       emit(
         state.copyWith(
           getLeopurposeResponse: leorespnose,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -425,19 +426,19 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> getDBofficialByRoleDepositor(
       String userRole, BuildContext context) async {
     try {
-      GetDepositor getDepositorData = await lawenforcementServices
+      GetDepositor getDepositorData = await services
           .getDBOfficialdepartments(userRole, context);
       emit(
         state.copyWith(
           getDepositorResponse: getDepositorData,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -448,32 +449,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           getuserResponse: listOfdept,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
-        ),
-      );
-    }
-  }
-
-  geDistributonData(Organisation listOfdept) async {
-    try {
-      emit(
-        state.copyWith(
-          listIndividualdept: listOfdept,
-          stateType: LawEnforcementStateType.success,
-        ),
-      );
-    } catch (e) {
-      emit(
-        state.copyWith(
-          errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -486,14 +469,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         state.copyWith(
           eventId: eventIds,
           listOfEntities: listOfEntities,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -504,14 +487,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           leoDepartmentsResponse: leoDepartmentsResponse,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -522,14 +505,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           selectedemployeeDepartmentResponse: employeedepartment,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -540,14 +523,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           leoPurposeVisitResponse: leoPurposeVisitResponse,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -558,14 +541,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           locationSelectedlist: locationSelectedlist,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -576,14 +559,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           serialnumberResponse: serialnumberResponse,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -596,7 +579,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
           state.copyWith(
             isOfficialIdcardSelected: value,
             radioButtonItem: radio,
-            stateType: LawEnforcementStateType.success,
+            stateType: FormStatus.success,
           ),
         );
       } else if (name == Constants.documentifanytoconfirmpurpose) {
@@ -604,7 +587,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
           state.copyWith(
             isDocumentifanySelected: value,
             radioButtonItem: radio,
-            stateType: LawEnforcementStateType.success,
+            stateType: FormStatus.success,
           ),
         );
       } else if (name == Constants.incaseofpolicewasofficialinuniform) {
@@ -612,7 +595,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
           state.copyWith(
             isIncaseofpoliceSelected: value,
             radioButtonItem: radio,
-            stateType: LawEnforcementStateType.success,
+            stateType: FormStatus.success,
           ),
         );
       }
@@ -620,7 +603,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -631,7 +614,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           isDistributed: isDistributed,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
@@ -643,4 +626,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       // );
     }
   }
+
+  // void onModelValueChange(LawEnforcementDetails model) {
+  //   log('-onModelValueChange---');
+  //   emit(state.copyWith(model: model, status: FormStatus.initial));
+  // }
+
 }

@@ -205,16 +205,16 @@ class UploadAttachmentState extends State<UploadAttachment>
   Future<void> _sendDataBack(CreateImage data) async {
     if (widget.lawstate != null) {
       widget.getFiles?.add(data);
-      lawenforcementCubit.addAttchment(widget.getFiles ?? []);
+      lawEnforcementCubit.addAttchment(widget.getFiles ?? []);
     } else if (widget.createoundstate != null) {
       widget.getFiles?.add(data);
       createFoundArticleCubit.addAttchment(widget.getFiles ?? []);
     } else if (widget.createpassmgmtstate != null) {
       widget.getFiles?.add(data);
       if (widget.isPhotoType ?? false) {
-        createpassmgmtCubit.photoAttchment(widget.getFiles ?? []);
+        createPassMgmtCubit.photoAttchment(widget.getFiles ?? []);
       } else {
-        createpassmgmtCubit.addAttchment(widget.getFiles ?? []);
+        createPassMgmtCubit.addAttchment(widget.getFiles ?? []);
       }
     }
     if (widget.inwardState != null) {

@@ -7,6 +7,20 @@ part of 'mm_ui_labels.dart';
 // **************************************************************************
 
 MmUiLabels _$MmUiLabelsFromJson(Map<String, dynamic> json) => MmUiLabels(
+      defaultLabels: MmUiLabelsDefault.fromJson(
+          json['defaultLabels'] as Map<String, dynamic>),
+      localeLabels: MmUiLabelsDefault.fromJson(
+          json['localeLabels'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$MmUiLabelsToJson(MmUiLabels instance) =>
+    <String, dynamic>{
+      'defaultLabels': instance.defaultLabels,
+      'localeLabels': instance.localeLabels,
+    };
+
+MmUiLabelsDefault _$MmUiLabelsDefaultFromJson(Map<String, dynamic> json) =>
+    MmUiLabelsDefault(
       unit: json['com.arlanto.atom.materialMovement.unit'] as String,
       receivedBy:
           json['com.arlanto.atom.materialMovement.receiverName'] as String,
@@ -20,9 +34,9 @@ MmUiLabels _$MmUiLabelsFromJson(Map<String, dynamic> json) => MmUiLabels(
           json['com.arlanto.atom.materialMovement.approver2Department']
               as String,
       entity: json['com.arlanto.atom.materialMovement.entity'] as String,
-      isOriginalReceiverReceiving:
+      originalReceiver:
           json['com.arlanto.atom.materialMovement.originalReceiver'] as String,
-      takenOutByEmail:
+      takenOutEmail:
           json['com.arlanto.atom.materialMovement.takenOutEmail'] as String,
       expectedDateOfReturn:
           json['com.arlanto.atom.materialMovement.expectedDateOfReturn']
@@ -30,13 +44,15 @@ MmUiLabels _$MmUiLabelsFromJson(Map<String, dynamic> json) => MmUiLabels(
       receiverDepartment:
           json['com.arlanto.atom.materialMovement.receiverDepartment']
               as String,
+      submitted:
+          json['com.arlanto.atom.materialMovement.status.submitted'] as String,
       rejectionComment:
           json['com.arlanto.atom.materialMovement.rejectionComment'] as String,
       materialComingFromAddress:
           json['com.arlanto.atom.materialMovement.materialComingFromAddress']
               as String,
       remarks: json['com.arlanto.atom.materialMovement.remarks'] as String,
-      receivedFor:
+      otherReceiverName:
           json['com.arlanto.atom.materialMovement.otherReceiverName'] as String,
       rejectedDate:
           json['com.arlanto.atom.materialMovement.rejectedDate'] as String,
@@ -44,7 +60,7 @@ MmUiLabels _$MmUiLabelsFromJson(Map<String, dynamic> json) => MmUiLabels(
           json['com.arlanto.atom.materialMovement.returnable'] as String,
       takenOutDate:
           json['com.arlanto.atom.materialMovement.takenOutDate'] as String,
-      returnReceiverEmail:
+      returnReceiverMailId:
           json['com.arlanto.atom.materialMovement.returnReceiverMailId']
               as String,
       rejectedBy:
@@ -79,7 +95,6 @@ MmUiLabels _$MmUiLabelsFromJson(Map<String, dynamic> json) => MmUiLabels(
       inwardPending:
           json['com.arlanto.atom.materialMovement.status.inWardWaiting']
               as String,
-      submitted: json['com.arlanto.atom.materialMovement.submitted'] as String,
       location: json['com.arlanto.atom.materialMovement.location'] as String,
       approver2Email:
           json['com.arlanto.atom.materialMovement.approver2Email'] as String,
@@ -147,7 +162,7 @@ MmUiLabels _$MmUiLabelsFromJson(Map<String, dynamic> json) => MmUiLabels(
           json['com.arlanto.atom.materialMovement.approver2Name'] as String,
       entrySecuritySign:
           json['com.arlanto.atom.materialMovement.entrySecuritySign'] as String,
-      challanInvoiceNosGatePass:
+      challanInvoiceGatePass:
           json['com.arlanto.atom.materialMovement.challanNo'] as String,
       requestorName:
           json['com.arlanto.atom.materialMovement.requestorName'] as String,
@@ -160,7 +175,7 @@ MmUiLabels _$MmUiLabelsFromJson(Map<String, dynamic> json) => MmUiLabels(
           json['com.arlanto.atom.materialMovement.status.closed'] as String,
     );
 
-Map<String, dynamic> _$MmUiLabelsToJson(MmUiLabels instance) =>
+Map<String, dynamic> _$MmUiLabelsDefaultToJson(MmUiLabelsDefault instance) =>
     <String, dynamic>{
       'com.arlanto.atom.materialMovement.unit': instance.unit,
       'com.arlanto.atom.materialMovement.receiverName': instance.receivedBy,
@@ -172,25 +187,25 @@ Map<String, dynamic> _$MmUiLabelsToJson(MmUiLabels instance) =>
           instance.approver2Department,
       'com.arlanto.atom.materialMovement.entity': instance.entity,
       'com.arlanto.atom.materialMovement.originalReceiver':
-          instance.isOriginalReceiverReceiving,
-      'com.arlanto.atom.materialMovement.takenOutEmail':
-          instance.takenOutByEmail,
+          instance.originalReceiver,
+      'com.arlanto.atom.materialMovement.takenOutEmail': instance.takenOutEmail,
       'com.arlanto.atom.materialMovement.expectedDateOfReturn':
           instance.expectedDateOfReturn,
       'com.arlanto.atom.materialMovement.receiverDepartment':
           instance.receiverDepartment,
+      'com.arlanto.atom.materialMovement.status.submitted': instance.submitted,
       'com.arlanto.atom.materialMovement.rejectionComment':
           instance.rejectionComment,
       'com.arlanto.atom.materialMovement.materialComingFromAddress':
           instance.materialComingFromAddress,
       'com.arlanto.atom.materialMovement.remarks': instance.remarks,
       'com.arlanto.atom.materialMovement.otherReceiverName':
-          instance.receivedFor,
+          instance.otherReceiverName,
       'com.arlanto.atom.materialMovement.rejectedDate': instance.rejectedDate,
       'com.arlanto.atom.materialMovement.returnable': instance.returnable,
       'com.arlanto.atom.materialMovement.takenOutDate': instance.takenOutDate,
       'com.arlanto.atom.materialMovement.returnReceiverMailId':
-          instance.returnReceiverEmail,
+          instance.returnReceiverMailId,
       'com.arlanto.atom.materialMovement.rejectedBy': instance.rejectedBy,
       'com.arlanto.atom.materialMovement.materialComingFrom':
           instance.materialComingFrom,
@@ -214,7 +229,6 @@ Map<String, dynamic> _$MmUiLabelsToJson(MmUiLabels instance) =>
           instance.receiverSignature,
       'com.arlanto.atom.materialMovement.status.inWardWaiting':
           instance.inwardPending,
-      'com.arlanto.atom.materialMovement.submitted': instance.submitted,
       'com.arlanto.atom.materialMovement.location': instance.location,
       'com.arlanto.atom.materialMovement.approver2Email':
           instance.approver2Email,
@@ -264,7 +278,7 @@ Map<String, dynamic> _$MmUiLabelsToJson(MmUiLabels instance) =>
       'com.arlanto.atom.materialMovement.entrySecuritySign':
           instance.entrySecuritySign,
       'com.arlanto.atom.materialMovement.challanNo':
-          instance.challanInvoiceNosGatePass,
+          instance.challanInvoiceGatePass,
       'com.arlanto.atom.materialMovement.requestorName': instance.requestorName,
       'com.arlanto.atom.materialMovement.actualDateOfReturn':
           instance.actualDateOfReturn,
