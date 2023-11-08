@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:db_atom/main_DEV.dart';
-import 'package:db_atom/src/features/law_enforcement_list/services/law_enforcement_list_services.dart';
+import 'package:db_atom/src/features/law_enforcement_list/services/law_enforcement_services.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
 

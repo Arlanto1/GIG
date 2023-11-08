@@ -4,7 +4,7 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
-import 'package:db_atom/src/features/law_enforcement_list/services/law_enforcement_list_services.dart';
+import 'package:db_atom/src/features/law_enforcement_list/services/law_enforcement_services.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
