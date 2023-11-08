@@ -18,6 +18,15 @@ class Constants {
   static const String occurrenceModule = 'OCC';
   static const String incidentManagementModule = 'IM';
 
+
+  /// UI Module Code
+  static const String materialMovementModuleCode = 'MM';
+
+
+
+
+
+
   static const String customFontFamily = 'Poppins';
   static const String customFontMediumFamily = 'Poppins-Medium';
   static const String customFontBoldFamily = 'Poppins-Bold';
