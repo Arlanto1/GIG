@@ -29,7 +29,6 @@ import 'package:db_atom/src/features/incident_management/incident_managements/bl
 import 'package:db_atom/src/features/incident_management/services/incident_management_services.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/law_enforcement_list/views/law_enforcements_view.dart';
-import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.dart';
 import 'package:db_atom/src/features/login/views/forgot_pwd_screen.dart';
 import 'package:db_atom/src/features/login/views/login_screen.dart';
 import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
@@ -65,6 +64,7 @@ import '../features/guarding_operations/guarding_rate/guarding_rates/views/gaura
 import '../features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart';
 import '../features/incident_management/incident_details/general_info/views/incident_general_info_view.dart';
 import '../features/incident_management/incident_managements/views/incident_managements_view.dart';
+import '../features/lawenforcement/views/law_enforcement_details_view.dart';
 import '../features/login/bloc/login_bloc.dart';
 import '../features/login/services/login_services.dart';
 import '../features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
@@ -151,12 +151,12 @@ class RouteGenerator {
           final listroutes = settings.arguments as Map<String, dynamic>;
           LawEnforcementDetails? listuser = listroutes["UserElement"];
           return MaterialPageRoute(
-              builder: (context) => CreateLawEnforcement(model: listuser));
+              builder: (context) => LawEnforcementDetailsView(model: listuser));
                   return MaterialPageRoute(
-              builder: (context) => const CreateLawEnforcement());
+              builder: (context) => const LawEnforcementDetailsView());
         } else {
           return MaterialPageRoute(
-              builder: (context) => const CreateLawEnforcement());
+              builder: (context) => const LawEnforcementDetailsView());
         }
       case addemployeedepartmentRoute:
         return MaterialPageRoute(

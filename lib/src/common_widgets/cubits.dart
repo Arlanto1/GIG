@@ -4,7 +4,7 @@ import 'package:db_atom/src/features/createfound/controllers/create_found_cubit.
 import 'package:db_atom/src/features/createfound/services/create_found_services.dart';
 import 'package:db_atom/src/features/law_enforcement_list/services/law_enforcement_list_services.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_cubit.dart';
-import 'package:db_atom/src/features/lawenforcement/services/lawenforcementservice.dart';
+import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_service.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgmt_services.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/controllers/day_passlist_cubit.dart';

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
@@ -17,7 +18,7 @@ import 'package:db_atom/src/features/lawenforcement/models/law_enforement_reques
 import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
-import 'package:db_atom/src/features/lawenforcement/services/lawenforcementservice.dart';
+import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_service.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -26,6 +27,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../models/base_user.dart';
 import '../../../models/organisation.dart';
 import '../../createfound/models/user.dart';
+import '../../law_enforcement_list/models/law_enforcement_details.dart';
 
 class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   LawEnforcementService lawenforcementServices;
@@ -36,7 +38,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       : super(
           LawEnforcementState(
             //lawenforcementServices: SubmitCreateFoundModel(),
-            stateType: LawEnforcementStateType.initial,
+            stateType: FormStatus.initial,
           ),
         );
 
@@ -50,7 +52,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           createOrganisationResponse: createOrganisationData,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
       if (Constants.addentitytype == title) {
@@ -72,7 +74,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
       dismissLoadingDialog(context);
@@ -92,7 +94,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           createEmployeeDepartments: createEmployeeDeptData,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
       dismissLoadingDialog(context);
@@ -106,7 +108,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
       dismissLoadingDialog(context);
@@ -134,7 +136,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           lawcreateFoundresponse: response,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
 
@@ -148,7 +150,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
 
@@ -168,14 +170,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           getLocationsResponse: getLocationsData,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -190,14 +192,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           getSerialnumberResponse: getserialnumberResponse,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -211,14 +213,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           groups: getResponse,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -233,14 +235,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           employeeDepartment: getEmployeeDepartments,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -255,14 +257,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           employeeDepartment: getEmployeeDepartments,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -276,14 +278,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           getEntitiesResponse: entities,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -295,7 +297,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     emit(state.copyWith(
         eventId: eventIds,
         loadAttachments: data,
-        stateType: LawEnforcementStateType.addattachment));
+        stateType: FormStatus.addAttachment));
   }
 
   Future<void> addingVisits(
@@ -305,7 +307,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       state.copyWith(
         getVisits: getVisits,
         getVisitsCount: visitCount,
-        stateType: LawEnforcementStateType.success,
+        stateType: FormStatus.success,
       ),
     );
   }
@@ -318,14 +320,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           getUserDetailsResponse: getUserData,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -358,14 +360,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           getLeodepartmentsResponse: leodepartments,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -380,7 +382,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           createUserResponse: createUserData,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
       dismissLoadingDialog(context);
@@ -393,7 +395,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
       dismissLoadingDialog(context);
@@ -408,14 +410,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           getLeopurposeResponse: leorespnose,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -430,14 +432,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           getDepositorResponse: getDepositorData,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -448,14 +450,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           getuserResponse: listOfdept,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -468,14 +470,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         state.copyWith(
           eventId: eventIds,
           listOfEntities: listOfEntities,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -486,14 +488,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           leoDepartmentsResponse: leoDepartmentsResponse,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -504,14 +506,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           selectedemployeeDepartmentResponse: employeedepartment,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -522,14 +524,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           leoPurposeVisitResponse: leoPurposeVisitResponse,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -540,14 +542,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           locationSelectedlist: locationSelectedlist,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -558,14 +560,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           serialnumberResponse: serialnumberResponse,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -578,7 +580,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
           state.copyWith(
             isOfficialIdcardSelected: value,
             radioButtonItem: radio,
-            stateType: LawEnforcementStateType.success,
+            stateType: FormStatus.success,
           ),
         );
       } else if (name == Constants.documentifanytoconfirmpurpose) {
@@ -586,7 +588,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
           state.copyWith(
             isDocumentifanySelected: value,
             radioButtonItem: radio,
-            stateType: LawEnforcementStateType.success,
+            stateType: FormStatus.success,
           ),
         );
       } else if (name == Constants.incaseofpolicewasofficialinuniform) {
@@ -594,7 +596,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
           state.copyWith(
             isIncaseofpoliceSelected: value,
             radioButtonItem: radio,
-            stateType: LawEnforcementStateType.success,
+            stateType: FormStatus.success,
           ),
         );
       }
@@ -602,7 +604,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
+          stateType: FormStatus.failure,
         ),
       );
     }
@@ -613,7 +615,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           isDistributed: isDistributed,
-          stateType: LawEnforcementStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
@@ -625,4 +627,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       // );
     }
   }
+
+  // void onModelValueChange(LawEnforcementDetails model) {
+  //   log('-onModelValueChange---');
+  //   emit(state.copyWith(model: model, status: FormStatus.initial));
+  // }
+
 }

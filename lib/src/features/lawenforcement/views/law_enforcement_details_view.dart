@@ -16,6 +16,7 @@ import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
@@ -39,16 +40,16 @@ import '../../../models/base_user.dart';
 import '../../../models/organisation.dart';
 import '../../createfound/models/user.dart';
 
-class CreateLawEnforcement extends StatefulWidget {
+class LawEnforcementDetailsView extends StatefulWidget {
   final LawEnforcementDetails? model;
 
-  const CreateLawEnforcement({super.key, this.model});
+  const LawEnforcementDetailsView({super.key, this.model});
 
   @override
-  State<CreateLawEnforcement> createState() => _CreateLawEnforcementState();
+  State<LawEnforcementDetailsView> createState() => _LawEnforcementDetailsViewState();
 }
 
-class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
+class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   final GlobalKey<FormState> lawEnforcementFormKey = GlobalKey<FormState>();
   TextEditingController statusTextController = TextEditingController();
   TextEditingController actualDateTextController = TextEditingController();
@@ -152,7 +153,7 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
             serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
           }
           globalState = state;
-          if (state.stateType == LawEnforcementStateType.addattachment) {
+          if (state.stateType == FormStatus.addAttachment) {
             getFiles = state.loadAttachments ?? [];
           }
           initiallyLocationandSerialnumberdataset(state);
@@ -542,6 +543,10 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
 
                                         widget.model?.mailList =
                                             selectedEntities;
+                                        setState(() {
+
+                                        });
+                                        // BlocProvider.of<LawEnforcementCubit>(context).onModelValueChange();
                                         Navigator.of(context)
                                             .pop(); // Close the dialog
                                       },
@@ -722,15 +727,6 @@ class _CreateLawEnforcementState extends State<CreateLawEnforcement> {
   void initState() {
     super.initState();
     if (widget.model != null) {
-
-      for(Organisation organisation in widget.model?.entities??[]) {
-        log('---organisation.name--populateData--en-${organisation.name}');
-      }
-
-      for(Organisation organisation in widget.model?.mailList??[]) {
-        log('---organisation.name--populateData---${organisation.name}');
-      }
-
       populateData();
       lawenforcementCubit.getDistributionGroupsDetails(context);
     } else {
