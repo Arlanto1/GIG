@@ -31,8 +31,11 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
     // }
     try {
       LawEnforcementListResponse foundListModelResponse =
-          await lawEnforcementListServices.getLawEnforcementList(
-              startPosition, maximumRecords, userId,context);
+          await lawEnforcementListServices.getList(
+              startPosition: startPosition,
+              maximumRecords: maximumRecords,
+              userId: userId,
+              context: context);
 
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         if (startPosition != '0') {
@@ -66,18 +69,18 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
   }
 
   // Found Article detials by Id API call
-  Future<LawEnforcementDetails?> getLawEnforcementById(
-      int articleId, BuildContext context) async {
+  Future<LawEnforcementDetails?> getById(
+      int id, BuildContext context) async {
     try {
-      LawEnforcementDetails foundArticleDetailsResponse =
-          await lawEnforcementListServices.getLawEnforcementById(articleId,context);
+      LawEnforcementDetails model =
+          await lawEnforcementListServices.getById(id, context);
       emit(
         state.copyWith(
-          lawEnforcementDetails: foundArticleDetailsResponse,
+          lawEnforcementDetails: model,
           stateType: FormStatus.success,
         ),
       );
-      return foundArticleDetailsResponse;
+      return model;
     } catch (e) {
       // emit(
       //   state.copyWith(

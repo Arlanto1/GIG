@@ -28,7 +28,7 @@ import 'package:db_atom/src/features/incident_management/incident_managements/bl
     as im;
 import 'package:db_atom/src/features/incident_management/services/incident_management_services.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
-import 'package:db_atom/src/features/law_enforcement_list/views/ln_list_page.dart';
+import 'package:db_atom/src/features/law_enforcement_list/views/law_enforcements_view.dart';
 import 'package:db_atom/src/features/lawenforcement/views/lawencorcementcreate.dart';
 import 'package:db_atom/src/features/login/views/forgot_pwd_screen.dart';
 import 'package:db_atom/src/features/login/views/login_screen.dart';
@@ -175,7 +175,7 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => const CustomExpansionListTexts());
       case lawEnforcementListRoute:
-        return MaterialPageRoute(builder: (context) => const LnListPageList());
+        return MaterialPageRoute(builder: (context) => const LawEnforcementsView());
       case daypassmanagementListRoute:
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;

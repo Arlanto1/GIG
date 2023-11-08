@@ -1,67 +1,41 @@
 import 'package:db_atom/main_DEV.dart';
-import 'package:db_atom/src/appservices/app_service_handler.dart';
+import 'package:db_atom/src/configurations/base_api_service.dart';
+import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
 
+class Apis {
+  static final String baseUrl = Environment().config.apiHost;
+
+  static final String _getList = '$baseUrl/getLawEnfrcmntList?';
+  static final String _getById = '$baseUrl/getLawEnfrcmnt';
+}
+
 class LawEnforcementListServices {
-  Future<LawEnforcementListResponse> getLawEnforcementList(String startPosition, String maximumRecords,String userId,BuildContext context) async {
-    await Future.delayed(const Duration(seconds: 1));
-
-    //final endpoint = ProdConfig().apiHost;
-    //  final endpoint = Environment().config.apiHost;
-    // final url =
-    //     Uri.parse('$endpoint/getLawEnfrcmntList?startPos=$startPosition&maxResults=$maximumRecords&userId=$userId');
-    //     print(url);
-    // try {
-    //   final response = await http.get(
-    //     url,
-    //     headers: {
-    //       'Content-Type': 'application/json; charset=UTF-8',
-    //     },
-    //   );
-    //   if (response.statusCode == 200) {
-    //     try {
-    //     return LawEnforcementListResponse.fromJson(json.decode(response.body));
-    //     }
-    //     catch(e)
-    //     {
-    //       print('error response ${e}');
-    //       return LawEnforcementListResponse();
-    //     }
-    //   } else {
-    //     throw json.decode(response.body);
-    //   }
-    // } on SocketException {
-    //   throw json.decode('{"errorMessage":"Network Lost"}');
-    // }
-     var value  = await AppServicesHandler().globalGetServiceCall('/getLawEnfrcmntList?startPos=$startPosition&maxResults=$maximumRecords&userId=$userId',context);
-
-   return  LawEnforcementListResponse.fromJson(value);
-    
+  Future<LawEnforcementListResponse> getList({
+    required String startPosition,
+    required String maximumRecords,
+    required String userId,
+    BuildContext? context,
+  }) async {
+    String url =
+        '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId';
+    var response = await BaseApiService().getRequest(
+      isAuthenticated: true,
+      url: url,
+    );
+    return LawEnforcementListResponse.fromJson(response);
   }
 
-  Future<LawEnforcementDetails> getLawEnforcementById(int lawEnforcementId,BuildContext context) async {
-    // await Future.delayed(const Duration(seconds: 2));
+  Future<LawEnforcementDetails> getById(
+    int id,
+    BuildContext context,
+  ) async {
+    final String url = '${Apis._getById}/$id';
+    final response =
+        await BaseApiService().getRequest(url: url, isAuthenticated: false);
 
-    // final endpoint = Environment().config.apiHost;
-    // final url = Uri.parse('$endpoint/getLawEnfrcmnt/$lawEnforcementId');
-    // try {
-    //   final response = await http.get(
-    //     url,
-    //     headers: {
-    //       'Content-Type': 'application/json; charset=UTF-8',
-    //     },
-    //   );
-    //   if (response.statusCode == 200) {
-    //     return LawEnforcementDetails.fromJson(json.decode(response.body));
-    //   } else {
-    //     throw json.decode(response.body);
-    //   }
-    // } on SocketException {
-    //   throw json.decode('{"errorMessage":"Network Lost"}');
-    // }
-     var value  = await AppServicesHandler().globalGetServiceCall('/getLawEnfrcmnt/$lawEnforcementId',context);
-
-   return  LawEnforcementDetails.fromJson(value);
+    return LawEnforcementDetails.fromJson(response);
   }
+
 }

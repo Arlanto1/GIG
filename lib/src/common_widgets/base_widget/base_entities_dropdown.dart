@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +17,11 @@ class BaseEntitiesSelection {
     required dynamic Function(List<Organisation>) onTap,
     bool enabled = true,
   }) {
+    log('-selectedValues--${selectedValues.length}---');
+    for(Organisation organisation in selectedValues) {
+      log('---organisation.name--333---${organisation.name}');
+    }
+    log('-all--${all.length}---');
     String title = '';
     if (selectedValues.isNotEmpty) {
       for (int i = 0; i < selectedValues.length; i++) {

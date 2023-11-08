@@ -461,24 +461,6 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  geDistributonData(Organisation listOfdept) async {
-    try {
-      emit(
-        state.copyWith(
-          listIndividualdept: listOfdept,
-          stateType: LawEnforcementStateType.success,
-        ),
-      );
-    } catch (e) {
-      emit(
-        state.copyWith(
-          errorMessage: Constants.errorText,
-          stateType: LawEnforcementStateType.failure,
-        ),
-      );
-    }
-  }
-
   getEntityData(List<Organisation> listOfEntities) async {
     try {
       int eventIds = Random.secure().nextInt(5);
