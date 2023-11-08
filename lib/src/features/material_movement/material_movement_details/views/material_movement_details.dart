@@ -1918,11 +1918,11 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                   ],
 
                                   /// Comment
-                                  if (!state.model.materialPhysicallyChecked &&
-                                      widget.materialMovement?.status == 5) ...[
+                                  if (!state.model.materialPhysicallyChecked) ...[
                                     CommonWidgets.textDisplay(
                                       Constants.comment,
                                       Styles.textStyleBlack14,
+                                      isMandatory: true,
                                     ),
                                     FlutterInputField(
                                       initialValue:
