@@ -46,13 +46,13 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
   void _addArticle(String name, String key) async {
     showLoadingDialog(context);
     if (widget.lawState != null) {
-      await lawenforcementCubit.createOrganisation(
+      await lawEnforcementCubit.createOrganisation(
           name, 'ARTICLE_LIST', context, widget.title);
     } else if (widget.createFoundState != null) {
       await createFoundArticleCubit.createOrganisation(
           name, 'ARTICLE_LIST', context);
     } else if (widget.createPassMgmtState != null) {
-      await createpassmgmtCubit.createOrganisation(
+      await createPassMgmtCubit.createOrganisation(
           name, 'ARTICLE_LIST', context, widget.title);
     }
   }
@@ -60,13 +60,13 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
   void _createEmployeeDepartment(String name, String key) async {
     showLoadingDialog(context);
     if (widget.lawState != null) {
-      await lawenforcementCubit.createEmplyeeDepartments(
+      await lawEnforcementCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     } else if (widget.createFoundState != null) {
       await createFoundArticleCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     } else if (widget.createPassMgmtState != null) {
-      await createpassmgmtCubit.createEmployeeDepartments(
+      await createPassMgmtCubit.createEmployeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     }
   }

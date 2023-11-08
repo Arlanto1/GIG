@@ -591,7 +591,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     List<VisitingOfficialsModel>? getVisits = state.getVisits ?? [];
 
     getVisits.add(VisitingOfficialsModel());
-    lawenforcementCubit.addingVisits(
+    lawEnforcementCubit.addingVisits(
       visitCount: visitCount,
       getVisits: getVisits,
     );
@@ -629,7 +629,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             int value = (state.getVisitsCount) - 1;
             List<VisitingOfficialsModel>? getVisits1 = state.getVisits ?? [];
             getVisits1.removeAt(index);
-            lawenforcementCubit.addingVisits(
+            lawEnforcementCubit.addingVisits(
                 visitCount: value, getVisits: getVisits1);
           },
           child: Align(
@@ -728,9 +728,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     super.initState();
     if (widget.model != null) {
       populateData();
-      lawenforcementCubit.getDistributionGroupsDetails(context);
+      lawEnforcementCubit.getDistributionGroupsDetails(context);
     } else {
-      lawenforcementCubit.initalization();
+      lawEnforcementCubit.initalization();
     }
 
     getLawEnforcementList(context);
@@ -746,8 +746,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         widget.model == null &&
         (serialnumber ?? '').isEmpty) {
       Organisation list = Organisation(id: 24, name: "DLF Square");
-      lawenforcementCubit.getlocationsResponseData(list);
-      await lawenforcementCubit.getSerialnumberDetails('24', 'LEO', context);
+      lawEnforcementCubit.getlocationsResponseData(list);
+      await lawEnforcementCubit.getSerialnumberDetails('24', 'LEO', context);
     }
   }
 
@@ -786,7 +786,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
       if (widget.model?.status == 3 ||
           statusTextController.text == 'Distributed') {
-        lawenforcementCubit.getDistributed(true);
+        lawEnforcementCubit.getDistributed(true);
         isDistrbuted = true;
         setState(() {});
       }
@@ -805,10 +805,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
       serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
 
-      await lawenforcementCubit.getSerialnumberDetails(
+      await lawEnforcementCubit.getSerialnumberDetails(
           (widget.model?.location?.id ?? 0).toString(), 'LEO', context);
 
-      lawenforcementCubit.getlocationsResponseData(mumbai);
+      lawEnforcementCubit.getlocationsResponseData(mumbai);
       int isDocumentifanySelected1 =
           ((widget.model?.documentVerified ?? false) == true) ? 1 : 0;
       int isOfficialIdcardSelected1 =
@@ -816,15 +816,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       int isIncaseofpoliceSelected1 =
           ((widget.model?.visitorInUniform ?? false) == true) ? 1 : 0;
 
-      lawenforcementCubit.getRadioButtonSelected(
+      lawEnforcementCubit.getRadioButtonSelected(
           Constants.documentifanytoconfirmpurpose,
           isDocumentifanySelected1,
           isDocumentifanySelected1 == 1 ? "Yes" : "No");
-      lawenforcementCubit.getRadioButtonSelected(
+      lawEnforcementCubit.getRadioButtonSelected(
           Constants.officialsidcardverified,
           isOfficialIdcardSelected1,
           isOfficialIdcardSelected1 == 1 ? "Yes" : "No");
-      lawenforcementCubit.getRadioButtonSelected(
+      lawEnforcementCubit.getRadioButtonSelected(
           Constants.incaseofpolicewasofficialinuniform,
           isIncaseofpoliceSelected1,
           isIncaseofpoliceSelected1 == 1 ? "Yes" : "No");
@@ -843,7 +843,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           // DbOfficialEmailDepartment(id: entity.id ?? 1);
           entities.add(entity);
         }
-        lawenforcementCubit.getEntityData(entities);
+        lawEnforcementCubit.getEntityData(entities);
       }
 
       // if ((widget.model?.mailList?.length ?? 0) > 0) {
@@ -871,7 +871,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               id: widget.model?.visitPurpose?.id ?? 0,
               name: widget.model?.visitPurpose?.name ?? "")
           : Organisation();
-      lawenforcementCubit.getleopurposeResponseData(visit);
+      lawEnforcementCubit.getleopurposeResponseData(visit);
 
       BaseUser staticUser = widget.model?.dbOfficialEmailDepartment != null
           ? BaseUser(
@@ -880,7 +880,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               email: widget.model?.dbOfficialAccompaniedEmail ?? '')
           : BaseUser();
 
-      lawenforcementCubit.geDBOfficialyData(staticUser);
+      lawEnforcementCubit.geDBOfficialyData(staticUser);
 
       List<LawVisitingOfficial>? visiting =
           widget.model?.visitingOfficials != null
@@ -903,7 +903,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               department: dept,
               id: model.id);
           visitingOfficials.add(obj);
-          lawenforcementCubit.getleoDepartmentsResponseData(dept);
+          lawEnforcementCubit.getleoDepartmentsResponseData(dept);
 
           //AtomLeoDepartment dept = AtomLeoDepartment();
 
@@ -938,7 +938,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         }
       }
 
-      lawenforcementCubit.addingVisits(
+      lawEnforcementCubit.addingVisits(
           visitCount: visitingOfficials.length, getVisits: visitingOfficials);
 
       // state.selectedemployeeDepartmentResponse
@@ -947,7 +947,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               id: widget.model?.dbOfficialEmailDepartment?.id ?? 0,
               name: widget.model?.dbOfficialEmailDepartment?.name ?? '')
           : Organisation();
-      lawenforcementCubit.getemployeeDepartmentsResponseData(emp);
+      lawEnforcementCubit.getemployeeDepartmentsResponseData(emp);
       getAttachments =
           widget.model?.images != null ? widget.model?.images ?? [] : [];
     }
@@ -955,17 +955,17 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
   getLawEnforcementList(context) async {
     var userid = await SharedPrefs.getUserId();
-    await lawenforcementCubit.getLocations('ATOM_LOCATIONS', context);
-    await lawenforcementCubit.getEntities('ATOM_ENTITIES', context);
-    await lawenforcementCubit.getLeopurposeofvisit(
+    await lawEnforcementCubit.getLocations('ATOM_LOCATIONS', context);
+    await lawEnforcementCubit.getEntities('ATOM_ENTITIES', context);
+    await lawEnforcementCubit.getLeopurposeofvisit(
         'ATOM_LEO_PURPOSE_VISIT', context);
-    await lawenforcementCubit.getLeodepartments(
+    await lawEnforcementCubit.getLeodepartments(
         'ATOM_LEO_DEPARTMENTS', context);
-    await lawenforcementCubit.getEmployeeDepartments(
+    await lawEnforcementCubit.getEmployeeDepartments(
         'EMPLOYEE_DEPARTMENTS', context);
-    await lawenforcementCubit.getDBofficialByRoleDepositor(
+    await lawEnforcementCubit.getDBofficialByRoleDepositor(
         'ATOM_STATIC_USER', context);
-    await lawenforcementCubit.getUserDetails(userid, context);
+    await lawEnforcementCubit.getUserDetails(userid, context);
   }
 
   Widget submitButtonDisplay() {
@@ -1012,7 +1012,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             //   isIncaseofpoliceSelected = selectedValue;
             // }
             // setState(() {});
-            lawenforcementCubit.getRadioButtonSelected(
+            lawEnforcementCubit.getRadioButtonSelected(
                 name, selectedValue, "Yes");
           },
         ),
@@ -1035,7 +1035,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             //   isIncaseofpoliceSelected = selectedValue;
             // }
             //setState(() {});
-            lawenforcementCubit.getRadioButtonSelected(
+            lawEnforcementCubit.getRadioButtonSelected(
                 name, selectedValue, "No");
           },
         ),
@@ -1073,7 +1073,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               //   selectedClaimList = list;
               // }
               // setState(() {});
-              lawenforcementCubit.geDBOfficialyData(list);
+              lawEnforcementCubit.geDBOfficialyData(list);
             },
           );
         });
@@ -1271,7 +1271,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   });
             },
             onTap: (List<Organisation> list) {
-              lawenforcementCubit.getEntityData(list);
+              lawEnforcementCubit.getEntityData(list);
               setState(() {});
             },
           );
@@ -1298,7 +1298,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             },
             onTap: (Organisation list) {
               //print(list.name);
-              lawenforcementCubit.getleopurposeResponseData(list);
+              lawEnforcementCubit.getleopurposeResponseData(list);
             },
           );
         });
@@ -1326,7 +1326,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             },
             onTap: (Organisation list) {
               //print(list.name);
-              lawenforcementCubit.getemployeeDepartmentsResponseData(list);
+              lawEnforcementCubit.getemployeeDepartmentsResponseData(list);
             },
           );
         });
@@ -1361,7 +1361,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                 model.department = list;
               }
 
-              lawenforcementCubit.getleoDepartmentsResponseData(list);
+              lawEnforcementCubit.getleoDepartmentsResponseData(list);
             },
           );
         });
@@ -1467,11 +1467,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               //GetLocations(),
               onTap: (Organisation? list) async {
                 print(list?.name);
-                await lawenforcementCubit.getSerialnumberDetails(
+                await lawEnforcementCubit.getSerialnumberDetails(
                     list?.id.toString() ?? '', 'LEO', context);
                 // locationselectedText = list?.name ?? '';
                 // locationSelectedlist = list;
-                lawenforcementCubit.getlocationsResponseData(list);
+                lawEnforcementCubit.getlocationsResponseData(list);
               },
             );
           },

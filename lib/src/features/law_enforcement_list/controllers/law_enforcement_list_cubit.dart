@@ -4,7 +4,7 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
-import 'package:db_atom/src/features/law_enforcement_list/services/law_enforcement_services.dart';
+import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,10 +12,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../enums/form_status.dart';
 
 class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
-  final LawEnforcementListServices lawEnforcementListServices;
+  final LawEnforcementServices services;
 
   LawEnforcementListCubit({
-    required this.lawEnforcementListServices,
+    required this.services,
   }) : super(
           LawEnforcementListState(
             lawEnforcementListModel: LawEnforcementListResponse(),
@@ -31,7 +31,7 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
     // }
     try {
       LawEnforcementListResponse foundListModelResponse =
-          await lawEnforcementListServices.getList(
+          await services.getList(
               startPosition: startPosition,
               maximumRecords: maximumRecords,
               userId: userId,
@@ -73,7 +73,7 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
       int id, BuildContext context) async {
     try {
       LawEnforcementDetails model =
-          await lawEnforcementListServices.getById(id, context);
+          await services.getById(id, context);
       emit(
         state.copyWith(
           lawEnforcementDetails: model,

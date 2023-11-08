@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:db_atom/main_DEV.dart';
-import 'package:db_atom/src/features/law_enforcement_list/services/law_enforcement_services.dart';
+import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
 
@@ -30,7 +30,7 @@ class LawEnforcementBloc
     );
   }
 
-  final LawEnforcementListServices _todoService = LawEnforcementListServices();
+  final LawEnforcementServices services = LawEnforcementServices();
 
   FutureOr<void> _onTodoFetch(
       LawEnforcementFetch event, Emitter<LawEnforcementState> emit) async {
@@ -49,7 +49,7 @@ class LawEnforcementBloc
       if (state.hasReachedMax) return;
       if (state.status == FormStatus.initial) {
         LawEnforcementListResponse lawEnforcementList =
-            await _todoService.getList(
+            await services.getList(
                 startPosition: '${event.startPos}',
                 maximumRecords: '${event.maxPos}',
                 userId: userid,
@@ -64,7 +64,7 @@ class LawEnforcementBloc
       }
 
       LawEnforcementListResponse lawEnforcementList =
-          await _todoService.getList(
+          await services.getList(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: userid,

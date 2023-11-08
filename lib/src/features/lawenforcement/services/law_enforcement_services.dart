@@ -7,6 +7,8 @@ import 'package:db_atom/src/features/createfound/models/emplyee_departments_mode
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
+import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
+import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
@@ -21,12 +23,41 @@ import '../../createfound/models/user.dart';
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
+
+  static final String _getList = '$baseUrl/getLawEnfrcmntList?';
+  static final String _getById = '$baseUrl/getLawEnfrcmnt';
   static final String _create = '$baseUrl/saveLawEnfrcmnt';
 }
 
-class LawEnforcementService {
+class LawEnforcementServices {
   final endpoint = Environment().config.apiHost;
 
+
+  Future<LawEnforcementListResponse> getList({
+    required String startPosition,
+    required String maximumRecords,
+    required String userId,
+    BuildContext? context,
+  }) async {
+    String url =
+        '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId';
+    var response = await BaseApiService().getRequest(
+      isAuthenticated: true,
+      url: url,
+    );
+    return LawEnforcementListResponse.fromJson(response);
+  }
+
+  Future<LawEnforcementDetails> getById(
+      int id,
+      BuildContext context,
+      ) async {
+    final String url = '${Apis._getById}/$id';
+    final response =
+    await BaseApiService().getRequest(url: url, isAuthenticated: false);
+
+    return LawEnforcementDetails.fromJson(response);
+  }
   Future<SubmitLawEnforcementResponse> createLawFoundArticle({
     required LawEnforcementRequestBody body,
     required bool isSubmit,

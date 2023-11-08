@@ -1286,7 +1286,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             //
             selectedValue = 1;
 
-            createpassmgmtCubit.getRadioButtonSelected(
+            createPassMgmtCubit.getRadioButtonSelected(
                 name, selectedValue, "Yes");
           },
         ),
@@ -1302,7 +1302,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             //radioButtonItem = 'No';
             selectedValue = 0;
 
-            createpassmgmtCubit.getRadioButtonSelected(
+            createPassMgmtCubit.getRadioButtonSelected(
                 name, selectedValue, "No");
           },
         ),
@@ -1319,7 +1319,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //globalState = CreatePassMgmtState(stateType: CreatePassMgmtStateType.initial);
       populateData();
     } else {
-      createpassmgmtCubit.initialization();
+      createPassMgmtCubit.initialization();
     }
     if (widget.passId == '0') {
       passtypeTextController.text = 'DAY_PASS';
@@ -1339,8 +1339,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         widget.model == null &&
         (serialnumber ?? '').isEmpty) {
       Organisation location = Organisation(id: 24, name: "DLF Square");
-      createpassmgmtCubit.getlocationsResponseData(location);
-      await createpassmgmtCubit.getSerialnumberDetails(
+      createPassMgmtCubit.getlocationsResponseData(location);
+      await createPassMgmtCubit.getSerialnumberDetails(
         '24',
         widget.passId ?? '',
         context,
@@ -1350,7 +1350,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   populateData() async {
     if (widget.model != null) {
-      createpassmgmtCubit.initializeValues(widget.model!);
+      createPassMgmtCubit.initializeValues(widget.model!);
       if (widget.model?.companyType?.name?.toLowerCase() == 'fte') {
         isFTECompanyNameEditable = false;
       }
@@ -1389,9 +1389,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       User? host1 = widget.model?.host ??
           User(userId: int.parse(userId), name: hostTextController.text);
 
-      createpassmgmtCubit.gethostanalystsResponseData(host1);
-      createpassmgmtCubit.getdbsponsoranalystsResponseData(host1);
-      createpassmgmtCubit.gethostUsersResponseData(host1);
+      createPassMgmtCubit.gethostanalystsResponseData(host1);
+      createPassMgmtCubit.getdbsponsoranalystsResponseData(host1);
+      createPassMgmtCubit.gethostUsersResponseData(host1);
 
       dbsponsorTextController.text = widget.model?.hostName != null
           ? widget.model?.hostName.toString() ?? ""
@@ -1403,7 +1403,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       User? dbSponsor1 = widget.model?.host ??
           User(userId: int.parse(userId), name: dbsponsorTextController.text);
 
-      createpassmgmtCubit.getdbsponsorUsersResponseData(dbSponsor1);
+      createPassMgmtCubit.getdbsponsorUsersResponseData(dbSponsor1);
       nameTextController.text =
           widget.passId == '1' && widget.model?.employeeName != null
               ? widget.model?.employeeName ?? ''
@@ -1413,7 +1413,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           ? BaseUser(id: int.parse(userid), name: nameTextController.text)
           : BaseUser();
       //createpassmgmtCubit.getnameanalystsResponseData(name1);
-      createpassmgmtCubit.getNameUsersResponseData(name1);
+      createPassMgmtCubit.getNameUsersResponseData(name1);
       dateofcreationTextController.text =
           widget.model?.inputDate != null && widget.model?.inputDate != '0'
               ? Utils.timestamptoDateConversion(
@@ -1477,12 +1477,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
       serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
 
-      await createpassmgmtCubit.getSerialnumberDetails(
+      await createPassMgmtCubit.getSerialnumberDetails(
           (widget.model?.location?.id ?? 0).toString(),
           widget.passId ?? '',
           context);
 
-      createpassmgmtCubit.getlocationsResponseData(location);
+      createPassMgmtCubit.getlocationsResponseData(location);
       Organisation active = Organisation(
           id: widget.model?.passInfo?.id ?? 0,
           name: widget.model?.passInfo?.passNo ?? '');
@@ -1494,14 +1494,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     widget.dayPassItem?.category.toString() ?? '';
 
       daypassnoTextController.text = widget.model!.passInfo?.passNo ?? '';
-      createpassmgmtCubit.getpassListResponseData(active);
+      createPassMgmtCubit.getpassListResponseData(active);
       // await createpassmgmtCubit.getSerialnumberDetails(
       //     (widget.dayPassItem?.location?.id ?? 0).toString(),
       //     'SEZPass',
       //     context);
-      createpassmgmtCubit.getPassNumber(
+      createPassMgmtCubit.getPassNumber(
           '0', (widget.model?.location?.id ?? 0).toString(), context);
-      createpassmgmtCubit.getlocationsResponseData(location);
+      createPassMgmtCubit.getlocationsResponseData(location);
 
       if ((widget.model?.entities?.length ?? 0) > 0) {
         List<Organisation> entities = [];
@@ -1517,12 +1517,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           // DbOfficialEmailDepartment(id: entity.id ?? 1);
           entities.add(entity);
         }
-        createpassmgmtCubit.getEntityData(entities);
+        createPassMgmtCubit.getEntityData(entities);
       }
 
     Organisation companyType = widget.model?.companyType ?? Organisation();
 
-      createpassmgmtCubit.selectedCompanyType(companyType);
+      createPassMgmtCubit.selectedCompanyType(companyType);
 
       /// vendorPassReason
       Organisation? day = widget.model != null
@@ -1530,10 +1530,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? widget.model?.vendorPassReason
               : widget.model?.dayPassReason
           : Organisation();
-      createpassmgmtCubit.getdaypassreasonResponseData(day);
+      createPassMgmtCubit.getdaypassreasonResponseData(day);
 
       Organisation dep = widget.model?.department ?? Organisation();
-      createpassmgmtCubit.selectedEmployeeDepartment(dep);
+      createPassMgmtCubit.selectedEmployeeDepartment(dep);
       // getAttachments =
       //     widget.listuser?.images != null ? widget.listuser?.images ?? [] : [];
       // photogetAttachments =
@@ -1553,22 +1553,22 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   getPassmanagmentList() async {
-    await createpassmgmtCubit.getLocations('ATOM_LOCATIONS', context);
-    await createpassmgmtCubit.getEntities('ATOM_ENTITIES', context);
-    await createpassmgmtCubit.getEmployeeDepartments(
+    await createPassMgmtCubit.getLocations('ATOM_LOCATIONS', context);
+    await createPassMgmtCubit.getEntities('ATOM_ENTITIES', context);
+    await createPassMgmtCubit.getEmployeeDepartments(
         'EMPLOYEE_DEPARTMENTS', context);
     if (widget.model == null ||
         (widget.model?.entrySecurity?.userName ?? '').isEmpty) {
       var userid = await SharedPrefs.getUserId();
-      await createpassmgmtCubit.getUserDetails(userid, context);
+      await createPassMgmtCubit.getUserDetails(userid, context);
     } else {
       createdBy = widget.model?.entrySecurity?.userName ?? '';
     }
-    await createpassmgmtCubit.companyTypes('ATOM_COMPANY_TYPES', context);
-    await createpassmgmtCubit.getDayPassreasons('DAY_PASS_REASON', context);
-    await createpassmgmtCubit.getVendorPassreasons('VENDOR_PASS_REASON', context);
+    await createPassMgmtCubit.companyTypes('ATOM_COMPANY_TYPES', context);
+    await createPassMgmtCubit.getDayPassreasons('DAY_PASS_REASON', context);
+    await createPassMgmtCubit.getVendorPassreasons('VENDOR_PASS_REASON', context);
     //await createpassmgmtCubit.getAnalysts('T1_Analyst');
-    await createpassmgmtCubit.getUserByRoleDepositor(
+    await createPassMgmtCubit.getUserByRoleDepositor(
         'ATOM_STATIC_USER', context);
   }
 
@@ -2010,7 +2010,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   });
             },
             onTap: (List<Organisation> list) {
-              createpassmgmtCubit.getEntityData(list);
+              createPassMgmtCubit.getEntityData(list);
             },
           );
         });
@@ -2038,7 +2038,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             },
             onTap: (Organisation list) {
               //print(list.name);
-              createpassmgmtCubit.selectedEmployeeDepartment(list);
+              createPassMgmtCubit.selectedEmployeeDepartment(list);
             },
           );
         });
@@ -2084,7 +2084,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 companynameTextController.text = "Deutsche Bank";
                 isFTECompanyNameEditable = false;
               }
-              createpassmgmtCubit.selectedCompanyType(organisation);
+              createPassMgmtCubit.selectedCompanyType(organisation);
             },
           );
         });
@@ -2118,7 +2118,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             },
             onTap: (Organisation list) {
               //print(list.name);
-              createpassmgmtCubit.getdaypassreasonResponseData(list);
+              createPassMgmtCubit.getdaypassreasonResponseData(list);
             },
           );
         });
@@ -2152,7 +2152,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             },
             onTap: (Organisation list) {
               //print(list.name);
-              createpassmgmtCubit.getVendorPassReasonResponseData(list);
+              createPassMgmtCubit.getVendorPassReasonResponseData(list);
             },
           );
         });
@@ -2200,7 +2200,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             onTap: (BaseUser list) {
               //print(list.name);
               //createpassmgmtCubit.getnameanalystsResponseData(list);
-              createpassmgmtCubit.getNameUsersResponseData(list);
+              createPassMgmtCubit.getNameUsersResponseData(list);
             },
           );
         });
@@ -2243,7 +2243,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             onTap: (BaseUser baseUser) {
               //print(list.name);
 
-              createpassmgmtCubit.gethostUsersResponseData(
+              createPassMgmtCubit.gethostUsersResponseData(
                   User(userId: baseUser.id, name: baseUser.name));
             },
           );
@@ -2288,7 +2288,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             onTap: (BaseUser baseUser) {
               //print(list.name);
               //dbsponsorTextController.text = list.name??'';
-              createpassmgmtCubit.getdbsponsorUsersResponseData(
+              createPassMgmtCubit.getdbsponsorUsersResponseData(
                   User(userId: baseUser.id, name: baseUser.name));
             },
           );
@@ -2338,7 +2338,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             onTap: (Organisation organisation) {
               //print(list.name);
               daypassnoTextController.text = organisation.name ?? '';
-              createpassmgmtCubit.getpassListResponseData(organisation);
+              createPassMgmtCubit.getpassListResponseData(organisation);
             },
           );
         });
@@ -2381,15 +2381,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               //GetLocations(),
               onTap: (Organisation? list) async {
                 print(list?.name);
-                await createpassmgmtCubit.getSerialnumberDetails(
+                await createPassMgmtCubit.getSerialnumberDetails(
                   list?.id.toString() ?? '',
                   widget.passId ?? '',
                   context,
                 );
 
-                createpassmgmtCubit.getPassNumber(
+                createPassMgmtCubit.getPassNumber(
                     widget.passId ?? '0', list?.id.toString() ?? '', context);
-                createpassmgmtCubit.getlocationsResponseData(list);
+                createPassMgmtCubit.getlocationsResponseData(list);
               },
             );
           },
@@ -2819,7 +2819,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     showLoadingDialog(context);
     var username = await SharedPrefs.getUsername();
     CreatePassMgmtBody body = CreatePassMgmtBody(passManagement: passmgmtbody);
-    createpassmgmtCubit.createPass(body, isSubmit, context, username,
+    createPassMgmtCubit.createPass(body, isSubmit, context, username,
         widget.model != null ? widget.title ?? '' : widget.title ?? '');
   }
 

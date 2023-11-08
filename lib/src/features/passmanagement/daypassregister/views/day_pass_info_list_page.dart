@@ -76,7 +76,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
 
   void _getpassFoundArticleList() async {
     String userid = await SharedPrefs.getUserId();
-    await daypassinfoCubit.getPassMngtList(
+    await dayPassInfoCubit.getPassMngtList(
         pageNumber.toString(), '20', userid, widget.passId, context,widget.isRegister);
   }
 
@@ -147,7 +147,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
         ],
       ),
       body: BlocBuilder<DayPassInfoCubit, DayPassInfoState>(
-          bloc: daypassinfoCubit,
+          bloc: dayPassInfoCubit,
           builder: (context, state) {
              if (state.stateType == DayPassInfoStateType.success) {
               if (state.foundListModel?.list == null &&
