@@ -433,7 +433,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.001),
                                 GestureDetector(
                                   onTap: () {
-                                    if (widget.passId == "1" ||
+                                    if (widget.passId == "0"||widget.passId == "1" ||
                                         widget.passId == "2") {
                                       passTypeDialog();
                                     }
@@ -456,7 +456,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         setState(() {});
                                       },
                                       onTap: () {
-                                        if (widget.passId == "1" ||
+                                        if (widget.passId == "0"||widget.passId == "1" ||
                                             widget.passId == "2") {
                                           passTypeDialog();
                                         }
@@ -469,7 +469,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                               AppIcon.dropdownicon,
                                               key: const Key('closed_eye')),
                                           onPressed: () {
-                                            if (widget.passId == "1" ||
+                                            if (widget.passId == "0"||widget.passId == "1" ||
                                                 widget.passId == "2") {
                                               passTypeDialog();
                                             }
@@ -1630,7 +1630,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 ? ["VISITOR_PASS", "DWS_VISITOR_PASS"]
                 : widget.passId == "2"
                     ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
-                    : [],
+                    : ["DAY_PASS","DWS_DAY_PASS"],
             onTap: (String value) {
               print(value);
               passtypeTextController.text = value;
@@ -2642,18 +2642,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     int passtypeIdentify = 0;
     if (passtypeTextController.text == "VISITOR_PASS") {
-      passtypeIdentify = 1;
-    } else if (passtypeTextController.text == "DWS_VISITOR_PASS") {
-      passtypeIdentify = 5;
-    } else if (passtypeTextController.text == "VENDOR_PASS") {
       passtypeIdentify = 2;
-    } else if (passtypeTextController.text == "DWS_VENDOR_PASS") {
+    } else if (passtypeTextController.text == "DWS_VISITOR_PASS") {
       passtypeIdentify = 6;
+    } else if (passtypeTextController.text == "VENDOR_PASS") {
+      passtypeIdentify = 3;
+    } else if (passtypeTextController.text == "DWS_VENDOR_PASS") {
+      passtypeIdentify = 7;
     } else if (passtypeTextController.text == "SEZ_PASS") {
-      passInfo.passType = 3;
+      passInfo.passType = 4;
     } else if (passtypeTextController.text == "DAY_PASS") {
       passtypeIdentify = 0;
     }
+    else if (passtypeTextController.text == "DWS_DAY_PASS") {
+      passtypeIdentify = 1;}
     int idValidationType = 0;
     if (photofidentityextController.text == "Aadhaar Card") {
       idValidationType = 0;
