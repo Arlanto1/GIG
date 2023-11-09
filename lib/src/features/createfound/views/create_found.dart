@@ -810,24 +810,25 @@ class _CreateFoundState extends State<CreateFound> {
               claimant = selectedClaimList?.name ?? '';
             }
             return Container(
-                color: AppColors.navigationSkybluecolor,
-                child: SingleChildScrollView(
-                    child: Column(children: [
-                  Container(
-                    height: height * 0.01,
-                    color: AppColors.navigationSkybluecolor,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(20.0),
-                    decoration: const ShapeDecoration(
-                        color: AppColors.backgroundWhitecolor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(20.0)),
-                        )),
-                    child: AbsorbPointer(
-                      absorbing: isDisabled,
-                      child: Form(
+              color: AppColors.navigationSkybluecolor,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      height: height * 0.01,
+                      color: AppColors.navigationSkybluecolor,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(20.0),
+                      decoration: const ShapeDecoration(
+                          color: AppColors.backgroundWhitecolor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20.0)),
+                          )),
+                      child: AbsorbPointer(
+                        absorbing: isDisabled,
+                        child: Form(
                           key: createfoundFormKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1099,7 +1100,8 @@ class _CreateFoundState extends State<CreateFound> {
                                           ? false
                                           : true),
 
-                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
 
                               /// depositor
                               CommonWidgets.textDisplay(
@@ -1491,10 +1493,10 @@ class _CreateFoundState extends State<CreateFound> {
                                     height * 0.001),
                                 datepickerWidgetLoading(
                                     handedoverdatedateTextController),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                // CommonWidgets.verticalSpacerWidget(
+                                //     height * 0.01),
                               ],
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              //  CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// upload
                               widget.model == null
@@ -1600,10 +1602,32 @@ class _CreateFoundState extends State<CreateFound> {
                                     height * 0.03),
                               ],
                             ],
-                          )),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ])));
+                    if (widget.model?.status == 2) ...[
+                      Container(
+                        padding: const EdgeInsets.all(5.0),
+                        decoration: const ShapeDecoration(
+                          color: AppColors.backgroundWhitecolor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(00.0)),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            cancelButtonDisplay(),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            );
           },
         ));
   }
