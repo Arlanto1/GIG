@@ -12,7 +12,6 @@ import 'package:db_atom/src/features/material_movement/models/quantity_units.dar
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/vendor_pass_reason_model.dart';
-import 'package:db_atom/src/models/language.dart';
 import 'package:db_atom/src/models/organisation.dart';
 
 import '../features/createfound/models/create_user_model.dart';
@@ -46,28 +45,22 @@ class Apis {
 
 class CommonServices {
 
-  Future<Language> getUiLabelsOld({
-    required String language,
-    BuildContext? context,
-  }) async {
-    String url = '${Apis._getUiLabels}$language';
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return Language.fromJson(response);
-  }
-
+  // TODO: Need to fix Mapping
   Future<MmUiLabels> getUiLabels({
     required String language,
     required String moduleCode,
     BuildContext? context,
   }) async {
     log('---language--$language---');
-    String url = '${Apis._getUiLabels}locale=$language&module=$moduleCode'
-        '';
+    String url = '${Apis._getUiLabels}locale=$language&module=$moduleCode';
     final response = await BaseApiService().getRequest(
       url: url,
     );
+    log('--response----${response.toString()}----');
+    MmUiLabels model = MmUiLabels.fromJson(response);
+
+    log('--response----${model.locale}----');
+    log('--response----${model.locale.status}----');
     return MmUiLabels.fromJson(response);
   }
 

@@ -13,7 +13,7 @@ class MaterialMovementDetailsState extends Equatable {
   final List<Organisation> quantityUnits;
   final int? eventId;
   final String? message;
-  final bool? isInward;
+  final bool isInward;
   final Language? language;
 
   factory MaterialMovementDetailsState.initial({
@@ -79,13 +79,15 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Quantity');
     }
+    log('--model.inwardMovement--${model.inwardMovement}--');
+    log('--model.materialComingFrom == null--${model.materialComingFrom == null}--');
     if (model.inwardMovement ?? false) {
       if (model.materialComingFrom == null) {
+        log('--model.materialComingFrom == null--${model.materialComingFrom == null}--');
         return const ErrorResponse(
             status: false, message: 'Please enter Sender\'s Name');
       }
     }
-
     if (model.unit == null) {
       return const ErrorResponse(status: false, message: 'Please enter Unit');
     }
@@ -99,8 +101,8 @@ class MaterialMovementDetailsState extends Equatable {
           status: false, message: 'Please enter Material Description');
     }
 
-    if (!model.materialPhysicallyChecked == true &&
-        isInward == true &&
+    if (!model.materialPhysicallyChecked &&
+        isInward &&
         model.materialNotCheckedComment.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Comment is Mandatory');
@@ -123,7 +125,7 @@ class MaterialMovementDetailsState extends Equatable {
     required this.quantityUnits,
     this.eventId,
     this.message,
-    this.isInward,
+    this.isInward = false,
     this.language,
   });
 

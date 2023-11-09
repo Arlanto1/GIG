@@ -33,7 +33,6 @@ import '../../../../models/responseModels/error_response_validation.dart';
 import '../../../../models/responseModels/generic_create_response.dart';
 import '../../../createfound/models/emplyee_departments_model.dart';
 import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
-import '../../models/mm_ui_labels.dart';
 
 part 'material_movement_details_state.dart';
 
@@ -103,13 +102,13 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       }
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-      log('--getlabels-----}--');
-
+      // log('--getlabels-----}--');
+      //
       // MmUiLabels uilabels = await commonServices.getUiLabels(
       //     language: 'en', moduleCode: Constants.materialMovementModuleCode);
       //
-      // log('--uilabels-----${uilabels.defaultLabels}--');
-      // log('--uilabels---2232--${uilabels.localeLabels.status}--');
+      // log('--uilabels-----${uilabels.locale}--');
+      // log('--uilabels---2232--${uilabels.locale.status}--');
 
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
@@ -133,6 +132,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         ),
       );
     } catch (e) {
+      log('initialization issue',
+          error: e, name: 'Material Movement Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -313,7 +314,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     } else {
       (state.model.entrySecuritySign ??= []).add(imageContent);
     }
-    emit(state.copyWith(model: model, status: FormStatus.initial));
+    emit(state.copyWith(model: state.model, status: FormStatus.initial));
   }
 
   Future<String> exportSignature(

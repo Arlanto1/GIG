@@ -171,7 +171,7 @@ class CreatePassMgmtState extends Equatable {
       getuserResponse: getuserResponse ?? this.getuserResponse,
       employeeDepartment: employeeDepartment ?? this.employeeDepartment,
       selectedDepartment: selectedEmployeeDepartment ??
-          this.selectedDepartment,
+          selectedDepartment,
       showIdentifiedFields: showIdentifiedFields??this.showIdentifiedFields,
       loadAttachments: loadAttachments ?? this.loadAttachments,
       getUserDetailsResponse:
