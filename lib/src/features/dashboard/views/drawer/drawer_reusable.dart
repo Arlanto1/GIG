@@ -19,6 +19,11 @@ class NavigationDrawer1 extends StatelessWidget {
   NavigationDrawer1(this._menuScaffoldKey, this.username, this.email,
       {super.key});
 
+  /// showMenuItem
+  /// isReadOnly
+  /// canCreate
+
+
   final String? username;
   final String? email;
   final GlobalKey<ScaffoldState> _menuScaffoldKey;
