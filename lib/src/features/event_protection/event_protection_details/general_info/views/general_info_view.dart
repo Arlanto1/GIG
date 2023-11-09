@@ -1356,6 +1356,14 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                           ],
                         ),
                       ],
+                      if (state.model.status != 0) ...[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            cancelButtonDisplay(),
+                          ],
+                        ),
+                      ],
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ]),
               ),

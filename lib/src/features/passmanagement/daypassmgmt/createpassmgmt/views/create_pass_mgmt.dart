@@ -433,7 +433,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.001),
                                 GestureDetector(
                                   onTap: () {
-                                    if (widget.passId == "0"||widget.passId == "1" ||
+                                    if (widget.passId == "0" ||
+                                        widget.passId == "1" ||
                                         widget.passId == "2") {
                                       passTypeDialog();
                                     }
@@ -456,7 +457,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         setState(() {});
                                       },
                                       onTap: () {
-                                        if (widget.passId == "0"||widget.passId == "1" ||
+                                        if (widget.passId == "0" ||
+                                            widget.passId == "1" ||
                                             widget.passId == "2") {
                                           passTypeDialog();
                                         }
@@ -469,7 +471,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                               AppIcon.dropdownicon,
                                               key: const Key('closed_eye')),
                                           onPressed: () {
-                                            if (widget.passId == "0"||widget.passId == "1" ||
+                                            if (widget.passId == "0" ||
+                                                widget.passId == "1" ||
                                                 widget.passId == "2") {
                                               passTypeDialog();
                                             }
@@ -1196,6 +1199,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.01)
                                     : Container(),
 
+                                ///upload
                                 widget.passId == '1' && widget.model == null
                                     ? CommonWidgets.textDisplay(
                                         'Photo of Visitor',
@@ -1235,9 +1239,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 getSpaceattchment(height),
                                 getAttachement(height),
 
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-
                                 /// SubmitButton
                                 if (widget.model?.status == null ||
                                     widget.model?.status == 0 ||
@@ -1246,22 +1247,61 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     widget.model?.status == 3) ...[
                                   Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
                                       cancelButtonDisplay(),
                                       submitButtonDisplay()
                                     ],
                                   ),
-                                ],
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.03),
-                            ],),
+                                ],
+                                // if(widget.model?.status != 0 ||
+                                //     widget.model?.status != 1 ||
+                                //     widget.model?.status != 2 ||
+                                //     widget.model?.status != 3 )
+                                // Row(
+                                //   mainAxisAlignment:
+                                //   MainAxisAlignment.center,
+                                //   children: [
+                                //     cancelButtonDisplay(),
+                                //   ],
+                                // ),
+                                // CommonWidgets.verticalSpacerWidget(
+                                //    height * 0.03),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
                 ),
+                if ((widget.model?.status == 4 ||
+                        widget.model?.status == 5 ||
+                        widget.model?.status == 6 ||
+                        widget.model?.status == 7 ||
+                        widget.model?.status == 8 ||
+                        widget.model?.status == 9)
+                    ? true
+                    : false) ...[
+                  Container(
+                    padding: const EdgeInsets.all(5.0),
+                    decoration: const ShapeDecoration(
+                      color: AppColors.backgroundWhitecolor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(00.0)),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        cancelButtonDisplay(),
+                      ],
+                    ),
+                  ),
+                ],
               ],
             ),
           );
@@ -1520,7 +1560,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         createPassMgmtCubit.getEntityData(entities);
       }
 
-    Organisation companyType = widget.model?.companyType ?? Organisation();
+      Organisation companyType = widget.model?.companyType ?? Organisation();
 
       createPassMgmtCubit.selectedCompanyType(companyType);
 
@@ -1566,7 +1606,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
     await createPassMgmtCubit.companyTypes('ATOM_COMPANY_TYPES', context);
     await createPassMgmtCubit.getDayPassreasons('DAY_PASS_REASON', context);
-    await createPassMgmtCubit.getVendorPassreasons('VENDOR_PASS_REASON', context);
+    await createPassMgmtCubit.getVendorPassreasons(
+        'VENDOR_PASS_REASON', context);
     //await createpassmgmtCubit.getAnalysts('T1_Analyst');
     await createPassMgmtCubit.getUserByRoleDepositor(
         'ATOM_STATIC_USER', context);
@@ -1606,6 +1647,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       },
     );
   }
+
   daypassNoDialog() {
     showDialog(
         context: context,
@@ -1630,7 +1672,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 ? ["VISITOR_PASS", "DWS_VISITOR_PASS"]
                 : widget.passId == "2"
                     ? ["VENDOR_PASS", "DWS_VENDOR_PASS"]
-                    : ["DAY_PASS","DWS_DAY_PASS"],
+                    : ["DAY_PASS", "DWS_DAY_PASS"],
             onTap: (String value) {
               print(value);
               passtypeTextController.text = value;
@@ -1757,17 +1799,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     log('-state.dayPasselementReason?.name---${state.dayPasselementReason?.name}-');
     log('-state.vendorPasselementReason?.name---${state.vendorPasselementReason?.name}--');
     return TextfieldAddButton(
-      title: widget.passId == '0'?state.dayPasselementReason?.name ?? '':state.vendorPasselementReason?.name ?? '',
+      title: widget.passId == '0'
+          ? state.dayPasselementReason?.name ?? ''
+          : state.vendorPasselementReason?.name ?? '',
       height: 60,
       isDisableColor:
           widget.model?.status != 0 && widget.model != null ? true : false,
       onTap: () {
         if (widget.model == null || widget.model?.status == 0) {
-          if(widget.passId == '2') {
+          if (widget.passId == '2') {
             vendorPassReasonDialog(state);
-        }else if(widget.passId == '0') {
+          } else if (widget.passId == '0') {
             reasondaypassDialog(state);
-       }
+          }
         }
       },
     );
@@ -2130,12 +2174,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             duplicatedayPassReason:
-            state.vendorPassReason?.vendorPassReason ?? [],
-            leftImageName:  widget.passId == '2'
-                ? AppIcon.addicon
-                : null,
+                state.vendorPassReason?.vendorPassReason ?? [],
+            leftImageName: widget.passId == '2' ? AppIcon.addicon : null,
             onLeftButtonTap: () {
-              if ( widget.passId == '2') {
+              if (widget.passId == '2') {
                 Navigator.pop(context);
                 showDialog(
                     barrierDismissible: false,
@@ -2579,7 +2621,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "returned damaged") {
       updatestatusvalue = 8;
     } else {
-      updatestatusvalue = 9;
+      updatestatusvalue = 1;
     }
 
     log('-state.selectedEntities?.length--${state.selectedEntities?.length}---');
@@ -2642,20 +2684,22 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     int passtypeIdentify = 0;
     if (passtypeTextController.text == "VISITOR_PASS") {
-      passtypeIdentify = 2;
+      passtypeIdentify = 1;
     } else if (passtypeTextController.text == "DWS_VISITOR_PASS") {
-      passtypeIdentify = 6;
+      passtypeIdentify = 5;
     } else if (passtypeTextController.text == "VENDOR_PASS") {
-      passtypeIdentify = 3;
+      passtypeIdentify = 2;
     } else if (passtypeTextController.text == "DWS_VENDOR_PASS") {
-      passtypeIdentify = 7;
+      passtypeIdentify = 6;
     } else if (passtypeTextController.text == "SEZ_PASS") {
-      passInfo.passType = 4;
+      passInfo.passType = 3;
     } else if (passtypeTextController.text == "DAY_PASS") {
       passtypeIdentify = 0;
+    } else if (passtypeTextController.text == "DWS_DAY_PASS") {
+      passtypeIdentify = 4;
     }
-    else if (passtypeTextController.text == "DWS_DAY_PASS") {
-      passtypeIdentify = 1;}
+    ;
+
     int idValidationType = 0;
     if (photofidentityextController.text == "Aadhaar Card") {
       idValidationType = 0;
@@ -2843,12 +2887,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please fill all required fields",
       );
-    } else if (state.getUserDetailsResponse != null &&
-        (state.getUserDetailsResponse?.firstName ?? '').isEmpty && (state.getUserDetailsResponse?.lastName ?? '').isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter creator name",
-      );
+      //}
+      // else if (state.getUserDetailsResponse != null &&
+      //     (state.getUserDetailsResponse?.firstName ?? '').isEmpty &&
+      //     (state.getUserDetailsResponse?.lastName ?? '').isEmpty) {
+      //   Validator().showToast(
+      //     context,
+      //     "Please enter creator name",
+      //   );
     } else if (state.location != null && (state.location?.name ?? '').isEmpty) {
       Validator().showToast(
         context,
@@ -2971,8 +3017,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
     } else if ((widget.passId == '0' ||
             widget.passId == '1' ||
-            widget.passId == '2' ||
-            widget.passId == '3') &&
+            widget.passId == '2') &&
         ((state.selectedCompanyType?.name ?? '').toLowerCase() ==
                 'exceptions' &&
             hostemployeeidTextController.text.isEmpty)) {
@@ -2982,8 +3027,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
     } else if ((widget.passId == '0' ||
             widget.passId == '1' ||
-            widget.passId == '2' ||
-            widget.passId == '3') &&
+            widget.passId == '2') &&
         ((state.selectedCompanyType?.name ?? '').toLowerCase() ==
                 'exceptions' &&
             hostemployeeidTextController.text.isEmpty)) {
@@ -3068,7 +3112,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             ? "Please enter vendor pass no"
             : "Please enter visit pass no",
       );
-    } else if (widget.passId == '3' && passCategoryTextController.text.isEmpty) {
+    } else if (widget.passId == '3' &&
+        passCategoryTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter pass category",

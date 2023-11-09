@@ -46,7 +46,8 @@ class LawEnforcementDetailsView extends StatefulWidget {
   const LawEnforcementDetailsView({super.key, this.model});
 
   @override
-  State<LawEnforcementDetailsView> createState() => _LawEnforcementDetailsViewState();
+  State<LawEnforcementDetailsView> createState() =>
+      _LawEnforcementDetailsViewState();
 }
 
 class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
@@ -180,8 +181,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                               BorderRadius.vertical(top: Radius.circular(20.0)),
                         )),
                     child: AbsorbPointer(
-                      absorbing: widget.model?.status == 3 ||
-                          widget.model?.status == 1,
+                      absorbing: widget.model?.status == 3,
                       child: Form(
                         key: lawEnforcementFormKey,
                         child: Column(
@@ -543,9 +543,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                         widget.model?.mailList =
                                             selectedEntities;
-                                        setState(() {
-
-                                        });
+                                        setState(() {});
                                         // BlocProvider.of<LawEnforcementCubit>(context).onModelValueChange();
                                         Navigator.of(context)
                                             .pop(); // Close the dialog
@@ -554,8 +552,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
                                   ],
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
                                   // SubmitButton
                                   if (widget.model?.status != 3) ...[
                                     Row(
@@ -577,6 +573,24 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                       ),
                     ),
                   ),
+                  if (widget.model?.status == 3) ...[
+                    Container(
+                      padding: const EdgeInsets.all(5.0),
+                      decoration: const ShapeDecoration(
+                        color: AppColors.backgroundWhitecolor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(00.0)),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          cancelButtonDisplay(),
+                        ],
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -1569,7 +1583,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       }
     }
 
-    for(Organisation organisation in widget.model?.mailList??[]) {
+    for (Organisation organisation in widget.model?.mailList ?? []) {
       log('---organisation.name--createLawEnforcement---${organisation.name}');
     }
     List<Organisation>? loadGroups = widget.model?.mailList ?? [];
@@ -1752,20 +1766,20 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         //   );
         //   break;
         // }
-        else {
-          if (widget.model?.status != 0 &&
-              (widget.model != null &&
-                  distributiongroupsTextController.text.isEmpty)) {
-            Validator().showToast(
-              context,
-              "Please enter distribution groups",
-            );
-            break;
-          } else {
-            createLawEnforcement(true, widget.model?.id ?? 0, globalState);
-            break;
-          }
-        }
+        // else {
+        //   if (widget.model?.status != 0 &&
+        //       (widget.model != null &&
+        //           distributiongroupsTextController.text.isEmpty)) {
+        //     Validator().showToast(
+        //       context,
+        //       "Please enter distribution groups",
+        //     );
+        //     break;
+        //   } else {
+        //     createLawEnforcement(true, widget.model?.id ?? 0, globalState);
+        //     break;
+        //   }
+        // }
       }
     } else {
       if (widget.model?.status != 0 &&
