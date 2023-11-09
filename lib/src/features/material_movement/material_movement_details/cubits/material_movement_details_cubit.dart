@@ -126,6 +126,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           model: state.model,
           users: users.t1Analyst,
           emailUsers: emailUsers.atomStaticUser,
+          approver1Users: emailUsers.atomStaticUser,
+          approver2Users: emailUsers.atomStaticUser,
           departments: departments.employeeDepartments,
           quantityUnits: quantityUnits.units,
           //  language: uilabels
@@ -212,12 +214,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
     if (approver1EmailUser != null) {
       state.model.approver1Email = approver1EmailUser.email;
+      // Remove the selected approver1EmailUser from approver2EmailUserList
+      state.approver2Users?.remove(approver1EmailUser);
     }
     if (returnReceiverMailId != null) {
       state.model.returnReceiverMailId = returnReceiverMailId.email;
     }
     if (approver2EmailUser != null) {
       state.model.approver2Email = approver2EmailUser.email;
+      state.approver1Users?.remove(approver2EmailUser);
     }
 
     if (requesterDepartment != null) {

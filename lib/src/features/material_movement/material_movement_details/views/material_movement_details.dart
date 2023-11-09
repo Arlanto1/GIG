@@ -943,7 +943,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                 BaseDepartmentDialog()
                                                     .userDialog(
                                                   context: context,
-                                                  users: state.emailUsers!,
+                                                  users: state.approver1Users!,
                                                   onTap: (BaseUser user) {
                                                     BlocProvider.of<
                                                                 MaterialMovementDetailsCubit>(
@@ -1059,7 +1059,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                 BaseDepartmentDialog()
                                                     .userDialog(
                                                   context: context,
-                                                  users: state.emailUsers!,
+                                                  users: state.approver2Users!,
                                                   onTap: (BaseUser user) {
                                                     BlocProvider.of<
                                                                 MaterialMovementDetailsCubit>(
@@ -1805,10 +1805,11 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                                     },
                                                   );
                                                 }
-                                              })
+                                              },
+                                            )
                                           : FlutterInputField(
-                                              initialValue:
-                                                  state.model.approver1Email,
+                                              initialValue: state
+                                                  .model.returnReceiverMailId,
                                               textFormKey:
                                                   Keys.returnReceiverEmailKey,
                                               hintText: '',
