@@ -1818,12 +1818,10 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                       isDisableColor: state.model.status == 6,
                                       onChange: (String value) {
                                         log('--value---$value');
-                                        if (value != null) {
-                                          state.model
-                                                  .materialReturnedChallanNo =
-                                              value;
-                                        }
-                                        context
+                                        state.model
+                                                .materialReturnedChallanNo =
+                                            value;
+                                                                              context
                                             .read<
                                                 MaterialMovementDetailsCubit>()
                                             .onModelValueChange(state.model);

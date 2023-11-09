@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
+import 'package:db_atom/src/models/role_extension.dart';
 
 class MaterialMovementsModel {
   List<MaterialMovementModel>? items;
@@ -85,79 +86,3 @@ class ImageContent {
       };
 }
 
-class Roles {
-  int? roleId;
-  String? application;
-  String? roleName;
-  List<RoleExtensions>? roleExtensions;
-  String? name;
-
-  Roles({
-    this.roleId,
-    this.application,
-    this.roleName,
-    this.roleExtensions,
-    this.name,
-  });
-
-  Roles.fromJson(Map<String, dynamic> json)
-      : roleId = json['roleId'] as int?,
-        application = json['application'] as String?,
-        roleName = json['roleName'] as String?,
-        roleExtensions = (json['roleExtensions'] as List?)
-            ?.map((dynamic e) =>
-                RoleExtensions.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        name = json['name'] as String?;
-
-  Map<String, dynamic> toJson() => {
-        'roleId': roleId,
-        'application': application,
-        'roleName': roleName,
-        'roleExtensions': roleExtensions?.map((e) => e.toJson()).toList(),
-        'name': name
-      };
-}
-
-class RoleExtensions {
-  int? roleExtensionId;
-  int? roleId;
-  String? displayName;
-  String? area;
-  String? filter;
-  dynamic rootNodeId;
-  dynamic nodeId;
-  dynamic accessRight;
-
-  RoleExtensions({
-    this.roleExtensionId,
-    this.roleId,
-    this.displayName,
-    this.area,
-    this.filter,
-    this.rootNodeId,
-    this.nodeId,
-    this.accessRight,
-  });
-
-  RoleExtensions.fromJson(Map<String, dynamic> json)
-      : roleExtensionId = json['roleExtensionId'] as int?,
-        roleId = json['roleId'] as int?,
-        displayName = json['displayName'] as String?,
-        area = json['area'] as String?,
-        filter = json['filter'] as String?,
-        rootNodeId = json['rootNodeId'],
-        nodeId = json['nodeId'],
-        accessRight = json['accessRight'];
-
-  Map<String, dynamic> toJson() => {
-        'roleExtensionId': roleExtensionId,
-        'roleId': roleId,
-        'displayName': displayName,
-        'area': area,
-        'filter': filter,
-        'rootNodeId': rootNodeId,
-        'nodeId': nodeId,
-        'accessRight': accessRight
-      };
-}

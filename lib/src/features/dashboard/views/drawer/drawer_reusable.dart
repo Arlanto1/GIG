@@ -16,8 +16,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../passmanagement/daypassregister/views/day_pass_info_list_page.dart';
 
 class NavigationDrawer1 extends StatelessWidget {
-  NavigationDrawer1(this._menuScaffoldKey, this.username, this.email,
-      {super.key});
+  NavigationDrawer1(
+    this._menuScaffoldKey,
+    this.username,
+    this.email, {
+    super.key,
+  });
+
+  /// showMenuItem
+  /// isReadOnly
+  /// canCreate
 
   final String? username;
   final String? email;
@@ -85,7 +93,7 @@ class NavigationDrawer1 extends StatelessWidget {
     const DrawerItem1(Constants.slaViolationPenalty, AppIcon.occurence, 0),
   ];
 
-  final passtiledrawerItems = [
+  final passTileDrawerItems = [
     const DrawerItem1(Constants.daypassmgmt, AppIcon.daypassmgmticon, 0),
     const DrawerItem1(Constants.daypassregister, AppIcon.daypassregicon, 0),
     const DrawerItem1(
@@ -100,7 +108,7 @@ class NavigationDrawer1 extends StatelessWidget {
   ];
 
   late int _lastSelectedItem = 0;
-  late int _opearationslastSelectedItem = 10;
+  late int _opearationsLastSelectedItem = 10;
   late int _passlastSelectedItem = 10;
   late int _securityfunfunctionslastSelectedItem = 10;
 
@@ -128,7 +136,7 @@ class NavigationDrawer1 extends StatelessWidget {
                 _lastSelectedItem = state.index;
               } else if (state is OperationsGetDrawerItemChange) {
                 log('drawer operation ');
-                _opearationslastSelectedItem = state.index;
+                _opearationsLastSelectedItem = state.index;
               } else if (state is SecurityFunctionsGetDrawerItemChange) {
                 _securityfunfunctionslastSelectedItem = state.index;
               } else if (state is PassmgmtGetDrawerItemChange) {
@@ -506,8 +514,8 @@ class NavigationDrawer1 extends StatelessWidget {
       BuildContext context, DrawerState state) {
     List<Widget> children = [];
 
-    for (int i = 0; i < passtiledrawerItems.length; i++) {
-      DrawerItem1 drawerItem = passtiledrawerItems[i];
+    for (int i = 0; i < passTileDrawerItems.length; i++) {
+      DrawerItem1 drawerItem = passTileDrawerItems[i];
       children.add(Container(
         decoration: const BoxDecoration(
           border:
@@ -745,7 +753,7 @@ class NavigationDrawer1 extends StatelessWidget {
                       height: 20,
                       child: Image.asset(drawerItem.imageName,
                           fit: BoxFit.cover,
-                          color: (i == _opearationslastSelectedItem)
+                          color: (i == _opearationsLastSelectedItem)
                               ? AppColors.navigationSkybluecolor
                               : AppColors.textgreyThemecolor)),
                   title: Text(drawerItem.title,
@@ -754,7 +762,7 @@ class NavigationDrawer1 extends StatelessWidget {
                           fontSize: 16,
                           fontFamily: Constants.customFontSemiBoldFamily,
                           fontWeight: FontWeight.w600,
-                          color: (i == _opearationslastSelectedItem)
+                          color: (i == _opearationsLastSelectedItem)
                               ? AppColors.navigationSkybluecolor
                               : AppColors.textgreyThemecolor)),
                   // selected: i == _lastSelectedItem,
@@ -773,13 +781,13 @@ class NavigationDrawer1 extends StatelessWidget {
                   child: ExpansionTile(
                     onExpansionChanged: (value) {
                       if (value == true) {
-                        _opearationslastSelectedItem = i;
+                        _opearationsLastSelectedItem = i;
                         //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
                         //state = const DrawerInitial();
                         context.read<DrawerCubit>().getOperationsindexChange(
-                            _opearationslastSelectedItem);
+                            _opearationsLastSelectedItem);
                       } else {
-                        _opearationslastSelectedItem = 10;
+                        _opearationsLastSelectedItem = 10;
                         context
                             .read<DrawerCubit>()
                             .getOperationsindexChange(10);
@@ -792,7 +800,7 @@ class NavigationDrawer1 extends StatelessWidget {
                           fontSize: 16,
                           fontFamily: Constants.customFontSemiBoldFamily,
                           fontWeight: FontWeight.w600,
-                          color: (i == _opearationslastSelectedItem)
+                          color: (i == _opearationsLastSelectedItem)
                               ? AppColors.navigationSkybluecolor
                               : AppColors.textgreyThemecolor),
                       // style: Styles.textStyleBlack16,
@@ -802,7 +810,7 @@ class NavigationDrawer1 extends StatelessWidget {
                       height: 18,
                       child: Image.asset(drawerItem.imageName,
                           fit: BoxFit.fitHeight,
-                          color: (i == _opearationslastSelectedItem)
+                          color: (i == _opearationsLastSelectedItem)
                               ? AppColors.navigationSkybluecolor
                               : AppColors.textgreyThemecolor),
                     ),
@@ -838,7 +846,7 @@ class NavigationDrawer1 extends StatelessWidget {
                       height: 20,
                       child: Image.asset(drawerItem.imageName,
                           fit: BoxFit.cover,
-                          color: (i == _opearationslastSelectedItem)
+                          color: (i == _opearationsLastSelectedItem)
                               ? AppColors.navigationSkybluecolor
                               : AppColors.textgreyThemecolor)),
                   title: Text(drawerItem.title,
@@ -847,7 +855,7 @@ class NavigationDrawer1 extends StatelessWidget {
                           fontSize: 16,
                           fontFamily: Constants.customFontSemiBoldFamily,
                           fontWeight: FontWeight.w600,
-                          color: (i == _opearationslastSelectedItem)
+                          color: (i == _opearationsLastSelectedItem)
                               ? AppColors.navigationSkybluecolor
                               : AppColors.textgreyThemecolor)),
                   // selected: i == _lastSelectedItem,
@@ -866,13 +874,13 @@ class NavigationDrawer1 extends StatelessWidget {
                   child: ExpansionTile(
                     onExpansionChanged: (value) {
                       if (value == true) {
-                        _opearationslastSelectedItem = i;
+                        _opearationsLastSelectedItem = i;
                         //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
                         //state = const DrawerInitial();
                         context.read<DrawerCubit>().getOperationsindexChange(
-                            _opearationslastSelectedItem);
+                            _opearationsLastSelectedItem);
                       } else {
-                        _opearationslastSelectedItem = 10;
+                        _opearationsLastSelectedItem = 10;
                         context
                             .read<DrawerCubit>()
                             .getOperationsindexChange(10);
@@ -885,7 +893,7 @@ class NavigationDrawer1 extends StatelessWidget {
                           fontSize: 16,
                           fontFamily: Constants.customFontSemiBoldFamily,
                           fontWeight: FontWeight.w600,
-                          color: (i == _opearationslastSelectedItem)
+                          color: (i == _opearationsLastSelectedItem)
                               ? AppColors.navigationSkybluecolor
                               : AppColors.textgreyThemecolor),
                       // style: Styles.textStyleBlack16,
@@ -895,7 +903,7 @@ class NavigationDrawer1 extends StatelessWidget {
                       height: 18,
                       child: Image.asset(drawerItem.imageName,
                           fit: BoxFit.fitHeight,
-                          color: (i == _opearationslastSelectedItem)
+                          color: (i == _opearationsLastSelectedItem)
                               ? AppColors.navigationSkybluecolor
                               : AppColors.textgreyThemecolor),
                     ),
@@ -914,7 +922,7 @@ class NavigationDrawer1 extends StatelessWidget {
 
   _onExpansionSelectItem(int index, BuildContext context) async {
     _menuScaffoldKey.currentState!.closeDrawer();
-    _opearationslastSelectedItem = index;
+    _opearationsLastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getOperationsindexChange(index);
@@ -1022,7 +1030,7 @@ class NavigationDrawer1 extends StatelessWidget {
 
     context.read<DrawerCubit>().getindexChange(index);
     if (index != 2) {
-      _opearationslastSelectedItem = 10;
+      _opearationsLastSelectedItem = 10;
     }
     //SetState(){}
     if (index == 0) {
