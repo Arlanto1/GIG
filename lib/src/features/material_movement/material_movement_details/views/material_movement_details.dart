@@ -1714,7 +1714,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                             );
                                           }),
 
-                                if (state.model.status == 5) ...[
+                                if (state.model.status == 5 ||
+                                    state.model.status == 6) ...[
                                   /// Actual Date Of Return
                                   CommonWidgets.textDisplay(
                                     Constants.actualDateOfReturn,
@@ -1759,8 +1760,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                                     onChange: (String value) {
                                       log('--value---$value');
 
-                                        state.model.materialReturnedChallanNo =
-                                            value;
+                                      state.model.materialReturnedChallanNo =
+                                          value;
 
                                       context
                                           .read<MaterialMovementDetailsCubit>()
