@@ -33,7 +33,6 @@ import '../../../../models/responseModels/error_response_validation.dart';
 import '../../../../models/responseModels/generic_create_response.dart';
 import '../../../createfound/models/emplyee_departments_model.dart';
 import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
-import '../../models/mm_ui_labels.dart';
 
 part 'material_movement_details_state.dart';
 

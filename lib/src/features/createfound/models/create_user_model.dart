@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:db_atom/src/models/role.dart';
+import 'package:db_atom/src/models/role_extension.dart';
+
 CreateUserModel createUserModelFromJson(String str) => CreateUserModel.fromJson(json.decode(str));
 
 String createUserModelToJson(CreateUserModel data) => json.encode(data.toJson());
@@ -135,86 +138,5 @@ class CreateUserModel {
         "passwordChangedDate": passwordChangedDate,
         "name": name,
         "userStatus": userStatus,
-      };
-}
-
-class RoleExtension {
-  int? roleExtensionId;
-  int? roleId;
-  String? displayName;
-  String? area;
-  String? filter;
-  dynamic rootNodeId;
-  dynamic nodeId;
-  dynamic accessRight;
-
-  RoleExtension({
-    this.roleExtensionId,
-    this.roleId,
-    this.displayName,
-    this.area,
-    this.filter,
-    this.rootNodeId,
-    this.nodeId,
-    this.accessRight,
-  });
-
-  factory RoleExtension.fromJson(Map<String, dynamic> json) => RoleExtension(
-        roleExtensionId: json["roleExtensionId"],
-        roleId: json["roleId"],
-        displayName: json["displayName"],
-        area: json["area"],
-        filter: json["filter"],
-        rootNodeId: json["rootNodeId"],
-        nodeId: json["nodeId"],
-        accessRight: json["accessRight"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "roleExtensionId": roleExtensionId,
-        "roleId": roleId,
-        "displayName": displayName,
-        "area": area,
-        "filter": filter,
-        "rootNodeId": rootNodeId,
-        "nodeId": nodeId,
-        "accessRight": accessRight,
-      };
-}
-
-class Role {
-  int? roleId;
-  String? application;
-  String? roleName;
-  List<RoleExtension>? roleExtensions;
-  String? name;
-
-  Role({
-    this.roleId,
-    this.application,
-    this.roleName,
-    this.roleExtensions,
-    this.name,
-  });
-
-  factory Role.fromJson(Map<String, dynamic> json) => Role(
-        roleId: json["roleId"],
-        application: json["application"],
-        roleName: json["roleName"],
-        roleExtensions: json["roleExtensions"] == null
-            ? []
-            : List<RoleExtension>.from(
-                json["roleExtensions"]!.map((x) => RoleExtension.fromJson(x))),
-        name: json["name"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "roleId": roleId,
-        "application": application,
-        "roleName": roleName,
-        "roleExtensions": roleExtensions == null
-            ? []
-            : List<dynamic>.from(roleExtensions!.map((x) => x.toJson())),
-        "name": name,
       };
 }
