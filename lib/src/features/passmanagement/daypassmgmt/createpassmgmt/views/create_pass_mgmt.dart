@@ -1199,6 +1199,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.01)
                                     : Container(),
 
+                                ///upload
                                 widget.passId == '1' && widget.model == null
                                     ? CommonWidgets.textDisplay(
                                         'Photo of Visitor',
@@ -1237,9 +1238,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 /// Attachments
                                 getSpaceattchment(height),
                                 getAttachement(height),
-
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
 
                                 /// SubmitButton
                                 if (widget.model?.status == null ||
@@ -2623,7 +2621,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "returned damaged") {
       updatestatusvalue = 8;
     } else {
-      updatestatusvalue = 9;
+      updatestatusvalue = 1;
     }
 
     log('-state.selectedEntities?.length--${state.selectedEntities?.length}---');
@@ -2697,9 +2695,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       passInfo.passType = 3;
     } else if (passtypeTextController.text == "DAY_PASS") {
       passtypeIdentify = 0;
-    }else if (passtypeTextController.text == "DWS_DAY_PASS") {
+    } else if (passtypeTextController.text == "DWS_DAY_PASS") {
       passtypeIdentify = 4;
-    };
+    }
+    ;
 
     int idValidationType = 0;
     if (photofidentityextController.text == "Aadhaar Card") {
@@ -2888,13 +2887,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please fill all required fields",
       );
-    } else if (state.getUserDetailsResponse != null &&
-        (state.getUserDetailsResponse?.firstName ?? '').isEmpty &&
-        (state.getUserDetailsResponse?.lastName ?? '').isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter creator name",
-      );
+      //}
+      // else if (state.getUserDetailsResponse != null &&
+      //     (state.getUserDetailsResponse?.firstName ?? '').isEmpty &&
+      //     (state.getUserDetailsResponse?.lastName ?? '').isEmpty) {
+      //   Validator().showToast(
+      //     context,
+      //     "Please enter creator name",
+      //   );
     } else if (state.location != null && (state.location?.name ?? '').isEmpty) {
       Validator().showToast(
         context,
