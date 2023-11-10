@@ -344,23 +344,29 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
   Future<void> pushSignature({
     required SignatureController controller,
-    required isReceiverSignature,
+    required bool isReceiverSignature,
   }) async {
-    String imageBytes = await exportSignature(
-      controller,
-    );
-    if (imageBytes.isEmptyOrNull) {
+    String imageBytes = await exportSignature(controller);
+
+    // Check for null explicitly
+    if (imageBytes.isEmpty) {
+      log('No Signature');
       return;
     }
+
     ImageContent imageContent = ImageContent();
     imageContent.imageContent = imageBytes;
+
     if (isReceiverSignature) {
       state.model.receiverSign = imageContent;
     } else {
       state.model.entrySecuritySign = imageContent;
     }
+
+    // Use the copyWith method more succinctly
     emit(state.copyWith(model: state.model, status: FormStatus.initial));
   }
+
 
   Future<String> exportSignature(
     SignatureController controller,
