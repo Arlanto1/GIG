@@ -118,6 +118,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.entrySecurity = loggedInUserDetails;
       state.model.unit = model?.unit;
 
+      log('-emailUsers.atomStaticUser----init--${emailUsers.atomStaticUser?.length}---');
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -126,6 +127,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           model: state.model,
           users: users.t1Analyst,
           emailUsers: emailUsers.atomStaticUser,
+          approver1Users: emailUsers.atomStaticUser,
+          approver2Users: emailUsers.atomStaticUser,
           departments: departments.employeeDepartments,
           quantityUnits: quantityUnits.units,
           //  language: uilabels
@@ -149,9 +152,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     BaseUser? user,
     BaseUser? receiverEmailUser,
     BaseUser? requesterEmailUser,
-    BaseUser? approver1EmailUser,
     BaseUser? returnReceiverMailId,
-    BaseUser? approver2EmailUser,
     Organisation? requesterDepartment,
     Organisation? preparedByDepartment,
     Organisation? approver1Department,
@@ -210,16 +211,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     if (requesterEmailUser != null) {
       state.model.requestorEmail = requesterEmailUser.email;
     }
-    if (approver1EmailUser != null) {
-      state.model.approver1Email = approver1EmailUser.email;
-    }
+
     if (returnReceiverMailId != null) {
       state.model.returnReceiverMailId = returnReceiverMailId.email;
     }
-    if (approver2EmailUser != null) {
-      state.model.approver2Email = approver2EmailUser.email;
-    }
-
     if (requesterDepartment != null) {
       state.model.requestorDepartment = requesterDepartment;
     }
@@ -233,14 +228,12 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     if (approver2Department != null) {
       state.model.approver2Department = approver2Department;
     }
-    log('--depart---${receiverDepartment?.name}-----');
     if (receiverDepartment != null) {
       state.model.receiverDepartment = receiverDepartment;
     }
     if (quantityUnit != null) {
       state.model.unit = quantityUnit;
     }
-    log('-quantityUnit---${state.model.unit?.name}');
 
     if (isReturnable != null) {
       state.model.returnable = isReturnable;
@@ -250,6 +243,58 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       model: state.model,
       status: FormStatus.initial,
     ));
+  }
+
+  Future<void> updateApproverEmailsValue({
+    BaseUser? approver1EmailUser,
+    BaseUser? approver2EmailUser,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    if (approver1EmailUser != null) {
+      state.model.approver1Email = approver1EmailUser.email;
+
+      emit(
+        state.copyWith(
+          approver2Users: state.emailUsers,
+        ),
+      );
+
+      List<BaseUser>? updatedUsers = List.from(state.approver2Users ?? []);
+      updatedUsers.remove(approver1EmailUser);
+
+      emit(
+        state.copyWith(
+          model: state.model,
+          approver2Users: updatedUsers,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (approver2EmailUser != null) {
+      state.model.approver2Email = approver2EmailUser.email;
+
+      emit(
+        state.copyWith(
+          approver1Users: state.emailUsers,
+        ),
+      );
+
+      state.approver1Users?.remove(approver2EmailUser);
+
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+          approver1Users: state.approver1Users,
+        ),
+      );
+    }
   }
 
   void addAttchment(List<CreateImage>? data) async {
@@ -310,9 +355,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     ImageContent imageContent = ImageContent();
     imageContent.imageContent = imageBytes;
     if (isReceiverSignature) {
-      (state.model.receiverSign ??= []).add(imageContent);
+      state.model.receiverSign = imageContent;
     } else {
-      (state.model.entrySecuritySign ??= []).add(imageContent);
+      state.model.entrySecuritySign = imageContent;
     }
     emit(state.copyWith(model: state.model, status: FormStatus.initial));
   }

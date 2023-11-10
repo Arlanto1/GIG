@@ -8,6 +8,8 @@ class MaterialMovementDetailsState extends Equatable {
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
+  final List<BaseUser>? approver1Users;
+  final List<BaseUser>? approver2Users;
   final List<Organisation> departments;
   final List<CreateImage>? loadAttachments;
   final List<Organisation> quantityUnits;
@@ -127,6 +129,8 @@ class MaterialMovementDetailsState extends Equatable {
     this.message,
     this.isInward = false,
     this.language,
+    this.approver1Users,
+    this.approver2Users,
   });
 
   MaterialMovementDetailsState copyWith({
@@ -136,13 +140,19 @@ class MaterialMovementDetailsState extends Equatable {
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
+    List<BaseUser>? approver1Users,
+    List<BaseUser>? approver2Users,
     List<Organisation>? departments,
     List<CreateImage>? loadAttachments,
     List<Organisation>? quantityUnits,
     int? eventId,
     String? message,
     Language? language,
+
   }) {
+    log('---EU----------${emailUsers?.length}----${this.emailUsers?.length}-');
+    log('---A 1----------${approver1Users?.length}----${this.approver1Users?.length}-');
+    log('---A 2----------${approver2Users?.length}----${this.approver2Users?.length}-');
     return MaterialMovementDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,
@@ -150,6 +160,8 @@ class MaterialMovementDetailsState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
+      approver1Users: approver1Users ?? this.approver1Users,
+      approver2Users: approver2Users ?? this.approver2Users,
       departments: departments ?? this.departments,
       loadAttachments: loadAttachments ?? this.loadAttachments,
       quantityUnits: quantityUnits ?? this.quantityUnits,
