@@ -50,14 +50,13 @@ MaterialMovementModel _$MaterialMovementModelFromJson(
           ?.map((e) => History.fromJson(e as Map<String, dynamic>))
           .toList(),
       requestorEmail: json['requestorEmail'] as String?,
-      receiverSign: (json['receiverSign'] as List<dynamic>?)
-              ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
-      entrySecuritySign: (json['entrySecuritySign'] as List<dynamic>?)
-              ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
+      receiverSign: json['receiverSign'] == null
+          ? null
+          : ImageContent.fromJson(json['receiverSign'] as Map<String, dynamic>),
+      entrySecuritySign: json['entrySecuritySign'] == null
+          ? null
+          : ImageContent.fromJson(
+              json['entrySecuritySign'] as Map<String, dynamic>),
       requestorEmployeeId: json['requestorEmployeeId'] as String?,
       requestorDepartment: json['requestorDepartment'] == null
           ? null

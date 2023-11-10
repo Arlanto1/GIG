@@ -150,6 +150,9 @@ class MaterialMovementDetailsState extends Equatable {
     Language? language,
 
   }) {
+    log('---EU----------${emailUsers?.length}----${this.emailUsers?.length}-');
+    log('---A 1----------${approver1Users?.length}----${this.approver1Users?.length}-');
+    log('---A 2----------${approver2Users?.length}----${this.approver2Users?.length}-');
     return MaterialMovementDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,

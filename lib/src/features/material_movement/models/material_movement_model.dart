@@ -24,8 +24,8 @@ class MaterialMovementModel extends BaseObject {
   String? materialDescription;
   int? quantity;
   List<ImageContent>? images;
-  List<ImageContent>? receiverSign;
-  List<ImageContent>? entrySecuritySign;
+  ImageContent? receiverSign;
+  ImageContent? entrySecuritySign;
   String? receiverEmail;
   String? receiverEmployeeId;
   User? entrySecurity;
