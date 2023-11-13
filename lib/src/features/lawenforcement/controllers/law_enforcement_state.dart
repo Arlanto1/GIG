@@ -1,4 +1,4 @@
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
+import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
@@ -10,20 +10,12 @@ import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart'
 import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../models/base_user.dart';
-import '../../../models/entity.dart';
-import '../../../models/entry_security.dart';
 import '../../../models/organisation.dart';
-
-enum LawEnforcementStateType {
-  initial,
-  loading,
-  success,
-  failure,
-  addattachment
-}
+import '../../createfound/models/user.dart';
 
 class LawEnforcementState extends Equatable {
   GetDepositor? getDepositorResponse;
@@ -31,14 +23,14 @@ class LawEnforcementState extends Equatable {
   LeoDepartments? getLeodepartmentsResponse;
   LeoPurposeVisit? getLeopurposeResponse;
   late final int? eventId;
-  final LawEnforcementStateType stateType;
+  final FormStatus stateType;
   String? errorMessage;
   GetLocations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
-  List<Entity>? listOfEntities;
-  Mumbai? locationSelectedlist;
-  AtomLeoPurposeVisit? leoPurposeVisitResponse;
-  AtomLeoDepartment? leoDepartmentsResponse;
+  List<Organisation>? listOfEntities;
+  Organisation? locationSelectedlist;
+  Organisation? leoPurposeVisitResponse;
+  Organisation? leoDepartmentsResponse;
   SerialNumberModel? serialnumberResponse;
   String? radioButtonItem = '';
   int? isOfficialIdcardSelected;
@@ -50,14 +42,14 @@ class LawEnforcementState extends Equatable {
   BaseUser? getuserResponse;
   EmployeeDepartments? employeeDepartment;
   Organisation? selectedemployeeDepartmentResponse;
-  List<CreateImage>? loadAttachments = [];
-  List<VistingOfficialsModel>? getVisits = [];
-  int? getVisitsCount = 0;
-  EntrySecurity? getUserDetailsResponse;
+  List<ImageContent>? loadAttachments = [];
+  List<VisitingOfficialsModel>? getVisits = [];
+  int getVisitsCount = 0;
+  User? getUserDetailsResponse;
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
-  List<DistributionGroup>? loadGroups = [];
+  List<Organisation>? loadGroups = [];
   DistributionGroupModel? groups;
-  DistributionGroup? listIndividualdept;
+  Organisation? listIndividualdept;
   Organisation? createOrganisationResponse;
   Organisation? createEmployeeDepartments;
   CreateUserModel? createUserResponse;
@@ -87,7 +79,7 @@ class LawEnforcementState extends Equatable {
     this.selectedemployeeDepartmentResponse,
     this.loadAttachments,
     this.getVisits,
-    this.getVisitsCount,
+    this.getVisitsCount = 0,
     this.getUserDetailsResponse,
     this.lawcreateFoundresponse,
     this.loadGroups,
@@ -104,14 +96,14 @@ class LawEnforcementState extends Equatable {
     LeoDepartments? getLeodepartmentsResponse,
     LeoPurposeVisit? getLeopurposeResponse,
     final int? eventId,
-    LawEnforcementStateType? stateType,
+    FormStatus? stateType,
     String? errorMessage,
     GetLocations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,
-    List<Entity>? listOfEntities,
-    Mumbai? locationSelectedlist,
-    AtomLeoPurposeVisit? leoPurposeVisitResponse,
-    AtomLeoDepartment? leoDepartmentsResponse,
+    List<Organisation>? listOfEntities,
+    Organisation? locationSelectedlist,
+    Organisation? leoPurposeVisitResponse,
+    Organisation? leoDepartmentsResponse,
     SerialNumberModel? serialnumberResponse,
     String? radioButtonItem = '',
     int? isOfficialIdcardSelected,
@@ -121,14 +113,14 @@ class LawEnforcementState extends Equatable {
     BaseUser? getuserResponse,
     EmployeeDepartments? employeeDepartment,
     Organisation? selectedemployeeDepartmentResponse,
-    List<CreateImage>? loadAttachments,
+    List<ImageContent>? loadAttachments,
     int? getVisitsCount,
-    List<VistingOfficialsModel>? getVisits,
-    EntrySecurity? getUserDetailsResponse,
+    List<VisitingOfficialsModel>? getVisits,
+    User? getUserDetailsResponse,
     SubmitLawEnforcementResponse? lawcreateFoundresponse,
-    List<DistributionGroup>? loadGroups,
+    List<Organisation>? loadGroups,
     DistributionGroupModel? groups,
-    DistributionGroup? listIndividualdept,
+    Organisation? listIndividualdept,
     Organisation? createOrganisationResponse,
     Organisation? createEmployeeDepartments,
     CreateUserModel? createUserResponse,

@@ -1,7 +1,5 @@
 // Created by Ramesh
 
-import 'dart:developer';
-
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
@@ -164,7 +162,7 @@ class _FoundListState extends State<FoundList> {
           builder: (context, state) {
             if (state.stateType == FoundListStateType.success) {
               if (state.foundListModel?.list == null &&
-                  state.foundListModel?.list?.length == 0) {
+                  state.foundListModel!.list!.isEmpty) {
                 if (pageNumber == 0) {
                   localfoundlist = state.foundListModel?.list;
                 }

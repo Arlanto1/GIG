@@ -17,7 +17,7 @@ class CustomAlertImageDialog extends StatelessWidget {
   final Function? onNegativePressed;
   final double? circularBorderRadius;
 
-  CustomAlertImageDialog({
+  const CustomAlertImageDialog({super.key, 
     this.title,
     this.image,
     this.message,
@@ -106,7 +106,7 @@ class CustomAlertImageDialog extends StatelessWidget {
         child:  Row(
           //mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[cancelButton(width,context),SizedBox(width: 20,), saveButton(width,context)],
+          children: <Widget>[cancelButton(width,context),const SizedBox(width: 20,), saveButton(width,context)],
         ),
       ),
     );

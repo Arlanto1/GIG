@@ -4,27 +4,25 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class LawEnforcementListItem extends StatefulWidget {
   final Function? onTap;
-  final Function? oneditTap;
-  final Function? onviewTap;
-  LawEnforcementListElement userItem;
-  int? index;
-  LawEnforcementListItem({
+  final Function? onEditTap;
+  final Function? onViewTap;
+  final LawEnforcementListElement userItem;
+  final int? index;
+
+  const LawEnforcementListItem({
     Key? key,
     this.onTap,
-    this.oneditTap,
-    this.onviewTap,
+    this.onEditTap,
+    this.onViewTap,
     required this.userItem,
     this.index,
   }) : super(key: key);
@@ -34,7 +32,6 @@ class LawEnforcementListItem extends StatefulWidget {
 }
 
 class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
- 
   Widget textHandling(String title, String desc) {
     return Expanded(
       child: RichText(
@@ -69,11 +66,11 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
             child: InkWell(
                 onTap: () {
                   HapticFeedback.lightImpact();
-                 widget.onTap != null ? widget.onTap!(widget.index) : null;
+                  widget.onTap != null ? widget.onTap!(widget.index) : null;
                 },
                 borderRadius: BorderRadius.circular(8),
                 child: Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: Column(children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -86,14 +83,18 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                                 IconButton(
                                   onPressed: () {
                                     //do action on view
-                                    widget.oneditTap != null ? widget.oneditTap!(widget.index) : null;
+                                    widget.onEditTap != null
+                                        ? widget.onEditTap!(widget.index)
+                                        : null;
                                   },
                                   icon: SvgPicture.asset(AppIcon.editIcon),
                                 ),
                                 IconButton(
                                   onPressed: () {
                                     //do action on view
-                                    widget.onviewTap != null ? widget.onviewTap!(widget.index) : null;
+                                    widget.onViewTap != null
+                                        ? widget.onViewTap!(widget.index)
+                                        : null;
                                   },
                                   icon: SvgPicture.asset(AppIcon.viewIcon),
                                 ),
@@ -108,30 +109,34 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                               widget.userItem.locationRegion?.name ?? ''),
                         ],
                       ),
-                       CommonWidgets.verticalSpacerWidget(5),
+                      CommonWidgets.verticalSpacerWidget(5),
                       Row(
                         children: [
                           textHandling('Location : ',
                               widget.userItem.location?.name ?? ''),
                         ],
                       ),
-                       CommonWidgets.verticalSpacerWidget(5),
+                      CommonWidgets.verticalSpacerWidget(5),
                       Row(
                         children: [
                           textHandling(
                               'Date: ',
-                          widget.userItem.inputDate != null ? Utils.timestamptoDateConversion(
-                              int.parse(widget.userItem.inputDate ?? '0'), Constants.dateFormat): ''
-                             ),
+                              widget.userItem.inputDate != null
+                                  ? Utils.timestamptoDateConversion(
+                                      int.parse(
+                                          widget.userItem.inputDate ?? '0'),
+                                      Constants.dateFormat)
+                                  : ''),
                         ],
                       ),
-                       CommonWidgets.verticalSpacerWidget(5),
-                    Row(
+                      CommonWidgets.verticalSpacerWidget(5),
+                      Row(
                         children: [
-                      Utils().buildLeoStatusRow(widget.userItem.status ?? 0)
-                    ],),
-                        ])))),
-         CommonWidgets.verticalSpacerWidget(5),
+                          Utils().buildLeoStatusRow(widget.userItem.status ?? 0)
+                        ],
+                      ),
+                    ])))),
+        CommonWidgets.verticalSpacerWidget(5),
       ],
     );
   }

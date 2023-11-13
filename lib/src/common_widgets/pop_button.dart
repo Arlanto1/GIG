@@ -1,5 +1,4 @@
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 
@@ -36,13 +35,7 @@ class PopButton extends StatelessWidget {
      width: width,
       height: 50.00,
       child: TextButton(
-        key: Key(buttonKey ?? ''),
-        child: buttonText != null && buttonText != '' ?  Text(buttonText ?? '', key: Key(buttonTextKey ?? '')) : SvgPicture.asset(
-                imageText ?? '',
-                color: AppColors.navigationSkybluecolor,
-                width: 20,
-                //key: const Key(Keys.userIcon),
-              ),  
+        key: Key(buttonKey ?? ''),  
         onPressed: () {
           onTap!();
         },
@@ -55,6 +48,12 @@ class PopButton extends StatelessWidget {
           textStyle:textStyle,
           shape: const StadiumBorder(),
         ),
+        child: buttonText != null && buttonText != '' ?  Text(buttonText ?? '', key: Key(buttonTextKey ?? '')) : SvgPicture.asset(
+                imageText ?? '',
+                color: AppColors.navigationSkybluecolor,
+                width: 20,
+                //key: const Key(Keys.userIcon),
+              ),
       ),
     );
   }

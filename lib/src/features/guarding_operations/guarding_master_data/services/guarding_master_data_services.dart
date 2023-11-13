@@ -4,7 +4,7 @@ import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
 
-import '../../../../models/responseModels/generic_creat_response.dart';
+import '../../../../models/responseModels/generic_create_response.dart';
 import '../../../../utils/shared_preferences.dart';
 import '../models/guarding_master_data_model.dart';
 
@@ -54,7 +54,7 @@ class GuardingMasterDataServices {
     required bool isSubmit,
   }) async {
     final String url =
-        "${Apis._createGuardingMasterData}?userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
+        "${Apis._createGuardingMasterData}userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,

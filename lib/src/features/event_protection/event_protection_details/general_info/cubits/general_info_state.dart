@@ -4,11 +4,12 @@ class GeneralInfoState extends Equatable {
   final FormStatus status;
   final EventProtectionGi model;
   final GetLocations? locations;
-  final EntrySecurity? loggedInUserDetails;
+  final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
-  final List<Entity>? listOfEntities;
+  final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
+  final List<Organisation> vendors;
   final AddEntities? getEntitiesResponse;
   final List<String>? participationDates;
   final int? eventId;
@@ -19,13 +20,14 @@ class GeneralInfoState extends Equatable {
     required EventProtectionGi model,
     required GetLocations locations,
     required List<BaseUser>? users,
-    required EntrySecurity? loggedInUserDetails,
+    required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
-    required final List<Entity>? listOfEntities,
+    required final List<Organisation>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
     required final List<Organisation> departments,
+    required final List<Organisation> vendors,
     required String errorMessage,
-    required List<CreateImage> loadAttachments,
+    required List<ImageContent> loadAttachments,
     List<User>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,
@@ -36,6 +38,7 @@ class GeneralInfoState extends Equatable {
       locations: locations,
       listOfEntities: listOfEntities,
       departments: departments,
+      vendors: vendors,
       getEntitiesResponse: getEntitiesResponse,
       users: users,
       emailUsers: emailUsers,
@@ -44,6 +47,30 @@ class GeneralInfoState extends Equatable {
       participationDates: participationDate,
       entrySecurities: entrySecurities,
     );
+  }
+
+  ErrorResponse get isValidDraft {
+    log('-model.status---${model.status}--');
+
+    if (model.location == null) {
+      log('-model.location-----isValidDraft-');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Location');
+    }
+    if (model.status == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Status');
+    }
+
+    // if (model.handOverSecurity == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Shift Taken Over By.');
+    // }
+    // if (model.medicalEmrgncy && model.medicalEmrgncyComments == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Medical Emergency Comments');
+    // }
+
+    return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
   ErrorResponse get isValid {
@@ -55,11 +82,13 @@ class GeneralInfoState extends Equatable {
     }
 
     if (model.eventStartDate == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Event Start Date');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Event Start Date');
     }
 
     if (model.eventEndDate == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Event End Date');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Event End Date');
     }
 
     if (model.lsm1 == null) {
@@ -87,7 +116,6 @@ class GeneralInfoState extends Equatable {
           status: false, message: 'Enter Requester Department');
     }
 
-
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -102,6 +130,7 @@ class GeneralInfoState extends Equatable {
     this.emailUsers,
     this.listOfEntities,
     required this.departments,
+    required this.vendors,
     this.getEntitiesResponse,
     this.participationDates,
     this.eventId,
@@ -114,11 +143,12 @@ class GeneralInfoState extends Equatable {
     FormStatus? status,
     EventProtectionGi? model,
     GetLocations? locations,
-    EntrySecurity? loggedInUserDetails,
+    User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
-    List<Entity>? listOfEntities,
+    List<Organisation>? listOfEntities,
     List<Organisation>? departments,
+    List<Organisation>? vendors,
     AddEntities? getEntitiesResponse,
     List<String>? participationDates,
     int? eventId,
@@ -134,6 +164,7 @@ class GeneralInfoState extends Equatable {
       emailUsers: emailUsers ?? this.emailUsers,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       departments: departments ?? this.departments,
+      vendors: vendors ?? this.vendors,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       participationDates: participationDates ?? this.participationDates,
       eventId: eventId ?? this.eventId,

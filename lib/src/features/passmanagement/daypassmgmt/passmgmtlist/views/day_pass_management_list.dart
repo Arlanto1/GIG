@@ -14,7 +14,6 @@ import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/controllers/day_passlist_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/controllers/day_passlist_state.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_item_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_list_detail_popup.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list_item.dart';
@@ -73,14 +72,14 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
 
   void _getpassFoundArticleList() async {
     String userid = await SharedPrefs.getUserId();
-    await daypassListCubit.getFoundList(
+    await dayPassListCubit.getFoundList(
         pageNumber.toString(), '20', userid, '${widget.passId}', context);
   }
 
   getpassFoundArticleListId(int articleid) async {
     showLoadingDialog(context);
     DayPassListElement? foundArticleDetailsResponse =
-        await daypassListCubit.getpassArticleById(articleid, context);
+        await dayPassListCubit.getpassArticleById(articleid, context);
 
     editDataLoading(foundArticleDetailsResponse);
   }
@@ -202,13 +201,13 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
         ],
       ),
       body: BlocBuilder<DayPassListCubit, DayPassListState>(
-          bloc: daypassListCubit,
+          bloc: dayPassListCubit,
           builder: (context, state) {
             log('--state.foundListModel?.items---${state.foundListModel?.items?.length}---');
             log('--state.stateType--${state.stateType}---');
             if (state.stateType == DayPassListStateType.success) {
               if (state.foundListModel?.items == null &&
-                  state.foundListModel?.items?.length == 0) {
+                  state.foundListModel!.items!.isEmpty) {
                 if (pageNumber == 0) {
                   log('--state.foundListModel?.items---${state.foundListModel?.items?.length}---');
                   localfoundlist = state.foundListModel?.items;

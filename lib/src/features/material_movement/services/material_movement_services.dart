@@ -1,12 +1,11 @@
-import 'dart:developer';
-
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
+import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
-import '../../../models/responseModels/generic_creat_response.dart';
+import '../../../models/responseModels/generic_create_response.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -19,22 +18,18 @@ class Apis {
 }
 
 class MaterialMovementServices {
-  Future<MaterialMovementsModel> getMaterialMovements(
-      {required String startPosition,
-      required String maximumRecords,
-      required String userId,
-      required int mmType}) async {
+  Future<MaterialMovementsModel> getMaterialMovements({
+    required String startPosition,
+    required String maximumRecords,
+    required String userId,
+    required int mmType,
+  }) async {
     String url =
         '${Apis._getMaterialMovements}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&mmType=$mmType';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
     );
-    log('getMaterialMovements---212--');
-
-    log('getMaterialMovements---$response--');
-    // log('getMaterialMovements---${response.totalCount}--');
-
     return MaterialMovementsModel.fromJson(response);
   }
 
@@ -47,7 +42,6 @@ class MaterialMovementServices {
   }
 
   /// Create Services
-
   Future<GenericCreateResponse> createMaterialMovement({
     required MaterialMovementRequest body,
     required bool isSubmit,
@@ -55,7 +49,6 @@ class MaterialMovementServices {
     var userId = await SharedPrefs.getUserId();
     final String url =
         "${Apis._createMaterialMovement}?userEmail=$userId&isSubmit=$isSubmit";
-    log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

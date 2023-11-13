@@ -1,5 +1,9 @@
+import 'package:db_atom/src/models/organisation.dart';
+
+import '../../../../../models/history.dart';
 import '../../../../../models/role.dart';
 import '../../../../../models/role_extension.dart';
+import '../../../../createfound/models/user.dart';
 import 'day_passlist_model.dart';
 
 class DayPassListResponse {
@@ -40,10 +44,10 @@ class DayPassListItemResponse {
   final String? modifiedDate;
   final String? modifiedBy;
   final List<History>? history;
-  final EntrySecurity? entrySecurity;
+  final User? entrySecurity;
   final HandoverSecurity? handoverSecurity;
   final int? passType;
-  final CompanyType? companyType;
+  final Organisation? companyType;
   final String? companyName;
   final String? employeeName;
   final String? employeeId;
@@ -127,10 +131,10 @@ class DayPassListItemResponse {
         modifiedDate = json['modifiedDate'] as String?,
         modifiedBy = json['modifiedBy'] as String?,
         history = (json['history'] as List?)?.map((dynamic e) => History.fromJson(e as Map<String,dynamic>)).toList(),
-        entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? EntrySecurity.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
+        entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         handoverSecurity = (json['handoverSecurity'] as Map<String,dynamic>?) != null ? HandoverSecurity.fromJson(json['handoverSecurity'] as Map<String,dynamic>) : null,
         passType = json['passType'] as int?,
-        companyType = (json['companyType'] as Map<String,dynamic>?) != null ? CompanyType.fromJson(json['companyType'] as Map<String,dynamic>) : null,
+        companyType = (json['companyType'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['companyType'] as Map<String,dynamic>) : null,
         companyName = json['companyName'] as String?,
         employeeName = json['employeeName'] as String?,
         employeeId = json['employeeId'] as String?,
@@ -261,102 +265,6 @@ class Entities {
   };
 }
 
-class History {
-  final int? id;
-  final int? state;
-  final int? action;
-  final String? email;
-  final int? actiontime;
-  final String? parameters;
-
-  History({
-    this.id,
-    this.state,
-    this.action,
-    this.email,
-    this.actiontime,
-    this.parameters,
-  });
-
-  History.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        state = json['state'] as int?,
-        action = json['action'] as int?,
-        email = json['email'] as String?,
-        actiontime = json['actiontime'] as int?,
-        parameters = json['parameters'] as String?;
-
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'state' : state,
-    'action' : action,
-    'email' : email,
-    'actiontime' : actiontime,
-    'parameters' : parameters
-  };
-}
-
-class EntrySecurity {
-  final int? userId;
-  final String? userName;
-  final String? email;
-  final String? firstName;
-  final String? lastName;
-  final String? phone;
-  final List<Role>? roles;
-  final List<RoleExtension>? roleExtensions;
-  final List<dynamic>? notApprovedRoles;
-  final List<dynamic>? notApprovedRoleExtensions;
-  final String? name;
-  final String? userStatus;
-
-  EntrySecurity({
-    this.userId,
-    this.userName,
-    this.email,
-    this.firstName,
-    this.lastName,
-    this.phone,
-    this.roles,
-    this.roleExtensions,
-    this.notApprovedRoles,
-    this.notApprovedRoleExtensions,
-    this.name,
-    this.userStatus,
-  });
-
-  EntrySecurity.fromJson(Map<String, dynamic> json)
-      : userId = json['userId'] as int?,
-        userName = json['userName'] as String?,
-        email = json['email'] as String?,
-        firstName = json['firstName'] as String?,
-        lastName = json['lastName'] as String?,
-        phone = json['phone'] as String?,
-        roles = (json['roles'] as List?)?.map((dynamic e) => Role.fromJson(e as Map<String,dynamic>)).toList(),
-        roleExtensions = (json['roleExtensions'] as List?)?.map((dynamic e) => RoleExtension.fromJson(e as Map<String,dynamic>)).toList(),
-        notApprovedRoles = json['notApprovedRoles'] as List?,
-        notApprovedRoleExtensions = json['notApprovedRoleExtensions'] as List?,
-        name = json['name'] as String?,
-        userStatus = json['userStatus'] as String?;
-
-  Map<String, dynamic> toJson() => {
-    'userId' : userId,
-    'userName' : userName,
-    'email' : email,
-    'firstName' : firstName,
-    'lastName' : lastName,
-    'phone' : phone,
-    'roles' : roles?.map((e) => e.toJson()).toList(),
-    'roleExtensions' : roleExtensions?.map((e) => e.toJson()).toList(),
-    'notApprovedRoles' : notApprovedRoles,
-    'notApprovedRoleExtensions' : notApprovedRoleExtensions,
-    'name' : name,
-    'userStatus' : userStatus
-  };
-}
-
-
-
 
 class HandoverSecurity {
   final int? userId;
@@ -417,69 +325,3 @@ class HandoverSecurity {
   };
 }
 
-
-class CompanyType {
-  final int? id;
-  final String? name;
-
-  CompanyType({
-    this.id,
-    this.name,
-  });
-
-  CompanyType.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        name = json['name'] as String?;
-
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'name' : name
-  };
-}
-
-class PassInfo {
-  final int? id;
-  final int? passType;
-  final String? passNo;
-  final String? mifareNo;
-  final String? expiryDate;
-  final Location? location;
-  final Location? region;
-  final bool? dws;
-  final int? status;
-
-  PassInfo({
-    this.id,
-    this.passType,
-    this.passNo,
-    this.mifareNo,
-    this.expiryDate,
-    this.location,
-    this.region,
-    this.dws,
-    this.status,
-  });
-
-  PassInfo.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        passType = json['passType'] as int?,
-        passNo = json['passNo'] as String?,
-        mifareNo = json['mifareNo'] as String?,
-        expiryDate = json['expiryDate'] as String?,
-        location = (json['location'] as Map<String,dynamic>?) != null ? Location.fromJson(json['location'] as Map<String,dynamic>) : null,
-        region = (json['region'] as Map<String,dynamic>?) != null ? Location.fromJson(json['region'] as Map<String,dynamic>) : null,
-        dws = json['dws'] as bool?,
-        status = json['status'] as int?;
-
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'passType' : passType,
-    'passNo' : passNo,
-    'mifareNo' : mifareNo,
-    'expiryDate' : expiryDate,
-    'location' : location?.toJson(),
-    'region' : region?.toJson(),
-    'dws' : dws,
-    'status' : status
-  };
-}

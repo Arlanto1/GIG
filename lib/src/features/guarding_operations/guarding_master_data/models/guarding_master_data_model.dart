@@ -1,7 +1,7 @@
-import '../../../../models/entity.dart';
-import '../../../../models/entry_security.dart';
+import 'package:db_atom/src/models/image_content.dart';
+
 import '../../../../models/organisation.dart';
-import '../../../createfound/models/create_found_request.dart';
+import '../../../createfound/models/user.dart';
 
 class GuardingMasterDataResponse {
   List<GuardingMastersDataModel>? items;
@@ -39,13 +39,13 @@ class GuardingMastersDataModel {
   Organisation? location;
   Organisation? locationRegion;
   Organisation? vendor;
-  EntrySecurity? entrySecurity;
-  EntrySecurity? guard;
-  CreateImage? localAddressProof;
-  CreateImage? permanentAddressProof;
-  CreateImage? bopData;
-  CreateImage? photoGraph;
-  Entity? entity;
+  User? entrySecurity;
+  User? guard;
+  ImageContent? localAddressProof;
+  ImageContent? permanentAddressProof;
+  ImageContent? bopData;
+  ImageContent? photoGraph;
+  Organisation? entity;
   String? inputDate;
   String? csrParticipationDates;
   String? medicalCertificateValidUntil;
@@ -72,7 +72,7 @@ class GuardingMastersDataModel {
   int? maritalStatus;
   int? typeOfDeployment;
   bool deploymentOrderSubmitted;
-  List<CreateImage>? deploymentOrders;
+  List<ImageContent>? deploymentOrders;
   bool physicallyFit;
   String? localLanguage;
   bool? localLangProficiencyR;
@@ -87,11 +87,11 @@ class GuardingMastersDataModel {
   String? securityExperience;
   String? permanentAddress;
   String? localAddress;
-  List<Entity>? qualifications;
-  List<CreateImage>? pvc;
+  List<Organisation>? qualifications;
+  List<ImageContent>? pvc;
   bool trainingCertificateProvided;
-  List<CreateImage>? trainingCertificates;
-  List<CreateImage>? medicalCertificates;
+  List<ImageContent>? trainingCertificates;
+  List<ImageContent>? medicalCertificates;
   int? systemAccess;
   bool onboarded;
   String? esicNo;
@@ -192,30 +192,30 @@ class GuardingMastersDataModel {
                     json['locationRegion'] as Map<String, dynamic>)
                 : null,
         entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
-            ? EntrySecurity.fromJson(
+            ? User.fromJson(
                 json['entrySecurity'] as Map<String, dynamic>)
             : null,
         guard = (json['guard'] as Map<String, dynamic>?) != null
-            ? EntrySecurity.fromJson(json['guard'] as Map<String, dynamic>)
+            ? User.fromJson(json['guard'] as Map<String, dynamic>)
             : null,
         localAddressProof =
             (json['localAddressProof'] as Map<String, dynamic>?) != null
-                ? CreateImage.fromJson(
+                ? ImageContent.fromJson(
                     json['localAddressProof'] as Map<String, dynamic>)
                 : null,
         permanentAddressProof =
             (json['permanentAddressProof'] as Map<String, dynamic>?) != null
-                ? CreateImage.fromJson(
+                ? ImageContent.fromJson(
                     json['permanentAddressProof'] as Map<String, dynamic>)
                 : null,
         bopData = (json['bopData'] as Map<String, dynamic>?) != null
-            ? CreateImage.fromJson(json['bopData'] as Map<String, dynamic>)
+            ? ImageContent.fromJson(json['bopData'] as Map<String, dynamic>)
             : null,
         photoGraph = (json['photoGraph'] as Map<String, dynamic>?) != null
-            ? CreateImage.fromJson(json['photoGraph'] as Map<String, dynamic>)
+            ? ImageContent.fromJson(json['photoGraph'] as Map<String, dynamic>)
             : null,
         entity = (json['entity'] as Map<String, dynamic>?) != null
-            ? Entity.fromJson(json['entity'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['entity'] as Map<String, dynamic>)
             : null,
         inputDate = json['inputDate'] as String?,
         csrParticipationDates = json['csrParticipationDates'] as String?,
@@ -251,7 +251,7 @@ class GuardingMastersDataModel {
         deploymentOrderSubmitted = json['deploymentOrderSubmitted'],
         deploymentOrders = (json['deploymentOrders'] as List?)
             ?.map(
-                (dynamic e) => CreateImage.fromJson(e as Map<String, dynamic>))
+                (dynamic e) => ImageContent.fromJson(e as Map<String, dynamic>))
             .toList(),
         physicallyFit = json['physicallyFit'],
         localLanguage = json['localLanguage'] as String?,
@@ -268,20 +268,20 @@ class GuardingMastersDataModel {
         permanentAddress = json['permanentAddress'] as String?,
         localAddress = json['localAddress'] as String?,
         qualifications = (json['qualifications'] as List?)
-            ?.map((dynamic e) => Entity.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
             .toList(),
         pvc = (json['pvc'] as List?)
             ?.map(
-                (dynamic e) => CreateImage.fromJson(e as Map<String, dynamic>))
+                (dynamic e) => ImageContent.fromJson(e as Map<String, dynamic>))
             .toList(),
         trainingCertificateProvided = json['trainingCertificateProvided'],
         trainingCertificates = (json['trainingCertificates'] as List?)
             ?.map(
-                (dynamic e) => CreateImage.fromJson(e as Map<String, dynamic>))
+                (dynamic e) => ImageContent.fromJson(e as Map<String, dynamic>))
             .toList(),
         medicalCertificates = (json['medicalCertificates'] as List?)
             ?.map(
-                (dynamic e) => CreateImage.fromJson(e as Map<String, dynamic>))
+                (dynamic e) => ImageContent.fromJson(e as Map<String, dynamic>))
             .toList(),
         systemAccess = json['systemAccess'] as int?,
         onboarded = json['onboarded'],

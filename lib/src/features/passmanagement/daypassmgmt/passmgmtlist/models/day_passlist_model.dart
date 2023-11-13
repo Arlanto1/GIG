@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:db_atom/src/features/createfound/models/user.dart';
 
+import '../../../../../models/history.dart';
 import '../../../../../models/organisation.dart';
 
 DayPassListResponse dayPassListResponseFromJson(String str) => DayPassListResponse.fromJson(json.decode(str));
@@ -322,42 +323,6 @@ enum UserStatus {
 final userStatusValues = EnumValues({
     "ACTIVE": UserStatus.ACTIVE
 });
-
-class History {
-    int? id;
-    int? state;
-    int? action;
-    String? email;
-    int? actiontime;
-    String? parameters;
-
-    History({
-        this.id,
-        this.state,
-        this.action,
-        this.email,
-        this.actiontime,
-        this.parameters,
-    });
-
-    factory History.fromJson(Map<String, dynamic> json) => History(
-        id: json["id"],
-        state: json["state"],
-        action: json["action"],
-        email: json["email"],
-        actiontime: json["actiontime"],
-        parameters: json["parameters"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "state": state,
-        "action": action,
-        "email": email,
-        "actiontime": actiontime,
-        "parameters": parameters,
-    };
-}
 
 class PassInfo {
     int? id;

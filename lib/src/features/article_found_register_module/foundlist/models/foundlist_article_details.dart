@@ -1,7 +1,9 @@
 import 'dart:convert';
 
-import '../../../../models/role.dart';
-import '../../../../models/role_extension.dart';
+import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/src/models/image_content.dart';
+
+import '../../../../models/organisation.dart';
 
 FoundListArticleDetails foundListArticleDetailsFromJson(String str) => FoundListArticleDetails.fromJson(json.decode(str));
 
@@ -11,28 +13,28 @@ class FoundListArticleDetails {
     int? id;
     String? slNo;
     String? inputDate;
-    ClaimantDepartment? locationRegion;
+    Organisation? locationRegion;
     int? typeOfAsset;
-    ClaimantDepartment? typeOfArticle;
+    Organisation? typeOfArticle;
     String? foundDate;
     String? foundLocation;
     String? additionalInformation;
     int? quantity;
     String? color;
-    List<FoundImage>? images;
+    List<ImageContent>? images;
     bool? depositorDbEmp;
-    Claimant? depositor;
+    User? depositor;
     String? employeeId;
-    ClaimantDepartment? depositorDepartment;
+    Organisation? depositorDepartment;
     bool? claimantDbEmp;
     bool? claimantConfirmByEmail;
-    Claimant? claimant;
+    User? claimant;
     bool? claimantNoSign;
     String? claimantEmployeeId;
-    ClaimantDepartment? claimantDepartment;
+    Organisation? claimantDepartment;
     String? handoverDate;
-    Claimant? entrySecurity;
-    Claimant? handoverSecurity;
+    User? entrySecurity;
+    User? handoverSecurity;
     int? status;
     String? modifiedDate;
     String? modifiedBy;
@@ -43,7 +45,7 @@ class FoundListArticleDetails {
     String? handOverSecurityName;
     String? depositorDepartmentName;
     String? claimantDepartmentName;
-    ClaimantDepartment? location;
+    Organisation? location;
 
     FoundListArticleDetails({
         this.id,
@@ -88,28 +90,28 @@ class FoundListArticleDetails {
         id: json["id"],
         slNo: json["slNo"],
         inputDate: json["inputDate"],
-        locationRegion: json["locationRegion"] == null ? null : ClaimantDepartment.fromJson(json["locationRegion"]),
+        locationRegion: json["locationRegion"] == null ? null : Organisation.fromJson(json["locationRegion"]),
         typeOfAsset: json["typeOfAsset"],
-        typeOfArticle: json["typeOfArticle"] == null ? null : ClaimantDepartment.fromJson(json["typeOfArticle"]),
+        typeOfArticle: json["typeOfArticle"] == null ? null : Organisation.fromJson(json["typeOfArticle"]),
         foundDate: json["foundDate"],
         foundLocation: json["foundLocation"],
         additionalInformation: json["additionalInformation"],
         quantity: json["quantity"],
         color: json["color"],
-       images :List<FoundImage>.from(json["images"]!.map((x) => FoundImage.fromJson(x))),
+       images :List<ImageContent>.from(json["images"]!.map((x) => ImageContent.fromJson(x))),
         depositorDbEmp: json["depositorDbEmp"],
-        depositor: json["depositor"] == null ? null : Claimant.fromJson(json["depositor"]),
+        depositor: json["depositor"] == null ? null : User.fromJson(json["depositor"]),
         employeeId: json["employeeId"],
-        depositorDepartment: json["depositorDepartment"] == null ? null : ClaimantDepartment.fromJson(json["depositorDepartment"]),
+        depositorDepartment: json["depositorDepartment"] == null ? null : Organisation.fromJson(json["depositorDepartment"]),
         claimantDbEmp: json["claimantDbEmp"],
         claimantConfirmByEmail: json["claimantConfirmByEmail"],
-        claimant: json["claimant"] == null ? null : Claimant.fromJson(json["claimant"]),
+        claimant: json["claimant"] == null ? null : User.fromJson(json["claimant"]),
         claimantNoSign: json["claimantNoSign"],
         claimantEmployeeId: json["claimantEmployeeId"],
-        claimantDepartment: json["claimantDepartment"] == null ? null : ClaimantDepartment.fromJson(json["claimantDepartment"]),
+        claimantDepartment: json["claimantDepartment"] == null ? null : Organisation.fromJson(json["claimantDepartment"]),
         handoverDate: json["handoverDate"],
-        entrySecurity: json["entrySecurity"] == null ? null : Claimant.fromJson(json["entrySecurity"]),
-        handoverSecurity: json["handoverSecurity"] == null ? null : Claimant.fromJson(json["handoverSecurity"]),
+        entrySecurity: json["entrySecurity"] == null ? null : User.fromJson(json["entrySecurity"]),
+        handoverSecurity: json["handoverSecurity"] == null ? null : User.fromJson(json["handoverSecurity"]),
         status: json["status"],
         modifiedDate: json["modifiedDate"],
         modifiedBy: json["modifiedBy"],
@@ -120,7 +122,7 @@ class FoundListArticleDetails {
         handOverSecurityName: json["handOverSecurityName"],
         depositorDepartmentName: json["depositorDepartmentName"],
         claimantDepartmentName: json["claimantDepartmentName"],
-        location: json["location"] == null ? null : ClaimantDepartment.fromJson(json["location"]),
+        location: json["location"] == null ? null : Organisation.fromJson(json["location"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -163,66 +165,6 @@ class FoundListArticleDetails {
     };
 }
 
-class Claimant {
-    int? userId;
-    String? userName;
-    String? email;
-    String? firstName;
-    String? lastName;
-    String? phone;
-    List<Role>? roles;
-    List<RoleExtension>? roleExtensions;
-    List<dynamic>? notApprovedRoles;
-    List<dynamic>? notApprovedRoleExtensions;
-    String? name;
-    String? userStatus;
-
-    Claimant({
-        this.userId,
-        this.userName,
-        this.email,
-        this.firstName,
-        this.lastName,
-        this.phone,
-        this.roles,
-        this.roleExtensions,
-        this.notApprovedRoles,
-        this.notApprovedRoleExtensions,
-        this.name,
-        this.userStatus,
-    });
-
-    factory Claimant.fromJson(Map<String, dynamic> json) => Claimant(
-        userId: json["userId"],
-        userName: json["userName"],
-        email: json["email"],
-        firstName: json["firstName"],
-        lastName: json["lastName"],
-        phone: json["phone"],
-        roles: json["roles"] == null ? [] : List<Role>.from(json["roles"]!.map((x) => Role.fromJson(x))),
-        roleExtensions: json["roleExtensions"] == null ? [] : List<RoleExtension>.from(json["roleExtensions"]!.map((x) => RoleExtension.fromJson(x))),
-        notApprovedRoles: json["notApprovedRoles"] == null ? [] : List<dynamic>.from(json["notApprovedRoles"]!.map((x) => x)),
-        notApprovedRoleExtensions: json["notApprovedRoleExtensions"] == null ? [] : List<dynamic>.from(json["notApprovedRoleExtensions"]!.map((x) => x)),
-        name: json["name"],
-        userStatus: json["userStatus"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "userId": userId,
-        "userName": userName,
-        "email": email,
-        "firstName": firstName,
-        "lastName": lastName,
-        "phone": phone,
-        "roles": roles == null ? [] : List<dynamic>.from(roles!.map((x) => x.toJson())),
-        "roleExtensions": roleExtensions == null ? [] : List<dynamic>.from(roleExtensions!.map((x) => x.toJson())),
-        "notApprovedRoles": notApprovedRoles == null ? [] : List<dynamic>.from(notApprovedRoles!.map((x) => x)),
-        "notApprovedRoleExtensions": notApprovedRoleExtensions == null ? [] : List<dynamic>.from(notApprovedRoleExtensions!.map((x) => x)),
-        "name": name,
-        "userStatus": userStatus,
-    };
-}
-
 
 enum Area { SOURCE_SYSTEM, CATEGORY }
 
@@ -245,70 +187,6 @@ final applicationValues = EnumValues({
     "DB_ATOM": Application.DB_ATOM,
     "Tracking1": Application.TRACKING1
 });
-
-class ClaimantDepartment {
-    int? id;
-    String? name;
-
-    ClaimantDepartment({
-        this.id,
-        this.name,
-    });
-
-    factory ClaimantDepartment.fromJson(Map<String, dynamic> json) => ClaimantDepartment(
-        id: json["id"],
-        name: json["name"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-    };
-}
-class FoundImage {
-    int? id;
-    String? ownerName;
-    String? contentType;
-    int? uploadDate;
-    int? foundId;
-    String? title;
-    int? fileSize;
-    String? imageContent;
-
-    FoundImage({
-        this.id,
-        this.ownerName,
-        this.contentType,
-        this.uploadDate,
-        this.foundId,
-        this.title,
-        this.fileSize,
-        this.imageContent,
-    });
-
-    factory FoundImage.fromJson(Map<String, dynamic> json) => FoundImage(
-        id: json["id"],
-        ownerName: json["ownerName"],
-        contentType: json["contentType"],
-        uploadDate: json["uploadDate"],
-        foundId: json["foundId"],
-        title: json["title"],
-        fileSize: json["fileSize"],
-        imageContent: json["imageContent"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "ownerName": ownerName,
-        "contentType": contentType,
-        "uploadDate": uploadDate,
-        "foundId": foundId,
-        "title": title,
-        "fileSize": fileSize,
-        "imageContent": imageContent,
-    };
-}
-
 
 class EnumValues<T> {
     Map<String, T> map;

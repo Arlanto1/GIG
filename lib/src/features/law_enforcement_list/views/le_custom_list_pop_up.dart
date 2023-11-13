@@ -1,19 +1,11 @@
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
-
-import '../../../utils/app_themes/colors/app_color.dart';
-import '../../../utils/app_themes/colors/app_color.dart';
 
 class LawEnforcementCustomPopUpList extends StatefulWidget {
   LawEnforcementListElement? userItem;
@@ -132,49 +124,12 @@ class _LawEnforcementCustomPopUpListState
             children: [
               textHandling(
                   'Created By : ',
-                  widget.userItem?.inputDate != null
-                      ? Utils.timestamptoDateConversion(
-                          int.parse(widget.userItem?.inputDate ?? '0'),
-                          Constants.dateFormat)
-                      : ''),
+                  '${widget.userItem?.entrySecurityName}'),
+
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
-          /* Row(
-            children: [
-              textHandling('Asset Type : ',
-                  widget.userItem?.typeOfAsset.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),*/
-          /* Row(
-            children: [
-              textHandling('Article Type : ',
-                  widget.userItem?.typeOfAsset.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),*/
-          /*Row(
-            children: [
-              textHandling(
-                  'Quantity : ', widget.userItem?.quantity.toString() ?? " "),
-            ],
-          ),
-         CommonWidgets.verticalSpacerWidget(8),*/
-          /*Row(
-            children: [
-              textHandling(
-                  'Color : ', widget.userItem?.color.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),*/
-          Row(
-            children: [
-              textHandling('EntrySecurityName : ',
-                  widget.userItem?.entrySecurityName.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
+
           Row(
             children: [
               textHandling('DBOfficialName : ',
@@ -185,21 +140,21 @@ class _LawEnforcementCustomPopUpListState
           Row(
             children: [
               textHandling(
-                  'Modified Date : ',
-                  widget.userItem?.modifiedDate != null
+                  'Date Of Creation : ',
+                  widget.userItem?.inputDate != null
                       ? Utils.timestamptoDateConversion(
-                          int.parse(widget.userItem?.modifiedDate ?? '0'),
+                          int.parse(widget.userItem?.inputDate ?? '0'),
                           Constants.dateFormat)
                       : ''),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling('item Hand Over By : ',
-                  widget.userItem?.entrySecurityName.toString() ?? " "),
-            ],
-          ),
+                  Row(
+                    children: [
+                      textHandling(
+                          'Purpose of Visit : ', widget.userItem?.visitPurpose?.name ?? " "),
+                    ],
+                  ),
           CommonWidgets.verticalSpacerWidget(8),
                   Row(
                     children: [

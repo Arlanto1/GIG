@@ -12,8 +12,6 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/models/entity.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -32,9 +30,13 @@ import '../../../../../constants/app_icon.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../../utils/util.dart';
 import '../cubits/general_info_cubit.dart';
+import '../models/general_info_model.dart';
 
 class GeneralInfoView extends StatefulWidget {
+  final EventProtectionGi? model;
+
   const GeneralInfoView({
+    this.model,
     super.key,
   });
 
@@ -96,8 +98,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
         }
       },
       builder: (context, state) {
-        log('--disableForm---$disableForm-');
-
         state.model.status ??= 0;
         if (state.model.status! > 0) {
           disableForm = true;
@@ -127,16 +127,16 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
     if (state.model.eventStartDate != null) {
       eventStartDateController.text = Utils.timestamptoDateConversion(
           int.tryParse(state.model.eventStartDate ?? '0'),
-          Constants.dateFormat);
+          Constants.fulldateFormat);
     }
     if (state.model.eventEndDate != null) {
       eventEndDateController.text = Utils.timestamptoDateConversion(
-          int.tryParse(state.model.eventEndDate ?? '0'), Constants.dateFormat);
+          int.tryParse(state.model.eventEndDate ?? '0'),
+          Constants.fulldateFormat);
     }
   }
 
   getBodybuilder(GeneralInfoState state, height) {
-    log('--creation Date-${state.model.inputDate}----------');
     initializeDates(state);
     if (state.status == FormStatus.loading) {
       return const Center(child: CircularProgressIndicator());
@@ -184,7 +184,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             /// Status
                             CommonWidgets.textDisplay(
-                                Constants.status, Styles.textStyleBlack14),
+                                Constants.status, Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
@@ -218,31 +219,65 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Sl No.
-                            CommonWidgets.horizentaltextHandling(
-                                Constants.slno, state.model.slNo ?? ''),
+                            /// Location
+                            CommonWidgets.textDisplay(
+                                Constants.location, Styles.textStyleBlack14,
+                                isMandatory: true),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            locationWidgetdislay(state),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Date of creation
                             CommonWidgets.textDisplay(Constants.dateofcreation,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDate().creationDateDisplay(
                                 state.model.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Location
-                            CommonWidgets.textDisplay(
-                                Constants.location, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            locationWidgetdislay(state),
+                            /// Sl No.
+                            CommonWidgets.horizentaltextHandling(
+                                Constants.slno, state.model.slNo ?? '',
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            ///  Is Annual Power Shutdown?
+                            CommonWidgets.textDisplay(
+                                Constants.isAnnualPowerShutdown,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
+                            RadioButtonsYesNo(
+                                status: state.model.status ?? 0,
+                                selectedValue:
+                                    state.model.annualPowerShutdown ? 1 : 0,
+                                onChangedYes: widget.model?.status == 0
+                                    ? null
+                                    : (val) {
+                                        state.model.annualPowerShutdown = true;
+                                        BlocProvider.of<GeneralInfoCubit>(
+                                                context)
+                                            .showFields(
+                                                annualPowerShutdown: true);
+                                        // .onModelValueChange(state.model
+                                        // );
+                                      },
+                                onChangedNo: widget.model?.status == 0
+                                    ? null
+                                    : (val) {
+                                        state.model.annualPowerShutdown = false;
+                                        BlocProvider.of<GeneralInfoCubit>(
+                                                context)
+                                            .showFields(
+                                                annualPowerShutdown: false);
+                                        // .onModelValueChange(state.model
+                                        //  );
+                                      }),
 
                             /// Entity
                             CommonWidgets.textDisplay(
-                              Constants.entity,
-                              Styles.textStyleBlack14,
-                            ),
+                                Constants.entity, Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseEntitiesSelection().entityDropDownSelection(
@@ -250,7 +285,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 selectedValues: state.model.entities ?? [],
                                 all: state.listOfEntities ?? [],
                                 enabled: !disableForm,
-                                onTap: (List<Entity> selectedEntities) {
+                                onTap: (List<Organisation> selectedEntities) {
                                   log('--selectedEntities----${selectedEntities.length}');
                                   BlocProvider.of<GeneralInfoCubit>(context)
                                       .updateDropdownValues(
@@ -261,15 +296,14 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Event Start Date
-                            CommonWidgets.textDisplay(
-                              Constants.eventStartDate,
-                              Styles.textStyleBlack14,
-                            ),
+                            CommonWidgets.textDisplay(Constants.eventStartDate,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
                               textController: eventStartDateController,
-                              onlyDate: true,
+                              onlyDate: false,
                               onChange: (String value) {
                                 log('---value-$value------');
                                 state.model.eventStartDate =
@@ -284,14 +318,13 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             /// Event End Date
                             CommonWidgets.textDisplay(
-                              Constants.eventEndDate,
-                              Styles.textStyleBlack14,
-                            ),
+                                Constants.eventEndDate, Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
                               textController: eventEndDateController,
-                              onlyDate: true,
+                              //onlyDate: false,
                               onChange: (String value) {
                                 state.model.eventEndDate =
                                     Utils().formatTime(value);
@@ -303,42 +336,12 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///  Is Annual Power Shutdown?
-                            CommonWidgets.textDisplay(
-                                Constants.isAnnualPowerShutdown,
-                                Styles.textStyleBlack14),
-                            RadioButtonsYesNo(
-                                status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.annualPowerShutdown ? 1 : 0,
-                                onChangedYes: state.model.status == 6
-                                    ? null
-                                    : (val) {
-                                        state.model.annualPowerShutdown = true;
-                                        BlocProvider.of<GeneralInfoCubit>(
-                                                context)
-                                            .showFields(
-                                                annualPowerShutdown: true);
-                                        //.onModelValueChange(state.guardingMasterData
-                                        //);
-                                      },
-                                onChangedNo: state.model.status == 4
-                                    ? null
-                                    : (val) {
-                                        state.model.annualPowerShutdown = false;
-                                        BlocProvider.of<GeneralInfoCubit>(
-                                                context)
-                                            .showFields(
-                                                annualPowerShutdown: false);
-                                        // .onModelValueChange(state.guardingMasterData
-                                        //  );
-                                      }),
                             if (state.model.annualPowerShutdown) ...[
                               /// Sub Regional Head (SRH) 1
                               CommonWidgets.textDisplay(
-                                Constants.subRegionalHead1,
-                                Styles.textStyleBlack14,
-                              ),
+                                  Constants.subRegionalHead1,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
                               TextfieldAddButton(
                                 title: state.model.srh1?.name,
                                 height: 60,
@@ -360,9 +363,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               /// Sub Regional Head (SRH) 2
                               CommonWidgets.textDisplay(
-                                Constants.subRegionalHead2,
-                                Styles.textStyleBlack14,
-                              ),
+                                  Constants.subRegionalHead2,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
                               TextfieldAddButton(
                                 title: state.model.srh2?.name,
                                 height: 60,
@@ -385,9 +388,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             if (!state.model.annualPowerShutdown) ...[
                               /// Event Protection Manager 1
                               CommonWidgets.textDisplay(
-                                Constants.eventProtectionManager1,
-                                Styles.textStyleBlack14,
-                              ),
+                                  Constants.eventProtectionManager1,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
                               TextfieldAddButton(
                                 title: state.model.epManager1?.name,
                                 height: 60,
@@ -410,9 +413,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               /// Event Protection Manager 2
                               CommonWidgets.textDisplay(
-                                Constants.eventProtectionManager2,
-                                Styles.textStyleBlack14,
-                              ),
+                                  Constants.eventProtectionManager2,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
                               TextfieldAddButton(
                                 title: state.model.epManager2?.name,
                                 height: 60,
@@ -435,9 +438,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             /// Location Security  Manager 1
                             CommonWidgets.textDisplay(
-                              Constants.locationSecurityManager1,
-                              Styles.textStyleBlack14,
-                            ),
+                                Constants.locationSecurityManager1,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
                             TextfieldAddButton(
                               title: state.model.lsm1?.name,
                               height: 60,
@@ -459,7 +462,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             ///LSM 1 Contact No
                             CommonWidgets.textDisplay(Constants.lsm1ContactNo,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.number,
@@ -480,9 +484,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             /// Location Security  Manager 2
                             CommonWidgets.textDisplay(
-                              Constants.locationSecurityManager2,
-                              Styles.textStyleBlack14,
-                            ),
+                                Constants.locationSecurityManager2,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
                             TextfieldAddButton(
                               title: state.model.lsm2?.name,
                               height: 60,
@@ -504,7 +508,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             ///LSM 2 Contact No
                             CommonWidgets.textDisplay(Constants.lsm2ContactNo,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               // labelText: Constants.lsm2ContactNo,
@@ -526,9 +531,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             ///Business POC 1
                             CommonWidgets.textDisplay(
-                              Constants.businessPoc1,
-                              Styles.textStyleBlack14,
-                            ),
+                                Constants.businessPoc1, Styles.textStyleBlack14,
+                                isMandatory: true),
                             TextfieldAddButton(
                               title: state.model.bu1?.name,
                               height: 60,
@@ -551,7 +555,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             ///Business POC 1 Contact No
                             CommonWidgets.textDisplay(
                                 Constants.businessPoc1ContactNo,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.number,
@@ -573,9 +578,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             ///Business POC 2
 
                             CommonWidgets.textDisplay(
-                              Constants.businessPoc2,
-                              Styles.textStyleBlack14,
-                            ),
+                                Constants.businessPoc2, Styles.textStyleBlack14,
+                                isMandatory: true),
                             TextfieldAddButton(
                               title: state.model.bu2?.name,
                               height: 60,
@@ -598,7 +602,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             ///Business POC 2 Contact No
                             CommonWidgets.textDisplay(
                                 Constants.businessPoc2ContactNo,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.number,
@@ -617,56 +622,58 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///Business POC 1Department
-                            CommonWidgets.textDisplay(
-                              Constants.businessPoc1Department,
-                              Styles.textStyleBlack14,
-                            ),
-                            TextfieldAddButton(
-                              title: state.model.bu1Dept?.name,
-                              height: 60,
-                              isDisableColor: disableForm,
-                              onTap: () {
-                                BaseDepartmentDialog().departmentDialog(
-                                  context: context,
-                                  departments: state.departments,
-                                  onTap: (Organisation department) {
-                                    BlocProvider.of<GeneralInfoCubit>(context)
-                                        .updateDropdownValues(
-                                            bu1Dept: department);
-                                  },
-                                );
-                              },
-                            ),
+                            if (state.model.annualPowerShutdown) ...[
+                              ///Business POC 1Department
+                              CommonWidgets.textDisplay(
+                                  Constants.businessPoc1Department,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
+                              TextfieldAddButton(
+                                title: state.model.bu1Dept?.name,
+                                height: 60,
+                                isDisableColor: disableForm,
+                                onTap: () {
+                                  BaseDepartmentDialog().departmentDialog(
+                                    context: context,
+                                    departments: state.departments,
+                                    onTap: (Organisation department) {
+                                      BlocProvider.of<GeneralInfoCubit>(context)
+                                          .updateDropdownValues(
+                                              bu1Dept: department);
+                                    },
+                                  );
+                                },
+                              ),
 
-                            ///Business POC 2 Department
-                            CommonWidgets.textDisplay(
-                              Constants.businessPoc2Department,
-                              Styles.textStyleBlack14,
-                            ),
-                            TextfieldAddButton(
-                              title: state.model.bu2Dept?.name,
-                              height: 60,
-                              isDisableColor: disableForm,
-                              onTap: () {
-                                BaseDepartmentDialog().departmentDialog(
-                                  context: context,
-                                  departments: state.departments,
-                                  onTap: (Organisation department) {
-                                    BlocProvider.of<GeneralInfoCubit>(context)
-                                        .updateDropdownValues(
-                                            bu2Dept: department);
-                                  },
-                                );
-                              },
-                            ),
-
+                              ///Business POC 2 Department
+                              CommonWidgets.textDisplay(
+                                  Constants.businessPoc2Department,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
+                              TextfieldAddButton(
+                                title: state.model.bu2Dept?.name,
+                                height: 60,
+                                isDisableColor: disableForm,
+                                onTap: () {
+                                  BaseDepartmentDialog().departmentDialog(
+                                    context: context,
+                                    departments: state.departments,
+                                    onTap: (Organisation department) {
+                                      BlocProvider.of<GeneralInfoCubit>(context)
+                                          .updateDropdownValues(
+                                              bu2Dept: department);
+                                    },
+                                  );
+                                },
+                              ),
+                            ],
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             if (state.model.annualPowerShutdown) ...[
                               ///System Vendor 1 Email
                               CommonWidgets.textDisplay(
                                   Constants.systemVendor1Email,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -689,7 +696,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               ///Vendor 1 Contact No
                               CommonWidgets.textDisplay(
                                   Constants.vendor1ContactNO,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -737,7 +745,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               ///System Vendor 2 Email
                               CommonWidgets.textDisplay(
                                   Constants.systemVendor2Email,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -760,7 +769,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               ///Vendor 2 Contact No
                               CommonWidgets.textDisplay(
                                   Constants.vendor2ContactNO,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -828,7 +838,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              ///Vendor 2 Contact No
+                              ///Vendor 3 Contact No
                               CommonWidgets.textDisplay(
                                   Constants.vendor3ContactNO,
                                   Styles.textStyleBlack14),
@@ -879,9 +889,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             ///Requester Department
                             CommonWidgets.textDisplay(
-                              Constants.requesterDepartment,
-                              Styles.textStyleBlack14,
-                            ),
+                                Constants.requesterDepartment,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
                             TextfieldAddButton(
                               title: state.model.requesterDepartment?.name,
                               height: 60,
@@ -903,10 +913,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             ///Event Protection Officer
                             CommonWidgets.textDisplay(
-                              Constants.eventProtectionOfficers,
-                              Styles.textStyleBlack14,
-                            ),
-
+                                Constants.eventProtectionOfficers,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
                             if (!disableForm) ...[
                               GestureDetector(
                                 onTap: () {
@@ -937,7 +946,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             BasicWidgetFunctions().getStringText(
                                 strings: state.model.epOfficers ?? []),
                             // TextfieldAddButton(
-                            //   title: state.model.epOfficers,
+                            //   title: state.model.epOfficers?[0],
                             //   height: 70,
                             //   isDisableColor: disableForm,
                             //   onTap: () {
@@ -953,6 +962,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             //     );
                             //   },
                             // ),
+
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             if (state.model.annualPowerShutdown) ...[
@@ -1005,11 +1015,12 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               ///Guarding Agency POC
                               CommonWidgets.textDisplay(
                                   Constants.guardingAgencyPOC,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.text,
                                 initialValue: state.model.guardingVendorPoc,
                                 textFormKey: Keys.vendorAgencyPOCKey,
                                 hintText: '',
@@ -1219,27 +1230,50 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              /// Proposed Vendor
+                              // /// Proposed Vendors
+                              // CommonWidgets.textDisplay(
+                              //   Constants.proposedVendors,
+                              //   Styles.textStyleBlack14,
+                              // ),
+                              // TextfieldAddButton(
+                              //   title: state.model.proposedVendors?.name ?? '',
+                              //   height: 60,
+                              //   isDisableColor: disableForm,
+                              //   onTap: () {
+                              //     BaseDepartmentDialog().departmentDialog(
+                              //       context: context,
+                              //       departments: state.vendors,
+                              //       onTap: (Organisation vendors) {
+                              //         BlocProvider.of<GeneralInfoCubit>(context)
+                              //             .updateDropdownValues(
+                              //                 vendor: vendors);
+                              //       },
+                              //     );
+                              //   },
+                              // ),
+                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              /// Proposed Vendors
                               CommonWidgets.textDisplay(
                                 Constants.proposedVendors,
                                 Styles.textStyleBlack14,
                               ),
-                              TextfieldAddButton(
-                                title: state.model.proposedVendors?[0].name ?? '',
-                                height: 60,
-                                isDisableColor: disableForm,
-                                onTap: () {
-                                  BaseDepartmentDialog().departmentDialog(
-                                    context: context,
-                                    departments: state.departments,
-                                    onTap: (Organisation proposedVendors) {
-                                      BlocProvider.of<GeneralInfoCubit>(context)
-                                          .updateDropdownValues(
-                                              proposedVendor: proposedVendors);
-                                    },
-                                  );
-                                },
-                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+
+                              BaseEntitiesSelection().entityDropDownSelection(
+                                  context: context,
+                                  selectedValues:
+                                      state.model.proposedVendors ?? [],
+                                  all: state.vendors,
+                                  enabled: !disableForm,
+                                  onTap: (List<Organisation> selectedEntities) {
+                                    log('--selectedEntities----${selectedEntities.length}');
+                                    BlocProvider.of<GeneralInfoCubit>(context)
+                                        .updateDropdownValues(
+                                            vendors: selectedEntities);
+                                    Navigator.of(context)
+                                        .pop(); // Close the dialog
+                                  }),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               ///Budget Costs
@@ -1249,7 +1283,21 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   height * 0.001),
                               FlutterInputField(
                                 keyboardType: TextInputType.number,
-                                initialValue: '${state.model.budget ?? ''}',
+                                initialValue: ((state
+                                                .model.securityGuardCountHrs
+                                                ?.toDouble() ??
+                                            0.0) +
+                                        (state.model.securitySupervisorCountHrs
+                                                ?.toDouble() ??
+                                            0.0) +
+                                        (state.model.securityOfficerCountHrs
+                                                ?.toDouble() ??
+                                            0.0) +
+                                        (state.model.securityFacilitatorCountHrs
+                                                    ?.toDouble() ??
+                                                0.0) /
+                                            24)
+                                    .toStringAsFixed(2),
                                 textFormKey: Keys.budgetKey,
                                 hintText: '',
                                 isEnable: !disableForm,
@@ -1293,19 +1341,29 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                       ),
 
                       /// SubmitButton
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          cancelButtonDisplay(),
-                          if (!disableForm) ...[
-                            submitButtonDisplay(onTap: () {
-                              FocusScope.of(context).unfocus();
-                              BlocProvider.of<GeneralInfoCubit>(context)
-                                  .submitForm(isSaveOnly: false);
-                            })
+                      if (state.model.status == 0) ...[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            cancelButtonDisplay(),
+                            if (!disableForm) ...[
+                              submitButtonDisplay(onTap: () {
+                                FocusScope.of(context).unfocus();
+                                BlocProvider.of<GeneralInfoCubit>(context)
+                                    .submitForm(isSaveOnly: false);
+                              })
+                            ],
                           ],
-                        ],
-                      ),
+                        ),
+                      ],
+                      if (state.model.status != 0) ...[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            cancelButtonDisplay(),
+                          ],
+                        ),
+                      ],
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ]),
               ),
@@ -1357,29 +1415,30 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
   Widget locationWidgetdislay(GeneralInfoState state) {
     return GestureDetector(
       onTap: () {
-        if (state.model.id == null ||
-            (state.model.location?.name ?? '').isEmpty) {
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              // print(state.getLocationsResponse);
-              return CustomExpansionListTexts(
-                getLocationsresponse: state.locations,
-                onTap: (Mumbai? list) async {
-                  log('list?.name-----${list?.name}');
+        // if (widget.occurrence == null ||
+        //     (state.occurrence.location?.name ?? '').isEmpty)
+        //     {
+        showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            // print(state.getLocationsResponse);
+            return CustomExpansionListTexts(
+              getLocationsresponse: state.locations,
+              onTap: (Organisation? list) async {
+                log('list?.name-----${list?.name}');
 
-                  Organisation location = Organisation();
-                  location.id = list?.id;
-                  location.name = list?.name;
-                  state.model.location = location;
+                Organisation location = Organisation();
+                location.id = list?.id;
+                location.name = list?.name;
+                state.model.location = location;
 
-                  BlocProvider.of<GeneralInfoCubit>(context)
-                      .updateDropdownValues(location: location);
-                },
-              );
-            },
-          );
-        }
+                BlocProvider.of<GeneralInfoCubit>(context)
+                    .updateDropdownValues(location: location);
+              },
+            );
+          },
+        );
+        // }
       },
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );

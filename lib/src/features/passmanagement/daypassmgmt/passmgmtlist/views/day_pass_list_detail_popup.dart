@@ -6,13 +6,11 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 
 class DayPassCustomPopUpList extends StatefulWidget {
   final DayPassListElement? userItem;
   String? passId = '0';
-
   DayPassCustomPopUpList(this.userItem, this.passId, {Key? key})
       : super(key: key);
 
@@ -39,7 +37,6 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -137,19 +134,19 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
           widget.userItem?.inputDate != null
               ? Row(
                   children: [
-                    textHandling(
-                        'Date of creation : ',
+                    Utils().textHandling(
+                        'DateOfCreation : ',
                         widget.userItem?.inputDate != null
                             ? Utils.timestamptoDateConversion(
-                                int.parse(widget.userItem?.inputDate ?? '0'),
-                                Constants.dateFormat)
+                            int.parse( widget.userItem?.inputDate ?? '0'),
+                            Constants.dateFormat)
                             : ''),
                   ],
                 )
               : Container(),
-          widget.userItem?.inputDate != null
-              ? CommonWidgets.verticalSpacerWidget(8)
-              : Container(),
+          // widget.userItem?.inputDate != null
+          //     ? CommonWidgets.verticalSpacerWidget(8)
+          //     : Container(),
           widget.userItem?.entrySecurity?.userName != null
               ? Row(
                   children: [
@@ -202,11 +199,10 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
               : Container(),
           widget.userItem?.passType != null
               ? Row(
-                  children: [
-                    textHandling('Pass Type: ',
-                        widget.userItem?.passType.toString() ?? " "),
-                  ],
-                )
+            children: [
+              Utils().passManagementPassTypeRow(widget.userItem?.passType ?? 0),
+            ],
+          )
               : Container(),
           widget.userItem?.passType != null
               ? CommonWidgets.verticalSpacerWidget(8)
@@ -235,6 +231,7 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                   (widget.userItem?.companyName ?? '').isNotEmpty
               ? CommonWidgets.verticalSpacerWidget(8)
               : Container(),
+
           widget.userItem?.startTime != null
               ? Row(
                   children: [
@@ -251,7 +248,9 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
           widget.userItem?.startTime != null
               ? CommonWidgets.verticalSpacerWidget(8)
               : Container(),
-          widget.userItem?.endTime != null
+
+
+        widget.userItem?.endTime != null
               ? Row(
                   children: [
                     textHandling(
@@ -259,7 +258,8 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                         widget.userItem?.endTime != null
                             ? Utils.timestamptoDateConversion(
                                 int.parse(widget.userItem?.endTime ?? '0'),
-                                Constants.dateFormat)
+                           (Constants.fulldateFormat)
+                               )
                             : ''),
                   ],
                 )

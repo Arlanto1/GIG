@@ -9,11 +9,11 @@ import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/createfound/controllers/create_found_state.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_cubit.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -24,7 +24,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../models/entry_security.dart';
+import '../models/user.dart';
 
 enum FileDocumnets { Photo, Camera, Documents }
 
@@ -41,8 +41,8 @@ class UploadAttachment extends StatefulWidget {
     this.onImageSelected,
   });
 
-  EntrySecurity? userdetails;
-  List<CreateImage>? getFiles;
+  User? userdetails;
+  List<ImageContent>? getFiles;
   LawEnforcementState? lawstate;
   CreateFoundState? createoundstate;
   CreatePassMgmtState? createpassmgmtstate;
@@ -142,7 +142,7 @@ class UploadAttachmentState extends State<UploadAttachment>
       String fileName = platformfile.name;
       String bs4str = base64Encode(imgbytes);
       String? contentype = lookupMimeType(platformfile.path ?? '');
-      CreateImage image = CreateImage(
+      ImageContent image = ImageContent(
           ownerName: widget.userdetails?.name ?? '',
           contentType: contentype,
           imageContent: bs4str,
@@ -184,7 +184,7 @@ class UploadAttachmentState extends State<UploadAttachment>
     // 'image/jpeg'
     // AttachmentModel model =
     //     AttachmentModel(fullpath: result.path, name: fileName);
-    CreateImage image = CreateImage(
+    ImageContent image = ImageContent(
         ownerName: widget.userdetails?.name ?? '',
         contentType: contentype,
         imageContent: bs4str,
@@ -202,19 +202,19 @@ class UploadAttachmentState extends State<UploadAttachment>
   }
 
   // get the text in the TextField and send it back to the FirstScreen
-  Future<void> _sendDataBack(CreateImage data) async {
+  Future<void> _sendDataBack(ImageContent data) async {
     if (widget.lawstate != null) {
       widget.getFiles?.add(data);
-      lawenforcementCubit.addAttchment(widget.getFiles ?? []);
+      lawEnforcementCubit.addAttchment(widget.getFiles ?? []);
     } else if (widget.createoundstate != null) {
       widget.getFiles?.add(data);
       createFoundArticleCubit.addAttchment(widget.getFiles ?? []);
     } else if (widget.createpassmgmtstate != null) {
       widget.getFiles?.add(data);
       if (widget.isPhotoType ?? false) {
-        createpassmgmtCubit.photoAttchment(widget.getFiles ?? []);
+        createPassMgmtCubit.photoAttchment(widget.getFiles ?? []);
       } else {
-        createpassmgmtCubit.addAttchment(widget.getFiles ?? []);
+        createPassMgmtCubit.addAttchment(widget.getFiles ?? []);
       }
     }
     if (widget.inwardState != null) {

@@ -1,12 +1,12 @@
 import 'dart:developer';
 
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/app_icon.dart';
 import '../../constants/constants.dart';
-import '../../features/createfound/models/create_found_request.dart';
+import '../../features/createfound/models/user.dart';
 import '../../features/createfound/views/upload_attachment.dart';
-import '../../models/entry_security.dart';
 import '../../utils/app_themes/colors/app_color.dart';
 import '../../utils/app_themes/styles/app_styles.dart';
 import '../../utils/helpers/keys/keys.dart';
@@ -16,8 +16,8 @@ import '../image_download.dart';
 class BaseImageUpload {
   Widget uploadWidget({
     required BuildContext context,
-    required EntrySecurity loggedInUserDetails,
-    required List<CreateImage>? getFiles,
+    required User loggedInUserDetails,
+    required List<ImageContent>? getFiles,
     required Function onImageSelected,
   }) {
     return Container(
@@ -48,7 +48,10 @@ class BaseImageUpload {
               //AppIcon.dropdownicon,
               AppIcon.uploadicon,
               //fit: BoxFit.,
-              color: AppColors.backgroundWhitecolor,
+              colorFilter: const ColorFilter.mode(
+                AppColors.backgroundWhitecolor,
+                BlendMode.srcIn,
+              ),
               width: 13,
               height: 13,
               key: const Key(Keys.userIcon),
@@ -65,8 +68,8 @@ class BaseImageUpload {
 
   Widget getAttachment({
     required double height,
-    List<CreateImage>? files,
-    List<CreateImage>? attachments,
+    List<ImageContent>? files,
+    List<ImageContent>? attachments,
     required bool showDownloadIcon,
   }) {
     // log('----attachments-----${attachments?.length}-----------');
@@ -74,7 +77,7 @@ class BaseImageUpload {
       return Column(
         children: [
           CommonWidgets.verticalSpacerWidget(height * 0.01),
-          attachmentListviews(
+          _attachmentListviews(
             attachmentListviews: files,
             showDownloadIcon: showDownloadIcon,
           ),
@@ -82,13 +85,17 @@ class BaseImageUpload {
       );
     }
 
-    return Container();
+    return const SizedBox(
+      height: 0,
+      width: 0,
+    );
   }
 
-  Widget attachmentListviews({
-    List<CreateImage>? attachmentListviews,
+  Widget _attachmentListviews({
+    List<ImageContent>? attachmentListviews,
     required bool showDownloadIcon,
   }) {
+    log('---------');
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -104,14 +111,19 @@ class BaseImageUpload {
         physics: const NeverScrollableScrollPhysics(),
         itemCount: attachmentListviews?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
-          CreateImage? imageData = attachmentListviews?[index];
+          ImageContent? imageData = attachmentListviews?[index];
 
           return Column(
             children: <Widget>[
               ListTile(
                 trailing: showDownloadIcon
-                    ? SvgPicture.asset(AppIcon.download,
-                        color: AppColors.boldgreyBackground)
+                    ? SvgPicture.asset(
+                        AppIcon.download,
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.backgroundWhitecolor,
+                          BlendMode.srcIn,
+                        ),
+                      )
                     : const SizedBox(
                         height: 0,
                         width: 0,

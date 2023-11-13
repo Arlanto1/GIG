@@ -76,8 +76,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_flavorizr: ^2.1.6
-  shared_preferences: ^2.1.1
-  flutter_svg: ^1.1.6
+  shared_preferences:
+  flutter_svg:
   flutter_typeahead: ^4.0.0
   flutter_keyboard_visibility: ^5.4.0
   intl: ^0.18.0
@@ -102,10 +102,13 @@ dependencies:
   email_validator:
   local_session_timeout: ^2.3.0
   dart_extensions:
+  signature: ^5.4.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  get: ^4.6.1
+  image_gallery_saver:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

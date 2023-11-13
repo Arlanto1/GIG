@@ -5,8 +5,9 @@ import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/guard_info_model.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -15,7 +16,6 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/models/guard_info_model.dart';
 
 import '../../../../../../common_widgets/base_widget/base_department_dialog.dart';
 import '../../../../../../common_widgets/new_search_textfield.dart';
@@ -38,8 +38,8 @@ class GuardInfoView extends StatefulWidget {
 class _GuardInfoViewState extends State<GuardInfoView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   User? userDetails;
-  List<CreateImage>? getFiles;
-  List<CreateImage>? guardFiles;
+  List<ImageContent>? getFiles;
+  List<ImageContent>? guardFiles;
   TextEditingController eventStartDateController = TextEditingController();
   TextEditingController dateOfJoiningController = TextEditingController();
 

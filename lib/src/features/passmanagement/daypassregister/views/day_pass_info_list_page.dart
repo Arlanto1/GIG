@@ -2,7 +2,6 @@ import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/custom_pop_menu.dart';
-import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/common_widgets/image_download.dart';
 import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
@@ -77,7 +76,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
 
   void _getpassFoundArticleList() async {
     String userid = await SharedPrefs.getUserId();
-    await daypassinfoCubit.getPassMngtList(
+    await dayPassInfoCubit.getPassMngtList(
         pageNumber.toString(), '20', userid, widget.passId, context,widget.isRegister);
   }
 
@@ -130,15 +129,11 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
             itemList: const [
               PopMenuItems("Export Excel", AppIcon.exportexcel),
               PopMenuItems("Export PDF", AppIcon.exportpdf),
-              //PopMenuItems("Export XML", AppIcon.exportxml),
-              //PopMenuItems("Close", AppIcon.close),
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
               print(value);
               if (value == 0) {
-                // DownloadImage().exportExcel(context, int.parse(userid),
-                //     'export.xslx', 0, pageNumber, '/exportPassInfoExcel');
                   DownloadImage().passexportExcel(context, int.parse(userid), 'export.xslx', int.parse(widget.passId ?? '0'),0 , '/exportPassInfoExcel');   
               } else if (value == 1) {
                 // DownloadImage().exportPdf(context, int.parse(userid),
@@ -152,11 +147,11 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
         ],
       ),
       body: BlocBuilder<DayPassInfoCubit, DayPassInfoState>(
-          bloc: daypassinfoCubit,
+          bloc: dayPassInfoCubit,
           builder: (context, state) {
              if (state.stateType == DayPassInfoStateType.success) {
               if (state.foundListModel?.list == null &&
-                  state.foundListModel?.list?.length == 0) {
+                  state.foundListModel!.list!.isEmpty) {
                 if (pageNumber == 0) {
                   localFoundList = state.foundListModel?.list;
                 }
@@ -323,6 +318,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
                   },
                 );
               },
+
               index: index,
             );
           }

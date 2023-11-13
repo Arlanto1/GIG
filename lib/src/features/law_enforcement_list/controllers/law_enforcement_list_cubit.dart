@@ -4,20 +4,22 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
-import 'package:db_atom/src/features/law_enforcement_list/services/law_enforcement_list_services.dart';
+import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../enums/form_status.dart';
+
 class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
-  final LawEnforcementListServices lawEnforcementListServices;
+  final LawEnforcementServices services;
 
   LawEnforcementListCubit({
-    required this.lawEnforcementListServices,
+    required this.services,
   }) : super(
           LawEnforcementListState(
             lawEnforcementListModel: LawEnforcementListResponse(),
-            stateType: LawEnforcementListStateType.initial,
+            stateType: FormStatus.initial,
           ),
         );
 
@@ -29,8 +31,11 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
     // }
     try {
       LawEnforcementListResponse foundListModelResponse =
-          await lawEnforcementListServices.getLawEnforcementList(
-              startPosition, maximumRecords, userId,context);
+          await services.getList(
+              startPosition: startPosition,
+              maximumRecords: maximumRecords,
+              userId: userId,
+              context: context);
 
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         if (startPosition != '0') {
@@ -40,7 +45,7 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
       emit(
         state.copyWith(
           lawEnforcementListModel: foundListModelResponse,
-          stateType: LawEnforcementListStateType.success,
+          stateType: FormStatus.success,
         ),
       );
     } catch (e) {
@@ -52,7 +57,7 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
         emit(
           state.copyWith(
             errorMessage: Constants.errorText,
-            stateType: LawEnforcementListStateType.failure,
+            stateType: FormStatus.failure,
           ),
         );
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
@@ -64,18 +69,18 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
   }
 
   // Found Article detials by Id API call
-  Future<LawEnforcementDetails?> getLawEnforcementById(
-      int articleId, BuildContext context) async {
+  Future<LawEnforcementDetails?> getById(
+      int id, BuildContext context) async {
     try {
-      LawEnforcementDetails foundArticleDetailsResponse =
-          await lawEnforcementListServices.getLawEnforcementById(articleId,context);
+      LawEnforcementDetails model =
+          await services.getById(id, context);
       emit(
         state.copyWith(
-          lawEnforcementDetails: foundArticleDetailsResponse,
-          stateType: LawEnforcementListStateType.success,
+          lawEnforcementDetails: model,
+          stateType: FormStatus.success,
         ),
       );
-      return foundArticleDetailsResponse;
+      return model;
     } catch (e) {
       // emit(
       //   state.copyWith(

@@ -12,15 +12,15 @@ import 'package:intl/intl.dart';
 
 import '../../../../../../constants/constants.dart';
 import '../../../../../../enums/form_status.dart';
-import '../../../../../../models/entity.dart';
-import '../../../../../../models/entry_security.dart';
 import '../../../../../../models/organisation.dart';
 import '../../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../../models/responseModels/generic_creat_response.dart';
+import '../../../../../../models/responseModels/generic_create_response.dart';
 import '../../../../../../utils/shared_preferences.dart';
 import '../../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../../createfound/models/get_locations_model.dart';
 import '../../../../../createfound/models/serial_number_model.dart';
+import '../../../../../createfound/models/user.dart';
+import '../../../../../createfound/models/vendors_model.dart';
 import '../../../../../lawenforcement/models/addentities.dart';
 
 part 'pay_rate_state.dart';
@@ -40,7 +40,7 @@ class PayRateCubit extends Cubit<PayRateState> {
             rate: rate,
             message: '',
             newPayRate: PayRate(),
-            loggedInUserDetails: EntrySecurity(),
+            loggedInUserDetails: User(),
             departments: const [],
           ),
         );
@@ -56,7 +56,7 @@ class PayRateCubit extends Cubit<PayRateState> {
     );
 
     var userId = await SharedPrefs.getUserId();
-    EntrySecurity loggedInUserDetails =
+    User loggedInUserDetails =
         await commonServices.getUserDetails(userId: userId);
     state.rate.entrySecurity ??= loggedInUserDetails;
     GetLocations getLocationsData =
@@ -65,12 +65,20 @@ class PayRateCubit extends Cubit<PayRateState> {
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
+    Vendors vendors =
+    await commonServices.getVendors(name: 'ATOM_VENDORS');
+
     // Get Date of Creation
     state.rate.inputDate =
         DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
     AddEntities entities =
         await commonServices.getEntities(name: 'ATOM_ENTITIES');
+
+    log('--entities---${entities.atomEntities?.length}--');
+    for (Organisation entity in entities.atomEntities ?? []) {
+      log('--entity.name---${entity.name}--');
+    }
 
     try {
       emit(
@@ -80,6 +88,7 @@ class PayRateCubit extends Cubit<PayRateState> {
           rate: rate,
           departments: departments.employeeDepartments,
           items: payRates,
+          vendors: vendors.items,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
           status: FormStatus.initial,
@@ -97,7 +106,7 @@ class PayRateCubit extends Cubit<PayRateState> {
   }
 
   Future<void> updateModelValue() async {
-    if(state.rate.id != null) {
+    if (state.rate.id != null) {
       emit(
         state.copyWith(
           status: FormStatus.loading,
@@ -120,7 +129,7 @@ class PayRateCubit extends Cubit<PayRateState> {
   Future<void> updateDropdownValues({
     Organisation? location,
     Organisation? vendor,
-    List<Entity>? entities,
+    List<Organisation>? entities,
   }) async {
     emit(
       state.copyWith(
@@ -139,9 +148,7 @@ class PayRateCubit extends Cubit<PayRateState> {
       state.rate.slNo = slNo.serialNo;
     }
 
-    if (vendor != null) {
-      state.rate.vendor = vendor;
-    }
+    state.rate.vendor = vendor ?? state.rate.vendor;
 
     if (entities != null) {
       state.rate.entities = entities;
@@ -163,10 +170,8 @@ class PayRateCubit extends Cubit<PayRateState> {
       ),
     );
 
-
-    if(newPayRate != null) {
+    if (newPayRate != null) {
       if (newPayRate.fromDate != null) {
-
         log('--newPayRate.fromDate--${newPayRate.fromDate}--');
 
         newPayRate.fromDate = Utils().formatTime(newPayRate.fromDate ?? '');
@@ -201,9 +206,8 @@ class PayRateCubit extends Cubit<PayRateState> {
           break;
 
         default:
-
       }
-    } else{
+    } else {
       state.rate.securityGuardRates ??= [];
       state.rate.securityOfficerRates ??= [];
       state.rate.securitySupervisorRates ??= [];

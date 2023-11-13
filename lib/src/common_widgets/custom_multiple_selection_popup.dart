@@ -1,26 +1,13 @@
-import 'dart:ffi';
-
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
-import 'package:db_atom/src/common_widgets/pop_button.dart';
 import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/views/found_list_item.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 
-import '../models/entity.dart';
 
 class CustomMultipleSelectionListTexts extends StatefulWidget {
   CustomMultipleSelectionListTexts({
@@ -34,11 +21,11 @@ class CustomMultipleSelectionListTexts extends StatefulWidget {
   });
   final String? imagename;
 
-  List<Entity>? duplicateentityList;
+  List<Organisation>? duplicateentityList;
   final Function? onTap;
   final Function? onLeftButtonTap;
   final String? leftimagename;
-  List<Entity>? mainselectedentityList;
+  List<Organisation>? mainselectedentityList;
   @override
   State<CustomMultipleSelectionListTexts> createState() =>
       CustomMultipleSelectionListTextsState();
@@ -51,8 +38,8 @@ class CustomMultipleSelectionListTextsState
   Color borderColor = AppColors.searchBarBorder;
   var selectedListindexes = [];
 
-  List<Entity> entityList = [];
-  List<Entity> selectentityList = [];
+  List<Organisation> entityList = [];
+  List<Organisation> selectentityList = [];
 
   @override
   void initState() {
@@ -74,7 +61,7 @@ class CustomMultipleSelectionListTextsState
   {
      for (int i=0; i<(widget.duplicateentityList ?? []).length; i++ )
     {
-        Entity articleItem = widget.duplicateentityList![i];
+        Organisation articleItem = widget.duplicateentityList![i];
        if (widget.mainselectedentityList!.contains(articleItem)) {
           selectedListindexes.add(i);
        }
@@ -126,7 +113,7 @@ class CustomMultipleSelectionListTextsState
                       child: SvgPicture.asset(
                           AppIcon.closeicon) //Icon(Icons.cancel)
                       ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   GestureDetector(
                       onTap: () {
                         widget.onLeftButtonTap != null
@@ -145,7 +132,7 @@ class CustomMultipleSelectionListTextsState
                 widget.onTap!(selectentityList);
                 Navigator.of(context).pop();
               },
-              child: Icon(
+              child: const Icon(
                 Icons.send,
                 color: AppColors.navigationSkybluecolor,
               ),
@@ -157,7 +144,7 @@ class CustomMultipleSelectionListTextsState
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
-        return Container(
+        return SizedBox(
           height: height / 2,
           width: width - 40,
           child: SingleChildScrollView(
@@ -228,11 +215,11 @@ class CustomMultipleSelectionListTextsState
         return;
       }
 
-      widget.duplicateentityList!.forEach((userDetail) {
+      for (var userDetail in widget.duplicateentityList!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           entityList.add(userDetail);
         }
-      });
+      }
     }
 
     setState(() {});
@@ -242,11 +229,11 @@ class CustomMultipleSelectionListTextsState
     if ((widget.duplicateentityList != null &&
             widget.duplicateentityList!.isEmpty) ||
         (widget.duplicateentityList != null &&
-            _searchCtrl.text.length > 0 &&
+            _searchCtrl.text.isNotEmpty &&
             entityList.isEmpty)) {
       return //const Expanded(
           // child:
-          Center(
+          const Center(
         child: Text(
           Constants.nodata,
           style: Styles.textStyleRegularGrey16,
@@ -254,7 +241,7 @@ class CustomMultipleSelectionListTextsState
         ),
       );
     } else {
-      return Container(
+      return SizedBox(
         //padding: const EdgeInsets.all(20),
        // height: height / 1.6, // Change as per your requirement
         // width: width- 50, // Change as per your requirement
@@ -263,14 +250,14 @@ class CustomMultipleSelectionListTextsState
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: widget.duplicateentityList != null
-              ? (_searchCtrl.text.length > 0 && entityList.isNotEmpty)
+              ? (_searchCtrl.text.isNotEmpty && entityList.isNotEmpty)
                   ? entityList.length
                   : widget.duplicateentityList?.length
               : widget.duplicateentityList?.length,
           itemBuilder: (BuildContext context, int index) {
             if (widget.duplicateentityList != null) {
-              Entity? articleItem;
-              if ((_searchCtrl.text.length > 0 && entityList.isNotEmpty)) {
+              Organisation? articleItem;
+              if ((_searchCtrl.text.isNotEmpty && entityList.isNotEmpty)) {
                 articleItem = entityList[index];
               } else {
                 articleItem = widget.duplicateentityList?[index];
@@ -284,7 +271,7 @@ class CustomMultipleSelectionListTextsState
                     if (selectedListindexes.contains(index)) {
                       selectedListindexes.remove(index);
 
-                      Entity? articleItem1 =
+                      Organisation? articleItem1 =
                           widget.duplicateentityList?[index];
                       selectentityList.removeWhere(
                           (item) => item.id == (articleItem1?.id ?? 0));
@@ -302,7 +289,7 @@ class CustomMultipleSelectionListTextsState
                           ? 20
                           : 0,
                   dense: true,
-                  visualDensity: VisualDensity(vertical: 0), // to expand
+                  visualDensity: const VisualDensity(vertical: 0), // to expand
                   leading: (widget.imagename != null && widget.imagename != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
@@ -327,6 +314,7 @@ class CustomMultipleSelectionListTextsState
                                 : AppColors.textgreyThemecolor)),
                   ));
             }
+            return null;
           },
         ),
       );

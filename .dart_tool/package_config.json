@@ -2,6 +2,18 @@
   "configVersion": 2,
   "packages": [
     {
+      "name": "_fe_analyzer_shared",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-64.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "analyzer",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/analyzer-6.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "app_settings",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/app_settings-4.3.1",
       "packageUri": "lib/",
@@ -9,7 +21,7 @@
     },
     {
       "name": "archive",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/archive-3.3.9",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/archive-3.4.6",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -44,6 +56,54 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "build",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/build-2.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "build_config",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/build_config-1.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "build_daemon",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/build_daemon-4.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "build_resolvers",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/build_resolvers-2.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "build_runner",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/build_runner-2.4.6",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "build_runner_core",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/build_runner_core-7.2.11",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "built_collection",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/built_collection-5.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "built_value",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/built_value-8.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "characters",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/characters-1.3.0",
       "packageUri": "lib/",
@@ -60,6 +120,12 @@
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/clock-1.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "code_builder",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/code_builder-4.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
     },
     {
       "name": "collection",
@@ -99,7 +165,7 @@
     },
     {
       "name": "cross_file",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/cross_file-0.3.3+5",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/cross_file-0.3.3+6",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -116,8 +182,20 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "dart_extensions",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/dart_extensions-2.2.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "dart_style",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/dart_style-2.3.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "dotted_border",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/dotted_border-2.0.0+3",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/dotted_border-2.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -147,9 +225,9 @@
     },
     {
       "name": "file",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/file-6.1.4",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/file-7.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.0"
     },
     {
       "name": "file_picker",
@@ -178,6 +256,12 @@
     {
       "name": "file_selector_windows",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/file_selector_windows-0.9.3+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "fixnum",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/fixnum-1.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -255,15 +339,15 @@
     },
     {
       "name": "flutter_plugin_android_lifecycle",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.16",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.17",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
     {
       "name": "flutter_svg",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_svg-1.1.6",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_svg-2.0.9",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "2.19"
     },
     {
       "name": "flutter_test",
@@ -273,7 +357,7 @@
     },
     {
       "name": "flutter_typeahead",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_typeahead-4.7.0",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_typeahead-4.8.0",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -284,10 +368,40 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "frontend_server_client",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/frontend_server_client-3.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "get",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/get-4.6.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "glob",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/glob-2.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "graphs",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/graphs-2.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "http",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/http-1.1.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "http_multi_server",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/http_multi_server-3.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "http_parser",
@@ -297,9 +411,15 @@
     },
     {
       "name": "image",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/image-4.0.17",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/image-4.1.3",
       "packageUri": "lib/",
       "languageVersion": "2.15"
+    },
+    {
+      "name": "image_gallery_saver",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/image_gallery_saver-2.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "image_picker",
@@ -309,7 +429,7 @@
     },
     {
       "name": "image_picker_android",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/image_picker_android-0.8.8",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/image_picker_android-0.8.8+2",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -321,7 +441,7 @@
     },
     {
       "name": "image_picker_ios",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.8+2",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.8+4",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -374,10 +494,28 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "json_serializable",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/json_serializable-6.7.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "lints",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/lints-2.1.1",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "local_session_timeout",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/local_session_timeout-2.3.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "logging",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/logging-1.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
     },
     {
       "name": "matcher",
@@ -410,6 +548,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "package_config",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/package_config-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "path",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/path-1.8.3",
       "packageUri": "lib/",
@@ -435,7 +579,7 @@
     },
     {
       "name": "path_provider_android",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/path_provider_android-2.2.0",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/path_provider_android-2.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -483,7 +627,7 @@
     },
     {
       "name": "permission_handler_platform_interface",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/permission_handler_platform_interface-3.11.5",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/permission_handler_platform_interface-3.12.0",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -501,7 +645,7 @@
     },
     {
       "name": "platform",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/platform-3.1.2",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/platform-3.1.3",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -524,10 +668,28 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "pool",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/pool-1.5.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "provider",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/provider-6.0.5",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "pub_semver",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/pub_semver-2.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "pubspec_parse",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/pubspec_parse-1.2.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
     },
     {
       "name": "quill_html_editor",
@@ -536,8 +698,14 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "quiver",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/quiver-3.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "shared_preferences",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/shared_preferences-2.2.1",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/shared_preferences-2.2.2",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -555,7 +723,7 @@
     },
     {
       "name": "shared_preferences_linux",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/shared_preferences_linux-2.3.1",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/shared_preferences_linux-2.3.2",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -573,7 +741,25 @@
     },
     {
       "name": "shared_preferences_windows",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/shared_preferences_windows-2.3.1",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/shared_preferences_windows-2.3.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "shelf",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/shelf-1.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "shelf_web_socket",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/shelf_web_socket-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "signature",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/signature-5.4.0",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -582,6 +768,18 @@
       "rootUri": "file:///Users/anurag/Downloads/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "source_gen",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/source_gen-1.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "source_helper",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/source_helper-1.3.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
     },
     {
       "name": "source_span",
@@ -644,6 +842,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "timing",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/timing-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "typed_data",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/typed_data-1.3.2",
       "packageUri": "lib/",
@@ -656,10 +860,34 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "vector_graphics",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/vector_graphics-1.1.9+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "vector_graphics_codec",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/vector_graphics_codec-1.1.9+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "vector_graphics_compiler",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/vector_graphics_compiler-1.1.9+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "vector_math",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/vector_math-2.1.4",
       "packageUri": "lib/",
       "languageVersion": "2.14"
+    },
+    {
+      "name": "watcher",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/watcher-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "web",
@@ -668,14 +896,20 @@
       "languageVersion": "3.1"
     },
     {
+      "name": "web_socket_channel",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/web_socket_channel-2.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
       "name": "webview_flutter",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter-4.2.4",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter-4.4.2",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
     {
       "name": "webview_flutter_android",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter_android-3.10.1",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter_android-3.12.1",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -687,13 +921,13 @@
     },
     {
       "name": "webview_flutter_wkwebview",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.7.4",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.9.3",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
     {
       "name": "win32",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/win32-5.0.8",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/win32-5.0.9",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -722,7 +956,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-09-26T06:31:02.257739Z",
+  "generated": "2023-11-05T07:50:00.780395Z",
   "generator": "pub",
-  "generatorVersion": "3.1.0"
+  "generatorVersion": "3.1.5"
 }

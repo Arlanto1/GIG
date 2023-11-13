@@ -1,4 +1,3 @@
-import 'package:db_atom/src/models/entity.dart';
 
 import '../../../../../models/organisation.dart';
 import '../../../../createfound/models/user.dart';
@@ -9,7 +8,7 @@ class EventProtectionGi {
   String? inputDate;
   Organisation? location;
   Organisation? locationRegion;
-  List<Entity>? entities;
+  List<Organisation>? entities;
   int? status;
   String? modifiedBy;
   bool annualPowerShutdown;
@@ -49,6 +48,7 @@ class EventProtectionGi {
   int? securityFacilitatorCount;
   int? securityFacilitatorCountHrs;
   List<Organisation>? proposedVendors;
+  // Organisation? proposedVendors;
   double? budget;
   String? poNumber;
 
@@ -115,7 +115,10 @@ class EventProtectionGi {
                     json['locationRegion'] as Map<String, dynamic>)
                 : null,
         entities = (json['entities'] as List?)
-            ?.map((dynamic e) => Entity.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        proposedVendors = (json['proposedVendors'] as List?)
+            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
             .toList(),
         status = json['status'] as int?,
         modifiedBy = json['modifiedBy'] as String?,
@@ -182,9 +185,9 @@ class EventProtectionGi {
         securityFacilitatorCount = json['securityFacilitatorCount'] as int?,
         securityFacilitatorCountHrs =
             json['securityFacilitatorCountHrs'] as int?,
-        proposedVendors = (json['proposedVendors'] as List?)
-            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
-            .toList(),
+          // proposedVendors = (json['proposedVendors'] as Map<String, dynamic>?) != null
+          //   ? Organisation.fromJson(json['proposedVendors'] as Map<String, dynamic>)
+          //   : null,
         budget = json['budget'] as double?,
         poNumber = json['poNumber'] as String?;
 
@@ -194,7 +197,8 @@ class EventProtectionGi {
         'inputDate': inputDate,
         'location': location?.toJson(),
         'locationRegion': locationRegion?.toJson(),
-        'entities': entities?.map((e) => e.toJson()).toList(),
+    'entities': entities?.map((e) => e.toJson()).toList(),
+    'proposedVendors': proposedVendors?.map((e) => e.toJson()).toList(),
         'status': status,
         'modifiedBy': modifiedBy,
         'annualPowerShutdown': annualPowerShutdown,
@@ -233,7 +237,7 @@ class EventProtectionGi {
         'securityGuardCountHrs': securityGuardCountHrs,
         'securityFacilitatorCount': securityFacilitatorCount,
         'securityFacilitatorCountHrs': securityFacilitatorCountHrs,
-        'proposedVendors': proposedVendors?.map((e) => e.toJson()).toList(),
+        // 'proposedVendors': proposedVendors?.toJson(),
         'budget': budget,
         'poNumber': poNumber
       };

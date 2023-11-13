@@ -12,10 +12,10 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:file_picker/file_picker.dart';
 
 enum Documnets { Photo, Camera, Documents }
 
@@ -193,8 +193,8 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                     //borderRadius: BorderRadius.circular(20.0),
                                     DottedBorder(
                                   borderType: BorderType.RRect,
-                                  radius: Radius.circular(20),
-                                  dashPattern: [5, 5],
+                                  radius: const Radius.circular(20),
+                                  dashPattern: const [5, 5],
                                   color: Colors.black,
                                   strokeWidth: 1,
                                   child: ClipRRect(
@@ -270,7 +270,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                 height: 60,
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Color(0xFFCACACA),
+                                      color: const Color(0xFFCACACA),
                                       width: 1.0,
                                     ),
                                     borderRadius: const BorderRadius.all(

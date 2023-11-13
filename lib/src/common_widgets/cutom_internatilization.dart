@@ -46,7 +46,7 @@ class CustomInternationalizationState extends State<CustomInternationalization> 
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
                         return SingleChildScrollView(
-                          child: Container(
+                          child: SizedBox(
                             height: height/3,
                                   width: width,
                             child: Stack(
@@ -78,7 +78,7 @@ class CustomInternationalizationState extends State<CustomInternationalization> 
   }
   Widget setuplistContainer(double height, double width, int count ) {
   return 
-  Container(
+  SizedBox(
     //padding: const EdgeInsets.all(20),
    height: height / 4.5, // Change as per your requirement
   // width: width- 50, // Change as per your requirement

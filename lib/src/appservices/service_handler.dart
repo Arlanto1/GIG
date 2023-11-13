@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:db_atom/src/appservices/service_model.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -15,11 +16,11 @@ class HttpServiceHandler {
     try {
       var preferencesSystem = await SharedPreferences.getInstance();
       
-      final _baseUrl = Environment().config.apiHost;
+      final baseUrl = Environment().config.apiHost;
 
-      String mainUrl = _baseUrl + url;
+      String mainUrl = baseUrl + url;
       print("URL====================: $mainUrl");
-      HttpClient httpClient = new HttpClient();
+      HttpClient httpClient = HttpClient();
       httpClient.connectionTimeout = const Duration(seconds: 15);
       HttpClientRequest request = await httpClient.getUrl(Uri.parse(mainUrl));
       request.headers.set('content-type', 'application/json');
@@ -28,7 +29,7 @@ class HttpServiceHandler {
             preferencesSystem.getString(Constants.abort) ?? '';   //TOKEN_TYPE) ?? '';
         final String authorisationKey =
             preferencesSystem.getString(Constants.abort) ?? ''; //AUTHORIZATION_CODE) ?? '';
-      String autherToken = tokentype + "<" + authorisationKey + ">";
+      String autherToken = "$tokentype<$authorisationKey>";
       request.headers.set('Authorization', autherToken);
       HttpClientResponse response = await request.close();
       Map<String, dynamic> mainReponse = {
@@ -55,9 +56,9 @@ class HttpServiceHandler {
     try {
       // final String mainUrl = buildVariant.BASE_URL + url;
       // print('URL: $mainUrl');
-       final _baseUrl = Environment().config.apiHost;
+       final baseUrl = Environment().config.apiHost;
 
-      String mainUrl = _baseUrl + url;
+      String mainUrl = baseUrl + url;
       final HttpClient httpClient = HttpClient();
       httpClient.connectionTimeout = const Duration(seconds: 60);
       final HttpClientRequest request = await httpClient.postUrl(Uri.parse(mainUrl));
@@ -68,7 +69,7 @@ class HttpServiceHandler {
         final String authorisationKey =
             preferencesSystem.getString(Constants.abort) ?? ''; 
       print('AuthKey: $authorisationKey');
-      final String autherToken = tokentype + '<' + authorisationKey + '>';
+      final String autherToken = '$tokentype<$authorisationKey>';
       request.headers.set('Authorization', autherToken);
       request.add(utf8.encode(json.encode(props)));
       final HttpClientResponse response = await request.close();
@@ -95,9 +96,9 @@ class HttpServiceHandler {
     final SharedPreferences preferencesSystem = await SharedPreferences.getInstance();
     try {
       // final String mainUrl = buildVariant.BASE_URL + url + id;
-      final _baseUrl = Environment().config.apiHost;
+      final baseUrl = Environment().config.apiHost;
 
-      String mainUrl = _baseUrl + url;
+      String mainUrl = baseUrl + url;
       final HttpClient httpClient = HttpClient();
       httpClient.connectionTimeout = const Duration(seconds: 15);
       final HttpClientRequest request =
@@ -109,7 +110,7 @@ class HttpServiceHandler {
             preferencesSystem.getString(Constants.abort) ?? '';   //TOKEN_TYPE) ?? '';
         final String authorisationKey =
             preferencesSystem.getString(Constants.abort) ?? ''; 
-      final String autherToken = tokentype + '<' + authorisationKey + '>';
+      final String autherToken = '$tokentype<$authorisationKey>';
       request.headers.set('Authorization', autherToken);
       //request.add(utf8.encode(json.encode(props)));
       final HttpClientResponse response = await request.close();
@@ -136,9 +137,9 @@ class HttpServiceHandler {
     final SharedPreferences preferencesSystem = await SharedPreferences.getInstance();
     try {
       //final String mainUrl = buildVariant.BASE_URL + url + passingUrl;
-      final _baseUrl = Environment().config.apiHost;
+      final baseUrl = Environment().config.apiHost;
 
-      String mainUrl = _baseUrl + url;
+      String mainUrl = baseUrl + url;
       print('mainUrl: $mainUrl');
       final HttpClient httpClient = HttpClient();
       httpClient.connectionTimeout = const Duration(seconds: 15);
@@ -150,7 +151,7 @@ class HttpServiceHandler {
             preferencesSystem.getString(Constants.abort) ?? '';   //TOKEN_TYPE) ?? '';
         final String authorisationKey =
             preferencesSystem.getString(Constants.abort) ?? ''; 
-      final String autherToken = tokentype + '<' + authorisationKey + '>';
+      final String autherToken = '$tokentype<$authorisationKey>';
       request.headers.set('Authorization', autherToken);
       //request.add(utf8.encode(json.encode(props)));
       final HttpClientResponse response = await request.close();

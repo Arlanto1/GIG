@@ -1,6 +1,7 @@
-import '../../../../models/entity.dart';
-import '../../../../models/entry_security.dart';
+import 'package:db_atom/src/models/role_extension.dart';
+
 import '../../../../models/organisation.dart';
+import '../../../createfound/models/user.dart';
 
 class RatesResponse {
   List<GMRate>? items;
@@ -36,8 +37,8 @@ class GMRate {
   String? slNo;
   Organisation? location;
   Organisation? locationRegion;
-  EntrySecurity? entrySecurity;
-  List<Entity>? entities;
+  User? entrySecurity;
+  List<Organisation>? entities;
   String? inputDate;
   // num? modifiedDate;
   String? modifiedBy;
@@ -80,11 +81,11 @@ class GMRate {
                     json['locationRegion'] as Map<String, dynamic>)
                 : null,
         entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
-            ? EntrySecurity.fromJson(
+            ? User.fromJson(
                 json['entrySecurity'] as Map<String, dynamic>)
             : null,
         entities = (json['entities'] as List?)
-            ?.map((dynamic e) => Entity.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
             .toList(),
         inputDate = json['inputDate'] as String?,
         // modifiedDate = json['modifiedDate'] as num?,
@@ -138,7 +139,7 @@ class Roles {
   num? roleId;
   String? application;
   String? roleName;
-  List<RoleExtensions>? roleExtensions;
+  List<RoleExtension>? roleExtensions;
   String? name;
 
   Roles({
@@ -155,7 +156,7 @@ class Roles {
         roleName = json['roleName'] as String?,
         roleExtensions = (json['roleExtensions'] as List?)
             ?.map((dynamic e) =>
-                RoleExtensions.fromJson(e as Map<String, dynamic>))
+                RoleExtension.fromJson(e as Map<String, dynamic>))
             .toList(),
         name = json['name'] as String?;
 
@@ -165,49 +166,6 @@ class Roles {
         'roleName': roleName,
         'roleExtensions': roleExtensions?.map((e) => e.toJson()).toList(),
         'name': name
-      };
-}
-
-class RoleExtensions {
-  num? roleExtensionId;
-  num? roleId;
-  String? displayName;
-  String? area;
-  String? filter;
-  dynamic rootNodeId;
-  dynamic nodeId;
-  dynamic accessRight;
-
-  RoleExtensions({
-    this.roleExtensionId,
-    this.roleId,
-    this.displayName,
-    this.area,
-    this.filter,
-    this.rootNodeId,
-    this.nodeId,
-    this.accessRight,
-  });
-
-  RoleExtensions.fromJson(Map<String, dynamic> json)
-      : roleExtensionId = json['roleExtensionId'] as num?,
-        roleId = json['roleId'] as num?,
-        displayName = json['displayName'] as String?,
-        area = json['area'] as String?,
-        filter = json['filter'] as String?,
-        rootNodeId = json['rootNodeId'],
-        nodeId = json['nodeId'],
-        accessRight = json['accessRight'];
-
-  Map<String, dynamic> toJson() => {
-        'roleExtensionId': roleExtensionId,
-        'roleId': roleId,
-        'displayName': displayName,
-        'area': area,
-        'filter': filter,
-        'rootNodeId': rootNodeId,
-        'nodeId': nodeId,
-        'accessRight': accessRight
       };
 }
 

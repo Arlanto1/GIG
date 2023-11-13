@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../law_enforcement_list/controllers/law_enforcement_list_state.dart';
+import '../../../../enums/form_status.dart';
 import '../../models/event_protection_model.dart';
 import '../../services/event_protection_services.dart';
 
@@ -16,7 +16,7 @@ class EventProtectionsBloc
 
   EventProtectionsBloc()
       : super(const EventProtectionsState()) {
-    on<InwardFetch>(
+    on<FetchData>(
       _fetchList,
       transformer: droppable(),
     );
@@ -26,11 +26,11 @@ class EventProtectionsBloc
   EventProtectionServices();
 
   FutureOr<void> _fetchList(
-      InwardFetch event, Emitter<EventProtectionsState> emit) async {
+      FetchData event, Emitter<EventProtectionsState> emit) async {
     try {
       if (state.hasReachedMax) return;
 
-      if (state.status == LawEnforcementListStateType.initial) {
+      if (state.status == FormStatus.initial) {
         EventProtectionResponse response =
         await _services.getEventProtections(
           startPosition: '${event.startPos}',
@@ -42,7 +42,7 @@ class EventProtectionsBloc
           state.copyWith(
             items: response.items,
             hasReachedMax: false,
-            status: LawEnforcementListStateType.success,
+            status: FormStatus.success,
           ),
         );
       }
@@ -64,7 +64,7 @@ class EventProtectionsBloc
         ),
       );
     } catch (e) {
-      return emit(state.copyWith(status: LawEnforcementListStateType.failure));
+      return emit(state.copyWith(status: FormStatus.failure));
     }
   }
 }

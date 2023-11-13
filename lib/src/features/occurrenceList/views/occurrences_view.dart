@@ -1,31 +1,29 @@
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
+import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
+import 'package:db_atom/src/enums/form_status.dart';
+import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
+import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../common_widgets/floating_button.dart';
-import '../../../../../common_widgets/spinnerdialog.dart';
-import '../../../../../routing/router.dart';
-import '../../models/guarding_master_data_model.dart';
-import '../../services/guarding_master_data_services.dart';
-import '../bloc/guarding_master_data_bloc.dart';
+import '../bloc/occurrences_bloc.dart';
 
-class GuardingMasterData extends StatefulWidget {
-  const GuardingMasterData({
+class OccurrencesView extends StatefulWidget {
+  const OccurrencesView({
     super.key,
   });
 
   @override
-  State<GuardingMasterData> createState() => _GuardingMasterDataState();
+  State<OccurrencesView> createState() => _OccurrencesViewState();
 }
 
-class _GuardingMasterDataState extends State<GuardingMasterData> {
+class _OccurrencesViewState extends State<OccurrencesView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
 
@@ -50,8 +48,8 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context
-          .read<GuardingMasterDataBloc>()
-          .add(FetchDataList(startPos: pageNumber, maxPos: 20));
+          .read<OccurrencesBloc>()
+          .add(FetchData(startPos: pageNumber, maxPos: 20));
     }
   }
 
@@ -63,21 +61,22 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
-            Navigator.pushNamed(context, guardingMasterDataDetailsRoute,
-                arguments: {"title": Constants.createGuardingMasterData}),
+            Navigator.pushNamed(context, occurrenceDetailsRoute, arguments: {
+              "title": Constants.createOccurrence,
+            }),
           },
         ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.guardingMasterDataTitle,
+          title: Constants.occurrence,
           showPopUp: true,
           showSaveButton: false,
-          excelAPIName: 'exportGMDataExcel',
-          pdfAPIName: 'exportGMDataPDF',
+          excelAPIName: 'exportEPExcel',
+          pdfAPIName: 'exportEPPDF',
         ),
-        body: BlocBuilder<GuardingMasterDataBloc, GuardingMasterDataState>(
+        body: BlocBuilder<OccurrencesBloc, OccurrencesState>(
             builder: (context, state) {
-          if (state.status == LawEnforcementListStateType.initial) {
+          if (state.status == FormStatus.initial) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -98,12 +97,24 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
               itemBuilder: (context, index) {
                 List<Label> labels = [];
                 if (index < state.list.length) {
+                  labels.add(
+                    Label(
+                        key: 'Date of Creation',
+                        value: state.list[index].inputDate != null
+                            ? Utils.timestamptoDateConversion(
+                                int.parse(state.list[index].inputDate ?? '0'),
+                                Constants.dateFormat)
+                            : ''),
+                  );
                   labels.add(Label(
                       key: 'Region',
                       value: state.list[index].locationRegion?.name ?? ''));
                   labels.add(Label(
-                      key: 'Building Location ',
+                      key: 'Location',
                       value: state.list[index].location?.name ?? ''));
+                  labels.add(Label(
+                      key: 'Shift Handed Over By',
+                      value: state.list[index].entrySecurity?.name ?? ''));
                 }
                 return index >= state.list.length
                     ? const Center(
@@ -113,8 +124,8 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                         id: state.list[index].id,
                         labels: labels,
                         status: state.list[index].status,
-                        isMasterGuard: true,
-                        guardRank: state.list[index].guardRank,
+                        isOccurrenceStatus: true,
+                        isEventProtectionStatus: false,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,
@@ -122,23 +133,25 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                               return BasePopUpItems(
                                 id: state.list[selectedIndex].id.toString(),
                                 slNo: state.list[selectedIndex].slNo,
-                                guardRank: state.list[selectedIndex].guardRank,
-                                gender: state.list[selectedIndex].gender,
-                                dutyType: state.list[selectedIndex].dutyType,
-                                maritalStatus:
-                                    state.list[selectedIndex].maritalStatus,
-                                labels: labels,
-                                isMaterGuard: true,
-                                //isEventProtectionStatus: false,
                                 status: state.list[selectedIndex].status,
+                                labels: labels,
+                                shiftBrfngAttnded:
+                                    state.list[selectedIndex].shiftBrfngAttnded,
+                                materialMovement:
+                                    state.list[selectedIndex].materialMovement,
+                                leoVisit: state.list[selectedIndex].leoVisit,
+                                handOverSecurity:
+                                    state.list[selectedIndex].handOverSecurity,
+                                isOccurrenceStatus: true,
+                                isMasterGuard: false,
+                                isEventProtectionStatus: false,
                               );
                             },
                           );
                         },
                         onEditTap: (selectedIndex) {
-                          getLawEnforcementId(state.list[index].id ?? 0);
+                          getId(id: state.list[index].id ?? 0);
                         },
-                        showEditButton: true,
                         onViewTap: (selectedIndex) {
                           showDialog(
                             context: context,
@@ -146,15 +159,18 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
                               return BasePopUpItems(
                                 id: state.list[selectedIndex].id.toString(),
                                 slNo: state.list[selectedIndex].slNo,
-                                guardRank: state.list[selectedIndex].guardRank,
-                                gender: state.list[selectedIndex].gender,
-                                dutyType: state.list[selectedIndex].dutyType,
-                                maritalStatus:
-                                    state.list[selectedIndex].maritalStatus,
-                                labels: labels,
                                 status: state.list[selectedIndex].status,
-                                isMaterGuard: true,
-                               // isEventProtectionStatus: false,
+                                labels: labels,
+                                shiftBrfngAttnded:
+                                    state.list[selectedIndex].shiftBrfngAttnded,
+                                materialMovement:
+                                    state.list[selectedIndex].materialMovement,
+                                leoVisit: state.list[selectedIndex].leoVisit,
+                                handOverSecurity:
+                                    state.list[selectedIndex].handOverSecurity,
+                                isEventProtectionStatus: false,
+                                isMasterGuard: false,
+                                isOccurrenceStatus: true,
                               );
                             },
                           );
@@ -167,22 +183,16 @@ class _GuardingMasterDataState extends State<GuardingMasterData> {
         }));
   }
 
-  getLawEnforcementId(int id) async {
-    showLoadingDialog(context);
-
-    GuardingMastersDataModel guardingMastersDataModel =
-        await GuardingMasterDataServices().getGuardingMastersData(id);
-
-    editDataLoading(guardingMastersDataModel);
-  }
-
-  void editDataLoading(GuardingMastersDataModel? guardingMastersDataModel) {
-    dismissLoadingDialog(context);
-    if (guardingMastersDataModel != null) {
-      Navigator.pushNamed(context, guardingMasterDataDetailsRoute, arguments: {
-        "GuardingMastersDataModel": guardingMastersDataModel,
-        "title": Constants.editGuardingMasterData
-      });
-    }
+  getId({
+    required int id,
+  }) async {
+    Navigator.pushNamed(
+      context,
+      occurrenceDetailsRoute,
+      arguments: {
+        'id': id.toString(),
+        "title": Constants.editOccurrence,
+      },
+    );
   }
 }

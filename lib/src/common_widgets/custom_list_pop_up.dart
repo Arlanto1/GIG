@@ -1,4 +1,4 @@
-
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -7,7 +7,6 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomPopUpList extends StatefulWidget {
   FoundModel? userItem;
@@ -96,10 +95,11 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
-              textHandling('Location : ',
-                  widget.userItem?.locationName.toString() ?? " "),
+              textHandling(
+                  'Location : ', widget.userItem?.location?.name ?? " "),
             ],
           ),
+          if( widget.userItem?.foundDate != null)...[
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
@@ -112,16 +112,13 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
                       : ''),
             ],
           ),
+          ],
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
               textHandling(
                   'Created By : ',
-                  widget.userItem?.inputDate != null
-                      ? Utils.timestamptoDateConversion(
-                          int.parse(widget.userItem?.inputDate ?? '0'),
-                          Constants.dateFormat)
-                      : ''),
+                  '${widget.userItem?.entrySecurityName}'),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
@@ -157,15 +154,16 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
               ],
             ),
           ],
-          if (widget.userItem?.claimantName != null) ...[
+          if (widget.userItem?.claimantName != null && widget.userItem?.status !=0) ...[
             CommonWidgets.verticalSpacerWidget(8),
             Row(
               children: [
                 textHandling(
-                    'Claimant : ', widget.userItem?.claimant.toString() ?? ""),
+                    'Claimant : ', widget.userItem?.claimant?.name ?? ""),
               ],
             ),
           ],
+          if(widget.userItem?.handoverDate != null && widget.userItem?.status == 2)...[
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
@@ -174,86 +172,27 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
                   widget.userItem?.handoverDate != null
                       ? Utils.timestamptoDateConversion(
                           int.parse(widget.userItem?.handoverDate ?? '0'),
-                          Constants.dateFormat)
+                          Constants.fulldateFormat)
                       : ''),
             ],
           ),
+          ],
+          if( widget.userItem?.handOverSecurityName !=null && !widget.userItem!.handOverSecurityName.isEmptyOrNull )...[
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
-              textHandling('item Hand Over By : ',
+              textHandling('Item Hand Over By : ',
                   widget.userItem?.handOverSecurityName.toString() ?? " "),
             ],
           ),
+          ],
           CommonWidgets.verticalSpacerWidget(8),
           Row(children: [
             Utils().buildFoundStatusRow(widget.userItem?.status ?? 0),
           ]),
         ])
-                //),
-                //    ),
                 ),
-        // ],
       ),
-      // ),
     );
   }
 }
-// Widget build(BuildContext context) {
-//   final size = MediaQuery.of(context).size;
-//   final height = size.height;
-//   final width = size.width;
-//   return AlertDialog(
-//     icon: Align(
-//         alignment: Alignment.topRight,
-//         child: GestureDetector(
-//             onTap: () {
-//               Navigator.of(context).pop();
-//             },
-//             child: SvgPicture.asset(AppIcon.closeicon) //Icon(Icons.cancel)
-//             )),
-//     backgroundColor: AppColors.backgroundWhitecolor,
-//     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-//     content: Builder(builder: (context) {
-//       // Get available height and width of the build area of this widget. Make a choice depending on the size.
-//       var height = MediaQuery.of(context).size.height;
-//       var width = MediaQuery.of(context).size.width;
-//       return
-//       Container(
-//         height: height,
-//         width: width - 30,
-//         child: Column(
-//           // mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             setupAlertDialoadContainer(height, width),
-//           ],
-//         ),
-//       );
-//     }),
-//   );
-// }
-
-// Widget setupAlertDialoadContainer(double height, double width) {
-//   return Container(
-//     //padding: const EdgeInsets.all(20),
-//     height: height / 1.4, // Change as per your requirement
-//     // width: width- 50, // Change as per your requirement
-//     width: double.maxFinite,
-//     child: ListView.builder(
-//       shrinkWrap: true,
-//       itemCount: 15,
-//       itemBuilder: (BuildContext context, int index) {
-//         return ListTile(
-//           dense: true,
-//           visualDensity: VisualDensity(vertical: -4),
-//           title: Row(
-//             children: [
-//               textHandling(
-//                   'Status : ', widget.userItem?.status.toString() ?? " "),
-//             ],
-//           ),
-//         );
-//       },
-//     ),
-//   );
-// }

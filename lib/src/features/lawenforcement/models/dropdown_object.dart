@@ -1,28 +1,25 @@
+import 'package:db_atom/src/models/organisation.dart';
 
-import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
-
-class VistingOfficialsModel {
-
-
+class VisitingOfficialsModel {
   String? designation;
   String? name;
-  AtomLeoDepartment? department;
+  Organisation? department;
   String? officialaddress;
   String? email;
   String? conatctno;
   int? id;
 
-  VistingOfficialsModel({
-    this.designation,
-    this.name,
-    this.department,
-    this.officialaddress,
-    this.email,
-    this.conatctno,
-    this.id
-  });
+  VisitingOfficialsModel(
+      {this.designation,
+      this.name,
+      this.department,
+      this.officialaddress,
+      this.email,
+      this.conatctno,
+      this.id});
 
-  factory VistingOfficialsModel.fromJson(Map<String, dynamic> json) => VistingOfficialsModel(
+  factory VisitingOfficialsModel.fromJson(Map<String, dynamic> json) =>
+      VisitingOfficialsModel(
         designation: json["designation"],
         name: json["name"],
         department: json["department"],
@@ -30,7 +27,6 @@ class VistingOfficialsModel {
         email: json["email"],
         conatctno: json["conatctno"],
         id: json["id"],
-        
       );
 
   Map<String, dynamic> toJson() => {

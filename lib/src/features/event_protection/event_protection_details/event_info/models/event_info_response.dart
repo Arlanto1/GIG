@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import '../../../../createfound/models/create_found_request.dart';
+import 'package:db_atom/src/models/image_content.dart';
 
 class EventInfoResponse {
   EventInfoResponse({
@@ -17,7 +17,7 @@ class EventInfoResponse {
   String? date;
   String? emails;
   String? email;
-  List<CreateImage>? image;
+  List<ImageContent>? image;
 
   EventInfoResponse.fromJson(Map<String, dynamic> json) {
 
@@ -29,7 +29,7 @@ class EventInfoResponse {
     emails = json['emails'];
     email = json['email'];
     image =
-        List.from(json['image']).map((e) => CreateImage.fromJson(e)).toList();
+        List.from(json['image']).map((e) => ImageContent.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {

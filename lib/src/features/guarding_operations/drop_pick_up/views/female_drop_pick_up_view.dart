@@ -8,11 +8,12 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/guarding_operations/drop_pick_up/bloc/female_drop_pick_up_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
-import 'package:db_atom/src/features/law_enforcement_list/controllers/law_enforcement_list_state.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../enums/form_status.dart';
 
 class FemaleDropPickUpView extends StatefulWidget {
   const FemaleDropPickUpView({
@@ -75,7 +76,7 @@ class _FemaleDropPickUpViewState extends State<FemaleDropPickUpView> {
         ),
         body: BlocBuilder<FemaleDropPickUpBloc, FemaleDropPickUpState>(
             builder: (context, state) {
-          if (state.status == LawEnforcementListStateType.initial) {
+          if (state.status == FormStatus.initial) {
             return const Center(
               child: CircularProgressIndicator(),
             );
