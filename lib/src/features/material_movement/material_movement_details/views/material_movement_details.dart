@@ -1900,7 +1900,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                             : state.model.entrySecuritySign!.imageContent ?? '',
                       ),
                     ),
-                    fit: BoxFit.contain,
+                    fit: BoxFit.none,
                   )
                 : Signature(
                     controller: controller,
