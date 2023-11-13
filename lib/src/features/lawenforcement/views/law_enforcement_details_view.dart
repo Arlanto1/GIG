@@ -1096,7 +1096,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   Widget datepickerWidgetLoading(TextEditingController textfiled) {
     return GestureDetector(
       onTap: () {
-        if (widget.model == null || textfiled.text.isEmpty) {
+        if (widget.model?.status != 3) {
           datePickerDialog(textfiled);
         }
       },
@@ -1455,7 +1455,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     return TextfieldAddButton(
       title: state.getuserResponse != null &&
               (state.getuserResponse?.name ?? '').isNotEmpty
-          ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
+          ? ((state.getuserResponse?.name ?? '') +
+              '(' +
+              (state.getuserResponse?.email ?? '') +
+              ')')
           : '',
       height: 70,
       isDisableColor: widget.model?.status != 3 ? false : true,
