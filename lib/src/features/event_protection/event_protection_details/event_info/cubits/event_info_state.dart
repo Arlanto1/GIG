@@ -7,8 +7,8 @@ class EventInfoState extends Equatable {
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
-  final List<CreateImage>? loadAttachments;
-  final List<CreateImage>? guardAttachments;
+  final List<ImageContent>? loadAttachments;
+  final List<ImageContent>? guardAttachments;
 
   final List<String>? additionalEmails;
   final int? eventId;
@@ -28,16 +28,16 @@ class EventInfoState extends Equatable {
     required final AddQualifications? getQualificationsResponse,
     required final List<Organisation> departments,
     required String errorMessage,
-    required List<CreateImage> loadAttachments,
-    List<CreateImage>? bioDataAttachments,
-    List<CreateImage>? guardAttachments,
-    List<CreateImage>? deploymentAttachments,
-    List<CreateImage>? permanentAddressAttachments,
-    List<CreateImage>? localAddressAttachments,
-    List<CreateImage>? pVCAttachments,
-    List<CreateImage>? trainingAttachments,
-    List<CreateImage>? mSGBAttachments,
-    List<CreateImage>? medicalAttachments,
+    required List<ImageContent> loadAttachments,
+    List<ImageContent>? bioDataAttachments,
+    List<ImageContent>? guardAttachments,
+    List<ImageContent>? deploymentAttachments,
+    List<ImageContent>? permanentAddressAttachments,
+    List<ImageContent>? localAddressAttachments,
+    List<ImageContent>? pVCAttachments,
+    List<ImageContent>? trainingAttachments,
+    List<ImageContent>? mSGBAttachments,
+    List<ImageContent>? medicalAttachments,
     List<User>? entrySecurities,
     required int? eventId,
     List<String>? additionalEmails,
@@ -94,8 +94,8 @@ class EventInfoState extends Equatable {
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
-    List<CreateImage>? loadAttachments,
-    List<CreateImage>? guardAttachments,
+    List<ImageContent>? loadAttachments,
+    List<ImageContent>? guardAttachments,
     List<String>? additionalEmails,
     int? eventId,
     int? eventDuration,

@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
 
 import '../../createfound/models/user.dart';
@@ -22,7 +23,7 @@ class LawEnforcementDetails {
     bool? officialCardVerified;
     Organisation? visitPurpose;
     bool? documentVerified;
-    List<FoundImage>? images;
+    List<ImageContent>? images;
     List<Organisation>? entities;
     bool? visitorInUniform;
     String? dbOfficialEmail;
@@ -77,7 +78,7 @@ class LawEnforcementDetails {
         officialCardVerified: json["officialCardVerified"],
         visitPurpose: json["visitPurpose"] == null ? null : Organisation.fromJson(json["visitPurpose"]),
         documentVerified: json["documentVerified"],
-        images: json["images"] == null ? [] : List<FoundImage>.from(json["images"]!.map((x) => FoundImage.fromJson(x))),
+        images: json["images"] == null ? [] : List<ImageContent>.from(json["images"]!.map((x) => ImageContent.fromJson(x))),
         entities: json["entities"] == null ? [] : List<Organisation>.from(json["entities"]!.map((x) => Organisation.fromJson(x))),
         visitorInUniform: json["visitorInUniform"],
         dbOfficialEmail: json["dbOfficialEmail"],
@@ -121,50 +122,6 @@ class LawEnforcementDetails {
         'mailList': mailList?.map((e) => e.toJson()).toList(),
         "entityDesc": entityDesc,
         "entrySecurityName": entrySecurityName,
-    };
-}
-
-class FoundImage {
-    int? id;
-    String? ownerName;
-    String? contentType;
-    int? uploadDate;
-    int? lawEnforcementId;
-    String? title;
-    int? fileSize;
-    String? imageContent;
-
-    FoundImage({
-        this.id,
-        this.ownerName,
-        this.contentType,
-        this.uploadDate,
-        this.lawEnforcementId,
-        this.title,
-        this.fileSize,
-        this.imageContent,
-    });
-
-    factory FoundImage.fromJson(Map<String, dynamic> json) => FoundImage(
-        id: json["id"],
-        ownerName: json["ownerName"],
-        contentType: json["contentType"],
-        uploadDate: json["uploadDate"],
-        lawEnforcementId: json["lawEnforcementId"],
-        title: json["title"],
-        fileSize: json["fileSize"],
-        imageContent: json["imageContent"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "ownerName": ownerName,
-        "contentType": contentType,
-        "uploadDate": uploadDate,
-        "lawEnforcementId": lawEnforcementId,
-        "title": title,
-        "fileSize": fileSize,
-        "imageContent": imageContent,
     };
 }
 

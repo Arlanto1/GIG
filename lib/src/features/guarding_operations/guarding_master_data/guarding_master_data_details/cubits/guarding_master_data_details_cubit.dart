@@ -2,12 +2,12 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -152,11 +152,11 @@ class GuardingMasterDataDetailsCubit
           getQualificationsResponse: qualifications,
           participationDates: participationDates,
           localAddressAttachments: state.model.localAddressProof != null
-              ? [state.model.localAddressProof ?? CreateImage()]
+              ? [state.model.localAddressProof ?? ImageContent()]
               : null,
 
           bioDataAttachments: state.model.bopData != null
-              ? [state.model.bopData ?? CreateImage()]
+              ? [state.model.bopData ?? ImageContent()]
               : null,
 
           // guardAttachments: state.guardingMasterData.pho !=
@@ -167,7 +167,7 @@ class GuardingMasterDataDetailsCubit
           deploymentAttachments: state.model.deploymentOrders,
 
           permanentAddressAttachments: state.model.permanentAddressProof != null
-              ? [state.model.permanentAddressProof ?? CreateImage()]
+              ? [state.model.permanentAddressProof ?? ImageContent()]
               : null,
 
           pVCAttachments: state.model.pvc,
@@ -251,17 +251,17 @@ class GuardingMasterDataDetailsCubit
   }
 
   void addAttachment({
-    List<CreateImage>? data,
-    List<CreateImage>? guardImages,
-    List<CreateImage>? deploymentFiles,
-    List<CreateImage>? bioDataFiles,
-    List<CreateImage>? permanentAddressFiles,
-    List<CreateImage>? localAddressFiles,
-    List<CreateImage>? pVCFiles,
-    List<CreateImage>? trainingFiles,
-    List<CreateImage>? mSGBExemptionFiles,
-    List<CreateImage>? medicalFiles,
-    List<CreateImage>? mSGBAttachments,
+    List<ImageContent>? data,
+    List<ImageContent>? guardImages,
+    List<ImageContent>? deploymentFiles,
+    List<ImageContent>? bioDataFiles,
+    List<ImageContent>? permanentAddressFiles,
+    List<ImageContent>? localAddressFiles,
+    List<ImageContent>? pVCFiles,
+    List<ImageContent>? trainingFiles,
+    List<ImageContent>? mSGBExemptionFiles,
+    List<ImageContent>? medicalFiles,
+    List<ImageContent>? mSGBAttachments,
   }) async {
     emit(
       state.copyWith(

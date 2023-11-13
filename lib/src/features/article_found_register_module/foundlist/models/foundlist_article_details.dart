@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/src/models/image_content.dart';
 
 import '../../../../models/organisation.dart';
 
@@ -20,7 +21,7 @@ class FoundListArticleDetails {
     String? additionalInformation;
     int? quantity;
     String? color;
-    List<FoundImage>? images;
+    List<ImageContent>? images;
     bool? depositorDbEmp;
     User? depositor;
     String? employeeId;
@@ -97,7 +98,7 @@ class FoundListArticleDetails {
         additionalInformation: json["additionalInformation"],
         quantity: json["quantity"],
         color: json["color"],
-       images :List<FoundImage>.from(json["images"]!.map((x) => FoundImage.fromJson(x))),
+       images :List<ImageContent>.from(json["images"]!.map((x) => ImageContent.fromJson(x))),
         depositorDbEmp: json["depositorDbEmp"],
         depositor: json["depositor"] == null ? null : User.fromJson(json["depositor"]),
         employeeId: json["employeeId"],
@@ -186,51 +187,6 @@ final applicationValues = EnumValues({
     "DB_ATOM": Application.DB_ATOM,
     "Tracking1": Application.TRACKING1
 });
-
-class FoundImage {
-    int? id;
-    String? ownerName;
-    String? contentType;
-    int? uploadDate;
-    int? foundId;
-    String? title;
-    int? fileSize;
-    String? imageContent;
-
-    FoundImage({
-        this.id,
-        this.ownerName,
-        this.contentType,
-        this.uploadDate,
-        this.foundId,
-        this.title,
-        this.fileSize,
-        this.imageContent,
-    });
-
-    factory FoundImage.fromJson(Map<String, dynamic> json) => FoundImage(
-        id: json["id"],
-        ownerName: json["ownerName"],
-        contentType: json["contentType"],
-        uploadDate: json["uploadDate"],
-        foundId: json["foundId"],
-        title: json["title"],
-        fileSize: json["fileSize"],
-        imageContent: json["imageContent"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "ownerName": ownerName,
-        "contentType": contentType,
-        "uploadDate": uploadDate,
-        "foundId": foundId,
-        "title": title,
-        "fileSize": fileSize,
-        "imageContent": imageContent,
-    };
-}
-
 
 class EnumValues<T> {
     Map<String, T> map;

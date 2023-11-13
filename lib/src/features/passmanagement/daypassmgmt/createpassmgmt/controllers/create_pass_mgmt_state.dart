@@ -1,4 +1,3 @@
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
@@ -11,6 +10,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_response.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_numbers_list.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../../models/base_user.dart';
@@ -42,8 +42,8 @@ class CreatePassMgmtState extends Equatable {
   BaseUser? getuserResponse;
   EmployeeDepartments? employeeDepartment;
   Organisation? selectedDepartment;
-  List<CreateImage>? loadAttachments = [];
-  List<CreateImage>? photoAttachments = [];
+  List<ImageContent>? loadAttachments = [];
+  List<ImageContent>? photoAttachments = [];
   User? getUserDetailsResponse;
   SubmitLawEnforcementResponse? lawcreateFoundresponse;
   Organisation? createOrganisationResponse;
@@ -129,7 +129,7 @@ class CreatePassMgmtState extends Equatable {
     bool? showIdentifiedFields,
     EmployeeDepartments? employeeDepartment,
     Organisation? selectedEmployeeDepartment,
-    List<CreateImage>? loadAttachments,
+    List<ImageContent>? loadAttachments,
     User? getUserDetailsResponse,
     SubmitLawEnforcementResponse? lawcreateFoundresponse,
     Organisation? createOrganisationResponse,
@@ -149,7 +149,7 @@ class CreatePassMgmtState extends Equatable {
     DayPassNumberLists? passnumbelistresponse,
     String? radioButtonItem = '',
     int? escortedbyhost,
-    List<CreateImage>? photoAttachments,
+    List<ImageContent>? photoAttachments,
     CreateUserModel? createUserResponse,
     User? hostResponse,
     User? dbsponsorResponse,

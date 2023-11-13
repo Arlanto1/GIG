@@ -27,7 +27,7 @@ class SstIncidentGeneralInfoState extends Equatable {
     //required final List<Organisation> departments,
     required final List<Organisation> vendors,
     required String errorMessage,
-    required List<CreateImage> loadAttachments,
+    required List<ImageContent> loadAttachments,
     List<User>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,

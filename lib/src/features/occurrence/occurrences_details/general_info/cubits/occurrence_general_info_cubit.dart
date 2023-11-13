@@ -12,6 +12,7 @@ import 'package:db_atom/src/features/occurrence/occurrences_details/general_info
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
@@ -22,7 +23,6 @@ import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
-import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
 import '../../../../createfound/models/serial_number_model.dart';
 
@@ -174,8 +174,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   }
 
   void addAttachment({
-    List<CreateImage>? data,
-    List<CreateImage>? guardImages,
+    List<ImageContent>? data,
+    List<ImageContent>? guardImages,
   }) async {
     emit(
       state.copyWith(

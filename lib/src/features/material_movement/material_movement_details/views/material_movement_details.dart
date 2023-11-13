@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
@@ -19,13 +21,12 @@ import 'package:db_atom/src/common_widgets/signature/signature_func.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
-import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -62,8 +63,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController returnableTextController = TextEditingController();
   User? userDetails;
-  List<CreateImage> getFiles = [];
-  List<FoundImage> getAttachments = [];
+  List<ImageContent> getFiles = [];
+  List<ImageContent> getAttachments = [];
   TextEditingController takenOutOnDateController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
       TextEditingController();
@@ -1527,15 +1528,61 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                             ],
 
                             /// Receiver Signature test
-                            buildSignature(
-                              controller: receiverSignatureController,
-                              label: Constants.receiverSignature,
-                              spaceHeight: height,
-                              state: state,
-                            ),
+                            (state.model.receiverSign != null &&
+                                    !state.model.receiverSign!.imageContent
+                                        .isEmptyOrNull)
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(2.0),
+                                      border: Border.all(
+                                        color: AppColors.gerylightBackground,
+                                        width: 1, // Border width
+                                      ),
+                                    ),
+                                    height: 100,
+                                    width: double.infinity,
+                                    child: Image.memory(
+                                      Uint8List.fromList(base64Decode(state
+                                              .model
+                                              .receiverSign!
+                                              .imageContent ??
+                                          '')),
+                                      fit: BoxFit
+                                          .contain, // Adjust the fit as needed
+                                    ),
+                                  )
+                                : buildSignature(
+                                    controller: receiverSignatureController,
+                                    label: Constants.receiverSignature,
+                                    spaceHeight: height,
+                                    state: state,
+                                  ),
 
                             /// Security Signature
-                            buildSignature(
+                            (state.model.entrySecuritySign != null &&
+                                !state.model.entrySecuritySign!.imageContent
+                                    .isEmptyOrNull)
+                                ? Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(2.0),
+                                border: Border.all(
+                                  color: AppColors.gerylightBackground,
+                                  width: 1, // Border width
+                                ),
+                              ),
+                              height: 100,
+                              width: double.infinity,
+                              child: Image.memory(
+                                Uint8List.fromList(base64Decode(state
+                                    .model
+                                    .receiverSign!
+                                    .imageContent ??
+                                    '')),
+                                fit: BoxFit
+                                    .contain, // Adjust the fit as needed
+                              ),
+                            )
+                                : buildSignature(
                               controller: securitySignatureController,
                               label: Constants.securitySignature,
                               spaceHeight: height,
@@ -1853,12 +1900,6 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                   color: Colors.grey,
                   icon: const Icon(Icons.refresh),
                 ),
-                // IconButton(
-                //   onPressed: onDoneTap,
-                //   iconSize: 20,
-                //   color: Colors.grey,
-                //   icon: const Icon(Icons.done_outlined),
-                // ),
               ],
             ),
           ],
@@ -2011,11 +2052,11 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                             userdetails: state.loggedInUserDetails ?? User(),
                             getFiles: getFiles,
                             inwardState: state,
-                            onImageSelected: (CreateImage data) {
+                            onImageSelected: (ImageContent data) {
                               log('-------function---onImageSelected---------');
-                              List<CreateImage>? files = [];
+                              List<ImageContent>? files = [];
                               files.add(data);
-                              for (CreateImage image in getFiles.toList()) {
+                              for (ImageContent image in getFiles.toList()) {
                                 files.add(image);
                               }
                               BlocProvider.of<MaterialMovementDetailsCubit>(
@@ -2111,8 +2152,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
   }
 
   Widget attachmentListviews(
-    List<CreateImage>? attachmentListviews,
-    List<FoundImage>? attachmentListviews1,
+    List<ImageContent>? attachmentListviews,
+    List<ImageContent>? attachmentListviews1,
   ) {
     return Container(
       decoration: BoxDecoration(
@@ -2132,8 +2173,8 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
             ? attachmentListviews1?.length
             : attachmentListviews?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
-          CreateImage? imageData;
-          FoundImage? imageData1;
+          ImageContent? imageData;
+          ImageContent? imageData1;
           if (widget.materialMovement != null) {
             imageData1 = attachmentListviews1?[index];
           } else {

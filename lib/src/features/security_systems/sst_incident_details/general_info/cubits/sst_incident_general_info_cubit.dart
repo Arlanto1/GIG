@@ -10,6 +10,7 @@ import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 import 'package:db_atom/src/models/base_user.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -20,7 +21,6 @@ import '../../../../../enums/form_status.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../models/responseModels/generic_create_response.dart';
 import '../../../../../utils/util.dart';
-import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
 import '../../../../createfound/models/vendors_model.dart';
 import '../../../../occurrence/occurrences_details/general_info/models/general_info_model.dart';
@@ -233,8 +233,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
   }
 
   void addAttachment({
-    List<CreateImage>? data,
-    List<CreateImage>? guardImages,
+    List<ImageContent>? data,
+    List<ImageContent>? guardImages,
   }) async {
     emit(
       state.copyWith(

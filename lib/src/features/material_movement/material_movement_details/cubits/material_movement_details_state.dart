@@ -11,7 +11,7 @@ class MaterialMovementDetailsState extends Equatable {
   final List<BaseUser>? approver1Users;
   final List<BaseUser>? approver2Users;
   final List<Organisation> departments;
-  final List<CreateImage>? loadAttachments;
+  final List<ImageContent>? loadAttachments;
   final List<Organisation> quantityUnits;
   final int? eventId;
   final String? message;
@@ -26,7 +26,7 @@ class MaterialMovementDetailsState extends Equatable {
     final List<BaseUser>? emailUsers,
     required String errorMessage,
     required List<Organisation> departments,
-    required List<CreateImage> loadAttachments,
+    required List<ImageContent> loadAttachments,
     required List<Organisation> quantityUnits,
     required int? eventId,
   }) {
@@ -143,16 +143,13 @@ class MaterialMovementDetailsState extends Equatable {
     List<BaseUser>? approver1Users,
     List<BaseUser>? approver2Users,
     List<Organisation>? departments,
-    List<CreateImage>? loadAttachments,
+    List<ImageContent>? loadAttachments,
     List<Organisation>? quantityUnits,
     int? eventId,
     String? message,
     Language? language,
 
   }) {
-    log('---EU----------${emailUsers?.length}----${this.emailUsers?.length}-');
-    log('---A 1----------${approver1Users?.length}----${this.approver1Users?.length}-');
-    log('---A 2----------${approver2Users?.length}----${this.approver2Users?.length}-');
     return MaterialMovementDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,

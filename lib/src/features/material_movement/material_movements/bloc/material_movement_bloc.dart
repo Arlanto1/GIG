@@ -11,7 +11,6 @@ import 'package:equatable/equatable.dart';
 import '../../../../enums/form_status.dart';
 
 part 'material_movement_event.dart';
-
 part 'material_movement_state.dart';
 
 class MaterialMovementBloc

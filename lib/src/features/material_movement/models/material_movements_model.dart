@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
-import 'package:db_atom/src/models/role_extension.dart';
 
 class MaterialMovementsModel {
   List<MaterialMovementModel>? items;
@@ -46,8 +45,8 @@ class MaterialMovementsModel {
       totalPageCount = json['totalPageCount'] as int?;
     } catch (e) {
       // Print debug information
-      print('Error parsing MaterialMovementsModel: $e');
-      print('json: $json');
+      log('Error parsing MaterialMovementsModel: $e');
+      log('json: $json');
     }
   }
 
@@ -56,33 +55,6 @@ class MaterialMovementsModel {
         'totalCount': totalCount,
         'currentPageNo': currentPageNo,
         'totalPageCount': totalPageCount
-      };
-}
-
-class ImageContent {
-  String? contentType;
-  String? title;
-  int? fileSize;
-  String? imageContent;
-
-  ImageContent({
-    this.contentType,
-    this.title,
-    this.fileSize,
-    this.imageContent,
-  });
-
-  ImageContent.fromJson(Map<String, dynamic> json)
-      : contentType = json['contentType'] as String?,
-        title = json['title'] as String?,
-        fileSize = json['fileSize'] as int?,
-        imageContent = json['imageContent'] as String?;
-
-  Map<String, dynamic> toJson() => {
-        'contentType': contentType,
-        'title': title,
-        'fileSize': fileSize,
-        'imageContent': imageContent
       };
 }
 

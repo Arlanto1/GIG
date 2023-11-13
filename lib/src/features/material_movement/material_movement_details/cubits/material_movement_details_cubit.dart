@@ -5,16 +5,15 @@ import 'dart:math' as math;
 import 'package:bloc/bloc.dart';
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
 import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/language.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -297,7 +296,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
   }
 
-  void addAttchment(List<CreateImage>? data) async {
+  void addAttchment(List<ImageContent>? data) async {
     log('--state.status-1---${state.status}----');
 
     emit(
@@ -344,23 +343,30 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
   Future<void> pushSignature({
     required SignatureController controller,
-    required isReceiverSignature,
+    required bool isReceiverSignature,
   }) async {
-    String imageBytes = await exportSignature(
-      controller,
-    );
-    if (imageBytes.isEmptyOrNull) {
+    String imageBytes = await exportSignature(controller);
+
+    // Check for null explicitly
+    if (imageBytes.isEmpty) {
+      log('No Signature');
       return;
     }
+
     ImageContent imageContent = ImageContent();
     imageContent.imageContent = imageBytes;
+
+    log('--imageBytes--$imageBytes--');
     if (isReceiverSignature) {
       state.model.receiverSign = imageContent;
     } else {
       state.model.entrySecuritySign = imageContent;
     }
+
+    // Use the copyWith method more succinctly
     emit(state.copyWith(model: state.model, status: FormStatus.initial));
   }
+
 
   Future<String> exportSignature(
     SignatureController controller,
