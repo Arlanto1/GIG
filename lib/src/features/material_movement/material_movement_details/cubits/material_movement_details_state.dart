@@ -16,6 +16,8 @@ class MaterialMovementDetailsState extends Equatable {
   final int? eventId;
   final String? message;
   final bool isInward;
+  final bool isReceiverSignEditable;
+  final bool isEntrySecuritySignatureSignEditable;
   final Language? language;
 
   factory MaterialMovementDetailsState.initial({
@@ -31,17 +33,18 @@ class MaterialMovementDetailsState extends Equatable {
     required int? eventId,
   }) {
     return MaterialMovementDetailsState(
-        status: FormStatus.initial,
-        model: model,
-        locations: locations,
-        loggedInUserDetails: loggedInUserDetails,
-        users: users,
-        emailUsers: emailUsers,
-        message: errorMessage,
-        departments: departments,
-        loadAttachments: loadAttachments,
-        quantityUnits: quantityUnits,
-        eventId: eventId);
+      status: FormStatus.initial,
+      model: model,
+      locations: locations,
+      loggedInUserDetails: loggedInUserDetails,
+      users: users,
+      emailUsers: emailUsers,
+      message: errorMessage,
+      departments: departments,
+      loadAttachments: loadAttachments,
+      quantityUnits: quantityUnits,
+      eventId: eventId,
+    );
   }
 
   ErrorResponse get isValidDraft {
@@ -93,9 +96,10 @@ class MaterialMovementDetailsState extends Equatable {
     if (model.unit == null) {
       return const ErrorResponse(status: false, message: 'Please enter Unit');
     }
-    if (model.status == 2 &&model.materialPhysicallyChecked == false) {
+    if (model.status == 2 && model.materialPhysicallyChecked == false) {
       return const ErrorResponse(
-          status: false, message: 'Please Select Material Physically Checked as true');
+          status: false,
+          message: 'Please Select Material Physically Checked as true');
     }
 
     if (model.materialDescription.isEmptyOrNull) {
@@ -119,6 +123,8 @@ class MaterialMovementDetailsState extends Equatable {
     required this.status,
     required this.model,
     this.locations,
+    this.isReceiverSignEditable = false,
+    this.isEntrySecuritySignatureSignEditable = false,
     this.loggedInUserDetails,
     this.users,
     this.emailUsers,
@@ -148,7 +154,8 @@ class MaterialMovementDetailsState extends Equatable {
     int? eventId,
     String? message,
     Language? language,
-
+    bool? isReceiverSignEditable,
+    bool? isEntrySecuritySignatureSignEditable,
   }) {
     return MaterialMovementDetailsState(
       status: status ?? this.status,
@@ -164,7 +171,12 @@ class MaterialMovementDetailsState extends Equatable {
       quantityUnits: quantityUnits ?? this.quantityUnits,
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
-      language: language??this.language,
+      language: language ?? this.language,
+      isReceiverSignEditable:
+          isReceiverSignEditable ?? this.isReceiverSignEditable,
+
+      isEntrySecuritySignatureSignEditable:
+      isEntrySecuritySignatureSignEditable ?? this.isEntrySecuritySignatureSignEditable,
     );
   }
 }

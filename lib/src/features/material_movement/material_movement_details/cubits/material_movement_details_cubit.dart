@@ -19,7 +19,6 @@ import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -341,6 +340,23 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     ));
   }
 
+  void makeSignEditable(
+      {bool? receiverSign, bool? entrySecuritySignatureSignEditable}) {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    emit(
+      state.copyWith(
+        isReceiverSignEditable: receiverSign,
+        isEntrySecuritySignatureSignEditable:
+            entrySecuritySignatureSignEditable,
+        status: FormStatus.initial,
+      ),
+    );
+  }
+
   Future<void> pushSignature({
     required SignatureController controller,
     required bool isReceiverSignature,
@@ -349,7 +365,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
     // Check for null explicitly
     if (imageBytes.isEmpty) {
-      log('No Signature');
       return;
     }
 
@@ -358,37 +373,30 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
     log('--imageBytes--$imageBytes--');
     if (isReceiverSignature) {
+      imageContent.type = 2;
       state.model.receiverSign = imageContent;
+      emit(state.copyWith(
+        model: state.model,
+      ));
     } else {
+      imageContent.type = 3;
       state.model.entrySecuritySign = imageContent;
+      emit(state.copyWith(
+        model: state.model,
+      ));
     }
-
-    // Use the copyWith method more succinctly
-    emit(state.copyWith(model: state.model, status: FormStatus.initial));
   }
-
 
   Future<String> exportSignature(
     SignatureController controller,
   ) async {
-    final exportController = SignatureController(
-      penStrokeWidth: 2,
-      exportBackgroundColor: Colors.white,
-      penColor: Colors.black,
-      points: controller.points,
-    );
-
-    Uint8List? signature = await exportController.toPngBytes();
+    Uint8List? signature = await controller.toPngBytes();
     if (signature == null) {
       return '';
     }
     String bs4str = base64Encode(signature);
 
-    //clean up the memory
-    exportController.dispose();
-
     return bs4str;
-    // saveSignature(context, signature!);
   }
 
   Future<void> submitForm({
@@ -407,15 +415,19 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     /// Adding Signature to request Body
-    pushSignature(
+    await pushSignature(
       controller: receiverSignatureController,
       isReceiverSignature: true,
     );
-    pushSignature(
+    await pushSignature(
       controller: securitySignatureController,
       isReceiverSignature: false,
     );
 
+    if (state.model.receiverSign == null) {
+      log('---Need to remove this block after testing-No Sign Found.--');
+      return;
+    }
     // Create/Update API Call
     MaterialMovementRequest request =
         MaterialMovementRequest(materialMovement: state.model);
