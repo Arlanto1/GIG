@@ -2,6 +2,7 @@ class ImageContent {
   int? id;
   String? ownerName;
   String? contentType;
+  int? type;
   int? uploadDate;
   int? foundId;
   String? title;
@@ -16,6 +17,7 @@ class ImageContent {
     this.foundId,
     this.title,
     this.fileSize,
+    this.type,
     this.imageContent,
   });
 
@@ -26,6 +28,7 @@ class ImageContent {
     uploadDate: json["uploadDate"],
     foundId: json["foundId"],
     title: json["title"],
+    type: json["type"],
     fileSize: json["fileSize"],
     imageContent: json["imageContent"],
   );
@@ -37,6 +40,7 @@ class ImageContent {
     "uploadDate": uploadDate,
     "foundId": foundId,
     "title": title,
+    "type": type,
     "fileSize": fileSize,
     "imageContent": imageContent,
   };

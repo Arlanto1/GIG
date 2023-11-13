@@ -1528,61 +1528,15 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                             ],
 
                             /// Receiver Signature test
-                            (state.model.receiverSign != null &&
-                                    !state.model.receiverSign!.imageContent
-                                        .isEmptyOrNull)
-                                ? Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(2.0),
-                                      border: Border.all(
-                                        color: AppColors.gerylightBackground,
-                                        width: 1, // Border width
-                                      ),
-                                    ),
-                                    height: 100,
-                                    width: double.infinity,
-                                    child: Image.memory(
-                                      Uint8List.fromList(base64Decode(state
-                                              .model
-                                              .receiverSign!
-                                              .imageContent ??
-                                          '')),
-                                      fit: BoxFit
-                                          .contain, // Adjust the fit as needed
-                                    ),
-                                  )
-                                : buildSignature(
-                                    controller: receiverSignatureController,
-                                    label: Constants.receiverSignature,
-                                    spaceHeight: height,
-                                    state: state,
-                                  ),
+                            buildSignature(
+                              controller: receiverSignatureController,
+                              label: Constants.receiverSignature,
+                              spaceHeight: height,
+                              state: state,
+                            ),
 
                             /// Security Signature
-                            (state.model.entrySecuritySign != null &&
-                                !state.model.entrySecuritySign!.imageContent
-                                    .isEmptyOrNull)
-                                ? Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(2.0),
-                                border: Border.all(
-                                  color: AppColors.gerylightBackground,
-                                  width: 1, // Border width
-                                ),
-                              ),
-                              height: 100,
-                              width: double.infinity,
-                              child: Image.memory(
-                                Uint8List.fromList(base64Decode(state
-                                    .model
-                                    .receiverSign!
-                                    .imageContent ??
-                                    '')),
-                                fit: BoxFit
-                                    .contain, // Adjust the fit as needed
-                              ),
-                            )
-                                : buildSignature(
+                            buildSignature(
                               controller: securitySignatureController,
                               label: Constants.securitySignature,
                               spaceHeight: height,
@@ -1881,6 +1835,19 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
     required double spaceHeight,
     required MaterialMovementDetailsState state,
   }) {
+    bool isEditable = false;
+    bool isSigned = false;
+    bool isReceiver = label.equalsIgnoreCase(Constants.receiverSignature);
+    if (isReceiver) {
+      isSigned = state.model.receiverSign != null &&
+          !state.model.receiverSign!.imageContent.isEmptyOrNull;
+      isEditable = state.isReceiverSignEditable;
+    } else {
+      isSigned = state.model.entrySecuritySign != null &&
+          !state.model.entrySecuritySign!.imageContent.isEmptyOrNull;
+      isEditable = state.isEntrySecuritySignatureSignEditable;
+    }
+
     return Column(
       children: [
         Row(
@@ -1895,6 +1862,14 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                 IconButton(
                   onPressed: () {
                     controller.clear();
+                    if (isReceiver) {
+                      BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                          .makeSignEditable(receiverSign: true);
+                    } else {
+                      BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                          .makeSignEditable(
+                              entrySecuritySignatureSignEditable: true);
+                    }
                   },
                   iconSize: 20,
                   color: Colors.grey,
@@ -1916,10 +1891,21 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
             ),
             height: 100,
             width: double.infinity,
-            child: Signature(
-              controller: controller,
-              backgroundColor: Colors.white,
-            ),
+            child: (!isEditable && isSigned)
+                ? Image.memory(
+                    Uint8List.fromList(
+                      base64Decode(
+                        isReceiver
+                            ? state.model.receiverSign!.imageContent ?? ''
+                            : state.model.entrySecuritySign!.imageContent ?? '',
+                      ),
+                    ),
+                    fit: BoxFit.contain,
+                  )
+                : Signature(
+                    controller: controller,
+                    backgroundColor: Colors.white,
+                  ),
           ),
         ),
         CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
