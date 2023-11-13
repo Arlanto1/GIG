@@ -17,7 +17,6 @@ import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
@@ -35,8 +34,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../models/base_user.dart';
+import '../../../../../models/image_content.dart';
 import '../../../../../models/organisation.dart';
-import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import '../../../../createfound/models/user.dart';
 import '../../passmgmtlist/models/day_passlist_model.dart';
 
@@ -80,10 +79,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   TextEditingController mtpApplicationNoTextController =
       TextEditingController();
 
-  List<CreateImage> getFiles = [];
-  List<FoundImage> getAttachments = [];
-  List<CreateImage> photogetFiles = [];
-  List<FoundImage> photogetAttachments = [];
+  List<ImageContent> getFiles = [];
+  List<ImageContent> getAttachments = [];
+  List<ImageContent> photogetFiles = [];
+  List<ImageContent> photogetAttachments = [];
   late CreatePassMgmtState globalState;
   String? serialnumber;
   String createdBy = '';
@@ -2719,8 +2718,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       category = 1;
     }
 
-    List<CreateImage>? images = getFiles ?? [];
-    List<CreateImage>? photoimages = photogetFiles ?? [];
+    List<ImageContent>? images = getFiles ?? [];
+    List<ImageContent>? photoimages = photogetFiles ?? [];
     User? entrySecurity = widget.model?.entrySecurity ??
         User(userId: state.getUserDetailsResponse?.userId ?? 1);
 
@@ -3167,8 +3166,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   Widget attachmentListviews(
-    List<CreateImage>? attachmentListviews,
-    List<FoundImage>? attachmentListviews1,
+    List<ImageContent>? attachmentListviews,
+    List<ImageContent>? attachmentListviews1,
   ) {
     return Container(
       decoration: BoxDecoration(
@@ -3188,8 +3187,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? attachmentListviews1?.length
               : attachmentListviews?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
-            CreateImage? imagedata;
-            FoundImage? imagedata1;
+            ImageContent? imagedata;
+            ImageContent? imagedata1;
             if (widget.model != null) {
               imagedata1 = attachmentListviews1?[index];
             } else {

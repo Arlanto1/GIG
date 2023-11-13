@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -33,8 +34,6 @@ import '../../../../../utils/customalert.dart';
 import '../../../../../utils/helpers/keys/keys.dart';
 import '../../../../../utils/util.dart';
 import '../../../../../utils/validators/validator.dart';
-import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
-import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/user.dart';
 import '../../models/guarding_master_data_model.dart';
 import '../cubits/guarding_master_data_details_cubit.dart';
@@ -58,17 +57,17 @@ class GuardingMasterDataDetails extends StatefulWidget {
 class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   User? userDetails;
-  List<CreateImage>? getFiles;
-  List<CreateImage>? guardFiles;
-  List<CreateImage>? deploymentFiles;
-  List<CreateImage>? bioDataFiles;
-  List<CreateImage>? permanentAddressFiles;
-  List<CreateImage>? localAddressFiles;
-  List<CreateImage>? pVCFiles;
-  List<CreateImage>? trainingFiles;
-  List<CreateImage>? mSGBAFiles;
-  List<CreateImage>? medicalFiles;
-  List<FoundImage>? getAttachments;
+  List<ImageContent>? getFiles;
+  List<ImageContent>? guardFiles;
+  List<ImageContent>? deploymentFiles;
+  List<ImageContent>? bioDataFiles;
+  List<ImageContent>? permanentAddressFiles;
+  List<ImageContent>? localAddressFiles;
+  List<ImageContent>? pVCFiles;
+  List<ImageContent>? trainingFiles;
+  List<ImageContent>? mSGBAFiles;
+  List<ImageContent>? medicalFiles;
+  List<ImageContent>? getAttachments;
   TextEditingController dateOfBirthController = TextEditingController();
   TextEditingController dateOfJoiningController = TextEditingController();
   TextEditingController participationDateController = TextEditingController();
@@ -423,11 +422,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               loggedInUserDetails:
                                   state.loggedInUserDetails ?? User(),
                               getFiles: guardFiles,
-                              onImageSelected: (CreateImage data) {
+                              onImageSelected: (ImageContent data) {
                                 log('-------function---onImageSelected---------');
-                                List<CreateImage>? files = [];
+                                List<ImageContent>? files = [];
                                 files.add(data);
-                                for (CreateImage image in guardFiles ?? []) {
+                                for (ImageContent image in guardFiles ?? []) {
                                   files.add(image);
                                 }
                                 log('-------function---${files.length}---------');
@@ -917,11 +916,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 loggedInUserDetails:
                                     state.loggedInUserDetails ?? User(),
                                 getFiles: deploymentFiles,
-                                onImageSelected: (CreateImage data) {
+                                onImageSelected: (ImageContent data) {
                                   log('-------function---onImageSelected---------');
-                                  List<CreateImage>? files = [];
+                                  List<ImageContent>? files = [];
                                   files.add(data);
-                                  for (CreateImage image
+                                  for (ImageContent image
                                       in deploymentFiles ?? []) {
                                     files.add(image);
                                   }
@@ -1140,11 +1139,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               loggedInUserDetails:
                                   state.loggedInUserDetails ?? User(),
                               getFiles: bioDataFiles,
-                              onImageSelected: (CreateImage data) {
+                              onImageSelected: (ImageContent data) {
                                 log('-------function---onImageSelected---------');
-                                List<CreateImage>? files = [];
+                                List<ImageContent>? files = [];
                                 files.add(data);
-                                for (CreateImage image in bioDataFiles ?? []) {
+                                for (ImageContent image in bioDataFiles ?? []) {
                                   files.add(image);
                                 }
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
@@ -1201,11 +1200,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               loggedInUserDetails:
                                   state.loggedInUserDetails ?? User(),
                               getFiles: permanentAddressFiles,
-                              onImageSelected: (CreateImage data) {
+                              onImageSelected: (ImageContent data) {
                                 log('-------function---onImageSelected---------');
-                                List<CreateImage>? files = [];
+                                List<ImageContent>? files = [];
                                 files.add(data);
-                                for (CreateImage image
+                                for (ImageContent image
                                     in permanentAddressFiles ?? []) {
                                   files.add(image);
                                 }
@@ -1264,11 +1263,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               loggedInUserDetails:
                                   state.loggedInUserDetails ?? User(),
                               getFiles: localAddressFiles,
-                              onImageSelected: (CreateImage data) {
+                              onImageSelected: (ImageContent data) {
                                 log('-------function---onImageSelected---------');
-                                List<CreateImage>? files = [];
+                                List<ImageContent>? files = [];
                                 files.add(data);
-                                for (CreateImage image
+                                for (ImageContent image
                                     in localAddressFiles ?? []) {
                                   files.add(image);
                                 }
@@ -1373,11 +1372,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                     loggedInUserDetails:
                                         state.loggedInUserDetails ?? User(),
                                     getFiles: pVCFiles,
-                                    onImageSelected: (CreateImage data) {
+                                    onImageSelected: (ImageContent data) {
                                       log('-------function---onImageSelected---------');
-                                      List<CreateImage>? files = [];
+                                      List<ImageContent>? files = [];
                                       files.add(data);
-                                      for (CreateImage image
+                                      for (ImageContent image
                                           in pVCFiles ?? []) {
                                         files.add(image);
                                       }
@@ -1450,11 +1449,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 loggedInUserDetails:
                                     state.loggedInUserDetails ?? User(),
                                 getFiles: trainingFiles,
-                                onImageSelected: (CreateImage data) {
+                                onImageSelected: (ImageContent data) {
                                   log('-------function---onImageSelected---------');
-                                  List<CreateImage>? files = [];
+                                  List<ImageContent>? files = [];
                                   files.add(data);
-                                  for (CreateImage image
+                                  for (ImageContent image
                                       in trainingFiles ?? []) {
                                     files.add(image);
                                   }
@@ -1513,11 +1512,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               loggedInUserDetails:
                                   state.loggedInUserDetails ?? User(),
                               getFiles: medicalFiles,
-                              onImageSelected: (CreateImage data) {
+                              onImageSelected: (ImageContent data) {
                                 log('-------function---onImageSelected---------');
-                                List<CreateImage>? files = [];
+                                List<ImageContent>? files = [];
                                 files.add(data);
-                                for (CreateImage image in medicalFiles ?? []) {
+                                for (ImageContent image in medicalFiles ?? []) {
                                   files.add(image);
                                 }
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
@@ -2325,8 +2324,8 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
   }
 
   Widget attachmentListviews(
-    List<CreateImage>? attachmentListviews,
-    List<FoundImage>? attachmentListviews1,
+    List<ImageContent>? attachmentListviews,
+    List<ImageContent>? attachmentListviews1,
   ) {
     log('----attachmentListviews---cc--${attachmentListviews?.length}-----------');
     log('----attachmentListviews1----found-${attachmentListviews1?.length}-----------');
@@ -2347,8 +2346,8 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
           itemCount:
               attachmentListviews1?.length ?? attachmentListviews?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
-            CreateImage? imagedata;
-            FoundImage? imagedata1;
+            ImageContent? imagedata;
+            ImageContent? imagedata1;
             if (widget.guardingMasterData != null) {
               imagedata1 = attachmentListviews1?[index];
             } else {

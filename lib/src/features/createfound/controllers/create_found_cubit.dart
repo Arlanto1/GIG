@@ -15,6 +15,7 @@ import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/services/create_found_services.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/scheduler.dart';
@@ -26,7 +27,7 @@ import '../models/user.dart';
 
 class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   final CreateFoundServices createFoundServices;
-  List<CreateImage>? loadAttachments;
+  List<ImageContent>? loadAttachments;
 
   CreateFoundArticleCubit({
     required this.createFoundServices,
@@ -133,7 +134,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     }
   }
 
-  Future<void> addAttchment(List<CreateImage>? data) async {
+  Future<void> addAttchment(List<ImageContent>? data) async {
     // List<CreateImage> value = createFoundArticleCubit.loadAttachments ?? [];
     // loadAttachments ??= [];
     // loadAttachments?.add(data);

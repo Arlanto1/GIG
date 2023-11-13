@@ -1,10 +1,6 @@
-// To parse this JSON data, do
-//
-//     final lawEnforcementRequestBody = lawEnforcementRequestBodyFromJson(jsonString);
-
 import 'dart:convert';
 
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
 
 LawEnforcementRequestBody lawEnforcementRequestBodyFromJson(String str) => LawEnforcementRequestBody.fromJson(json.decode(str));
@@ -46,7 +42,7 @@ class LawEnforcement {
     String? additionalInformation;
     List<VisitingOfficial>? visitingOfficials;
     List<Organisation>? mailList;
-    List<CreateImage>? images;
+    List<ImageContent>? images;
 
     LawEnforcement({
         this.id,
@@ -91,8 +87,8 @@ class LawEnforcement {
         mailList: json["mailList"] == null ? [] : List<Organisation>.from(json["mailList"]),
         images: json["images"] == null
             ? []
-            : List<CreateImage>.from(
-                json["images"]!.map((x) => CreateImage.fromJson(x))),
+            : List<ImageContent>.from(
+                json["images"]!.map((x) => ImageContent.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {

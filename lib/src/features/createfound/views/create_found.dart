@@ -24,6 +24,7 @@ import 'package:db_atom/src/features/createfound/models/serial_number_model.dart
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_newuser.dart';
 import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -94,8 +95,8 @@ class _CreateFoundState extends State<CreateFound> {
   Organisation? locationSelectedlist;
   SubmitCreateFoundModel? createfoundResponse;
   SerialNumberModel? serialnumberResponse;
-  List<CreateImage> getFiles = [];
-  List<FoundImage> getAttachments = [];
+  List<ImageContent> getFiles = [];
+  List<ImageContent> getAttachments = [];
 
   SignatureController claimantSignature = SignatureController();
 
@@ -340,7 +341,7 @@ class _CreateFoundState extends State<CreateFound> {
         id: locationSelectedlist?.id ?? widget.model?.location?.id);
     Organisation? depositorDepartment =
         selectedEmployeedepartment ?? widget.model?.depositorDepartment;
-    List<CreateImage>? images = getFiles;
+    List<ImageContent>? images = getFiles;
     Organisation? claimantDepartment =
         selectedClaimdepartment ?? widget.model?.claimantDepartment;
 
@@ -1923,8 +1924,8 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   Widget attachmentListviews(
-    List<CreateImage>? attachmentListviews,
-    List<FoundImage>? attachmentListviews1,
+    List<ImageContent>? attachmentListviews,
+    List<ImageContent>? attachmentListviews1,
   ) {
     return Container(
       decoration: BoxDecoration(
@@ -1944,8 +1945,8 @@ class _CreateFoundState extends State<CreateFound> {
             ? attachmentListviews1?.length
             : attachmentListviews?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
-          CreateImage? imageData;
-          FoundImage? imageData1;
+          ImageContent? imageData;
+          ImageContent? imageData1;
           if (widget.model != null) {
             imageData1 = attachmentListviews1?[index];
           } else {

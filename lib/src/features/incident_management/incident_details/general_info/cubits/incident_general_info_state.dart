@@ -27,7 +27,7 @@ class IncidentGeneralInfoState extends Equatable {
     required final List<Organisation> getArticleTypeResponse,
     required final List<Organisation> departments,
     required String errorMessage,
-    required List<CreateImage> loadAttachments,
+    required List<ImageContent> loadAttachments,
     List<User>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,

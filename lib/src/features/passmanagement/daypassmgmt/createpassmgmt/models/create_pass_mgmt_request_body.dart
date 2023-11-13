@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
 
 import '../../../../createfound/models/user.dart';
@@ -69,11 +69,11 @@ class PassManagement {
   String? passNo;
   String? handOverSecurityName;
   String? mifareNo;
-  List<CreateImage>? images;
+  List<ImageContent>? images;
   Organisation? department;
   User? host;
   String? visitorName;
-  List<CreateImage>? visitorImage;
+  List<ImageContent>? visitorImage;
   Organisation? visitingDepartment;
   String? startTime;
   User? entrySecurity;
@@ -184,8 +184,8 @@ class PassManagement {
         mifareNo: json["mifareNo"],
         images: json["images"] == null
             ? []
-            : List<CreateImage>.from(
-                json["images"]!.map((x) => CreateImage.fromJson(x))),
+            : List<ImageContent>.from(
+                json["images"]!.map((x) => ImageContent.fromJson(x))),
         department: json["department"] == null
             ? null
             : Organisation.fromJson(json["department"]),
@@ -195,8 +195,8 @@ class PassManagement {
         visitorName: json["visitorName"],
         visitorImage: json["visitorImage"] == null
             ? []
-            : List<CreateImage>.from(
-                json["visitorImage"]!.map((x) => CreateImage.fromJson(x))),
+            : List<ImageContent>.from(
+                json["visitorImage"]!.map((x) => ImageContent.fromJson(x))),
         startTime: json["startTime"],
         entrySecurity: json["entrySecurity"] == null
             ? null

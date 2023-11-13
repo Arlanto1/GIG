@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -19,6 +18,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/vendor_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgmt_services.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +32,8 @@ import '../../../../createfound/models/user.dart';
 
 class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   CreatePassMgmtService createpassmgmtServices;
-  List<CreateImage>? loadAttachments;
-  List<CreateImage>? photoAttachments;
+  List<ImageContent>? loadAttachments;
+  List<ImageContent>? photoAttachments;
 
   CreatePassMgmtCubit({
     required this.createpassmgmtServices,
@@ -595,7 +595,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  Future<void> addAttchment(List<CreateImage>? data) async {
+  Future<void> addAttchment(List<ImageContent>? data) async {
     int eventIds = Random.secure().nextInt(5);
 
     emit(state.copyWith(
@@ -604,7 +604,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         stateType: CreatePassMgmtStateType.addattachment));
   }
 
-  Future<void> photoAttchment(List<CreateImage>? data) async {
+  Future<void> photoAttchment(List<ImageContent>? data) async {
     int eventIds = Random.secure().nextInt(5);
 
     emit(state.copyWith(

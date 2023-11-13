@@ -1,5 +1,4 @@
 import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
@@ -11,6 +10,7 @@ import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart'
 import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../models/base_user.dart';
@@ -42,7 +42,7 @@ class LawEnforcementState extends Equatable {
   BaseUser? getuserResponse;
   EmployeeDepartments? employeeDepartment;
   Organisation? selectedemployeeDepartmentResponse;
-  List<CreateImage>? loadAttachments = [];
+  List<ImageContent>? loadAttachments = [];
   List<VisitingOfficialsModel>? getVisits = [];
   int getVisitsCount = 0;
   User? getUserDetailsResponse;
@@ -113,7 +113,7 @@ class LawEnforcementState extends Equatable {
     BaseUser? getuserResponse,
     EmployeeDepartments? employeeDepartment,
     Organisation? selectedemployeeDepartmentResponse,
-    List<CreateImage>? loadAttachments,
+    List<ImageContent>? loadAttachments,
     int? getVisitsCount,
     List<VisitingOfficialsModel>? getVisits,
     User? getUserDetailsResponse,

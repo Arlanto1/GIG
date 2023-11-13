@@ -2,7 +2,6 @@ import 'package:db_atom/src/models/role.dart';
 import 'package:db_atom/src/models/role_extension.dart';
 
 import '../../../../../models/organisation.dart';
-import '../../../../material_movement/models/material_movements_model.dart';
 
 class ContactInfoModel {
   ContactInfoModel({

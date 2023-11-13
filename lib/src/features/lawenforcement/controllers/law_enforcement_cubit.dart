@@ -4,7 +4,6 @@ import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
@@ -19,6 +18,7 @@ import 'package:db_atom/src/features/lawenforcement/models/leodepartments.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/lawenforcement/models/submit_law_enforcement_response.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -30,7 +30,7 @@ import '../../createfound/models/user.dart';
 
 class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   LawEnforcementServices services;
-  List<CreateImage>? loadAttachments;
+  List<ImageContent>? loadAttachments;
 
   LawEnforcementCubit(
       {required this.services, this.loadAttachments})
@@ -290,7 +290,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  Future<void> addAttchment(List<CreateImage>? data) async {
+  Future<void> addAttchment(List<ImageContent>? data) async {
     int eventIds = Random.secure().nextInt(5);
 
     emit(state.copyWith(

@@ -1,11 +1,10 @@
-import 'package:db_atom/src/common_widgets/signature/signature_painter.dart';
-import 'package:flutter/material.dart';
-import 'dart:ui' as ui;
-
 import 'dart:async';
 import 'dart:math';
+import 'dart:ui' as ui;
 
+import 'package:db_atom/src/common_widgets/signature/signature_painter.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart' as svg;
 import 'package:image/image.dart' as img;
 

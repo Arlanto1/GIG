@@ -1,6 +1,6 @@
-import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
-import 'package:db_atom/src/models/base_object.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/src/models/base_object.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../models/history.dart';

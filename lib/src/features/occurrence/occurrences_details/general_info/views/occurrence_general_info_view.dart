@@ -6,6 +6,7 @@ import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_cubit.dart';
 import 'package:db_atom/src/models/base_user.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,8 +29,6 @@ import '../../../../../utils/customalert.dart';
 import '../../../../../utils/helpers/keys/keys.dart';
 import '../../../../../utils/util.dart';
 import '../../../../../utils/validators/validator.dart';
-import '../../../../article_found_register_module/foundlist/models/foundlist_article_details.dart';
-import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_locations_model.dart';
 import '../../../../createfound/models/user.dart';
 
@@ -48,8 +47,8 @@ class OccurrenceDetails extends StatefulWidget {
 class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   User? userDetails;
-  List<CreateImage>? getFiles;
-  List<FoundImage>? getAttachments;
+  List<ImageContent>? getFiles;
+  List<ImageContent>? getAttachments;
   TextEditingController powerFailureStartDateController =
       TextEditingController();
   TextEditingController powerFailureEndDateController = TextEditingController();
