@@ -1799,7 +1799,7 @@ class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
                           ],
                         ),
                       ],
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ],
                   ),
                 ),
