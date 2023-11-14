@@ -1,5 +1,7 @@
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
+import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
+import 'package:db_atom/src/features/contact_details/models/requestModels/contact_details_gi_request.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
@@ -10,39 +12,38 @@ import '../../../models/responseModels/generic_create_response.dart';
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getMaterialMovements = '$baseUrl/getMMList?';
+  static final String _get = '$baseUrl/getGcdList?';
 
-  static final String _getMaterialMovement = '$baseUrl/getMMById';
+  static final String _getById = '$baseUrl/getGcdGiById';
 
   static final String _createMaterialMovement = '$baseUrl/createMtrlMvmt';
 }
 
 class ContactDetailsServices {
-  Future<MaterialMovementsModel> getMaterialMovements({
+  Future<ContactDetailsListResponseModel> get({
     required String startPosition,
     required String maximumRecords,
-    required String userId,
   }) async {
     String url =
-        '${Apis._getMaterialMovements}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId';
+        '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
     );
-    return MaterialMovementsModel.fromJson(response);
+    return ContactDetailsListResponseModel.fromJson(response);
   }
 
-  Future<MaterialMovementModel> getMaterialMovement(int id) async {
-    final String url = '${Apis._getMaterialMovement}/$id';
+  Future<ContactDetailModel> getById(int id) async {
+    final String url = '${Apis._getById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return MaterialMovementModel.fromJson(response);
+    return ContactDetailModel.fromJson(response);
   }
 
   /// Create Services
-  Future<GenericCreateResponse> createMaterialMovement({
-    required MaterialMovementRequest body,
+  Future<GenericCreateResponse> createContactDetailsGi({
+    required ContactDetailsGiRequest body,
     required bool isSubmit,
   }) async {
     var userId = await SharedPrefs.getUserId();

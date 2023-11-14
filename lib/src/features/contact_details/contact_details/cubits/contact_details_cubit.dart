@@ -5,6 +5,9 @@ import 'dart:math' as math;
 import 'package:bloc/bloc.dart';
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
+import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
+import 'package:db_atom/src/features/contact_details/models/requestModels/contact_details_gi_request.dart';
+import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
@@ -32,24 +35,20 @@ import '../../../../models/responseModels/generic_create_response.dart';
 import '../../../createfound/models/emplyee_departments_model.dart';
 import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
-part 'material_movement_details_state.dart';
+part 'contact_details_state.dart';
 
-class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
-  final MaterialMovementServices materialMovementServices;
-  final MaterialMovementModel? model;
+class ContactDetailsCubit extends Cubit<ContactDetailsState> {
+  final ContactDetailsServices services;
+  final ContactDetailModel? model;
   final CommonServices commonServices;
-  final bool? isInward;
-  final bool? returnable;
 
-  MaterialMovementDetailsCubit({
-    required this.materialMovementServices,
+  ContactDetailsCubit({
+    required this.services,
     required this.commonServices,
     this.model,
-    this.isInward,
-    this.returnable,
   }) : super(
-          MaterialMovementDetailsState.initial(
-            model: model ?? MaterialMovementModel(),
+          ContactDetailsState.initial(
+            model: model ?? ContactDetailModel(),
             locations: GetLocations(),
             loggedInUserDetails: User(),
             users: const [],
@@ -62,7 +61,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           ),
         );
 
-  void onModelValueChange(MaterialMovementModel model) {
+  void onModelValueChange(ContactDetailModel model) {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
@@ -89,15 +88,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
-      state.model.inwardMovement = isInward;
-      if (state.model.approvedDate != null) {
-        state.model.approvedDate =
-            Utils().formatUnixTimestamp(state.model.approvedDate ?? '');
-      }
-      if (state.model.rejectedDate != null) {
-        state.model.rejectedDate =
-            Utils().formatUnixTimestamp(state.model.rejectedDate ?? '');
-      }
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
       // log('--getlabels-----}--');
@@ -114,7 +104,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       QuantityUnits quantityUnits = await commonServices.getQuantityUnits();
 
       state.model.entrySecurity = loggedInUserDetails;
-      state.model.unit = model?.unit;
 
       log('-emailUsers.atomStaticUser----init--${emailUsers.atomStaticUser?.length}---');
       emit(
@@ -165,7 +154,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       ),
     );
     // Get Sl No from API
-    if (location != null && isInward == true) {
+    if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
         moduleCode: Constants.materialMovementInwardReturnableModule,
@@ -173,9 +162,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
-    if (location != null &&
-        isInward == false &&
-        state.model.returnable == true) {
+    if (location != null ) {
       SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: location.id.toString(),
           moduleCode: Constants.materialMovementOutwardReturnableModule);
@@ -183,59 +170,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.slNo = slNo.serialNo;
     }
 
-    if (location != null &&
-        isInward == false &&
-        state.model.returnable == false) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.materialMovementOutwardNonReturnableModule,
-      );
-      state.model.location = location;
-      state.model.slNo = slNo.serialNo;
-    }
-
-    if (user != null) {
-      state.model.otherReceiverName = user.name;
-    }
-
-    if (receiverEmailUser != null) {
-      state.model.receiverEmail = receiverEmailUser.email;
-    }
-
-    if (receiverEmailUser != null) {
-      state.model.receiverEmail = receiverEmailUser.email;
-    }
-
-    if (requesterEmailUser != null) {
-      state.model.requestorEmail = requesterEmailUser.email;
-    }
-
-    if (returnReceiverMailId != null) {
-      state.model.returnReceiverMailId = returnReceiverMailId.email;
-    }
-    if (requesterDepartment != null) {
-      state.model.requestorDepartment = requesterDepartment;
-    }
-    if (preparedByDepartment != null) {
-      state.model.preparedByDepartment = preparedByDepartment;
-    }
-    if (approver1Department != null) {
-      state.model.approver1Department = approver1Department;
-    }
-
-    if (approver2Department != null) {
-      state.model.approver2Department = approver2Department;
-    }
-    if (receiverDepartment != null) {
-      state.model.receiverDepartment = receiverDepartment;
-    }
-    if (quantityUnit != null) {
-      state.model.unit = quantityUnit;
-    }
-
-    if (isReturnable != null) {
-      state.model.returnable = isReturnable;
-    }
 
     emit(state.copyWith(
       model: state.model,
@@ -243,57 +177,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     ));
   }
 
-  Future<void> updateApproverEmailsValue({
-    BaseUser? approver1EmailUser,
-    BaseUser? approver2EmailUser,
-  }) async {
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
-
-    if (approver1EmailUser != null) {
-      state.model.approver1Email = approver1EmailUser.email;
-
-      emit(
-        state.copyWith(
-          approver2Users: state.emailUsers,
-        ),
-      );
-
-      List<BaseUser>? updatedUsers = List.from(state.approver2Users ?? []);
-      updatedUsers.remove(approver1EmailUser);
-
-      emit(
-        state.copyWith(
-          model: state.model,
-          approver2Users: updatedUsers,
-          status: FormStatus.initial,
-        ),
-      );
-    }
-
-    if (approver2EmailUser != null) {
-      state.model.approver2Email = approver2EmailUser.email;
-
-      emit(
-        state.copyWith(
-          approver1Users: state.emailUsers,
-        ),
-      );
-
-      state.approver1Users?.remove(approver2EmailUser);
-
-      emit(
-        state.copyWith(
-          model: state.model,
-          status: FormStatus.initial,
-          approver1Users: state.approver1Users,
-        ),
-      );
-    }
-  }
 
   void addAttchment(List<ImageContent>? data) async {
     log('--state.status-1---${state.status}----');
@@ -318,91 +201,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     log('--state.status--3--${state.status}----');
   }
 
-  void showFields(
-      {bool? isOriginalReceiverReceiving, bool? isMaterialPhysicallyChecked}) {
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
-
-    if (isOriginalReceiverReceiving != null) {
-      state.model.originalReceiver = isOriginalReceiverReceiving;
-    }
-    if (isMaterialPhysicallyChecked != null) {
-      state.model.materialPhysicallyChecked = isMaterialPhysicallyChecked;
-    }
-    // final updatedMaterialMovement = materialMovement.copyWith(state.materialMovement.originalReceiver: isOriginalReceiverReceiving);
-
-    emit(state.copyWith(
-      model: state.model,
-      status: FormStatus.initial,
-    ));
-  }
-
-  void makeSignEditable(
-      {bool? receiverSign, bool? entrySecuritySignatureSignEditable}) {
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
-    emit(
-      state.copyWith(
-        isReceiverSignEditable: receiverSign,
-        isEntrySecuritySignatureSignEditable:
-            entrySecuritySignatureSignEditable,
-        status: FormStatus.initial,
-      ),
-    );
-  }
-
-  Future<void> pushSignature({
-    required SignatureController controller,
-    required bool isReceiverSignature,
-  }) async {
-    String imageBytes = await exportSignature(controller);
-
-    // Check for null explicitly
-    if (imageBytes.isEmpty) {
-      return;
-    }
-
-    ImageContent imageContent = ImageContent();
-    imageContent.imageContent = imageBytes;
-
-    log('--imageBytes--$imageBytes--');
-    if (isReceiverSignature) {
-      imageContent.type = 2;
-      state.model.receiverSign = imageContent;
-      emit(state.copyWith(
-        model: state.model,
-      ));
-    } else {
-      imageContent.type = 3;
-      state.model.entrySecuritySign = imageContent;
-      emit(state.copyWith(
-        model: state.model,
-      ));
-    }
-  }
-
-  Future<String> exportSignature(
-    SignatureController controller,
-  ) async {
-    Uint8List? signature = await controller.toPngBytes();
-    if (signature == null) {
-      return '';
-    }
-    String bs4str = base64Encode(signature);
-
-    return bs4str;
-  }
-
   Future<void> submitForm({
     bool isSaveOnly = false,
-    required SignatureController receiverSignatureController,
-    required SignatureController securitySignatureController,
   }) async {
     emit(
       state.copyWith(
@@ -414,23 +214,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-    /// Adding Signature to request Body
-    await pushSignature(
-      controller: receiverSignatureController,
-      isReceiverSignature: true,
-    );
-    await pushSignature(
-      controller: securitySignatureController,
-      isReceiverSignature: false,
-    );
-
-    if (state.model.receiverSign == null) {
-      log('---Need to remove this block after testing-No Sign Found.--');
-      return;
-    }
     // Create/Update API Call
-    MaterialMovementRequest request =
-        MaterialMovementRequest(materialMovement: state.model);
+    ContactDetailsGiRequest request =
+    ContactDetailsGiRequest(cdGi: state.model);
 
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
@@ -449,7 +235,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           );
           return;
         }
-        response = await materialMovementServices.createMaterialMovement(
+        response = await services.createContactDetailsGi(
             body: request, isSubmit: false);
       } else {
         //Validating Fields
@@ -464,7 +250,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           );
           return;
         }
-        response = await materialMovementServices.createMaterialMovement(
+        response = await services.createContactDetailsGi(
             body: request, isSubmit: true);
       }
 

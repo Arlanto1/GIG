@@ -4,6 +4,13 @@ import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/views/found_list_page.dart';
+import 'package:db_atom/src/features/contact_details/contact_details/cubits/contact_details_cubit.dart';
+import 'package:db_atom/src/features/contact_details/contact_details/views/contact_details_view.dart';
+import 'package:db_atom/src/features/contact_details/contact_details_list/bloc/contact_details_list_bloc.dart'
+    as cd;
+import 'package:db_atom/src/features/contact_details/contact_details_list/views/contact_details_list_view.dart';
+import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
+import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
 import 'package:db_atom/src/features/createfound/views/create_found.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_attachment.dart';
@@ -43,6 +50,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart';
+
 //import '../features/event_protection/event_protection_details/general_info/cubits/occurrence_general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/views/general_info_view.dart';
@@ -126,7 +134,7 @@ class RouteGenerator {
                     userName: userDetails?.name ?? '',
                     password: userDetails?.pwd ?? '',
                   ));
-                  return MaterialPageRoute(
+          return MaterialPageRoute(
               builder: (context) => const OtpVerifyScreen());
         }
         return MaterialPageRoute(builder: (context) => const OtpVerifyScreen());
@@ -141,7 +149,7 @@ class RouteGenerator {
                     model: listuser,
                     eventId: eventId,
                   ));
-                  return MaterialPageRoute(builder: (context) => const CreateFound());
+          return MaterialPageRoute(builder: (context) => const CreateFound());
         } else {
           return MaterialPageRoute(builder: (context) => const CreateFound());
         }
@@ -152,7 +160,7 @@ class RouteGenerator {
           LawEnforcementDetails? listuser = listroutes["UserElement"];
           return MaterialPageRoute(
               builder: (context) => LawEnforcementDetailsView(model: listuser));
-                  return MaterialPageRoute(
+          return MaterialPageRoute(
               builder: (context) => const LawEnforcementDetailsView());
         } else {
           return MaterialPageRoute(
@@ -175,7 +183,8 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => const CustomExpansionListTexts());
       case lawEnforcementListRoute:
-        return MaterialPageRoute(builder: (context) => const LawEnforcementsView());
+        return MaterialPageRoute(
+            builder: (context) => const LawEnforcementsView());
       case daypassmanagementListRoute:
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
@@ -185,7 +194,7 @@ class RouteGenerator {
                     passId: passMngArguments?.passType ?? '',
                     title: passMngArguments?.title ?? '',
                   ));
-                  return MaterialPageRoute(
+          return MaterialPageRoute(
               builder: (context) => DayPassManagementList());
         }
         return MaterialPageRoute(builder: (context) => DayPassManagementList());
@@ -199,7 +208,7 @@ class RouteGenerator {
                     passId: passMngArguments?.passType ?? '',
                     title: passMngArguments?.title ?? '',
                   ));
-                  return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
+          return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
         }
         return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
       case createpassmgmtRoute:
@@ -231,7 +240,7 @@ class RouteGenerator {
                     title: passMngArguments?.title ?? '',
                     model: passMngArguments?.model,
                   ));
-                  return MaterialPageRoute(
+          return MaterialPageRoute(
               builder: (context) => CreatePassManagement());
         }
         return MaterialPageRoute(builder: (context) => CreatePassManagement());
@@ -380,10 +389,33 @@ class RouteGenerator {
 
       case contactDetailsListRoute:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider<ocb.OccurrencesBloc>(
-            create: (_) => ocb.OccurrencesBloc()
-              ..add(const ocb.FetchData(startPos: 0, maxPos: 20)),
-            child: const OccurrencesView(),
+          builder: (context) => BlocProvider<cd.ContactDetailsListBloc>(
+            create: (_) => cd.ContactDetailsListBloc()
+              ..add(const cd.FetchData(startPos: 0, maxPos: 20)),
+            child: const ContactDetailsListView(),
+          ),
+        );
+
+      case contactDetailsRoute:
+        ContactDetailsServices services = ContactDetailsServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments['title'];
+        ContactDetailModel? model =
+        arguments["model"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<ContactDetailsCubit>(
+            create: (_) => ContactDetailsCubit(
+              services: services,
+              model: model,
+              commonServices: commonServices,
+            ),
+            child: ContactDetailsView(
+              model: model,
+              title: title,
+            ),
           ),
         );
 
@@ -601,17 +633,18 @@ class RouteGenerator {
         GuardingMastersDataModel? guardingMastersData =
             arguments["GuardingMastersDataModel"];
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<GuardingMasterDataDetailsCubit>(
-                  create: (_) => GuardingMasterDataDetailsCubit(
-                    services: services,
-                    model: guardingMastersData,
-                    commonServices: commonServices,
-                  ),
-                  child: GuardingMasterDataDetails(
-                    guardingMasterData: guardingMastersData,
-                    title: title,
-                  ),
-                ));
+          builder: (context) => BlocProvider<GuardingMasterDataDetailsCubit>(
+            create: (_) => GuardingMasterDataDetailsCubit(
+              services: services,
+              model: guardingMastersData,
+              commonServices: commonServices,
+            ),
+            child: GuardingMasterDataDetails(
+              guardingMasterData: guardingMastersData,
+              title: title,
+            ),
+          ),
+        );
 
       case guardingRateDetailsRoute:
         GuardingServices services = GuardingServices();

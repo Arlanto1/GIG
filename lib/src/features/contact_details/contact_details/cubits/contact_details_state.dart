@@ -1,9 +1,9 @@
-part of 'material_movement_details_cubit.dart';
+part of 'contact_details_cubit.dart';
 
-class MaterialMovementDetailsState extends Equatable {
+class ContactDetailsState extends Equatable {
   final FormStatus status;
 
-  final MaterialMovementModel model;
+  final ContactDetailModel model;
   final GetLocations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -20,8 +20,8 @@ class MaterialMovementDetailsState extends Equatable {
   final bool isEntrySecuritySignatureSignEditable;
   final Language? language;
 
-  factory MaterialMovementDetailsState.initial({
-    required MaterialMovementModel model,
+  factory ContactDetailsState.initial({
+    required ContactDetailModel model,
     required GetLocations locations,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
@@ -32,7 +32,7 @@ class MaterialMovementDetailsState extends Equatable {
     required List<Organisation> quantityUnits,
     required int? eventId,
   }) {
-    return MaterialMovementDetailsState(
+    return ContactDetailsState(
       status: FormStatus.initial,
       model: model,
       locations: locations,
@@ -76,50 +76,13 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
-    if (model.challanNo.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Challan No');
-    }
-    if (model.quantity == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Quantity');
-    }
-    log('--model.inwardMovement--${model.inwardMovement}--');
-    log('--model.materialComingFrom == null--${model.materialComingFrom == null}--');
-    if (model.inwardMovement ?? false) {
-      if (model.materialComingFrom == null) {
-        log('--model.materialComingFrom == null--${model.materialComingFrom == null}--');
-        return const ErrorResponse(
-            status: false, message: 'Please enter Sender\'s Name');
-      }
-    }
-    if (model.unit == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Unit');
-    }
-    if (model.status == 2 && model.materialPhysicallyChecked == false) {
-      return const ErrorResponse(
-          status: false,
-          message: 'Please Select Material Physically Checked as true');
-    }
-
-    if (model.materialDescription.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Material Description');
-    }
-
-    if (!model.materialPhysicallyChecked &&
-        isInward &&
-        model.materialNotCheckedComment.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Comment is Mandatory');
-    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
   @override
   List<Object?> get props => [model, status];
 
-  const MaterialMovementDetailsState({
+  const ContactDetailsState({
     required this.status,
     required this.model,
     this.locations,
@@ -139,9 +102,9 @@ class MaterialMovementDetailsState extends Equatable {
     this.approver2Users,
   });
 
-  MaterialMovementDetailsState copyWith({
+  ContactDetailsState copyWith({
     FormStatus? status,
-    MaterialMovementModel? model,
+    ContactDetailModel? model,
     GetLocations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
@@ -157,7 +120,7 @@ class MaterialMovementDetailsState extends Equatable {
     bool? isReceiverSignEditable,
     bool? isEntrySecuritySignatureSignEditable,
   }) {
-    return MaterialMovementDetailsState(
+    return ContactDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,
       locations: locations ?? this.locations,

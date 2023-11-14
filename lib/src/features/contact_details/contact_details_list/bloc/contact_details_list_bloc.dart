@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:equatable/equatable.dart';
@@ -32,11 +33,10 @@ class ContactDetailsListBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        MaterialMovementsModel response =
-            await services.getMaterialMovements(
+        ContactDetailsListResponseModel response =
+            await services.get(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          userId: '77',
         );
 
         return emit(
@@ -48,11 +48,10 @@ class ContactDetailsListBloc
         );
       }
 
-      MaterialMovementsModel response =
-          await services.getMaterialMovements(
+      ContactDetailsListResponseModel response =
+          await services.get(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '77', //TODO: make it dynamic
       );
 
       if (response.items?.isEmpty == true) {

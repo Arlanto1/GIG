@@ -1,17 +1,17 @@
 part of 'contact_details_list_bloc.dart';
 
 class ContactDetailsListState extends Equatable {
-  final List<MaterialMovementModel> items;
+  final List<ContactDetailModel> items;
   final bool hasReachedMax;
   final FormStatus status;
 
   const ContactDetailsListState(
-      {this.items = const <MaterialMovementModel>[],
+      {this.items = const <ContactDetailModel>[],
       this.hasReachedMax = false,
       this.status = FormStatus.initial});
 
   ContactDetailsListState copyWith({
-    List<MaterialMovementModel>? items,
+    List<ContactDetailModel>? items,
     bool? hasReachedMax,
     FormStatus? status,
   }) {
