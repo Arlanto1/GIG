@@ -377,6 +377,16 @@ class RouteGenerator {
       //         //eventStatus: eventStatus,
       //       ));
       //
+
+      case contactDetailsListRoute:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<ocb.OccurrencesBloc>(
+            create: (_) => ocb.OccurrencesBloc()
+              ..add(const ocb.FetchData(startPos: 0, maxPos: 20)),
+            child: const OccurrencesView(),
+          ),
+        );
+
       case eventProtectionListRoute:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ep.EventProtectionsBloc>(

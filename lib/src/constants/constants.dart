@@ -364,6 +364,7 @@ class Constants {
   static const String guardingMasterData = 'Guarding Master Data';
   static const String guardingMasterReport = 'Guarding Master Report';
   static const String guardingRate = 'Guarding Rates';
+  static const String contactDetails = 'Contact Details';
   static const String femaleDropPickUp = 'Female Drop PickUp';
   static const String keyManagementList = 'Key Management List';
   static const String slaViolationPenalty = 'SLA Violation Penalty';
