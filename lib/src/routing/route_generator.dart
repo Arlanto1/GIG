@@ -76,9 +76,9 @@ import '../features/lawenforcement/views/law_enforcement_details_view.dart';
 import '../features/login/bloc/login_bloc.dart';
 import '../features/login/services/login_services.dart';
 import '../features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
-import '../features/material_movement/material_movement_details/views/material_movement_details.dart';
+import '../features/material_movement/material_movement_details/views/material_movement_details_view.dart';
 import '../features/material_movement/material_movements/bloc/material_movement_bloc.dart';
-import '../features/material_movement/material_movements/views/material_movements.dart';
+import '../features/material_movement/material_movements/views/material_movements_view.dart';
 import '../features/material_movement/services/material_movement_services.dart';
 import '../features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_cubit.dart';
 import '../features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
@@ -548,7 +548,7 @@ class RouteGenerator {
             builder: (context) => BlocProvider<MaterialMovementBloc>(
                   create: (_) => MaterialMovementBloc(isInward: isInward)
                     ..add(const FetchData(startPos: 0, maxPos: 20)),
-                  child: MaterialMovements(
+                  child: MaterialMovementsView(
                     isInward: isInward,
                   ),
                 ));
@@ -574,7 +574,7 @@ class RouteGenerator {
                       model: materialMovement,
                       isInward: isInward,
                     ),
-                    child: MaterialMovementDetails(
+                    child: MaterialMovementDetailsView(
                       materialMovement: materialMovement,
                       isInward: isInward,
                       title: title,
@@ -589,7 +589,7 @@ class RouteGenerator {
                     model: MaterialMovementModel(),
                     isInward: isInward,
                   ),
-                  child: MaterialMovementDetails(
+                  child: MaterialMovementDetailsView(
                     isInward: isInward,
                     title: title,
                   ),

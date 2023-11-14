@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -25,7 +24,7 @@ class MaterialMovementBloc
     );
   }
 
-  final MaterialMovementServices _materialMovementServices =
+  final MaterialMovementServices services =
       MaterialMovementServices();
 
   FutureOr<void> _fetchMaterialMovements(
@@ -34,15 +33,13 @@ class MaterialMovementBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        log('mm---1----');
         MaterialMovementsModel response =
-            await _materialMovementServices.getMaterialMovements(
+            await services.getMaterialMovements(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '77',
           mmType: isInward ? 1 : 0,
         );
-        log('mm---1-response.totalCount---${response.totalCount}--');
 
         return emit(
           state.copyWith(
@@ -54,13 +51,12 @@ class MaterialMovementBloc
       }
 
       MaterialMovementsModel response =
-          await _materialMovementServices.getMaterialMovements(
+          await services.getMaterialMovements(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '77', //TODO: make it dynamic
         mmType: isInward ? 1 : 0,
       );
-      log('mm---2-response.totalCount---${response.totalCount}--');
 
       if (response.items?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));

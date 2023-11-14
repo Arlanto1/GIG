@@ -33,7 +33,7 @@ class MaterialMovementServices {
     return MaterialMovementsModel.fromJson(response);
   }
 
-  Future<MaterialMovementModel> getMaterialMovement(int id) async {
+  Future<MaterialMovementModel> getById(int id) async {
     final String url = '${Apis._getMaterialMovement}/$id';
     final response = await BaseApiService().getRequest(
       url: url,

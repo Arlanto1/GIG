@@ -17,8 +17,8 @@ import '../../../../enums/form_status.dart';
 import '../../../../utils/util.dart';
 import '../bloc/material_movement_bloc.dart';
 
-class MaterialMovements extends StatefulWidget {
-  const MaterialMovements({
+class MaterialMovementsView extends StatefulWidget {
+  const MaterialMovementsView({
     super.key,
     required this.isInward,
   });
@@ -26,10 +26,10 @@ class MaterialMovements extends StatefulWidget {
   final bool isInward;
 
   @override
-  State<MaterialMovements> createState() => _MaterialMovementsState();
+  State<MaterialMovementsView> createState() => _MaterialMovementsViewState();
 }
 
-class _MaterialMovementsState extends State<MaterialMovements> {
+class _MaterialMovementsViewState extends State<MaterialMovementsView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
 
@@ -193,7 +193,7 @@ class _MaterialMovementsState extends State<MaterialMovements> {
     showLoadingDialog(context);
 
     MaterialMovementModel materialMovementModel =
-        await MaterialMovementServices().getMaterialMovement(id);
+        await MaterialMovementServices().getById(id);
 
     editDataLoading(materialMovementModel);
   }
