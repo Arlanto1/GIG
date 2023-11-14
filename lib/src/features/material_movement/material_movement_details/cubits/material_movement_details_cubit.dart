@@ -424,10 +424,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       isReceiverSignature: false,
     );
 
-    if (state.model.receiverSign == null) {
-      log('---Need to remove this block after testing-No Sign Found.--');
-      return;
-    }
     // Create/Update API Call
     MaterialMovementRequest request =
         MaterialMovementRequest(materialMovement: state.model);
