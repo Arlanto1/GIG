@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/features/login/models/login_model.dart';
 import 'package:db_atom/src/features/login/models/login_request_model.dart';
 
@@ -10,7 +12,7 @@ class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
   static const String _login =
-      'https://api.integration.dbatom.arlanto.com/oauth2/loginV2';
+      'oauth2/loginV2';
   static const String _resetPassword =
       'https://api.integration.dbatom.arlanto.com/oauth2/resetPassword';
   static const String _updatePassword =
@@ -18,10 +20,13 @@ class Apis {
   static const String _refreshToken =
       'https://api.integration.dbatom.arlanto.com/oauth2/tokenRefresh';
 }
+String get apiHost => "https://api.qa.dbatom.dbatom.arlanto.com/api/atomrestservice";
 
 class LoginService {
   Future<LoginResponseModel> loginUser(LoginRequestModel data) async {
-    const String url = Apis._login;
+    String baseUrl = Apis.baseUrl.replaceAll('api/atomrestservice', '');
+     String url = baseUrl+Apis._login;
+     log('---url----$url----');
     final response = await BaseApiService()
         .postRequest(url: url, requestedData: data.toJson());
     return LoginResponseModel.fromJson(response);
