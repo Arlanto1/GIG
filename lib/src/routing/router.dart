@@ -62,3 +62,6 @@ const String slaViolationDetailsRoute = '/slaViolationDetailsRoute';
 const String occurrenceRoute = '/occurrenceRoute';
 const String occurrenceDetailsRoute = '/occurrenceDetailsRoute';
 
+const String contactDetailsListRoute = '/contactDetailsListRoute';
+const String contactDetailsRoute = '/contactDetailsRoute';
+

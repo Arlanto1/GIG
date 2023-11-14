@@ -91,6 +91,8 @@ class NavigationDrawer1 extends StatelessWidget {
         Constants.keyManagementList, AppIcon.keyManagementListIcon, 0),
     const DrawerItem1(Constants.occurrence, AppIcon.occurence, 0),
     const DrawerItem1(Constants.slaViolationPenalty, AppIcon.occurence, 0),
+    const DrawerItem1(
+        Constants.contactDetails, AppIcon.guardingMasterRatesIcon, 0),
   ];
 
   final passTileDrawerItems = [
@@ -507,6 +509,10 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 6) {
       // Navigator.pushNamed(context, sstIncidentRoute,
       //     arguments: {"SLA Violation Penalty": false});
+    }
+    else if (index == 7) {
+      Navigator.pushNamed(context, contactDetailsListRoute,
+          arguments: {"SLA Violation Penalty": false});
     }
   }
 

@@ -42,12 +42,12 @@ import '../../../../models/organisation.dart';
 import '../../../../utils/customalert.dart';
 import '../../../../utils/util.dart';
 
-class MaterialMovementDetails extends StatefulWidget {
+class MaterialMovementDetailsView extends StatefulWidget {
   final MaterialMovementModel? materialMovement;
   final bool isInward;
   final String title;
 
-  const MaterialMovementDetails({
+  const MaterialMovementDetailsView({
     super.key,
     this.materialMovement,
     required this.isInward,
@@ -55,11 +55,11 @@ class MaterialMovementDetails extends StatefulWidget {
   });
 
   @override
-  State<MaterialMovementDetails> createState() =>
-      _MaterialMovementDetailsState();
+  State<MaterialMovementDetailsView> createState() =>
+      _MaterialMovementDetailsViewState();
 }
 
-class _MaterialMovementDetailsState extends State<MaterialMovementDetails> {
+class _MaterialMovementDetailsViewState extends State<MaterialMovementDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController returnableTextController = TextEditingController();
   User? userDetails;

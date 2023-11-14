@@ -6,8 +6,8 @@ import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_p
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
-import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
+import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
+import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
@@ -15,21 +15,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../enums/form_status.dart';
 import '../../../../utils/util.dart';
-import '../bloc/material_movement_bloc.dart';
+import '../bloc/contact_details_list_bloc.dart';
 
-class MaterialMovements extends StatefulWidget {
-  const MaterialMovements({
+class ContactDetailsListView extends StatefulWidget {
+  const ContactDetailsListView({
     super.key,
-    required this.isInward,
   });
 
-  final bool isInward;
-
   @override
-  State<MaterialMovements> createState() => _MaterialMovementsState();
+  State<ContactDetailsListView> createState() => _ContactDetailsListViewState();
 }
 
-class _MaterialMovementsState extends State<MaterialMovements> {
+class _ContactDetailsListViewState extends State<ContactDetailsListView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
 
@@ -54,7 +51,7 @@ class _MaterialMovementsState extends State<MaterialMovements> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context
-          .read<MaterialMovementBloc>()
+          .read<ContactDetailsListBloc>()
           .add(FetchData(startPos: pageNumber, maxPos: 20));
     }
   }
@@ -67,27 +64,21 @@ class _MaterialMovementsState extends State<MaterialMovements> {
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
-            Navigator.pushNamed(context, materialMovementInwardDetailsRoute,
+            Navigator.pushNamed(context, contactDetailsRoute,
                 arguments: {
-                  "isInward": widget.isInward,
-                  "isCreate": true,
-                  "title": widget.isInward
-                      ? Constants.materialMovementInwardCreate
-                      : Constants.materialMovementOutwardCreate,
+                  "title": Constants.contactDetails,
                 })
           },
         ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: widget.isInward
-              ? Constants.materialMovementsInwardTitle
-              : Constants.materialMovementsOutwardTitle,
+          title: Constants.contactDetails,
           showPopUp: true,
           showSaveButton: false,
           excelAPIName: 'exportMMExcel',
           pdfAPIName: 'exportMMPDF',
         ),
-        body: BlocBuilder<MaterialMovementBloc, MaterialMovementState>(
+        body: BlocBuilder<ContactDetailsListBloc, ContactDetailsListState>(
             builder: (context, state) {
           if (state.status == FormStatus.initial) {
             return const Center(
@@ -123,11 +114,6 @@ class _MaterialMovementsState extends State<MaterialMovements> {
                   labels.add(Label(
                       key: 'Location',
                       value: state.items[index].location?.name ?? ''));
-                  labels.add(Label(
-                      key: 'Material Movement Type ',
-                      value: state.items[index].returnable == true
-                          ? 'Returnable'
-                          : 'Not Returnable'));
                 }
                 return index >= state.items.length
                     ? const Center(
@@ -146,13 +132,10 @@ class _MaterialMovementsState extends State<MaterialMovements> {
                               return BasePopUpItems(
                                 id: state.items[selectedIndex].id.toString(),
                                 labels: labels,
-                                quantity: state.items[selectedIndex].quantity
-                                    .toString(),
-                                challanNo: state.items[selectedIndex].challanNo,
                                 slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
                                 entrySecurityName: state
-                                    .items[selectedIndex].entrySecurityName,
+                                    .items[selectedIndex].entrySecurity?.name,
                                 isMasterGuard: false,
                                 isEventProtectionStatus: false,
                               );
@@ -169,13 +152,10 @@ class _MaterialMovementsState extends State<MaterialMovements> {
                               return BasePopUpItems(
                                 id: state.items[selectedIndex].id.toString(),
                                 labels: labels,
-                                quantity: state.items[selectedIndex].quantity
-                                    .toString(),
-                                challanNo: state.items[selectedIndex].challanNo,
                                 slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
                                 entrySecurityName: state
-                                    .items[selectedIndex].entrySecurityName,
+                                    .items[selectedIndex].entrySecurity?.name,
                                 isMasterGuard: false,
                               );
                             },
@@ -192,23 +172,23 @@ class _MaterialMovementsState extends State<MaterialMovements> {
   getLawEnforcementId(int id) async {
     showLoadingDialog(context);
 
-    MaterialMovementModel materialMovementModel =
-        await MaterialMovementServices().getMaterialMovement(id);
+    ContactDetailModel materialMovementModel =
+        await ContactDetailsServices().getById(id);
 
     editDataLoading(materialMovementModel);
   }
 
-  void editDataLoading(MaterialMovementModel? materialMovementModel) {
+  void editDataLoading(ContactDetailModel? model) {
     dismissLoadingDialog(context);
-    if (materialMovementModel != null) {
-      Navigator.pushNamed(context, materialMovementInwardDetailsRoute,
-          arguments: {
-            "MaterialMovementModel": materialMovementModel,
-            "isInward": widget.isInward,
-            "title": widget.isInward
-                ? Constants.materialMovementInwardEdit
-                : Constants.materialMovementOutwardEdit,
-          });
+    if (model != null) {
+      Navigator.pushNamed(
+        context,
+        contactDetailsRoute,
+        arguments: {
+          "model": model,
+          "title": Constants.contactDetails,
+        },
+      );
     }
   }
 }
