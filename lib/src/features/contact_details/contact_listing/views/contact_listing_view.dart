@@ -13,6 +13,7 @@ import 'package:db_atom/src/features/contact_details/models/contact_details_list
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
+import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,9 @@ class _ContactListingViewState extends State<ContactListingView> {
   void initState() {
     super.initState();
     _scrollController = ScrollController()..addListener(_onScroll);
+    context.read<ContactListingBloc>().add(
+          const InitializeValues(),
+        );
   }
 
   @override
@@ -58,70 +62,81 @@ class _ContactListingViewState extends State<ContactListingView> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context
-          .read<ContactListingBloc>()
-          .add(FetchData(startPos: pageNumber, maxPos: 20));
+      context.read<ContactListingBloc>().add(
+            FetchData(startPos: pageNumber, maxPos: 20),
+          );
     }
   }
 
   showAddContactPopUp({
     required BuildContext context,
     required PayRate payRate,
+    required final List<BaseUser> users,
   }) {
     showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return AddContactPopUp(
-            title: widget.title,
-            payRate: payRate,
-            mainContext: context,
-            onSubmit: (PayRate payRate) {
-              //loginFormKey.currentState!.validate();
-              FocusScope.of(context).unfocus();
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AddContactPopUp(
+          title: widget.title,
+          payRate: payRate,
+          mainContext: context,
+          users: users,
+          onSubmit: (PayRate payRate) {
+            //loginFormKey.currentState!.validate();
+            FocusScope.of(context).unfocus();
 
-              log('-widget.title---${widget.title}----');
+            log('-widget.title---${widget.title}----');
 
-              switch (widget.title) {
-                case Constants.createSecurityGuard:
-                  payRate.rankId = 1;
-                  break;
+            switch (widget.title) {
+              case Constants.createSecurityGuard:
+                payRate.rankId = 1;
+                break;
 
-                case Constants.createSecuritySupervisor:
-                  payRate.rankId = 3;
-                  break;
+              case Constants.createSecuritySupervisor:
+                payRate.rankId = 3;
+                break;
 
-                case Constants.createSecurityOfficer:
-                  payRate.rankId = 2;
-                  break;
+              case Constants.createSecurityOfficer:
+                payRate.rankId = 2;
+                break;
 
-                case Constants.createSecurityFacilitator:
-                  payRate.rankId = 4;
-                  break;
+              case Constants.createSecurityFacilitator:
+                payRate.rankId = 4;
+                break;
 
-                default:
-                  payRate.rankId = 5;
-                  break;
-              }
+              default:
+                payRate.rankId = 5;
+                break;
+            }
 
-              log('--newPayRate--total---${payRate.total}------------');
-              log('--newPayRate--2222--33333--rankid-${payRate.rankId}------------');
+            log('--newPayRate--total---${payRate.total}------------');
+            log('--newPayRate--2222--33333--rankid-${payRate.rankId}------------');
 
-              BlocProvider.of<PayRateCubit>(context)
-                  .onSave(isSubmit: false, newPayRate: payRate);
-            },
-          );
-        });
+            BlocProvider.of<PayRateCubit>(context)
+                .onSave(isSubmit: false, newPayRate: payRate);
+          },
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocConsumer<ContactListingBloc, ContactListingState>(
+        listener: (context, state) {
+      // TODO: implement listener
+    }, builder: (context, state) {
+      return Scaffold(
         backgroundColor: AppColors.cardBgColor,
         floatingActionButton: Flutterfloatingbutton(
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () {
-            showAddContactPopUp(context: context, payRate: PayRate());
+            showAddContactPopUp(
+              context: context,
+              payRate: PayRate(),
+              users: state.users ?? [],
+            );
           },
         ),
         appBar: BaseAppBar().buildAppHeader(
@@ -132,95 +147,97 @@ class _ContactListingViewState extends State<ContactListingView> {
           excelAPIName: 'exportMMExcel',
           pdfAPIName: 'exportMMPDF',
         ),
-        body: BlocBuilder<ContactListingBloc, ContactListingState>(
-            builder: (context, state) {
-          if (state.status == FormStatus.initial) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+        body: getBody(state),
+      );
+    });
+  }
+
+  getBody(ContactListingState state) {
+    log('---users---state-${state.users?.length}--');
+    if (state.status == FormStatus.initial) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    return Container(
+      margin: allMargin16,
+      decoration: const ShapeDecoration(
+          color: AppColors.backgroundWhitecolor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+          )),
+      child: ListView.builder(
+        controller: _scrollController,
+        itemCount:
+            state.hasReachedMax ? state.items.length : state.items.length + 1,
+        itemBuilder: (context, index) {
+          List<Label> labels = [];
+          if (index < state.items.length) {
+            labels.add(Label(
+                key: 'Date',
+                value: state.items[index].inputDate != null
+                    ? Utils.timestamptoDateConversion(
+                        int.parse(state.items[index].inputDate ?? '0'),
+                        Constants.dateFormat)
+                    : ''));
+            labels.add(Label(
+                key: 'Region',
+                value: state.items[index].locationRegion?.name ?? ''));
+            labels.add(Label(
+                key: 'Location',
+                value: state.items[index].location?.name ?? ''));
           }
-          return Container(
-            margin: allMargin16,
-            decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                )),
-            child: ListView.builder(
-              controller: _scrollController,
-              itemCount: state.hasReachedMax
-                  ? state.items.length
-                  : state.items.length + 1,
-              itemBuilder: (context, index) {
-                List<Label> labels = [];
-                if (index < state.items.length) {
-                  labels.add(Label(
-                      key: 'Date',
-                      value: state.items[index].inputDate != null
-                          ? Utils.timestamptoDateConversion(
-                              int.parse(state.items[index].inputDate ?? '0'),
-                              Constants.dateFormat)
-                          : ''));
-                  labels.add(Label(
-                      key: 'Region',
-                      value: state.items[index].locationRegion?.name ?? ''));
-                  labels.add(Label(
-                      key: 'Location',
-                      value: state.items[index].location?.name ?? ''));
-                }
-                return index >= state.items.length
-                    ? const Center(
-                        child: CustomCircularProgressIndicator(),
-                      )
-                    : BaseListTileItem(
-                        id: state.items[index].id,
-                        labels: labels,
-                        status: state.items[index].status,
-                        isMasterGuard: false,
-                        isEventProtectionStatus: false,
-                        onTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                labels: labels,
-                                slNo: state.items[selectedIndex].slNo,
-                                status: state.items[selectedIndex].status,
-                                entrySecurityName: state
-                                    .items[selectedIndex].entrySecurity?.name,
-                                isMasterGuard: false,
-                                isEventProtectionStatus: false,
-                              );
-                            },
-                          );
-                        },
-                        onEditTap: (selectedIndex) {
-                          getLawEnforcementId(state.items[index].id ?? 0);
-                        },
-                        onViewTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                labels: labels,
-                                slNo: state.items[selectedIndex].slNo,
-                                status: state.items[selectedIndex].status,
-                                entrySecurityName: state
-                                    .items[selectedIndex].entrySecurity?.name,
-                                isMasterGuard: false,
-                              );
-                            },
-                          );
-                        },
-                        index: index,
-                      );
-              },
-            ),
-          );
-        }));
+          return index >= state.items.length
+              ? const Center(
+                  child: CustomCircularProgressIndicator(),
+                )
+              : BaseListTileItem(
+                  id: state.items[index].id,
+                  labels: labels,
+                  status: state.items[index].status,
+                  isMasterGuard: false,
+                  isEventProtectionStatus: false,
+                  onTap: (selectedIndex) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext dialogContext) {
+                        return BasePopUpItems(
+                          id: state.items[selectedIndex].id.toString(),
+                          labels: labels,
+                          slNo: state.items[selectedIndex].slNo,
+                          status: state.items[selectedIndex].status,
+                          entrySecurityName:
+                              state.items[selectedIndex].entrySecurity?.name,
+                          isMasterGuard: false,
+                          isEventProtectionStatus: false,
+                        );
+                      },
+                    );
+                  },
+                  onEditTap: (selectedIndex) {
+                    getLawEnforcementId(state.items[index].id ?? 0);
+                  },
+                  onViewTap: (selectedIndex) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext dialogContext) {
+                        return BasePopUpItems(
+                          id: state.items[selectedIndex].id.toString(),
+                          labels: labels,
+                          slNo: state.items[selectedIndex].slNo,
+                          status: state.items[selectedIndex].status,
+                          entrySecurityName:
+                              state.items[selectedIndex].entrySecurity?.name,
+                          isMasterGuard: false,
+                        );
+                      },
+                    );
+                  },
+                  index: index,
+                );
+        },
+      ),
+    );
   }
 
   getLawEnforcementId(int id) async {

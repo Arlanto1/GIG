@@ -14,3 +14,8 @@ class FetchData extends ContactListingEvent{
   const FetchData({required this.startPos, required this.maxPos});
 }
 
+class InitializeValues extends ContactListingEvent{
+
+  const InitializeValues();
+}
+

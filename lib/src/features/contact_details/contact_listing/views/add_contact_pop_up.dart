@@ -1,12 +1,15 @@
 import 'dart:developer';
 
+import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/pop_button.dart';
+import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
+import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/responseModels/error_response_validation.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -16,19 +19,19 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class AddContactPopUp extends StatefulWidget {
   const AddContactPopUp({
     super.key,
     required this.title,
     required this.onSubmit,
     required this.payRate,
-    required this.mainContext,
+    required this.mainContext, required this.users,
   });
 
   final String title;
   final Function onSubmit;
   final PayRate payRate;
+  final List<BaseUser> users;
   final BuildContext mainContext;
 
   @override
@@ -48,8 +51,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
   @override
   Widget build(BuildContext context) {
-    log('------payRate--${widget.payRate.total}------');
 
+    log('---users-${widget.users.length}--');
 
     return AlertDialog(
       title: Align(
@@ -85,8 +88,34 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                     children: <Widget>[
                       /// Monthly Cost
                       CommonWidgets.textDisplay(
-                        Constants.monthlyCost,isMandatory: true,
+                        Constants.rank,
+                        isMandatory: true,
                         Styles.textStyleBlack14,
+                      ),
+                      Column(
+                        children: [
+                          CommonWidgets.textDisplay(
+                            Constants.approver1Email,
+                            Styles.textStyleBlack14,
+                            isMandatory: true,
+                          ),
+                          TextfieldAddButton(
+                            title: 'Rank',
+                            height: 70,
+                            isDisableColor: false,
+                            onTap: () {
+                              BaseDepartmentDialog().userDialog(
+                                context: context,
+                                users: widget.users,
+                                onTap: (BaseUser user) {
+                                  // BlocProvider.of<ContactListingBloc>(context)
+                                  //     .updateApproverEmailsValue(
+                                  //         approver1EmailUser: user);
+                                },
+                              );
+                            },
+                          )
+                        ],
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
@@ -115,7 +144,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
                       /// Days
                       CommonWidgets.textDisplay(
-                        Constants.days,isMandatory: true,
+                        Constants.days,
+                        isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -146,7 +176,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
                       /// Per Hour
                       CommonWidgets.textDisplay(
-                        Constants.perHour,isMandatory: true,
+                        Constants.perHour,
+                        isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -168,7 +199,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
                       /// From Date
                       CommonWidgets.textDisplay(
-                        Constants.fromDate,isMandatory: true,
+                        Constants.fromDate,
+                        isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -188,7 +220,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
                       /// To Date
                       CommonWidgets.textDisplay(
-                        Constants.toDate,isMandatory: true,
+                        Constants.toDate,
+                        isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),

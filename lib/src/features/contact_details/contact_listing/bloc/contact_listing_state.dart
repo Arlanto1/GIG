@@ -4,21 +4,26 @@ class ContactListingState extends Equatable {
   final List<ContactDetailModel> items;
   final bool hasReachedMax;
   final FormStatus status;
+  final List<BaseUser>? users;
 
-  const ContactListingState(
-      {this.items = const <ContactDetailModel>[],
-      this.hasReachedMax = false,
-      this.status = FormStatus.initial});
+  const ContactListingState({
+    this.items = const <ContactDetailModel>[],
+    this.hasReachedMax = false,
+    this.status = FormStatus.initial,
+    this.users,
+  });
 
   ContactListingState copyWith({
     List<ContactDetailModel>? items,
     bool? hasReachedMax,
     FormStatus? status,
+    List<BaseUser>? users,
   }) {
     return ContactListingState(
       items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
+      users: users ?? this.users,
     );
   }
 
