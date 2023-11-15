@@ -35,7 +35,7 @@ class DayPassListCubit extends Cubit<DayPassListState> {
     // }
     try {
       DayPassListResponse foundListModelResponse =
-          await passListServices.getPassMgmtList(
+          await passListServices.getList(
         startPosition: startPosition,
         maximumRecords: maximumRecords,
         userId: userId,
@@ -82,7 +82,7 @@ class DayPassListCubit extends Cubit<DayPassListState> {
       int articleId, BuildContext context) async {
     try {
       DayPassListElement foundArticleDetailsResponse =
-          await passListServices.getpassArticleById(articleId, context);
+          await passListServices.getById(articleId, context);
       emit(
         state.copyWith(
           foundArticleDetails: foundArticleDetailsResponse,

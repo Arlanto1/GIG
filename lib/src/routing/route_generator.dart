@@ -1,6 +1,7 @@
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/app.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
+import 'package:db_atom/src/constants/constant_agruments.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/views/found_list_page.dart';
@@ -9,6 +10,9 @@ import 'package:db_atom/src/features/contact_details/contact_details/views/conta
 import 'package:db_atom/src/features/contact_details/contact_details_list/bloc/contact_details_list_bloc.dart'
     as cd;
 import 'package:db_atom/src/features/contact_details/contact_details_list/views/contact_details_list_view.dart';
+import 'package:db_atom/src/features/contact_details/contact_listing/bloc/contact_listing_bloc.dart'
+    as cl;
+import 'package:db_atom/src/features/contact_details/contact_listing/views/contact_listing_view.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
@@ -401,10 +405,9 @@ class RouteGenerator {
         CommonServices commonServices = CommonServices();
         String title;
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
-        title = arguments['title'];
-        ContactDetailModel? model =
-        arguments["model"];
+            settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        ContactDetailModel? model = arguments["model"];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ContactDetailsCubit>(
             create: (_) => ContactDetailsCubit(
@@ -414,6 +417,23 @@ class RouteGenerator {
             ),
             child: ContactDetailsView(
               model: model,
+              title: title,
+            ),
+          ),
+        );
+
+      case contactListingRoute:
+        String title = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          title = arguments[ConstantsArgument.title];
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<cl.ContactListingBloc>(
+            create: (_) => cl.ContactListingBloc()
+              ..add(const cl.FetchData(startPos: 0, maxPos: 100)),
+            child: ContactListingView(
               title: title,
             ),
           ),
@@ -518,7 +538,7 @@ class RouteGenerator {
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
-          title = arguments['title'] ?? '';
+          title = arguments[ConstantsArgument.title] ?? '';
           id = arguments['id'];
           eventDuration = arguments['eventDuration'];
         }
@@ -560,7 +580,7 @@ class RouteGenerator {
         String title;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
-        title = arguments['title'];
+        title = arguments[ConstantsArgument.title];
         isInward = arguments['isInward'];
         MaterialMovementModel? materialMovement =
             arguments["MaterialMovementModel"];
@@ -629,7 +649,7 @@ class RouteGenerator {
         String title;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
-        title = arguments['title'];
+        title = arguments[ConstantsArgument.title];
         GuardingMastersDataModel? guardingMastersData =
             arguments["GuardingMastersDataModel"];
         return MaterialPageRoute(
@@ -651,7 +671,7 @@ class RouteGenerator {
         String title;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
-        title = arguments['title'];
+        title = arguments[ConstantsArgument.title];
         GMRate rate = arguments['gmRate'];
         return MaterialPageRoute(
             builder: (context) => BlocProvider<PayRateCubit>(
@@ -672,7 +692,7 @@ class RouteGenerator {
         String title;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
-        title = arguments['title'];
+        title = arguments[ConstantsArgument.title];
         GMRate? model = arguments["gmRate"];
 
         if (model != null) {
@@ -711,7 +731,7 @@ class RouteGenerator {
               settings.arguments as Map<String, dynamic>;
           payRates = arguments['payRates'] ?? [];
           rate = arguments['gmRate'];
-          title = arguments['title'];
+          title = arguments[ConstantsArgument.title];
         }
         return MaterialPageRoute(
             builder: (context) => BlocProvider<PayRateCubit>(

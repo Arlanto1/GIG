@@ -64,4 +64,5 @@ const String occurrenceDetailsRoute = '/occurrenceDetailsRoute';
 
 const String contactDetailsListRoute = '/contactDetailsListRoute';
 const String contactDetailsRoute = '/contactDetailsRoute';
+const String contactListingRoute = '/contactListingRoute';
 
