@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
 import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/contact_details/models/requestModels/contact_details_gi_request.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
@@ -12,17 +10,13 @@ import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
-import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
-import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/language.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
@@ -54,10 +48,6 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
             users: const [],
             emailUsers: const [],
             errorMessage: '',
-            departments: const [],
-            loadAttachments: const [],
-            quantityUnits: const [],
-            eventId: null,
           ),
         );
 
@@ -88,8 +78,6 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
-      EmployeeDepartments departments =
-          await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
       // log('--getlabels-----}--');
       //
       // MmUiLabels uilabels = await commonServices.getUiLabels(
@@ -101,7 +89,6 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
-      QuantityUnits quantityUnits = await commonServices.getQuantityUnits();
 
       state.model.entrySecurity = loggedInUserDetails;
 
@@ -116,14 +103,12 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
           emailUsers: emailUsers.atomStaticUser,
           approver1Users: emailUsers.atomStaticUser,
           approver2Users: emailUsers.atomStaticUser,
-          departments: departments.employeeDepartments,
-          quantityUnits: quantityUnits.units,
           //  language: uilabels
         ),
       );
     } catch (e) {
       log('initialization issue',
-          error: e, name: 'Material Movement Details Cubit');
+          error: e, name: 'Contact Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -138,15 +123,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
     Organisation? location,
     BaseUser? user,
     BaseUser? receiverEmailUser,
-    BaseUser? requesterEmailUser,
-    BaseUser? returnReceiverMailId,
-    Organisation? requesterDepartment,
-    Organisation? preparedByDepartment,
-    Organisation? approver1Department,
-    Organisation? approver2Department,
-    Organisation? receiverDepartment,
-    Organisation? quantityUnit,
-    bool? isReturnable,
+
   }) async {
     emit(
       state.copyWith(
@@ -157,7 +134,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.materialMovementInwardReturnableModule,
+        moduleCode: Constants.contactDetailsModule,
       );
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
@@ -165,7 +142,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
     if (location != null ) {
       SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: location.id.toString(),
-          moduleCode: Constants.materialMovementOutwardReturnableModule);
+          moduleCode: Constants.contactDetailsModule);
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
@@ -177,29 +154,6 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
     ));
   }
 
-
-  void addAttchment(List<ImageContent>? data) async {
-    log('--state.status-1---${state.status}----');
-
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
-    int eventIds = math.Random.secure().nextInt(5);
-
-    log('--data----${data?.length}----');
-    log('--state.status-2---${state.status}----');
-
-    emit(state.copyWith(
-      eventId: eventIds,
-      model: state.model,
-      loadAttachments: data,
-      status: FormStatus.initial,
-    ));
-
-    log('--state.status--3--${state.status}----');
-  }
 
   Future<void> submitForm({
     bool isSaveOnly = false,

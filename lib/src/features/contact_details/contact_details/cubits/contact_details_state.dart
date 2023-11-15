@@ -10,14 +10,7 @@ class ContactDetailsState extends Equatable {
   final List<BaseUser>? emailUsers;
   final List<BaseUser>? approver1Users;
   final List<BaseUser>? approver2Users;
-  final List<Organisation> departments;
-  final List<ImageContent>? loadAttachments;
-  final List<Organisation> quantityUnits;
-  final int? eventId;
   final String? message;
-  final bool isInward;
-  final bool isReceiverSignEditable;
-  final bool isEntrySecuritySignatureSignEditable;
   final Language? language;
 
   factory ContactDetailsState.initial({
@@ -27,10 +20,6 @@ class ContactDetailsState extends Equatable {
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
-    required List<Organisation> departments,
-    required List<ImageContent> loadAttachments,
-    required List<Organisation> quantityUnits,
-    required int? eventId,
   }) {
     return ContactDetailsState(
       status: FormStatus.initial,
@@ -40,10 +29,6 @@ class ContactDetailsState extends Equatable {
       users: users,
       emailUsers: emailUsers,
       message: errorMessage,
-      departments: departments,
-      loadAttachments: loadAttachments,
-      quantityUnits: quantityUnits,
-      eventId: eventId,
     );
   }
 
@@ -86,17 +71,10 @@ class ContactDetailsState extends Equatable {
     required this.status,
     required this.model,
     this.locations,
-    this.isReceiverSignEditable = false,
-    this.isEntrySecuritySignatureSignEditable = false,
     this.loggedInUserDetails,
     this.users,
     this.emailUsers,
-    required this.departments,
-    this.loadAttachments,
-    required this.quantityUnits,
-    this.eventId,
     this.message,
-    this.isInward = false,
     this.language,
     this.approver1Users,
     this.approver2Users,
@@ -111,14 +89,8 @@ class ContactDetailsState extends Equatable {
     List<BaseUser>? emailUsers,
     List<BaseUser>? approver1Users,
     List<BaseUser>? approver2Users,
-    List<Organisation>? departments,
-    List<ImageContent>? loadAttachments,
-    List<Organisation>? quantityUnits,
-    int? eventId,
     String? message,
     Language? language,
-    bool? isReceiverSignEditable,
-    bool? isEntrySecuritySignatureSignEditable,
   }) {
     return ContactDetailsState(
       status: status ?? this.status,
@@ -129,17 +101,8 @@ class ContactDetailsState extends Equatable {
       emailUsers: emailUsers ?? this.emailUsers,
       approver1Users: approver1Users ?? this.approver1Users,
       approver2Users: approver2Users ?? this.approver2Users,
-      departments: departments ?? this.departments,
-      loadAttachments: loadAttachments ?? this.loadAttachments,
-      quantityUnits: quantityUnits ?? this.quantityUnits,
-      eventId: eventId ?? this.eventId,
       message: message ?? this.message,
       language: language ?? this.language,
-      isReceiverSignEditable:
-          isReceiverSignEditable ?? this.isReceiverSignEditable,
-
-      isEntrySecuritySignatureSignEditable:
-      isEntrySecuritySignatureSignEditable ?? this.isEntrySecuritySignatureSignEditable,
-    );
+       );
   }
 }

@@ -17,7 +17,7 @@ class Constants {
   static const String guardingRatesModule = 'GR';
   static const String occurrenceModule = 'OCC';
   static const String incidentManagementModule = 'IM';
-
+  static const String contactDetailsModule = 'CD';
 
   /// UI Module Code
   static const String materialMovementModuleCode = 'MM';
