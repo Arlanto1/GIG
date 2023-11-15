@@ -37,6 +37,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool isEventProtectionStatus;
   final bool isOccurrenceStatus;
   final bool isSLAViolationStatus;
+  final bool isContactDetailsStatus;
 
   const BaseListTileItem({
     super.key,
@@ -66,6 +67,7 @@ class BaseListTileItem extends StatefulWidget {
     this.isOccurrenceStatus = false,
     this.isSLAViolationStatus = false,
     this.incidentType,
+    this.isContactDetailsStatus =false,
   });
 
   @override
@@ -180,7 +182,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               !widget.isOccurrenceStatus &&
                               !widget.isEventProtectionStatus &&
                               !widget.isSLAViolationStatus &&
-                              !widget.isIncident) ...[
+                              !widget.isIncident && !widget.isContactDetailsStatus) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
                             Utils().buildStatusRow(widget.status ?? 0),
                           ],
@@ -235,6 +237,11 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                                 Utils().incidentType(widget.incidentType ?? 0),
                               ],
                             ),
+                          ],
+                          if (widget.status != null && widget.isContactDetailsStatus ==true && widget.isEventProtectionStatus == false) ...[
+                            CommonWidgets.horizontalSpacerWidget(5),
+                            Utils()
+                                .contactDetailsStatus(widget.status ?? 0),
                           ],
                         ],
                       ),

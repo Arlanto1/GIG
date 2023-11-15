@@ -63,6 +63,7 @@ class BasePopUpItems extends StatefulWidget {
   final User? handOverSecurity;
   final int? incidentType;
   final bool isIncident;
+  final bool isContactDetailsStatus;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -120,6 +121,7 @@ class BasePopUpItems extends StatefulWidget {
     this.shiftBrfngAttnded = false,
     this.materialMovement = false,
     this.leoVisit = false,
+    this.isContactDetailsStatus = false,
     this.handOverSecurity,
     this.incidentType,
   });
@@ -258,7 +260,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           !widget.isOccurrenceStatus &&
           !widget.isEventProtectionStatus &&
           !widget.isSLAViolationStatus &&
-          !widget.isIncident) ...[
+          !widget.isIncident && !widget.isContactDetailsStatus) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
           children: [
@@ -635,6 +637,11 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Utils().buildIncidentStatus(widget.status ?? 0),
           ],
         ),
+      ],
+      if (widget.status != null && widget.isContactDetailsStatus ==true && widget.isEventProtectionStatus == false) ...[
+        CommonWidgets.horizontalSpacerWidget(5),
+        Utils()
+            .contactDetailsStatus(widget.status ?? 0),
       ],
       if (widget.incidentType != null) ...[
         CommonWidgets.verticalSpacerWidget(5),

@@ -882,6 +882,27 @@ class Utils {
     );
   }
 
+  Widget contactDetailsStatus(int status) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Draft';
+        break;
+      case 1:
+        statusText = 'Active';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
   Widget textHandling(String title, String desc) {
     return RichText(
       overflow: TextOverflow.ellipsis,
