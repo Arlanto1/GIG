@@ -579,6 +579,10 @@ class Constants {
   static const String sLAViolationPenalty = 'SLA Violation Penalty';
 
 
+  //Contact Details
+  static const String phoneNumber = 'Phone Number';
+
+
 }
 
 

@@ -40,8 +40,8 @@ class AddContactPopUp extends StatefulWidget {
 
 class AddContactPopUpState extends State<AddContactPopUp> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController perHourController = TextEditingController();
-  TextEditingController fromDateController = TextEditingController();
+  TextEditingController contactController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   TextEditingController toDateController = TextEditingController();
 
   @override
@@ -71,11 +71,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
         var width = MediaQuery.of(context).size.width;
 
         if (widget.payRate.perHour != null) {
-          perHourController.text = widget.payRate.perHour.toString();
+          contactController.text = widget.payRate.perHour.toString();
         }
 
         return SizedBox(
-          height: height / 1.3,
+          height: height /2,
           width: width,
           child: Stack(
             clipBehavior: Clip.none,
@@ -86,16 +86,10 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      /// Monthly Cost
-                      CommonWidgets.textDisplay(
-                        Constants.rank,
-                        isMandatory: true,
-                        Styles.textStyleBlack14,
-                      ),
                       Column(
                         children: [
                           CommonWidgets.textDisplay(
-                            Constants.approver1Email,
+                            Constants.rank,
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
@@ -118,145 +112,47 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         ],
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      FlutterInputField(
-                        initialValue: '${widget.payRate.total ?? ''}',
-                        keyboardType: TextInputType.number,
-                        textFormKey: Keys.totalKey,
-                        hintText: '',
-                        onChange: (String value) {
-                          if (value.isNotEmpty) {
-                            widget.payRate.total = num.parse(value);
 
-                            BlocProvider.of<PayRateCubit>(widget.mainContext)
-                                .onModelValueChange(widget.payRate);
-
-                            if (widget.payRate.days != null) {
-                              perHourController.text =
-                                  ((widget.payRate.total)! /
-                                          (8 * (widget.payRate.days as num)))
-                                      .toString();
-                            }
-                          }
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                      /// Days
+                      /// Name
                       CommonWidgets.textDisplay(
-                        Constants.days,
+                        Constants.name,
                         isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue: Utils()
-                            .removeDecimalAndValuesAfterIt(widget.payRate.days),
-                        keyboardType: TextInputType.number,
-                        textFormKey: Keys.daysKey,
-                        hintText: '',
-                        onChange: (String value) {
-                          if (value.isNotEmpty &&
-                              widget.payRate.total != null) {
-                            widget.payRate.days = num.parse(value);
-
-                            perHourController.text = ((widget.payRate.total)! /
-                                    (8 * (widget.payRate.days as num)))
-                                .toString();
-
-                            widget.payRate.perHour =
-                                double.parse(perHourController.text);
-                            BlocProvider.of<PayRateCubit>(widget.mainContext)
-                                .onModelValueChange(widget.payRate);
-                          }
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                      /// Per Hour
-                      CommonWidgets.textDisplay(
-                        Constants.perHour,
-                        isMandatory: true,
-                        Styles.textStyleBlack14,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      FlutterInputField(
-                        textFieldController: perHourController,
-                        keyboardType: TextInputType.number,
-                        textFormKey: Keys.perHourKey,
+                        textFieldController: nameController,
+                        keyboardType: TextInputType.text,
+                        textFormKey: Keys.nameKey,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
                         onChange: (String value) {
-                          widget.payRate.perHour = double.parse(value);
-                          BlocProvider.of<PayRateCubit>(widget.mainContext)
-                              .onModelValueChange(widget.payRate);
+                          // widget.payRate.perHour = double.parse(value);
+                          // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                          //     .onModelValueChange(widget.payRate);
                         },
                         validateTextField: (String? user) {},
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      /// From Date
+                      /// Phone Number
                       CommonWidgets.textDisplay(
-                        Constants.fromDate,
-                        isMandatory: true,
-                        Styles.textStyleBlack14,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                      BaseDate().datePickerWidgetLoading(
-                        textController: fromDateController,
-                        isDisabled: false,
-                        onChange: (String value) {
-                          log('--fr-value-${fromDateController.text}------');
-                          widget.payRate.fromDate = value;
-                          BlocProvider.of<PayRateCubit>(widget.mainContext)
-                              .onModelValueChange(widget.payRate);
-                        },
-                        context: widget.mainContext,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                      /// To Date
-                      CommonWidgets.textDisplay(
-                        Constants.toDate,
-                        isMandatory: true,
-                        Styles.textStyleBlack14,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                      BaseDate().datePickerWidgetLoading(
-                        textController: toDateController,
-                        showBackDate: false,
-                        onChange: (String value) {
-                          widget.payRate.toDate = value;
-                          BlocProvider.of<PayRateCubit>(widget.mainContext)
-                              .onModelValueChange(widget.payRate);
-                        },
-                        context: widget.mainContext,
-                      ),
-
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                      /// To Comment
-                      CommonWidgets.textDisplay(
-                        Constants.comment,
+                        Constants.phoneNumber,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue: widget.payRate.comment ?? '',
-                        lineHeight: 6,
-                        textFormKey: Keys.commentKey,
+                        textFieldController: contactController,
+                        keyboardType: TextInputType.number,
+                        textFormKey: Keys.phoneNumberKey,
                         hintText: '',
-                        showBorder: true,
-                        isEnable: true,
-                        isDisableColor: false,
+                        isEnable: false,
+                        isDisableColor: true,
                         onChange: (String value) {
-                          widget.payRate.comment = value;
-                          BlocProvider.of<PayRateCubit>(widget.mainContext)
-                              .onModelValueChange(widget.payRate);
+                          // widget.payRate.perHour = double.parse(value);
+                          // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                          //     .onModelValueChange(widget.payRate);
                         },
                         validateTextField: (String? user) {},
                       ),

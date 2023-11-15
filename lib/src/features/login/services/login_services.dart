@@ -26,7 +26,7 @@ String get apiHost =>
 class LoginService {
   Future<LoginResponseModel> loginUser(LoginRequestModel data) async {
     String baseUrl = Apis.baseUrl.replaceAll('api/atomrestservice', '');
-    String url = baseUrl + Apis._login;
+    String url = Apis._login;
     log('---url----$url----');
     final response = await BaseApiService()
         .postRequest(url: url, requestedData: data.toJson());
