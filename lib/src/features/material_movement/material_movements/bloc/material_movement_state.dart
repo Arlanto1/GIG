@@ -5,10 +5,11 @@ class MaterialMovementState extends Equatable {
   final bool hasReachedMax;
   final FormStatus status;
 
-  const MaterialMovementState(
-      {this.items = const <MaterialMovementModel>[],
-      this.hasReachedMax = false,
-      this.status = FormStatus.initial});
+  const MaterialMovementState({
+    this.items = const <MaterialMovementModel>[],
+    this.hasReachedMax = false,
+    this.status = FormStatus.initial,
+  });
 
   MaterialMovementState copyWith({
     List<MaterialMovementModel>? items,

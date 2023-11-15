@@ -11,8 +11,7 @@ import '../models/update_password_request.dart';
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static const String _login =
-      'oauth2/loginV2';
+  static final String _login = '$baseUrl/login';
   static const String _resetPassword =
       'https://api.integration.dbatom.arlanto.com/oauth2/resetPassword';
   static const String _updatePassword =
@@ -20,13 +19,15 @@ class Apis {
   static const String _refreshToken =
       'https://api.integration.dbatom.arlanto.com/oauth2/tokenRefresh';
 }
-String get apiHost => "https://api.qa.dbatom.dbatom.arlanto.com/api/atomrestservice";
+
+String get apiHost =>
+    "https://api.qa.dbatom.dbatom.arlanto.com/api/atomrestservice";
 
 class LoginService {
   Future<LoginResponseModel> loginUser(LoginRequestModel data) async {
     String baseUrl = Apis.baseUrl.replaceAll('api/atomrestservice', '');
-     String url = baseUrl+Apis._login;
-     log('---url----$url----');
+    String url = baseUrl + Apis._login;
+    log('---url----$url----');
     final response = await BaseApiService()
         .postRequest(url: url, requestedData: data.toJson());
     return LoginResponseModel.fromJson(response);
@@ -34,8 +35,8 @@ class LoginService {
 
   Future<LoginResponseModel> forgotPwdAPI(LoginRequestModel data) async {
     const String url = Apis._resetPassword;
-    final response = await BaseApiService()
-        .postRequest(url: url, requestedData: data.toJson(), isAuthenticated: false);
+    final response = await BaseApiService().postRequest(
+        url: url, requestedData: data.toJson(), isAuthenticated: false);
     return LoginResponseModel.fromJson(response);
   }
 
