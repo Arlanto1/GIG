@@ -651,7 +651,8 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                   processBreachIncdnt: false);
                                           // .onModelValueChange(state.guardingMasterData
                                           //  );
-                                        }),
+                                        },
+                              ),
 
                               if (state.model.processBreachIncdnt == true) ...[
                                 CommonWidgets.textDisplay(

@@ -530,6 +530,8 @@ class Constants {
 
   static const String assetType = 'Asset Type';
 
+  static const String generalContact = 'General Contact';
+
 
 
   //Occurrence

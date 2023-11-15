@@ -16,6 +16,7 @@ import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
 import 'package:db_atom/src/common_widgets/signature/signature_func.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
+import 'package:db_atom/src/constants/constant_agruments.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/contact_details/contact_details/cubits/contact_details_cubit.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
@@ -205,74 +206,114 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0, right: 20),
-                        child: Column(children: [
-                          if (!state.model.lock.isEmptyOrNull) ...[
-                            RecordLockedWidget(text: '${state.model.lock}'),
-                          ],
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              Constants.generalinformation,
-                              style: Styles.styleHeaderGreyText16,
+                        child: Column(
+                          children: [
+                            if (!state.model.lock.isEmptyOrNull) ...[
+                              RecordLockedWidget(text: '${state.model.lock}'),
+                            ],
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.generalinformation,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Created By
-                          CommonWidgets.verticalTextHandling(
-                              Constants.createdby,
-                              '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            /// Created By
+                            CommonWidgets.verticalTextHandling(
+                                Constants.createdby,
+                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Status
-                          CommonWidgets.textDisplay(
-                            Constants.status,
-                            Styles.textStyleBlack14,
-                            isMandatory: true,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          FlutterInputField(
-                            isEnable: false,
-                            isDisableColor: true,
-                            textFormKey: Keys.statusTextController,
-                            hintText: '',
-                            initialValue:
-                                getStatusString(state.model.status ?? 0),
-                            onChange: (String value) {},
-                            validateTextField: (String? user) {},
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            /// Status
+                            CommonWidgets.textDisplay(
+                              Constants.status,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              isEnable: false,
+                              isDisableColor: true,
+                              textFormKey: Keys.statusTextController,
+                              hintText: '',
+                              initialValue:
+                                  getStatusString(state.model.status ?? 0),
+                              onChange: (String value) {},
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Date of creation
-                          CommonWidgets.textDisplay(
-                            Constants.dateofcreation,
-                            Styles.textStyleBlack14,
-                            isMandatory: true,
-                          ),
+                            /// Date of creation
+                            CommonWidgets.textDisplay(
+                              Constants.dateofcreation,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
 
-                          /// Location
-                          CommonWidgets.textDisplay(
-                            Constants.location,
-                            Styles.textStyleBlack14,
-                            isMandatory: true,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          locationWidgetdislay(state),
+                            /// Location
+                            CommonWidgets.textDisplay(
+                              Constants.location,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            locationWidgetdislay(state),
 
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          datecreateWidgetdisplay(state.model.inputDate ?? ''),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            datecreateWidgetdisplay(
+                                state.model.inputDate ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Sl No.
-                          CommonWidgets.horizentaltextHandling(
-                            Constants.slno,
-                            state.model.slNo ?? '',
-                            isMandatory: true,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                        ]),
+                            /// Sl No.
+                            CommonWidgets.horizentaltextHandling(
+                              Constants.slno,
+                              state.model.slNo ?? '',
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.generalContact,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, contactListingRoute,
+                                    arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.generalContact,
+                                    },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View General Contact(s)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
