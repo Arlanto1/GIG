@@ -530,7 +530,6 @@ class Constants {
 
   static const String assetType = 'Asset Type';
 
-  static const String generalContact = 'General Contact';
 
 
 
@@ -581,7 +580,11 @@ class Constants {
 
   //Contact Details
   static const String phoneNumber = 'Phone Number';
-
+  static const String generalContact = 'General Contact';
+  static const String guardingAgencyContact = 'Guarding Agency Escalation Contact';
+  static const String systemEscalationContact = 'System Escalation Contact';
+  static const String supervisorContact = 'Supervisor Contact';
+  static const String zonalEscalationContact = 'Zonal Escalation Contact';
 
 }
 

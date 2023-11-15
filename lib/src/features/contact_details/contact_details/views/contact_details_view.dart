@@ -287,15 +287,15 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
 
                             GestureDetector(
                               onTap: () {
-
                                 // TODO: Need to save General Info Object First
 
                                 Navigator.pushNamed(
-                                    context, contactListingRoute,
-                                    arguments: {
+                                  context,
+                                  contactListingRoute,
+                                  arguments: {
                                     ConstantsArgument.title:
                                         Constants.generalContact,
-                                    },
+                                  },
                                 );
                               },
                               child: Row(
@@ -306,7 +306,168 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
-                                    'Add/View General Contact(s)',
+                                    'Add/View Contact(s)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.guardingAgencyContact,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            GestureDetector(
+                              onTap: () {
+                                // TODO: Need to save General Info Object First
+
+                                Navigator.pushNamed(
+                                  context,
+                                  contactListingRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.generalContact,
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View Contact(s)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.systemEscalationContact,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            GestureDetector(
+                              onTap: () {
+                                // TODO: Need to save General Info Object First
+
+                                Navigator.pushNamed(
+                                  context,
+                                  contactListingRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.generalContact,
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View Contact(s)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.supervisorContact,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            GestureDetector(
+                              onTap: () {
+                                // TODO: Need to save General Info Object First
+
+                                Navigator.pushNamed(
+                                  context,
+                                  contactListingRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.generalContact,
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View Contact(s)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.zonalEscalationContact,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            GestureDetector(
+                              onTap: () {
+                                // TODO: Need to save General Info Object First
+
+                                Navigator.pushNamed(
+                                  context,
+                                  contactListingRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.generalContact,
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View Contact(s)',
                                     style: TextStyle(
                                       color: AppColors.navigationSkybluecolor,
                                       decoration: TextDecoration.underline,
