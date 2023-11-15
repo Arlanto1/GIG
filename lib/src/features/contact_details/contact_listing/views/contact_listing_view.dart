@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
@@ -6,8 +8,11 @@ import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_p
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
+import 'package:db_atom/src/features/contact_details/contact_listing/views/add_contact_pop_up.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +24,12 @@ import '../bloc/contact_listing_bloc.dart';
 
 class ContactListingView extends StatefulWidget {
   const ContactListingView({
-    super.key, required this.title,
+    super.key,
+    required this.title,
   });
 
   final String title;
+
   @override
   State<ContactListingView> createState() => _ContactListingViewState();
 }
@@ -57,6 +64,55 @@ class _ContactListingViewState extends State<ContactListingView> {
     }
   }
 
+  showAddContactPopUp({
+    required BuildContext context,
+    required PayRate payRate,
+  }) {
+    showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return AddContactPopUp(
+            title: widget.title,
+            payRate: payRate,
+            mainContext: context,
+            onSubmit: (PayRate payRate) {
+              //loginFormKey.currentState!.validate();
+              FocusScope.of(context).unfocus();
+
+              log('-widget.title---${widget.title}----');
+
+              switch (widget.title) {
+                case Constants.createSecurityGuard:
+                  payRate.rankId = 1;
+                  break;
+
+                case Constants.createSecuritySupervisor:
+                  payRate.rankId = 3;
+                  break;
+
+                case Constants.createSecurityOfficer:
+                  payRate.rankId = 2;
+                  break;
+
+                case Constants.createSecurityFacilitator:
+                  payRate.rankId = 4;
+                  break;
+
+                default:
+                  payRate.rankId = 5;
+                  break;
+              }
+
+              log('--newPayRate--total---${payRate.total}------------');
+              log('--newPayRate--2222--33333--rankid-${payRate.rankId}------------');
+
+              BlocProvider.of<PayRateCubit>(context)
+                  .onSave(isSubmit: false, newPayRate: payRate);
+            },
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,10 +120,8 @@ class _ContactListingViewState extends State<ContactListingView> {
         floatingActionButton: Flutterfloatingbutton(
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () => {
-            Navigator.pushNamed(context, contactDetailsRoute, arguments: {
-              "title": Constants.contactDetails,
-            })
+          onPressed: () {
+            showAddContactPopUp(context: context, payRate: PayRate());
           },
         ),
         appBar: BaseAppBar().buildAppHeader(
