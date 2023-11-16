@@ -3,29 +3,29 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
+import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
+import 'package:db_atom/src/models/base_user.dart';
+import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../enums/form_status.dart';
 import '../../services/contact_details_services.dart';
 
 part 'contact_listing_event.dart';
+
 part 'contact_listing_state.dart';
 
 class ContactListingBloc
     extends Bloc<ContactListingEvent, ContactListingState> {
-
-  ContactListingBloc()
-      : super(const ContactListingState()) {
+  ContactListingBloc() : super(const ContactListingState()) {
     on<FetchData>(
       _fetchMaterialMovements,
       transformer: droppable(),
     );
+    on<InitializeValues>(_initializeValues);
   }
 
-  final ContactDetailsServices services =
-  ContactDetailsServices();
+  final ContactDetailsServices services = ContactDetailsServices();
 
   FutureOr<void> _fetchMaterialMovements(
       FetchData event, Emitter<ContactListingState> emit) async {
@@ -33,8 +33,7 @@ class ContactListingBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        ContactDetailsListResponseModel response =
-            await services.get(
+        ContactDetailsListResponseModel response = await services.get(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
         );
@@ -48,8 +47,7 @@ class ContactListingBloc
         );
       }
 
-      ContactDetailsListResponseModel response =
-          await services.get(
+      ContactDetailsListResponseModel response = await services.get(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
       );
@@ -64,6 +62,25 @@ class ContactListingBloc
         ),
       );
     } catch (e) {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
+  CommonServices commonServices = CommonServices();
+
+  FutureOr<void> _initializeValues(
+      InitializeValues event, Emitter<ContactListingState> emit) async {
+    try {
+      GetDepositor users =
+          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+
+      return emit(
+        state.copyWith(
+          users: users.atomStaticUser,
+          hasReachedMax: false,
+        ),
+      );
+    } on Exception catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
