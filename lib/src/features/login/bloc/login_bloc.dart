@@ -43,6 +43,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         await SharedPrefs.setIdentifymenuindex(0);
         await SharedPrefs.setToken(loginData.token ?? '');
         await SharedPrefs.setRefreshToken(loginData.refreshToken ?? '');
+
+        /// Setting Menu Items according to User Role
+
+
         if (loginData.requirePasswordChange == true) {
           await SharedPrefs.setIsRequiredPasswordChange(true);
 
