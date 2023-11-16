@@ -284,7 +284,6 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             GestureDetector(
                               onTap: () {
                                 // TODO: Need to save General Info Object First
-
                                 Navigator.pushNamed(
                                   context,
                                   contactListingRoute,
