@@ -33,51 +33,51 @@ class OccurrenceResponse {
 }
 
 class Occurrence {
-   int? id;
-   String? slNo;
-   String? inputDate;
-   User? entrySecurity;
-   User? handoverSecurity;
-   Organisation? location;
-   Organisation? locationRegion;
-   bool shiftBrfngAttnded;
-   bool premisesRoundTkn;
-   String? premisesRoundTknComments;
-   bool medicalEmrgncy;
-   String? medicalEmrgncyComments;
-   bool materialMovement;
-   bool leoVisit;
-   bool socialEnggIncdnt;
-   String? socialEnggIncdntComments;
-   bool foundArticleTrnsctn;
-   bool processBreachIncdnt;
-   bool infraIssue;
-   String? infraIssueComments;
-   bool suspiciousActivity;
-   bool fireAlarmEmrgncy;
-   String? fireAlarmEmrgncyComments;
-   bool landlordIssue;
-   String? landlordIssueComments;
-   bool secSysFailureIncdnt;
-   bool sysAlarmRcvd;
-   String? sysAlarmRcvdComments;
-   bool transportIncdnt;
-   String? transportIncdntComments;
-   bool anyEvent;
-   String? notifyScri;
-   bool powerFailure;
-   bool atmVendorVisit;
-   bool cwmVisit;
-   String? comments;
-   bool dgWrking;
-   String? modifiedDate;
-   String? modifiedBy;
-   String? powerFailureStartDate;
-   String? powerFailureEndDate;
-   List<dynamic>? incidentItems;
-   List<dynamic>? secSysFailureIncident;
-   bool followedUp;
-   int? status;
+  int? id;
+  String? slNo;
+  String? inputDate;
+  User? entrySecurity;
+  User? handoverSecurity;
+  Organisation? location;
+  Organisation? locationRegion;
+  bool shiftBrfngAttnded;
+  bool premisesRoundTkn;
+  String? premisesRoundTknComments;
+  bool medicalEmrgncy;
+  String? medicalEmrgncyComments;
+  bool materialMovement;
+  bool leoVisit;
+  bool socialEnggIncdnt;
+  String? socialEnggIncdntComments;
+  bool foundArticleTrnsctn;
+  bool processBreachIncdnt;
+  bool infraIssue;
+  String? infraIssueComments;
+  bool suspiciousActivity;
+  bool fireAlarmEmrgncy;
+  String? fireAlarmEmrgncyComments;
+  bool landlordIssue;
+  String? landlordIssueComments;
+  bool secSysFailureIncdnt;
+  bool sysAlarmRcvd;
+  String? sysAlarmRcvdComments;
+  bool transportIncdnt;
+  String? transportIncdntComments;
+  bool anyEvent;
+  String? notifyScri;
+  bool powerFailure;
+  bool atmVendorVisit;
+  bool cwmVisit;
+  String? comments;
+  bool dgWrking;
+  String? modifiedDate;
+  String? modifiedBy;
+  String? powerFailureStartDate;
+  String? powerFailureEndDate;
+  List<dynamic>? incidentItems;
+  List<dynamic>? secSysFailureIncident;
+  bool followedUp;
+  int? status;
 
   Occurrence({
     this.id,
@@ -187,5 +187,51 @@ class Occurrence {
         followedUp = json['followedUp'] as bool,
         status = json['status'] as int?;
 
-
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'slNo': slNo,
+    'inputDate': inputDate,
+    'powerFailureStartDate':powerFailureStartDate,
+    'powerFailureEndDate':powerFailureEndDate,
+    'entrySecurity': entrySecurity?.toJson(),
+    'handoverSecurity': handoverSecurity?.toJson(),
+    'location': location?.toJson(),
+    'locationRegion': locationRegion?.toJson(),
+    'shiftBrfngAttnded': shiftBrfngAttnded,
+    'premisesRoundTkn': premisesRoundTkn,
+    'premisesRoundTknComments': premisesRoundTknComments,
+    'medicalEmrgncy': medicalEmrgncy,
+    'medicalEmrgncyComments': medicalEmrgncyComments,
+    'materialMovement': materialMovement,
+    'leoVisit': leoVisit,
+    'socialEnggIncdnt': socialEnggIncdnt,
+    'socialEnggIncdntComments': socialEnggIncdntComments,
+    'foundArticleTrnsctn': foundArticleTrnsctn,
+    'processBreachIncdnt': processBreachIncdnt,
+    'infraIssue': infraIssue,
+    'infraIssueComments': infraIssueComments,
+    'suspiciousActivity': suspiciousActivity,
+    'fireAlarmEmrgncy': fireAlarmEmrgncy,
+    'fireAlarmEmrgncyComments': fireAlarmEmrgncyComments,
+    'landlordIssue': landlordIssue,
+    'landlordIssueComments': landlordIssueComments,
+    'secSysFailureIncdnt': secSysFailureIncdnt,
+    'sysAlarmRcvd': sysAlarmRcvd,
+    'sysAlarmRcvdComments': sysAlarmRcvdComments,
+    'transportIncdnt': transportIncdnt,
+    'transportIncdntComments': transportIncdntComments,
+    'anyEvent': anyEvent,
+    'notifyScri': notifyScri,
+    'powerFailure': powerFailure,
+    'atmVendorVisit': atmVendorVisit,
+    'cwmVisit': cwmVisit,
+    'comments': comments,
+    'dgWrking': dgWrking,
+    'modifiedDate': modifiedDate,
+    'modifiedBy': modifiedBy,
+    'incidentItems': incidentItems,
+    'secSysFailureIncident': secSysFailureIncident,
+    'followedUp': followedUp,
+    'status': status
+  };
 }
