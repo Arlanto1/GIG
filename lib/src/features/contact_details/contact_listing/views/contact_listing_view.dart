@@ -72,7 +72,7 @@ class _ContactListingViewState extends State<ContactListingView> {
     required BuildContext context,
     required Contacts contacts,
     required final List<BaseUser> users,
-    required final List<BaseUser> users,
+
   }) {
     showDialog(
       context: context,
@@ -81,34 +81,12 @@ class _ContactListingViewState extends State<ContactListingView> {
           title: widget.title,
           contact: contacts,
           mainContext: context,
-          users: users,
           users: users,onSubmit: (PayRate payRate) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();
 
             log('-widget.title---${widget.title}----');
 
-            switch (widget.title) {
-              case Constants.createSecurityGuard:
-                payRate.rankId = 1;
-                break;
-
-              case Constants.createSecuritySupervisor:
-                payRate.rankId = 3;
-                break;
-
-              case Constants.createSecurityOfficer:
-                payRate.rankId = 2;
-                break;
-
-              case Constants.createSecurityFacilitator:
-                payRate.rankId = 4;
-                break;
-
-              default:
-                payRate.rankId = 5;
-                break;
-            }
 
             log('--newPayRate--total---${payRate.total}------------');
             log('--newPayRate--2222--33333--rankid-${payRate.rankId}------------');
