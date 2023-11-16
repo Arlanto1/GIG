@@ -58,7 +58,7 @@ class OccurrenceGeneralInfoState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
 
-    if (model.handOverSecurity == null) {
+    if (model.handoverSecurity == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Shift Taken Over By.');
     }
@@ -80,7 +80,7 @@ class OccurrenceGeneralInfoState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
 
-    if (model.handOverSecurity == null) {
+    if (model.handoverSecurity == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Shift Taken Over By.');
     }

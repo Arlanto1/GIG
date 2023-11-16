@@ -246,7 +246,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                 Styles.textStyleBlack14,
                               ),
                               TextfieldAddButton(
-                                  title: state.model.handOverSecurity?.name,
+                                  title: state.model.handoverSecurity?.name,
                                   height: 70,
                                   isDisableColor:
                                       state.model.status != 6 ? false : true,
@@ -623,35 +623,33 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                   isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.processBreachIncdnt ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
-                                      ? null
-                                      : (val) {
-                                          state.model.processBreachIncdnt =
-                                              true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  processBreachIncdnt: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: state.model.status == 4
-                                      ? null
-                                      : (val) {
-                                          state.model.processBreachIncdnt =
-                                              false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  processBreachIncdnt: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
-                                        },
+                                status: state.model.status ?? 0,
+                                selectedValue:
+                                    state.model.processBreachIncdnt ? 1 : 0,
+                                onChangedYes: state.model.status == 6
+                                    ? null
+                                    : (val) {
+                                        state.model.processBreachIncdnt = true;
+                                        BlocProvider.of<
+                                                    OccurrenceGeneralInfoCubit>(
+                                                context)
+                                            .showFields(
+                                                processBreachIncdnt: true);
+                                        //.onModelValueChange(state.guardingMasterData
+                                        //);
+                                      },
+                                onChangedNo: state.model.status == 4
+                                    ? null
+                                    : (val) {
+                                        state.model.processBreachIncdnt = false;
+                                        BlocProvider.of<
+                                                    OccurrenceGeneralInfoCubit>(
+                                                context)
+                                            .showFields(
+                                                processBreachIncdnt: false);
+                                        // .onModelValueChange(state.guardingMasterData
+                                        //  );
+                                      },
                               ),
 
                               if (state.model.processBreachIncdnt == true) ...[
