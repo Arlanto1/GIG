@@ -20,6 +20,7 @@ class Constants {
 
 
   /// UI Module Code
+  static const String userRoles = 'user';
   static const String materialMovementModuleCode = 'MM';
 
 

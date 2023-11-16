@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/features/login/models/login_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefs {
@@ -144,5 +146,23 @@ class SharedPrefs {
     int? id = instance.getInt(Constants.isMaterialMovementIdKey) ?? 0;
     log('$id');
     return id;
+  }
+
+  static Future<void> setDisplayMenu(DisplayMenu displayMenu) async {
+    log('Setting Display Menu');
+    String jsonString = jsonEncode(displayMenu.toJson());
+    instance.setString(Constants.userRoles, jsonString);
+  }
+
+  static Future<DisplayMenu?> getDisplayMenu() async {
+    String jsonString = instance.getString(Constants.userRoles) ?? '';
+    Map<String, dynamic> jsonMap = jsonDecode(jsonString);
+
+    if (jsonMap.isNotEmpty) {
+      DisplayMenu displayMenu = DisplayMenu.fromJson(jsonMap);
+      return displayMenu;
+    }
+
+    return null;
   }
 }

@@ -4,11 +4,35 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="Integrated Signature Functionality.">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="wip: menu role">
       <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKImagePickerController-DKImagePickerController.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKImagePickerController-DKImagePickerController.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKImagePickerController.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKImagePickerController.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKPhotoGallery-DKPhotoGallery.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKPhotoGallery-DKPhotoGallery.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKPhotoGallery.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKPhotoGallery.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/Flutter.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/Flutter.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/Pods-Runner.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/Pods-Runner.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/Reachability.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/Reachability.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/SDWebImage.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/SDWebImage.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/SwiftyGif.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/SwiftyGif.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/app_settings.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/app_settings.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/connectivity.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/connectivity.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/file_picker.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/file_picker.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/flutter_file_dialog.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/flutter_file_dialog.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/flutter_keyboard_visibility.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/flutter_keyboard_visibility.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/image_picker_ios.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/image_picker_ios.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/path_provider_foundation.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/path_provider_foundation.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/permission_handler_apple.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/permission_handler_apple.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/shared_preferences_foundation.build/dgph" beforeDir="false" afterPath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/shared_preferences_foundation.build/dgph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/constants/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/views/drawer/drawer_reusable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/views/drawer/drawer_reusable.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/login/bloc/login_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/login/bloc/login_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/utils/shared_preferences.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/utils/shared_preferences.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,10 +49,13 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="roles" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_response.dart" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -44,22 +71,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.android.tools.idea.streaming.emulator.frame.visible&quot;: &quot;false&quot;,
-    &quot;com.android.tools.idea.streaming.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/anuragdhunna/AndroidStudioProjects/Arlanto-App-Codebase/lib/src/common_widgets/base_widget&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true",
+    "com.android.tools.idea.streaming.emulator.frame.visible": "false",
+    "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "/home/anuragdhunna/AndroidStudioProjects/Arlanto-App-Codebase/lib/src/common_widgets/base_widget",
+    "settings.editor.selected.configurable": "flutter.settings",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/lib/src/common_widgets/base_widget" />
@@ -69,12 +96,21 @@
       <recent name="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Flutter.qa">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="buildFlavor" value="PROD" />
       <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
       <method v="2" />
     </configuration>
+    <configuration name="qa" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="buildFlavor" value="QA" />
+      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Flutter.main.dart" />
+      <item itemvalue="Flutter.qa" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

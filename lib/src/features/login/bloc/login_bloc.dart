@@ -44,6 +44,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         await SharedPrefs.setToken(loginData.token ?? '');
         await SharedPrefs.setRefreshToken(loginData.refreshToken ?? '');
 
+        if(loginData.user!.displayMenu == null){
+          emit(LoginSuccessState(message: 'Menu Roles are not defined'));
+          return null;
+        }
+        await SharedPrefs.setDisplayMenu(loginData.user!.displayMenu!);
+
         /// Setting Menu Items according to User Role
 
 
