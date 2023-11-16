@@ -246,7 +246,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                 Styles.textStyleBlack14,
                               ),
                               TextfieldAddButton(
-                                  title: state.model.handOverSecurity?.name,
+                                  title: state.model.handoverSecurity?.name,
                                   height: 70,
                                   isDisableColor:
                                       state.model.status != 6 ? false : true,

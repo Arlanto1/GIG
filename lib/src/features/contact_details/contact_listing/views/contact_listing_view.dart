@@ -20,7 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../enums/form_status.dart';
-import '../../../../utils/util.dart';
+import '../../models/contacts_list_response_model.dart';
 import '../bloc/contact_listing_bloc.dart';
 
 class ContactListingView extends StatefulWidget {
@@ -44,8 +44,8 @@ class _ContactListingViewState extends State<ContactListingView> {
     super.initState();
     _scrollController = ScrollController()..addListener(_onScroll);
     context.read<ContactListingBloc>().add(
-          const InitializeValues(),
-        );
+      const InitializeValues(),
+    );
   }
 
   @override
@@ -63,14 +63,15 @@ class _ContactListingViewState extends State<ContactListingView> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<ContactListingBloc>().add(
-            FetchData(startPos: pageNumber, maxPos: 20),
-          );
+        FetchData(startPos: pageNumber, maxPos: 20),
+      );
     }
   }
 
   showAddContactPopUp({
     required BuildContext context,
-    required PayRate payRate,
+    required Contacts contacts,
+    required final List<BaseUser> users,
     required final List<BaseUser> users,
   }) {
     showDialog(
@@ -78,10 +79,10 @@ class _ContactListingViewState extends State<ContactListingView> {
       builder: (BuildContext dialogContext) {
         return AddContactPopUp(
           title: widget.title,
-          payRate: payRate,
+          contact: contacts,
           mainContext: context,
           users: users,
-          onSubmit: (PayRate payRate) {
+          users: users,onSubmit: (PayRate payRate) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();
 
@@ -124,8 +125,8 @@ class _ContactListingViewState extends State<ContactListingView> {
   Widget build(BuildContext context) {
     return BlocConsumer<ContactListingBloc, ContactListingState>(
         listener: (context, state) {
-      // TODO: implement listener
-    }, builder: (context, state) {
+          // TODO: implement listener
+        }, builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
         floatingActionButton: Flutterfloatingbutton(
@@ -134,7 +135,7 @@ class _ContactListingViewState extends State<ContactListingView> {
           onPressed: () {
             showAddContactPopUp(
               context: context,
-              payRate: PayRate(),
+              contacts: Contacts(),
               users: state.users ?? [],
             );
           },
@@ -167,76 +168,82 @@ class _ContactListingViewState extends State<ContactListingView> {
             borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
           )),
       child: ListView.builder(
-        controller: _scrollController,
-        itemCount:
-            state.hasReachedMax ? state.items.length : state.items.length + 1,
-        itemBuilder: (context, index) {
-          List<Label> labels = [];
-          if (index < state.items.length) {
-            labels.add(Label(
-                key: 'Rank',
-                value: state.items[index].locationRegion?.name ?? ''));
-            labels.add(Label(
-                key: 'Name',
-                value: state.items[index].location?.name ?? ''));
-            labels.add(Label(
-                key: 'Phone Number',
-                value: state.items[index].locationRegion?.name ?? ''));
-          }
-          return index >= state.items.length
-              ? const Center(
-                  child: CustomCircularProgressIndicator(),
-                )
-              : BaseListTileItem(
-                  id: state.items[index].id,
-                  labels: labels,
-                  onTap: (selectedIndex) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext dialogContext) {
-                        return BasePopUpItems(
-                          id: state.items[selectedIndex].id.toString(),
-                          labels: labels,
-                        );
-                      },
-                    );
-                  },
-                  onEditTap: (selectedIndex) {
-                    getLawEnforcementId(state.items[index].id ?? 0);
-                  },
-                  onViewTap: (selectedIndex) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext dialogContext) {
-                        return BasePopUpItems(
-                          id: state.items[selectedIndex].id.toString(),
-                          labels: labels,
-                          slNo: state.items[selectedIndex].slNo,
-                          status: state.items[selectedIndex].status,
-                          entrySecurityName:
-                              state.items[selectedIndex].entrySecurity?.name,
-                          isMasterGuard: false,
-                        );
-                      },
-                    );
-                  },
-                  index: index,
-                );
-        },
-      ),
+          controller: _scrollController,
+          itemCount:
+          state.hasReachedMax ? state.items.length : state.items.length + 1,
+          itemBuilder: (context, index) {
+            List<Label> labels = [];
+            if (index < state.items.length) {
+              labels.add(Label(
+                key: 'Contact',
+                value: state.items[index].contact
+                    ?.map((contact) => contact.email)
+                    ?.join(' , ') ??
+                    '',
+              ));
+              labels.add(Label(
+                key: 'Contact',
+                value: state.items[index].contact
+                    ?.map((contact) => contact.id)
+                    ?.join(' , ') ??
+                    '',
+              ));
+              return index >= state.items.length
+                  ? const Center(
+                child: CustomCircularProgressIndicator(),
+              )
+                  : BaseListTileItem(
+                id: state.items[index].id,
+                labels: labels,
+                onTap: (selectedIndex) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext dialogContext) {
+                      return BasePopUpItems(
+                        id: state.items[selectedIndex].id.toString(),
+                        labels: labels,
+                      );
+                    },
+                  );
+                },
+                onEditTap: (selectedIndex) {
+                  showAddContactPopUp(
+                    context: context,
+                    contacts: Contacts(),
+                    users: state.users ?? [],
+                  );
+                  getLawEnforcementId(state.items[index].id ?? 0,
+                      state.items[index].contact?[0].type ?? 0);
+                },
+                onViewTap: (selectedIndex) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext dialogContext) {
+                      return BasePopUpItems(
+                        id: state.items[selectedIndex].id.toString(),
+                        labels: labels,
+                      );
+                    },
+                  );
+                },
+                index: index,
+              );
+            }
+            ;
+          }),
     );
   }
 
-  getLawEnforcementId(int id) async {
+  getLawEnforcementId(int id, int type) async {
     showLoadingDialog(context);
 
-    ContactDetailModel materialMovementModel =
-        await ContactDetailsServices().getById(id);
+    ContactListResponseModel contactsModel =
+    await ContactDetailsServices().getCdById(id, type);
 
-    editDataLoading(materialMovementModel);
+    editDataLoading(contactsModel);
   }
 
-  void editDataLoading(ContactDetailModel? model) {
+  void editDataLoading(ContactListResponseModel? model) {
     dismissLoadingDialog(context);
     if (model != null) {
       Navigator.pushNamed(

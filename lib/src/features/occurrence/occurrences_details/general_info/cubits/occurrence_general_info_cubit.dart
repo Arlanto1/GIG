@@ -165,7 +165,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         userName: shiftTakenOverBy.name,
         email: shiftTakenOverBy.email,
       );
-      state.model.handOverSecurity = userDetails;
+      state.model.handoverSecurity = userDetails;
     }
     emit(state.copyWith(
       model: state.model,

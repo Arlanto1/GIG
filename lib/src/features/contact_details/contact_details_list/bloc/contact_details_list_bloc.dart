@@ -34,7 +34,7 @@ class ContactDetailsListBloc
 
       if (state.status == FormStatus.initial) {
         ContactDetailsListResponseModel response =
-            await services.get(
+            await services.getGcd(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
         );
@@ -49,7 +49,7 @@ class ContactDetailsListBloc
       }
 
       ContactDetailsListResponseModel response =
-          await services.get(
+          await services.getGcd(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
       );

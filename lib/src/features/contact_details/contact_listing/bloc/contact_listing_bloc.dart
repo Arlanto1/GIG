@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../enums/form_status.dart';
+import '../../models/contacts_list_response_model.dart';
 import '../../services/contact_details_services.dart';
 
 part 'contact_listing_event.dart';
@@ -33,7 +33,7 @@ class ContactListingBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        ContactDetailsListResponseModel response = await services.get(
+        ContactListResponseModel response = await services.getCd(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
         );
@@ -47,7 +47,8 @@ class ContactListingBloc
         );
       }
 
-      ContactDetailsListResponseModel response = await services.get(
+      ContactListResponseModel response =
+      await services.getCd(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
       );

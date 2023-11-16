@@ -19,18 +19,20 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../models/contacts_list_response_model.dart';
+
 class AddContactPopUp extends StatefulWidget {
   const AddContactPopUp({
     super.key,
     required this.title,
     required this.onSubmit,
-    required this.payRate,
+    required this.contact,
     required this.mainContext, required this.users,
   });
 
   final String title;
   final Function onSubmit;
-  final PayRate payRate;
+  final Contacts contact;
   final List<BaseUser> users;
   final BuildContext mainContext;
 
@@ -69,10 +71,6 @@ class AddContactPopUpState extends State<AddContactPopUp> {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
-
-        if (widget.payRate.perHour != null) {
-          contactController.text = widget.payRate.perHour.toString();
-        }
 
         return SizedBox(
           height: height /2,
@@ -221,23 +219,23 @@ class AddContactPopUpState extends State<AddContactPopUp> {
           );
           return;
         }
-        onSubmit(widget.payRate);
+        onSubmit(widget.contact);
       },
     );
   }
 
   ErrorResponse get isPayRateValid {
-    if (widget.payRate.total == null) {
+    if (widget.contact.generalRank == null) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Monthly Cost.');
+          status: false, message: 'Please enter Rank.');
     }
-    if (widget.payRate.days == null) {
+    if (widget.contact.email == null) {
       return const ErrorResponse(
-          status: false, message: 'Please enter number of days.');
+          status: false, message: 'Please enter Name.');
     }
-    if (widget.payRate.fromDate == null) {
+    if (widget.contact.contactNo == null) {
       return const ErrorResponse(
-          status: false, message: 'Please enter From Date.');
+          status: false, message: 'Please enter Contact No.');
     }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }

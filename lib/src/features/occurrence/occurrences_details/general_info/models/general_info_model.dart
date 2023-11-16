@@ -37,7 +37,7 @@ class Occurrence {
    String? slNo;
    String? inputDate;
    User? entrySecurity;
-   User? handOverSecurity;
+   User? handoverSecurity;
    Organisation? location;
    Organisation? locationRegion;
    bool shiftBrfngAttnded;
@@ -84,7 +84,7 @@ class Occurrence {
     this.slNo,
     this.inputDate,
     this.entrySecurity,
-    this.handOverSecurity,
+    this.handoverSecurity,
     this.location,
     this.powerFailureStartDate,
     this.powerFailureEndDate,
@@ -135,10 +135,10 @@ class Occurrence {
             ? User.fromJson(
             json['entrySecurity'] as Map<String, dynamic>)
             : null,
-        handOverSecurity =
-        (json['handOverSecurity'] as Map<String, dynamic>?) != null
+        handoverSecurity =
+        (json['handoverSecurity'] as Map<String, dynamic>?) != null
             ? User.fromJson(
-            json['handOverSecurity'] as Map<String, dynamic>)
+            json['handoverSecurity'] as Map<String, dynamic>)
             : null,
         location = (json['location'] as Map<String, dynamic>?) != null
             ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
@@ -187,51 +187,5 @@ class Occurrence {
         followedUp = json['followedUp'] as bool,
         status = json['status'] as int?;
 
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'slNo': slNo,
-    'inputDate': inputDate,
-    'powerFailureStartDate':powerFailureStartDate,
-    'powerFailureEndDate':powerFailureEndDate,
-    'entrySecurity': entrySecurity?.toJson(),
-    'handOverSecurity': handOverSecurity?.toJson(),
-    'location': location?.toJson(),
-    'locationRegion': locationRegion?.toJson(),
-    'shiftBrfngAttnded': shiftBrfngAttnded,
-    'premisesRoundTkn': premisesRoundTkn,
-    'premisesRoundTknComments': premisesRoundTknComments,
-    'medicalEmrgncy': medicalEmrgncy,
-    'medicalEmrgncyComments': medicalEmrgncyComments,
-    'materialMovement': materialMovement,
-    'leoVisit': leoVisit,
-    'socialEnggIncdnt': socialEnggIncdnt,
-    'socialEnggIncdntComments': socialEnggIncdntComments,
-    'foundArticleTrnsctn': foundArticleTrnsctn,
-    'processBreachIncdnt': processBreachIncdnt,
-    'infraIssue': infraIssue,
-    'infraIssueComments': infraIssueComments,
-    'suspiciousActivity': suspiciousActivity,
-    'fireAlarmEmrgncy': fireAlarmEmrgncy,
-    'fireAlarmEmrgncyComments': fireAlarmEmrgncyComments,
-    'landlordIssue': landlordIssue,
-    'landlordIssueComments': landlordIssueComments,
-    'secSysFailureIncdnt': secSysFailureIncdnt,
-    'sysAlarmRcvd': sysAlarmRcvd,
-    'sysAlarmRcvdComments': sysAlarmRcvdComments,
-    'transportIncdnt': transportIncdnt,
-    'transportIncdntComments': transportIncdntComments,
-    'anyEvent': anyEvent,
-    'notifyScri': notifyScri,
-    'powerFailure': powerFailure,
-    'atmVendorVisit': atmVendorVisit,
-    'cwmVisit': cwmVisit,
-    'comments': comments,
-    'dgWrking': dgWrking,
-    'modifiedDate': modifiedDate,
-    'modifiedBy': modifiedBy,
-    'incidentItems': incidentItems,
-    'secSysFailureIncident': secSysFailureIncident,
-    'followedUp': followedUp,
-    'status': status
-  };
+
 }
