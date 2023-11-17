@@ -55,7 +55,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
             getEntitiesResponse: null,
             departments: const [],
             loggedInUserDetails: null,
-            getArticleTypeResponse:  const [],
+            getArticleTypeResponse: const [],
           ),
         );
 
@@ -111,6 +111,16 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
+      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+      log('defaultLocation $defaultLocation');
+      if (defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.incidentManagementModule,
+        );
+        state.model.location = defaultLocation;
+        state.model.slNo = slNo.serialNo;
+      }
       emit(
         state.copyWith(
           model: model,
@@ -123,7 +133,6 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
-
         ),
       );
     } catch (e) {
@@ -318,7 +327,6 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
     GenericCreateResponse response = GenericCreateResponse();
     try {
-
       log('---isSaveOnly-$isSaveOnly---');
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {

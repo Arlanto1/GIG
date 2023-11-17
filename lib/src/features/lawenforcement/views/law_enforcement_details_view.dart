@@ -981,26 +981,46 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         'ATOM_STATIC_USER', context);
     await lawEnforcementCubit.getUserDetails(userid, context);
   }
-
+  //
+  // Widget submitButtonDisplay() {
+  //   return AppButton(
+  //     //height: 50,
+  //     disableColor: isDistrbuted,
+  //     width: 150,
+  //     key: const Key(Keys.submitButton),
+  //     buttonText: Constants.submit,
+  //     buttonTextKey: Keys.submitButton,
+  //     onTap: () async {
+  //       FocusScope.of(context).unfocus();
+  //       if (isDistrbuted == false) {
+  //         try {
+  //           validateForm(context, globalState);
+  //         } catch (e) {
+  //           // present userwith error message
+  //         }
+  //       }
+  //     },
+  //   );
+  // }
   Widget submitButtonDisplay() {
-    return AppButton(
-      //height: 50,
-      disableColor: isDistrbuted,
-      width: 150,
-      key: const Key(Keys.submitButton),
-      buttonText: Constants.submit,
-      buttonTextKey: Keys.submitButton,
-      onTap: () async {
-        FocusScope.of(context).unfocus();
-        if (isDistrbuted == false) {
+    return // Login button
+      AppButton(
+        //height: 50,
+        width: 150,
+        key: const Key(Keys.submitButton),
+        buttonText: Constants.submit,
+        buttonTextKey: Keys.submitButton,
+        onTap: () async {
+          //loginFormKey.currentState!.validate();
+          FocusScope.of(context).unfocus();
           try {
+            // passSubmit(true, widget.listuser?.id ?? 0, globalState);
             validateForm(context, globalState);
           } catch (e) {
             // present userwith error message
           }
-        }
-      },
-    );
+        },
+      );
   }
 
   Widget radioButtonHandling(int selectedValue, String name) {

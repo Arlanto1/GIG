@@ -101,6 +101,15 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
       List<User> entrySecurities = await commonServices.getUsers();
 
+      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+      if (defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.occurrenceModule,
+        );
+        state.model.location = defaultLocation;
+        state.model.slNo = slNo.serialNo;
+      }
       model.entrySecurity = loggedInUserDetails;
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
