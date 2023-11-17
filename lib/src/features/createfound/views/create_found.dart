@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_bar.dart';
@@ -98,17 +100,26 @@ class _CreateFoundState extends State<CreateFound> {
   List<ImageContent> getFiles = [];
   List<ImageContent> getAttachments = [];
 
-  SignatureController claimantSignature = SignatureController();
-
+  SignatureController claimantSignatureController = SignatureController();
   @override
   void initState() {
     super.initState();
+    claimantSignatureController = SignatureController(
+        penStrokeWidth: 2,
+        penColor: Colors.black,
+        exportBackgroundColor: Colors.white);
     if (widget.model != null) {
       populateData();
     }
     BlocProvider.of<CreateFoundArticleCubit>(context).initializeValues();
     _getFoundArticleList();
     _getCurrentDate();
+  }
+
+  @override
+  void dispose() {
+    claimantSignatureController.dispose();
+    super.dispose();
   }
 
   populateData() async {
@@ -1431,6 +1442,13 @@ class _CreateFoundState extends State<CreateFound> {
 
                                 ///TODO: Need to work on signature
                                 /// Claimant Signature
+                                // buildSignature(
+                                //   controller: claimantSignatureController,
+                                //   label: Constants.claimantSignature,
+                                //   spaceHeight: height,
+                                //   state: state,
+                                // ),
+
                                 // widget.model != null &&
                                 //         isClaimantAcceptedtoSignSelected == 1
                                 //     ? CommonWidgets.textDisplay(
@@ -1639,6 +1657,19 @@ class _CreateFoundState extends State<CreateFound> {
     required double spaceHeight,
     required CreateFoundState state,
   }) {
+    bool isEditable = false;
+    bool isSigned = false;
+    bool isReceiver = label.equalsIgnoreCase(Constants.receiverSignature);
+    // if (isReceiver) {
+    //   isSigned = widget.model.receiverSign != null &&
+    //       !state.model.receiverSign!.imageContent.isEmptyOrNull;
+    //   isEditable = state.isReceiverSignEditable;
+    // } else {
+    //   isSigned = state.model.entrySecuritySign != null &&
+    //       !state.model.entrySecuritySign!.imageContent.isEmptyOrNull;
+    //   isEditable = state.isEntrySecuritySignatureSignEditable;
+    // }
+
     return Column(
       children: [
         Row(
@@ -1653,17 +1684,19 @@ class _CreateFoundState extends State<CreateFound> {
                 IconButton(
                   onPressed: () {
                     controller.clear();
+                    if (isReceiver) {
+                      // BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                      //     .makeSignEditable(receiverSign: true);
+                    } else {
+                      // BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                      //     .makeSignEditable(
+                      //     entrySecuritySignatureSignEditable: true);
+                    }
                   },
                   iconSize: 20,
                   color: Colors.grey,
                   icon: const Icon(Icons.refresh),
                 ),
-                // IconButton(
-                //   onPressed: onDoneTap,
-                //   iconSize: 20,
-                //   color: Colors.grey,
-                //   icon: const Icon(Icons.done_outlined),
-                // ),
               ],
             ),
           ],
@@ -1680,7 +1713,19 @@ class _CreateFoundState extends State<CreateFound> {
             ),
             height: 100,
             width: double.infinity,
-            child: Signature(
+            child: (!isEditable && isSigned)
+                ? Container()
+            // Image.memory(
+            //   Uint8List.fromList(
+            //     base64Decode(
+            //       isReceiver
+            //           ? widget.model.receiverSign!.imageContent ?? ''
+            //           : state.model.entrySecuritySign!.imageContent ?? '',
+            //     ),
+            //   ),
+            //   fit: BoxFit.none,
+            // )
+                : Signature(
               controller: controller,
               backgroundColor: Colors.white,
             ),
