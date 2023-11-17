@@ -136,6 +136,15 @@ class GuardingMasterDataDetailsCubit
           .splitStringAfterComma(state.model.csrParticipationDates ?? '');
       log('-participationDates---${participationDates.toString()}---');
 
+      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+      if (defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.guardingMasterDataModule,
+        );
+        state.model.location = defaultLocation;
+        state.model.slNo = slNo.serialNo;
+      }
       emit(
         state.copyWith(
           locations: getLocationsData,

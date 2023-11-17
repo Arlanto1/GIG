@@ -371,6 +371,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         stateType: CreateFoundStateType.loading,
       ),
     );
+
     var userId = await SharedPrefs.getUserId();
     try {
       User loggedInUserDetails =

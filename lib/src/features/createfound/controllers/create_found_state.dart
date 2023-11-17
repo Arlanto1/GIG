@@ -14,6 +14,7 @@ import '../models/user.dart';
 enum CreateFoundStateType { initial, loading, success, failure, addattachment }
 
 class CreateFoundState extends Equatable {
+
   GetDepositor? getDepositorResponse;
   GetLocations? getLocationsResponse;
   EmployeeDepartments? getEmployeeDepartmentsResponse;

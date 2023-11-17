@@ -59,7 +59,8 @@ class MaterialMovementDetailsView extends StatefulWidget {
       _MaterialMovementDetailsViewState();
 }
 
-class _MaterialMovementDetailsViewState extends State<MaterialMovementDetailsView> {
+class _MaterialMovementDetailsViewState
+    extends State<MaterialMovementDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController returnableTextController = TextEditingController();
   User? userDetails;
@@ -1607,8 +1608,10 @@ class _MaterialMovementDetailsViewState extends State<MaterialMovementDetailsVie
                                         );
                                       }),
 
-                            if (state.model.status == 5 ||
-                                state.model.status == 6) ...[
+                            if ((state.model.status == 5 ||
+                                    state.model.status == 6) &&
+                                widget.isInward == false &&
+                                state.model.returnable == true) ...[
                               /// Actual Date Of Return
                               CommonWidgets.textDisplay(
                                 Constants.actualDateOfReturn,

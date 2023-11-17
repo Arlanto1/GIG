@@ -65,8 +65,7 @@ class PayRateCubit extends Cubit<PayRateState> {
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
-    Vendors vendors =
-    await commonServices.getVendors(name: 'ATOM_VENDORS');
+    Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
 
     // Get Date of Creation
     state.rate.inputDate =
@@ -78,6 +77,15 @@ class PayRateCubit extends Cubit<PayRateState> {
     log('--entities---${entities.atomEntities?.length}--');
     for (Organisation entity in entities.atomEntities ?? []) {
       log('--entity.name---${entity.name}--');
+    }
+    Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+    if (defaultLocation != null) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: defaultLocation.id.toString(),
+        moduleCode: Constants.guardingRatesModule,
+      );
+      state.rate.location = defaultLocation;
+      state.rate.slNo = slNo.serialNo;
     }
 
     try {
