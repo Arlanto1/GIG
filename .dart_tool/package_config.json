@@ -21,7 +21,7 @@
     },
     {
       "name": "archive",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/archive-3.4.6",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/archive-3.4.9",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -69,9 +69,9 @@
     },
     {
       "name": "build_daemon",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/build_daemon-4.0.0",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/build_daemon-4.0.1",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "3.0"
     },
     {
       "name": "build_resolvers",
@@ -112,6 +112,12 @@
     {
       "name": "checked_yaml",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/checked_yaml-2.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "cli_util",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/cli_util-0.4.0",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -324,6 +330,12 @@
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_windows-1.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_launcher_icons",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_launcher_icons-0.13.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
     },
     {
       "name": "flutter_lints",
@@ -657,7 +669,7 @@
     },
     {
       "name": "pointer_interceptor",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/pointer_interceptor-0.9.3+6",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/pointer_interceptor-0.9.3+7",
       "packageUri": "lib/",
       "languageVersion": "3.1"
     },
@@ -675,7 +687,7 @@
     },
     {
       "name": "provider",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/provider-6.0.5",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/provider-6.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -921,15 +933,15 @@
     },
     {
       "name": "webview_flutter_wkwebview",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.9.3",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.9.4",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
     {
       "name": "win32",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/win32-5.0.9",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/win32-5.1.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.1"
     },
     {
       "name": "xdg_directories",
@@ -956,7 +968,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-11-05T07:50:00.780395Z",
+  "generated": "2023-11-16T05:30:41.777598Z",
   "generator": "pub",
   "generatorVersion": "3.1.5"
 }

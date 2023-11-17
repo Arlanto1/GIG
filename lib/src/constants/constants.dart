@@ -20,9 +20,8 @@ class Constants {
 
 
   /// UI Module Code
-  static const String materialMovementModuleCode = 'MM';
-
-
+  static const String userRoles = 'userRoles';
+  static const String defaultLocation = 'defaultLocation';
 
 
 

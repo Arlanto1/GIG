@@ -113,8 +113,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       QuantityUnits quantityUnits = await commonServices.getQuantityUnits();
 
+      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+
       state.model.entrySecurity = loggedInUserDetails;
       state.model.unit = model?.unit;
+      state.model.location = defaultLocation;
 
       log('-emailUsers.atomStaticUser----init--${emailUsers.atomStaticUser?.length}---');
       emit(
