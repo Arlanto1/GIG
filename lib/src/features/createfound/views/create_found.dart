@@ -227,6 +227,9 @@ class _CreateFoundState extends State<CreateFound> {
       claimantTextController.text = widget.model?.claimant?.name != null
           ? widget.model?.claimant?.name ?? ''
           : '';
+      claimantTextController.text = widget.model?.claimantName != null
+          ? widget.model?.claimantName ?? ""
+          : '';
       selectedClaimdepartment = widget.model?.claimantDepartment != null
           ? Organisation(
               id: widget.model?.claimantDepartment?.id ?? 0,
@@ -302,6 +305,11 @@ class _CreateFoundState extends State<CreateFound> {
           ? selecteddepositorList?.name ?? ''
           : depositorTextController.text.isNotEmpty
               ? depositorTextController.text
+              : '',
+      "claimantName": isClaimantDBEmployeeSelected == 1
+          ? selectedClaimList?.name ?? ''
+          : claimantTextController.text.isNotEmpty
+              ? claimantTextController.text
               : '',
       "employeeId": depositorEmpIdTextController.text.isNotEmpty
           ? depositorEmpIdTextController.text
@@ -426,6 +434,11 @@ class _CreateFoundState extends State<CreateFound> {
             ? selecteddepositorList?.name ?? ''
             : depositorTextController.text.isNotEmpty
                 ? depositorTextController.text
+                : '',
+        claimantName: isClaimantDBEmployeeSelected == 1
+            ? selectedClaimList?.name ?? ''
+            : claimantTextController.text.isNotEmpty
+                ? claimantTextController.text
                 : '',
         depositor: depositor,
         depositorDepartment: depositorDepartment,
@@ -1005,7 +1018,6 @@ class _CreateFoundState extends State<CreateFound> {
                                 showAfterDate: false,
                                 textController: foundDateTextController,
                                 onChange: (String value) {
-
                                   widget.model?.foundDate =
                                       Utils().formatTime(value);
                                 },
@@ -1274,71 +1286,48 @@ class _CreateFoundState extends State<CreateFound> {
                                       )
                                     : Container(),
 
-                                /// claimant
-                                widget.model != null &&
-                                        isClaimantDBEmployeeSelected == 0
-                                    ? CommonWidgets.textDisplay(
-                                        Constants.claimant,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true)
-                                    : Container(),
-                                widget.model != null &&
-                                        isClaimantDBEmployeeSelected == 0
-                                    ? FlutterInputField(
+                                ///claimant
+                                CommonWidgets.textDisplay(
+                                    Constants.claimant, Styles.textStyleBlack14,
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                isClaimantDBEmployeeSelected == 1
+                                    ? TextfieldAddButton(
+                                        title: selectedClaimList?.name != null
+                                            ? ('${selectedClaimList?.name ?? ''}(${selectedClaimList?.email ?? ''})')
+                                            : '',
+                                        height: 70,
+                                        isDisableColor:
+                                            widget.model?.status != 2
+                                                ? false
+                                                : true,
+                                        onTap: () {
+                                          if (widget.model?.status != 2) {
+                                            depositorDialog(
+                                                state, Constants.claimant);
+                                          }
+                                        })
+                                    : FlutterInputField(
                                         textFieldController:
                                             claimantTextController,
                                         textFormKey:
                                             Keys.claimantTextController,
-                                        hintText: claimant,
-                                        isEnable: widget.model?.status != 2
-                                            ? true
-                                            : (widget.model != null &&
-                                                    (widget.model?.claimant
-                                                                ?.name ??
-                                                            '')
-                                                        .isEmpty)
-                                                ? true
-                                                : false,
-                                        isDisableColor: (widget.model?.status !=
-                                                    2 &&
-                                                (widget.model?.claimant?.name ??
-                                                        '')
-                                                    .isEmpty)
+                                        hintText: '',
+                                        isEnable: widget.model?.status == 0 ||
+                                                widget.model == null
                                             ? false
                                             : true,
+                                        isDisableColor:
+                                            widget.model?.status != 0
+                                                ? false
+                                                : true,
                                         onChange: (String username) {
                                           //this.username = username;
-                                          claimant = username;
                                           setState(() {});
                                         },
                                         validateTextField: (String? user) {},
-                                      )
-                                    : widget.model != null
-                                        ? TextfieldAddButton(
-                                            title:
-                                                selectedClaimList?.name ?? '',
-                                            height: 60,
-                                            isDisableColor:
-                                                widget.model?.status != 2
-                                                    ? false
-                                                    : true,
-                                            onTap: () {
-                                              if (widget.model?.status != 2) {
-                                                depositorDialog(
-                                                    state, Constants.claimant);
-                                              }
-                                            },
-                                          )
-                                        : Container(),
-                                isClaimantDBEmployeeSelected == 1
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001)
-                                    : Container(),
-
-                                widget.model != null
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01)
-                                    : Container(),
+                                      ),
 
                                 /// Claimant employee id
 
@@ -1533,9 +1522,9 @@ class _CreateFoundState extends State<CreateFound> {
                                     height * 0.001),
                                 BaseDate().datePickerWidgetLoading(
                                   showAfterDate: false,
-                                  textController: handedoverdatedateTextController,
+                                  textController:
+                                      handedoverdatedateTextController,
                                   onChange: (String value) {
-
                                     widget.model?.handoverDate =
                                         Utils().formatTime(value);
                                   },
