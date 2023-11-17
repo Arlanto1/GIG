@@ -40,6 +40,7 @@ import 'package:intl/intl.dart';
 import 'package:signature/signature.dart';
 
 import '../../../common_widgets/app_button.dart';
+import '../../../common_widgets/base_widget/date_picker_dialog.dart';
 import '../../../models/base_user.dart';
 import '../../../models/organisation.dart';
 import '../models/user.dart';
@@ -648,17 +649,23 @@ class _CreateFoundState extends State<CreateFound> {
 
   datePickerDialog(TextEditingController textfield) async {
     // datePickerselection(context, founddateTextController);
+    bool? showBackDate = true;
+    // DateTime? pickedDate = await showDateTimePicker(
+    //     context: context,
+    //     initialDate: DateTime.now(),
+    //     firstDate: DateTime(2000),
+    //     lastDate:  showAfterDate! ?DateTime(2101): DateTime.now(),);
     DateTime? pickedDate = await showDateTimePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2101));
-
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
     String formattedDate =
         DateFormat(Constants.fulldateFormat).format(DateTime.now());
+    // String formattedDate =
+    // DateFormat(Constants.fulldateFormat).format(showBackDate! ?  DateTime.now() : DateTime.now());
 
-    // String formattedDate = DateFormat(Constants.fulldateFormat)
-    //     .format(pickedDate ?? DateTime.now());
     //you can implement different kind of Date Format here according to your requirement
     if (textfield == foundDateTextController) {
       foundDateTextController.text = formattedDate;
@@ -994,7 +1001,16 @@ class _CreateFoundState extends State<CreateFound> {
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
-                              datepickerWidgetLoading(foundDateTextController),
+                              BaseDate().datePickerWidgetLoading(
+                                showAfterDate: false,
+                                textController: foundDateTextController,
+                                onChange: (String value) {
+
+                                  widget.model?.foundDate =
+                                      Utils().formatTime(value);
+                                },
+                                context: context,
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// found location
@@ -1515,10 +1531,16 @@ class _CreateFoundState extends State<CreateFound> {
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
-                                datepickerWidgetLoading(
-                                    handedoverdatedateTextController),
-                                // CommonWidgets.verticalSpacerWidget(
-                                //     height * 0.01),
+                                BaseDate().datePickerWidgetLoading(
+                                  showAfterDate: false,
+                                  textController: handedoverdatedateTextController,
+                                  onChange: (String value) {
+
+                                    widget.model?.handoverDate =
+                                        Utils().formatTime(value);
+                                  },
+                                  context: context,
+                                ),
                               ],
                               //  CommonWidgets.verticalSpacerWidget(height * 0.01),
 
