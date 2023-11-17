@@ -1793,7 +1793,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         } else {
           if (widget.model?.status != 0 &&
               (widget.model != null &&
-                  distributiongroupsTextController.text.isEmpty)) {
+                  distributiongroupsTextController.text.isNotEmpty)) {
             Validator().showToast(
               context,
               "Please enter distribution groups",
