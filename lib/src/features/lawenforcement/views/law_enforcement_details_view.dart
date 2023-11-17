@@ -759,9 +759,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         state.getLocationsResponse != null &&
         widget.model == null &&
         (serialnumber ?? '').isEmpty) {
-      Organisation list = Organisation(id: 24, name: "DLF Square");
+      Organisation list = Organisation(id: 323, name: "SunGard");
       lawEnforcementCubit.getlocationsResponseData(list);
-      await lawEnforcementCubit.getSerialnumberDetails('24', 'LEO', context);
+      await lawEnforcementCubit.getSerialnumberDetails('323', 'LEO', context);
     }
   }
 

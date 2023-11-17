@@ -101,6 +101,7 @@ class _CreateFoundState extends State<CreateFound> {
   List<ImageContent> getAttachments = [];
 
   SignatureController claimantSignatureController = SignatureController();
+
   @override
   void initState() {
     super.initState();
@@ -653,8 +654,11 @@ class _CreateFoundState extends State<CreateFound> {
         firstDate: DateTime(2000),
         lastDate: DateTime(2101));
 
-    String formattedDate = DateFormat(Constants.fulldateFormat)
-        .format(pickedDate ?? DateTime.now());
+    String formattedDate =
+        DateFormat(Constants.fulldateFormat).format(DateTime.now());
+
+    // String formattedDate = DateFormat(Constants.fulldateFormat)
+    //     .format(pickedDate ?? DateTime.now());
     //you can implement different kind of Date Format here according to your requirement
     if (textfield == foundDateTextController) {
       foundDateTextController.text = formattedDate;
@@ -737,9 +741,10 @@ class _CreateFoundState extends State<CreateFound> {
     if (locationSelectedlist == null &&
         state.getLocationsResponse != null &&
         widget.model == null) {
-      locationSelectedlist = Organisation(id: 24, name: "DLF Square");
-      locationselectedText = 'DLF Square';
-      await createFoundArticleCubit.getSerialnumberDetails('24', 'AF', context);
+      locationSelectedlist = Organisation(id: 323, name: "SunGard");
+      locationselectedText = 'SunGard';
+      await createFoundArticleCubit.getSerialnumberDetails(
+          '323', 'AF', context);
     }
   }
 
@@ -1254,7 +1259,8 @@ class _CreateFoundState extends State<CreateFound> {
                                     : Container(),
 
                                 /// claimant
-                                widget.model != null
+                                widget.model != null &&
+                                        isClaimantDBEmployeeSelected == 0
                                     ? CommonWidgets.textDisplay(
                                         Constants.claimant,
                                         Styles.textStyleBlack14,
@@ -1272,19 +1278,18 @@ class _CreateFoundState extends State<CreateFound> {
                                             ? true
                                             : (widget.model != null &&
                                                     (widget.model?.claimant
-                                                                ?.lastName ??
+                                                                ?.name ??
                                                             '')
                                                         .isEmpty)
                                                 ? true
                                                 : false,
-                                        isDisableColor:
-                                            (widget.model?.status != 2 &&
-                                                    (widget.model?.claimant
-                                                                ?.lastName ??
-                                                            '')
-                                                        .isEmpty)
-                                                ? false
-                                                : true,
+                                        isDisableColor: (widget.model?.status !=
+                                                    2 &&
+                                                (widget.model?.claimant?.name ??
+                                                        '')
+                                                    .isEmpty)
+                                            ? false
+                                            : true,
                                         onChange: (String username) {
                                           //this.username = username;
                                           claimant = username;
@@ -1715,20 +1720,20 @@ class _CreateFoundState extends State<CreateFound> {
             width: double.infinity,
             child: (!isEditable && isSigned)
                 ? Container()
-            // Image.memory(
-            //   Uint8List.fromList(
-            //     base64Decode(
-            //       isReceiver
-            //           ? widget.model.receiverSign!.imageContent ?? ''
-            //           : state.model.entrySecuritySign!.imageContent ?? '',
-            //     ),
-            //   ),
-            //   fit: BoxFit.none,
-            // )
+                // Image.memory(
+                //   Uint8List.fromList(
+                //     base64Decode(
+                //       isReceiver
+                //           ? widget.model.receiverSign!.imageContent ?? ''
+                //           : state.model.entrySecuritySign!.imageContent ?? '',
+                //     ),
+                //   ),
+                //   fit: BoxFit.none,
+                // )
                 : Signature(
-              controller: controller,
-              backgroundColor: Colors.white,
-            ),
+                    controller: controller,
+                    backgroundColor: Colors.white,
+                  ),
           ),
         ),
         CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
