@@ -23,20 +23,24 @@ class Apis {
   static final String getOrganisation = '$baseUrl/getOrganisation?name=';
   static final String _getUsersByRole = '$baseUrl/getUsersByRole?roleName=';
   static final String _getPassNo = '$baseUrl/getActivePassInfo?passType=';
+  static final String _createUser = '$baseUrl/createUser?';
+
 }
 
 class CreatePassMgmtService {
   final endpoint = Environment().config.apiHost;
 
   // Create user api call
-  Future<CreateUserModel> createUser(String firstName, String lastName,
-      String email, String role, BuildContext context) async {
-    var value = await AppServicesHandler().globalPostServiceCall(
-        '/createUser?firstName=$firstName&lastName=$lastName&email=$email&role=$role',
-        context,
-        '');
-
-    return CreateUserModel.fromJson(value);
+  Future<CreateUserModel> createUser(
+      String firstName,  String lastName,
+      String email,  String role,
+      BuildContext? context,
+      ) async {
+    final String url = "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return CreateUserModel.fromJson(response);
   }
 
   Future<CreatePassMgmtResponse> createPass({
