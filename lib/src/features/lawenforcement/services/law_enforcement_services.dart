@@ -23,15 +23,20 @@ import '../../createfound/models/user.dart';
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-
   static final String _getList = '$baseUrl/getLawEnfrcmntList?';
   static final String _getById = '$baseUrl/getLawEnfrcmnt';
   static final String _create = '$baseUrl/saveLawEnfrcmnt';
+  static final String _getLocations = '$baseUrl/getOrganisation?name=';
+  static final String _getSlNo = '$baseUrl/getSlNo?';
+  static final String _getUsersByRole = '$baseUrl/getUsersByRole?roleName=';
+  static final String _getUserDetails = '$baseUrl/getUserDetails?userId=';
+  static final String _getGroup = '$baseUrl/getGroup';
+  static final String _createOrganisation = '$baseUrl/createOrganisation?';
+  static final String _createUser = '$baseUrl/createUser?';
 }
 
 class LawEnforcementServices {
   final endpoint = Environment().config.apiHost;
-
 
   Future<LawEnforcementListResponse> getList({
     required String startPosition,
@@ -53,11 +58,14 @@ class LawEnforcementServices {
       BuildContext context,
       ) async {
     final String url = '${Apis._getById}/$id';
-    final response =
-    await BaseApiService().getRequest(url: url, isAuthenticated: false);
+    final response = await BaseApiService().getRequest(
+      url: url,
+      isAuthenticated: true,
+    );
 
     return LawEnforcementDetails.fromJson(response);
   }
+
   Future<SubmitLawEnforcementResponse> createLawFoundArticle({
     required LawEnforcementRequestBody body,
     required bool isSubmit,
@@ -73,99 +81,124 @@ class LawEnforcementServices {
   }
 
   // get Entities api call
-  Future<AddEntities> getEntities(String name, BuildContext context) async {
-    var value = await AppServicesHandler()
-        .globalpopupGetServiceCall('/getOrganisation?name=$name', context);
-
-    return AddEntities.fromJson(value);
+  Future<AddEntities> getEntities(
+      String name,
+      ) async {
+    String url = '${Apis._getLocations}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return AddEntities.fromJson(response);
   }
 
   //Get locations
-  Future<GetLocations> getLocations(
-      String locationStr, BuildContext context) async {
-    var value = await AppServicesHandler().globalpopupGetServiceCall(
-        '/getOrganisation?name=$locationStr', context);
-
-    return GetLocations.fromJson(value);
+  Future<GetLocations> getLocations(String name, BuildContext? context) async {
+    String url = '${Apis._getLocations}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return GetLocations.fromJson(response);
   }
 
   // get serailnumber Details api call
   Future<SerialNumberModel> getSerialnumberDetails(
-      String locationId, String moduleCode, BuildContext context) async {
-    var value = await AppServicesHandler().globalpopupGetServiceCall(
-        '/getSlNo?locationId=$locationId&moduleCode=$moduleCode', context);
-
-    return SerialNumberModel.fromJson(value);
+      String locationId,
+      String moduleCode,
+      BuildContext? context,
+      ) async {
+    String url =
+        '${Apis._getSlNo}locationId=$locationId&moduleCode=$moduleCode';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return SerialNumberModel.fromJson(response);
   }
 
-  // get Entities api call
   Future<LeoPurposeVisit> getLeopurposeofvisit(
-      String name, BuildContext context) async {
-    var value = await AppServicesHandler()
-        .globalpopupGetServiceCall('/getOrganisation?name=$name', context);
-
-    return LeoPurposeVisit.fromJson(value);
+      String name, BuildContext? context) async {
+    String url = '${Apis._getLocations}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return LeoPurposeVisit.fromJson(response);
   }
 
   Future<LeoDepartments> getLeodepartments(
-      String name, BuildContext context) async {
-    var value = await AppServicesHandler()
-        .globalpopupGetServiceCall('/getOrganisation?name=$name', context);
-
-    return LeoDepartments.fromJson(value);
+      String name, BuildContext? context) async {
+    String url = '${Apis._getLocations}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return LeoDepartments.fromJson(response);
   }
 
   Future<GetDepositor> getDBOfficialdepartments(
-      String name, BuildContext context) async {
-    var value = await AppServicesHandler()
-        .globalpopupGetServiceCall('/getUsersByRole?roleName=$name', context);
-
-    return GetDepositor.fromJson(value);
+      String roleName,
+      BuildContext? context,
+      ) async {
+    String url = '${Apis._getUsersByRole}$roleName';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return GetDepositor.fromJson(response);
   }
 
   //Get Employee Departments
   Future<EmployeeDepartments> getEmployeeDepartments(
-      String departmentStr, BuildContext context) async {
-    var value = await AppServicesHandler().globalpopupGetServiceCall(
-        '/getOrganisation?name=$departmentStr', context);
-
-    return EmployeeDepartments.fromJson(value);
+      String name, BuildContext? context) async {
+    String url = '${Apis._getLocations}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return EmployeeDepartments.fromJson(response);
   }
 
-  // get user Details api call
-  Future<User> getUserDetails(String userId, BuildContext context) async {
-    var value = await AppServicesHandler()
-        .globalpopupGetServiceCall('/getUserDetails?userId=$userId', context);
-
-    return User.fromJson(value);
+  Future<User> getUserDetails(
+      String userId,
+      BuildContext? context,
+      ) async {
+    String url = '${Apis._getUserDetails}$userId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return User.fromJson(response);
   }
 
-  // get distribution group Details api call
   Future<DistributionGroupModel> getDistributiongroupDetails(
-      BuildContext context) async {
-    var value = await AppServicesHandler()
-        .globalpopupGetServiceCall('/getGroup', context);
-
-    return DistributionGroupModel.fromJson(value);
+      BuildContext? context,
+      ) async {
+    String url = '${Apis._getGroup}';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return DistributionGroupModel.fromJson(response);
   }
 
-  // Create organisation api call
   Future<Organisation> createOrganisation(
-      String name, String orgName, BuildContext context) async {
-    var value = await AppServicesHandler().globalPostServiceCall(
-        '/createOrganisation?name=$name&orgName=$orgName', context, '');
-
-    return Organisation.fromJson(value);
+      String name,
+      String orgName,
+      BuildContext? context,
+      ) async {
+    final String url = "${Apis._createOrganisation}name=$name&orgName=$orgName";
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return Organisation.fromJson(response);
   }
 
 // Create user api call
-  Future<CreateUserModel> createUser(String firstName, String lastName,
-      String email, String role, BuildContext context) async {
-    var value = await AppServicesHandler().globalPostServiceCall(
-        '/createUser?firstName=$firstName&lastName=$lastName&email=$email&role=$role',
-        context,
-        '');
-
-    return CreateUserModel.fromJson(value);
+  Future<CreateUserModel> createUser(
+      String firstName,
+      String lastName,
+      String email,
+      String role,
+      BuildContext? context,
+      ) async {
+    final String url =
+        "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return CreateUserModel.fromJson(response);
   }
 }
