@@ -653,8 +653,11 @@ class _CreateFoundState extends State<CreateFound> {
         firstDate: DateTime(2000),
         lastDate: DateTime(2101));
 
-    String formattedDate = DateFormat(Constants.fulldateFormat)
-        .format(pickedDate ?? DateTime.now());
+    String formattedDate =
+    DateFormat(Constants.fulldateFormat).format(DateTime.now());
+
+    // String formattedDate = DateFormat(Constants.fulldateFormat)
+    //     .format(pickedDate ?? DateTime.now());
     //you can implement different kind of Date Format here according to your requirement
     if (textfield == foundDateTextController) {
       foundDateTextController.text = formattedDate;
@@ -666,7 +669,7 @@ class _CreateFoundState extends State<CreateFound> {
     });
   }
 
-  depositorDialog(CreateFoundState state, String name) {
+    depositorDialog(CreateFoundState state, String name) {
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
@@ -1254,7 +1257,8 @@ class _CreateFoundState extends State<CreateFound> {
                                     : Container(),
 
                                 /// claimant
-                                widget.model != null
+                                widget.model != null&&
+                                    isClaimantDBEmployeeSelected == 0
                                     ? CommonWidgets.textDisplay(
                                         Constants.claimant,
                                         Styles.textStyleBlack14,
@@ -1272,7 +1276,7 @@ class _CreateFoundState extends State<CreateFound> {
                                             ? true
                                             : (widget.model != null &&
                                                     (widget.model?.claimant
-                                                                ?.lastName ??
+                                                                ?.name ??
                                                             '')
                                                         .isEmpty)
                                                 ? true
@@ -1280,7 +1284,7 @@ class _CreateFoundState extends State<CreateFound> {
                                         isDisableColor:
                                             (widget.model?.status != 2 &&
                                                     (widget.model?.claimant
-                                                                ?.lastName ??
+                                                                ?.name ??
                                                             '')
                                                         .isEmpty)
                                                 ? false

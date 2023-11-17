@@ -1314,15 +1314,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
-          activeColor: widget.model != null
+          activeColor: widget.model?.status != 0
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
           focusColor: AppColors.navigationSkybluecolor,
           value: 1,
           groupValue: selectedValue,
           onChanged: (val) {
-            print(name);
-            //
             selectedValue = 1;
 
             createPassMgmtCubit.getRadioButtonSelected(
@@ -1331,7 +1329,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         ),
         const Text(Constants.yes),
         Radio(
-          activeColor: widget.model != null
+          activeColor: widget.model?.status != 0
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
           value: 0,
@@ -1370,17 +1368,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   initiallyLocationAndSerialNumberDataset(CreatePassMgmtState state) async {
-    // print(state.locationSelectedlist);
-    // print(state.getLocationsResponse);
-    // print(widget.dayPassItem);
     if (state.location?.id == null &&
         state.getLocationsResponse != null &&
         widget.model == null &&
         (serialnumber ?? '').isEmpty) {
-      Organisation location = Organisation(id: 24, name: "DLF Square");
+      Organisation location = Organisation(id: 323, name: "SunGuard");
       createPassMgmtCubit.getlocationsResponseData(location);
       await createPassMgmtCubit.getSerialnumberDetails(
-        '24',
+        '323',
         widget.passId ?? '',
         context,
       );
@@ -1890,9 +1885,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     // });
   }
 
-  String _getCurrentDates() {
-    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
-  }
+  // String _getCurrentDates() {
+  //   return DateFormat(Constants.fulldateFormat).format(DateTime.now());
+  // }
 
   void _getCurrentDate() {
     final currentDate = DateTime.now();
