@@ -3072,14 +3072,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter pass type",
       );
-    } else if ((widget.passId == '0' || widget.passId == '2') &&
+    } else if (widget.passId == '0' &&
         (state.dayPasselementReason == null ||
             (state.dayPasselementReason?.name ?? '').isEmpty)) {
       Validator().showToast(
         context,
-        widget.passId == '2'
-            ? "Please enter reason for vendor pass"
-            : "Please enter reason for day pass",
+        "Please enter reason for Day pass",
+      );
+    } else if (widget.passId == '2' &&
+        (state.vendorPasselementReason == null ||
+            (state.vendorPasselementReason?.name ?? '').isEmpty)) {
+      Validator().showToast(
+        context,
+        "Please enter reason for Vendor pass",
       );
     } else if (widget.passId == '0' &&
         (state.vendorPassInfo == null ||
