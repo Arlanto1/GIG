@@ -1372,7 +1372,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         state.getLocationsResponse != null &&
         widget.model == null &&
         (serialnumber ?? '').isEmpty) {
-      Organisation location = Organisation(id: 323, name: "SunGuard");
+      Organisation location = Organisation(id: 323, name: "SunGard");
       createPassMgmtCubit.getlocationsResponseData(location);
       await createPassMgmtCubit.getSerialnumberDetails(
         '323',
