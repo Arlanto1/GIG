@@ -48,10 +48,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           emit(LoginSuccessState(message: 'Menu Roles are not defined'));
           return null;
         }
+        /// Setting Menu Items according to User Role
         await SharedPrefs.setDisplayMenu(loginData.user!.displayMenu!);
 
-        /// Setting Menu Items according to User Role
-
+        /// Setting Default Location
+        await SharedPrefs.setDefaultLocation(loginData.user!.defaultLocation!);
 
         if (loginData.requirePasswordChange == true) {
           await SharedPrefs.setIsRequiredPasswordChange(true);

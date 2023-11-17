@@ -65,7 +65,7 @@ class NavigationDrawer1 extends StatelessWidget {
       expansionTileDrawerItems.add(
           const MenuItem(Constants.passmanagement, AppIcon.passmanagement, 1));
     }
-    if (displayMenu.mM ?? false) {
+    if (displayMenu.gM ?? false) {
       expansionTileDrawerItems.add(
           const MenuItem(Constants.guarding, AppIcon.guardingOperationIcon, 1));
     }

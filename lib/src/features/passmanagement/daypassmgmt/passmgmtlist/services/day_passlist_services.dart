@@ -9,7 +9,7 @@ class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
   static final String _getList = '$baseUrl/getPassMgmtList?';
-  static final String _getById = '$baseUrl/getPassMgmtById?';
+  static final String _getById = '$baseUrl/getPassMgmtById';
 }
 
 class DayPassListServices {

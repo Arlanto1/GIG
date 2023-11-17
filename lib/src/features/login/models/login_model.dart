@@ -1,3 +1,5 @@
+import 'package:db_atom/src/models/organisation.dart';
+
 class LoginResponseModel {
   final String? message;
   final String? token;
@@ -16,17 +18,20 @@ class LoginResponseModel {
   LoginResponseModel.fromJson(Map<String, dynamic> json)
       : message = json['message'] as String?,
         token = json['token'] as String?,
-        user = (json['user'] as Map<String,dynamic>?) != null ? LoginUserResponseModel.fromJson(json['user'] as Map<String,dynamic>) : null,
+        user = (json['user'] as Map<String, dynamic>?) != null
+            ? LoginUserResponseModel.fromJson(
+                json['user'] as Map<String, dynamic>)
+            : null,
         refreshToken = json['refreshToken'] as String?,
         requirePasswordChange = json['requirePasswordChange'] as bool?;
 
   Map<String, dynamic> toJson() => {
-    'message' : message,
-    'token' : token,
-    'user' : user?.toJson(),
-    'refreshToken' : refreshToken,
-    'requirePasswordChange' : requirePasswordChange
-  };
+        'message': message,
+        'token': token,
+        'user': user?.toJson(),
+        'refreshToken': refreshToken,
+        'requirePasswordChange': requirePasswordChange
+      };
 }
 
 class LoginUserResponseModel {
@@ -36,7 +41,7 @@ class LoginUserResponseModel {
   final String? firstName;
   final String? lastName;
   final String? phone;
-  final DefaultLocation? defaultLocation;
+  final Organisation? defaultLocation;
   final DisplayMenu? displayMenu;
   final String? timezone;
 
@@ -59,40 +64,27 @@ class LoginUserResponseModel {
         firstName = json['firstName'] as String?,
         lastName = json['lastName'] as String?,
         phone = json['phone'] as String?,
-        defaultLocation = (json['defaultLocation'] as Map<String,dynamic>?) != null ? DefaultLocation.fromJson(json['defaultLocation'] as Map<String,dynamic>) : null,
-        displayMenu = (json['displayMenu'] as Map<String,dynamic>?) != null ? DisplayMenu.fromJson(json['displayMenu'] as Map<String,dynamic>) : null,
+        defaultLocation =
+            (json['defaultLocation'] as Map<String, dynamic>?) != null
+                ? Organisation.fromJson(
+                    json['defaultLocation'] as Map<String, dynamic>)
+                : null,
+        displayMenu = (json['displayMenu'] as Map<String, dynamic>?) != null
+            ? DisplayMenu.fromJson(json['displayMenu'] as Map<String, dynamic>)
+            : null,
         timezone = json['timezone'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'userId' : userId,
-    'userName' : userName,
-    'email' : email,
-    'firstName' : firstName,
-    'lastName' : lastName,
-    'phone' : phone,
-    'defaultLocation' : defaultLocation?.toJson(),
-    'displayMenu' : displayMenu?.toJson(),
-    'timezone' : timezone
-  };
-}
-
-class DefaultLocation {
-  final String? name;
-  final String? id;
-
-  DefaultLocation({
-    this.name,
-    this.id,
-  });
-
-  DefaultLocation.fromJson(Map<String, dynamic> json)
-      : name = json['name'] as String?,
-        id = json['id'] as String?;
-
-  Map<String, dynamic> toJson() => {
-    'name' : name,
-    'id' : id
-  };
+        'userId': userId,
+        'userName': userName,
+        'email': email,
+        'firstName': firstName,
+        'lastName': lastName,
+        'phone': phone,
+        'defaultLocation': defaultLocation?.toJson(),
+        'displayMenu': displayMenu?.toJson(),
+        'timezone': timezone
+      };
 }
 
 class DisplayMenu {
@@ -139,17 +131,17 @@ class DisplayMenu {
         oCC = json['OCC'] as bool?;
 
   Map<String, dynamic> toJson() => {
-    'MM' : mM,
-    'SSSLA' : sSSLA,
-    'CD' : cD,
-    'IM' : iM,
-    'AF' : aF,
-    'GM' : gM,
-    'LEO' : lEO,
-    'GR' : gR,
-    'EP' : eP,
-    'DP' : dP,
-    'PM' : pM,
-    'OCC' : oCC
-  };
+        'MM': mM,
+        'SSSLA': sSSLA,
+        'CD': cD,
+        'IM': iM,
+        'AF': aF,
+        'GM': gM,
+        'LEO': lEO,
+        'GR': gR,
+        'EP': eP,
+        'DP': dP,
+        'PM': pM,
+        'OCC': oCC
+      };
 }

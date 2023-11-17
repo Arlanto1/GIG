@@ -5,6 +5,8 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/login/models/login_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/organisation.dart';
+
 class SharedPrefs {
   static late final SharedPreferences instance;
 
@@ -162,7 +164,23 @@ class SharedPrefs {
       DisplayMenu displayMenu = DisplayMenu.fromJson(jsonMap);
       return displayMenu;
     }
+    return null;
+  }
 
+  static Future<void> setDefaultLocation(Organisation defaultLocation) async {
+    log('Setting Default Location');
+    String jsonString = jsonEncode(defaultLocation.toJson());
+    instance.setString(Constants.defaultLocation, jsonString);
+  }
+
+  static Future<Organisation?> getDefaultLocation() async {
+    String jsonString = instance.getString(Constants.defaultLocation) ?? '';
+    Map<String, dynamic> jsonMap = jsonDecode(jsonString);
+
+    if (jsonMap.isNotEmpty) {
+      Organisation defaultLocation = Organisation.fromJson(jsonMap);
+      return defaultLocation;
+    }
     return null;
   }
 }
