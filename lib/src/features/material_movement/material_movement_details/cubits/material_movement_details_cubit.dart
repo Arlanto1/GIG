@@ -114,7 +114,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       QuantityUnits quantityUnits = await commonServices.getQuantityUnits();
 
       Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-      if (defaultLocation != null && isInward == true) {
+      log('defaultLocation --$defaultLocation');
+      if (defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
           moduleCode: Constants.materialMovementInwardReturnableModule,
