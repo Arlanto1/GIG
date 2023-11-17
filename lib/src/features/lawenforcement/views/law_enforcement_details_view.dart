@@ -981,6 +981,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         'ATOM_STATIC_USER', context);
     await lawEnforcementCubit.getUserDetails(userid, context);
   }
+
   //
   // Widget submitButtonDisplay() {
   //   return AppButton(
@@ -1004,23 +1005,23 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   // }
   Widget submitButtonDisplay() {
     return // Login button
-      AppButton(
-        //height: 50,
-        width: 150,
-        key: const Key(Keys.submitButton),
-        buttonText: Constants.submit,
-        buttonTextKey: Keys.submitButton,
-        onTap: () async {
-          //loginFormKey.currentState!.validate();
-          FocusScope.of(context).unfocus();
-          try {
-            // passSubmit(true, widget.listuser?.id ?? 0, globalState);
-            validateForm(context, globalState);
-          } catch (e) {
-            // present userwith error message
-          }
-        },
-      );
+        AppButton(
+      //height: 50,
+      width: 150,
+      key: const Key(Keys.submitButton),
+      buttonText: Constants.submit,
+      buttonTextKey: Keys.submitButton,
+      onTap: () async {
+        //loginFormKey.currentState!.validate();
+        FocusScope.of(context).unfocus();
+        try {
+          // passSubmit(true, widget.listuser?.id ?? 0, globalState);
+          validateForm(context, globalState);
+        } catch (e) {
+          // present userwith error message
+        }
+      },
+    );
   }
 
   Widget radioButtonHandling(int selectedValue, String name) {
@@ -1549,18 +1550,19 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
   Future createLawEnforcement(
       bool isSubmit, int isFoundId, LawEnforcementState state) async {
-    int actualdate = Utils.dateToTimestampConversion(
+    log('---createLawEnforcement----');
+    int actualDate = Utils.dateToTimestampConversion(
         actualDateTextController.text, Constants.fulldateFormat);
-    int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-    int statusvalue = 0;
+    int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    int statusValue = 0;
     if (statusTextController.text.toLowerCase() == "draft") {
-      statusvalue = 0;
+      statusValue = 0;
     } else if (statusTextController.text.toLowerCase() == "submitted") {
-      statusvalue = 1;
+      statusValue = 1;
     } else if (statusTextController.text.toLowerCase() == "distributed") {
-      statusvalue = 3;
+      statusValue = 3;
     } else {
-      statusvalue = 2;
+      statusValue = 2;
     }
     bool isDocumentifanySelected =
         state.isDocumentifanySelected == 1 ? true : false;
@@ -1632,12 +1634,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       lawEnforcement = LawEnforcement(
           id: isFoundId,
           entrySecurity: entrySecurtity,
-          inputDate: inputdate.toString(),
+          inputDate: inputDate.toString(),
           slNo: serialnumber ?? '',
           location: location,
-          status: statusvalue,
+          status: statusValue,
           images: images,
-          timeOfVisit: actualdate.toString(),
+          timeOfVisit: actualDate.toString(),
           officialCardVerified: isOfficialIdcardSelected,
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
@@ -1654,12 +1656,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     } else {
       lawEnforcement = LawEnforcement(
           entrySecurity: entrySecurtity,
-          inputDate: inputdate.toString(),
+          inputDate: inputDate.toString(),
           slNo: serialnumber ?? '',
           location: location,
-          status: statusvalue,
+          status: statusValue,
           images: images,
-          timeOfVisit: actualdate.toString(),
+          timeOfVisit: actualDate.toString(),
           officialCardVerified: isOfficialIdcardSelected,
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
@@ -1781,30 +1783,30 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             "Please enter visiting official details",
           );
           break;
+        } else if (!Validator.isValidEmail(model.email?.trim())) {
+          log('-model.email---${model.email}---');
+          Validator().showToast(
+            context,
+            "Please enter visiting official  details valid email",
+          );
+          break;
+        } else {
+          if (widget.model?.status != 0 &&
+              (widget.model != null &&
+                  distributiongroupsTextController.text.isEmpty)) {
+            Validator().showToast(
+              context,
+              "Please enter distribution groups",
+            );
+            break;
+          } else {
+            createLawEnforcement(true, widget.model?.id ?? 0, globalState);
+            break;
+          }
         }
-        // else if (!Validator.isValidEmail(model.email)) {
-        //   Validator().showToast(
-        //     context,
-        //     "Please enter visiting official  details valid email",
-        //   );
-        //   break;
-        // }
-        // else {
-        //   if (widget.model?.status != 0 &&
-        //       (widget.model != null &&
-        //           distributiongroupsTextController.text.isEmpty)) {
-        //     Validator().showToast(
-        //       context,
-        //       "Please enter distribution groups",
-        //     );
-        //     break;
-        //   } else {
-        //     createLawEnforcement(true, widget.model?.id ?? 0, globalState);
-        //     break;
-        //   }
-        // }
       }
     } else {
+      log('---validateForm-else---');
       if (widget.model?.status != 0 &&
           (widget.model != null &&
               distributiongroupsTextController.text.isEmpty)) {
