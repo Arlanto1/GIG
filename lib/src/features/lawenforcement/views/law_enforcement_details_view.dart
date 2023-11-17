@@ -970,7 +970,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   getLawEnforcementList(context) async {
     var userid = await SharedPrefs.getUserId();
     await lawEnforcementCubit.getLocations('ATOM_LOCATIONS', context);
-    await lawEnforcementCubit.getEntities('ATOM_ENTITIES', context);
+    await lawEnforcementCubit.getEntities('ATOM_ENTITIES');
     await lawEnforcementCubit.getLeopurposeofvisit(
         'ATOM_LEO_PURPOSE_VISIT', context);
     await lawEnforcementCubit.getLeodepartments(
