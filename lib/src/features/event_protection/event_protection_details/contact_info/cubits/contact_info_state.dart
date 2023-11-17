@@ -4,51 +4,51 @@ class ContactInfoState extends Equatable {
   final FormStatus status;
   final ContactInfoModel model;
   final GetLocations? locations;
-  final EntrySecurity? loggedInUserDetails;
+  final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
-  final List<CreateImage>? loadAttachments;
-  final List<CreateImage>? guardAttachments;
-  final List<CreateImage>? deploymentAttachments;
-  final List<CreateImage>? bioDataAttachments;
-  final List<Entity>? listOfEntities;
-  final List<Entity>? listOfQualifications;
+  final List<ImageContent>? loadAttachments;
+  final List<ImageContent>? guardAttachments;
+  final List<ImageContent>? deploymentAttachments;
+  final List<ImageContent>? bioDataAttachments;
+  final List<Organisation>? listOfEntities;
+  final List<Organisation>? listOfQualifications;
   final List<Organisation> departments;
   final AddQualifications? getQualificationsResponse;
   final AddEntities? getEntitiesResponse;
   final List<String>? participationDates;
   final int? eventId;
   final String? message;
-  final List<CreateImage>? permanentAddressAttachments;
-  final List<CreateImage>? localAddressAttachments;
-  final List<CreateImage>? pVCAttachments;
-  final List<CreateImage>? trainingAttachments;
-  final List<CreateImage>? medicalAttachments;
-  final List<CreateImage>? mSGBAttachments;
+  final List<ImageContent>? permanentAddressAttachments;
+  final List<ImageContent>? localAddressAttachments;
+  final List<ImageContent>? pVCAttachments;
+  final List<ImageContent>? trainingAttachments;
+  final List<ImageContent>? medicalAttachments;
+  final List<ImageContent>? mSGBAttachments;
   final List<User>? entrySecurities;
 
   factory ContactInfoState.initial({
     required ContactInfoModel model,
     required GetLocations locations,
-    required EntrySecurity loggedInUserDetails,
+    required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
-    required final List<Entity>? listOfEntities,
-    required final List<Entity>? listOfQualifications,
+    required final List<Organisation>? listOfEntities,
+    required final List<Organisation>? listOfQualifications,
     required final AddEntities? getEntitiesResponse,
     required final AddQualifications? getQualificationsResponse,
     required final List<Organisation> departments,
     required String errorMessage,
-    required List<CreateImage> loadAttachments,
-    List<CreateImage>? bioDataAttachments,
-    List<CreateImage>? guardAttachments,
-    List<CreateImage>? deploymentAttachments,
-    List<CreateImage>? permanentAddressAttachments,
-    List<CreateImage>? localAddressAttachments,
-    List<CreateImage>? pVCAttachments,
-    List<CreateImage>? trainingAttachments,
-    List<CreateImage>? mSGBAttachments,
-    List<CreateImage>? medicalAttachments,
+    required List<ImageContent> loadAttachments,
+    List<ImageContent>? bioDataAttachments,
+    List<ImageContent>? guardAttachments,
+    List<ImageContent>? deploymentAttachments,
+    List<ImageContent>? permanentAddressAttachments,
+    List<ImageContent>? localAddressAttachments,
+    List<ImageContent>? pVCAttachments,
+    List<ImageContent>? trainingAttachments,
+    List<ImageContent>? mSGBAttachments,
+    List<ImageContent>? medicalAttachments,
     List<User>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,
@@ -125,27 +125,27 @@ class ContactInfoState extends Equatable {
     FormStatus? status,
     ContactInfoModel? model,
     GetLocations? locations,
-    EntrySecurity? loggedInUserDetails,
+    User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
-    List<CreateImage>? loadAttachments,
-    List<CreateImage>? guardAttachments,
-    List<CreateImage>? deploymentAttachments,
-    List<CreateImage>? bioDataAttachments,
-    List<Entity>? listOfEntities,
-    List<Entity>? listOfQualifications,
+    List<ImageContent>? loadAttachments,
+    List<ImageContent>? guardAttachments,
+    List<ImageContent>? deploymentAttachments,
+    List<ImageContent>? bioDataAttachments,
+    List<Organisation>? listOfEntities,
+    List<Organisation>? listOfQualifications,
     List<Organisation>? departments,
     AddQualifications? getQualificationsResponse,
     AddEntities? getEntitiesResponse,
     List<String>? participationDates,
     int? eventId,
     String? message,
-    List<CreateImage>? permanentAddressAttachments,
-    List<CreateImage>? localAddressAttachments,
-    List<CreateImage>? pVCAttachments,
-    List<CreateImage>? trainingAttachments,
-    List<CreateImage>? medicalAttachments,
-    List<CreateImage>? mSGBAttachments,
+    List<ImageContent>? permanentAddressAttachments,
+    List<ImageContent>? localAddressAttachments,
+    List<ImageContent>? pVCAttachments,
+    List<ImageContent>? trainingAttachments,
+    List<ImageContent>? medicalAttachments,
+    List<ImageContent>? mSGBAttachments,
     List<User>? entrySecurities,
   }) {
     return ContactInfoState(

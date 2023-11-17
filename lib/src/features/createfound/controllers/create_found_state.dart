@@ -1,4 +1,3 @@
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_submit_model.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
@@ -6,10 +5,11 @@ import 'package:db_atom/src/features/createfound/models/get_articletype_model.da
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../models/entry_security.dart';
 import '../../../models/organisation.dart';
+import '../models/user.dart';
 
 enum CreateFoundStateType { initial, loading, success, failure, addattachment }
 
@@ -21,12 +21,12 @@ class CreateFoundState extends Equatable {
   Organisation? createOrganisationResponse;
   Organisation? createEmployeeDepartments;
   CreateUserModel? createUserResponse;
-  EntrySecurity? getUserDetailsResponse;
+  User? loggedInUser;
   SubmitCreateFoundModel? createFoundResponse;
   SerialNumberModel? getSerialnumberResponse;
-  final String? errorMessage;
+  final String? message;
   final CreateFoundStateType stateType;
-  List<CreateImage>? loadAttachments = [];
+  List<ImageContent>? loadAttachments = [];
    final int? eventId;
 
   CreateFoundState({
@@ -37,11 +37,11 @@ class CreateFoundState extends Equatable {
     this.createOrganisationResponse,
     this.createEmployeeDepartments,
     this.createUserResponse,
-    this.getUserDetailsResponse,
+    this.loggedInUser,
     this.createFoundResponse,
     this.getSerialnumberResponse,
     required this.stateType,
-    this.errorMessage,
+    this.message,
     this.loadAttachments,
     this.eventId
   });
@@ -54,12 +54,12 @@ class CreateFoundState extends Equatable {
     Organisation? createOrganisationResponse,
     Organisation? createEmployeeDepartments,
     CreateUserModel? createUserResponse,
-    EntrySecurity? getUserDetailsResponse,
+    User? loggedInUser,
     SubmitCreateFoundModel? createFoundResponse,
     SerialNumberModel? getSerialnumberResponse,
-    String? errorMessage,
+    String? message,
     CreateFoundStateType? stateType,
-    List<CreateImage>? loadAttachments,
+    List<ImageContent>? loadAttachments,
     final int? eventId,
   }) {
     return CreateFoundState(
@@ -74,12 +74,12 @@ class CreateFoundState extends Equatable {
         createEmployeeDepartments:
             createEmployeeDepartments ?? this.createEmployeeDepartments,
         createUserResponse: createUserResponse ?? this.createUserResponse,
-        getUserDetailsResponse:
-            getUserDetailsResponse ?? this.getUserDetailsResponse,
+        loggedInUser:
+            loggedInUser ?? this.loggedInUser,
         createFoundResponse: createFoundResponse ?? this.createFoundResponse,
         getSerialnumberResponse:
             getSerialnumberResponse ?? this.getSerialnumberResponse,
-        errorMessage: errorMessage ?? this.errorMessage,
+        message: message ?? this.message,
         stateType: stateType ?? this.stateType,
         loadAttachments: loadAttachments ?? this.loadAttachments,
         eventId :   eventId ?? this.eventId);
@@ -94,10 +94,10 @@ class CreateFoundState extends Equatable {
         createOrganisationResponse,
         createEmployeeDepartments,
         createUserResponse,
-        getUserDetailsResponse,
+        loggedInUser,
         createFoundResponse,
         getSerialnumberResponse,
-        errorMessage,
+        message,
         stateType,
         loadAttachments,
         eventId

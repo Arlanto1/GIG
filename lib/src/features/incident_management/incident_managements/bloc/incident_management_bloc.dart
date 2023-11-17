@@ -1,41 +1,45 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../enums/form_status.dart';
-import '../models/incidents_response.dart';
-import '../services/incident_management_services.dart';
+import '../../models/incidents_response.dart';
+import '../../services/incident_management_services.dart';
 
 part 'incident_management_event.dart';
 part 'incident_management_state.dart';
 
 class IncidentManagementsBloc
     extends Bloc<IncidentManagementsEvent, IncidentManagementsState> {
+  final String? occId;
+  final int? occType;
 
-  IncidentManagementsBloc()
+  IncidentManagementsBloc(this.occType, this.occId,)
       : super(const IncidentManagementsState()) {
-    on<InwardFetch>(
+    on<FetchData>(
       _fetchList,
       transformer: droppable(),
     );
   }
 
-  final IncidentServices _services =
-  IncidentServices();
+  final IncidentManagementServices _services = IncidentManagementServices();
 
   FutureOr<void> _fetchList(
-      InwardFetch event, Emitter<IncidentManagementsState> emit) async {
+      FetchData event, Emitter<IncidentManagementsState> emit) async {
     try {
       if (state.hasReachedMax) return;
 
+      log('-_fetchList-occId---$occId--');
       if (state.status == FormStatus.initial) {
-        IncidentsResponse response =
-        await _services.getIncidents(
+        IncidentsResponse response = await _services.getIncidents(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          userId: '77',
+          userId: '7',
+          occId: occId,
+          occType: occType,
         );
 
         return emit(
@@ -47,11 +51,12 @@ class IncidentManagementsBloc
         );
       }
 
-      IncidentsResponse response =
-      await _services.getIncidents(
+      IncidentsResponse response = await _services.getIncidents(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        userId: '77',
+        userId: '7',
+        occId: occId,
+        occType: occType,
       );
 
       if (response.items?.isEmpty == true) {

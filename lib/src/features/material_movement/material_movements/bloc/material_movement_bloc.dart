@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
 import 'package:equatable/equatable.dart';
@@ -18,31 +18,28 @@ class MaterialMovementBloc
 
   MaterialMovementBloc({required this.isInward})
       : super(const MaterialMovementState()) {
-    on<InwardFetch>(
+    on<FetchData>(
       _fetchMaterialMovements,
       transformer: droppable(),
     );
   }
 
-  final MaterialMovementServices _materialMovementServices =
+  final MaterialMovementServices services =
       MaterialMovementServices();
 
   FutureOr<void> _fetchMaterialMovements(
-      InwardFetch event, Emitter<MaterialMovementState> emit) async {
+      FetchData event, Emitter<MaterialMovementState> emit) async {
     try {
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        log('mm---1----');
         MaterialMovementsModel response =
-            await _materialMovementServices.getMaterialMovements(
+            await services.getMaterialMovements(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-
           userId: '77',
           mmType: isInward ? 1 : 0,
         );
-        log('mm---1-response.totalCount---${response.totalCount}--');
 
         return emit(
           state.copyWith(
@@ -54,13 +51,12 @@ class MaterialMovementBloc
       }
 
       MaterialMovementsModel response =
-          await _materialMovementServices.getMaterialMovements(
+          await services.getMaterialMovements(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '77', //TODO: make it dynamic
         mmType: isInward ? 1 : 0,
       );
-      log('mm---2-response.totalCount---${response.totalCount}--');
 
       if (response.items?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));

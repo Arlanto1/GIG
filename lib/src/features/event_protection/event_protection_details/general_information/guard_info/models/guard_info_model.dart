@@ -56,23 +56,23 @@ class GuardInfoModel {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['status'] = status;
-    _data['vendorId'] = vendorId;
-    _data['guardingVendorPoc'] = guardingVendorPoc;
-    _data['securityOfficerCount'] = securityOfficerCount;
-    _data['securityOfficerCountHrs'] = securityOfficerCountHrs;
-    _data['securitySupervisorCount'] = securitySupervisorCount;
-    _data['securitySupervisorCountHrs'] = securitySupervisorCountHrs;
-    _data['securityGuardCount'] = securityGuardCount;
-    _data['securityGuardCountHrs'] = securityGuardCountHrs;
-    _data['securityFacilitatorCount'] = securityFacilitatorCount;
-    _data['securityFacilitatorCountHrs'] = securityFacilitatorCountHrs;
-    _data['proposedVendors'] = proposedVendors?.map((e) => e.toJson()).toList();
-    _data['budget'] = budget;
-    _data['poNumber'] = poNumber;
-    return _data;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['status'] = status;
+    data['vendorId'] = vendorId;
+    data['guardingVendorPoc'] = guardingVendorPoc;
+    data['securityOfficerCount'] = securityOfficerCount;
+    data['securityOfficerCountHrs'] = securityOfficerCountHrs;
+    data['securitySupervisorCount'] = securitySupervisorCount;
+    data['securitySupervisorCountHrs'] = securitySupervisorCountHrs;
+    data['securityGuardCount'] = securityGuardCount;
+    data['securityGuardCountHrs'] = securityGuardCountHrs;
+    data['securityFacilitatorCount'] = securityFacilitatorCount;
+    data['securityFacilitatorCountHrs'] = securityFacilitatorCountHrs;
+    data['proposedVendors'] = proposedVendors?.map((e) => e.toJson()).toList();
+    data['budget'] = budget;
+    data['poNumber'] = poNumber;
+    return data;
   }
 }
 

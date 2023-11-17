@@ -124,49 +124,12 @@ class _LawEnforcementCustomPopUpListState
             children: [
               textHandling(
                   'Created By : ',
-                  widget.userItem?.inputDate != null
-                      ? Utils.timestamptoDateConversion(
-                          int.parse(widget.userItem?.inputDate ?? '0'),
-                          Constants.dateFormat)
-                      : ''),
+                  '${widget.userItem?.entrySecurityName}'),
+
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
-          /* Row(
-            children: [
-              textHandling('Asset Type : ',
-                  widget.userItem?.typeOfAsset.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),*/
-          /* Row(
-            children: [
-              textHandling('Article Type : ',
-                  widget.userItem?.typeOfAsset.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),*/
-          /*Row(
-            children: [
-              textHandling(
-                  'Quantity : ', widget.userItem?.quantity.toString() ?? " "),
-            ],
-          ),
-         CommonWidgets.verticalSpacerWidget(8),*/
-          /*Row(
-            children: [
-              textHandling(
-                  'Color : ', widget.userItem?.color.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),*/
-          Row(
-            children: [
-              textHandling('EntrySecurityName : ',
-                  widget.userItem?.entrySecurityName.toString() ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
+
           Row(
             children: [
               textHandling('DBOfficialName : ',
@@ -177,21 +140,21 @@ class _LawEnforcementCustomPopUpListState
           Row(
             children: [
               textHandling(
-                  'Modified Date : ',
-                  widget.userItem?.modifiedDate != null
+                  'Date Of Creation : ',
+                  widget.userItem?.inputDate != null
                       ? Utils.timestamptoDateConversion(
-                          int.parse(widget.userItem?.modifiedDate ?? '0'),
+                          int.parse(widget.userItem?.inputDate ?? '0'),
                           Constants.dateFormat)
                       : ''),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling('item Hand Over By : ',
-                  widget.userItem?.entrySecurityName.toString() ?? " "),
-            ],
-          ),
+                  Row(
+                    children: [
+                      textHandling(
+                          'Purpose of Visit : ', widget.userItem?.visitPurpose?.name ?? " "),
+                    ],
+                  ),
           CommonWidgets.verticalSpacerWidget(8),
                   Row(
                     children: [

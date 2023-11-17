@@ -1,3 +1,4 @@
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
@@ -66,7 +67,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
       pageNumber = pageNumber + 20;
       context
           .read<IncidentManagementsBloc>()
-          .add(InwardFetch(startPos: pageNumber, maxPos: 20));
+          .add(FetchData(startPos: pageNumber, maxPos: 20));
     }
   }
 
@@ -99,6 +100,12 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
               child: CircularProgressIndicator(),
             );
           }
+          if (state.items.isEmptyOrNull) {
+            return const Center(
+              child: Text('No Records Found.'),
+            );
+          }
+
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
@@ -114,77 +121,99 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                   : state.items.length + 1,
               itemBuilder: (context, index) {
                 List<Label> labels = [];
+
                 if (index < state.items.length) {
                   labels.add(
                     Label(
-                        key: 'Date of Creation',
-                        value: state.items[index].inputDate != null
-                            ? Utils.timestamptoDateConversion(
-                                int.parse(state.items[index].inputDate ?? '0'),
-                                Constants.dateFormat)
-                            : ''),
+                      key: 'Date of Creation',
+                      value: state.items[index].inputDate != null
+                          ? Utils.timestamptoDateConversion(
+                              int.parse(state.items[index].inputDate ?? '0'),
+                              Constants.dateFormat)
+                          : '',
+                    ),
                   );
-                  labels.add(Label(
-                      key: 'Incident Type',
-                      value: state.items[index].incidentType.toString()));
-                  labels.add(Label(
+                  labels.add(
+                    Label(
                       key: 'Region',
-                      value: state.items[index].locationRegion?.name ?? ''));
-                  labels.add(Label(
+                      value: state.items[index].locationRegion?.name ?? '',
+                    ),
+                  );
+                  labels.add(
+                    Label(
                       key: 'Location',
-                      value: state.items[index].location?.name ?? ''));
+                      value: state.items[index].location?.name ?? '',
+                    ),
+                  );
+
+                  return index >= state.items.length
+                      ? const Center(
+                          child: CustomCircularProgressIndicator(),
+                        )
+                      : BaseListTileItem(
+                          id: state.items[index].id,
+                          labels: labels,
+                          status: state.items[index].status,
+                          incidentType: state.items[index].incidentType,
+                          isMasterGuard: false,
+                          isEventProtectionStatus: false,
+                          isIncident: true,
+                          onTap: (selectedIndex) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return BasePopUpItems(
+                                  id: state.items[selectedIndex].id.toString(),
+                                  labels: labels,
+                                  slNo: state.items[selectedIndex].slNo,
+                                  status: state.items[selectedIndex].status,
+                                  incidentType:
+                                      state.items[selectedIndex].incidentType,
+                                  isMasterGuard: false,
+                                  isEventProtectionStatus: false,
+                                  isIncident: true,
+                                );
+                              },
+                            );
+                          },
+                          onEditTap: (selectedIndex) {
+                            getId(
+                              id: state.items[index].id ?? 0,
+                              occType: state.items[index].occType ?? 0,
+                            );
+                          },
+                          onViewTap: (selectedIndex) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return BasePopUpItems(
+                                  id: state.items[selectedIndex].id.toString(),
+                                  labels: labels,
+                                  slNo: state.items[selectedIndex].slNo,
+                                  status: state.items[selectedIndex].status,
+                                  isEventProtectionStatus: false,
+                                  isIncident: true,
+                                  incidentType:
+                                      state.items[selectedIndex].incidentType,
+                                );
+                              },
+                            );
+                          },
+                          index: index,
+                        );
                 }
 
-                return index >= state.items.length
-                    ? const Center(
-                        child: CustomCircularProgressIndicator(),
-                      )
-                    : BaseListTileItem(
-                        id: state.items[index].id,
-                        labels: labels,
-                        status: state.items[index].status,
-                        isMasterGuard: false,
-                        onTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                labels: labels,
-                                slNo: state.items[selectedIndex].slNo,
-                                status: state.items[selectedIndex].status,
-                                isMasterGuard: false,
-                              );
-                            },
-                          );
-                        },
-                        onEditTap: (selectedIndex) {
-                          getId(
-                              id: state.items[index].id ?? 0,
-                              eventStatus: state.items[index].status ?? 0);
-                        },
-                        onViewTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                labels: labels,
-                                slNo: state.items[selectedIndex].slNo,
-                                status: state.items[selectedIndex].status,
-                              );
-                            },
-                          );
-                        },
-                        index: index,
-                      );
+                // Handle the case where index is out of bounds
+                return const Center(
+                  child: SizedBox(),
+                );
               },
             ),
           );
         }));
   }
 
-  getId({required int id, required int eventStatus}) async {
+  getId({required int id, required int occType}) async {
     Navigator.pushNamed(
       context,
       incidentManagementDetailsRoute,

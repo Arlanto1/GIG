@@ -22,13 +22,8 @@ class AppColors {
   static const Color gerylightBackground = Color(0xFFCACACA);
   static const Color enabletextfieldBackground = Color(0xFFFAFAFB);
   static const Color disabletextfieldBackground = Color(0xFFE6E6E9);
-  
-
-
-
 
   static MaterialColor colorCustom = MaterialColor(0xFF2CAAE0, color);
-
 
   static const white = MaterialColor(
     0xFFFFFFFF,
@@ -48,14 +43,14 @@ class AppColors {
 }
 
 Map<int, Color> color = {
-  50: Color.fromRGBO(136, 14, 79, .1),
-  100: Color.fromRGBO(136, 14, 79, .2),
-  200: Color.fromRGBO(136, 14, 79, .3),
-  300: Color.fromRGBO(136, 14, 79, .4),
-  400: Color.fromRGBO(136, 14, 79, .5),
-  500: Color.fromRGBO(136, 14, 79, .6),
-  600: Color.fromRGBO(136, 14, 79, .7),
-  700: Color.fromRGBO(136, 14, 79, .8),
-  800: Color.fromRGBO(136, 14, 79, .9),
-  900: Color.fromRGBO(136, 14, 79, 1),
+  50: const Color.fromRGBO(136, 14, 79, .1),
+  100: const Color.fromRGBO(136, 14, 79, .2),
+  200: const Color.fromRGBO(136, 14, 79, .3),
+  300: const Color.fromRGBO(136, 14, 79, .4),
+  400: const Color.fromRGBO(136, 14, 79, .5),
+  500: const Color.fromRGBO(136, 14, 79, .6),
+  600: const Color.fromRGBO(136, 14, 79, .7),
+  700: const Color.fromRGBO(136, 14, 79, .8),
+  800: const Color.fromRGBO(136, 14, 79, .9),
+  900: const Color.fromRGBO(136, 14, 79, 1),
 };

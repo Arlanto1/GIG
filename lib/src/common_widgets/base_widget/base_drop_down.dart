@@ -29,6 +29,7 @@ class BaseDropDown {
         textFormKey: Keys.returnableKey,
         hintText: '',
         isEnable: false,
+        suffixIcon: Icons.arrow_drop_down,
         isDisableColor: !isDisabled,
         onChange: (String value) {},
         validateTextField: (String? user) {},
@@ -39,6 +40,7 @@ class BaseDropDown {
                 AppIcon.dropdownicon,
                 key: const Key('closed_eye')),
             onPressed: () {}),
+
       ),
     );
   }
@@ -48,6 +50,8 @@ class BaseDropDown {
     List<String>? dropDownValues,
     List<Label>? labelDropDownValue,
     required Function onTap,
+    final bool? pop,
+
   }) {
     showDialog(
       context: context,
@@ -56,6 +60,7 @@ class BaseDropDown {
           texts: dropDownValues ??
               labelDropDownValue?.map((label) => label.key).toList(),
           onTap: onTap,
+          pop: pop,
         );
       },
     );

@@ -18,8 +18,8 @@ void alertDisplay(BuildContext context, String text) {
         actions: <Widget>[
          TextButton(
       style: TextButton.styleFrom(
-      primary: AppColors.navigationSkybluecolor),
-            child: Text("Ok"),
+      foregroundColor: AppColors.navigationSkybluecolor),
+            child: const Text("Ok"),
             onPressed: () {
               // if(text=="Unauthorised Access."){
               //   navigateToLanding(context);

@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 
@@ -13,14 +14,14 @@ Future<bool> networkChecking(BuildContext context) async {
   } on SocketException catch (_) {
     print('not connected');
     showDialog(
-        builder: (context) => new AlertDialog(
-          title: new Text("Evoke"),
-          content: new Text("No network connection"),
+        builder: (context) => AlertDialog(
+          title: const Text("Evoke"),
+          content: const Text("No network connection"),
           actions: <Widget>[
           TextButton(
       style: TextButton.styleFrom(
-      primary: AppColors.navigationSkybluecolor),
-              child: Text("Ok"),
+      foregroundColor: AppColors.navigationSkybluecolor),
+              child: const Text("Ok"),
               onPressed: () {
                 Navigator.of(context).pop();
               },

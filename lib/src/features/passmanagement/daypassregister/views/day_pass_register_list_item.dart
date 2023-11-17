@@ -32,7 +32,7 @@ class DayPassRegisterListItem extends StatefulWidget {
 }
 
 class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
- 
+
   Widget textHandling(String title, String desc) {
     return Expanded(
       child: RichText(
@@ -55,8 +55,8 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-   
-     
+
+
     return Column(
       children: [
         Card(
@@ -73,43 +73,23 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
                 },
                 borderRadius: BorderRadius.circular(8),
                 child: Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: Column(children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           textHandling('ID : ', widget.userItem.id.toString()),
-                          Container(
-                            alignment: Alignment.topCenter,
-                            child: Row(
-                              children: [
-                              // IconButton(
-                              //     onPressed: () {
-                              //       //do action on view
-                              //       widget.oneditTap != null ? widget.oneditTap!(widget.index) : null;
-                              //     },
-                              //     icon: SvgPicture.asset(AppIcon.editIcon),
-                              //   ) ,
-                                IconButton(
-                                  onPressed: () {
-                                    //do action on view
-                                    widget.onviewTap != null ? widget.onviewTap!(widget.index) : null;
-                                  },
-                                  icon: SvgPicture.asset(AppIcon.viewIcon),
-                                ),
-                              ],
-                            ),
-                          ),
                         ],
                       ),
-                     // if(widget.userItem.region != null)
+                      if(widget.userItem.region != null)...[
                       Row(
                         children: [
                           textHandling('Region : ',
                               widget.userItem.region?.name ?? ''),
                         ],
                       ),
-                     // if(widget.userItem.location != null)
+                     ],
+                     if(widget.userItem.location != null)...[
                        Column(
                          children: [
                            CommonWidgets.verticalSpacerWidget(5),
@@ -121,6 +101,8 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
                       ),
                          ],
                        ),
+                       ],
+                       if(widget.userItem.expiryDate != null)...[
                        CommonWidgets.verticalSpacerWidget(5),
                       Row(
                         children: [
@@ -130,6 +112,7 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
                                    int.parse(widget.userItem.expiryDate ?? '0'), Constants.dateFormat): ''),
                         ],
                       ),
+                       ],
                        CommonWidgets.verticalSpacerWidget(5),
                       Row(
                         children: [
@@ -138,8 +121,21 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
                           //   style: Styles.textStyleSemiBoldGrey14,
                            textHandling('PassNo : ',
                              (widget.userItem.passNo ?? '').toString()),
-                          
                         ],
+                      ),
+                      Container(
+                        alignment: Alignment.topCenter,
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                //do action on view
+                                widget.onviewTap != null ? widget.onviewTap!(widget.index) : null;
+                              },
+                              icon: SvgPicture.asset(AppIcon.viewIcon),
+                            ),
+                          ],
+                        ),
                       ),
                     ])))),
          CommonWidgets.verticalSpacerWidget(5),

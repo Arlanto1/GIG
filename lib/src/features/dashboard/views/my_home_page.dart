@@ -64,7 +64,7 @@ class MyHomePageState extends State<MyHomePage> {
         isTitleCenter: false,
         title: Constants.dashboard,
 
-        action: [
+        action: const [
           // GestureDetector(
           //   onTap: () {
           //     showDialog(

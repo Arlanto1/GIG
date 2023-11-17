@@ -1,4 +1,5 @@
-import 'dart:math';
+import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:db_atom/main_DEV.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
@@ -14,16 +15,19 @@ import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/services/create_found_services.dart';
+import 'package:db_atom/src/models/image_content.dart';
+import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../models/entry_security.dart';
 import '../../../models/organisation.dart';
+import '../../../utils/shared_preferences.dart';
+import '../models/user.dart';
 
 class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   final CreateFoundServices createFoundServices;
-  List<CreateImage>? loadAttachments;
+  List<ImageContent>? loadAttachments;
 
   CreateFoundArticleCubit({
     required this.createFoundServices,
@@ -34,6 +38,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
             stateType: CreateFoundStateType.initial,
           ),
         );
+  CommonServices commonServices = CommonServices();
 
   // Create new Found Article successfully API call
   Future<void> createNewFoundArticle(
@@ -45,8 +50,12 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   ) async {
     try {
       SubmitCreateFoundModel createFoundResponse =
-          await createFoundServices.createFoundArticle(bodyRequest, isSubmit,
-              username, context); //replace empty model with bodyRequest
+          await createFoundServices.createFoundArticle(
+        body: bodyRequest,
+        isSubmit: isSubmit,
+        username: username,
+        context: context,
+      ); //replace empty model with bodyRequest
       emit(
         state.copyWith(
           createFoundResponse: createFoundResponse,
@@ -68,7 +77,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -112,7 +121,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -125,25 +134,31 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     }
   }
 
-  Future<void> addAttchment(List<CreateImage>? data) async {
+  Future<void> addAttchment(List<ImageContent>? data) async {
     // List<CreateImage> value = createFoundArticleCubit.loadAttachments ?? [];
     // loadAttachments ??= [];
     // loadAttachments?.add(data);
-    // print(loadAttachments);
-    int eventIds = Random.secure().nextInt(5);
+    int eventIds = math.Random.secure().nextInt(5);
 
-    emit(state.copyWith(
-        eventId: eventIds,
-        loadAttachments: data,
-        stateType: CreateFoundStateType.addattachment));
+    log('--data---${data?.length}');
+    emit(
+      state.copyWith(
+          eventId: eventIds,
+          loadAttachments: data,
+          stateType: CreateFoundStateType.addattachment),
+    );
   }
 
   // get depositor user by role API call
   Future<void> getUserByRoleDepositor(
       String userRole, BuildContext context) async {
     try {
-      GetDepositor getDepositorData =
-          await createFoundServices.getUserByRoleDepositor(userRole, context);
+      // GetDepositor getDepositorData =
+      //     await createFoundServices.getUserByRoleDepositor(userRole, context);
+
+      GetDepositor getDepositorData = await commonServices.getAtomStaticUsers(
+          roleName: userRole, context: context);
+
       emit(
         state.copyWith(
           getDepositorResponse: getDepositorData,
@@ -153,7 +168,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -163,8 +178,11 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   // Get locations api call
   Future<void> getLocations(String locationsStr, BuildContext context) async {
     try {
-      GetLocations getLocationsData =
-          await createFoundServices.getLocations(locationsStr, context);
+      // GetLocations getLocationsData =
+      //     await createFoundServices.getLocations(locationsStr, context);
+      GetLocations getLocationsData = await commonServices.getLocations(
+          name: locationsStr, context: context);
+
       emit(
         state.copyWith(
           getLocationsResponse: getLocationsData,
@@ -174,7 +192,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -185,8 +203,10 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   Future<void> getEmployeeDepartments(
       String departmentStr, BuildContext context) async {
     try {
-      EmployeeDepartments getEmployeeDepartments = await createFoundServices
-          .getEmployeeDepartments(departmentStr, context);
+      // EmployeeDepartments getEmployeeDepartments = await createFoundServices
+      //     .getEmployeeDepartments(departmentStr, context);
+      EmployeeDepartments getEmployeeDepartments = await commonServices
+          .getDepartments(name: departmentStr, context: context);
       emit(
         state.copyWith(
           getEmployeeDepartmentsResponse: getEmployeeDepartments,
@@ -196,7 +216,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -207,8 +227,11 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   Future<void> getArticleType(
       String articleTypeStr, BuildContext context) async {
     try {
-      GetArticleType getArticleTypeData =
-          await createFoundServices.getArticleType(articleTypeStr, context);
+      // GetArticleType getArticleTypeData =
+      //     await createFoundServices.getArticleType(articleTypeStr, context);
+
+      GetArticleType getArticleTypeData = await commonServices.getArticleType(
+          name: articleTypeStr, context: context);
       emit(
         state.copyWith(
           getArticleTypeResponse: getArticleTypeData,
@@ -218,7 +241,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -229,8 +252,14 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   Future<void> createOrganisation(
       String name, String orgName, BuildContext context) async {
     try {
+      // Organisation createOrganisationData =
+      //     await createFoundServices.createOrganisation(name, orgName, context);
       Organisation createOrganisationData =
-          await createFoundServices.createOrganisation(name, orgName, context);
+          await commonServices.createOrganisation(
+        name: name,
+        orgName: orgName,
+        context: context,
+      );
       emit(
         state.copyWith(
           createOrganisationResponse: createOrganisationData,
@@ -246,7 +275,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -262,11 +291,17 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   Future<void> createEmplyeeDepartments(
       String name, String orgName, BuildContext context) async {
     try {
-      Organisation createEmployeeDeptData =
-          await createFoundServices.createOrganisation(name, orgName, context);
+      // Organisation createEmployeeDeptData =
+      //     await createFoundServices.createOrganisation(name, orgName, context);
+      Organisation createOrganisationData =
+          await commonServices.createOrganisation(
+        name: name,
+        orgName: orgName,
+        context: context,
+      );
       emit(
         state.copyWith(
-          createEmployeeDepartments: createEmployeeDeptData,
+          createEmployeeDepartments: createOrganisationData,
           stateType: CreateFoundStateType.success,
         ),
       );
@@ -280,7 +315,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -296,8 +331,16 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   Future<void> createUser(String firstName, String lastName, String email,
       String role, BuildContext context) async {
     try {
-      CreateUserModel createUserData = await createFoundServices.createUser(
-          firstName, lastName, email, role, context);
+      // CreateUserModel createUserData = await createFoundServices.createUser(
+      //     firstName, lastName, email, role, context);
+
+      CreateUserModel createUserData = await commonServices.createUser(
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        role: role,
+        context: context,
+      );
       emit(
         state.copyWith(
           createUserResponse: createUserData,
@@ -313,7 +356,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -321,21 +364,49 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     }
   }
 
+  Future<void> initializeValues() async {
+    //Show Loader and emit loading state
+    emit(
+      state.copyWith(
+        stateType: CreateFoundStateType.loading,
+      ),
+    );
+    var userId = await SharedPrefs.getUserId();
+    try {
+      User loggedInUserDetails =
+      await commonServices.getUserDetails(userId: userId);
+
+      emit(
+        state.copyWith(
+            loggedInUser: loggedInUserDetails,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          message: Constants.errorText,
+          // TODO: error message should be dynamic
+          stateType: CreateFoundStateType.failure,
+        ),
+      );
+    }
+  }
   // Get user details call
   Future<void> getUserDetails(String userId, BuildContext context) async {
     try {
-      EntrySecurity getUserData =
-          await createFoundServices.getUserDetails(userId, context);
+      User user =
+          await commonServices.getUserDetails(userId: userId, context: context);
+
       emit(
         state.copyWith(
-          getUserDetailsResponse: getUserData,
+          loggedInUser: user,
           stateType: CreateFoundStateType.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );
@@ -344,20 +415,20 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
 
   // Serialnumber api  call
   Future<void> getSerialnumberDetails(
-      String locationid, String modulecode, BuildContext context) async {
+      String locationId, String moduleCode, BuildContext context) async {
     try {
-      SerialNumberModel getserialnumberResponse = await createFoundServices
-          .getSerialnumberDetails(locationid, modulecode, context);
+      SerialNumberModel response = await commonServices.getSlNo(
+          locationId: locationId, moduleCode: moduleCode, context: context);
       emit(
         state.copyWith(
-          getSerialnumberResponse: getserialnumberResponse,
+          getSerialnumberResponse: response,
           stateType: CreateFoundStateType.success,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: Constants.errorText,
+          message: Constants.errorText,
           stateType: CreateFoundStateType.failure,
         ),
       );

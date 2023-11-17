@@ -1,7 +1,11 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/features/login/models/login_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/organisation.dart';
 
 class SharedPrefs {
   static late final SharedPreferences instance;
@@ -119,7 +123,7 @@ class SharedPrefs {
 
   static removeAccessToken() async {
     //final prefs = await SharedPreferences.getInstance();
-    instance.remove(Constants.isAccessToken) ?? '';
+    instance.remove(Constants.isAccessToken);
   }
 
   static Future<void> setSessionToken(String token) async {
@@ -133,7 +137,7 @@ class SharedPrefs {
 
   static removeSessionAccessToken() async {
     //final prefs = await SharedPreferences.getInstance();
-    instance.remove(Constants.isSessionToken) ?? '';
+    instance.remove(Constants.isSessionToken);
   }
 
   static Future<void> setMaterialMovementId(int value) async {
@@ -144,5 +148,39 @@ class SharedPrefs {
     int? id = instance.getInt(Constants.isMaterialMovementIdKey) ?? 0;
     log('$id');
     return id;
+  }
+
+  static Future<void> setDisplayMenu(DisplayMenu displayMenu) async {
+    log('Setting Display Menu');
+    String jsonString = jsonEncode(displayMenu.toJson());
+    instance.setString(Constants.userRoles, jsonString);
+  }
+
+  static Future<DisplayMenu?> getDisplayMenu() async {
+    String jsonString = instance.getString(Constants.userRoles) ?? '';
+    Map<String, dynamic> jsonMap = jsonDecode(jsonString);
+
+    if (jsonMap.isNotEmpty) {
+      DisplayMenu displayMenu = DisplayMenu.fromJson(jsonMap);
+      return displayMenu;
+    }
+    return null;
+  }
+
+  static Future<void> setDefaultLocation(Organisation defaultLocation) async {
+    log('Setting Default Location');
+    String jsonString = jsonEncode(defaultLocation.toJson());
+    instance.setString(Constants.defaultLocation, jsonString);
+  }
+
+  static Future<Organisation?> getDefaultLocation() async {
+    String jsonString = instance.getString(Constants.defaultLocation) ?? '';
+    Map<String, dynamic> jsonMap = jsonDecode(jsonString);
+
+    if (jsonMap.isNotEmpty) {
+      Organisation defaultLocation = Organisation.fromJson(jsonMap);
+      return defaultLocation;
+    }
+    return null;
   }
 }

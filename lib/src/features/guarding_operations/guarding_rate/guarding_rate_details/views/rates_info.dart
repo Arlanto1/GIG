@@ -7,7 +7,6 @@ import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -21,7 +20,6 @@ import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
 import '../../../../../common_widgets/base_widget/base_entities_dropdown.dart';
 import '../../../../../common_widgets/basic_reusable_widgets.dart';
 import '../../../../../enums/form_status.dart';
-import '../../../../../models/entity.dart';
 import '../../../../../models/organisation.dart';
 import '../../../../../routing/router.dart';
 import '../../../../../utils/app_themes/styles/app_styles.dart';
@@ -123,7 +121,7 @@ class _RatesInfoState extends State<RatesInfo> {
                         /// Created By
                         Row(
                           children: [
-                            Column(
+                            Row(
                               children: [
                                 CommonWidgets.verticalTextHandling(
                                     Constants.createdby,
@@ -139,7 +137,7 @@ class _RatesInfoState extends State<RatesInfo> {
 
                         /// Location
                         CommonWidgets.textDisplay(
-                            Constants.location, Styles.textStyleBlack14),
+                            Constants.location,isMandatory: true, Styles.textStyleBlack14),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         locationWidgetdislay(state),
 
@@ -147,19 +145,19 @@ class _RatesInfoState extends State<RatesInfo> {
 
                         /// Date of creation
                         CommonWidgets.textDisplay(
-                            Constants.dateofcreation, Styles.textStyleBlack14),
+                            Constants.dateofcreation,isMandatory: true, Styles.textStyleBlack14),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         datecreateWidgetdisplay(state.rate.inputDate ?? ''),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Sl No.
                         CommonWidgets.horizentaltextHandling(
-                            Constants.slno, state.rate.slNo ?? ''),
+                            Constants.slno,isMandatory: true, state.rate.slNo ?? ''),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Entity
                         CommonWidgets.textDisplay(
-                          Constants.entity,
+                          Constants.entity,isMandatory: true,
                           Styles.textStyleBlack14,
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -168,7 +166,7 @@ class _RatesInfoState extends State<RatesInfo> {
                           context: context,
                           selectedValues: state.rate.entities ?? [],
                           all: state.listOfEntities ?? [],
-                          onTap: (List<Entity> selectedEntities) {
+                          onTap: (List<Organisation> selectedEntities) {
                             log('--selectedEntities----${selectedEntities.length}');
                             BlocProvider.of<PayRateCubit>(context)
                                 .updateDropdownValues(entities: selectedEntities);
@@ -179,7 +177,7 @@ class _RatesInfoState extends State<RatesInfo> {
 
                         /// Vendor
                         CommonWidgets.textDisplay(
-                          Constants.vendor,
+                          Constants.vendor,isMandatory: true,
                           Styles.textStyleBlack14,
                         ),
                         widget.rate == null
@@ -201,9 +199,11 @@ class _RatesInfoState extends State<RatesInfo> {
                                     context: context,
                                     departments: state.departments,
                                     onTap: (Organisation department) {
-                                      BlocProvider.of<PayRateCubit>(context)
+                                      BlocProvider.of<
+                                          PayRateCubit>(
+                                          context)
                                           .updateDropdownValues(
-                                              vendor: department);
+                                          vendor: department);
                                     },
                                   );
                                 },
@@ -284,7 +284,7 @@ class _RatesInfoState extends State<RatesInfo> {
               // print(state.getLocationsResponse);
               return CustomExpansionListTexts(
                 getLocationsresponse: state.locations,
-                onTap: (Mumbai? list) async {
+                onTap: (Organisation? list) async {
                   Organisation location = Organisation();
                   location.id = list?.id;
                   location.name = list?.name;

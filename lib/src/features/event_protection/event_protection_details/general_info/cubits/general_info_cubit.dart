@@ -6,23 +6,22 @@ import 'package:db_atom/src/features/createfound/models/emplyee_departments_mode
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/entity.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/generic_creat_response.dart';
+import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
-import '../../../../../models/entry_security.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
 import '../../../../../utils/util.dart';
-import '../../../../createfound/models/create_found_request.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
 import '../models/general_info_model.dart';
 import '../models/requestModel/general_info_request.dart';
@@ -50,6 +49,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
             listOfEntities: const [],
             getEntitiesResponse: null,
             departments: const [],
+            vendors: const [],
             loggedInUserDetails: null,
           ),
         );
@@ -80,10 +80,11 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       if (id.isNotEmpty) {
         model = await services.getGI(id);
       }
+
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
-      EntrySecurity loggedInUserDetails =
+      User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
 
       Analyst users =
@@ -97,6 +98,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
 
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
+
+      Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
 
       List<User> entrySecurities = await commonServices.getUsers();
 
@@ -112,6 +115,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           users: users.t1Analyst,
           emailUsers: emailUsers.atomStaticUser,
           departments: departments.employeeDepartments,
+          vendors: vendors.items,
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
@@ -130,11 +134,10 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   }
 
   Future<void> updateDropdownValues({
-    List<Entity>? entities,
+    List<Organisation>? entities,
     Organisation? location,
     // BaseUser? user,
-    Organisation? vendor,
-    Entity? entity,
+    Organisation? entity,
     int? status,
     //GetUserDetails? user,
     Organisation? requesterDepartment,
@@ -149,7 +152,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     BaseUser? locationSecurityManager1,
     BaseUser? locationSecurityManager2,
     BaseUser? epOfficers,
-    Organisation? proposedVendor,
+    List<Organisation>? vendors,
   }) async {
     emit(
       state.copyWith(
@@ -175,15 +178,15 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.epManager2 = userDetails;
     }
 
-    if(proposedVendor != null) {
-      state.model.proposedVendors??=[];
-      state.model.proposedVendors?.add(proposedVendor);
+    if (vendors != null) {
+      state.model.proposedVendors = vendors;
     }
-    ////Get Sl No from API
+
+    /// Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.guardingMasterDataModule,
+        moduleCode: Constants.eventProtectionModule,
       );
 
       state.model.location = location;
@@ -219,7 +222,6 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     // state.model.bu1 = bu1 ?? state.model.bu1;
     // state.model.bu2 = bu2 ?? state.model.bu2;
     state.model.bu1Dept = bu1Dept ?? state.model.bu1Dept;
-
     state.model.bu2Dept = bu2Dept ?? state.model.bu2Dept;
 
     if (subRegionalHead1 != null) {
@@ -259,8 +261,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   }
 
   void addAttachment({
-    List<CreateImage>? data,
-    List<CreateImage>? guardImages,
+    List<ImageContent>? data,
+    List<ImageContent>? guardImages,
   }) async {
     emit(
       state.copyWith(
@@ -330,6 +332,15 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     GenericCreateResponse response = GenericCreateResponse();
     try {
       if (isSaveOnly) {
+        if (!state.isValidDraft.status) {
+          emit(
+            state.copyWith(
+              status: FormStatus.error,
+              message: state.isValidDraft.message,
+            ),
+          );
+          return;
+        }
         response = (await services.createEventGeneralInfo(
           body: request,
           isSubmit: false,

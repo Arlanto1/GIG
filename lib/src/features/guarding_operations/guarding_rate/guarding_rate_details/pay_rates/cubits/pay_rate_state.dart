@@ -6,10 +6,10 @@ class PayRateState extends Equatable {
   final List<PayRate> items;
   final PayRate newPayRate;
   final String? message;
-  final EntrySecurity? loggedInUserDetails;
+  final User? loggedInUserDetails;
   final GetLocations? locations;
   final List<Organisation> departments;
-  final List<Entity>? listOfEntities;
+  final List<Organisation>? listOfEntities;
   final AddEntities? getEntitiesResponse;
   final int? eventId;
 
@@ -18,7 +18,7 @@ class PayRateState extends Equatable {
     required GMRate rate,
     required String? message,
     required newPayRate,
-    required EntrySecurity loggedInUserDetails,
+    required User loggedInUserDetails,
     required List<Organisation> departments,
   }) {
     return PayRateState(
@@ -85,25 +85,27 @@ class PayRateState extends Equatable {
   PayRateState copyWith({
     FormStatus? status,
     GMRate? rate,
+    List<Organisation>? vendors,
     List<PayRate>? items,
     PayRate? newPayRate,
     String? message,
-    EntrySecurity? loggedInUserDetails,
+    User? loggedInUserDetails,
     GetLocations? locations,
     List<Organisation>? departments,
-    List<Entity>? listOfEntities,
+    List<Organisation>? listOfEntities,
     AddEntities? getEntitiesResponse,
     int? eventId,
   }) {
     return PayRateState(
       status: status ?? this.status,
       rate: rate ?? this.rate,
+      departments: vendors ?? this.departments,
       items: items ?? this.items,
       newPayRate: newPayRate ?? this.newPayRate,
       message: message ?? this.message,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       locations: locations ?? this.locations,
-      departments: departments ?? this.departments,
+     // departments: departments ?? this.departments,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       eventId: eventId ?? this.eventId,

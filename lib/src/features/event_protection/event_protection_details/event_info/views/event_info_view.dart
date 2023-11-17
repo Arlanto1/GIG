@@ -7,9 +7,9 @@ import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/event_info/views/article_dialog.dart';
+import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -22,7 +22,6 @@ import 'package:quill_html_editor/quill_html_editor.dart';
 import '../../../../../common_widgets/base_widget/base_image_upload.dart';
 import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../constants/app_icon.dart';
-import '../../../../../models/entry_security.dart';
 import '../../../../../routing/router.dart';
 import '../../../../../utils/util.dart';
 import '../cubits/event_info_cubit.dart';
@@ -46,7 +45,7 @@ class _EventInfoViewState extends State<EventInfoView> {
   final QuillEditorController controller = QuillEditorController();
 
   User? userDetails;
-  List<CreateImage>? guardFiles;
+  List<ImageContent>? guardFiles;
   TextEditingController dateController = TextEditingController();
   TextEditingController addEmailController = TextEditingController();
   TextEditingController deleteEmailController = TextEditingController();
@@ -372,13 +371,13 @@ class _EventInfoViewState extends State<EventInfoView> {
                           BaseImageUpload().uploadWidget(
                             context: context,
                             loggedInUserDetails:
-                                state.loggedInUserDetails ?? EntrySecurity(),
+                                state.loggedInUserDetails ?? User(),
                             getFiles: guardFiles,
-                            onImageSelected: (CreateImage data) {
+                            onImageSelected: (ImageContent data) {
                               log('-------function---onImageSelected---------');
-                              List<CreateImage>? files = [];
+                              List<ImageContent>? files = [];
                               files.add(data);
-                              for (CreateImage image in guardFiles ?? []) {
+                              for (ImageContent image in guardFiles ?? []) {
                                 files.add(image);
                               }
                               BlocProvider.of<EventInfoCubit>(context)

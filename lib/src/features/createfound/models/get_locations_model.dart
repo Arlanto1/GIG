@@ -1,18 +1,17 @@
-// To parse this JSON data, do
-//
-//     final getLocations = getLocationsFromJson(jsonString);
-
 import 'dart:convert';
 
-GetLocations getLocationsFromJson(String str) => GetLocations.fromJson(json.decode(str));
+import '../../../models/organisation.dart';
+
+GetLocations getLocationsFromJson(String str) =>
+    GetLocations.fromJson(json.decode(str));
 
 String getLocationsToJson(GetLocations data) => json.encode(data.toJson());
 
 class GetLocations {
-  List<Mumbai>? west;
-  List<Mumbai>? south;
-  List<Mumbai>? northEast;
-  List<Mumbai>? mumbai;
+  List<Organisation>? west;
+  List<Organisation>? south;
+  List<Organisation>? northEast;
+  List<Organisation>? mumbai;
 
   GetLocations({
     this.west,
@@ -24,43 +23,34 @@ class GetLocations {
   factory GetLocations.fromJson(Map<String, dynamic> json) => GetLocations(
         west: json["West"] == null
             ? []
-            : List<Mumbai>.from(json["West"]!.map((x) => Mumbai.fromJson(x))),
+            : List<Organisation>.from(
+                json["West"]!.map((x) => Organisation.fromJson(x))),
         south: json["South"] == null
             ? []
-            : List<Mumbai>.from(json["South"]!.map((x) => Mumbai.fromJson(x))),
+            : List<Organisation>.from(
+                json["South"]!.map((x) => Organisation.fromJson(x))),
         northEast: json["North & East"] == null
             ? []
-            : List<Mumbai>.from(json["North & East"]!.map((x) => Mumbai.fromJson(x))),
+            : List<Organisation>.from(
+                json["North & East"]!.map((x) => Organisation.fromJson(x))),
         mumbai: json["Mumbai"] == null
             ? []
-            : List<Mumbai>.from(json["Mumbai"]!.map((x) => Mumbai.fromJson(x))),
+            : List<Organisation>.from(
+                json["Mumbai"]!.map((x) => Organisation.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "West": west == null ? [] : List<dynamic>.from(west!.map((x) => x.toJson())),
-        "South": south == null ? [] : List<dynamic>.from(south!.map((x) => x.toJson())),
-        "North & East":
-            northEast == null ? [] : List<dynamic>.from(northEast!.map((x) => x.toJson())),
-        "Mumbai": mumbai == null ? [] : List<dynamic>.from(mumbai!.map((x) => x.toJson())),
-      };
-}
-
-class Mumbai {
-  int? id;
-  String? name;
-
-  Mumbai({
-    this.id,
-    this.name,
-  });
-
-  factory Mumbai.fromJson(Map<String, dynamic> json) => Mumbai(
-        id: json["Id"],
-        name: json["Name"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "Id": id,
-        "Name": name,
+        "West": west == null
+            ? []
+            : List<dynamic>.from(west!.map((x) => x.toJson())),
+        "South": south == null
+            ? []
+            : List<dynamic>.from(south!.map((x) => x.toJson())),
+        "North & East": northEast == null
+            ? []
+            : List<dynamic>.from(northEast!.map((x) => x.toJson())),
+        "Mumbai": mumbai == null
+            ? []
+            : List<dynamic>.from(mumbai!.map((x) => x.toJson())),
       };
 }

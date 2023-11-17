@@ -4,7 +4,7 @@ class GuardInfoState extends Equatable {
   final FormStatus status;
   final GuardInfoModel guardInfoModel;
   final GetLocations? locations;
-  final EntrySecurity? loggedInUserDetails;
+  final User? loggedInUserDetails;
   final List<Organisation> departments;
   final int? eventId;
   final String? message;
@@ -12,12 +12,12 @@ class GuardInfoState extends Equatable {
   factory GuardInfoState.initial({
     required GuardInfoModel guardInfoModel,
     required GetLocations locations,
-    required EntrySecurity loggedInUserDetails,
+    required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required final List<Organisation> departments,
     required String errorMessage,
-    required List<CreateImage> loadAttachments,
+    required List<ImageContent> loadAttachments,
     required int? eventId,
     List<String>? participationDate,
   }) {
@@ -56,27 +56,27 @@ class GuardInfoState extends Equatable {
     FormStatus? status,
     GuardInfoModel? guardInfoModel,
     GetLocations? locations,
-    EntrySecurity? loggedInUserDetails,
+    User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
-    List<CreateImage>? loadAttachments,
-    List<CreateImage>? guardAttachments,
-    List<CreateImage>? deploymentAttachments,
-    List<CreateImage>? bioDataAttachments,
-    List<Entity>? listOfEntities,
-    List<Entity>? listOfQualifications,
+    List<ImageContent>? loadAttachments,
+    List<ImageContent>? guardAttachments,
+    List<ImageContent>? deploymentAttachments,
+    List<ImageContent>? bioDataAttachments,
+    List<Organisation>? listOfEntities,
+    List<Organisation>? listOfQualifications,
     List<Organisation>? departments,
     AddQualifications? getQualificationsResponse,
     AddEntities? getEntitiesResponse,
     List<String>? participationDates,
     int? eventId,
     String? message,
-    List<CreateImage>? permanentAddressAttachments,
-    List<CreateImage>? localAddressAttachments,
-    List<CreateImage>? pVCAttachments,
-    List<CreateImage>? trainingAttachments,
-    List<CreateImage>? medicalAttachments,
-    List<CreateImage>? mSGBAttachments,
+    List<ImageContent>? permanentAddressAttachments,
+    List<ImageContent>? localAddressAttachments,
+    List<ImageContent>? pVCAttachments,
+    List<ImageContent>? trainingAttachments,
+    List<ImageContent>? medicalAttachments,
+    List<ImageContent>? mSGBAttachments,
     List<User>? entrySecurities,
   }) {
     return GuardInfoState(

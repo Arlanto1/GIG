@@ -1,10 +1,7 @@
-// To parse this JSON data, do
-//
-//     final lawEnforcementRequestBody = lawEnforcementRequestBodyFromJson(jsonString);
-
 import 'dart:convert';
 
-import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
+import 'package:db_atom/src/models/image_content.dart';
+import 'package:db_atom/src/models/organisation.dart';
 
 LawEnforcementRequestBody lawEnforcementRequestBodyFromJson(String str) => LawEnforcementRequestBody.fromJson(json.decode(str));
 
@@ -44,8 +41,8 @@ class LawEnforcement {
     DbOfficialEmailDepartment? visitPurpose;
     String? additionalInformation;
     List<VisitingOfficial>? visitingOfficials;
-    List<MailList>? mailList;
-    List<CreateImage>? images;
+    List<Organisation>? mailList;
+    List<ImageContent>? images;
 
     LawEnforcement({
         this.id,
@@ -87,11 +84,11 @@ class LawEnforcement {
         visitPurpose: json["visitPurpose"] == null ? null : DbOfficialEmailDepartment.fromJson(json["visitPurpose"]),
         additionalInformation: json["additionalInformation"],
         visitingOfficials: json["visitingOfficials"] == null ? [] : List<VisitingOfficial>.from(json["visitingOfficials"]!.map((x) => VisitingOfficial.fromJson(x))),
-        mailList: json["mailList"] == null ? [] : List<MailList>.from(json["mailList"]),
+        mailList: json["mailList"] == null ? [] : List<Organisation>.from(json["mailList"]),
         images: json["images"] == null
             ? []
-            : List<CreateImage>.from(
-                json["images"]!.map((x) => CreateImage.fromJson(x))),
+            : List<ImageContent>.from(
+                json["images"]!.map((x) => ImageContent.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -132,26 +129,6 @@ class DbOfficialEmailDepartment {
 
     Map<String, dynamic> toJson() => {
         "id": id,
-    };
-}
-
-class MailList {
-    int? groupId;
-    String? name;
-
-    MailList({
-        this.groupId,
-        this.name,
-    });
-
-    factory MailList.fromJson(Map<String, dynamic> json) => MailList(
-        groupId: json["groupId"],
-        name: json["name"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "groupId": groupId,
-        "name": name,
     };
 }
 

@@ -4,7 +4,13 @@
 
 import 'dart:convert';
 
-FoundListModel foundListModelFromJson(String str) => FoundListModel.fromJson(json.decode(str));
+import 'package:db_atom/src/models/role.dart';
+import 'package:db_atom/src/models/role_extension.dart';
+
+import '../../../../models/organisation.dart';
+
+FoundListModel foundListModelFromJson(String str) =>
+    FoundListModel.fromJson(json.decode(str));
 
 String foundListModelToJson(FoundListModel data) => json.encode(data.toJson());
 
@@ -24,14 +30,17 @@ class FoundListModel {
   factory FoundListModel.fromJson(Map<String, dynamic> json) => FoundListModel(
         list: json["list"] == null
             ? []
-            : List<FoundModel>.from(json["list"]!.map((x) => FoundModel.fromJson(x))),
+            : List<FoundModel>.from(
+                json["list"]!.map((x) => FoundModel.fromJson(x))),
         totalCount: json["totalCount"],
         currentPageNo: json["currentPageNo"],
         totalPageCount: json["totalPageCount"],
       );
 
   Map<String, dynamic> toJson() => {
-        "list": list == null ? [] : List<dynamic>.from(list!.map((x) => x.toJson())),
+        "list": list == null
+            ? []
+            : List<dynamic>.from(list!.map((x) => x.toJson())),
         "totalCount": totalCount,
         "currentPageNo": currentPageNo,
         "totalPageCount": totalPageCount,
@@ -45,6 +54,8 @@ class FoundModel {
   String? inputDate;
   int? typeOfAsset;
   String? foundDate;
+  Organisation? location;
+  Organisation? locationRegion;
   String? foundLocation;
   String? additionalInformation;
   int? quantity;
@@ -82,6 +93,8 @@ class FoundModel {
     this.typeOfAsset,
     this.foundDate,
     this.foundLocation,
+    this.location,
+    this.locationRegion,
     this.additionalInformation,
     this.quantity,
     this.color,
@@ -119,24 +132,38 @@ class FoundModel {
         typeOfAsset: json["typeOfAsset"],
         foundDate: json["foundDate"],
         foundLocation: json["foundLocation"],
+        location: json["location"] == null
+            ? null
+            : Organisation.fromJson(json["location"]),
+        locationRegion: json["locationRegion"] == null
+            ? null
+            : Organisation.fromJson(json["locationRegion"]),
         additionalInformation: json["additionalInformation"],
         quantity: json["quantity"],
         color: json["color"],
-        images: json["images"] == null ? [] : List<dynamic>.from(json["images"]!.map((x) => x)),
+        images: json["images"] == null
+            ? []
+            : List<dynamic>.from(json["images"]!.map((x) => x)),
         depositorDbEmp: json["depositorDbEmp"],
-        depositor: json["depositor"] == null ? null : Claimant.fromJson(json["depositor"]),
+        depositor: json["depositor"] == null
+            ? null
+            : Claimant.fromJson(json["depositor"]),
         employeeId: json["employeeId"],
         claimantDbEmp: json["claimantDbEmp"],
         claimantConfirmByEmail: json["claimantConfirmByEmail"],
-        claimant: json["claimant"] == null ? null : Claimant.fromJson(json["claimant"]),
+        claimant: json["claimant"] == null
+            ? null
+            : Claimant.fromJson(json["claimant"]),
         claimantNoSign: json["claimantNoSign"],
         claimantSign: json["claimantSign"],
         claimantEmployeeId: json["claimantEmployeeId"],
         handoverDate: json["handoverDate"],
-        entrySecurity:
-            json["entrySecurity"] == null ? null : Claimant.fromJson(json["entrySecurity"]),
-        handoverSecurity:
-            json["handoverSecurity"] == null ? null : Claimant.fromJson(json["handoverSecurity"]),
+        entrySecurity: json["entrySecurity"] == null
+            ? null
+            : Claimant.fromJson(json["entrySecurity"]),
+        handoverSecurity: json["handoverSecurity"] == null
+            ? null
+            : Claimant.fromJson(json["handoverSecurity"]),
         status: json["status"],
         modifiedDate: json["modifiedDate"],
         modifiedBy: json["modifiedBy"],
@@ -146,8 +173,12 @@ class FoundModel {
         locationName: json["locationName"],
         entrySecurityName: json["entrySecurityName"],
         handOverSecurityName: json["handOverSecurityName"],
-        depositorDepartmentName: departmentNameValues.map[json["depositorDepartmentName"]] ?? DepartmentName.EMPTY,
-        claimantDepartmentName: departmentNameValues.map[json["claimantDepartmentName"]]  ?? DepartmentName.EMPTY,
+        depositorDepartmentName:
+            departmentNameValues.map[json["depositorDepartmentName"]] ??
+                DepartmentName.EMPTY,
+        claimantDepartmentName:
+            departmentNameValues.map[json["claimantDepartmentName"]] ??
+                DepartmentName.EMPTY,
       );
 
   Map<String, dynamic> toJson() => {
@@ -158,10 +189,13 @@ class FoundModel {
         "typeOfAsset": typeOfAsset,
         "foundDate": foundDate,
         "foundLocation": foundLocation,
+        'location': location?.toJson(),
+        'locationRegion': locationRegion?.toJson(),
         "additionalInformation": additionalInformation,
         "quantity": quantity,
         "color": color,
-        "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+        "images":
+            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
         "depositorDbEmp": depositorDbEmp,
         "depositor": depositor?.toJson(),
         "employeeId": employeeId,
@@ -183,8 +217,10 @@ class FoundModel {
         "locationName": locationName,
         "entrySecurityName": entrySecurityName,
         "handOverSecurityName": handOverSecurityName,
-        "depositorDepartmentName": departmentNameValues.reverse[depositorDepartmentName],
-        "claimantDepartmentName": departmentNameValues.reverse[claimantDepartmentName],
+        "depositorDepartmentName":
+            departmentNameValues.reverse[depositorDepartmentName],
+        "claimantDepartmentName":
+            departmentNameValues.reverse[claimantDepartmentName],
       };
 }
 
@@ -256,7 +292,8 @@ class Claimant {
         password: json["password"],
         firstName: json["firstName"],
         lastName: json["lastName"],
-        salutation: salutationValues.map[json["salutation"]] ?? Salutation.EMPTY,
+        salutation:
+            salutationValues.map[json["salutation"]] ?? Salutation.EMPTY,
         phone: json["phone"],
         mobile: json["mobile"],
         fax: json["fax"],
@@ -275,7 +312,8 @@ class Claimant {
             : List<dynamic>.from(json["notApprovedRoles"]!.map((x) => x)),
         notApprovedRoleExtensions: json["notApprovedRoleExtensions"] == null
             ? []
-            : List<dynamic>.from(json["notApprovedRoleExtensions"]!.map((x) => x)),
+            : List<dynamic>.from(
+                json["notApprovedRoleExtensions"]!.map((x) => x)),
         recertificationDate: json["recertificationDate"],
         recertifiedBy: json["recertifiedBy"],
         nextRecertificationDate: json["nextRecertificationDate"],
@@ -285,10 +323,12 @@ class Claimant {
         theme: themeValues.map[json["theme"]] ?? Theme.BLUE,
         passwordChangedDate: json["passwordChangedDate"],
         name: json["name"],
-        userStatus: userStatusValues.map[json["userStatus"]] ?? UserStatus.ACTIVE,
+        userStatus:
+            userStatusValues.map[json["userStatus"]] ?? UserStatus.ACTIVE,
         hibernateLazyInitializer: json["hibernateLazyInitializer"] == null
             ? null
-            : HibernateLazyInitializer.fromJson(json["hibernateLazyInitializer"]),
+            : HibernateLazyInitializer.fromJson(
+                json["hibernateLazyInitializer"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -305,12 +345,15 @@ class Claimant {
         "location": locationValues.reverse[location],
         "language": languageValues.reverse[language],
         "timezone": timezoneValues.reverse[timezone],
-        "roles": roles == null ? [] : List<dynamic>.from(roles!.map((x) => x.toJson())),
+        "roles": roles == null
+            ? []
+            : List<dynamic>.from(roles!.map((x) => x.toJson())),
         "roleExtensions": roleExtensions == null
             ? []
             : List<dynamic>.from(roleExtensions!.map((x) => x.toJson())),
-        "notApprovedRoles":
-            notApprovedRoles == null ? [] : List<dynamic>.from(notApprovedRoles!.map((x) => x)),
+        "notApprovedRoles": notApprovedRoles == null
+            ? []
+            : List<dynamic>.from(notApprovedRoles!.map((x) => x)),
         "notApprovedRoleExtensions": notApprovedRoleExtensions == null
             ? []
             : List<dynamic>.from(notApprovedRoleExtensions!.map((x) => x)),
@@ -345,53 +388,10 @@ enum Location { EMPTY, IN }
 
 final locationValues = EnumValues({"": Location.EMPTY, "in": Location.IN});
 
-class RoleExtension {
-  int? roleExtensionId;
-  int? roleId;
-  DisplayName? displayName;
-  Area? area;
-  Filter? filter;
-  dynamic rootNodeId;
-  dynamic nodeId;
-  dynamic accessRight;
-
-  RoleExtension({
-    this.roleExtensionId,
-    this.roleId,
-    this.displayName,
-    this.area,
-    this.filter,
-    this.rootNodeId,
-    this.nodeId,
-    this.accessRight,
-  });
-
-  factory RoleExtension.fromJson(Map<String, dynamic> json) => RoleExtension(
-        roleExtensionId: json["roleExtensionId"],
-        roleId: json["roleId"],
-        displayName: displayNameValues.map[json["displayName"]] ?? DisplayName.T1_ADMIN_SOURCE_SYSTEM_DEFAULT,
-        area: areaValues.map[json["area"]] ?? Area.SOURCE_SYSTEM,
-        filter: filterValues.map[json["filter"]] ?? Filter.DEFAULT,
-        rootNodeId: json["rootNodeId"],
-        nodeId: json["nodeId"],
-        accessRight: json["accessRight"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "roleExtensionId": roleExtensionId,
-        "roleId": roleId,
-        "displayName": displayNameValues.reverse[displayName],
-        "area": areaValues.reverse[area],
-        "filter": filterValues.reverse[filter],
-        "rootNodeId": rootNodeId,
-        "nodeId": nodeId,
-        "accessRight": accessRight,
-      };
-}
-
 enum Area { SOURCE_SYSTEM, CATEGORY }
 
-final areaValues = EnumValues({"Category": Area.CATEGORY, "SourceSystem": Area.SOURCE_SYSTEM});
+final areaValues =
+    EnumValues({"Category": Area.CATEGORY, "SourceSystem": Area.SOURCE_SYSTEM});
 
 enum DisplayName {
   T1_USER_SOURCE_SYSTEM_DB_ATOM,
@@ -413,11 +413,14 @@ final displayNameValues = EnumValues({
   "T1_Admin Source System DB_ATOM": DisplayName.T1_ADMIN_SOURCE_SYSTEM_DB_ATOM,
   "T1_Admin Source System Default": DisplayName.T1_ADMIN_SOURCE_SYSTEM_DEFAULT,
   "T1_Analyst Category DB_ATOM": DisplayName.T1_ANALYST_CATEGORY_DB_ATOM,
-  "T1_Analyst Source System DB_ATOM": DisplayName.T1_ANALYST_SOURCE_SYSTEM_DB_ATOM,
+  "T1_Analyst Source System DB_ATOM":
+      DisplayName.T1_ANALYST_SOURCE_SYSTEM_DB_ATOM,
   "T1_Manager Category DB_ATOM": DisplayName.T1_MANAGER_CATEGORY_DB_ATOM,
-  "T1_Manager Source System DB_ATOM": DisplayName.T1_MANAGER_SOURCE_SYSTEM_DB_ATOM,
+  "T1_Manager Source System DB_ATOM":
+      DisplayName.T1_MANAGER_SOURCE_SYSTEM_DB_ATOM,
   "T1_Performer Category DB_ATOM": DisplayName.T1_PERFORMER_CATEGORY_DB_ATOM,
-  "T1_Performer Source System DB_ATOM": DisplayName.T1_PERFORMER_SOURCE_SYSTEM_DB_ATOM,
+  "T1_Performer Source System DB_ATOM":
+      DisplayName.T1_PERFORMER_SOURCE_SYSTEM_DB_ATOM,
   "T1_User Category DB_ATOM": DisplayName.T1_USER_CATEGORY_DB_ATOM,
   "T1_User Source System DB_ATOM": DisplayName.T1_USER_SOURCE_SYSTEM_DB_ATOM,
   "T1_User Source System Default": DisplayName.T1_USER_SOURCE_SYSTEM_DEFAULT
@@ -425,49 +428,13 @@ final displayNameValues = EnumValues({
 
 enum Filter { DB_ATOM, DEFAULT }
 
-final filterValues = EnumValues({"DB_ATOM": Filter.DB_ATOM, "Default": Filter.DEFAULT});
-
-class Role {
-  int? roleId;
-  Application? application;
-  Name? roleName;
-  List<RoleExtension>? roleExtensions;
-  Name? name;
-
-  Role({
-    this.roleId,
-    this.application,
-    this.roleName,
-    this.roleExtensions,
-    this.name,
-  });
-
-  factory Role.fromJson(Map<String, dynamic> json) => Role(
-        roleId: json["roleId"],
-        application: applicationValues.map[json["application"]] ?? Application.DB_ATOM,
-        roleName: nameValues.map[json["roleName"]] ?? Name.ATOM_STATIC_USER,
-        roleExtensions: json["roleExtensions"] == null
-            ? []
-            : List<RoleExtension>.from(
-                json["roleExtensions"]!.map((x) => RoleExtension.fromJson(x))),
-        name: nameValues.map[json["name"]] ?? Name.ATOM_STATIC_USER,
-      );
-
-  Map<String, dynamic> toJson() => {
-        "roleId": roleId,
-        "application": applicationValues.reverse[application],
-        "roleName": nameValues.reverse[roleName],
-        "roleExtensions": roleExtensions == null
-            ? []
-            : List<dynamic>.from(roleExtensions!.map((x) => x.toJson())),
-        "name": nameValues.reverse[name],
-      };
-}
+final filterValues =
+    EnumValues({"DB_ATOM": Filter.DB_ATOM, "Default": Filter.DEFAULT});
 
 enum Application { TRACKING1, DB_ATOM }
 
-final applicationValues =
-    EnumValues({"DB_ATOM": Application.DB_ATOM, "Tracking1": Application.TRACKING1});
+final applicationValues = EnumValues(
+    {"DB_ATOM": Application.DB_ATOM, "Tracking1": Application.TRACKING1});
 
 enum Name {
   T1_MANAGER,
@@ -491,7 +458,8 @@ final nameValues = EnumValues({
 
 enum Salutation { EMPTY, MR }
 
-final salutationValues = EnumValues({"": Salutation.EMPTY, "Mr.": Salutation.MR});
+final salutationValues =
+    EnumValues({"": Salutation.EMPTY, "Mr.": Salutation.MR});
 
 enum Theme { BLUE }
 
@@ -499,7 +467,8 @@ final themeValues = EnumValues({"blue": Theme.BLUE});
 
 enum Timezone { IST, EUROPE_PARIS }
 
-final timezoneValues = EnumValues({"Europe/Paris": Timezone.EUROPE_PARIS, "IST": Timezone.IST});
+final timezoneValues =
+    EnumValues({"Europe/Paris": Timezone.EUROPE_PARIS, "IST": Timezone.IST});
 
 enum UserStatus { ACTIVE }
 

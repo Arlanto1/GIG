@@ -2,30 +2,32 @@ part of 'incident_general_info_cubit.dart';
 
 class IncidentGeneralInfoState extends Equatable {
   final FormStatus status;
-  final EventProtectionGi model;
+  final Incident model;
   final GetLocations? locations;
-  final EntrySecurity? loggedInUserDetails;
+  final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
-  final List<Entity>? listOfEntities;
+  final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
   final AddEntities? getEntitiesResponse;
+  final List<Organisation> getArticleTypeResponse;
   final List<String>? participationDates;
   final int? eventId;
   final String? message;
   final List<User>? entrySecurities;
 
   factory IncidentGeneralInfoState.initial({
-    required EventProtectionGi model,
+    required Incident model,
     required GetLocations locations,
     required List<BaseUser>? users,
-    required EntrySecurity? loggedInUserDetails,
+    required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
-    required final List<Entity>? listOfEntities,
+    required final List<Organisation>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
+    required final List<Organisation> getArticleTypeResponse,
     required final List<Organisation> departments,
     required String errorMessage,
-    required List<CreateImage> loadAttachments,
+    required List<ImageContent> loadAttachments,
     List<User>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,
@@ -37,6 +39,7 @@ class IncidentGeneralInfoState extends Equatable {
       listOfEntities: listOfEntities,
       departments: departments,
       getEntitiesResponse: getEntitiesResponse,
+      getArticleTypeResponse: getArticleTypeResponse,
       users: users,
       emailUsers: emailUsers,
       message: errorMessage,
@@ -46,47 +49,108 @@ class IncidentGeneralInfoState extends Equatable {
     );
   }
 
+  ErrorResponse get isValidDraft {
+    if (model.location == null) {
+      return const ErrorResponse(status: false, message: 'Please add Location');
+    }
+    if (model.slNo == null) {
+      return const ErrorResponse(status: false, message: 'Please enter SL No.');
+    }
+
+    if (model.entrySecurity == null) {
+      return const ErrorResponse(
+          status: false, message: 'Created By is Mandatory.');
+    }
+    return const ErrorResponse(status: true, message: 'Form is Valid');
+  }
+
   ErrorResponse get isValid {
+    log('---isValid--1--');
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
+
+    if (model.location == null) {
+      return const ErrorResponse(status: false, message: 'Please add Location');
+    }
+
     if (model.entities == null || model.entities!.isEmpty) {
       return const ErrorResponse(status: false, message: 'Please add Entities');
     }
+    // if (model.incidentType == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please add Incident Type');
+    // }
 
-    if (model.eventStartDate == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Event Start Date');
-    }
-
-    if (model.eventEndDate == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Event End Date');
-    }
-
-    if (model.lsm1 == null) {
+    if ((model.incidentType == 0 || model.incidentType == 1) &&
+        model.typeOfAsset == null) {
       return const ErrorResponse(
-          status: false, message: 'Event Location Security Manager 1');
+          status: false, message: 'Please add Asset Type');
     }
-
-    if (model.lsm2 == null) {
+    if ((model.incidentType == 0 || model.incidentType == 1) &&
+        model.color == null) {
       return const ErrorResponse(
-          status: false, message: 'Event Location Security Manager 2');
+          status: false, message: 'Please add Colour/Make/Model');
     }
-
-    if (model.bu1 == null) {
+    if (model.complainantName == null && model.complainantDbEmp == false) {
       return const ErrorResponse(
-          status: false, message: 'Enter Event Business POC 1');
+          status: false, message: 'Please add Complainant Name');
     }
 
-    if (model.bu2 == null) {
+    if (model.complainantDbEmp && model.complainant == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter Event Business POC 2');
+          status: false, message: 'Please add Complainant');
     }
 
-    if (model.requesterDepartment == null) {
+    if (!model.complainantDbEmp && model.complainantName == null) {
       return const ErrorResponse(
-          status: false, message: 'Enter Requester Department');
+          status: false, message: 'Please add Complainant Name');
+    }
+    if (model.complainantDbEmp == true && model.employeeId == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Complainant Employee Id');
     }
 
+    if (model.complainantDepartment == null && model.complainantDbEmp == true) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Complainant Department');
+    }
+    // if (model.typeOfArticle == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please Article Type');
+    // }
+    if (model.complainantHr == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Complainant Manager');
+    }
+    if (model.incidentDate == null || model.incidentDate!.isEmpty) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Incident Date and Time');
+    }
+
+    if (model.incidentLocation == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Incident Location');
+    }
+
+    if (model.incidentManager == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Incident Manager');
+    }
+    if (model.incidentOwner == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Incident Owner');
+    }
+
+    if (model.description == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Incident Description');
+    }
+
+    if (model.closureTargetDate == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Target Date of Closure');
+    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
@@ -103,6 +167,7 @@ class IncidentGeneralInfoState extends Equatable {
     this.listOfEntities,
     required this.departments,
     this.getEntitiesResponse,
+    required this.getArticleTypeResponse,
     this.participationDates,
     this.eventId,
     this.message,
@@ -112,12 +177,13 @@ class IncidentGeneralInfoState extends Equatable {
 
   IncidentGeneralInfoState copyWith({
     FormStatus? status,
-    EventProtectionGi? model,
+    Incident? model,
     GetLocations? locations,
-    EntrySecurity? loggedInUserDetails,
+    List<Organisation>? articleType,
+    User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
-    List<Entity>? listOfEntities,
+    List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     AddEntities? getEntitiesResponse,
     List<String>? participationDates,
@@ -134,6 +200,7 @@ class IncidentGeneralInfoState extends Equatable {
       emailUsers: emailUsers ?? this.emailUsers,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       departments: departments ?? this.departments,
+      getArticleTypeResponse: articleType ?? getArticleTypeResponse,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       participationDates: participationDates ?? this.participationDates,
       eventId: eventId ?? this.eventId,
