@@ -40,6 +40,7 @@ import 'package:intl/intl.dart';
 import 'package:signature/signature.dart';
 
 import '../../../common_widgets/app_button.dart';
+import '../../../common_widgets/base_widget/date_picker_dialog.dart';
 import '../../../models/base_user.dart';
 import '../../../models/organisation.dart';
 import '../models/user.dart';
@@ -226,6 +227,9 @@ class _CreateFoundState extends State<CreateFound> {
       claimantTextController.text = widget.model?.claimant?.name != null
           ? widget.model?.claimant?.name ?? ''
           : '';
+      claimantTextController.text = widget.model?.claimantName != null
+          ? widget.model?.claimantName ?? ""
+          : '';
       selectedClaimdepartment = widget.model?.claimantDepartment != null
           ? Organisation(
               id: widget.model?.claimantDepartment?.id ?? 0,
@@ -301,6 +305,11 @@ class _CreateFoundState extends State<CreateFound> {
           ? selecteddepositorList?.name ?? ''
           : depositorTextController.text.isNotEmpty
               ? depositorTextController.text
+              : '',
+      "claimantName": isClaimantDBEmployeeSelected == 1
+          ? selectedClaimList?.name ?? ''
+          : claimantTextController.text.isNotEmpty
+              ? claimantTextController.text
               : '',
       "employeeId": depositorEmpIdTextController.text.isNotEmpty
           ? depositorEmpIdTextController.text
@@ -425,6 +434,11 @@ class _CreateFoundState extends State<CreateFound> {
             ? selecteddepositorList?.name ?? ''
             : depositorTextController.text.isNotEmpty
                 ? depositorTextController.text
+                : '',
+        claimantName: isClaimantDBEmployeeSelected == 1
+            ? selectedClaimList?.name ?? ''
+            : claimantTextController.text.isNotEmpty
+                ? claimantTextController.text
                 : '',
         depositor: depositor,
         depositorDepartment: depositorDepartment,
@@ -648,17 +662,23 @@ class _CreateFoundState extends State<CreateFound> {
 
   datePickerDialog(TextEditingController textfield) async {
     // datePickerselection(context, founddateTextController);
+    bool? showBackDate = true;
+    // DateTime? pickedDate = await showDateTimePicker(
+    //     context: context,
+    //     initialDate: DateTime.now(),
+    //     firstDate: DateTime(2000),
+    //     lastDate:  showAfterDate! ?DateTime(2101): DateTime.now(),);
     DateTime? pickedDate = await showDateTimePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2101));
-
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
     String formattedDate =
         DateFormat(Constants.fulldateFormat).format(DateTime.now());
+    // String formattedDate =
+    // DateFormat(Constants.fulldateFormat).format(showBackDate! ?  DateTime.now() : DateTime.now());
 
-    // String formattedDate = DateFormat(Constants.fulldateFormat)
-    //     .format(pickedDate ?? DateTime.now());
     //you can implement different kind of Date Format here according to your requirement
     if (textfield == foundDateTextController) {
       foundDateTextController.text = formattedDate;
@@ -994,7 +1014,15 @@ class _CreateFoundState extends State<CreateFound> {
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
-                              datepickerWidgetLoading(foundDateTextController),
+                              BaseDate().datePickerWidgetLoading(
+                                showAfterDate: false,
+                                textController: foundDateTextController,
+                                onChange: (String value) {
+                                  widget.model?.foundDate =
+                                      Utils().formatTime(value);
+                                },
+                                context: context,
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// found location
@@ -1258,71 +1286,48 @@ class _CreateFoundState extends State<CreateFound> {
                                       )
                                     : Container(),
 
-                                /// claimant
-                                widget.model != null &&
-                                        isClaimantDBEmployeeSelected == 0
-                                    ? CommonWidgets.textDisplay(
-                                        Constants.claimant,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true)
-                                    : Container(),
-                                widget.model != null &&
-                                        isClaimantDBEmployeeSelected == 0
-                                    ? FlutterInputField(
+                                ///claimant
+                                CommonWidgets.textDisplay(
+                                    Constants.claimant, Styles.textStyleBlack14,
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                isClaimantDBEmployeeSelected == 1
+                                    ? TextfieldAddButton(
+                                        title: selectedClaimList?.name != null
+                                            ? ('${selectedClaimList?.name ?? ''}(${selectedClaimList?.email ?? ''})')
+                                            : '',
+                                        height: 70,
+                                        isDisableColor:
+                                            widget.model?.status != 2
+                                                ? false
+                                                : true,
+                                        onTap: () {
+                                          if (widget.model?.status != 2) {
+                                            depositorDialog(
+                                                state, Constants.claimant);
+                                          }
+                                        })
+                                    : FlutterInputField(
                                         textFieldController:
                                             claimantTextController,
                                         textFormKey:
                                             Keys.claimantTextController,
-                                        hintText: claimant,
-                                        isEnable: widget.model?.status != 2
-                                            ? true
-                                            : (widget.model != null &&
-                                                    (widget.model?.claimant
-                                                                ?.name ??
-                                                            '')
-                                                        .isEmpty)
-                                                ? true
-                                                : false,
-                                        isDisableColor: (widget.model?.status !=
-                                                    2 &&
-                                                (widget.model?.claimant?.name ??
-                                                        '')
-                                                    .isEmpty)
+                                        hintText: '',
+                                        isEnable: widget.model?.status == 0 ||
+                                                widget.model == null
                                             ? false
                                             : true,
+                                        isDisableColor:
+                                            widget.model?.status != 0
+                                                ? false
+                                                : true,
                                         onChange: (String username) {
                                           //this.username = username;
-                                          claimant = username;
                                           setState(() {});
                                         },
                                         validateTextField: (String? user) {},
-                                      )
-                                    : widget.model != null
-                                        ? TextfieldAddButton(
-                                            title:
-                                                selectedClaimList?.name ?? '',
-                                            height: 60,
-                                            isDisableColor:
-                                                widget.model?.status != 2
-                                                    ? false
-                                                    : true,
-                                            onTap: () {
-                                              if (widget.model?.status != 2) {
-                                                depositorDialog(
-                                                    state, Constants.claimant);
-                                              }
-                                            },
-                                          )
-                                        : Container(),
-                                isClaimantDBEmployeeSelected == 1
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001)
-                                    : Container(),
-
-                                widget.model != null
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01)
-                                    : Container(),
+                                      ),
 
                                 /// Claimant employee id
 
@@ -1515,10 +1520,16 @@ class _CreateFoundState extends State<CreateFound> {
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
-                                datepickerWidgetLoading(
-                                    handedoverdatedateTextController),
-                                // CommonWidgets.verticalSpacerWidget(
-                                //     height * 0.01),
+                                BaseDate().datePickerWidgetLoading(
+                                  showAfterDate: false,
+                                  textController:
+                                      handedoverdatedateTextController,
+                                  onChange: (String value) {
+                                    widget.model?.handoverDate =
+                                        Utils().formatTime(value);
+                                  },
+                                  context: context,
+                                ),
                               ],
                               //  CommonWidgets.verticalSpacerWidget(height * 0.01),
 

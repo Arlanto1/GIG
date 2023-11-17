@@ -55,6 +55,7 @@ class Found {
   int? status;
   String? employeeId;
   User? claimant;
+  String? claimantName;
   Organisation? claimantDepartment;
   User? handoverSecurity;
   bool? claimantDbEmp;
@@ -83,6 +84,7 @@ class Found {
       this.status,
       this.depositorDepartment,
       this.depositorName,
+      this.claimantName,
       this.employeeId,
       this.claimant,
       this.claimantDepartment,
@@ -129,6 +131,7 @@ class Found {
             : Organisation.fromJson(json["depositorDepartment"]),
         status: json["status"],
         depositorName: json["depositorName"],
+        claimantName: json["claimantName"],
         employeeId: json["employeeId"],
         claimant:
             json["claimant"] == null ? null : User.fromJson(json["claimant"]),
@@ -166,6 +169,7 @@ class Found {
         "depositorDepartment": depositorDepartment?.toJson(),
         "status": status,
         "depositorName": depositorName,
+        "claimantName": claimantName,
         "employeeId": employeeId,
         "claimant": claimant?.toJson(),
         "claimantDepartment": claimantDepartment?.toJson(),
@@ -173,4 +177,3 @@ class Found {
         "claimantConfirmByEmail": claimantConfirmByEmail
       };
 }
-
