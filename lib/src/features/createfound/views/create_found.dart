@@ -12,6 +12,8 @@ import 'package:db_atom/src/common_widgets/custom_simple_list_texts.dart';
 import 'package:db_atom/src/common_widgets/date_time_picker.dart';
 import 'package:db_atom/src/common_widgets/image_download.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
+import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
+import 'package:db_atom/src/common_widgets/signature/signature_func.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
@@ -37,7 +39,6 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:signature/signature.dart';
 
 import '../../../common_widgets/app_button.dart';
 import '../../../common_widgets/base_widget/date_picker_dialog.dart';
@@ -333,8 +334,11 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   /// Submit Form
-  Future submitForm(bool isSubmit, int isFoundId,
-      {CreateFoundState? state}) async {
+  Future submitForm(
+    bool isSubmit,
+    int isFoundId, {
+    CreateFoundState? state,
+  }) async {
     log('-createRequestBody-----');
     int foundDate = Utils.dateToTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
@@ -366,6 +370,8 @@ class _CreateFoundState extends State<CreateFound> {
     List<ImageContent>? images = getFiles;
     Organisation? claimantDepartment =
         selectedClaimdepartment ?? widget.model?.claimantDepartment;
+
+    await pushSignature(controller: claimantSignatureController);
 
     isClaimantDBEmployeeSelected;
     User? claimant = widget.model?.claimant;
@@ -400,6 +406,8 @@ class _CreateFoundState extends State<CreateFound> {
         claimant: claimant,
         claimantDbEmp: isClaimDBEmployeeSelectedValue,
         claimantNoSign: isClaimSignSelectedValue,
+        // TODO: Need to uncomment the line for passing signature
+        // claimantSign: widget.model?.claimantSign,
         handoverSecurity: handoverSecurity,
         handoverDate: handoverDate,
         claimantEmployeeId: claimantEmpIdTextController.text.isEmpty
@@ -1444,12 +1452,12 @@ class _CreateFoundState extends State<CreateFound> {
 
                                 ///TODO: Need to work on signature
                                 /// Claimant Signature
-                                // buildSignature(
-                                //   controller: claimantSignatureController,
-                                //   label: Constants.claimantSignature,
-                                //   spaceHeight: height,
-                                //   state: state,
-                                // ),
+                                buildSignature(
+                                  controller: claimantSignatureController,
+                                  label: Constants.claimantSignature,
+                                  spaceHeight: height,
+                                  state: state,
+                                ),
 
                                 // widget.model != null &&
                                 //         isClaimantAcceptedtoSignSelected == 1
@@ -1669,16 +1677,10 @@ class _CreateFoundState extends State<CreateFound> {
   }) {
     bool isEditable = false;
     bool isSigned = false;
-    bool isReceiver = label.equalsIgnoreCase(Constants.receiverSignature);
-    // if (isReceiver) {
-    //   isSigned = widget.model.receiverSign != null &&
-    //       !state.model.receiverSign!.imageContent.isEmptyOrNull;
-    //   isEditable = state.isReceiverSignEditable;
-    // } else {
-    //   isSigned = state.model.entrySecuritySign != null &&
-    //       !state.model.entrySecuritySign!.imageContent.isEmptyOrNull;
-    //   isEditable = state.isEntrySecuritySignatureSignEditable;
-    // }
+
+    isSigned = widget.model?.claimantSign != null &&
+        !widget.model!.claimantSign!.imageContent.isEmptyOrNull;
+    isEditable = true;
 
     return Column(
       children: [
@@ -1694,14 +1696,9 @@ class _CreateFoundState extends State<CreateFound> {
                 IconButton(
                   onPressed: () {
                     controller.clear();
-                    if (isReceiver) {
-                      // BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                      //     .makeSignEditable(receiverSign: true);
-                    } else {
-                      // BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                      //     .makeSignEditable(
-                      //     entrySecuritySignatureSignEditable: true);
-                    }
+
+                    // BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                    //     .makeSignEditable(receiverSign: true);
                   },
                   iconSize: 20,
                   color: Colors.grey,
@@ -1723,18 +1720,15 @@ class _CreateFoundState extends State<CreateFound> {
             ),
             height: 100,
             width: double.infinity,
-            child: (!isEditable && isSigned)
-                ? Container()
-                // Image.memory(
-                //   Uint8List.fromList(
-                //     base64Decode(
-                //       isReceiver
-                //           ? widget.model.receiverSign!.imageContent ?? ''
-                //           : state.model.entrySecuritySign!.imageContent ?? '',
-                //     ),
-                //   ),
-                //   fit: BoxFit.none,
-                // )
+            child: (isEditable && isSigned)
+                ? Image.memory(
+                    Uint8List.fromList(
+                      base64Decode(
+                        widget.model?.claimantSign!.imageContent ?? '',
+                      ),
+                    ),
+                    fit: BoxFit.none,
+                  )
                 : Signature(
                     controller: controller,
                     backgroundColor: Colors.white,
@@ -1744,6 +1738,38 @@ class _CreateFoundState extends State<CreateFound> {
         CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
       ],
     );
+  }
+
+  Future<void> pushSignature({
+    required SignatureController controller,
+  }) async {
+    String imageBytes = await SignatureController().exportSignature(controller);
+
+    // Check for null explicitly
+    if (imageBytes.isEmpty) {
+      return;
+    }
+
+    ImageContent imageContent = ImageContent();
+    imageContent.imageContent = imageBytes;
+
+    log('--imageBytes--$imageBytes--');
+
+    widget.model?.claimantSign ??= ImageContent();
+    widget.model?.claimantSign = imageContent;
+    // if (isReceiverSignature) {
+    //   imageContent.type = 2;
+    //   state.model.receiverSign = imageContent;
+    //   emit(state.copyWith(
+    //     model: state.model,
+    //   ));
+    // } else {
+    //   imageContent.type = 3;
+    //   state.model.entrySecuritySign = imageContent;
+    //   emit(state.copyWith(
+    //     model: state.model,
+    //   ));
+    // }
   }
 
   Widget submitButtonDisplay(CreateFoundState state) {

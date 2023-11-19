@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as math;
 
@@ -19,7 +18,6 @@ import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
@@ -122,7 +120,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         );
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
-
       } else if (defaultLocation != null && isInward == false) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
@@ -327,12 +324,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     log('--data----${data?.length}----');
     log('--state.status-2---${state.status}----');
 
-    emit(state.copyWith(
-      eventId: eventIds,
-      model: state.model,
-      loadAttachments: data,
-      status: FormStatus.initial,
-    ));
+    state.model.images = data;
+    emit(
+      state.copyWith(
+        eventId: eventIds,
+        model: state.model,
+        loadAttachments: data,
+        status: FormStatus.initial,
+      ),
+    );
 
     log('--state.status--3--${state.status}----');
   }
@@ -380,7 +380,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     required SignatureController controller,
     required bool isReceiverSignature,
   }) async {
-    String imageBytes = await exportSignature(controller);
+    String imageBytes = await SignatureController().exportSignature(controller);
 
     // Check for null explicitly
     if (imageBytes.isEmpty) {
@@ -404,18 +404,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         model: state.model,
       ));
     }
-  }
-
-  Future<String> exportSignature(
-    SignatureController controller,
-  ) async {
-    Uint8List? signature = await controller.toPngBytes();
-    if (signature == null) {
-      return '';
-    }
-    String bs4str = base64Encode(signature);
-
-    return bs4str;
   }
 
   Future<void> submitForm({
