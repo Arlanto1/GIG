@@ -341,8 +341,9 @@ class _CreateFoundState extends State<CreateFound> {
     // int inputDate = Utils.dateToTimestampConversion(
     //     dateofcreationTextController.text, Constants.fulldateFormat);
     int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-    int handoverDate = Utils.dateToTimestampConversion(
-        handedoverdatedateTextController.text, Constants.fulldateFormat);
+    int handoverDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    // Utils.dateToTimestampConversion(
+    //     handedoverdatedateTextController.text, Constants.fulldateFormat);
     var username = await SharedPrefs.getUsername();
     bool isDepositorDBEmployeeSelectedValue =
         isDepositorDBEmployeeSelected == 1 ? true : false;
@@ -662,12 +663,6 @@ class _CreateFoundState extends State<CreateFound> {
 
   datePickerDialog(TextEditingController textfield) async {
     // datePickerselection(context, founddateTextController);
-    bool? showBackDate = true;
-    // DateTime? pickedDate = await showDateTimePicker(
-    //     context: context,
-    //     initialDate: DateTime.now(),
-    //     firstDate: DateTime(2000),
-    //     lastDate:  showAfterDate! ?DateTime(2101): DateTime.now(),);
     DateTime? pickedDate = await showDateTimePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -676,14 +671,11 @@ class _CreateFoundState extends State<CreateFound> {
     );
     String formattedDate =
         DateFormat(Constants.fulldateFormat).format(DateTime.now());
-    // String formattedDate =
-    // DateFormat(Constants.fulldateFormat).format(showBackDate! ?  DateTime.now() : DateTime.now());
 
     //you can implement different kind of Date Format here according to your requirement
-    if (textfield == foundDateTextController) {
-      foundDateTextController.text = formattedDate;
-    } else if (textfield == handedoverdatedateTextController) {
-      handedoverdatedateTextController.text = formattedDate;
+    if (textfield == handedoverdatedateTextController) {
+      handedoverdatedateTextController.text =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
     }
     setState(() {
       // dateinput.text = formattedDate; //set output date to TextField value.
@@ -1520,16 +1512,18 @@ class _CreateFoundState extends State<CreateFound> {
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
-                                BaseDate().datePickerWidgetLoading(
-                                  showAfterDate: false,
-                                  textController:
-                                      handedoverdatedateTextController,
-                                  onChange: (String value) {
-                                    widget.model?.handoverDate =
-                                        Utils().formatTime(value);
-                                  },
-                                  context: context,
-                                ),
+                                datepickerWidgetLoading(
+                                    handedoverdatedateTextController),
+                                // BaseDate().datePickerWidgetLoading(
+                                //   showAfterDate: false,
+                                //   textController:
+                                //       handedoverdatedateTextController,
+                                //   onChange: (String value) {
+                                //     widget.model?.handoverDate =
+                                //         Utils().formatTime(value);
+                                //   },
+                                //   context: context,
+                                // ),
                               ],
                               //  CommonWidgets.verticalSpacerWidget(height * 0.01),
 

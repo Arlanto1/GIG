@@ -1379,6 +1379,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         widget.passId ?? '',
         context,
       );
+      await createPassMgmtCubit.getPassNumber(
+        widget.passId ?? '',
+        '323',
+        context,
+      );
     }
   }
 

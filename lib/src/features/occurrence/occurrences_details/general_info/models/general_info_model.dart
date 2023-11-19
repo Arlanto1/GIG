@@ -132,10 +132,10 @@ class Occurrence {
         entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
             ? User.fromJson(json['entrySecurity'] as Map<String, dynamic>)
             : null,
-        handoverSecurity = (json['handOverSecurity']
+        handoverSecurity = (json['handoverSecurity']
                     as Map<String, dynamic>?) !=
                 null
-            ? User.fromJson(json['handOverSecurity'] as Map<String, dynamic>)
+            ? User.fromJson(json['handoverSecurity'] as Map<String, dynamic>)
             : null,
         location = (json['location'] as Map<String, dynamic>?) != null
             ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
@@ -191,7 +191,7 @@ class Occurrence {
         'powerFailureStartDate': powerFailureStartDate,
         'powerFailureEndDate': powerFailureEndDate,
         'entrySecurity': entrySecurity?.toJson(),
-        'handOverSecurity': handoverSecurity?.toJson(),
+        'handoverSecurity': handoverSecurity?.toJson(),
         'location': location?.toJson(),
         'locationRegion': locationRegion?.toJson(),
         'shiftBrfngAttnded': shiftBrfngAttnded,

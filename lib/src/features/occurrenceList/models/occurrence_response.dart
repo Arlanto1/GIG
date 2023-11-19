@@ -36,7 +36,7 @@ class Occurrence {
   final String? slNo;
   final String? inputDate;
   final User? entrySecurity;
-  final User? handOverSecurity;
+  final User? handoverSecurity;
   final Organisation? location;
   final Organisation? locationRegion;
   final bool? shiftBrfngAttnded;
@@ -81,7 +81,7 @@ class Occurrence {
     this.slNo,
     this.inputDate,
     this.entrySecurity,
-    this.handOverSecurity,
+    this.handoverSecurity,
     this.location,
     this.locationRegion,
     this.shiftBrfngAttnded,
@@ -130,10 +130,10 @@ class Occurrence {
             ? User.fromJson(
                 json['entrySecurity'] as Map<String, dynamic>)
             : null,
-        handOverSecurity =
-            (json['handOverSecurity'] as Map<String, dynamic>?) != null
+        handoverSecurity =
+            (json['handoverSecurity'] as Map<String, dynamic>?) != null
                 ? User.fromJson(
-                    json['handOverSecurity'] as Map<String, dynamic>)
+                    json['handoverSecurity'] as Map<String, dynamic>)
                 : null,
         location = (json['location'] as Map<String, dynamic>?) != null
             ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
@@ -222,6 +222,7 @@ class Occurrence {
         'incidentItems': incidentItems,
         'secSysFailureIncident': secSysFailureIncident,
         'followedUp': followedUp,
-        'status': status
-      };
+        'status': status ,
+    'handoverSecurity': handoverSecurity,
+  };
 }
