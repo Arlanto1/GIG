@@ -107,8 +107,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           locationId: defaultLocation.id.toString(),
           moduleCode: Constants.occurrenceModule,
         );
-        state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
+        model.location = defaultLocation;
+        model.slNo = slNo.serialNo;
       }
       model.entrySecurity = loggedInUserDetails;
       EmployeeDepartments departments =

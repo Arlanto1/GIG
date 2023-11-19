@@ -118,8 +118,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           locationId: defaultLocation.id.toString(),
           moduleCode: Constants.incidentManagementModule,
         );
-        state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
+        model.location = defaultLocation;
+        model.slNo = slNo.serialNo;
       }
       emit(
         state.copyWith(

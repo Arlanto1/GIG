@@ -101,6 +101,7 @@ class Keys {
   static const String toDateKey = 'toDateKey_gr';
   static const String commentKey = 'commentKey_gr';
   static const String vendorDepartmentKey = 'vendorDepartmentKey_gr';
+  static const String vendor3ContactKey = 'vendor3ContactKey_gr';
 
   ///Guarding Master Data
   static const String esicKey = 'esicNoKey_gd';

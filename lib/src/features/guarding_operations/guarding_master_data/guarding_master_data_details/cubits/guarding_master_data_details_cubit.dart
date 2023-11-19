@@ -281,6 +281,7 @@ class GuardingMasterDataDetailsCubit
 
     log('--guardImages---${guardImages?.length}----');
     if (guardImages != null) {
+      state.model.photoGraph = guardImages.first;
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -292,6 +293,7 @@ class GuardingMasterDataDetailsCubit
     }
 
     if (deploymentFiles != null) {
+      state.model.deploymentOrders = deploymentFiles;
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -303,6 +305,7 @@ class GuardingMasterDataDetailsCubit
     }
 
     if (bioDataFiles != null) {
+      state.model.bopData = bioDataFiles.first;
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -314,6 +317,7 @@ class GuardingMasterDataDetailsCubit
     }
 
     if (permanentAddressFiles != null) {
+      state.model.pvc = pVCFiles;
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -325,6 +329,7 @@ class GuardingMasterDataDetailsCubit
     }
 
     if (localAddressFiles != null) {
+      state.model.localAddressProof = localAddressFiles.first;
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -336,6 +341,7 @@ class GuardingMasterDataDetailsCubit
     }
 
     if (pVCFiles != null) {
+      state.model.pvc = pVCFiles;
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -347,6 +353,8 @@ class GuardingMasterDataDetailsCubit
     }
 
     if (trainingFiles != null) {
+      state.model.trainingCertificates = trainingFiles;
+
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -369,6 +377,8 @@ class GuardingMasterDataDetailsCubit
     }
 
     if (medicalFiles != null) {
+      log('---medicalFiles---------${medicalFiles.length}---');
+      state.model.medicalCertificates = medicalFiles;
       emit(
         state.copyWith(
           eventId: eventIds,

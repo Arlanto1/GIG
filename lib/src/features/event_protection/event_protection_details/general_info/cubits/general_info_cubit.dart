@@ -91,8 +91,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           locationId: defaultLocation.id.toString(),
           moduleCode: Constants.eventProtectionModule,
         );
-        state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
+        model.location = defaultLocation;
+        model.slNo = slNo.serialNo;
       }
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);

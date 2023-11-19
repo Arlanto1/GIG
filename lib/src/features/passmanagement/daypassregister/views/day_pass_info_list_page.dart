@@ -66,7 +66,6 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
       }
       isPaginationLoading = true;
        //showLoadingDialog(context);
-      print(pageNumber);
       // Perform event when user reach at the end of list (e.g. do Api call)
       _getpassFoundArticleList();
       // }

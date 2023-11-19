@@ -8,6 +8,7 @@ import 'package:db_atom/src/common_widgets/base_widget/add_button_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_drop_down.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_image_upload.dart';
 import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';
 import 'package:db_atom/src/common_widgets/base_widget/record_locked_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
@@ -1786,6 +1787,18 @@ class _MaterialMovementDetailsViewState
                           // Attachments
                           getSpaceattchment(height),
                           getAttachement(state, height),
+                          // TODO: Need to use common Components
+                          // Attachments
+                          // BaseImageUpload().getAttachment(
+                          //   height: height,
+                          //   attachments: state.loadAttachments,
+                          //   files: getFiles,
+                          //   showDownloadIcon: widget.materialMovement
+                          //       ?.images !=
+                          //       null
+                          //       ? true
+                          //       : false,
+                          // ),
                         ]),
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
@@ -2144,6 +2157,8 @@ class _MaterialMovementDetailsViewState
     List<ImageContent>? attachmentListviews,
     List<ImageContent>? attachmentListviews1,
   ) {
+    log('---attachmentListviews1?.length---${attachmentListviews1?.length}------');
+    log('------attachmentListviews?.length--------${attachmentListviews?.length}------');
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
