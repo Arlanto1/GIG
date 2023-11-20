@@ -111,22 +111,23 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       QuantityUnits quantityUnits = await commonServices.getQuantityUnits();
 
-      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-      log('defaultLocation --$defaultLocation');
-      if (defaultLocation != null && isInward == true) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.materialMovementInwardReturnableModule,
-        );
-        state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
-      } else if (defaultLocation != null && isInward == false) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.materialMovementOutwardNonReturnableModule,
-        );
-        state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
+      if (state.model.location == null) {
+        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+        log('defaultLocation --$defaultLocation');
+
+        if (defaultLocation != null) {
+          String moduleCode = isInward ?? false
+              ? Constants.materialMovementInwardReturnableModule
+              : Constants.materialMovementOutwardNonReturnableModule;
+
+          SerialNumberModel slNo = await commonServices.getSlNo(
+            locationId: defaultLocation.id.toString(),
+            moduleCode: moduleCode,
+          );
+
+          state.model.location = defaultLocation;
+          state.model.slNo = slNo.serialNo;
+        }
       }
 
       state.model.entrySecurity = loggedInUserDetails;
