@@ -757,14 +757,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               initialValue: '${state.model.dependentsNo ?? ''}',
                               textFormKey: Keys.dependentsKey,
                               hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData
-                                                  ?.dependentsNo ==
-                                              null))
-                                      ? false
-                                      : true,
+                              isEnable: isDisabled,
                               isDisableColor: false,
                               onChange: (String value) {
                                 state.model.dependentsNo = int.tryParse(value);
@@ -975,13 +968,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               initialValue: '${state.model.weight ?? ''}',
                               textFormKey: Keys.weightKey,
                               hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData?.weight ==
-                                              null))
-                                      ? false
-                                      : true,
+                              isEnable: isDisabled,
                               isDisableColor: false,
                               onChange: (String value) {
                                 state.model.weight = int.tryParse(value);
@@ -1002,13 +989,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               initialValue: '${state.model.chest ?? ''}',
                               textFormKey: Keys.chestKey,
                               hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData?.chest ==
-                                              null))
-                                      ? false
-                                      : true,
+                              isEnable: isDisabled,
                               isDisableColor: false,
                               onChange: (String value) {
                                 state.model.chest = int.tryParse(value);
@@ -1121,6 +1102,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 6,
                               isDisableColor: state.model.status == 6,
+                              showBorder: true,
                               onChange: (String value) {
                                 state.model.securityExperience = value;
                                 context
@@ -1175,6 +1157,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               lineHeight: 6,
                               initialValue: state.model.permanentAddress,
                               textFormKey: Keys.permanentAddressKey,
+                              showBorder: true,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 6,
                               isDisableColor: state.model.status == 6,
@@ -1239,6 +1222,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               initialValue: state.model.localAddress,
                               textFormKey: Keys.localAddressKey,
                               hintText: Constants.informationhere,
+                              showBorder: true,
                               isEnable: state.model.status != 6,
                               isDisableColor: state.model.status == 6,
                               onChange: (String value) {
@@ -2036,6 +2020,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               initialValue: state.model.additionalInitiatives,
                               textFormKey: Keys.additionInitiativesKey,
                               hintText: Constants.informationhere,
+                              showBorder: true,
                               isEnable: state.model.status != 6,
                               isDisableColor: state.model.status == 6,
                               onChange: (String value) {
