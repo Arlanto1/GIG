@@ -261,6 +261,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   }
 
   Future<void> updateApproverEmailsValue({
+    BaseUser? requesterEmailUser,
     BaseUser? approver1EmailUser,
     BaseUser? approver2EmailUser,
   }) async {
@@ -269,6 +270,28 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         status: FormStatus.loading,
       ),
     );
+
+    if (requesterEmailUser != null) {
+      state.model.requestorEmail = requesterEmailUser.email;
+
+      emit(
+        state.copyWith(
+          requestorEmailUsers: state.emailUsers,
+        ),
+      );
+
+      state.approver1Users?.remove(requesterEmailUser);
+      state.approver2Users?.remove(requesterEmailUser);
+
+      emit(
+        state.copyWith(
+          model: state.model,
+          approver2Users: state.approver2Users,
+          approver1Users: state.approver1Users,
+          status: FormStatus.initial,
+        ),
+      );
+    }
 
     if (approver1EmailUser != null) {
       state.model.approver1Email = approver1EmailUser.email;
@@ -279,13 +302,14 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         ),
       );
 
-      List<BaseUser>? updatedUsers = List.from(state.approver2Users ?? []);
-      updatedUsers.remove(approver1EmailUser);
+      state.requestorEmailUsers?.remove(approver1EmailUser);
+      state.approver2Users?.remove(approver1EmailUser);
 
       emit(
         state.copyWith(
           model: state.model,
-          approver2Users: updatedUsers,
+          requestorEmailUsers: state.requestorEmailUsers,
+          approver2Users: state.approver2Users,
           status: FormStatus.initial,
         ),
       );
@@ -300,12 +324,14 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         ),
       );
 
+      state.requestorEmailUsers?.remove(approver2EmailUser);
       state.approver1Users?.remove(approver2EmailUser);
 
       emit(
         state.copyWith(
           model: state.model,
           status: FormStatus.initial,
+          requestorEmailUsers: state.requestorEmailUsers,
           approver1Users: state.approver1Users,
         ),
       );
