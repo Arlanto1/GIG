@@ -37,7 +37,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
   }) : super(
           ContactInfoState.initial(
               model: ContactInfoModel(),
-              locations: GetLocations(),
+              locations: Locations(),
               loggedInUserDetails: User(),
               users: const [],
               emailUsers: const [],
@@ -76,7 +76,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       if(id.isNotEmpty) {
         // model = await services.getCI(id);
       }
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =

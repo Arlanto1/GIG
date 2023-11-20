@@ -91,12 +91,12 @@ class LawEnforcementServices {
   }
 
   //Get locations
-  Future<GetLocations> getLocations(String name, BuildContext? context) async {
+  Future<Locations> getLocations(String name, BuildContext? context) async {
     String url = '${Apis._getLocations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return GetLocations.fromJson(response);
+    return Locations.fromJson(response);
   }
 
   // get serailnumber Details api call

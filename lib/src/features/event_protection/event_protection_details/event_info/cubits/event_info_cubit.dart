@@ -39,7 +39,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
   }) : super(
           EventInfoState.initial(
               model: EventInfoResponse(),
-              locations: GetLocations(),
+              locations: Locations(),
               loggedInUserDetails: User(),
               users: const [],
               eventDuration: eventDuration,

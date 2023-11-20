@@ -163,7 +163,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   // Get locations api call
   Future<void> getLocations(String name, BuildContext context) async {
     try {
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await services.getLocations(name, context);
       emit(
         state.copyWith(

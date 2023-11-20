@@ -43,7 +43,7 @@ class GuardingMasterDataDetailsCubit
   }) : super(
           GuardingMasterDataDetailsState.initial(
               model: model ?? GuardingMastersDataModel(),
-              locations: GetLocations(),
+              locations: Locations(),
               loggedInUserDetails: User(),
               users: const [],
               emailUsers: const [],
@@ -102,7 +102,7 @@ class GuardingMasterDataDetailsCubit
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =

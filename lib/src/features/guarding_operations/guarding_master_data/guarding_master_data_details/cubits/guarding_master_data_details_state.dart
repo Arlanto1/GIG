@@ -3,7 +3,7 @@ part of 'guarding_master_data_details_cubit.dart';
 class GuardingMasterDataDetailsState extends Equatable {
   final FormStatus status;
   final GuardingMastersDataModel model;
-  final GetLocations? locations;
+  final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
@@ -29,7 +29,7 @@ class GuardingMasterDataDetailsState extends Equatable {
 
   factory GuardingMasterDataDetailsState.initial({
     required GuardingMastersDataModel model,
-    required GetLocations locations,
+    required Locations locations,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
@@ -281,7 +281,7 @@ class GuardingMasterDataDetailsState extends Equatable {
   GuardingMasterDataDetailsState copyWith({
     FormStatus? status,
     GuardingMastersDataModel? model,
-    GetLocations? locations,
+    Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,

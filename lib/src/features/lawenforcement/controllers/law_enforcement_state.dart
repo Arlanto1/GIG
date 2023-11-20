@@ -25,7 +25,7 @@ class LawEnforcementState extends Equatable {
   late final int? eventId;
   final FormStatus stateType;
   String? errorMessage;
-  GetLocations? getLocationsResponse;
+  Locations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
   List<Organisation>? listOfEntities;
   Organisation? locationSelectedlist;
@@ -98,7 +98,7 @@ class LawEnforcementState extends Equatable {
     final int? eventId,
     FormStatus? stateType,
     String? errorMessage,
-    GetLocations? getLocationsResponse,
+    Locations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,
     List<Organisation>? listOfEntities,
     Organisation? locationSelectedlist,

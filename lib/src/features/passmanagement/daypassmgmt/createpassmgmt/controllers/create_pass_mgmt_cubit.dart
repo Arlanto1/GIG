@@ -230,7 +230,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   // Get locations api call
   Future<void> getLocations(String locationsStr, BuildContext context) async {
     try {
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await createpassmgmtServices.getLocations(name: locationsStr);
       emit(
         state.copyWith(

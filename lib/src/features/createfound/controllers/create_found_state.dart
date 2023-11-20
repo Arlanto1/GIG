@@ -15,7 +15,7 @@ enum CreateFoundStateType { initial, loading, success, failure, addattachment }
 
 class CreateFoundState extends Equatable {
   GetDepositor? getDepositorResponse;
-  GetLocations? getLocationsResponse;
+  Locations? getLocationsResponse;
   EmployeeDepartments? getEmployeeDepartmentsResponse;
   GetArticleType? getArticleTypeResponse;
   Organisation? createOrganisationResponse;
@@ -47,7 +47,7 @@ class CreateFoundState extends Equatable {
 
   CreateFoundState copyWith({
     GetDepositor? getDepositorResponse,
-    GetLocations? getLocationsResponse,
+    Locations? getLocationsResponse,
     EmployeeDepartments? getEmployeeDepartmentsResponse,
     GetArticleType? getArticleTypeResponse,
     Organisation? createOrganisationResponse,

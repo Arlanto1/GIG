@@ -1602,7 +1602,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
 
   Widget locationWidgetdislay({
     required bool enabled,
-    GetLocations? locations,
+    Locations? locations,
     required String selectedLocation,
     Function? onTap,
   }) {
@@ -1619,13 +1619,13 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     );
   }
 
-  void selectLocation({GetLocations? locations, Function? onTap}) {
+  void selectLocation({Locations? locations, Function? onTap}) {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         // print(state.getLocationsResponse);
         return CustomExpansionListTexts(
-          getLocationsresponse: locations,
+          locationList: locations,
           onTap: onTap,
         );
       },

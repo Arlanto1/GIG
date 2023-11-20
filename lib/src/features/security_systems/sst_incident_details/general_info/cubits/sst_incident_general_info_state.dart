@@ -3,7 +3,7 @@ part of 'sst_incident_general_info_cubit.dart';
 class SstIncidentGeneralInfoState extends Equatable {
   final FormStatus status;
   final SstIncident model;
-  final GetLocations? locations;
+  final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
@@ -18,7 +18,7 @@ class SstIncidentGeneralInfoState extends Equatable {
 
   factory SstIncidentGeneralInfoState.initial({
     required SstIncident model,
-    required GetLocations locations,
+    required Locations locations,
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
@@ -80,7 +80,7 @@ class SstIncidentGeneralInfoState extends Equatable {
   SstIncidentGeneralInfoState copyWith({
     FormStatus? status,
     SstIncident? model,
-    GetLocations? locations,
+    Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
