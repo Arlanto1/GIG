@@ -15,7 +15,7 @@ class History {
   final int? actiontime;
   final String? parameters;
 
-  factory History.fromJson(Map<String, dynamic> json){
+  factory History.fromJson(Map<String, dynamic> json) {
     return History(
       id: json["id"],
       state: json["state"],
@@ -27,12 +27,11 @@ class History {
   }
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "state": state,
-    "action": action,
-    "email": email,
-    "actiontime": actiontime,
-    "parameters": parameters,
-  };
-
+        "id": id,
+        "state": state,
+        "action": action,
+        "email": email,
+        "actiontime": actiontime,
+        "parameters": parameters,
+      };
 }

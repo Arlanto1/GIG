@@ -2,9 +2,6 @@ import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/contact_details/models/requestModels/contact_details_gi_request.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
-import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
 import '../../../models/responseModels/generic_create_response.dart';

@@ -17,7 +17,12 @@ import 'package:flutter/material.dart';
 class CreateFoundNewUser extends StatefulWidget {
   //const CreateFoundNewUser({super.key});
   CreateFoundNewUser(
-      {super.key, required this.title, this.lawstate, this.createoundstate,this.createpassmgmtstate});
+      {super.key,
+      required this.title,
+      this.lawstate,
+      this.createoundstate,
+      this.createpassmgmtstate});
+
   final String title;
   LawEnforcementState? lawstate;
   CreateFoundState? createoundstate;
@@ -42,20 +47,18 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
 
   void _getFoundNewuser(String firstname, String lastname, String email) async {
     showLoadingDialog(context);
-    if (widget.createoundstate != null)
-    {
-    await createFoundArticleCubit.createUser(
-        firstname, lastname, email, 'ATOM_STATIC_USER', context);
+    if (widget.createoundstate != null) {
+      await createFoundArticleCubit.createUser(
+          firstname, lastname, email, 'ATOM_STATIC_USER', context);
     }
     // else if (widget.createpassmgmtstate != null)
     // {
     //    await createpassmgmtCubit.createUser(
     //     firstname, lastname, email, 'ATOM_STATIC_USER', context);
     // }
-     else if (widget.lawstate != null)
-    {
-       await lawEnforcementCubit.createUser(
-        firstname, lastname, email, 'ATOM_STATIC_USER', context);
+    else if (widget.lawstate != null) {
+      await lawEnforcementCubit.createUser(
+          firstname, lastname, email, 'ATOM_STATIC_USER', context);
     }
   }
 
@@ -71,12 +74,13 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
               onTap: () {
                 Navigator.of(context).pop();
               },
-              child: SvgPicture.asset(AppIcon.closeicon) //Icon(Icons.cancel) //Icon(Icons.cancel)
+              child: SvgPicture.asset(
+                  AppIcon.closeicon) //Icon(Icons.cancel) //Icon(Icons.cancel)
               )),
       title: Text(
         Constants.newuser,
-        style: Styles.textFontSet(
-            18, AppColors.textgreyThemecolor, FontWeight.normal, Constants.customFontMediumFamily),
+        style: Styles.textFontSet(18, AppColors.textgreyThemecolor,
+            FontWeight.normal, Constants.customFontMediumFamily),
       ),
       backgroundColor: AppColors.backgroundWhitecolor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -179,7 +183,9 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
   Widget buttonViews(BuildContext context, double width) {
     return Align(
       alignment: Alignment.bottomRight,
-      child: Container(color: AppColors.backgroundWhitecolor, child: createNewuserButton(width)),
+      child: Container(
+          color: AppColors.backgroundWhitecolor,
+          child: createNewuserButton(width)),
     );
   }
 
@@ -205,8 +211,8 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
           );
         } else {
           try {
-            _getFoundNewuser(firstnameTextController.text, lastnameTextController.text,
-                emailTextController.text);
+            _getFoundNewuser(firstnameTextController.text,
+                lastnameTextController.text, emailTextController.text);
           } catch (e) {
             // present userwith error message
           }

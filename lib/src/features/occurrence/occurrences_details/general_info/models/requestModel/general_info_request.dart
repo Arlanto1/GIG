@@ -1,5 +1,3 @@
-
-
 import '../general_info_model.dart';
 
 class OccurrenceGeneralInfoRequest {
@@ -10,8 +8,7 @@ class OccurrenceGeneralInfoRequest {
   late final Occurrence occurrence;
 
   OccurrenceGeneralInfoRequest.fromJson(Map<String, dynamic> json) {
-    occurrence =
-        Occurrence.fromJson(json['occurrence']);
+    occurrence = Occurrence.fromJson(json['occurrence']);
   }
 
   Map<String, dynamic> toJson() {

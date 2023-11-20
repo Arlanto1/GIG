@@ -12,7 +12,6 @@ import '../../../../enums/form_status.dart';
 import '../../services/contact_details_services.dart';
 
 part 'contact_listing_event.dart';
-
 part 'contact_listing_state.dart';
 
 class ContactListingBloc

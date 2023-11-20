@@ -1,5 +1,4 @@
 import 'package:db_atom/main_DEV.dart';
-import 'package:db_atom/src/appservices/app_service_handler.dart';
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
@@ -54,9 +53,9 @@ class LawEnforcementServices {
   }
 
   Future<LawEnforcementDetails> getById(
-      int id,
-      BuildContext context,
-      ) async {
+    int id,
+    BuildContext context,
+  ) async {
     final String url = '${Apis._getById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -82,8 +81,8 @@ class LawEnforcementServices {
 
   // get Entities api call
   Future<AddEntities> getEntities(
-      String name,
-      ) async {
+    String name,
+  ) async {
     String url = '${Apis._getLocations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -102,10 +101,10 @@ class LawEnforcementServices {
 
   // get serailnumber Details api call
   Future<SerialNumberModel> getSerialnumberDetails(
-      String locationId,
-      String moduleCode,
-      BuildContext? context,
-      ) async {
+    String locationId,
+    String moduleCode,
+    BuildContext? context,
+  ) async {
     String url =
         '${Apis._getSlNo}locationId=$locationId&moduleCode=$moduleCode';
     final response = await BaseApiService().getRequest(
@@ -133,9 +132,9 @@ class LawEnforcementServices {
   }
 
   Future<GetDepositor> getDBOfficialdepartments(
-      String roleName,
-      BuildContext? context,
-      ) async {
+    String roleName,
+    BuildContext? context,
+  ) async {
     String url = '${Apis._getUsersByRole}$roleName';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -154,9 +153,9 @@ class LawEnforcementServices {
   }
 
   Future<User> getUserDetails(
-      String userId,
-      BuildContext? context,
-      ) async {
+    String userId,
+    BuildContext? context,
+  ) async {
     String url = '${Apis._getUserDetails}$userId';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -165,8 +164,8 @@ class LawEnforcementServices {
   }
 
   Future<DistributionGroupModel> getDistributiongroupDetails(
-      BuildContext? context,
-      ) async {
+    BuildContext? context,
+  ) async {
     String url = '${Apis._getGroup}';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -175,10 +174,10 @@ class LawEnforcementServices {
   }
 
   Future<Organisation> createOrganisation(
-      String name,
-      String orgName,
-      BuildContext? context,
-      ) async {
+    String name,
+    String orgName,
+    BuildContext? context,
+  ) async {
     final String url = "${Apis._createOrganisation}name=$name&orgName=$orgName";
     final response = await BaseApiService().getRequest(
       url: url,
@@ -188,12 +187,12 @@ class LawEnforcementServices {
 
 // Create user api call
   Future<CreateUserModel> createUser(
-      String firstName,
-      String lastName,
-      String email,
-      String role,
-      BuildContext? context,
-      ) async {
+    String firstName,
+    String lastName,
+    String email,
+    String role,
+    BuildContext? context,
+  ) async {
     final String url =
         "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
     final response = await BaseApiService().getRequest(

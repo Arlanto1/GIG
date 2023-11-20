@@ -6,23 +6,30 @@ import 'dart:convert';
 
 import 'package:db_atom/src/models/organisation.dart';
 
-DistributionGroupModel distributionModelFromJson(String str) => DistributionGroupModel.fromJson(json.decode(str));
+DistributionGroupModel distributionModelFromJson(String str) =>
+    DistributionGroupModel.fromJson(json.decode(str));
 
-String distributionModelToJson(DistributionGroupModel data) => json.encode(data.toJson());
+String distributionModelToJson(DistributionGroupModel data) =>
+    json.encode(data.toJson());
 
 class DistributionGroupModel {
-    List<Organisation>? distributionGroups;
+  List<Organisation>? distributionGroups;
 
-    DistributionGroupModel({
-        this.distributionGroups,
-    });
+  DistributionGroupModel({
+    this.distributionGroups,
+  });
 
-    factory DistributionGroupModel.fromJson(Map<String, dynamic> json) => DistributionGroupModel(
-        distributionGroups: json["Distribution Groups"] == null ? [] : List<Organisation>.from(json["Distribution Groups"]!.map((x) => Organisation.fromJson(x))),
-    );
+  factory DistributionGroupModel.fromJson(Map<String, dynamic> json) =>
+      DistributionGroupModel(
+        distributionGroups: json["Distribution Groups"] == null
+            ? []
+            : List<Organisation>.from(json["Distribution Groups"]!
+                .map((x) => Organisation.fromJson(x))),
+      );
 
-    Map<String, dynamic> toJson() => {
-        "Distribution Groups": distributionGroups == null ? [] : List<dynamic>.from(distributionGroups!.map((x) => x.toJson())),
-    };
+  Map<String, dynamic> toJson() => {
+        "Distribution Groups": distributionGroups == null
+            ? []
+            : List<dynamic>.from(distributionGroups!.map((x) => x.toJson())),
+      };
 }
-

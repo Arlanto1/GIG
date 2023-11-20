@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import '../../../models/organisation.dart';
 
-Vendors vendorsFromJson(String str) =>
-    Vendors.fromJson(json.decode(str));
+Vendors vendorsFromJson(String str) => Vendors.fromJson(json.decode(str));
 
 String vendorsToJson(Vendors data) => json.encode(data.toJson());
 
@@ -15,16 +14,15 @@ class Vendors {
   });
 
   factory Vendors.fromJson(Map<String, dynamic> json) => Vendors(
-    items: json["ATOM_VENDORS"] == null
-        ? []
-        : List<Organisation>.from(
-        json["ATOM_VENDORS"]!.map((x) => Organisation.fromJson(x))),
-  );
+        items: json["ATOM_VENDORS"] == null
+            ? []
+            : List<Organisation>.from(
+                json["ATOM_VENDORS"]!.map((x) => Organisation.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "ATOM_VENDORS": items == null
-        ? []
-        : List<dynamic>.from(items!.map((x) => x.toJson())),
-  };
+        "ATOM_VENDORS": items == null
+            ? []
+            : List<dynamic>.from(items!.map((x) => x.toJson())),
+      };
 }
-

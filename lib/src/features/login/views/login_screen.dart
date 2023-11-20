@@ -234,7 +234,8 @@ class _LoginState extends State<Login> {
                                 onForgottenPassword: () => {
                                   //widget.onPasswordForgotten()
                                   Navigator.pushNamed(
-                                      context, forgotPwdScreenRoute,
+                                    context,
+                                    forgotPwdScreenRoute,
                                   )
                                 },
                                 title: Constants.ResetPwdTitle,

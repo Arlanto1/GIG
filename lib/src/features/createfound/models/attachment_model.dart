@@ -1,6 +1,4 @@
 class AttachmentModel {
-
-
   String? fullpath;
   String? name;
 
@@ -9,10 +7,10 @@ class AttachmentModel {
     this.name,
   });
 
-  factory AttachmentModel.fromJson(Map<String, dynamic> json) => AttachmentModel(
+  factory AttachmentModel.fromJson(Map<String, dynamic> json) =>
+      AttachmentModel(
         fullpath: json["fullpath"],
         name: json["name"],
-        
       );
 
   Map<String, dynamic> toJson() => {

@@ -11,18 +11,21 @@ class RefreshTokenService {
   static Future<int> getRefreshToken() async {
     String token = await SharedPrefs.getToken();
     final endpoint = Environment().config.apiHost;
-    final url = Uri.parse('https://api.integration.dbatom.arlanto.com/oauth2/token/refresh').replace(queryParameters: {
+    final url = Uri.parse(
+            'https://api.integration.dbatom.arlanto.com/oauth2/token/refresh')
+        .replace(queryParameters: {
       "clientId": "vzelhdxCKJekoEJVP0KrCQ==",
       "clientSecret": "17XCc4+opLnRhsY0th3i3L1I++0MhfqPf1Y8jDBYJYE=",
       "token": token,
     });
     try {
-      final response = await http.get(url,
-         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-         //encoding:encoding ,
-          );
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        //encoding:encoding ,
+      );
       if (response.statusCode == 200) {
         try {
           RefreshTokenResponseModel refreshTokenData =

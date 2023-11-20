@@ -8,7 +8,6 @@ import 'package:db_atom/src/common_widgets/base_widget/add_button_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_drop_down.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_image_upload.dart';
 import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';
 import 'package:db_atom/src/common_widgets/base_widget/record_locked_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';

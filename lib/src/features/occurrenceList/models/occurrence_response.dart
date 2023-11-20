@@ -127,14 +127,13 @@ class Occurrence {
         slNo = json['slNo'] as String?,
         inputDate = json['inputDate'] as String?,
         entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
-            ? User.fromJson(
-                json['entrySecurity'] as Map<String, dynamic>)
+            ? User.fromJson(json['entrySecurity'] as Map<String, dynamic>)
             : null,
-        handoverSecurity =
-            (json['handoverSecurity'] as Map<String, dynamic>?) != null
-                ? User.fromJson(
-                    json['handoverSecurity'] as Map<String, dynamic>)
-                : null,
+        handoverSecurity = (json['handoverSecurity']
+                    as Map<String, dynamic>?) !=
+                null
+            ? User.fromJson(json['handoverSecurity'] as Map<String, dynamic>)
+            : null,
         location = (json['location'] as Map<String, dynamic>?) != null
             ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
             : null,
@@ -222,7 +221,7 @@ class Occurrence {
         'incidentItems': incidentItems,
         'secSysFailureIncident': secSysFailureIncident,
         'followedUp': followedUp,
-        'status': status ,
-    'handoverSecurity': handoverSecurity,
-  };
+        'status': status,
+        'handoverSecurity': handoverSecurity,
+      };
 }
