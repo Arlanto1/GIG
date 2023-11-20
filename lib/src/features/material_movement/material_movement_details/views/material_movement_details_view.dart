@@ -8,6 +8,7 @@ import 'package:db_atom/src/common_widgets/base_widget/add_button_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_drop_down.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_image_upload.dart';
 import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';
 import 'package:db_atom/src/common_widgets/base_widget/record_locked_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
@@ -1783,21 +1784,16 @@ class _MaterialMovementDetailsViewState
                               ? uploadWidget(state)
                               : Container(),
 
-                          // Attachments
-                          getSpaceattchment(height),
-                          getAttachement(state, height),
-                          // TODO: Need to use common Components
-                          // Attachments
-                          // BaseImageUpload().getAttachment(
-                          //   height: height,
-                          //   attachments: state.loadAttachments,
-                          //   files: getFiles,
-                          //   showDownloadIcon: widget.materialMovement
-                          //       ?.images !=
-                          //       null
-                          //       ? true
-                          //       : false,
-                          // ),
+                          /// Attachments
+                          BaseImageUpload().getAttachment(
+                            height: height,
+                            attachments: state.loadAttachments,
+                            files: getFiles,
+                            showDownloadIcon:
+                                widget.materialMovement?.images != null
+                                    ? true
+                                    : false,
+                          ),
                         ]),
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
@@ -2092,22 +2088,6 @@ class _MaterialMovementDetailsViewState
             ]),
           )
         : Container();
-  }
-
-  Widget getSpaceattchment(double height) {
-    return getFiles.isNotEmpty || getAttachments.isNotEmpty
-        ? CommonWidgets.verticalSpacerWidget(height * 0.01)
-        : Container();
-  }
-
-  Widget getAttachement(MaterialMovementDetailsState state, double height) {
-    return (state.loadAttachments == null ||
-            state.loadAttachments!.isEmpty ||
-            widget.materialMovement == null)
-        ? state.loadAttachments!.isEmpty
-            ? Container()
-            : attachmentListviews(getFiles, getAttachments)
-        : attachmentListviews(getFiles, getAttachments);
   }
 
   Widget locationWidgetdislay(MaterialMovementDetailsState state) {
