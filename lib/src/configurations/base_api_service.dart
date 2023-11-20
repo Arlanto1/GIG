@@ -97,10 +97,11 @@ class BaseApiService {
 
     // Store the new token
     log('Store the new token');
-    if(loginData.token == null || loginData.token!.isEmpty){
+    if (loginData.token == null || loginData.token!.isEmpty) {
       log('---SETTING EMPTY TOKEN--------');
+      throw GenericErrorResponse(message: 'Refresh Token is null.');
     }
-    await SharedPrefs.setToken(loginData.token ?? '');
+    await SharedPrefs.setToken(loginData.token!);
   }
 
   Future<dynamic> postRequest({
