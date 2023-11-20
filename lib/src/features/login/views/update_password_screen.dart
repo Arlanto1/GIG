@@ -44,8 +44,8 @@ class _ResetPasswordState extends State<ResetPassword> {
   String oldPassword = '';
   String newPassword = '';
   final FocusNode _usernameFocus = FocusNode();
-  final FocusNode _oldpasswordFocus = FocusNode(); 
-  final FocusNode _newpasswordFocus = FocusNode(); 
+  final FocusNode _oldpasswordFocus = FocusNode();
+  final FocusNode _newpasswordFocus = FocusNode();
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
 
   @override
@@ -90,7 +90,6 @@ class _ResetPasswordState extends State<ResetPassword> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-
                       Container(
                         padding: const EdgeInsets.all(20.0),
                         decoration: const ShapeDecoration(
@@ -169,8 +168,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
                                       LoginPassword(
-                                         passFocusNode: _oldpasswordFocus,
-                                         textInputAction: TextInputAction.next,
+                                        passFocusNode: _oldpasswordFocus,
+                                        textInputAction: TextInputAction.next,
                                         validatePassword: ((String? password) {
                                           if (!Validator.isValidPassword(
                                               password)) {
@@ -183,8 +182,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                                         }),
                                         onFieldSubmitted: (term) {
                                           _oldpasswordFocus.unfocus();
-                                          FocusScope.of(context).requestFocus(_newpasswordFocus);
-                                          
+                                          FocusScope.of(context)
+                                              .requestFocus(_newpasswordFocus);
                                         },
                                         onChange: (String password) {
                                           oldPassword = password;
@@ -219,23 +218,22 @@ class _ResetPasswordState extends State<ResetPassword> {
                                                 .passwordLengthError;
                                           }
                                         }),
-                                         onFieldSubmitted: (term) {
+                                        onFieldSubmitted: (term) {
                                           _newpasswordFocus.unfocus();
                                           try {
-                                        if (loginFormKey.currentState!
-                                            .validate()) {
-                                          print(
-                                              'username $username password $oldPassword');
-                                          // bloc.add(LoginVerifyEvent(
-                                          //     requestModel:
-                                          //     prepareLoginRequestBody(
-                                          //         username, oldPassword, ''),
-                                          //     isFromLogin: true));
-                                        }
-                                      } catch (e) {
-                                        // present userwith error message
-                                      }
-                                          
+                                            if (loginFormKey.currentState!
+                                                .validate()) {
+                                              print(
+                                                  'username $username password $oldPassword');
+                                              // bloc.add(LoginVerifyEvent(
+                                              //     requestModel:
+                                              //     prepareLoginRequestBody(
+                                              //         username, oldPassword, ''),
+                                              //     isFromLogin: true));
+                                            }
+                                          } catch (e) {
+                                            // present userwith error message
+                                          }
                                         },
                                         onChange: (String password) {
                                           newPassword = password;
@@ -282,7 +280,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                               ForgotPassword(
                                 onForgottenPassword: () => {
                                   //widget.onPasswordForgotten()
-                                  Navigator.pushNamed(context, forgotPwdScreenRoute)
+                                  Navigator.pushNamed(
+                                      context, forgotPwdScreenRoute)
                                 },
                                 title: Constants.forgotPwdTitle,
                               ),
@@ -345,4 +344,3 @@ class _ResetPasswordState extends State<ResetPassword> {
     );
   }
 }
-

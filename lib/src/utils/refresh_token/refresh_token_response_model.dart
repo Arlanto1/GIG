@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-RefreshTokenResponseModel refreshTokenResponseModelFromJson(String str) => RefreshTokenResponseModel.fromJson(json.decode(str));
+RefreshTokenResponseModel refreshTokenResponseModelFromJson(String str) =>
+    RefreshTokenResponseModel.fromJson(json.decode(str));
 
-String refreshTokenResponseModelToJson(RefreshTokenResponseModel data) => json.encode(data.toJson());
+String refreshTokenResponseModelToJson(RefreshTokenResponseModel data) =>
+    json.encode(data.toJson());
 
 class RefreshTokenResponseModel {
   int? status;
@@ -19,15 +21,16 @@ class RefreshTokenResponseModel {
     this.token,
   });
 
-  factory RefreshTokenResponseModel.fromJson(Map<String, dynamic> json) => RefreshTokenResponseModel(
-    status: json["status"],
-    msg: json["msg"],
-    token: json["token"],
-  );
+  factory RefreshTokenResponseModel.fromJson(Map<String, dynamic> json) =>
+      RefreshTokenResponseModel(
+        status: json["status"],
+        msg: json["msg"],
+        token: json["token"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "msg": msg,
-    "token": token,
-  };
+        "status": status,
+        "msg": msg,
+        "token": token,
+      };
 }

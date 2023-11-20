@@ -289,11 +289,12 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               onTap: () {
                                 // TODO: Need to save General Info Object First
                                 Navigator.pushNamed(
-                                    context, contactListingRoute,
-                                    arguments: {
+                                  context,
+                                  contactListingRoute,
+                                  arguments: {
                                     ConstantsArgument.title:
                                         Constants.generalContact,
-                                    },
+                                  },
                                 );
                               },
                               child: Row(

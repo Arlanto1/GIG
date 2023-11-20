@@ -19,7 +19,7 @@ class RoleExtension {
   final dynamic nodeId;
   final dynamic accessRight;
 
-  factory RoleExtension.fromJson(Map<String, dynamic> json){
+  factory RoleExtension.fromJson(Map<String, dynamic> json) {
     return RoleExtension(
       roleExtensionId: json["roleExtensionId"],
       roleId: json["roleId"],
@@ -33,14 +33,13 @@ class RoleExtension {
   }
 
   Map<String, dynamic> toJson() => {
-    "roleExtensionId": roleExtensionId,
-    "roleId": roleId,
-    "displayName": displayName,
-    "area": area,
-    "filter": filter,
-    "rootNodeId": rootNodeId,
-    "nodeId": nodeId,
-    "accessRight": accessRight,
-  };
-
+        "roleExtensionId": roleExtensionId,
+        "roleId": roleId,
+        "displayName": displayName,
+        "area": area,
+        "filter": filter,
+        "rootNodeId": rootNodeId,
+        "nodeId": nodeId,
+        "accessRight": accessRight,
+      };
 }

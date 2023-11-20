@@ -11,13 +11,13 @@ import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
 class DayPassRegisterListItem extends StatefulWidget {
   final Function? onTap;
   final Function? oneditTap;
   final Function? onviewTap;
   DaypassInfoListElement userItem;
   int? index;
+
   DayPassRegisterListItem({
     Key? key,
     this.onTap,
@@ -28,11 +28,11 @@ class DayPassRegisterListItem extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DayPassRegisterListItem> createState() => _DayPassRegisterListItemState();
+  State<DayPassRegisterListItem> createState() =>
+      _DayPassRegisterListItemState();
 }
 
 class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
-
   Widget textHandling(String title, String desc) {
     return Expanded(
       child: RichText(
@@ -56,7 +56,6 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-
     return Column(
       children: [
         Card(
@@ -69,7 +68,7 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
             child: InkWell(
                 onTap: () {
                   HapticFeedback.lightImpact();
-                 widget.onTap != null ? widget.onTap!(widget.index) : null;
+                  widget.onTap != null ? widget.onTap!(widget.index) : null;
                 },
                 borderRadius: BorderRadius.circular(8),
                 child: Padding(
@@ -81,46 +80,50 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
                           textHandling('ID : ', widget.userItem.id.toString()),
                         ],
                       ),
-                      if(widget.userItem.region != null)...[
-                      Row(
-                        children: [
-                          textHandling('Region : ',
-                              widget.userItem.region?.name ?? ''),
-                        ],
-                      ),
-                     ],
-                     if(widget.userItem.location != null)...[
-                       Column(
-                         children: [
-                           CommonWidgets.verticalSpacerWidget(5),
-                      Row(
-                            children: [
-                              textHandling('Location : ',
-                                  widget.userItem.location?.name ?? ''),
-                            ],
-                      ),
-                         ],
-                       ),
-                       ],
-                       if(widget.userItem.expiryDate != null)...[
-                       CommonWidgets.verticalSpacerWidget(5),
-                      Row(
-                        children: [
-                          textHandling(
-                              'Expiry Date: ',
-                             widget.userItem.expiryDate != null ? Utils.timestamptoDateConversion(
-                                   int.parse(widget.userItem.expiryDate ?? '0'), Constants.dateFormat): ''),
-                        ],
-                      ),
-                       ],
-                       CommonWidgets.verticalSpacerWidget(5),
+                      if (widget.userItem.region != null) ...[
+                        Row(
+                          children: [
+                            textHandling('Region : ',
+                                widget.userItem.region?.name ?? ''),
+                          ],
+                        ),
+                      ],
+                      if (widget.userItem.location != null) ...[
+                        Column(
+                          children: [
+                            CommonWidgets.verticalSpacerWidget(5),
+                            Row(
+                              children: [
+                                textHandling('Location : ',
+                                    widget.userItem.location?.name ?? ''),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                      if (widget.userItem.expiryDate != null) ...[
+                        CommonWidgets.verticalSpacerWidget(5),
+                        Row(
+                          children: [
+                            textHandling(
+                                'Expiry Date: ',
+                                widget.userItem.expiryDate != null
+                                    ? Utils.timestamptoDateConversion(
+                                        int.parse(
+                                            widget.userItem.expiryDate ?? '0'),
+                                        Constants.dateFormat)
+                                    : ''),
+                          ],
+                        ),
+                      ],
+                      CommonWidgets.verticalSpacerWidget(5),
                       Row(
                         children: [
                           // Text(
                           //   'Status : ${widget.userItem.status}',
                           //   style: Styles.textStyleSemiBoldGrey14,
-                           textHandling('PassNo : ',
-                             (widget.userItem.passNo ?? '').toString()),
+                          textHandling('PassNo : ',
+                              (widget.userItem.passNo ?? '').toString()),
                         ],
                       ),
                       Container(
@@ -130,7 +133,9 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
                             IconButton(
                               onPressed: () {
                                 //do action on view
-                                widget.onviewTap != null ? widget.onviewTap!(widget.index) : null;
+                                widget.onviewTap != null
+                                    ? widget.onviewTap!(widget.index)
+                                    : null;
                               },
                               icon: SvgPicture.asset(AppIcon.viewIcon),
                             ),
@@ -138,7 +143,7 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
                         ),
                       ),
                     ])))),
-         CommonWidgets.verticalSpacerWidget(5),
+        CommonWidgets.verticalSpacerWidget(5),
       ],
     );
   }

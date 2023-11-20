@@ -25,7 +25,8 @@ class AddContactPopUp extends StatefulWidget {
     required this.title,
     required this.onSubmit,
     required this.payRate,
-    required this.mainContext, required this.users,
+    required this.mainContext,
+    required this.users,
   });
 
   final String title;
@@ -51,7 +52,6 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
   @override
   Widget build(BuildContext context) {
-
     log('---users-${widget.users.length}--');
 
     return AlertDialog(

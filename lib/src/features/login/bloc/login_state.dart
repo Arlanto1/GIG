@@ -13,13 +13,11 @@ class LoginSuccessState extends LoginActionState {
   LoginSuccessState({required this.message});
 }
 
-
 class UpdatePasswordState extends LoginActionState {}
 
 class LoginVerifyOtpActionState extends LoginActionState {}
-class ForgotPwdActionState extends LoginActionState {
-}
 
+class ForgotPwdActionState extends LoginActionState {}
 
 class LoginFailureState extends LoginState {
   final String message;

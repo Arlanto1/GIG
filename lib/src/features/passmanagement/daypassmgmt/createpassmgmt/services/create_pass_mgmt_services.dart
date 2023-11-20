@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:db_atom/main_DEV.dart';
-import 'package:db_atom/src/appservices/app_service_handler.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/createfound/models/create_user_model.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
@@ -14,7 +10,6 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
 import '../../../../../configurations/base_api_service.dart';
-import '../../../../../models/organisation.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -24,7 +19,6 @@ class Apis {
   static final String _getUsersByRole = '$baseUrl/getUsersByRole?roleName=';
   static final String _getPassNo = '$baseUrl/getActivePassInfo?passType=';
   static final String _createUser = '$baseUrl/createUser?';
-
 }
 
 class CreatePassMgmtService {
@@ -32,11 +26,14 @@ class CreatePassMgmtService {
 
   // Create user api call
   Future<CreateUserModel> createUser(
-      String firstName,  String lastName,
-      String email,  String role,
-      BuildContext? context,
-      ) async {
-    final String url = "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
+    String firstName,
+    String lastName,
+    String email,
+    String role,
+    BuildContext? context,
+  ) async {
+    final String url =
+        "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -56,19 +53,6 @@ class CreatePassMgmtService {
       requestedData: requestBody.toJson(),
     );
     return CreatePassMgmtResponse.fromJson(response);
-  }
-
-  Future<CreatePassMgmtResponse> createLawFoundArticleHandle(
-      Map<String, dynamic> requestBody,
-      bool isSubmit,
-      String username,
-      BuildContext context) async {
-    var value = await AppServicesHandler().globalPostServiceCall(
-        '/createPass?isSubmit=$isSubmit&userEmail=username',
-        context,
-        json.encode(requestBody));
-
-    return CreatePassMgmtResponse.fromJson(value);
   }
 
   /// get Entities api call
@@ -101,25 +85,6 @@ class CreatePassMgmtService {
       url: url,
     );
     return GetLocations.fromJson(response);
-  }
-
-  //Get Employee Departments
-  Future<EmployeeDepartments> getEmployeeDepartments(
-      String departmentStr, BuildContext context) async {
-    var value = await AppServicesHandler().globalpopupGetServiceCall(
-        '/getOrganisation?name=$departmentStr', context);
-
-    return EmployeeDepartments.fromJson(value);
-  }
-
-
-  // Create organisation api call
-  Future<Organisation> createOrganisation(
-      String name, String orgName, BuildContext context) async {
-    var value = await AppServicesHandler().globalpopupGetServiceCall(
-        '/createOrganisation?name=$name&orgName=$orgName', context);
-
-    return Organisation.fromJson(value);
   }
 
   Future<DayPassNumberLists> getPassNo(

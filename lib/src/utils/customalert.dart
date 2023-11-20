@@ -13,7 +13,8 @@ class CustomAlertDialog extends StatelessWidget {
   final Function? onNegativePressed;
   final double? circularBorderRadius;
 
-  const CustomAlertDialog({super.key,
+  const CustomAlertDialog({
+    super.key,
     this.title,
     this.message,
     this.circularBorderRadius = 20.0,
@@ -31,41 +32,52 @@ class CustomAlertDialog extends StatelessWidget {
       title: title != null
           ? Text(
               title ?? "",
-              style: Styles.textFontSet(18, AppColors.navigationSkybluecolor, FontWeight.normal,
-                  Constants.customFontMediumFamily),
+              style: Styles.textFontSet(18, AppColors.navigationSkybluecolor,
+                  FontWeight.normal, Constants.customFontMediumFamily),
             )
           : null,
       content: message != null
           ? Text(message ?? "",
-              style: Styles.textFontSet(
-                  16, Colors.black, FontWeight.normal, Constants.customFontMediumFamily))
+              style: Styles.textFontSet(16, Colors.black, FontWeight.normal,
+                  Constants.customFontMediumFamily))
           : null,
       backgroundColor: bgColor,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(circularBorderRadius ?? 0)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(circularBorderRadius ?? 0)),
       actions: <Widget>[
-       negativeBtnText != null ? TextButton(
-          child: Text(negativeBtnText ?? '',
-              style: Styles.textFontSet(16, AppColors.navigationSkybluecolor, FontWeight.normal,
-                  Constants.customFontMediumFamily)),
-          //  textColor: Theme.of(context).colorScheme.secondary,
-          onPressed: () {
-            Navigator.of(context).pop();
-            if (onNegativePressed != null) {
-              onNegativePressed!();
-            }
-          },
-        ) : Container(),
-       positiveBtnText != null ? TextButton(
-          child: Text(positiveBtnText ?? '',
-              style: Styles.textFontSet(16, AppColors.navigationSkybluecolor, FontWeight.normal,
-                  Constants.customFontMediumFamily)),
-          //  textColor: Theme.of(context).colorScheme.secondary,
-          onPressed: () {
-            if (onPostivePressed != null) {
-              onPostivePressed!();
-            }
-          },
-        ) : Container(),
+        negativeBtnText != null
+            ? TextButton(
+                child: Text(negativeBtnText ?? '',
+                    style: Styles.textFontSet(
+                        16,
+                        AppColors.navigationSkybluecolor,
+                        FontWeight.normal,
+                        Constants.customFontMediumFamily)),
+                //  textColor: Theme.of(context).colorScheme.secondary,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  if (onNegativePressed != null) {
+                    onNegativePressed!();
+                  }
+                },
+              )
+            : Container(),
+        positiveBtnText != null
+            ? TextButton(
+                child: Text(positiveBtnText ?? '',
+                    style: Styles.textFontSet(
+                        16,
+                        AppColors.navigationSkybluecolor,
+                        FontWeight.normal,
+                        Constants.customFontMediumFamily)),
+                //  textColor: Theme.of(context).colorScheme.secondary,
+                onPressed: () {
+                  if (onPostivePressed != null) {
+                    onPostivePressed!();
+                  }
+                },
+              )
+            : Container(),
       ],
     );
   }

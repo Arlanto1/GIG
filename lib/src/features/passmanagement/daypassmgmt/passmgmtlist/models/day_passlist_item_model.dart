@@ -20,17 +20,20 @@ class DayPassListResponse {
   });
 
   DayPassListResponse.fromJson(Map<String, dynamic> json)
-      : items = (json['list'] as List?)?.map((dynamic e) => DayPassListElement.fromJson(e as Map<String,dynamic>)).toList(),
+      : items = (json['list'] as List?)
+            ?.map((dynamic e) =>
+                DayPassListElement.fromJson(e as Map<String, dynamic>))
+            .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'list' : items?.map((e) => e.toJson()).toList(),
-    'totalCount' : totalCount,
-    'currentPageNo' : currentPageNo,
-    'totalPageCount' : totalPageCount
-  };
+        'list': items?.map((e) => e.toJson()).toList(),
+        'totalCount': totalCount,
+        'currentPageNo': currentPageNo,
+        'totalPageCount': totalPageCount
+      };
 }
 
 class DayPassListItemResponse {
@@ -124,24 +127,44 @@ class DayPassListItemResponse {
       : id = json['id'] as int?,
         slNo = json['slNo'] as String?,
         inputDate = json['inputDate'] as String?,
-        location = (json['location'] as Map<String,dynamic>?) != null ? Location.fromJson(json['location'] as Map<String,dynamic>) : null,
-        locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? LocationRegion.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
-        entities = (json['entities'] as List?)?.map((dynamic e) => Entities.fromJson(e as Map<String,dynamic>)).toList(),
+        location = (json['location'] as Map<String, dynamic>?) != null
+            ? Location.fromJson(json['location'] as Map<String, dynamic>)
+            : null,
+        locationRegion =
+            (json['locationRegion'] as Map<String, dynamic>?) != null
+                ? LocationRegion.fromJson(
+                    json['locationRegion'] as Map<String, dynamic>)
+                : null,
+        entities = (json['entities'] as List?)
+            ?.map((dynamic e) => Entities.fromJson(e as Map<String, dynamic>))
+            .toList(),
         status = json['status'] as int?,
         modifiedDate = json['modifiedDate'] as String?,
         modifiedBy = json['modifiedBy'] as String?,
-        history = (json['history'] as List?)?.map((dynamic e) => History.fromJson(e as Map<String,dynamic>)).toList(),
-        entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
-        handoverSecurity = (json['handoverSecurity'] as Map<String,dynamic>?) != null ? HandoverSecurity.fromJson(json['handoverSecurity'] as Map<String,dynamic>) : null,
+        history = (json['history'] as List?)
+            ?.map((dynamic e) => History.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        entrySecurity = (json['entrySecurity'] as Map<String, dynamic>?) != null
+            ? User.fromJson(json['entrySecurity'] as Map<String, dynamic>)
+            : null,
+        handoverSecurity =
+            (json['handoverSecurity'] as Map<String, dynamic>?) != null
+                ? HandoverSecurity.fromJson(
+                    json['handoverSecurity'] as Map<String, dynamic>)
+                : null,
         passType = json['passType'] as int?,
-        companyType = (json['companyType'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['companyType'] as Map<String,dynamic>) : null,
+        companyType = (json['companyType'] as Map<String, dynamic>?) != null
+            ? Organisation.fromJson(json['companyType'] as Map<String, dynamic>)
+            : null,
         companyName = json['companyName'] as String?,
         employeeName = json['employeeName'] as String?,
         employeeId = json['employeeId'] as String?,
         email = json['email'] as String?,
         hostEmployeeId = json['hostEmployeeId'] as String?,
         exceptionalApproval = json['exceptionalApproval'] as bool?,
-        passInfo = (json['passInfo'] as Map<String,dynamic>?) != null ? PassInfo.fromJson(json['passInfo'] as Map<String,dynamic>) : null,
+        passInfo = (json['passInfo'] as Map<String, dynamic>?) != null
+            ? PassInfo.fromJson(json['passInfo'] as Map<String, dynamic>)
+            : null,
         startTime = json['startTime'] as String?,
         endTime = json['endTime'] as String?,
         returnedTime = json['returnedTime'] as String?,
@@ -164,48 +187,48 @@ class DayPassListItemResponse {
         mifareNo = json['mifareNo'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'id' : id,
-    'slNo' : slNo,
-    'inputDate' : inputDate,
-    'location' : location?.toJson(),
-    'locationRegion' : locationRegion?.toJson(),
-    'entities' : entities?.map((e) => e.toJson()).toList(),
-    'status' : status,
-    'modifiedDate' : modifiedDate,
-    'modifiedBy' : modifiedBy,
-    'history' : history?.map((e) => e.toJson()).toList(),
-    'entrySecurity' : entrySecurity?.toJson(),
-    'handoverSecurity' : handoverSecurity?.toJson(),
-    'passType' : passType,
-    'companyType' : companyType?.toJson(),
-    'companyName' : companyName,
-    'employeeName' : employeeName,
-    'employeeId' : employeeId,
-    'email' : email,
-    'hostEmployeeId' : hostEmployeeId,
-    'exceptionalApproval' : exceptionalApproval,
-    'passInfo' : passInfo?.toJson(),
-    'startTime' : startTime,
-    'endTime' : endTime,
-    'returnedTime' : returnedTime,
-    'evidenceDocuments' : evidenceDocuments,
-    'contactNo' : contactNo,
-    'escortedByHost' : escortedByHost,
-    'escortedBy' : escortedBy,
-    'escortedEmployeeId' : escortedEmployeeId,
-    'visitorComingFrom' : visitorComingFrom,
-    'idValidated' : idValidated,
-    'idValidationType' : idValidationType,
-    'visitingPurpose' : visitingPurpose,
-    'category' : category,
-    'passIssuedOn' : passIssuedOn,
-    'hostName' : hostName,
-    'entrySecurityName' : entrySecurityName,
-    'escortedByName' : escortedByName,
-    'passNo' : passNo,
-    'handOverSecurityName' : handOverSecurityName,
-    'mifareNo' : mifareNo
-  };
+        'id': id,
+        'slNo': slNo,
+        'inputDate': inputDate,
+        'location': location?.toJson(),
+        'locationRegion': locationRegion?.toJson(),
+        'entities': entities?.map((e) => e.toJson()).toList(),
+        'status': status,
+        'modifiedDate': modifiedDate,
+        'modifiedBy': modifiedBy,
+        'history': history?.map((e) => e.toJson()).toList(),
+        'entrySecurity': entrySecurity?.toJson(),
+        'handoverSecurity': handoverSecurity?.toJson(),
+        'passType': passType,
+        'companyType': companyType?.toJson(),
+        'companyName': companyName,
+        'employeeName': employeeName,
+        'employeeId': employeeId,
+        'email': email,
+        'hostEmployeeId': hostEmployeeId,
+        'exceptionalApproval': exceptionalApproval,
+        'passInfo': passInfo?.toJson(),
+        'startTime': startTime,
+        'endTime': endTime,
+        'returnedTime': returnedTime,
+        'evidenceDocuments': evidenceDocuments,
+        'contactNo': contactNo,
+        'escortedByHost': escortedByHost,
+        'escortedBy': escortedBy,
+        'escortedEmployeeId': escortedEmployeeId,
+        'visitorComingFrom': visitorComingFrom,
+        'idValidated': idValidated,
+        'idValidationType': idValidationType,
+        'visitingPurpose': visitingPurpose,
+        'category': category,
+        'passIssuedOn': passIssuedOn,
+        'hostName': hostName,
+        'entrySecurityName': entrySecurityName,
+        'escortedByName': escortedByName,
+        'passNo': passNo,
+        'handOverSecurityName': handOverSecurityName,
+        'mifareNo': mifareNo
+      };
 }
 
 class Location {
@@ -221,10 +244,7 @@ class Location {
       : id = json['id'] as int?,
         name = json['name'] as String?;
 
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'name' : name
-  };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
 }
 
 class LocationRegion {
@@ -240,10 +260,7 @@ class LocationRegion {
       : id = json['id'] as int?,
         name = json['name'] as String?;
 
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'name' : name
-  };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
 }
 
 class Entities {
@@ -259,12 +276,8 @@ class Entities {
       : id = json['id'] as int?,
         name = json['name'] as String?;
 
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'name' : name
-  };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
 }
-
 
 class HandoverSecurity {
   final int? userId;
@@ -302,26 +315,30 @@ class HandoverSecurity {
         firstName = json['firstName'] as String?,
         lastName = json['lastName'] as String?,
         phone = json['phone'] as String?,
-        roles = (json['roles'] as List?)?.map((dynamic e) => Role.fromJson(e as Map<String,dynamic>)).toList(),
-        roleExtensions = (json['roleExtensions'] as List?)?.map((dynamic e) => RoleExtension.fromJson(e as Map<String,dynamic>)).toList(),
+        roles = (json['roles'] as List?)
+            ?.map((dynamic e) => Role.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        roleExtensions = (json['roleExtensions'] as List?)
+            ?.map((dynamic e) =>
+                RoleExtension.fromJson(e as Map<String, dynamic>))
+            .toList(),
         notApprovedRoles = json['notApprovedRoles'] as List?,
         notApprovedRoleExtensions = json['notApprovedRoleExtensions'] as List?,
         name = json['name'] as String?,
         userStatus = json['userStatus'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'userId' : userId,
-    'userName' : userName,
-    'email' : email,
-    'firstName' : firstName,
-    'lastName' : lastName,
-    'phone' : phone,
-    'roles' : roles?.map((e) => e.toJson()).toList(),
-    'roleExtensions' : roleExtensions?.map((e) => e.toJson()).toList(),
-    'notApprovedRoles' : notApprovedRoles,
-    'notApprovedRoleExtensions' : notApprovedRoleExtensions,
-    'name' : name,
-    'userStatus' : userStatus
-  };
+        'userId': userId,
+        'userName': userName,
+        'email': email,
+        'firstName': firstName,
+        'lastName': lastName,
+        'phone': phone,
+        'roles': roles?.map((e) => e.toJson()).toList(),
+        'roleExtensions': roleExtensions?.map((e) => e.toJson()).toList(),
+        'notApprovedRoles': notApprovedRoles,
+        'notApprovedRoleExtensions': notApprovedRoleExtensions,
+        'name': name,
+        'userStatus': userStatus
+      };
 }
-

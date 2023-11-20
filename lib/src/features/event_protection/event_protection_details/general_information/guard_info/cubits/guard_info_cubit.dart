@@ -17,7 +17,6 @@ import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../../../utils/shared_preferences.dart';
 import '../models/guard_info_model.dart';
 
 part 'guard_info_state.dart';

@@ -38,14 +38,13 @@ class EventProtectionServices {
     return email;
   }
 
-
   Future<EventProtectionResponse> getEventProtections({
     required String startPosition,
     required String maximumRecords,
     required String userId,
   }) async {
     String url =
-        '${Apis._getEventProtections}startPos=$startPosition&maxResults=$maximumRecords&userId=${ await SharedPrefs.getUserId()}';
+        '${Apis._getEventProtections}startPos=$startPosition&maxResults=$maximumRecords&userId=${await SharedPrefs.getUserId()}';
     final response = await BaseApiService().getRequest(
       url: url,
     );

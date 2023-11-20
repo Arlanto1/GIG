@@ -137,9 +137,9 @@ class ContactDetailsState extends Equatable {
       language: language ?? this.language,
       isReceiverSignEditable:
           isReceiverSignEditable ?? this.isReceiverSignEditable,
-
       isEntrySecuritySignatureSignEditable:
-      isEntrySecuritySignatureSignEditable ?? this.isEntrySecuritySignatureSignEditable,
+          isEntrySecuritySignatureSignEditable ??
+              this.isEntrySecuritySignatureSignEditable,
     );
   }
 }

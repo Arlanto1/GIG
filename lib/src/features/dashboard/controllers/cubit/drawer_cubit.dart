@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 part 'drawer_state.dart';
 
 class DrawerCubit extends Cubit<DrawerState> {
-  DrawerCubit() : super( const DrawerInitial());
+  DrawerCubit() : super(const DrawerInitial());
 
   Future<void> getindexChange(int index) async {
     emit(SetDrawerItemChange(index));
@@ -15,18 +15,14 @@ class DrawerCubit extends Cubit<DrawerState> {
     emit(OperationsSetDrawerItemChange(index));
     emit(OperationsGetDrawerItemChange(index));
   }
-void getSecurityindexChange(int index) {
+
+  void getSecurityindexChange(int index) {
     emit(SecurityFunctionsSetDrawerItemChange(index));
     emit(SecurityFunctionsGetDrawerItemChange(index));
   }
-
 
   void getPassmgmtindexChange(int index) {
     emit(PassmgmtSetDrawerItemChange(index));
     emit(PassmgmtGetDrawerItemChange(index));
   }
-  
-
- 
-  
 }

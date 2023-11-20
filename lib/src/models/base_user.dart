@@ -10,14 +10,14 @@ class BaseUser {
   });
 
   factory BaseUser.fromJson(Map<String, dynamic> json) => BaseUser(
-    email: json["email"],
-    id: json["id"],
-    name: json["name"],
-  );
+        email: json["email"],
+        id: json["id"],
+        name: json["name"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "email": email,
-    "id": id,
-    "name": name,
-  };
+        "email": email,
+        "id": id,
+        "name": name,
+      };
 }
