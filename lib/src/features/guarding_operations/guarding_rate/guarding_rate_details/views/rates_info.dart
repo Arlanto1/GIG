@@ -147,12 +147,12 @@ class _RatesInfoState extends State<RatesInfo> {
                         CommonWidgets.textDisplay(
                             Constants.dateofcreation,isMandatory: true, Styles.textStyleBlack14),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
-                        datecreateWidgetdisplay(state.rate.inputDate ?? ''),
+                        datecreateWidgetdisplay(state.model.inputDate ?? ''),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Sl No.
                         CommonWidgets.horizentaltextHandling(
-                            Constants.slno,isMandatory: true, state.rate.slNo ?? ''),
+                            Constants.slno,isMandatory: true, state.model.slNo ?? ''),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Entity
@@ -164,7 +164,7 @@ class _RatesInfoState extends State<RatesInfo> {
 
                         BaseEntitiesSelection().entityDropDownSelection(
                           context: context,
-                          selectedValues: state.rate.entities ?? [],
+                          selectedValues: state.model.entities ?? [],
                           all: state.listOfEntities ?? [],
                           onTap: (List<Organisation> selectedEntities) {
                             log('--selectedEntities----${selectedEntities.length}');
@@ -182,7 +182,7 @@ class _RatesInfoState extends State<RatesInfo> {
                         ),
                         widget.rate == null
                             ? FlutterInputField(
-                                initialValue: state.rate.vendor?.name,
+                                initialValue: state.model.vendor?.name,
                                 textFormKey: Keys.vendorDepartmentKey,
                                 hintText: '',
                                 isEnable: true,
@@ -191,7 +191,7 @@ class _RatesInfoState extends State<RatesInfo> {
                                 validateTextField: (String? user) {},
                               )
                             : TextfieldAddButton(
-                                title: state.rate.vendor?.name,
+                                title: state.model.vendor?.name,
                                 height: 60,
                                 isDisableColor: false,
                                 onTap: () {
@@ -221,7 +221,7 @@ class _RatesInfoState extends State<RatesInfo> {
                         cancelButtonDisplay(),
                         submitButtonDisplay(
                           onTap: () {
-                            log('-onTapSubmit--${state.rate.vendor?.name}----');
+                            log('-onTapSubmit--${state.model.vendor?.name}----');
                             FocusScope.of(context).unfocus();
                             BlocProvider.of<PayRateCubit>(context).onSave(
                               isSubmit: false,
@@ -234,8 +234,8 @@ class _RatesInfoState extends State<RatesInfo> {
                               context,
                               payRateRoute,
                               arguments: {
-                                "payRates": state.rate.securityGuardRates,
-                                "gmRate": state.rate,
+                                "payRates": state.model.securityGuardRates,
+                                "gmRate": state.model,
                                 "title": Constants.createSecurityGuard,
                               },
                             );
@@ -277,7 +277,7 @@ class _RatesInfoState extends State<RatesInfo> {
   Widget locationWidgetdislay(PayRateState state) {
     return GestureDetector(
       onTap: () {
-        if (widget.rate == null || (state.rate.location?.name ?? '').isEmpty) {
+        if (widget.rate == null || (state.model.location?.name ?? '').isEmpty) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
@@ -288,7 +288,7 @@ class _RatesInfoState extends State<RatesInfo> {
                   Organisation location = Organisation();
                   location.id = list?.id;
                   location.name = list?.name;
-                  state.rate.location = location;
+                  state.model.location = location;
 
                   BlocProvider.of<PayRateCubit>(context)
                       .updateDropdownValues(location: location);
@@ -313,7 +313,7 @@ class _RatesInfoState extends State<RatesInfo> {
           );
         }
       },
-      child: SelectedTileValueWidget(name: state.rate.location?.name ?? ''),
+      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
   }
 

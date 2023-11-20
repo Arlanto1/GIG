@@ -111,15 +111,17 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
-      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-      log('defaultLocation $defaultLocation');
-      if (defaultLocation != null) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.incidentManagementModule,
-        );
-        model.location = defaultLocation;
-        model.slNo = slNo.serialNo;
+      if (state.model.location == null) {
+        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+        log('defaultLocation $defaultLocation');
+        if (defaultLocation != null) {
+          SerialNumberModel slNo = await commonServices.getSlNo(
+            locationId: defaultLocation.id.toString(),
+            moduleCode: Constants.incidentManagementModule,
+          );
+          model.location = defaultLocation;
+          model.slNo = slNo.serialNo;
+        }
       }
       emit(
         state.copyWith(

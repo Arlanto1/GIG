@@ -135,6 +135,11 @@ class GuardingMasterDataDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Gender');
     }
+
+    if (model.qualifications == null || model.qualifications!.isEmpty) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Qualifications');
+    }
     if (model.maritalStatus == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Marital Status');

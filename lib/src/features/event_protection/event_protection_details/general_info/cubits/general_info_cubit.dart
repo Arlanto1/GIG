@@ -84,15 +84,16 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       GetLocations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
-
-      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-      if (defaultLocation != null) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.eventProtectionModule,
-        );
-        model.location = defaultLocation;
-        model.slNo = slNo.serialNo;
+      if (state.model.location == null) {
+        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+        if (defaultLocation != null) {
+          SerialNumberModel slNo = await commonServices.getSlNo(
+            locationId: defaultLocation.id.toString(),
+            moduleCode: Constants.eventProtectionModule,
+          );
+          model.location = defaultLocation;
+          model.slNo = slNo.serialNo;
+        }
       }
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);

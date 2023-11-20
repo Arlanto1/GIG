@@ -133,14 +133,25 @@ class BaseApiService {
           log('---response---449----');
           return response;
         }
-        if (response.statusCode == 400) {
-          final responseBody = json.decode(response.body);
-          log("User is unauthorized. Logging out...");
-          log("------responseBody.toString()-------------${responseBody.runtimeType.toString()}");
-          // TODO: Handle logout logic here
-          // logout(context); // You can define this method to handle logout
+        try {
+          if (response.statusCode == 400) {
+            final responseBody = json.decode(response.body);
+            log("User is unauthorized. Logging out...");
+            log("------responseBody.toString()-------------${responseBody.runtimeType.toString()}");
+            // TODO: Handle logout logic here
+            // logout(context); // You can define this method to handle logout
 
-          throw GenericErrorResponse.fromJson(responseBody);
+            throw GenericErrorResponse.fromJson(responseBody);
+          }
+        } catch (e) {
+          // Handle the exception
+          if (e is GenericErrorResponse) {
+            // Handle the case when the response is a GenericErrorResponse
+            log("Error ID: ${e.id}, Message: ${e.message}");
+          } else {
+            // Handle other types of exceptions or log them
+            log("Unexpected error: $e");
+          }
         }
         if (response.statusCode == 401) {
           log("User is unauthorized. Logging out...");
