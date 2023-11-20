@@ -85,14 +85,47 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Quantity');
     }
+
     log('--model.inwardMovement--${model.inwardMovement}--');
-    log('--model.materialComingFrom == null--${model.materialComingFrom == null}--');
+
+    /// For Inward Movement Only
     if (model.inwardMovement ?? false) {
-      if (model.materialComingFrom == null) {
-        log('--model.materialComingFrom == null--${model.materialComingFrom == null}--');
+      if (model.materialComingFrom.isEmptyOrNull) {
         return const ErrorResponse(
             status: false, message: 'Please enter Sender\'s Name');
       }
+
+      if (model.otherReceiverEmployeeId.isEmptyOrNull) {
+        log('--model.materialComingFrom == null--${model.materialComingFrom == null}--');
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received by Employee Id');
+      }
+
+      if (model.materialFromAddress.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Material coming from (Brief address)');
+      }
+
+      if (model.receiverEmployeeId.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received for Employee Id');
+      }
+
+      if (model.receiverDepartmenttName.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Receiver Department Name');
+      }
+
+      if (model.receiverDepartment == null) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Receiver Department');
+      }
+
+      if (!model.originalReceiver && model.receiverEmail.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received For');
+      }
+
     }
     if (model.unit == null) {
       return const ErrorResponse(status: false, message: 'Please enter Unit');
