@@ -8,6 +8,7 @@ class MaterialMovementDetailsState extends Equatable {
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
+  final List<BaseUser>? requestorEmailUsers;
   final List<BaseUser>? approver1Users;
   final List<BaseUser>? approver2Users;
   final List<Organisation> departments;
@@ -135,6 +136,7 @@ class MaterialMovementDetailsState extends Equatable {
     this.message,
     this.isInward = false,
     this.language,
+    this.requestorEmailUsers,
     this.approver1Users,
     this.approver2Users,
   });
@@ -146,6 +148,7 @@ class MaterialMovementDetailsState extends Equatable {
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
+    List<BaseUser>? requestorEmailUsers,
     List<BaseUser>? approver1Users,
     List<BaseUser>? approver2Users,
     List<Organisation>? departments,
@@ -164,6 +167,7 @@ class MaterialMovementDetailsState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
+      requestorEmailUsers: requestorEmailUsers ?? this.requestorEmailUsers,
       approver1Users: approver1Users ?? this.approver1Users,
       approver2Users: approver2Users ?? this.approver2Users,
       departments: departments ?? this.departments,

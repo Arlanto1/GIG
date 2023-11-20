@@ -604,7 +604,7 @@ class _MaterialMovementDetailsViewState
                                                 BlocProvider.of<
                                                             MaterialMovementDetailsCubit>(
                                                         context)
-                                                    .updateDropdownValues(
+                                                    .updateApproverEmailsValue(
                                                         requesterEmailUser:
                                                             user);
                                               },
