@@ -153,6 +153,7 @@ class BaseApiService {
           if (e is GenericErrorResponse) {
             // Handle the case when the response is a GenericErrorResponse
             log("Error ID: ${e.id}, Message: ${e.message}");
+            throw GenericErrorResponse.fromJson(responseBody);
           } else {
             // Handle other types of exceptions or log them
             log("Unexpected error: $e");
