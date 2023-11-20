@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/login/models/login_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -104,6 +105,9 @@ class SharedPrefs {
   }
 
   static Future<void> setToken(String token) async {
+    if(token.isEmptyOrNull){
+      log('---SETTING EMPTY TOKEN--------');
+    }
     instance.setString(Constants.isAccessToken, token);
   }
 
