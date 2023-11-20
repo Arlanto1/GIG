@@ -95,7 +95,7 @@ class BaseImageUpload {
     List<ImageContent>? attachmentListviews,
     required bool showDownloadIcon,
   }) {
-    log('---------');
+    log('--attachmentListviews--${attachmentListviews?.length}-----');
     return Container(
       decoration: BoxDecoration(
         border: Border.all(

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
+import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/create_fields.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
@@ -1103,6 +1104,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.001),
                                 datepickerWidgetLoading(
                                     passvaliduntilTextController),
+
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: passvaliduntilTextController,
+                                  onlyDate: widget.model?.category == 1
+                                      ? true
+                                      : false,
+                                  onChange: (String value) {
+                                    log('--fr-value-${passvaliduntilTextController.text}------');
+                                    passvaliduntilTextController.text =
+                                        Utils().formatTime(value);
+                                  },
+                                  context: context,
+                                ),
+
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -1736,9 +1751,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
             final currentDate = DateTime.now();
             if (value.equalsIgnoreCase('Permanent')) {
-              String nextformattedDate = DateFormat(Constants.dateFormat)
+              String nextFormattedDate = DateFormat(Constants.fulldateFormat)
                   .format(currentDate.add(const Duration(days: 1241)));
-              passvaliduntilTextController.text = nextformattedDate;
+              passvaliduntilTextController.text = nextFormattedDate;
             } else {
               passvaliduntilTextController.text = Constants.passValidUntil;
             }
@@ -2567,11 +2582,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     log('-passCategoryTextController111-----${passCategoryTextController.text}----');
 
     int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-    int passvaliduntildate = (DateTime.now().millisecondsSinceEpoch ~/ 1000) +
+    int passValidUntilDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000) +
         12 * 3600; // Adding 12 hours
     int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
 
     log('-inputdate---sss--$inputdate----');
+    log('-DateTime---inputdate--${DateTime(inputdate)}----');
+    log('-DateTime---passValidUntilDate--${DateTime(passValidUntilDate)}----');
+
+    String dateString = passvaliduntilTextController.text;
+    log('--dateString---$dateString----');
+
+    DateTime dateTime = DateTime.parse(
+        "${dateString.split("/")[2]}-${dateString.split("/")[1]}-${dateString.split("/")[0]}");
+    passValidUntilDate = dateTime.millisecondsSinceEpoch;
 
     int statusValue = 0;
 
@@ -2773,7 +2797,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             : dbsponsorTextController.text,
         mifareNo: mtpApplicationNoTextController.text,
         passIssuedOn: passvalidfromdate.toString(),
-        endTime: passvaliduntildate.toString(),
+        endTime: passValidUntilDate.toString(),
         startTime: passvalidfromdate.toString(),
         hostName: dbsponsorTextController.text.isEmpty
             ? state.hostResponse?.name ?? ''
@@ -2826,7 +2850,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? hostemployeeidTextController.text
               : dbsponsorTextController.text,
           passIssuedOn: passvalidfromdate.toString(),
-          endTime: passvaliduntildate.toString(),
+          endTime: passValidUntilDate.toString(),
           startTime: passvalidfromdate.toString(),
           hostName: dbsponsorTextController.text.isEmpty
               ? state.hostResponse?.name ?? ''
