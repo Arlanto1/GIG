@@ -40,7 +40,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   }) : super(
           GeneralInfoState.initial(
             model: EventProtectionGi(),
-            locations: GetLocations(),
+            locations: Locations(),
             users: const [],
             emailUsers: const [],
             errorMessage: '',
@@ -81,7 +81,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         model = await services.getGI(id);
       }
 
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
       if (state.model.location == null) {

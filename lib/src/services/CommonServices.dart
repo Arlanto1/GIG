@@ -64,7 +64,7 @@ class CommonServices {
     return MmUiLabels.fromJson(response);
   }
 
-  Future<GetLocations> getLocations({
+  Future<Locations> getLocations({
     required String name,
     BuildContext? context,
   }) async {
@@ -72,7 +72,8 @@ class CommonServices {
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return GetLocations.fromJson(response);
+    log('--response----${response.toString()}----');
+    return Locations.fromJson(response);
   }
 
   Future<CompanyTypes> getCompanyTypes({

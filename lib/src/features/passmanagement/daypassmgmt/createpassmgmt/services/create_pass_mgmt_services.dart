@@ -77,14 +77,14 @@ class CreatePassMgmtService {
     return GetDepositor.fromJson(response);
   }
 
-  Future<GetLocations> getLocations({
+  Future<Locations> getLocations({
     required String name,
   }) async {
     String url = '${Apis.getOrganisation}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return GetLocations.fromJson(response);
+    return Locations.fromJson(response);
   }
 
   Future<DayPassNumberLists> getPassNo(

@@ -45,7 +45,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
   }) : super(
           IncidentGeneralInfoState.initial(
             model: Incident(),
-            locations: GetLocations(),
+            locations: Locations(),
             users: const [],
             emailUsers: const [],
             errorMessage: '',
@@ -90,7 +90,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       // Get Date of Creation
       model.inputDate = Utils().getCurrentDate();
 
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =

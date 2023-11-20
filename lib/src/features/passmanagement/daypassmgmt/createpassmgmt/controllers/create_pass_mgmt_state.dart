@@ -33,7 +33,7 @@ class CreatePassMgmtState extends Equatable {
   late final int? eventId;
   final CreatePassMgmtStateType stateType;
   String? errorMessage;
-  GetLocations? getLocationsResponse;
+  Locations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
   List<Organisation>? selectedEntities;
   Organisation? location;
@@ -118,7 +118,7 @@ class CreatePassMgmtState extends Equatable {
     final int? eventId,
     CreatePassMgmtStateType? stateType,
     String? errorMessage,
-    GetLocations? getLocationsResponse,
+    Locations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,
     List<Organisation>? selectedEntities,
     Organisation? location,

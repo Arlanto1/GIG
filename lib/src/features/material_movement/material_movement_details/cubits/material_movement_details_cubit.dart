@@ -48,7 +48,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   }) : super(
           MaterialMovementDetailsState.initial(
             model: model ?? MaterialMovementModel(),
-            locations: GetLocations(),
+            locations: Locations(),
             loggedInUserDetails: User(),
             users: const [],
             emailUsers: const [],
@@ -74,9 +74,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      GetLocations getLocationsData =
+      Locations locations =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
+      // log('--locations.central?.length--${locations.central?.length}--');
+      // for(Organisation centralLocation in locations.central??[]){
+      //   log('--centralLocation.name--${centralLocation.name}--');
+      //   log('--centralLocation.id--${centralLocation.id}--');
+      //
+      // }
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
       Analyst users =
@@ -136,7 +142,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       log('-emailUsers.atomStaticUser----init--${emailUsers.atomStaticUser?.length}---');
       emit(
         state.copyWith(
-          locations: getLocationsData,
+          locations: locations,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,

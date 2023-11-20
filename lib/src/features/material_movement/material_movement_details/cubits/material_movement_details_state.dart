@@ -4,7 +4,7 @@ class MaterialMovementDetailsState extends Equatable {
   final FormStatus status;
 
   final MaterialMovementModel model;
-  final GetLocations? locations;
+  final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
@@ -23,7 +23,7 @@ class MaterialMovementDetailsState extends Equatable {
 
   factory MaterialMovementDetailsState.initial({
     required MaterialMovementModel model,
-    required GetLocations locations,
+    required Locations locations,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
@@ -177,7 +177,7 @@ class MaterialMovementDetailsState extends Equatable {
   MaterialMovementDetailsState copyWith({
     FormStatus? status,
     MaterialMovementModel? model,
-    GetLocations? locations,
+    Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,

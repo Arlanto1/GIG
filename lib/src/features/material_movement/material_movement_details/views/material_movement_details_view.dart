@@ -2100,8 +2100,10 @@ class _MaterialMovementDetailsViewState
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
+              log('--locations.central?.length--${state.locations?.central?.length}--');
+
               return CustomExpansionListTexts(
-                getLocationsresponse: state.locations,
+                locationList: state.locations,
                 onTap: (Organisation? list) async {
                   Organisation location = Organisation();
                   location.id = list?.id;

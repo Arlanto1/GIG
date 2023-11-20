@@ -235,8 +235,8 @@ class Claimant {
   String? phone;
   String? mobile;
   String? fax;
-  Location? location;
-  Language? language;
+  LocationEnum? location;
+  LanguageEnum? language;
   Timezone? timezone;
   List<Role>? roles;
   List<RoleExtension>? roleExtensions;
@@ -297,8 +297,8 @@ class Claimant {
         phone: json["phone"],
         mobile: json["mobile"],
         fax: json["fax"],
-        location: locationValues.map[json["location"]] ?? Location.EMPTY,
-        language: languageValues.map[json["language"]] ?? Language.EN,
+        location: locationValues.map[json["location"]] ?? LocationEnum.EMPTY,
+        language: languageValues.map[json["language"]] ?? LanguageEnum.EN,
         timezone: timezoneValues.map[json["timezone"]] ?? Timezone.EUROPE_PARIS,
         roles: json["roles"] == null
             ? []
@@ -380,18 +380,19 @@ class HibernateLazyInitializer {
   Map<String, dynamic> toJson() => {};
 }
 
-enum Language { EN }
+enum LanguageEnum { EN }
 
-final languageValues = EnumValues({"en": Language.EN});
+final languageValues = EnumValues({"en": LanguageEnum.EN});
 
-enum Location { EMPTY, IN }
+enum LocationEnum { EMPTY, IN }
 
-final locationValues = EnumValues({"": Location.EMPTY, "in": Location.IN});
+final locationValues =
+    EnumValues({"": LocationEnum.EMPTY, "in": LocationEnum.IN});
 
-enum Area { SOURCE_SYSTEM, CATEGORY }
+enum AreaEnum { SOURCE_SYSTEM, CATEGORY }
 
-final areaValues =
-    EnumValues({"Category": Area.CATEGORY, "SourceSystem": Area.SOURCE_SYSTEM});
+final areaValues = EnumValues(
+    {"Category": AreaEnum.CATEGORY, "SourceSystem": AreaEnum.SOURCE_SYSTEM});
 
 enum DisplayName {
   T1_USER_SOURCE_SYSTEM_DB_ATOM,
