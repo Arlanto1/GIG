@@ -96,6 +96,10 @@ class BaseApiService {
     LoginResponseModel loginData = await loginService.refreshToken(request);
 
     // Store the new token
+    log('Store the new token');
+    if(loginData.token == null || loginData.token!.isEmpty){
+      log('---SETTING EMPTY TOKEN--------');
+    }
     await SharedPrefs.setToken(loginData.token ?? '');
   }
 
