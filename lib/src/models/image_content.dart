@@ -17,31 +17,31 @@ class ImageContent {
     this.foundId,
     this.title,
     this.fileSize,
-    this.type,
+    this.type = 1,
     this.imageContent,
   });
 
   factory ImageContent.fromJson(Map<String, dynamic> json) => ImageContent(
-    id: json["id"],
-    ownerName: json["ownerName"],
-    contentType: json["contentType"],
-    uploadDate: json["uploadDate"],
-    foundId: json["foundId"],
-    title: json["title"],
-    type: json["type"],
-    fileSize: json["fileSize"],
-    imageContent: json["imageContent"],
-  );
+        id: json["id"],
+        ownerName: json["ownerName"],
+        contentType: json["contentType"],
+        uploadDate: json["uploadDate"],
+        foundId: json["foundId"],
+        title: json["title"],
+        type: json["type"],
+        fileSize: json["fileSize"],
+        imageContent: json["imageContent"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "ownerName": ownerName,
-    "contentType": contentType,
-    "uploadDate": uploadDate,
-    "foundId": foundId,
-    "title": title,
-    "type": type,
-    "fileSize": fileSize,
-    "imageContent": imageContent,
-  };
+        "id": id,
+        "ownerName": ownerName,
+        "contentType": contentType,
+        "uploadDate": uploadDate,
+        "foundId": foundId,
+        "title": title,
+        "type": type,
+        "fileSize": fileSize,
+        "imageContent": imageContent,
+      };
 }

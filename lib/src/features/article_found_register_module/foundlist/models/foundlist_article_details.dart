@@ -1,15 +1,20 @@
-import 'dart:convert';
-
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/models/image_content.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import '../../../../models/organisation.dart';
 
-FoundListArticleDetails foundListArticleDetailsFromJson(String str) => FoundListArticleDetails.fromJson(json.decode(str));
+part 'foundlist_article_details.g.dart';
 
-String foundListArticleDetailsToJson(FoundListArticleDetails data) => json.encode(data.toJson());
-
+@JsonSerializable()
 class FoundListArticleDetails {
+
+    factory FoundListArticleDetails.fromJson(Map<String, dynamic> json) =>
+        _$FoundListArticleDetailsFromJson(json);
+
+    @override
+    Map<String, dynamic> toJson() => _$FoundListArticleDetailsToJson(this);
+
     int? id;
     String? slNo;
     String? inputDate;
@@ -30,6 +35,7 @@ class FoundListArticleDetails {
     bool? claimantConfirmByEmail;
     User? claimant;
     bool? claimantNoSign;
+    ImageContent? claimantSign;
     String? claimantEmployeeId;
     Organisation? claimantDepartment;
     String? handoverDate;
@@ -59,6 +65,7 @@ class FoundListArticleDetails {
         this.additionalInformation,
         this.quantity,
         this.color,
+        this.claimantSign,
         this.images,
         this.depositorDbEmp,
         this.depositor,
@@ -85,84 +92,84 @@ class FoundListArticleDetails {
         this.claimantDepartmentName,
         this.location,
     });
-
-    factory FoundListArticleDetails.fromJson(Map<String, dynamic> json) => FoundListArticleDetails(
-        id: json["id"],
-        slNo: json["slNo"],
-        inputDate: json["inputDate"],
-        locationRegion: json["locationRegion"] == null ? null : Organisation.fromJson(json["locationRegion"]),
-        typeOfAsset: json["typeOfAsset"],
-        typeOfArticle: json["typeOfArticle"] == null ? null : Organisation.fromJson(json["typeOfArticle"]),
-        foundDate: json["foundDate"],
-        foundLocation: json["foundLocation"],
-        additionalInformation: json["additionalInformation"],
-        quantity: json["quantity"],
-        color: json["color"],
-       images :List<ImageContent>.from(json["images"]!.map((x) => ImageContent.fromJson(x))),
-        depositorDbEmp: json["depositorDbEmp"],
-        depositor: json["depositor"] == null ? null : User.fromJson(json["depositor"]),
-        employeeId: json["employeeId"],
-        depositorDepartment: json["depositorDepartment"] == null ? null : Organisation.fromJson(json["depositorDepartment"]),
-        claimantDbEmp: json["claimantDbEmp"],
-        claimantConfirmByEmail: json["claimantConfirmByEmail"],
-        claimant: json["claimant"] == null ? null : User.fromJson(json["claimant"]),
-        claimantNoSign: json["claimantNoSign"],
-        claimantEmployeeId: json["claimantEmployeeId"],
-        claimantDepartment: json["claimantDepartment"] == null ? null : Organisation.fromJson(json["claimantDepartment"]),
-        handoverDate: json["handoverDate"],
-        entrySecurity: json["entrySecurity"] == null ? null : User.fromJson(json["entrySecurity"]),
-        handoverSecurity: json["handoverSecurity"] == null ? null : User.fromJson(json["handoverSecurity"]),
-        status: json["status"],
-        modifiedDate: json["modifiedDate"],
-        modifiedBy: json["modifiedBy"],
-        depositorName: json["depositorName"],
-        claimantName: json["claimantName"],
-        locationName: json["locationName"],
-        entrySecurityName: json["entrySecurityName"],
-        handOverSecurityName: json["handOverSecurityName"],
-        depositorDepartmentName: json["depositorDepartmentName"],
-        claimantDepartmentName: json["claimantDepartmentName"],
-        location: json["location"] == null ? null : Organisation.fromJson(json["location"]),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "slNo": slNo,
-        "inputDate": inputDate,
-        "locationRegion": locationRegion?.toJson(),
-        "typeOfAsset": typeOfAsset,
-        "typeOfArticle": typeOfArticle?.toJson(),
-        "foundDate": foundDate,
-        "foundLocation": foundLocation,
-        "additionalInformation": additionalInformation,
-        "quantity": quantity,
-        "color": color,
-         "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x.toJson())),
-        "depositorDbEmp": depositorDbEmp,
-        "depositor": depositor?.toJson(),
-        "employeeId": employeeId,
-        "depositorDepartment": depositorDepartment?.toJson(),
-        "claimantDbEmp": claimantDbEmp,
-        "claimantConfirmByEmail": claimantConfirmByEmail,
-        "claimant": claimant?.toJson(),
-        "claimantNoSign": claimantNoSign,
-        "claimantEmployeeId": claimantEmployeeId,
-        "claimantDepartment": claimantDepartment?.toJson(),
-        "handoverDate": handoverDate,
-        "entrySecurity": entrySecurity?.toJson(),
-        "handoverSecurity": handoverSecurity?.toJson(),
-        "status": status,
-        "modifiedDate": modifiedDate,
-        "modifiedBy": modifiedBy,
-        "depositorName": depositorName,
-        "claimantName": claimantName,
-        "locationName": locationName,
-        "entrySecurityName": entrySecurityName,
-        "handOverSecurityName": handOverSecurityName,
-        "depositorDepartmentName": depositorDepartmentName,
-        "claimantDepartmentName": claimantDepartmentName,
-        "location": location?.toJson(),
-    };
+    //
+    // factory FoundListArticleDetails.fromJson(Map<String, dynamic> json) => FoundListArticleDetails(
+    //     id: json["id"],
+    //     slNo: json["slNo"],
+    //     inputDate: json["inputDate"],
+    //     locationRegion: json["locationRegion"] == null ? null : Organisation.fromJson(json["locationRegion"]),
+    //     typeOfAsset: json["typeOfAsset"],
+    //     typeOfArticle: json["typeOfArticle"] == null ? null : Organisation.fromJson(json["typeOfArticle"]),
+    //     foundDate: json["foundDate"],
+    //     foundLocation: json["foundLocation"],
+    //     additionalInformation: json["additionalInformation"],
+    //     quantity: json["quantity"],
+    //     color: json["color"],
+    //    images :List<ImageContent>.from(json["images"]!.map((x) => ImageContent.fromJson(x))),
+    //     depositorDbEmp: json["depositorDbEmp"],
+    //     depositor: json["depositor"] == null ? null : User.fromJson(json["depositor"]),
+    //     employeeId: json["employeeId"],
+    //     depositorDepartment: json["depositorDepartment"] == null ? null : Organisation.fromJson(json["depositorDepartment"]),
+    //     claimantDbEmp: json["claimantDbEmp"],
+    //     claimantConfirmByEmail: json["claimantConfirmByEmail"],
+    //     claimant: json["claimant"] == null ? null : User.fromJson(json["claimant"]),
+    //     claimantNoSign: json["claimantNoSign"],
+    //     claimantEmployeeId: json["claimantEmployeeId"],
+    //     claimantDepartment: json["claimantDepartment"] == null ? null : Organisation.fromJson(json["claimantDepartment"]),
+    //     handoverDate: json["handoverDate"],
+    //     entrySecurity: json["entrySecurity"] == null ? null : User.fromJson(json["entrySecurity"]),
+    //     handoverSecurity: json["handoverSecurity"] == null ? null : User.fromJson(json["handoverSecurity"]),
+    //     status: json["status"],
+    //     modifiedDate: json["modifiedDate"],
+    //     modifiedBy: json["modifiedBy"],
+    //     depositorName: json["depositorName"],
+    //     claimantName: json["claimantName"],
+    //     locationName: json["locationName"],
+    //     entrySecurityName: json["entrySecurityName"],
+    //     handOverSecurityName: json["handOverSecurityName"],
+    //     depositorDepartmentName: json["depositorDepartmentName"],
+    //     claimantDepartmentName: json["claimantDepartmentName"],
+    //     location: json["location"] == null ? null : Organisation.fromJson(json["location"]),
+    // );
+    //
+    // Map<String, dynamic> toJson() => {
+    //     "id": id,
+    //     "slNo": slNo,
+    //     "inputDate": inputDate,
+    //     "locationRegion": locationRegion?.toJson(),
+    //     "typeOfAsset": typeOfAsset,
+    //     "typeOfArticle": typeOfArticle?.toJson(),
+    //     "foundDate": foundDate,
+    //     "foundLocation": foundLocation,
+    //     "additionalInformation": additionalInformation,
+    //     "quantity": quantity,
+    //     "color": color,
+    //      "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x.toJson())),
+    //     "depositorDbEmp": depositorDbEmp,
+    //     "depositor": depositor?.toJson(),
+    //     "employeeId": employeeId,
+    //     "depositorDepartment": depositorDepartment?.toJson(),
+    //     "claimantDbEmp": claimantDbEmp,
+    //     "claimantConfirmByEmail": claimantConfirmByEmail,
+    //     "claimant": claimant?.toJson(),
+    //     "claimantNoSign": claimantNoSign,
+    //     "claimantEmployeeId": claimantEmployeeId,
+    //     "claimantDepartment": claimantDepartment?.toJson(),
+    //     "handoverDate": handoverDate,
+    //     "entrySecurity": entrySecurity?.toJson(),
+    //     "handoverSecurity": handoverSecurity?.toJson(),
+    //     "status": status,
+    //     "modifiedDate": modifiedDate,
+    //     "modifiedBy": modifiedBy,
+    //     "depositorName": depositorName,
+    //     "claimantName": claimantName,
+    //     "locationName": locationName,
+    //     "entrySecurityName": entrySecurityName,
+    //     "handOverSecurityName": handOverSecurityName,
+    //     "depositorDepartmentName": depositorDepartmentName,
+    //     "claimantDepartmentName": claimantDepartmentName,
+    //     "location": location?.toJson(),
+    // };
 }
 
 
