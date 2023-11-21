@@ -3,7 +3,7 @@ part of 'event_info_cubit.dart';
 class EventInfoState extends Equatable {
   final FormStatus status;
   final EventInfoResponse model;
-  final GetLocations? locations;
+  final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
@@ -18,7 +18,7 @@ class EventInfoState extends Equatable {
 
   factory EventInfoState.initial({
     required EventInfoResponse model,
-    required GetLocations locations,
+    required Locations locations,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
@@ -90,7 +90,7 @@ class EventInfoState extends Equatable {
   EventInfoState copyWith({
     FormStatus? status,
     EventInfoResponse? model,
-    GetLocations? locations,
+    Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,

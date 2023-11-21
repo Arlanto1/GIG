@@ -283,7 +283,7 @@ class _RatesInfoState extends State<RatesInfo> {
             builder: (BuildContext dialogContext) {
               // print(state.getLocationsResponse);
               return CustomExpansionListTexts(
-                getLocationsresponse: state.locations,
+                locationList: state.locations,
                 onTap: (Organisation? list) async {
                   Organisation location = Organisation();
                   location.id = list?.id;

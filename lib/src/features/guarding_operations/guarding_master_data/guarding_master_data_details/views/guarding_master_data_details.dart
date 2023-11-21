@@ -2294,7 +2294,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
           builder: (BuildContext dialogContext) {
             // print(state.getLocationsResponse);
             return CustomExpansionListTexts(
-              getLocationsresponse: state.locations,
+              locationList: state.locations,
               onTap: (Organisation? list) async {
                 log('list?.name-----${list?.name}');
 

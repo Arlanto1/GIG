@@ -2425,7 +2425,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           builder: (BuildContext dialogContext) {
             // print(state.getLocationsResponse);
             return CustomExpansionListTexts(
-              getLocationsresponse: state.getLocationsResponse,
+              locationList: state.getLocationsResponse,
               //GetLocations(),
               onTap: (Organisation? list) async {
                 print(list?.name);

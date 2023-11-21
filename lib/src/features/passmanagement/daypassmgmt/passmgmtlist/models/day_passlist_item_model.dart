@@ -40,9 +40,9 @@ class DayPassListItemResponse {
   final int? id;
   final String? slNo;
   final String? inputDate;
-  final Location? location;
-  final LocationRegion? locationRegion;
-  final List<Entities>? entities;
+  final Organisation? location;
+  final Organisation? locationRegion;
+  final List<Organisation>? entities;
   final int? status;
   final String? modifiedDate;
   final String? modifiedBy;
@@ -128,15 +128,15 @@ class DayPassListItemResponse {
         slNo = json['slNo'] as String?,
         inputDate = json['inputDate'] as String?,
         location = (json['location'] as Map<String, dynamic>?) != null
-            ? Location.fromJson(json['location'] as Map<String, dynamic>)
+            ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
             : null,
         locationRegion =
             (json['locationRegion'] as Map<String, dynamic>?) != null
-                ? LocationRegion.fromJson(
+                ? Organisation.fromJson(
                     json['locationRegion'] as Map<String, dynamic>)
                 : null,
         entities = (json['entities'] as List?)
-            ?.map((dynamic e) => Entities.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
             .toList(),
         status = json['status'] as int?,
         modifiedDate = json['modifiedDate'] as String?,
@@ -229,54 +229,6 @@ class DayPassListItemResponse {
         'handOverSecurityName': handOverSecurityName,
         'mifareNo': mifareNo
       };
-}
-
-class Location {
-  final int? id;
-  final String? name;
-
-  Location({
-    this.id,
-    this.name,
-  });
-
-  Location.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        name = json['name'] as String?;
-
-  Map<String, dynamic> toJson() => {'id': id, 'name': name};
-}
-
-class LocationRegion {
-  final int? id;
-  final String? name;
-
-  LocationRegion({
-    this.id,
-    this.name,
-  });
-
-  LocationRegion.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        name = json['name'] as String?;
-
-  Map<String, dynamic> toJson() => {'id': id, 'name': name};
-}
-
-class Entities {
-  final int? id;
-  final String? name;
-
-  Entities({
-    this.id,
-    this.name,
-  });
-
-  Entities.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        name = json['name'] as String?;
-
-  Map<String, dynamic> toJson() => {'id': id, 'name': name};
 }
 
 class HandoverSecurity {

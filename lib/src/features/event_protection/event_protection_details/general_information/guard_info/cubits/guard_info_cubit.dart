@@ -33,7 +33,7 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
   }) : super(
           GuardInfoState.initial(
               guardInfoModel: GuardInfoModel(),
-              locations: GetLocations(),
+              locations: Locations(),
               loggedInUserDetails: User(),
               users: const [],
               emailUsers: const [],
@@ -67,7 +67,7 @@ class GuardInfoCubit extends Cubit<GuardInfoState> {
     try {
       GuardInfoModel guardInfoModel = await services.getEPGuardInfo(id);
 
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
      // EntrySecurity loggedInUserDetails =

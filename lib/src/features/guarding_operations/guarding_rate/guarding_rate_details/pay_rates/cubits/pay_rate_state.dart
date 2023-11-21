@@ -7,7 +7,7 @@ class PayRateState extends Equatable {
   final PayRate newPayRate;
   final String? message;
   final User? loggedInUserDetails;
-  final GetLocations? locations;
+  final Locations? locations;
   final List<Organisation> departments;
   final List<Organisation>? listOfEntities;
   final AddEntities? getEntitiesResponse;
@@ -90,7 +90,7 @@ class PayRateState extends Equatable {
     PayRate? newPayRate,
     String? message,
     User? loggedInUserDetails,
-    GetLocations? locations,
+    Locations? locations,
     List<Organisation>? departments,
     List<Organisation>? listOfEntities,
     AddEntities? getEntitiesResponse,
