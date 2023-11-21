@@ -43,6 +43,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         await SharedPrefs.setIdentifymenuindex(0);
         await SharedPrefs.setToken(loginData.token ?? '');
         await SharedPrefs.setRefreshToken(loginData.refreshToken ?? '');
+
+        if (loginData.user!.displayMenu == null) {
+          emit(LoginSuccessState(message: 'Menu Roles are not defined'));
+          return null;
+        }
+
+        /// Setting Menu Items according to User Role
+        await SharedPrefs.setDisplayMenu(loginData.user!.displayMenu!);
+
+        /// Setting Default Location
+        await SharedPrefs.setDefaultLocation(loginData.user!.defaultLocation!);
+
         if (loginData.requirePasswordChange == true) {
           await SharedPrefs.setIsRequiredPasswordChange(true);
 
@@ -56,7 +68,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } catch (e) {
       // Handle API errors here
       if (e is GenericCreateResponse) {
-        emit(LoginFailureState(message: e.message ?? 'An unexpected error occurred.'));
+        emit(LoginFailureState(
+            message: e.message ?? 'An unexpected error occurred.'));
       } else {
         // Handle other unexpected errors
         log('An unexpected error occurred: $e');

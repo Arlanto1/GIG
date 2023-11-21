@@ -7,8 +7,8 @@ class OccurrencesState extends Equatable {
 
   const OccurrencesState(
       {this.list = const <Occurrence>[],
-        this.hasReachedMax = false,
-        this.status = FormStatus.initial});
+      this.hasReachedMax = false,
+      this.status = FormStatus.initial});
 
   OccurrencesState copyWith({
     List<Occurrence>? items,

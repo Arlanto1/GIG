@@ -3,7 +3,7 @@ part of 'occurrence_general_info_cubit.dart';
 class OccurrenceGeneralInfoState extends Equatable {
   final FormStatus status;
   final Occurrence model;
-  final GetLocations? locations;
+  final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
@@ -17,7 +17,7 @@ class OccurrenceGeneralInfoState extends Equatable {
 
   factory OccurrenceGeneralInfoState.initial({
     required Occurrence model,
-    required GetLocations locations,
+    required Locations locations,
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
@@ -159,7 +159,7 @@ class OccurrenceGeneralInfoState extends Equatable {
   OccurrenceGeneralInfoState copyWith({
     FormStatus? status,
     Occurrence? model,
-    GetLocations? locations,
+    Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,

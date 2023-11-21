@@ -13,8 +13,14 @@ class LoginPassword extends StatefulWidget {
   final FocusNode? passFocusNode;
   final Function? onFieldSubmitted;
   final TextInputAction? textInputAction;
-  
-  const LoginPassword({Key? key, required this.validatePassword, required this.onChange,this.passFocusNode,this.onFieldSubmitted,this.textInputAction})
+
+  const LoginPassword(
+      {Key? key,
+      required this.validatePassword,
+      required this.onChange,
+      this.passFocusNode,
+      this.onFieldSubmitted,
+      this.textInputAction})
       : super(key: key);
 
   @override
@@ -23,15 +29,15 @@ class LoginPassword extends StatefulWidget {
 
 class _LoginPasswordState extends State<LoginPassword> {
   bool _showPassword = false;
-TextEditingController passwordTextController = TextEditingController();
- 
- 
+  TextEditingController passwordTextController = TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-   // passwordTextController.text = "123456";
+    // passwordTextController.text = "123456";
   }
+
   @override
   Widget build(BuildContext context) {
     return FlutterInputField(
@@ -42,9 +48,11 @@ TextEditingController passwordTextController = TextEditingController();
       isSecure: !_showPassword,
       validateTextField: (String? pwd) => widget.validatePassword(pwd),
       textInputAction: widget.textInputAction,
-                                    focusnode: widget.passFocusNode,
-                                  onfieldSubmitted: (value) {
-         widget.onFieldSubmitted != null ? widget.onFieldSubmitted!(value) : null;
+      focusnode: widget.passFocusNode,
+      onfieldSubmitted: (value) {
+        widget.onFieldSubmitted != null
+            ? widget.onFieldSubmitted!(value)
+            : null;
       },
       prefixWidget: Padding(
         padding: const EdgeInsets.all(12.0),

@@ -3,7 +3,7 @@ part of 'contact_info_cubit.dart';
 class ContactInfoState extends Equatable {
   final FormStatus status;
   final ContactInfoModel model;
-  final GetLocations? locations;
+  final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
@@ -29,7 +29,7 @@ class ContactInfoState extends Equatable {
 
   factory ContactInfoState.initial({
     required ContactInfoModel model,
-    required GetLocations locations,
+    required Locations locations,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
@@ -124,7 +124,7 @@ class ContactInfoState extends Equatable {
   ContactInfoState copyWith({
     FormStatus? status,
     ContactInfoModel? model,
-    GetLocations? locations,
+    Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,

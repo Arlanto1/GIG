@@ -532,17 +532,16 @@ class EventProtectionModel {
                     json['locationRegion'] as Map<String, dynamic>)
                 : null,
         epManager1 = (json['epManager1'] as Map<String, dynamic>?) != null
-            ? User.fromJson(
-                json['epManager1'] as Map<String, dynamic>)
+            ? User.fromJson(json['epManager1'] as Map<String, dynamic>)
             : null,
         epManager2 = (json['epManager2'] as Map<String, dynamic>?) != null
-            ? User.fromJson(
-                json['epManager2'] as Map<String, dynamic>)
+            ? User.fromJson(json['epManager2'] as Map<String, dynamic>)
             : null,
         lsm1ContactNo = json['lsm1ContactNo'] as String?,
         lsm2ContactNo = json['lsm2ContactNo'] as String?,
         entities = (json['entities'] as List?)
-            ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
+            ?.map(
+                (dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
             .toList(),
         epOfficers = json['epOfficers'] as String?,
         annualPowerShutdown = json['annualPowerShutdown'] as bool?,

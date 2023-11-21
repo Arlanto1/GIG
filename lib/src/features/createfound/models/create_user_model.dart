@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:db_atom/src/models/role.dart';
 import 'package:db_atom/src/models/role_extension.dart';
 
-CreateUserModel createUserModelFromJson(String str) => CreateUserModel.fromJson(json.decode(str));
+CreateUserModel createUserModelFromJson(String str) =>
+    CreateUserModel.fromJson(json.decode(str));
 
-String createUserModelToJson(CreateUserModel data) => json.encode(data.toJson());
+String createUserModelToJson(CreateUserModel data) =>
+    json.encode(data.toJson());
 
 class CreateUserModel {
   int? userId;
@@ -66,7 +68,8 @@ class CreateUserModel {
     this.userStatus,
   });
 
-  factory CreateUserModel.fromJson(Map<String, dynamic> json) => CreateUserModel(
+  factory CreateUserModel.fromJson(Map<String, dynamic> json) =>
+      CreateUserModel(
         userId: json["userId"],
         userName: json["userName"],
         email: json["email"],
@@ -92,7 +95,8 @@ class CreateUserModel {
             : List<dynamic>.from(json["notApprovedRoles"]!.map((x) => x)),
         notApprovedRoleExtensions: json["notApprovedRoleExtensions"] == null
             ? []
-            : List<dynamic>.from(json["notApprovedRoleExtensions"]!.map((x) => x)),
+            : List<dynamic>.from(
+                json["notApprovedRoleExtensions"]!.map((x) => x)),
         recertificationDate: json["recertificationDate"],
         recertifiedBy: json["recertifiedBy"],
         nextRecertificationDate: json["nextRecertificationDate"],
@@ -119,12 +123,15 @@ class CreateUserModel {
         "location": location,
         "language": language,
         "timezone": timezone,
-        "roles": roles == null ? [] : List<dynamic>.from(roles!.map((x) => x.toJson())),
+        "roles": roles == null
+            ? []
+            : List<dynamic>.from(roles!.map((x) => x.toJson())),
         "roleExtensions": roleExtensions == null
             ? []
             : List<dynamic>.from(roleExtensions!.map((x) => x.toJson())),
-        "notApprovedRoles":
-            notApprovedRoles == null ? [] : List<dynamic>.from(notApprovedRoles!.map((x) => x)),
+        "notApprovedRoles": notApprovedRoles == null
+            ? []
+            : List<dynamic>.from(notApprovedRoles!.map((x) => x)),
         "notApprovedRoleExtensions": notApprovedRoleExtensions == null
             ? []
             : List<dynamic>.from(notApprovedRoleExtensions!.map((x) => x)),

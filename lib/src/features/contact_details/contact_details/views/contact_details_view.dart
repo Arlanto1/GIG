@@ -564,7 +564,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
           context: context,
           builder: (BuildContext dialogContext) {
             return CustomExpansionListTexts(
-              getLocationsresponse: state.locations,
+              locationList: state.locations,
               onTap: (Organisation? list) async {
                 Organisation location = Organisation();
                 location.id = list?.id;

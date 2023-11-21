@@ -54,8 +54,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart';
-
-//import '../features/event_protection/event_protection_details/general_info/cubits/occurrence_general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
 import '../features/event_protection/event_protection_details/general_info/views/general_info_view.dart';
 import '../features/event_protection/event_protections/bloc/event_protections_bloc.dart'
@@ -134,12 +132,11 @@ class RouteGenerator {
           final userRoutes = settings.arguments as Map<String, dynamic>;
           VerifyOTPArguments? userDetails = userRoutes["userDetails"];
           return MaterialPageRoute(
-              builder: (context) => OtpVerifyScreen(
-                    userName: userDetails?.name ?? '',
-                    password: userDetails?.pwd ?? '',
-                  ));
-          return MaterialPageRoute(
-              builder: (context) => const OtpVerifyScreen());
+            builder: (context) => OtpVerifyScreen(
+              userName: userDetails?.name ?? '',
+              password: userDetails?.pwd ?? '',
+            ),
+          );
         }
         return MaterialPageRoute(builder: (context) => const OtpVerifyScreen());
 
@@ -149,11 +146,11 @@ class RouteGenerator {
           FoundListArticleDetails? listuser = listroutes["UserElement"];
           int eventId = listroutes['eventId'];
           return MaterialPageRoute(
-              builder: (context) => CreateFound(
-                    model: listuser,
-                    eventId: eventId,
-                  ));
-          return MaterialPageRoute(builder: (context) => const CreateFound());
+            builder: (context) => CreateFound(
+              model: listuser,
+              eventId: eventId,
+            ),
+          );
         } else {
           return MaterialPageRoute(builder: (context) => const CreateFound());
         }
@@ -164,17 +161,16 @@ class RouteGenerator {
           LawEnforcementDetails? listuser = listroutes["UserElement"];
           return MaterialPageRoute(
               builder: (context) => LawEnforcementDetailsView(model: listuser));
-          return MaterialPageRoute(
-              builder: (context) => const LawEnforcementDetailsView());
         } else {
           return MaterialPageRoute(
               builder: (context) => const LawEnforcementDetailsView());
         }
       case addemployeedepartmentRoute:
         return MaterialPageRoute(
-            builder: (context) => const AddEmployeeDepartment(
-                  title: Constants.addemployeedepartment,
-                ));
+          builder: (context) => const AddEmployeeDepartment(
+            title: Constants.addemployeedepartment,
+          ),
+        );
 
       case articleFoundListRoute:
         return MaterialPageRoute(builder: (context) => const FoundList());
@@ -198,8 +194,6 @@ class RouteGenerator {
                     passId: passMngArguments?.passType ?? '',
                     title: passMngArguments?.title ?? '',
                   ));
-          return MaterialPageRoute(
-              builder: (context) => DayPassManagementList());
         }
         return MaterialPageRoute(builder: (context) => DayPassManagementList());
       case daypassregistertListRoute:
@@ -212,40 +206,20 @@ class RouteGenerator {
                     passId: passMngArguments?.passType ?? '',
                     title: passMngArguments?.title ?? '',
                   ));
-          return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
         }
         return MaterialPageRoute(builder: (context) => DayPassInfoListPage());
       case createpassmgmtRoute:
-        // return MaterialPageRoute(builder: (context) => CreatePassManagement());
-        // if (settings.arguments != null) {
-        //     final listroutes = settings.arguments as Map<String, dynamic>;
-
-        //     if (listroutes != null) {
-        //      // DayPassListItemResponse? listuser = listroutes["UserElement"];
-        //       PassMngArguments? passMngArguments = listroutes["passMngRegisterDetails"];
-        //       return MaterialPageRoute(
-        //           builder: (context) => CreatePassManagement(listuser: listuser));
-        //     }
-
-        //     return MaterialPageRoute(
-        //         builder: (context) => CreatePassManagement());
-        //   } else {
-        //     return MaterialPageRoute(
-        //         builder: (context) => CreatePassManagement());
-        //   }
-
         if (settings.arguments != null) {
           final passRoutes = settings.arguments as Map<String, dynamic>;
           CreatePassMngArguments? passMngArguments =
               passRoutes["passMngCreateDetails"];
           return MaterialPageRoute(
-              builder: (context) => CreatePassManagement(
-                    passId: passMngArguments?.passType ?? '',
-                    title: passMngArguments?.title ?? '',
-                    model: passMngArguments?.model,
-                  ));
-          return MaterialPageRoute(
-              builder: (context) => CreatePassManagement());
+            builder: (context) => CreatePassManagement(
+              passId: passMngArguments?.passType ?? '',
+              title: passMngArguments?.title ?? '',
+              model: passMngArguments?.model,
+            ),
+          );
         }
         return MaterialPageRoute(builder: (context) => CreatePassManagement());
 
@@ -521,14 +495,15 @@ class RouteGenerator {
           id = arguments['id'];
         }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<GuardInfoCubit>(
-                  create: (_) => GuardInfoCubit(
-                    services: EventProtectionServices(),
-                    commonServices: CommonServices(),
-                    id: id,
-                  ),
-                  child: const GuardInfoView(),
-                ));
+          builder: (context) => BlocProvider<GuardInfoCubit>(
+            create: (_) => GuardInfoCubit(
+              services: EventProtectionServices(),
+              commonServices: CommonServices(),
+              id: id,
+            ),
+            child: const GuardInfoView(),
+          ),
+        );
 
       case eventInfoRoute:
         String id = '';
@@ -616,16 +591,13 @@ class RouteGenerator {
                 ));
 
       case guardingRatesRoute:
-        if (settings.arguments != null) {
-          Map<String, dynamic> arguments =
-              settings.arguments as Map<String, dynamic>;
-        }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<guarding.GuardingRatesBloc>(
-                  create: (_) => guarding.GuardingRatesBloc()
-                    ..add(const guarding.FetchList(startPos: 0, maxPos: 20)),
-                  child: const GuardingRates(),
-                ));
+          builder: (context) => BlocProvider<guarding.GuardingRatesBloc>(
+            create: (_) => guarding.GuardingRatesBloc()
+              ..add(const guarding.FetchList(startPos: 0, maxPos: 20)),
+            child: const GuardingRates(),
+          ),
+        );
 
       case guardingMasterReportRoute:
         return MaterialPageRoute(
@@ -688,7 +660,6 @@ class RouteGenerator {
 
       case guardingRatesGRIRoute:
         GuardingServices services = GuardingServices();
-        CommonServices commonServices = CommonServices();
         String title;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
@@ -748,16 +719,13 @@ class RouteGenerator {
                 ));
 
       case femaleDropPickUpRoute:
-        if (settings.arguments != null) {
-          Map<String, dynamic> arguments =
-              settings.arguments as Map<String, dynamic>;
-        }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<FemaleDropPickUpBloc>(
-                  create: (_) => FemaleDropPickUpBloc()
-                    ..add(const FetchList(startPos: 0, maxPos: 20)),
-                  child: const FemaleDropPickUpView(),
-                ));
+          builder: (context) => BlocProvider<FemaleDropPickUpBloc>(
+            create: (_) => FemaleDropPickUpBloc()
+              ..add(const FetchList(startPos: 0, maxPos: 20)),
+            child: const FemaleDropPickUpView(),
+          ),
+        );
       default:
         return MaterialPageRoute(builder: (context) => const MyHomePage());
     }

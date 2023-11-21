@@ -8,22 +8,20 @@ import 'package:db_atom/src/utils/shared_preferences.dart';
 
 import '../models/general_info_model.dart';
 
-
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
   static final String _get = '$baseUrl/getOCCLists?';
   static final String _getOccurrence = '$baseUrl/getOCCById';
   static final String _createOccurrence = '$baseUrl/createOccurrence?';
-
 }
 
 class OccurrenceDetailsServices {
-
   Future<String> getUserEmail() async {
-    String email =  await SharedPrefs.getEmail();
+    String email = await SharedPrefs.getEmail();
     return email;
   }
+
   Future<OccurrenceResponse> getIncidents({
     required String startPosition,
     required String maximumRecords,
@@ -36,6 +34,7 @@ class OccurrenceDetailsServices {
     );
     return OccurrenceResponse.fromJson(response);
   }
+
   Future<Occurrence> getOccurrence(String id) async {
     final String url = '${Apis._getOccurrence}/$id';
     var response = await BaseApiService().getRequest(

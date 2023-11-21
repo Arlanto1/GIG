@@ -43,7 +43,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
   }) : super(
           ContactDetailsState.initial(
             model: model ?? ContactDetailModel(),
-            locations: GetLocations(),
+            locations: Locations(),
             loggedInUserDetails: User(),
             users: const [],
             emailUsers: const [],
@@ -65,7 +65,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =
@@ -139,14 +139,13 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
-    if (location != null ) {
+    if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: location.id.toString(),
           moduleCode: Constants.contactDetailsModule);
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
-
 
     emit(state.copyWith(
       model: state.model,
@@ -170,7 +169,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
 
     // Create/Update API Call
     ContactDetailsGiRequest request =
-    ContactDetailsGiRequest(cdGi: state.model);
+        ContactDetailsGiRequest(cdGi: state.model);
 
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;

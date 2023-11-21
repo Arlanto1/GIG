@@ -18,6 +18,7 @@ import 'package:http/http.dart' as http;
 class AppServices {
   int counterValue = 0;
   final _baseUrl = Environment().config.apiHost;
+
   Future<dynamic> get(String url, BuildContext context) async {
     final bool isActive = await network_handler.networkChecking(context);
 
@@ -51,7 +52,6 @@ class AppServices {
 
           return responseJson;
         } else if (response.statusCode == 401) {
-          
           int refreshToken = await RefreshTokenService.getRefreshToken();
           if (refreshToken == 200) {
             counterValue = counterValue + 1;
@@ -79,7 +79,7 @@ class AppServices {
         } else {
           print('GET CALL===error response================$responseJson');
           String message =
-              responseJson['message'] as String ?? 'Unkown Server error.';
+              responseJson['message'] as String;
           showAlertMessage(message, context);
           // if (requestType != Constants.SPLASH_USER_DEFAULT_DETAILS) {
           //   dismissLoadingDialog(context);
@@ -99,7 +99,6 @@ class AppServices {
       return null;
     }
   }
-
 
   Future<dynamic> popupget(String url, BuildContext context) async {
     final bool isActive = await network_handler.networkChecking(context);
@@ -134,7 +133,6 @@ class AppServices {
 
           return responseJson;
         } else if (response.statusCode == 401) {
-          
           int refreshToken = await RefreshTokenService.getRefreshToken();
           if (refreshToken == 200) {
             counterValue = counterValue + 1;
@@ -183,10 +181,7 @@ class AppServices {
     }
   }
 
-  
-
   void showAlertMessage(String message, BuildContext context) {
-   
     var dialog = CustomAlertDialog(
       title: Constants.appname,
       message: message,
@@ -234,15 +229,14 @@ class AppServices {
         if (response.statusCode == 200) {
           return responseJson;
         } else if (response.statusCode == 401) {
-          
           int refreshToken = await RefreshTokenService.getRefreshToken();
           if (refreshToken == 200) {
             counterValue = counterValue + 1;
             if (counterValue > 2) {
-             Validator.logoutAction(context);
+              Validator.logoutAction(context);
               return;
             }
-            post(url, context,body);
+            post(url, context, body);
             return refreshToken;
           } else if (refreshToken == 449) {
             int generateToken = await GenerateTokenService.getGenerateToken();
@@ -252,7 +246,7 @@ class AppServices {
                 Validator.logoutAction(context);
                 return;
               }
-             post(url, context,body);
+              post(url, context, body);
               return generateToken;
             } else {
               Validator.logoutAction(context);
@@ -262,7 +256,7 @@ class AppServices {
         } else {
           print('POST CALL===error response================$responseJson');
           String message =
-              responseJson['message'] as String ?? 'Unkown Server error.';
+              responseJson['message'] as String;
           showAlertMessage(message, context);
 
           return null;
@@ -276,7 +270,7 @@ class AppServices {
         return null;
       }
     } else {
-       showAlertMessage("No Internet connection", context);
+      showAlertMessage("No Internet connection", context);
       return null;
     }
   }
@@ -315,7 +309,7 @@ class AppServices {
         return response.statusCode;
 
       case 401:
-         return response.statusCode;
+        return response.statusCode;
 
       case 403:
         showAlertMessage('Unauthorized Access', context);
@@ -354,11 +348,11 @@ class AppServices {
             json.decode(response.body.toString());
         return responseJson;
       case 400:
-       // showAlertMessage('Badrequest Access', context);
+        // showAlertMessage('Badrequest Access', context);
         return response.statusCode;
 
       case 401:
-         return response.statusCode;
+        return response.statusCode;
 
       case 403:
         //showAlertMessage('Unauthorized Access', context);
@@ -373,7 +367,7 @@ class AppServices {
         // }
         // else
         // {
-       // showAlertMessage(' API internal Error', context);
+        // showAlertMessage(' API internal Error', context);
         // }
 
         break;

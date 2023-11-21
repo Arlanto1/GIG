@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/dashboard/controllers/cubit/drawer_cubit.dart';
+import 'package:db_atom/src/features/login/models/login_model.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -20,93 +21,118 @@ class NavigationDrawer1 extends StatelessWidget {
     this._menuScaffoldKey,
     this.username,
     this.email, {
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key) {
+    /// Initialize Display Menu
+    initializeDrawerItems();
+  }
 
-  /// showMenuItem
-  /// isReadOnly
-  /// canCreate
+  late List<MenuItem> expansionTileDrawerItems;
+
+  Future<void> initializeDrawerItems() async {
+    expansionTileDrawerItems = await checkDisplayMenu();
+  }
+
+  checkDisplayMenu() async {
+    DisplayMenu? displayMenu = await SharedPrefs.getDisplayMenu();
+    List<MenuItem> expansionTileDrawerItems = [];
+
+    if (displayMenu == null) {
+      log('Display Menu Object is null.');
+      return;
+    }
+    if (displayMenu.aF ?? false) {
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.articlefoundregister, AppIcon.clipboardImage, 0));
+    }
+    if (displayMenu.lEO ?? false) {
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.lawenforcementvisitslist, AppIcon.lawenforcement, 0));
+    }
+    if (displayMenu.eP ?? false) {
+      expansionTileDrawerItems.add(
+          const MenuItem(Constants.eventprotectionlist, AppIcon.tasklist, 0));
+    }
+    if (displayMenu.iM ?? false) {
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.incidentManagement, AppIcon.materialMovement, 0));
+    }
+    if (displayMenu.mM ?? false) {
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.materialMovement, AppIcon.materialMovement, 1));
+    }
+    if (displayMenu.pM ?? false) {
+      expansionTileDrawerItems.add(
+          const MenuItem(Constants.passmanagement, AppIcon.passmanagement, 1));
+    }
+    if (displayMenu.gM ?? false) {
+      expansionTileDrawerItems.add(
+          const MenuItem(Constants.guarding, AppIcon.guardingOperationIcon, 1));
+    }
+    return expansionTileDrawerItems;
+  }
 
   final String? username;
   final String? email;
   final GlobalKey<ScaffoldState> _menuScaffoldKey;
   final drawerItems = [
-    const DrawerItem1(Constants.dashboard, AppIcon.dashboardselect, 0),
-    const DrawerItem1(
-        Constants.securityfunctions, AppIcon.securityprotection, 1),
-    const DrawerItem1(Constants.administration, AppIcon.maninsuitandtie, 0),
-    const DrawerItem1(Constants.settings, AppIcon.settings, 0),
-    const DrawerItem1(Constants.logout, AppIcon.logout, 0),
+    const MenuItem(Constants.dashboard, AppIcon.dashboardselect, 0),
+    const MenuItem(Constants.securityfunctions, AppIcon.securityprotection, 1),
+    const MenuItem(Constants.administration, AppIcon.maninsuitandtie, 0),
+    const MenuItem(Constants.settings, AppIcon.settings, 0),
+    const MenuItem(Constants.logout, AppIcon.logout, 0),
   ];
   final securityItems = [
-    const DrawerItem1(Constants.operations, AppIcon.operatingsystem, 1),
-    const DrawerItem1(Constants.securitySystems, AppIcon.operatingsystem, 1),
-  ];
-  final expansionTileDrawerItems = [
-    const DrawerItem1(
-        Constants.articlefoundregister, AppIcon.clipboardImage, 0),
-    const DrawerItem1(
-        Constants.lawenforcementvisitslist, AppIcon.lawenforcement, 0),
-    const DrawerItem1(Constants.eventprotectionlist, AppIcon.tasklist, 0),
-    const DrawerItem1(
-        Constants.incidentManagement, AppIcon.materialMovement, 0),
-    const DrawerItem1(Constants.materialMovement, AppIcon.materialMovement, 1),
-    const DrawerItem1(Constants.passmanagement, AppIcon.passmanagement, 1),
-    const DrawerItem1(Constants.guarding, AppIcon.guardingOperationIcon, 1),
+    const MenuItem(Constants.operations, AppIcon.operatingsystem, 1),
+    const MenuItem(Constants.securitySystems, AppIcon.operatingsystem, 1),
   ];
 
   final securitySystemExpansionTileDrawerItems = [
-    const DrawerItem1(
-        Constants.securitySystemsTickets, AppIcon.clipboardImage, 1),
+    const MenuItem(Constants.securitySystemsTickets, AppIcon.clipboardImage, 1),
   ];
 
   final materialMovementDrawerItems = [
-    const DrawerItem1(Constants.materialMovementInward,
+    const MenuItem(Constants.materialMovementInward,
         AppIcon.materialMovementInwardIcon, 0),
-    const DrawerItem1(Constants.materialMovementOutward,
+    const MenuItem(Constants.materialMovementOutward,
         AppIcon.materialMovementOutwardIcon, 0),
   ];
 
   final securitySystemTicketsItems = [
-    const DrawerItem1(
-        Constants.incident, AppIcon.materialMovementOutwardIcon, 1),
+    const MenuItem(Constants.incident, AppIcon.materialMovementOutwardIcon, 1),
   ];
   final securitySystemTicketsIncidentItems = [
-    const DrawerItem1(
+    const MenuItem(
         Constants.internalStaff, AppIcon.materialMovementOutwardIcon, 0),
-    const DrawerItem1(
+    const MenuItem(
         Constants.externalVendor, AppIcon.materialMovementOutwardIcon, 0),
   ];
 
   final guardingOperationDrawerItems = [
-    const DrawerItem1(
+    const MenuItem(
         Constants.guardingMasterData, AppIcon.guardingMasterDataIcon, 0),
-    const DrawerItem1(
+    const MenuItem(
         Constants.guardingMasterReport, AppIcon.guardingMasterReportIcon, 0),
-    const DrawerItem1(
-        Constants.guardingRate, AppIcon.guardingMasterRatesIcon, 0),
-    const DrawerItem1(
-        Constants.femaleDropPickUp, AppIcon.femalePickUpDropIcon, 0),
-    const DrawerItem1(
+    const MenuItem(Constants.guardingRate, AppIcon.guardingMasterRatesIcon, 0),
+    const MenuItem(Constants.femaleDropPickUp, AppIcon.femalePickUpDropIcon, 0),
+    const MenuItem(
         Constants.keyManagementList, AppIcon.keyManagementListIcon, 0),
-    const DrawerItem1(Constants.occurrence, AppIcon.occurence, 0),
-    const DrawerItem1(Constants.slaViolationPenalty, AppIcon.occurence, 0),
-    const DrawerItem1(
+    const MenuItem(Constants.occurrence, AppIcon.occurence, 0),
+    const MenuItem(Constants.slaViolationPenalty, AppIcon.occurence, 0),
+    const MenuItem(
         Constants.contactDetails, AppIcon.guardingMasterRatesIcon, 0),
   ];
 
   final passTileDrawerItems = [
-    const DrawerItem1(Constants.daypassmgmt, AppIcon.daypassmgmticon, 0),
-    const DrawerItem1(Constants.daypassregister, AppIcon.daypassregicon, 0),
-    const DrawerItem1(
-        Constants.visitorpassmgmt, AppIcon.visitorpassmgmticon, 0),
-    const DrawerItem1(
+    const MenuItem(Constants.daypassmgmt, AppIcon.daypassmgmticon, 0),
+    const MenuItem(Constants.daypassregister, AppIcon.daypassregicon, 0),
+    const MenuItem(Constants.visitorpassmgmt, AppIcon.visitorpassmgmticon, 0),
+    const MenuItem(
         Constants.visitorpassregister, AppIcon.visitorpassregicon, 0),
-    const DrawerItem1(Constants.vendorpassmgmt, AppIcon.vendorpassmgmticon, 0),
-    const DrawerItem1(
-        Constants.vendorpassregister, AppIcon.vendorpassregicon, 0),
-    const DrawerItem1(Constants.sezpassmgmt, AppIcon.sezpassmgmticon, 0),
-    const DrawerItem1(Constants.sezpassregister, AppIcon.segpassregicon, 0),
+    const MenuItem(Constants.vendorpassmgmt, AppIcon.vendorpassmgmticon, 0),
+    const MenuItem(Constants.vendorpassregister, AppIcon.vendorpassregicon, 0),
+    const MenuItem(Constants.sezpassmgmt, AppIcon.sezpassmgmticon, 0),
+    const MenuItem(Constants.sezpassregister, AppIcon.segpassregicon, 0),
   ];
 
   late int _lastSelectedItem = 0;
@@ -121,13 +147,13 @@ class NavigationDrawer1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: AppColors
-              .backgroundWhitecolor, //This will change the drawer background to blue.
-          //other styles
-        ),
-        child: Drawer(
-            child: BlocProvider(
+      data: Theme.of(context).copyWith(
+        canvasColor: AppColors
+            .backgroundWhitecolor, //This will change the drawer background to blue.
+        //other styles
+      ),
+      child: Drawer(
+        child: BlocProvider(
           create: (context) => DrawerCubit(),
           child: BlocBuilder<DrawerCubit, DrawerState>(
             builder: (context, state) {
@@ -145,8 +171,6 @@ class NavigationDrawer1 extends StatelessWidget {
                 _passlastSelectedItem = state.index;
               }
 
-              // log('initial index = ${state.index}');
-              // log('initial index = $_lastSelectedItem');
               return ListView(
                 children: <Widget>[
                   Column(
@@ -184,7 +208,9 @@ class NavigationDrawer1 extends StatelessWidget {
               );
             },
           ),
-        ))); //
+        ),
+      ),
+    ); //
   }
 
   List<Widget> _materialMovementBuildDrawerChildren(
@@ -192,34 +218,36 @@ class NavigationDrawer1 extends StatelessWidget {
     List<Widget> children = [];
 
     for (int i = 0; i < materialMovementDrawerItems.length; i++) {
-      DrawerItem1 drawerItem = materialMovementDrawerItems[i];
-      children.add(Container(
-        decoration: const BoxDecoration(
-          border:
-              Border(bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+      MenuItem drawerItem = materialMovementDrawerItems[i];
+      children.add(
+        Container(
+          decoration: const BoxDecoration(
+            border: Border(
+                bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+          ),
+          child: ListTile(
+            leading: SizedBox(
+                width: 20,
+                height: 20,
+                child: Image.asset(drawerItem.imageName,
+                    fit: BoxFit.scaleDown,
+                    color: (i == _passlastSelectedItem)
+                        ? AppColors.navigationSkybluecolor
+                        : AppColors.boldgreyBackground)),
+            title: Text(drawerItem.title,
+                //style: Styles.textStyleBlack16,
+                style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: Constants.customFontSemiBoldFamily,
+                    fontWeight: FontWeight.w600,
+                    color: (i == _passlastSelectedItem)
+                        ? AppColors.navigationSkybluecolor
+                        : AppColors.textgreyThemecolor)),
+            //selected: i == _lastSelectedItem,
+            onTap: () => _onMaterialMovementItemSelected(i, context),
+          ),
         ),
-        child: ListTile(
-          leading: SizedBox(
-              width: 20,
-              height: 20,
-              child: Image.asset(drawerItem.imageName,
-                  fit: BoxFit.scaleDown,
-                  color: (i == _passlastSelectedItem)
-                      ? AppColors.navigationSkybluecolor
-                      : AppColors.boldgreyBackground)),
-          title: Text(drawerItem.title,
-              //style: Styles.textStyleBlack16,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: Constants.customFontSemiBoldFamily,
-                  fontWeight: FontWeight.w600,
-                  color: (i == _passlastSelectedItem)
-                      ? AppColors.navigationSkybluecolor
-                      : AppColors.textgreyThemecolor)),
-          //selected: i == _lastSelectedItem,
-          onTap: () => _onMaterialMovementItemSelected(i, context),
-        ),
-      ));
+      );
     }
 
     return children;
@@ -228,8 +256,6 @@ class NavigationDrawer1 extends StatelessWidget {
   _onMaterialMovementItemSelected(int index, BuildContext context) async {
     _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
-    //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
-    //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassmgmtindexChange(index);
     if (index == 0) {
       Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
@@ -245,9 +271,9 @@ class NavigationDrawer1 extends StatelessWidget {
     List<Widget> children = [];
 
     for (int i = 0; i < items.length; i++) {
-      DrawerItem1 drawerItem = items[i];
+      MenuItem drawerItem = items[i];
       children.add(
-        drawerItem.numberofchilderns == 0
+        drawerItem.numberOfChildren == 0
             ? Container(
                 decoration: const BoxDecoration(
                   border: Border(
@@ -337,11 +363,9 @@ class NavigationDrawer1 extends StatelessWidget {
     List<Widget> children = [];
 
     for (int i = 0; i < items.length; i++) {
-      DrawerItem1 drawerItem = items[i];
-
-      log('-drawerItem.title----${drawerItem.title}--');
+      MenuItem drawerItem = items[i];
       children.add(
-        drawerItem.numberofchilderns == 0
+        drawerItem.numberOfChildren == 0
             ? Container(
                 decoration: const BoxDecoration(
                   border: Border(
@@ -432,37 +456,38 @@ class NavigationDrawer1 extends StatelessWidget {
     List<Widget> children = [];
 
     for (int i = 0; i < items.length; i++) {
-      DrawerItem1 drawerItem = items[i];
+      MenuItem drawerItem = items[i];
 
-      children.add(Container(
-        decoration: const BoxDecoration(
-          border:
-              Border(bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+      children.add(
+        Container(
+          decoration: const BoxDecoration(
+            border: Border(
+                bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+          ),
+          child: ListTile(
+            leading: SizedBox(
+                width: 20,
+                height: 20,
+                child: Image.asset(drawerItem.imageName,
+                    fit: BoxFit.scaleDown,
+                    color: (i == _passlastSelectedItem)
+                        ? AppColors.navigationSkybluecolor
+                        : AppColors.boldgreyBackground)),
+            title: Text(drawerItem.title,
+                //style: Styles.textStyleBlack16,
+                style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: Constants.customFontSemiBoldFamily,
+                    fontWeight: FontWeight.w600,
+                    color: (i == _passlastSelectedItem)
+                        ? AppColors.navigationSkybluecolor
+                        : AppColors.textgreyThemecolor)),
+            onTap: () => title == Constants.guarding
+                ? _onGuardingOperationItemSelected(i, context)
+                : _onSecuritySystemIncidentItemSelected(i, context),
+          ),
         ),
-        child: ListTile(
-          leading: SizedBox(
-              width: 20,
-              height: 20,
-              child: Image.asset(drawerItem.imageName,
-                  fit: BoxFit.scaleDown,
-                  color: (i == _passlastSelectedItem)
-                      ? AppColors.navigationSkybluecolor
-                      : AppColors.boldgreyBackground)),
-          title: Text(drawerItem.title,
-              //style: Styles.textStyleBlack16,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: Constants.customFontSemiBoldFamily,
-                  fontWeight: FontWeight.w600,
-                  color: (i == _passlastSelectedItem)
-                      ? AppColors.navigationSkybluecolor
-                      : AppColors.textgreyThemecolor)),
-          // selected: i == _lastSelectedItem,
-          onTap: () => title == Constants.guarding
-              ? _onGuardingOperationItemSelected(i, context)
-              : _onSecuritySystemIncidentItemSelected(i, context),
-        ),
-      ));
+      );
     }
 
     return children;
@@ -509,8 +534,7 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 6) {
       // Navigator.pushNamed(context, sstIncidentRoute,
       //     arguments: {"SLA Violation Penalty": false});
-    }
-    else if (index == 7) {
+    } else if (index == 7) {
       Navigator.pushNamed(context, contactDetailsListRoute,
           arguments: {"SLA Violation Penalty": false});
     }
@@ -521,34 +545,36 @@ class NavigationDrawer1 extends StatelessWidget {
     List<Widget> children = [];
 
     for (int i = 0; i < passTileDrawerItems.length; i++) {
-      DrawerItem1 drawerItem = passTileDrawerItems[i];
-      children.add(Container(
-        decoration: const BoxDecoration(
-          border:
-              Border(bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+      MenuItem drawerItem = passTileDrawerItems[i];
+      children.add(
+        Container(
+          decoration: const BoxDecoration(
+            border: Border(
+                bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+          ),
+          child: ListTile(
+            leading: SizedBox(
+                width: 18,
+                height: 18,
+                child: Image.asset(drawerItem.imageName,
+                    fit: BoxFit.scaleDown,
+                    color: (i == _passlastSelectedItem)
+                        ? AppColors.navigationSkybluecolor
+                        : AppColors.boldgreyBackground)),
+            title: Text(drawerItem.title,
+                //style: Styles.textStyleBlack16,
+                style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: Constants.customFontSemiBoldFamily,
+                    fontWeight: FontWeight.w600,
+                    color: (i == _passlastSelectedItem)
+                        ? AppColors.navigationSkybluecolor
+                        : AppColors.textgreyThemecolor)),
+            // selected: i == _lastSelectedItem,
+            onTap: () => _onPassMgmtSelectItem(i, context),
+          ),
         ),
-        child: ListTile(
-          leading: SizedBox(
-              width: 18,
-              height: 18,
-              child: Image.asset(drawerItem.imageName,
-                  fit: BoxFit.scaleDown,
-                  color: (i == _passlastSelectedItem)
-                      ? AppColors.navigationSkybluecolor
-                      : AppColors.boldgreyBackground)),
-          title: Text(drawerItem.title,
-              //style: Styles.textStyleBlack16,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: Constants.customFontSemiBoldFamily,
-                  fontWeight: FontWeight.w600,
-                  color: (i == _passlastSelectedItem)
-                      ? AppColors.navigationSkybluecolor
-                      : AppColors.textgreyThemecolor)),
-          // selected: i == _lastSelectedItem,
-          onTap: () => _onPassmgmtselectItem(i, context),
-        ),
-      ));
+      );
     }
 
     return children;
@@ -558,9 +584,9 @@ class NavigationDrawer1 extends StatelessWidget {
     List<Widget> children = [];
 
     for (int i = 0; i < drawerItems.length; i++) {
-      DrawerItem1 drawerItem = drawerItems[i];
+      MenuItem drawerItem = drawerItems[i];
       children.add(
-        drawerItem.numberofchilderns == 0
+        drawerItem.numberOfChildren == 0
             ? Container(
                 decoration: const BoxDecoration(
                   border: Border(
@@ -649,9 +675,9 @@ class NavigationDrawer1 extends StatelessWidget {
     List<Widget> children = [];
 
     for (int i = 0; i < securityItems.length; i++) {
-      DrawerItem1 drawerItem = securityItems[i];
+      MenuItem drawerItem = securityItems[i];
       children.add(
-        drawerItem.numberofchilderns == 0
+        drawerItem.numberOfChildren == 0
             ? Container(
                 decoration: const BoxDecoration(
                   border: Border(
@@ -745,9 +771,9 @@ class NavigationDrawer1 extends StatelessWidget {
     List<Widget> children = [];
 
     for (int i = 0; i < securitySystemExpansionTileDrawerItems.length; i++) {
-      DrawerItem1 drawerItem = securitySystemExpansionTileDrawerItems[i];
+      MenuItem drawerItem = securitySystemExpansionTileDrawerItems[i];
       children.add(
-        drawerItem.numberofchilderns == 0
+        drawerItem.numberOfChildren == 0
             ? Container(
                 decoration: const BoxDecoration(
                   border: Border(
@@ -838,9 +864,9 @@ class NavigationDrawer1 extends StatelessWidget {
     List<Widget> children = [];
 
     for (int i = 0; i < expansionTileDrawerItems.length; i++) {
-      DrawerItem1 drawerItem = expansionTileDrawerItems[i];
+      MenuItem drawerItem = expansionTileDrawerItems[i];
       children.add(
-        drawerItem.numberofchilderns == 0
+        drawerItem.numberOfChildren == 0
             ? Container(
                 decoration: const BoxDecoration(
                   border: Border(
@@ -945,7 +971,7 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 5) {}
   }
 
-  _onPassmgmtselectItem(int index, BuildContext context) async {
+  _onPassMgmtSelectItem(int index, BuildContext context) async {
     _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
@@ -1086,72 +1112,70 @@ class NavigationDrawer1 extends StatelessWidget {
 Widget createDrawerHeader(
     String? username, String? email, BuildContext context) {
   return DrawerHeader(
-      decoration: const BoxDecoration(
-        color: AppColors.backgroundWhitecolor,
+    decoration: const BoxDecoration(
+      color: AppColors.backgroundWhitecolor,
+    ),
+    child: InkWell(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          resetPwdScreenRoute,
+          arguments: {'viaNavigationDrawer': true},
+        );
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const CircleAvatar(
+            radius: 45.0,
+            backgroundColor: AppColors.navigationSkybluecolor,
+            child: CircleAvatar(
+                backgroundColor: AppColors.backgroundWhitecolor,
+                radius: 43.0,
+                child: CircleAvatar(
+                    backgroundColor: AppColors.dividelineGreycolor,
+                    radius: 40,
+                    backgroundImage: AssetImage(Constants.bg))),
+
+            // NetworkImage("Your Photo Url"), // for Network image
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  username ?? '',
+                  style: Styles.textStyleBlack16,
+                ),
+                Text(
+                  email ?? '',
+                  style: Styles.textStyleRegularNormalGrey14,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-      child: InkWell(
-        onTap: () {
-          SharedPrefs.setToken(
-              'eyJhbGciOiJIUzI1NiJ9.eyJjbGllbnRfc2VjcmV0IjoicGlua3VAMDk4IiwiY2xpZW50X2lkIjoicGlua3UiLCJpYXQiOjE2OTU3ODY2ODIsImV4cCI6MTY5NTc4ODQ4Mn0.iFmK1fT2pydg6Q3Bg2qYsAkLSQCyUFa3IS043f3oAbc');
-
-          Navigator.pushNamed(
-            context,
-            resetPwdScreenRoute,
-            arguments: {'viaNavigationDrawer': true},
-          );
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const CircleAvatar(
-              radius: 45.0,
-              backgroundColor: AppColors.navigationSkybluecolor,
-              child: CircleAvatar(
-                  backgroundColor: AppColors.backgroundWhitecolor,
-                  radius: 43.0,
-                  child: CircleAvatar(
-                      backgroundColor: AppColors.dividelineGreycolor,
-                      radius: 40,
-                      backgroundImage: AssetImage(Constants.bg))),
-
-              // NetworkImage("Your Photo Url"), // for Network image
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    username ?? '',
-                    style: Styles.textStyleBlack16,
-                  ),
-                  Text(
-                    email ?? '',
-                    style: Styles.textStyleRegularNormalGrey14,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ));
+    ),
+  );
 }
 
-class DrawerItem1 {
+class MenuItem {
   final String title;
   final String imageName;
-  final int numberofchilderns;
+  final int numberOfChildren;
 
-  const DrawerItem1(this.title, this.imageName, this.numberofchilderns);
+  const MenuItem(this.title, this.imageName, this.numberOfChildren);
 }
 
-class ImageIconDimention1 {
+class ImageIconDimension {
   final double height;
   final double width;
 
-  const ImageIconDimention1(this.height, this.width);
+  const ImageIconDimension(this.height, this.width);
 }

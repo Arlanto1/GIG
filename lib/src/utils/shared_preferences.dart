@@ -1,7 +1,12 @@
+import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/features/login/models/login_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/organisation.dart';
 
 class SharedPrefs {
   static late final SharedPreferences instance;
@@ -100,6 +105,9 @@ class SharedPrefs {
   }
 
   static Future<void> setToken(String token) async {
+    if(token.isEmptyOrNull){
+      log('---SETTING EMPTY TOKEN--------');
+    }
     instance.setString(Constants.isAccessToken, token);
   }
 
@@ -144,5 +152,39 @@ class SharedPrefs {
     int? id = instance.getInt(Constants.isMaterialMovementIdKey) ?? 0;
     log('$id');
     return id;
+  }
+
+  static Future<void> setDisplayMenu(DisplayMenu displayMenu) async {
+    log('Setting Display Menu');
+    String jsonString = jsonEncode(displayMenu.toJson());
+    instance.setString(Constants.userRoles, jsonString);
+  }
+
+  static Future<DisplayMenu?> getDisplayMenu() async {
+    String jsonString = instance.getString(Constants.userRoles) ?? '';
+    Map<String, dynamic> jsonMap = jsonDecode(jsonString);
+
+    if (jsonMap.isNotEmpty) {
+      DisplayMenu displayMenu = DisplayMenu.fromJson(jsonMap);
+      return displayMenu;
+    }
+    return null;
+  }
+
+  static Future<void> setDefaultLocation(Organisation defaultLocation) async {
+    log('Setting Default Location');
+    String jsonString = jsonEncode(defaultLocation.toJson());
+    instance.setString(Constants.defaultLocation, jsonString);
+  }
+
+  static Future<Organisation?> getDefaultLocation() async {
+    String jsonString = instance.getString(Constants.defaultLocation) ?? '';
+    Map<String, dynamic> jsonMap = jsonDecode(jsonString);
+
+    if (jsonMap.isNotEmpty) {
+      Organisation defaultLocation = Organisation.fromJson(jsonMap);
+      return defaultLocation;
+    }
+    return null;
   }
 }

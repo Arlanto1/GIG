@@ -71,7 +71,8 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: SvgPicture.asset(AppIcon.backIcon, color: AppColors.backgroundWhitecolor),
+            icon: SvgPicture.asset(AppIcon.backIcon,
+                color: AppColors.backgroundWhitecolor),
           ),
           action: [
             CustomPopmenu(
@@ -87,7 +88,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
               popupimagename: AppIcon.createfoundsaveicon,
             ),
           ],
-         // backgroundColor: AppColors.navigationSkybluecolor,
+          // backgroundColor: AppColors.navigationSkybluecolor,
           // leading: IconButton(
           //   icon: const Icon(Icons.arrow_back_ios,
           //       color: AppColors.backgroundWhitecolor),
@@ -215,9 +216,8 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
 
                                             Positioned(
                                                 top: _image != null ? 20 : 2,
-                                                right: _image != null
-                                                    ? 35
-                                                    : 5, //give the values according to your requirement
+                                                right: _image != null ? 35 : 5,
+                                                //give the values according to your requirement
                                                 child: GestureDetector(
                                                   onTap: () {
                                                     print(
@@ -289,25 +289,26 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                             showImagePicker(context);
                                           },
                                           icon: SvgPicture.asset(
-                                      //AppIcon.dropdownicon,
-                                      AppIcon.uploadicon,
-                                      //fit: BoxFit.,
-                                      color: AppColors.backgroundWhitecolor,
-                                      width: 13,
-                                      height: 13,
-                                      key: const Key(Keys.userIcon),
-                                    ),
-                                    // const Icon(
-                                    //   // <-- Icon
-                                    //   Icons.upload,
-                                    //   color: AppColors.backgroundWhitecolor,
-                                    //   size: 24.0,
-                                    // ),
-                                    label: const Text(
-                                      Constants.clicktoupload,
-                                      style:
-                                          Styles.textStyleRegularNormalWhite12,
-                                    ), // <--/ <-- Text
+                                            //AppIcon.dropdownicon,
+                                            AppIcon.uploadicon,
+                                            //fit: BoxFit.,
+                                            color:
+                                                AppColors.backgroundWhitecolor,
+                                            width: 13,
+                                            height: 13,
+                                            key: const Key(Keys.userIcon),
+                                          ),
+                                          // const Icon(
+                                          //   // <-- Icon
+                                          //   Icons.upload,
+                                          //   color: AppColors.backgroundWhitecolor,
+                                          //   size: 24.0,
+                                          // ),
+                                          label: const Text(
+                                            Constants.clicktoupload,
+                                            style: Styles
+                                                .textStyleRegularNormalWhite12,
+                                          ), // <--/ <-- Text
                                         ),
                                       ),
                                     ]),

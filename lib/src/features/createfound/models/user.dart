@@ -37,25 +37,30 @@ class User {
         firstName = json['firstName'] as String?,
         lastName = json['lastName'] as String?,
         phone = json['phone'] as String?,
-        roles = (json['roles'] as List?)?.map((dynamic e) => Role.fromJson(e as Map<String,dynamic>)).toList(),
-        roleExtensions = (json['roleExtensions'] as List?)?.map((dynamic e) => RoleExtension.fromJson(e as Map<String,dynamic>)).toList(),
+        roles = (json['roles'] as List?)
+            ?.map((dynamic e) => Role.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        roleExtensions = (json['roleExtensions'] as List?)
+            ?.map((dynamic e) =>
+                RoleExtension.fromJson(e as Map<String, dynamic>))
+            .toList(),
         notApprovedRoles = json['notApprovedRoles'] as List?,
         notApprovedRoleExtensions = json['notApprovedRoleExtensions'] as List?,
         name = json['name'] as String?,
         userStatus = json['userStatus'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'userId' : userId,
-    'userName' : userName,
-    'email' : email,
-    'firstName' : firstName,
-    'lastName' : lastName,
-    'phone' : phone,
-    'roles' : roles?.map((e) => e.toJson()).toList(),
-    'roleExtensions' : roleExtensions?.map((e) => e.toJson()).toList(),
-    'notApprovedRoles' : notApprovedRoles,
-    'notApprovedRoleExtensions' : notApprovedRoleExtensions,
-    'name' : name,
-    'userStatus' : userStatus
-  };
+        'userId': userId,
+        'userName': userName,
+        'email': email,
+        'firstName': firstName,
+        'lastName': lastName,
+        'phone': phone,
+        'roles': roles?.map((e) => e.toJson()).toList(),
+        'roleExtensions': roleExtensions?.map((e) => e.toJson()).toList(),
+        'notApprovedRoles': notApprovedRoles,
+        'notApprovedRoleExtensions': notApprovedRoleExtensions,
+        'name': name,
+        'userStatus': userStatus
+      };
 }

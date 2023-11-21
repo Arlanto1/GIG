@@ -64,10 +64,9 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
-            Navigator.pushNamed(context, contactDetailsRoute,
-                arguments: {
-                  "title": Constants.contactDetails,
-                })
+            Navigator.pushNamed(context, contactDetailsRoute, arguments: {
+              "title": Constants.contactDetails,
+            })
           },
         ),
         appBar: BaseAppBar().buildAppHeader(

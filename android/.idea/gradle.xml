@@ -12,15 +12,16 @@
           <set>
             <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/app_settings-4.3.1/android" />
             <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/connectivity-3.0.6/android" />
-            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/file_picker-5.3.3/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/file_picker-5.5.0/android" />
             <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_file_dialog-3.0.2/android" />
             <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility-5.4.1/android" />
-            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.15/android" />
-            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_android-0.8.7+4/android" />
-            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_android-2.1.0/android" />
-            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/permission_handler_android-10.3.3/android" />
-            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_android-2.2.0/android" />
-            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_android-3.10.0/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.17/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/image_gallery_saver-2.0.3/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_android-0.8.8+2/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_android-2.2.1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/permission_handler_android-10.3.6/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_android-2.2.1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_android-3.12.1/android" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
           </set>

@@ -4,7 +4,7 @@ class ContactDetailsState extends Equatable {
   final FormStatus status;
 
   final ContactDetailModel model;
-  final GetLocations? locations;
+  final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
@@ -15,7 +15,7 @@ class ContactDetailsState extends Equatable {
 
   factory ContactDetailsState.initial({
     required ContactDetailModel model,
-    required GetLocations locations,
+    required Locations locations,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
@@ -83,7 +83,7 @@ class ContactDetailsState extends Equatable {
   ContactDetailsState copyWith({
     FormStatus? status,
     ContactDetailModel? model,
-    GetLocations? locations,
+    Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,

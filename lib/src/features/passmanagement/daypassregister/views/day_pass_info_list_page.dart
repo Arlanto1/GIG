@@ -26,7 +26,8 @@ class DayPassInfoListPage extends StatefulWidget {
   String title;
   bool isRegister;
 
-  DayPassInfoListPage({Key? key, this.passId = '0', this.title = '',this.isRegister = false})
+  DayPassInfoListPage(
+      {Key? key, this.passId = '0', this.title = '', this.isRegister = false})
       : super(key: key);
 
   @override
@@ -39,7 +40,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
   int pageNumber = 0;
   List<DaypassInfoListElement>? localFoundList;
   late ScrollController scrollController;
-   bool isPaginationLoading = false;
+  bool isPaginationLoading = false;
 
   @override
   void initState() {
@@ -50,23 +51,16 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
     _getpassFoundArticleList();
   }
 
-  
-   _loadMore() {
-    
+  _loadMore() {
     if (scrollController.position.maxScrollExtent ==
         scrollController.position.pixels) {
-     
-      if ((localFoundList?.length ?? 0) > 0)
-      {
-         pageNumber =  ((localFoundList?.length ?? 0));
-      }
-      else
-      {
-      pageNumber = pageNumber + 20;
+      if ((localFoundList?.length ?? 0) > 0) {
+        pageNumber = ((localFoundList?.length ?? 0));
+      } else {
+        pageNumber = pageNumber + 20;
       }
       isPaginationLoading = true;
-       //showLoadingDialog(context);
-      print(pageNumber);
+      //showLoadingDialog(context);
       // Perform event when user reach at the end of list (e.g. do Api call)
       _getpassFoundArticleList();
       // }
@@ -76,8 +70,8 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
 
   void _getpassFoundArticleList() async {
     String userid = await SharedPrefs.getUserId();
-    await dayPassInfoCubit.getPassMngtList(
-        pageNumber.toString(), '20', userid, widget.passId, context,widget.isRegister);
+    await dayPassInfoCubit.getPassMngtList(pageNumber.toString(), '20', userid,
+        widget.passId, context, widget.isRegister);
   }
 
   getpassFoundArticleListId(int articleid) async {
@@ -134,12 +128,23 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
               String userid = await SharedPrefs.getUserId();
               print(value);
               if (value == 0) {
-                  DownloadImage().passexportExcel(context, int.parse(userid), 'export.xslx', int.parse(widget.passId ?? '0'),0 , '/exportPassInfoExcel');   
+                DownloadImage().passexportExcel(
+                    context,
+                    int.parse(userid),
+                    'export.xslx',
+                    int.parse(widget.passId ?? '0'),
+                    0,
+                    '/exportPassInfoExcel');
               } else if (value == 1) {
                 // DownloadImage().exportPdf(context, int.parse(userid),
                 //     'export.pdf', 0, pageNumber, '/exportPassInfoPDF');
-                  DownloadImage().passexportExcel(context, int.parse(userid), 'export.pdf', int.parse(widget.passId ?? '0'),0 , '/exportPassInfoPDF');
-                  
+                DownloadImage().passexportExcel(
+                    context,
+                    int.parse(userid),
+                    'export.pdf',
+                    int.parse(widget.passId ?? '0'),
+                    0,
+                    '/exportPassInfoPDF');
               }
             },
             popupimagename: AppIcon.morewhiteicon,
@@ -149,7 +154,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
       body: BlocBuilder<DayPassInfoCubit, DayPassInfoState>(
           bloc: dayPassInfoCubit,
           builder: (context, state) {
-             if (state.stateType == DayPassInfoStateType.success) {
+            if (state.stateType == DayPassInfoStateType.success) {
               if (state.foundListModel?.list == null &&
                   state.foundListModel!.list!.isEmpty) {
                 if (pageNumber == 0) {
@@ -167,25 +172,23 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
                 } else {
                   localFoundList?.addAll(state.foundListModel?.list ?? []);
                 }
-                if ((state.foundListModel?.list?.length ?? 0) == 0 || (state.foundListModel?.totalCount ?? 0) == localFoundList?.length)
-                {
+                if ((state.foundListModel?.list?.length ?? 0) == 0 ||
+                    (state.foundListModel?.totalCount ?? 0) ==
+                        localFoundList?.length) {
                   isPaginationLoading = false;
-                }
-                else
-                {
+                } else {
                   isPaginationLoading = true;
                 }
                 return listWidgetLoading(
                     height, state, scrollController, localFoundList);
               }
             }
-            
+
             if (state.stateType == DayPassInfoStateType.loading) {
               return const Center(
                   child: CircularProgressIndicator(
                       color: AppColors.navigationSkybluecolor));
-            } 
-            else if (state.stateType == DayPassInfoStateType.failure) {
+            } else if (state.stateType == DayPassInfoStateType.failure) {
               return Center(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -200,7 +203,6 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
                 localFoundList = state.foundListModel?.list;
               } else {
                 localFoundList?.addAll(state.foundListModel?.list ?? []);
-                
               }
               return listWidgetLoading(
                   height, state, scrollController, localFoundList);
@@ -283,47 +285,47 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
       child: Visibility(
         visible: userList!.isNotEmpty,
         child: ListView.builder(
-          //controller: scrollController,
-          itemCount:isPaginationLoading ? userList.length + 1 : userList.length,// userList.length,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-             if (index >= userList.length)
-            {
-              return const Center(child:  CircularProgressIndicator());
-            }
-            else
-            {
-            DaypassInfoListElement user = userList[index];
+            //controller: scrollController,
+            itemCount: isPaginationLoading
+                ? userList.length + 1
+                : userList.length, // userList.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              if (index >= userList.length) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                DaypassInfoListElement user = userList[index];
 
-            return DayPassRegisterListItem(
-              userItem: user,
-              onTap: (selectedIndex) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return DayPassInfoCustomPopUpList(userList[selectedIndex]);
+                return DayPassRegisterListItem(
+                  userItem: user,
+                  onTap: (selectedIndex) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext dialogContext) {
+                        return DayPassInfoCustomPopUpList(
+                            userList[selectedIndex]);
+                      },
+                    );
+                    //do the detail edit of user found
                   },
-                );
-                //do the detail edit of user found
-              },
-              // oneditTap: (selectedIndex) {
-              //   getpassFoundArticleListId(userList[selectedIndex].id ?? 0);
-              // },
-              onviewTap: (selectedIndex) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return DayPassInfoCustomPopUpList(userList[selectedIndex]);
+                  // oneditTap: (selectedIndex) {
+                  //   getpassFoundArticleListId(userList[selectedIndex].id ?? 0);
+                  // },
+                  onviewTap: (selectedIndex) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext dialogContext) {
+                        return DayPassInfoCustomPopUpList(
+                            userList[selectedIndex]);
+                      },
+                    );
                   },
-                );
-              },
 
-              index: index,
-            );
-          }
-          }
-        ),
+                  index: index,
+                );
+              }
+            }),
       ),
     );
   }

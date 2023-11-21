@@ -21,7 +21,7 @@
     },
     {
       "name": "archive",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/archive-3.4.6",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/archive-3.4.9",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -69,9 +69,9 @@
     },
     {
       "name": "build_daemon",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/build_daemon-4.0.0",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/build_daemon-4.0.1",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "3.0"
     },
     {
       "name": "build_resolvers",
@@ -116,6 +116,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "cli_util",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/cli_util-0.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "clock",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/clock-1.1.1",
       "packageUri": "lib/",
@@ -129,7 +135,7 @@
     },
     {
       "name": "collection",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/collection-1.17.2",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/collection-1.18.0",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -269,7 +275,7 @@
       "name": "flutter",
       "rootUri": "file:///Users/anurag/Downloads/flutter/packages/flutter",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.2"
     },
     {
       "name": "flutter_bloc",
@@ -326,6 +332,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_launcher_icons",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_launcher_icons-0.13.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "flutter_lints",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_lints-2.0.3",
       "packageUri": "lib/",
@@ -335,7 +347,7 @@
       "name": "flutter_localizations",
       "rootUri": "file:///Users/anurag/Downloads/flutter/packages/flutter_localizations",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.2"
     },
     {
       "name": "flutter_plugin_android_lifecycle",
@@ -353,7 +365,7 @@
       "name": "flutter_test",
       "rootUri": "file:///Users/anurag/Downloads/flutter/packages/flutter_test",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.2"
     },
     {
       "name": "flutter_typeahead",
@@ -365,7 +377,7 @@
       "name": "flutter_web_plugins",
       "rootUri": "file:///Users/anurag/Downloads/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.2"
     },
     {
       "name": "frontend_server_client",
@@ -531,7 +543,7 @@
     },
     {
       "name": "meta",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/meta-1.9.1",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/meta-1.10.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -657,7 +669,7 @@
     },
     {
       "name": "pointer_interceptor",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/pointer_interceptor-0.9.3+6",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/pointer_interceptor-0.9.3+7",
       "packageUri": "lib/",
       "languageVersion": "3.1"
     },
@@ -675,7 +687,7 @@
     },
     {
       "name": "provider",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/provider-6.0.5",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/provider-6.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -767,7 +779,7 @@
       "name": "sky_engine",
       "rootUri": "file:///Users/anurag/Downloads/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.2"
     },
     {
       "name": "source_gen",
@@ -795,15 +807,15 @@
     },
     {
       "name": "stack_trace",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/stack_trace-1.11.0",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/stack_trace-1.11.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "stream_channel",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/stream_channel-2.1.1",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/stream_channel-2.1.2",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "2.19"
     },
     {
       "name": "stream_transform",
@@ -837,9 +849,9 @@
     },
     {
       "name": "test_api",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/test_api-0.6.0",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/test_api-0.6.1",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.0"
     },
     {
       "name": "timing",
@@ -891,9 +903,9 @@
     },
     {
       "name": "web",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/web-0.1.4-beta",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/web-0.3.0",
       "packageUri": "lib/",
-      "languageVersion": "3.1"
+      "languageVersion": "3.2"
     },
     {
       "name": "web_socket_channel",
@@ -921,15 +933,15 @@
     },
     {
       "name": "webview_flutter_wkwebview",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.9.3",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.9.4",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
     {
       "name": "win32",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/win32-5.0.9",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/win32-5.1.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.1"
     },
     {
       "name": "xdg_directories",
@@ -956,7 +968,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-11-05T07:50:00.780395Z",
+  "generated": "2023-11-20T06:49:46.880324Z",
   "generator": "pub",
-  "generatorVersion": "3.1.5"
+  "generatorVersion": "3.2.0"
 }

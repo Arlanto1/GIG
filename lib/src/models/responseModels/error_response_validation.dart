@@ -1,4 +1,3 @@
-
 class ErrorResponse {
   final bool status;
   final String message;

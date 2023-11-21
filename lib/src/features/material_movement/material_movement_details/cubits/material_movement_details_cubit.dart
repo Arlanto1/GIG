@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as math;
 
@@ -19,7 +18,6 @@ import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
@@ -50,7 +48,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   }) : super(
           MaterialMovementDetailsState.initial(
             model: model ?? MaterialMovementModel(),
-            locations: GetLocations(),
+            locations: Locations(),
             loggedInUserDetails: User(),
             users: const [],
             emailUsers: const [],
@@ -76,9 +74,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      GetLocations getLocationsData =
+      Locations locations =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
+      // log('--locations.central?.length--${locations.central?.length}--');
+      // for(Organisation centralLocation in locations.central??[]){
+      //   log('--centralLocation.name--${centralLocation.name}--');
+      //   log('--centralLocation.id--${centralLocation.id}--');
+      //
+      // }
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
       Analyst users =
@@ -113,17 +117,37 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       QuantityUnits quantityUnits = await commonServices.getQuantityUnits();
 
+      if (state.model.location == null) {
+        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+        log('defaultLocation --$defaultLocation');
+
+        if (defaultLocation != null) {
+          String moduleCode = isInward ?? false
+              ? Constants.materialMovementInwardReturnableModule
+              : Constants.materialMovementOutwardNonReturnableModule;
+
+          SerialNumberModel slNo = await commonServices.getSlNo(
+            locationId: defaultLocation.id.toString(),
+            moduleCode: moduleCode,
+          );
+
+          state.model.location = defaultLocation;
+          state.model.slNo = slNo.serialNo;
+        }
+      }
+
       state.model.entrySecurity = loggedInUserDetails;
       state.model.unit = model?.unit;
 
       log('-emailUsers.atomStaticUser----init--${emailUsers.atomStaticUser?.length}---');
       emit(
         state.copyWith(
-          locations: getLocationsData,
+          locations: locations,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
           users: users.t1Analyst,
+          loadAttachments: state.model.images,
           emailUsers: emailUsers.atomStaticUser,
           approver1Users: emailUsers.atomStaticUser,
           approver2Users: emailUsers.atomStaticUser,
@@ -244,6 +268,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   }
 
   Future<void> updateApproverEmailsValue({
+    BaseUser? requesterEmailUser,
     BaseUser? approver1EmailUser,
     BaseUser? approver2EmailUser,
   }) async {
@@ -252,6 +277,28 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         status: FormStatus.loading,
       ),
     );
+
+    if (requesterEmailUser != null) {
+      state.model.requestorEmail = requesterEmailUser.email;
+
+      emit(
+        state.copyWith(
+          requestorEmailUsers: state.emailUsers,
+        ),
+      );
+
+      state.approver1Users?.remove(requesterEmailUser);
+      state.approver2Users?.remove(requesterEmailUser);
+
+      emit(
+        state.copyWith(
+          model: state.model,
+          approver2Users: state.approver2Users,
+          approver1Users: state.approver1Users,
+          status: FormStatus.initial,
+        ),
+      );
+    }
 
     if (approver1EmailUser != null) {
       state.model.approver1Email = approver1EmailUser.email;
@@ -262,13 +309,14 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         ),
       );
 
-      List<BaseUser>? updatedUsers = List.from(state.approver2Users ?? []);
-      updatedUsers.remove(approver1EmailUser);
+      state.requestorEmailUsers?.remove(approver1EmailUser);
+      state.approver2Users?.remove(approver1EmailUser);
 
       emit(
         state.copyWith(
           model: state.model,
-          approver2Users: updatedUsers,
+          requestorEmailUsers: state.requestorEmailUsers,
+          approver2Users: state.approver2Users,
           status: FormStatus.initial,
         ),
       );
@@ -283,12 +331,14 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         ),
       );
 
+      state.requestorEmailUsers?.remove(approver2EmailUser);
       state.approver1Users?.remove(approver2EmailUser);
 
       emit(
         state.copyWith(
           model: state.model,
           status: FormStatus.initial,
+          requestorEmailUsers: state.requestorEmailUsers,
           approver1Users: state.approver1Users,
         ),
       );
@@ -308,12 +358,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     log('--data----${data?.length}----');
     log('--state.status-2---${state.status}----');
 
-    emit(state.copyWith(
-      eventId: eventIds,
-      model: state.model,
-      loadAttachments: data,
-      status: FormStatus.initial,
-    ));
+    state.model.images = data;
+    emit(
+      state.copyWith(
+        eventId: eventIds,
+        model: state.model,
+        loadAttachments: data,
+        status: FormStatus.initial,
+      ),
+    );
 
     log('--state.status--3--${state.status}----');
   }
@@ -361,7 +414,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     required SignatureController controller,
     required bool isReceiverSignature,
   }) async {
-    String imageBytes = await exportSignature(controller);
+    String imageBytes = await SignatureController().exportSignature(controller);
 
     // Check for null explicitly
     if (imageBytes.isEmpty) {
@@ -385,18 +438,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         model: state.model,
       ));
     }
-  }
-
-  Future<String> exportSignature(
-    SignatureController controller,
-  ) async {
-    Uint8List? signature = await controller.toPngBytes();
-    if (signature == null) {
-      return '';
-    }
-    String bs4str = base64Encode(signature);
-
-    return bs4str;
   }
 
   Future<void> submitForm({

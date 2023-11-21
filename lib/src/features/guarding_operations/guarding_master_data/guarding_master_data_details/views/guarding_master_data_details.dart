@@ -757,14 +757,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               initialValue: '${state.model.dependentsNo ?? ''}',
                               textFormKey: Keys.dependentsKey,
                               hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData
-                                                  ?.dependentsNo ==
-                                              null))
-                                      ? false
-                                      : true,
+                              isEnable: isDisabled,
                               isDisableColor: false,
                               onChange: (String value) {
                                 state.model.dependentsNo = int.tryParse(value);
@@ -787,6 +780,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             BaseDate().datePickerWidgetLoading(
                               textController: dateOfBirthController,
                               onlyDate: true,
+                              showAfterDate: false,
                               onChange: (String value) {
                                 state.model.dateOfBirth =
                                     Utils().formatTime(value);
@@ -974,13 +968,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               initialValue: '${state.model.weight ?? ''}',
                               textFormKey: Keys.weightKey,
                               hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData?.weight ==
-                                              null))
-                                      ? false
-                                      : true,
+                              isEnable: isDisabled,
                               isDisableColor: false,
                               onChange: (String value) {
                                 state.model.weight = int.tryParse(value);
@@ -1001,13 +989,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               initialValue: '${state.model.chest ?? ''}',
                               textFormKey: Keys.chestKey,
                               hintText: '',
-                              isEnable: widget.guardingMasterData == null
-                                  ? true
-                                  : (widget.guardingMasterData != null &&
-                                          (widget.guardingMasterData?.chest ==
-                                              null))
-                                      ? false
-                                      : true,
+                              isEnable: isDisabled,
                               isDisableColor: false,
                               onChange: (String value) {
                                 state.model.chest = int.tryParse(value);
@@ -1120,6 +1102,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 6,
                               isDisableColor: state.model.status == 6,
+                              showBorder: true,
                               onChange: (String value) {
                                 state.model.securityExperience = value;
                                 context
@@ -1174,6 +1157,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               lineHeight: 6,
                               initialValue: state.model.permanentAddress,
                               textFormKey: Keys.permanentAddressKey,
+                              showBorder: true,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 6,
                               isDisableColor: state.model.status == 6,
@@ -1238,6 +1222,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               initialValue: state.model.localAddress,
                               textFormKey: Keys.localAddressKey,
                               hintText: Constants.informationhere,
+                              showBorder: true,
                               isEnable: state.model.status != 6,
                               isDisableColor: state.model.status == 6,
                               onChange: (String value) {
@@ -1485,6 +1470,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
+                              showBackDate: false,
                               textController:
                                   medicalCertificateValidUntilController,
                               onChange: (String value) {
@@ -1776,6 +1762,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
+                              showAfterDate: false,
                               textController: dateOfFirstCovidDoseController,
                               onChange: (String value) {
                                 log('--fr-value-${dateOfFirstCovidDoseController.text}------');
@@ -1798,6 +1785,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
+                              showAfterDate: false,
                               textController: dateOfSecondCovidDoseController,
                               onChange: (String value) {
                                 log('--fr-value-${dateOfSecondCovidDoseController.text}------');
@@ -1819,6 +1807,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
+                              showAfterDate: false,
                               textController: dateOfPrecautionaryCovidDose,
                               onChange: (String value) {
                                 log('--fr-value-${dateOfPrecautionaryCovidDose.text}------');
@@ -1840,6 +1829,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
+                              showAfterDate: false,
                               textController: ertCertificationDate,
                               onChange: (String value) {
                                 log('--fr-value-${ertCertificationDate.text}------');
@@ -1861,6 +1851,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
+                              showAfterDate: false,
                               textController: firstAidTrainingCompletionDate,
                               onChange: (String value) {
                                 log('--fr-value-${firstAidTrainingCompletionDate.text}------');
@@ -2029,6 +2020,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               initialValue: state.model.additionalInitiatives,
                               textFormKey: Keys.additionInitiativesKey,
                               hintText: Constants.informationhere,
+                              showBorder: true,
                               isEnable: state.model.status != 6,
                               isDisableColor: state.model.status == 6,
                               onChange: (String value) {
@@ -2302,7 +2294,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
           builder: (BuildContext dialogContext) {
             // print(state.getLocationsResponse);
             return CustomExpansionListTexts(
-              getLocationsresponse: state.locations,
+              locationList: state.locations,
               onTap: (Organisation? list) async {
                 log('list?.name-----${list?.name}');
 

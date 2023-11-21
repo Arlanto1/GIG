@@ -30,14 +30,13 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> getUserDetails() async {
-     userName = await SharedPrefs.getUsername();
-     email = await SharedPrefs.getEmail();
-     log('username : $userName email is : $email');
-     //await Future.delayed(Duration(seconds: 3));
-     setState(() {
-       
-     });
+    userName = await SharedPrefs.getUsername();
+    email = await SharedPrefs.getEmail();
+    log('username : $userName email is : $email');
+    //await Future.delayed(Duration(seconds: 3));
+    setState(() {});
   }
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return const Placeholder();
@@ -59,7 +58,7 @@ class MyHomePageState extends State<MyHomePage> {
       //   backgroundColor: AppColors.navigationSkybluecolor,
       // ),
       key: scaffoldKey,
-      drawer: NavigationDrawer1(scaffoldKey,userName,email),
+      drawer: NavigationDrawer1(scaffoldKey, userName, email),
       appBar: AppHeader(
         isTitleCenter: false,
         title: Constants.dashboard,

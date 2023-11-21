@@ -861,6 +861,7 @@ class Utils {
       ),
     );
   }
+
   Widget passCategory(int category) {
     String categoryTypeText;
     switch (category) {

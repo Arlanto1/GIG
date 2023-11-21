@@ -96,7 +96,12 @@ class BaseApiService {
     LoginResponseModel loginData = await loginService.refreshToken(request);
 
     // Store the new token
-    await SharedPrefs.setToken(loginData.token ?? '');
+    log('Store the new token');
+    if (loginData.token == null || loginData.token!.isEmpty) {
+      log('---SETTING EMPTY TOKEN--------');
+      throw GenericErrorResponse(message: 'Refresh Token is null.');
+    }
+    await SharedPrefs.setToken(loginData.token!);
   }
 
   Future<dynamic> postRequest({
@@ -133,14 +138,26 @@ class BaseApiService {
           log('---response---449----');
           return response;
         }
-        if (response.statusCode == 400) {
-          final responseBody = json.decode(response.body);
-          log("User is unauthorized. Logging out...");
-          log("------responseBody.toString()-------------${responseBody.runtimeType.toString()}");
-          // TODO: Handle logout logic here
-          // logout(context); // You can define this method to handle logout
+        try {
+          if (response.statusCode == 400) {
+            final responseBody = json.decode(response.body);
+            log("User is unauthorized. Logging out...");
+            log("------responseBody.toString()-------------${responseBody.runtimeType.toString()}");
+            // TODO: Handle logout logic here
+            // logout(context); // You can define this method to handle logout
 
-          throw GenericErrorResponse.fromJson(responseBody);
+            throw GenericErrorResponse.fromJson(responseBody);
+          }
+        } catch (e) {
+          // Handle the exception
+          if (e is GenericErrorResponse) {
+            // Handle the case when the response is a GenericErrorResponse
+            log("Error ID: ${e.id}, Message: ${e.message}");
+            throw GenericErrorResponse.fromJson(responseBody);
+          } else {
+            // Handle other types of exceptions or log them
+            log("Unexpected error: $e");
+          }
         }
         if (response.statusCode == 401) {
           log("User is unauthorized. Logging out...");

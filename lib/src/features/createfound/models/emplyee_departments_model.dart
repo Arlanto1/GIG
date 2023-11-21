@@ -5,7 +5,8 @@ import '../../../models/organisation.dart';
 EmployeeDepartments employeeDepartmentsFromJson(String str) =>
     EmployeeDepartments.fromJson(json.decode(str));
 
-String employeeDepartmentsToJson(EmployeeDepartments data) => json.encode(data.toJson());
+String employeeDepartmentsToJson(EmployeeDepartments data) =>
+    json.encode(data.toJson());
 
 class EmployeeDepartments {
   List<Organisation>? employeeDepartments;
@@ -14,11 +15,12 @@ class EmployeeDepartments {
     this.employeeDepartments,
   });
 
-  factory EmployeeDepartments.fromJson(Map<String, dynamic> json) => EmployeeDepartments(
+  factory EmployeeDepartments.fromJson(Map<String, dynamic> json) =>
+      EmployeeDepartments(
         employeeDepartments: json["EMPLOYEE_DEPARTMENTS"] == null
             ? []
-            : List<Organisation>.from(
-                json["EMPLOYEE_DEPARTMENTS"]!.map((x) => Organisation.fromJson(x))),
+            : List<Organisation>.from(json["EMPLOYEE_DEPARTMENTS"]!
+                .map((x) => Organisation.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -27,4 +29,3 @@ class EmployeeDepartments {
             : List<dynamic>.from(employeeDepartments!.map((x) => x.toJson())),
       };
 }
-

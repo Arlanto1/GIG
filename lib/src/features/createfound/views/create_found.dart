@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_bar.dart';
@@ -10,6 +12,8 @@ import 'package:db_atom/src/common_widgets/custom_simple_list_texts.dart';
 import 'package:db_atom/src/common_widgets/date_time_picker.dart';
 import 'package:db_atom/src/common_widgets/image_download.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
+import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
+import 'package:db_atom/src/common_widgets/signature/signature_func.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
@@ -35,9 +39,9 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:signature/signature.dart';
 
 import '../../../common_widgets/app_button.dart';
+import '../../../common_widgets/base_widget/date_picker_dialog.dart';
 import '../../../models/base_user.dart';
 import '../../../models/organisation.dart';
 import '../models/user.dart';
@@ -98,17 +102,27 @@ class _CreateFoundState extends State<CreateFound> {
   List<ImageContent> getFiles = [];
   List<ImageContent> getAttachments = [];
 
-  SignatureController claimantSignature = SignatureController();
+  SignatureController claimantSignatureController = SignatureController();
 
   @override
   void initState() {
     super.initState();
+    claimantSignatureController = SignatureController(
+        penStrokeWidth: 2,
+        penColor: Colors.black,
+        exportBackgroundColor: Colors.white);
     if (widget.model != null) {
       populateData();
     }
     BlocProvider.of<CreateFoundArticleCubit>(context).initializeValues();
     _getFoundArticleList();
     _getCurrentDate();
+  }
+
+  @override
+  void dispose() {
+    claimantSignatureController.dispose();
+    super.dispose();
   }
 
   populateData() async {
@@ -214,6 +228,9 @@ class _CreateFoundState extends State<CreateFound> {
       claimantTextController.text = widget.model?.claimant?.name != null
           ? widget.model?.claimant?.name ?? ''
           : '';
+      claimantTextController.text = widget.model?.claimantName != null
+          ? widget.model?.claimantName ?? ""
+          : '';
       selectedClaimdepartment = widget.model?.claimantDepartment != null
           ? Organisation(
               id: widget.model?.claimantDepartment?.id ?? 0,
@@ -290,6 +307,11 @@ class _CreateFoundState extends State<CreateFound> {
           : depositorTextController.text.isNotEmpty
               ? depositorTextController.text
               : '',
+      "claimantName": isClaimantDBEmployeeSelected == 1
+          ? selectedClaimList?.name ?? ''
+          : claimantTextController.text.isNotEmpty
+              ? claimantTextController.text
+              : '',
       "employeeId": depositorEmpIdTextController.text.isNotEmpty
           ? depositorEmpIdTextController.text
           : '',
@@ -312,16 +334,20 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   /// Submit Form
-  Future submitForm(bool isSubmit, int isFoundId,
-      {CreateFoundState? state}) async {
+  Future submitForm(
+    bool isSubmit,
+    int isFoundId, {
+    CreateFoundState? state,
+  }) async {
     log('-createRequestBody-----');
     int foundDate = Utils.dateToTimestampConversion(
         foundDateTextController.text, Constants.fulldateFormat);
     // int inputDate = Utils.dateToTimestampConversion(
     //     dateofcreationTextController.text, Constants.fulldateFormat);
     int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-    int handoverDate = Utils.dateToTimestampConversion(
-        handedoverdatedateTextController.text, Constants.fulldateFormat);
+    int handoverDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    // Utils.dateToTimestampConversion(
+    //     handedoverdatedateTextController.text, Constants.fulldateFormat);
     var username = await SharedPrefs.getUsername();
     bool isDepositorDBEmployeeSelectedValue =
         isDepositorDBEmployeeSelected == 1 ? true : false;
@@ -344,6 +370,8 @@ class _CreateFoundState extends State<CreateFound> {
     List<ImageContent>? images = getFiles;
     Organisation? claimantDepartment =
         selectedClaimdepartment ?? widget.model?.claimantDepartment;
+
+    await pushSignature(controller: claimantSignatureController);
 
     isClaimantDBEmployeeSelected;
     User? claimant = widget.model?.claimant;
@@ -378,6 +406,8 @@ class _CreateFoundState extends State<CreateFound> {
         claimant: claimant,
         claimantDbEmp: isClaimDBEmployeeSelectedValue,
         claimantNoSign: isClaimSignSelectedValue,
+        // TODO: Need to uncomment the line for passing signature
+        // claimantSign: widget.model?.claimantSign,
         handoverSecurity: handoverSecurity,
         handoverDate: handoverDate,
         claimantEmployeeId: claimantEmpIdTextController.text.isEmpty
@@ -413,6 +443,11 @@ class _CreateFoundState extends State<CreateFound> {
             ? selecteddepositorList?.name ?? ''
             : depositorTextController.text.isNotEmpty
                 ? depositorTextController.text
+                : '',
+        claimantName: isClaimantDBEmployeeSelected == 1
+            ? selectedClaimList?.name ?? ''
+            : claimantTextController.text.isNotEmpty
+                ? claimantTextController.text
                 : '',
         depositor: depositor,
         depositorDepartment: depositorDepartment,
@@ -637,18 +672,18 @@ class _CreateFoundState extends State<CreateFound> {
   datePickerDialog(TextEditingController textfield) async {
     // datePickerselection(context, founddateTextController);
     DateTime? pickedDate = await showDateTimePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2101));
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    String formattedDate =
+        DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
-    String formattedDate = DateFormat(Constants.fulldateFormat)
-        .format(pickedDate ?? DateTime.now());
     //you can implement different kind of Date Format here according to your requirement
-    if (textfield == foundDateTextController) {
-      foundDateTextController.text = formattedDate;
-    } else if (textfield == handedoverdatedateTextController) {
-      handedoverdatedateTextController.text = formattedDate;
+    if (textfield == handedoverdatedateTextController) {
+      handedoverdatedateTextController.text =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
     }
     setState(() {
       // dateinput.text = formattedDate; //set output date to TextField value.
@@ -726,9 +761,10 @@ class _CreateFoundState extends State<CreateFound> {
     if (locationSelectedlist == null &&
         state.getLocationsResponse != null &&
         widget.model == null) {
-      locationSelectedlist = Organisation(id: 24, name: "DLF Square");
-      locationselectedText = 'DLF Square';
-      await createFoundArticleCubit.getSerialnumberDetails('24', 'AF', context);
+      locationSelectedlist = Organisation(id: 323, name: "SunGard");
+      locationselectedText = 'SunGard';
+      await createFoundArticleCubit.getSerialnumberDetails(
+          '323', 'AF', context);
     }
   }
 
@@ -978,7 +1014,15 @@ class _CreateFoundState extends State<CreateFound> {
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
-                              datepickerWidgetLoading(foundDateTextController),
+                              BaseDate().datePickerWidgetLoading(
+                                showAfterDate: false,
+                                textController: foundDateTextController,
+                                onChange: (String value) {
+                                  widget.model?.foundDate =
+                                      Utils().formatTime(value);
+                                },
+                                context: context,
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// found location
@@ -1242,71 +1286,48 @@ class _CreateFoundState extends State<CreateFound> {
                                       )
                                     : Container(),
 
-                                /// claimant
-                                widget.model != null
-                                    ? CommonWidgets.textDisplay(
-                                        Constants.claimant,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true)
-                                    : Container(),
-                                widget.model != null &&
-                                        isClaimantDBEmployeeSelected == 0
-                                    ? FlutterInputField(
+                                ///claimant
+                                CommonWidgets.textDisplay(
+                                    Constants.claimant, Styles.textStyleBlack14,
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                isClaimantDBEmployeeSelected == 1
+                                    ? TextfieldAddButton(
+                                        title: selectedClaimList?.name != null
+                                            ? ('${selectedClaimList?.name ?? ''}(${selectedClaimList?.email ?? ''})')
+                                            : '',
+                                        height: 70,
+                                        isDisableColor:
+                                            widget.model?.status != 2
+                                                ? false
+                                                : true,
+                                        onTap: () {
+                                          if (widget.model?.status != 2) {
+                                            depositorDialog(
+                                                state, Constants.claimant);
+                                          }
+                                        })
+                                    : FlutterInputField(
                                         textFieldController:
                                             claimantTextController,
                                         textFormKey:
                                             Keys.claimantTextController,
-                                        hintText: claimant,
-                                        isEnable: widget.model?.status != 2
-                                            ? true
-                                            : (widget.model != null &&
-                                                    (widget.model?.claimant
-                                                                ?.lastName ??
-                                                            '')
-                                                        .isEmpty)
-                                                ? true
-                                                : false,
+                                        hintText: '',
+                                        isEnable: widget.model?.status == 0 ||
+                                                widget.model == null
+                                            ? false
+                                            : true,
                                         isDisableColor:
-                                            (widget.model?.status != 2 &&
-                                                    (widget.model?.claimant
-                                                                ?.lastName ??
-                                                            '')
-                                                        .isEmpty)
+                                            widget.model?.status != 0
                                                 ? false
                                                 : true,
                                         onChange: (String username) {
                                           //this.username = username;
-                                          claimant = username;
                                           setState(() {});
                                         },
                                         validateTextField: (String? user) {},
-                                      )
-                                    : widget.model != null
-                                        ? TextfieldAddButton(
-                                            title:
-                                                selectedClaimList?.name ?? '',
-                                            height: 60,
-                                            isDisableColor:
-                                                widget.model?.status != 2
-                                                    ? false
-                                                    : true,
-                                            onTap: () {
-                                              if (widget.model?.status != 2) {
-                                                depositorDialog(
-                                                    state, Constants.claimant);
-                                              }
-                                            },
-                                          )
-                                        : Container(),
-                                isClaimantDBEmployeeSelected == 1
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001)
-                                    : Container(),
-
-                                widget.model != null
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01)
-                                    : Container(),
+                                      ),
 
                                 /// Claimant employee id
 
@@ -1431,6 +1452,13 @@ class _CreateFoundState extends State<CreateFound> {
 
                                 ///TODO: Need to work on signature
                                 /// Claimant Signature
+                                buildSignature(
+                                  controller: claimantSignatureController,
+                                  label: Constants.claimantSignature,
+                                  spaceHeight: height,
+                                  state: state,
+                                ),
+
                                 // widget.model != null &&
                                 //         isClaimantAcceptedtoSignSelected == 1
                                 //     ? CommonWidgets.textDisplay(
@@ -1494,8 +1522,16 @@ class _CreateFoundState extends State<CreateFound> {
                                     height * 0.001),
                                 datepickerWidgetLoading(
                                     handedoverdatedateTextController),
-                                // CommonWidgets.verticalSpacerWidget(
-                                //     height * 0.01),
+                                // BaseDate().datePickerWidgetLoading(
+                                //   showAfterDate: false,
+                                //   textController:
+                                //       handedoverdatedateTextController,
+                                //   onChange: (String value) {
+                                //     widget.model?.handoverDate =
+                                //         Utils().formatTime(value);
+                                //   },
+                                //   context: context,
+                                // ),
                               ],
                               //  CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -1639,6 +1675,13 @@ class _CreateFoundState extends State<CreateFound> {
     required double spaceHeight,
     required CreateFoundState state,
   }) {
+    bool isEditable = false;
+    bool isSigned = false;
+
+    isSigned = widget.model?.claimantSign != null &&
+        !widget.model!.claimantSign!.imageContent.isEmptyOrNull;
+    isEditable = true;
+
     return Column(
       children: [
         Row(
@@ -1653,17 +1696,14 @@ class _CreateFoundState extends State<CreateFound> {
                 IconButton(
                   onPressed: () {
                     controller.clear();
+
+                    // BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                    //     .makeSignEditable(receiverSign: true);
                   },
                   iconSize: 20,
                   color: Colors.grey,
                   icon: const Icon(Icons.refresh),
                 ),
-                // IconButton(
-                //   onPressed: onDoneTap,
-                //   iconSize: 20,
-                //   color: Colors.grey,
-                //   icon: const Icon(Icons.done_outlined),
-                // ),
               ],
             ),
           ],
@@ -1680,15 +1720,56 @@ class _CreateFoundState extends State<CreateFound> {
             ),
             height: 100,
             width: double.infinity,
-            child: Signature(
-              controller: controller,
-              backgroundColor: Colors.white,
-            ),
+            child: (isEditable && isSigned)
+                ? Image.memory(
+                    Uint8List.fromList(
+                      base64Decode(
+                        widget.model?.claimantSign!.imageContent ?? '',
+                      ),
+                    ),
+                    fit: BoxFit.none,
+                  )
+                : Signature(
+                    controller: controller,
+                    backgroundColor: Colors.white,
+                  ),
           ),
         ),
         CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
       ],
     );
+  }
+
+  Future<void> pushSignature({
+    required SignatureController controller,
+  }) async {
+    String imageBytes = await SignatureController().exportSignature(controller);
+
+    // Check for null explicitly
+    if (imageBytes.isEmpty) {
+      return;
+    }
+
+    ImageContent imageContent = ImageContent();
+    imageContent.imageContent = imageBytes;
+
+    log('--imageBytes--$imageBytes--');
+
+    widget.model?.claimantSign ??= ImageContent();
+    widget.model?.claimantSign = imageContent;
+    // if (isReceiverSignature) {
+    //   imageContent.type = 2;
+    //   state.model.receiverSign = imageContent;
+    //   emit(state.copyWith(
+    //     model: state.model,
+    //   ));
+    // } else {
+    //   imageContent.type = 3;
+    //   state.model.entrySecuritySign = imageContent;
+    //   emit(state.copyWith(
+    //     model: state.model,
+    //   ));
+    // }
   }
 
   Widget submitButtonDisplay(CreateFoundState state) {
@@ -1730,8 +1811,8 @@ class _CreateFoundState extends State<CreateFound> {
             context: context,
             builder: (BuildContext dialogContext) {
               return CustomExpansionListTexts(
-                getLocationsresponse:
-                    state.getLocationsResponse ?? GetLocations(),
+                locationList:
+                    state.getLocationsResponse ?? Locations(),
                 onTap: (Organisation? list) async {
                   await createFoundArticleCubit.getSerialnumberDetails(
                       list?.id.toString() ?? '', 'AF', context);

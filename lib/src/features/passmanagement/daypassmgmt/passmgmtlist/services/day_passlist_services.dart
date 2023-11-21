@@ -9,7 +9,7 @@ class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
   static final String _getList = '$baseUrl/getPassMgmtList?';
-  static final String _getById = '$baseUrl/getPassMgmtById?';
+  static final String _getById = '$baseUrl/getPassMgmtById';
 }
 
 class DayPassListServices {
@@ -29,8 +29,7 @@ class DayPassListServices {
     return DayPassListResponse.fromJson(response);
   }
 
-  Future<DayPassListElement> getById(
-      int id, BuildContext context) async {
+  Future<DayPassListElement> getById(int id, BuildContext context) async {
     final String url = '${Apis._getById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,

@@ -12,7 +12,6 @@ import '../../models/contacts_list_response_model.dart';
 import '../../services/contact_details_services.dart';
 
 part 'contact_listing_event.dart';
-
 part 'contact_listing_state.dart';
 
 class ContactListingBloc

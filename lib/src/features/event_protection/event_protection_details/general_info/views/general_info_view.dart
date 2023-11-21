@@ -847,13 +847,13 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               FlutterInputField(
                                 keyboardType: TextInputType.number,
                                 initialValue:
-                                    state.model.systemVendor2ContactNo,
-                                textFormKey: Keys.vendor2ContactKey,
+                                    state.model.systemVendor3ContactNo,
+                                textFormKey: Keys.vendor3ContactKey,
                                 hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
                                 onChange: (String value) {
-                                  state.model.systemVendor2ContactNo = value;
+                                  state.model.systemVendor3ContactNo = value;
                                   context
                                       .read<GeneralInfoCubit>()
                                       .onModelValueChange(state.model);
@@ -1038,198 +1038,203 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///No. Of Security Officers
                               CommonWidgets.textDisplay(
-                                  Constants.numOfSecurityOfficers,
-                                  Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                                Constants.numOfSecurityOfficers,
+                                Styles.textStyleBlack14,
+                              ),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
                                 initialValue:
                                     '${state.model.securityOfficerCount ?? ''}',
                                 textFormKey: Keys.noOfSecurityOfficersKey,
-                                hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
-                                onChange: (int value) {
-                                  state.model.securityOfficerCount = value;
+                                hintText: '',
+                                onChange: (String? value) {
+                                  if (value != null) {
+                                    state.model.securityOfficerCount =
+                                        int.parse(value);
+                                  }
                                   context
                                       .read<GeneralInfoCubit>()
                                       .onModelValueChange(state.model);
                                 },
-                                validateTextField: (String? user) {},
+                                // validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               ///Total Duty Hours
                               CommonWidgets.textDisplay(
-                                  Constants.totalDutyHours,
-                                  Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                                Constants.totalDutyHours,
+                                Styles.textStyleBlack14,
+                              ),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
                                 initialValue:
                                     '${state.model.securityOfficerCountHrs ?? ''}',
                                 textFormKey: Keys.noOfSecurityOfficersHrsKey,
-                                hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
-                                onChange: (int value) {
-                                  state.model.securityOfficerCountHrs = value;
+                                hintText: '',
+                                onChange: (String? value) {
+                                  if (value != null) {
+                                    state.model.securityOfficerCountHrs =
+                                        int.parse(value);
+                                  }
                                   context
                                       .read<GeneralInfoCubit>()
                                       .onModelValueChange(state.model);
                                 },
-                                validateTextField: (String? user) {},
+                                // validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               ///No. Of Security Supervisors
                               CommonWidgets.textDisplay(
-                                  Constants.numOfSecuritySupervisor,
-                                  Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                                Constants.numOfSecuritySupervisor,
+                                Styles.textStyleBlack14,
+                              ),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
                                 initialValue:
                                     '${state.model.securitySupervisorCount ?? ''}',
                                 textFormKey: Keys.noOfSecuritySupervisorsKey,
-                                hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
-                                onChange: (int value) {
-                                  state.model.securitySupervisorCount = value;
+                                hintText: '',
+                                onChange: (String? value) {
+                                  if (value != null) {
+                                    state.model.securitySupervisorCount =
+                                        int.parse(value);
+                                  }
                                   context
                                       .read<GeneralInfoCubit>()
                                       .onModelValueChange(state.model);
                                 },
-                                validateTextField: (String? user) {},
+                                // validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               ///Total Duty Hours
                               CommonWidgets.textDisplay(
-                                  Constants.totalDutyHours,
-                                  Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                                Constants.totalDutyHours,
+                                Styles.textStyleBlack14,
+                              ),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
                                 initialValue:
                                     '${state.model.securitySupervisorCountHrs ?? ''}',
                                 textFormKey: Keys.noOfSecuritySupervisorsHrsKey,
-                                hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
-                                onChange: (int value) {
-                                  state.model.securitySupervisorCountHrs =
-                                      value;
+                                hintText: '',
+                                onChange: (String? value) {
+                                  if (value != null) {
+                                    state.model.securitySupervisorCountHrs =
+                                        int.parse(value);
+                                  }
                                   context
                                       .read<GeneralInfoCubit>()
                                       .onModelValueChange(state.model);
                                 },
-                                validateTextField: (String? user) {},
+                                // validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               ///No. Of Security Guards
                               CommonWidgets.textDisplay(
-                                  Constants.numOfSecurityGuards,
-                                  Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                                Constants.numOfSecurityGuards,
+                                Styles.textStyleBlack14,
+                              ),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
                                 initialValue:
                                     '${state.model.securityGuardCount ?? ''}',
                                 textFormKey: Keys.noOfSecurityGuardsKey,
-                                hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
-                                onChange: (int value) {
-                                  state.model.securityGuardCount = value;
+                                hintText: '',
+                                onChange: (String? value) {
+                                  if (value != null) {
+                                    state.model.securityGuardCount =
+                                        int.parse(value);
+                                  }
                                   context
                                       .read<GeneralInfoCubit>()
                                       .onModelValueChange(state.model);
                                 },
-                                validateTextField: (String? user) {},
+                                // validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               ///Total Duty Hours
                               CommonWidgets.textDisplay(
-                                  Constants.totalDutyHours,
-                                  Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                                Constants.totalDutyHours,
+                                Styles.textStyleBlack14,
+                              ),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
                                 initialValue:
                                     '${state.model.securityGuardCountHrs ?? ''}',
                                 textFormKey: Keys.noOfSecurityGuardsHrsKey,
-                                hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
-                                onChange: (int value) {
-                                  state.model.securityGuardCountHrs = value;
+                                hintText: '',
+                                onChange: (String? value) {
+                                  if (value != null) {
+                                    state.model.securityGuardCountHrs =
+                                        int.parse(value);
+                                  }
                                   context
                                       .read<GeneralInfoCubit>()
                                       .onModelValueChange(state.model);
                                 },
-                                validateTextField: (String? user) {},
+                                // validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               ///No. Of Security Facilitators
                               CommonWidgets.textDisplay(
-                                  Constants.numOfSecurityFacilitators,
-                                  Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                                Constants.numOfSecurityFacilitators,
+                                Styles.textStyleBlack14,
+                              ),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
                                 initialValue:
                                     '${state.model.securityFacilitatorCount ?? ''}',
                                 textFormKey: Keys.noOfSecurityGuardsKey,
-                                hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
-                                onChange: (int value) {
-                                  state.model.securityFacilitatorCount = value;
+                                hintText: '',
+                                onChange: (String? value) {
+                                  if (value != null) {
+                                    state.model.securityFacilitatorCount =
+                                        int.parse(value);
+                                  }
                                   context
                                       .read<GeneralInfoCubit>()
                                       .onModelValueChange(state.model);
                                 },
-                                validateTextField: (String? user) {},
+                                // validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               ///Total Duty Hours
                               CommonWidgets.textDisplay(
-                                  Constants.totalDutyHours,
-                                  Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                                Constants.totalDutyHours,
+                                Styles.textStyleBlack14,
+                              ),
                               FlutterInputField(
-                                keyboardType: TextInputType.number,
                                 initialValue:
                                     '${state.model.securityFacilitatorCountHrs ?? ''}',
                                 textFormKey: Keys.noOfSecurityFacilitatorHrsKey,
-                                hintText: '',
                                 isEnable: !disableForm,
                                 isDisableColor: disableForm,
-                                onChange: (int value) {
-                                  state.model.securityFacilitatorCountHrs =
-                                      value;
+                                hintText: '',
+                                onChange: (String? value) {
+                                  if (value != null) {
+                                    state.model.securityFacilitatorCountHrs =
+                                        int.parse(value);
+                                  }
                                   context
                                       .read<GeneralInfoCubit>()
                                       .onModelValueChange(state.model);
                                 },
-                                validateTextField: (String? user) {},
+                                // validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
-
                               // /// Proposed Vendors
                               // CommonWidgets.textDisplay(
                               //   Constants.proposedVendors,
@@ -1423,7 +1428,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
           builder: (BuildContext dialogContext) {
             // print(state.getLocationsResponse);
             return CustomExpansionListTexts(
-              getLocationsresponse: state.locations,
+              locationList: state.locations,
               onTap: (Organisation? list) async {
                 log('list?.name-----${list?.name}');
 

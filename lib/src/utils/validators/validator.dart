@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 
 class Validator {
   static bool emailValidation(String email) {
-    return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+    return RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
   }
 
   static bool passwordValidation(String? password) {
     return password!.length > 4;
   }
-
 
   static logoutAction(BuildContext context) {
     SharedPrefs.setUserId('');
@@ -23,7 +23,8 @@ class Validator {
     SharedPrefs.setLoggedIn(false);
     SharedPrefs.setFoundId(100);
     SharedPrefs.clearSharedPreferences();
-    Navigator.of(context).pushNamedAndRemoveUntil(loginScreenRoute, (route) => false);
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(loginScreenRoute, (route) => false);
   }
 
   static bool isValidEmail(String? value) {
@@ -44,7 +45,6 @@ class Validator {
     return userName != null && userName.trim().isNotEmpty;
   }
 
- 
 //   String formatTimestamp(Timestamp timestamp) {
 //   DateTime dateTime = timestamp.toDate();
 //   String formattedTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
@@ -57,7 +57,11 @@ class Validator {
       SnackBar(
         backgroundColor: Colors.red,
         content: Text(message),
-        action: SnackBarAction(label: 'Ok', onPressed: scaffold.hideCurrentSnackBar, textColor: AppColors.navigationSkybluecolor,),
+        action: SnackBarAction(
+          label: 'Ok',
+          onPressed: scaffold.hideCurrentSnackBar,
+          textColor: AppColors.navigationSkybluecolor,
+        ),
       ),
     );
   }
