@@ -7,6 +7,7 @@ class GeneralInfoState extends Equatable {
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
+  final List<BaseUser>? epOfficers;
   final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
   final List<Organisation> vendors;
@@ -22,6 +23,7 @@ class GeneralInfoState extends Equatable {
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
+    final List<BaseUser>? epOfficers,
     required final List<Organisation>? listOfEntities,
     required final AddEntities? getEntitiesResponse,
     required final List<Organisation> departments,
@@ -42,6 +44,7 @@ class GeneralInfoState extends Equatable {
       getEntitiesResponse: getEntitiesResponse,
       users: users,
       emailUsers: emailUsers,
+      epOfficers: epOfficers,
       message: errorMessage,
       eventId: eventId,
       participationDates: participationDate,
@@ -128,6 +131,7 @@ class GeneralInfoState extends Equatable {
     this.locations,
     this.users,
     this.emailUsers,
+    this.epOfficers,
     this.listOfEntities,
     required this.departments,
     required this.vendors,
@@ -146,6 +150,7 @@ class GeneralInfoState extends Equatable {
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
+    List<BaseUser>? epOfficers,
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     List<Organisation>? vendors,
@@ -162,6 +167,7 @@ class GeneralInfoState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
+      epOfficers: epOfficers ?? this.epOfficers,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       departments: departments ?? this.departments,
       vendors: vendors ?? this.vendors,

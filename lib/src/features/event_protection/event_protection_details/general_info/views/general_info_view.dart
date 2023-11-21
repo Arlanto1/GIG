@@ -916,6 +916,25 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Constants.eventProtectionOfficers,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
+                            TextfieldAddButton(
+                              title: state.model.epOfficers?[0],
+                              height: 60,
+                              isDisableColor: disableForm,
+                              onTap: () {
+                                BaseDepartmentDialog().userDialog(
+                                  context: context,
+                                  enabled: !disableForm,
+                                  users: state.emailUsers!,
+                                  onTap: (BaseUser user) {
+                                    BlocProvider.of<GeneralInfoCubit>(context)
+                                        .updateDropdownValues(
+                                      epManager1: user,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+
                             if (!disableForm) ...[
                               GestureDetector(
                                 onTap: () {
