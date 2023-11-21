@@ -1250,7 +1250,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 if (widget.model?.status == null ||
                                     widget.model?.status == 0 ||
                                     widget.model?.status == 1 ||
-                                    widget.model?.status == 2 ||
                                     widget.model?.status == 3) ...[
                                   Row(
                                     mainAxisAlignment:
@@ -1284,7 +1283,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     ),
                   ),
                 ),
-                if ((widget.model?.status == 4 ||
+                if ((widget.model?.status == 2 ||
+                    widget.model?.status == 4 ||
                         widget.model?.status == 5 ||
                         widget.model?.status == 6 ||
                         widget.model?.status == 7 ||
