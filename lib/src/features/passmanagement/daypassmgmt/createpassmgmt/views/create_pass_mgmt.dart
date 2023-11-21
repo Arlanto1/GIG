@@ -3151,14 +3151,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter pass valid until",
       );
-    } else if ((widget.passId == '1' || widget.passId == '2') &&
-        ((state.escortedbyhost ?? 0) == 0) &&
-        (escortedbyTextController.text.isEmpty)) {
-      Validator().showToast(
-        context,
-        "Please enter escorted by",
-      );
-    } else if ((widget.passId == '1' || widget.passId == '2') &&
+    }
+    // else if ((widget.passId == '1' || widget.passId == '2') &&
+    //     ((state.escortedbyhost ?? 0) == 0) &&
+    //     (escortedbyTextController.text.isEmpty)) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter escorted by",
+    //   );
+    // }
+    else if ((widget.passId == '1' || widget.passId == '2') &&
         ((state.escortedbyhost ?? 0) == 0) &&
         (escortedemployeedidbyTextController.text.isEmpty)) {
       Validator().showToast(
