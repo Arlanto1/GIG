@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
+import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/create_fields.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
@@ -41,8 +42,8 @@ import '../../passmgmtlist/models/day_passlist_model.dart';
 
 class CreatePassManagement extends StatefulWidget {
   DayPassListElement? model;
-  String? passId = '0';
-  String? title;
+  final String? passId;
+  final String? title;
 
   CreatePassManagement({super.key, this.model, this.passId, this.title});
 
@@ -92,6 +93,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   @override
   Widget build(BuildContext context) {
+    log('--passId----${widget.passId}----');
     final size = MediaQuery.of(context).size;
     final height = size.height;
     return Scaffold(
@@ -1103,6 +1105,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.001),
                                 datepickerWidgetLoading(
                                     passvaliduntilTextController),
+
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: passvaliduntilTextController,
+                                  onlyDate: widget.model?.category == 1
+                                      ? true
+                                      : false,
+                                  onChange: (String value) {
+                                    log('--fr-value-${passvaliduntilTextController.text}------');
+                                    passvaliduntilTextController.text =
+                                        Utils().formatTime(value);
+                                  },
+                                  context: context,
+                                ),
+
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -1120,8 +1136,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     : Container(),
 
                                 /// Escorted By
-                                (widget.passId == '0' ||
-                                            widget.passId == '2' ||
+                                (widget.passId == '2' ||
                                             (widget.passId == '1' &&
                                                 (state.escortedbyhost ?? 0) ==
                                                     0)) &&
@@ -1139,22 +1154,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     // isMandatory: true,
                                     // Styles.textStyleBlack14),
                                     : Container(),
-                                widget.passId == '0' ||
-                                        widget.passId == '2' ||
+                                widget.passId == '2' ||
                                         (widget.passId == '1' &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
                                     : Container(),
-                                widget.passId == '0' ||
-                                        widget.passId == '2' ||
+                                widget.passId == '2' ||
                                         (widget.passId == '1' &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? textFieldWidgetLoad(
                                         escortedbyTextController, 0, state)
                                     : Container(),
-                                widget.passId == '0' ||
-                                        widget.passId == '2' ||
+                                widget.passId == '2' ||
                                         widget.passId == '3' ||
                                         (widget.passId == '1' &&
                                             (state.escortedbyhost ?? 0) == 0)
@@ -1163,8 +1175,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     : Container(),
 
                                 /// Escorted By Employee Id
-                                widget.passId == '0' ||
-                                        widget.passId == '2' ||
+                                widget.passId == '2' ||
                                         (widget.passId == '1' &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? CommonWidgets.textDisplay(
@@ -1174,15 +1185,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         isMandatory: true,
                                         Styles.textStyleBlack14)
                                     : Container(),
-                                widget.passId == '0' ||
-                                        widget.passId == '2' ||
+                                widget.passId == '2' ||
                                         (widget.passId == '1' &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
                                     : Container(),
-                                widget.passId == '0' ||
-                                        widget.passId == '2' ||
+                                widget.passId == '2' ||
                                         (widget.passId == '1' &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? textFieldWidgetLoad(
@@ -1190,8 +1199,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         0,
                                         state)
                                     : Container(),
-                                widget.passId == '0' ||
-                                        widget.passId == '2' ||
+                                widget.passId == '2' ||
                                         (widget.passId == '1' &&
                                             (state.escortedbyhost ?? 0) == 0)
                                     ? CommonWidgets.verticalSpacerWidget(
@@ -1314,15 +1322,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
-          activeColor: widget.model != null
+          activeColor: widget.model?.status != 0
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
           focusColor: AppColors.navigationSkybluecolor,
           value: 1,
           groupValue: selectedValue,
           onChanged: (val) {
-            print(name);
-            //
             selectedValue = 1;
 
             createPassMgmtCubit.getRadioButtonSelected(
@@ -1331,7 +1337,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         ),
         const Text(Constants.yes),
         Radio(
-          activeColor: widget.model != null
+          activeColor: widget.model?.status != 0
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
           value: 0,
@@ -1370,18 +1376,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   initiallyLocationAndSerialNumberDataset(CreatePassMgmtState state) async {
-    // print(state.locationSelectedlist);
-    // print(state.getLocationsResponse);
-    // print(widget.dayPassItem);
     if (state.location?.id == null &&
         state.getLocationsResponse != null &&
         widget.model == null &&
         (serialnumber ?? '').isEmpty) {
-      Organisation location = Organisation(id: 24, name: "DLF Square");
+      Organisation location = Organisation(id: 323, name: "SunGard");
       createPassMgmtCubit.getlocationsResponseData(location);
       await createPassMgmtCubit.getSerialnumberDetails(
-        '24',
+        '323',
         widget.passId ?? '',
+        context,
+      );
+      await createPassMgmtCubit.getPassNumber(
+        widget.passId ?? '',
+        '323',
         context,
       );
     }
@@ -1744,12 +1752,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
             final currentDate = DateTime.now();
             if (value.equalsIgnoreCase('Permanent')) {
-              String nextformattedDate = DateFormat(Constants.dateFormat)
-                  .format(currentDate.add(const Duration(days: 1241)));
-              passvaliduntilTextController.text = nextformattedDate;
+              String nextFormattedDate = DateFormat(Constants.fulldateFormat)
+                  .format(currentDate.add(const Duration(days: 1227)));
+              passvaliduntilTextController.text = nextFormattedDate;
             } else {
-              passvaliduntilTextController.text = Constants.passValidUntil;
+              final currentDate = DateTime.now();
+              String nextformattedDate = DateFormat(Constants.fulldateFormat)
+                  .format(currentDate.add(const Duration(hours: 12)));
+              passvaliduntilTextController.text = nextformattedDate;
             }
+            // }
 
             setState(() {});
           },
@@ -1879,20 +1891,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     if (textfield == passvalidfromTextController) {
       passvalidfromTextController.text = formattedDate;
     }
-    if (textfield == passvaliduntilTextController) {
-      final currentDate = DateTime.now();
-      String nextformattedDate = DateFormat(Constants.fulldateFormat)
-          .format(currentDate.add(const Duration(hours: 12)));
-      passvaliduntilTextController.text = nextformattedDate;
-    }
     // setState(() {
     //   // dateinput.text = formattedDate; //set output date to TextField value.
     // });
   }
 
-  String _getCurrentDates() {
-    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
-  }
+  // String _getCurrentDates() {
+  //   return DateFormat(Constants.fulldateFormat).format(DateTime.now());
+  // }
 
   void _getCurrentDate() {
     final currentDate = DateTime.now();
@@ -1925,11 +1931,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     padding: const EdgeInsets.only(right: 5.0),
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(140, 50)),
+                        fixedSize: const Size(140, 50),
+                        backgroundColor: AppColors.navigationSkybluecolor,
+                      ),
                       onPressed: () {
-                        // Navigator.pushNamed(context,
-                        //     createFoundAttachmentRoute);
-                        //UploadAttachment();
                         showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
@@ -1953,12 +1958,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                         height: 13,
                         key: const Key(Keys.userIcon),
                       ),
-                      // const Icon(
-                      //   // <-- Icon
-                      //   Icons.upload,
-                      //   color: AppColors.backgroundWhitecolor,
-                      //   size: 24.0,
-                      // ),
                       label: const Text(
                         Constants.clicktoupload,
                         style: Styles.textStyleRegularNormalWhite12,
@@ -2418,7 +2417,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           builder: (BuildContext dialogContext) {
             // print(state.getLocationsResponse);
             return CustomExpansionListTexts(
-              getLocationsresponse: state.getLocationsResponse,
+              locationList: state.getLocationsResponse,
               //GetLocations(),
               onTap: (Organisation? list) async {
                 print(list?.name);
@@ -2525,7 +2524,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       }
     }
 
-    if (widget.passId == '1') {
+    if (widget.passId == '1' || widget.passId == '2') {
       if (daypassnoTextController.text.isEmptyOrNull) {
         Validator().showToast(
           context,
@@ -2546,23 +2545,25 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
 
     PassInfo passInfo = widget.model?.passInfo ?? PassInfo();
-    switch (passtypeTextController.text) {
-      case 'DAY_PASS':
-        passInfo.passType = 0;
-        break;
-      case 'VISITOR_PASS':
-        passInfo.passType = 1;
-        break;
-      case 'VENDOR_PASS':
-        passInfo.passType = 2;
-        break;
-      case 'SEZ_PASS':
-        passInfo.passType = 3;
-        break;
-      default:
-        passInfo.passType = 0;
-        break;
-    }
+    // switch (passtypeTextController.text) {
+    //   case 'DAY_PASS':
+    //     passInfo.passType = 0;
+    //     break;
+    //   case 'VISITOR_PASS':
+    //     passInfo.passType = 1;
+    //     break;
+    //   case 'VENDOR_PASS':
+    //     passInfo.passType = 2;
+    //     break;
+    //   case 'SEZ_PASS':
+    //     passInfo.passType = 3;
+    //     break;
+    //   default:
+    //     passInfo.passType = 0;
+    //     break;
+    // }
+    passInfo.passType = widget.passId.toIntOrNull();
+
     if (widget.passId == '3') {
       passInfo.passNo = sezpassinfoTextController.text;
     } else {
@@ -2575,11 +2576,24 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     log('-passCategoryTextController111-----${passCategoryTextController.text}----');
 
     int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-    int passvaliduntildate = (DateTime.now().millisecondsSinceEpoch ~/ 1000) +
-        12 * 3600; // Adding 12 hours
+
+    int passValidUntilDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 24 * 3600; //Add
+    // int passvaliduntildate = (DateTime
+    //       .now()
+    //       .millisecondsSinceEpoch ~/ 1000) + 24 * 3600 * 1227; //Adding 1227 days
     int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
 
     log('-inputdate---sss--$inputdate----');
+    log('-DateTime---inputdate--${DateTime(inputdate)}----');
+    log('-DateTime---passValidUntilDate--${DateTime(passValidUntilDate)}----');
+
+    String dateString = passvaliduntilTextController.text;
+    log('--dateString---$dateString----');
+
+    // DateTime dateTime = DateTime.parse(
+    //     "${dateString.split("/")[2]}-${dateString.split("/")[1]}-${dateString.split("/")[0]}");
+    // passValidUntilDate = dateTime.millisecondsSinceEpoch;
 
     int statusValue = 0;
 
@@ -2697,7 +2711,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else if (passtypeTextController.text == "DWS_DAY_PASS") {
       passtypeIdentify = 4;
     }
-    ;
 
     int idValidationType = 0;
     if (photofidentityextController.text == "Aadhaar Card") {
@@ -2781,7 +2794,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             : dbsponsorTextController.text,
         mifareNo: mtpApplicationNoTextController.text,
         passIssuedOn: passvalidfromdate.toString(),
-        endTime: passvaliduntildate.toString(),
+        endTime: passValidUntilDate.toString(),
         startTime: passvalidfromdate.toString(),
         hostName: dbsponsorTextController.text.isEmpty
             ? state.hostResponse?.name ?? ''
@@ -2834,7 +2847,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? hostemployeeidTextController.text
               : dbsponsorTextController.text,
           passIssuedOn: passvalidfromdate.toString(),
-          endTime: passvaliduntildate.toString(),
+          endTime: passValidUntilDate.toString(),
           startTime: passvalidfromdate.toString(),
           hostName: dbsponsorTextController.text.isEmpty
               ? state.hostResponse?.name ?? ''
@@ -3072,14 +3085,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter pass type",
       );
-    } else if ((widget.passId == '0' || widget.passId == '2') &&
+    } else if (widget.passId == '0' &&
         (state.dayPasselementReason == null ||
             (state.dayPasselementReason?.name ?? '').isEmpty)) {
       Validator().showToast(
         context,
-        widget.passId == '2'
-            ? "Please enter reason for vendor pass"
-            : "Please enter reason for day pass",
+        "Please enter reason for day pass",
+      );
+    } else if (widget.passId == '2' &&
+        (state.vendorPasselementReason == null ||
+            (state.vendorPasselementReason?.name ?? '').isEmpty)) {
+      Validator().showToast(
+        context,
+        "Please enter reason for vendor pass",
       );
     } else if (widget.passId == '0' &&
         (state.vendorPassInfo == null ||
@@ -3127,18 +3145,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter pass valid until",
       );
-    } else if ((widget.passId == '0' ||
-            widget.passId == '1' ||
-            widget.passId == '2') &&
-        ((state.escortedbyhost ?? 0) == 0) &&
-        (escortedbyTextController.text.isEmpty)) {
-      Validator().showToast(
-        context,
-        "Please enter escorted by",
-      );
-    } else if ((widget.passId == '0' ||
-            widget.passId == '1' ||
-            widget.passId == '2') &&
+    }
+    // else if ((widget.passId == '1' || widget.passId == '2') &&
+    //     ((state.escortedbyhost ?? 0) == 0) &&
+    //     (escortedbyTextController.text.isEmpty)) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter escorted by",
+    //   );
+    // }
+    else if ((widget.passId == '1' || widget.passId == '2') &&
         ((state.escortedbyhost ?? 0) == 0) &&
         (escortedemployeedidbyTextController.text.isEmpty)) {
       Validator().showToast(

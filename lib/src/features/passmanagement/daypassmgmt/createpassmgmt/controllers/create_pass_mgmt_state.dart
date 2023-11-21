@@ -33,7 +33,7 @@ class CreatePassMgmtState extends Equatable {
   late final int? eventId;
   final CreatePassMgmtStateType stateType;
   String? errorMessage;
-  GetLocations? getLocationsResponse;
+  Locations? getLocationsResponse;
   SerialNumberModel? getSerialnumberResponse;
   List<Organisation>? selectedEntities;
   Organisation? location;
@@ -118,7 +118,7 @@ class CreatePassMgmtState extends Equatable {
     final int? eventId,
     CreatePassMgmtStateType? stateType,
     String? errorMessage,
-    GetLocations? getLocationsResponse,
+    Locations? getLocationsResponse,
     SerialNumberModel? getSerialnumberResponse,
     List<Organisation>? selectedEntities,
     Organisation? location,
@@ -170,9 +170,8 @@ class CreatePassMgmtState extends Equatable {
       getDepositorResponse: getDepositorResponse ?? this.getDepositorResponse,
       getuserResponse: getuserResponse ?? this.getuserResponse,
       employeeDepartment: employeeDepartment ?? this.employeeDepartment,
-      selectedDepartment: selectedEmployeeDepartment ??
-          selectedDepartment,
-      showIdentifiedFields: showIdentifiedFields??this.showIdentifiedFields,
+      selectedDepartment: selectedEmployeeDepartment ?? selectedDepartment,
+      showIdentifiedFields: showIdentifiedFields ?? this.showIdentifiedFields,
       loadAttachments: loadAttachments ?? this.loadAttachments,
       getUserDetailsResponse:
           getUserDetailsResponse ?? this.getUserDetailsResponse,
@@ -189,7 +188,8 @@ class CreatePassMgmtState extends Equatable {
       dayPassReason: dayPassReason ?? this.dayPassReason,
       vendorPassReason: vendorPassReason ?? this.vendorPassReason,
       dayPasselementReason: dayPasselementReason ?? this.dayPasselementReason,
-      vendorPasselementReason:vendorPasselementReason?? this.vendorPasselementReason,
+      vendorPasselementReason:
+          vendorPasselementReason ?? this.vendorPasselementReason,
       t1nameanalyst: t1nameanalyst ?? this.t1nameanalyst,
       t1hostanalyst: t1hostanalyst ?? this.t1hostanalyst,
       analyst: analyst ?? this.analyst,
@@ -232,9 +232,9 @@ class CreatePassMgmtState extends Equatable {
         selectedCompanyType,
         createpassFoundresponse,
         dayPassReason,
-    vendorPassReason,
+        vendorPassReason,
         dayPasselementReason,
-    vendorPasselementReason,
+        vendorPasselementReason,
         t1nameanalyst,
         t1hostanalyst,
         analyst,

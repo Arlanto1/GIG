@@ -12,7 +12,6 @@ import '../../../../enums/form_status.dart';
 import '../../services/contact_details_services.dart';
 
 part 'contact_listing_event.dart';
-
 part 'contact_listing_state.dart';
 
 class ContactListingBloc
@@ -80,7 +79,7 @@ class ContactListingBloc
           hasReachedMax: false,
         ),
       );
-    } on Exception catch (e) {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

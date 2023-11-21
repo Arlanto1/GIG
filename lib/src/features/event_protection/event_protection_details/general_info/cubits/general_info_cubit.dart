@@ -13,7 +13,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
@@ -40,7 +40,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
   }) : super(
           GeneralInfoState.initial(
             model: EventProtectionGi(),
-            locations: GetLocations(),
+            locations: Locations(),
             users: const [],
             emailUsers: const [],
             errorMessage: '',
@@ -81,9 +81,20 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         model = await services.getGI(id);
       }
 
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
+      if (state.model.location == null) {
+        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+        if (defaultLocation != null) {
+          SerialNumberModel slNo = await commonServices.getSlNo(
+            locationId: defaultLocation.id.toString(),
+            moduleCode: Constants.eventProtectionModule,
+          );
+          model.location = defaultLocation;
+          model.slNo = slNo.serialNo;
+        }
+      }
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
 
@@ -114,6 +125,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           status: FormStatus.initial,
           users: users.t1Analyst,
           emailUsers: emailUsers.atomStaticUser,
+          epOfficers: emailUsers.atomStaticUser,
           departments: departments.employeeDepartments,
           vendors: vendors.items,
           entrySecurities: entrySecurities,
@@ -177,6 +189,15 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       );
       state.model.epManager2 = userDetails;
     }
+    // if (epOfficers != null) {
+    //   User userDetails = User(
+    //     name: epOfficers.name,
+    //     userId: epOfficers.id,
+    //     userName: epOfficers.name,
+    //   );
+    //   state.epOfficers.add(userDetails.email??'');
+    // }
+
 
     if (vendors != null) {
       state.model.proposedVendors = vendors;
@@ -329,7 +350,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         GeneralInfoRequest(eventProtectionGi: state.model);
 
     log('--isSaveOnly----$isSaveOnly--');
-    GenericCreateResponse response = GenericCreateResponse();
+    GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {

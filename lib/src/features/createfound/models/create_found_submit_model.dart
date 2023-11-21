@@ -7,7 +7,8 @@ import 'dart:convert';
 SubmitCreateFoundModel submitCreateFoundModelFromJson(String str) =>
     SubmitCreateFoundModel.fromJson(json.decode(str));
 
-String submitCreateFoundModelToJson(SubmitCreateFoundModel data) => json.encode(data.toJson());
+String submitCreateFoundModelToJson(SubmitCreateFoundModel data) =>
+    json.encode(data.toJson());
 
 class SubmitCreateFoundModel {
   String? foundId;
@@ -18,7 +19,8 @@ class SubmitCreateFoundModel {
     this.message,
   });
 
-  factory SubmitCreateFoundModel.fromJson(Map<String, dynamic> json) => SubmitCreateFoundModel(
+  factory SubmitCreateFoundModel.fromJson(Map<String, dynamic> json) =>
+      SubmitCreateFoundModel(
         foundId: json["Found ID"],
         message: json["Message"],
       );

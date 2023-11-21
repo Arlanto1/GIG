@@ -759,9 +759,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         state.getLocationsResponse != null &&
         widget.model == null &&
         (serialnumber ?? '').isEmpty) {
-      Organisation list = Organisation(id: 24, name: "DLF Square");
+      Organisation list = Organisation(id: 323, name: "SunGard");
       lawEnforcementCubit.getlocationsResponseData(list);
-      await lawEnforcementCubit.getSerialnumberDetails('24', 'LEO', context);
+      await lawEnforcementCubit.getSerialnumberDetails('323', 'LEO', context);
     }
   }
 
@@ -970,7 +970,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   getLawEnforcementList(context) async {
     var userid = await SharedPrefs.getUserId();
     await lawEnforcementCubit.getLocations('ATOM_LOCATIONS', context);
-    await lawEnforcementCubit.getEntities('ATOM_ENTITIES', context);
+    await lawEnforcementCubit.getEntities('ATOM_ENTITIES');
     await lawEnforcementCubit.getLeopurposeofvisit(
         'ATOM_LEO_PURPOSE_VISIT', context);
     await lawEnforcementCubit.getLeodepartments(
@@ -982,22 +982,43 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     await lawEnforcementCubit.getUserDetails(userid, context);
   }
 
+  //
+  // Widget submitButtonDisplay() {
+  //   return AppButton(
+  //     //height: 50,
+  //     disableColor: isDistrbuted,
+  //     width: 150,
+  //     key: const Key(Keys.submitButton),
+  //     buttonText: Constants.submit,
+  //     buttonTextKey: Keys.submitButton,
+  //     onTap: () async {
+  //       FocusScope.of(context).unfocus();
+  //       if (isDistrbuted == false) {
+  //         try {
+  //           validateForm(context, globalState);
+  //         } catch (e) {
+  //           // present userwith error message
+  //         }
+  //       }
+  //     },
+  //   );
+  // }
   Widget submitButtonDisplay() {
-    return AppButton(
+    return // Login button
+        AppButton(
       //height: 50,
-      disableColor: isDistrbuted,
       width: 150,
       key: const Key(Keys.submitButton),
       buttonText: Constants.submit,
       buttonTextKey: Keys.submitButton,
       onTap: () async {
+        //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
-        if (isDistrbuted == false) {
-          try {
-            validateForm(context, globalState);
-          } catch (e) {
-            // present userwith error message
-          }
+        try {
+          // passSubmit(true, widget.listuser?.id ?? 0, globalState);
+          validateForm(context, globalState);
+        } catch (e) {
+          // present userwith error message
         }
       },
     );
@@ -1184,11 +1205,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                     padding: const EdgeInsets.only(right: 5.0),
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(140, 50)),
+                        fixedSize: const Size(140, 50),
+                        backgroundColor: AppColors.navigationSkybluecolor,
+                      ),
                       onPressed: () {
-                        // Navigator.pushNamed(context,
-                        //     createFoundAttachmentRoute);
-                        //UploadAttachment();
                         showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
@@ -1210,12 +1230,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                         height: 13,
                         key: const Key(Keys.userIcon),
                       ),
-                      // const Icon(
-                      //   // <-- Icon
-                      //   Icons.upload,
-                      //   color: AppColors.backgroundWhitecolor,
-                      //   size: 24.0,
-                      // ),
                       label: const Text(
                         Constants.clicktoupload,
                         style: Styles.textStyleRegularNormalWhite12,
@@ -1455,10 +1469,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     return TextfieldAddButton(
       title: state.getuserResponse != null &&
               (state.getuserResponse?.name ?? '').isNotEmpty
-          ? ((state.getuserResponse?.name ?? '') +
-              '(' +
-              (state.getuserResponse?.email ?? '') +
-              ')')
+          ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
           : '',
       height: 70,
       isDisableColor: widget.model?.status != 3 ? false : true,
@@ -1480,7 +1491,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           builder: (BuildContext dialogContext) {
             // print(state.getLocationsResponse);
             return CustomExpansionListTexts(
-              getLocationsresponse: state.getLocationsResponse,
+              locationList: state.getLocationsResponse,
               //GetLocations(),
               onTap: (Organisation? list) async {
                 print(list?.name);
@@ -1529,18 +1540,19 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
   Future createLawEnforcement(
       bool isSubmit, int isFoundId, LawEnforcementState state) async {
-    int actualdate = Utils.dateToTimestampConversion(
+    log('---createLawEnforcement----');
+    int actualDate = Utils.dateToTimestampConversion(
         actualDateTextController.text, Constants.fulldateFormat);
-    int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-    int statusvalue = 0;
+    int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    int statusValue = 0;
     if (statusTextController.text.toLowerCase() == "draft") {
-      statusvalue = 0;
+      statusValue = 0;
     } else if (statusTextController.text.toLowerCase() == "submitted") {
-      statusvalue = 1;
+      statusValue = 1;
     } else if (statusTextController.text.toLowerCase() == "distributed") {
-      statusvalue = 3;
+      statusValue = 3;
     } else {
-      statusvalue = 2;
+      statusValue = 2;
     }
     bool isDocumentifanySelected =
         state.isDocumentifanySelected == 1 ? true : false;
@@ -1612,12 +1624,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       lawEnforcement = LawEnforcement(
           id: isFoundId,
           entrySecurity: entrySecurtity,
-          inputDate: inputdate.toString(),
+          inputDate: inputDate.toString(),
           slNo: serialnumber ?? '',
           location: location,
-          status: statusvalue,
+          status: statusValue,
           images: images,
-          timeOfVisit: actualdate.toString(),
+          timeOfVisit: actualDate.toString(),
           officialCardVerified: isOfficialIdcardSelected,
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
@@ -1634,12 +1646,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     } else {
       lawEnforcement = LawEnforcement(
           entrySecurity: entrySecurtity,
-          inputDate: inputdate.toString(),
+          inputDate: inputDate.toString(),
           slNo: serialnumber ?? '',
           location: location,
-          status: statusvalue,
+          status: statusValue,
           images: images,
-          timeOfVisit: actualdate.toString(),
+          timeOfVisit: actualDate.toString(),
           officialCardVerified: isOfficialIdcardSelected,
           documentVerified: isDocumentifanySelected,
           visitorInUniform: isIncaseofpoliceSelected,
@@ -1761,30 +1773,30 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             "Please enter visiting official details",
           );
           break;
+        } else if (!Validator.isValidEmail(model.email?.trim())) {
+          log('-model.email---${model.email}---');
+          Validator().showToast(
+            context,
+            "Please enter visiting official  details valid email",
+          );
+          break;
+        } else {
+          if (widget.model?.status != 0 &&
+              (widget.model != null &&
+                  distributiongroupsTextController.text.isNotEmpty)) {
+            Validator().showToast(
+              context,
+              "Please enter distribution groups",
+            );
+            break;
+          } else {
+            createLawEnforcement(true, widget.model?.id ?? 0, globalState);
+            break;
+          }
         }
-        // else if (!Validator.isValidEmail(model.email)) {
-        //   Validator().showToast(
-        //     context,
-        //     "Please enter visiting official  details valid email",
-        //   );
-        //   break;
-        // }
-        // else {
-        //   if (widget.model?.status != 0 &&
-        //       (widget.model != null &&
-        //           distributiongroupsTextController.text.isEmpty)) {
-        //     Validator().showToast(
-        //       context,
-        //       "Please enter distribution groups",
-        //     );
-        //     break;
-        //   } else {
-        //     createLawEnforcement(true, widget.model?.id ?? 0, globalState);
-        //     break;
-        //   }
-        // }
       }
     } else {
+      log('---validateForm-else---');
       if (widget.model?.status != 0 &&
           (widget.model != null &&
               distributiongroupsTextController.text.isEmpty)) {

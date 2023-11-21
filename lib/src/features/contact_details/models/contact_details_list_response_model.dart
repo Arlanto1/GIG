@@ -38,7 +38,7 @@ class ContactDetailsListResponseModel extends BaseObject {
 }
 
 @JsonSerializable()
-class ContactDetailModel extends BaseObject{
+class ContactDetailModel extends BaseObject {
   int? id;
   String? slNo;
   Organisation? location;

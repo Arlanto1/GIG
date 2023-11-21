@@ -7,7 +7,7 @@ import 'package:db_atom/src/features/login/models/login_request_model.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:meta/meta.dart';
 
-import '../../../models/responseModels/generic_create_response.dart';
+import '../../../models/responseModels/generic_response.dart';
 import '../models/update_password_request.dart';
 import '../services/login_services.dart';
 
@@ -43,6 +43,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         await SharedPrefs.setIdentifymenuindex(0);
         await SharedPrefs.setToken(loginData.token ?? '');
         await SharedPrefs.setRefreshToken(loginData.refreshToken ?? '');
+
+        if (loginData.user!.displayMenu == null) {
+          emit(LoginSuccessState(message: 'Menu Roles are not defined'));
+          return null;
+        }
+
+        /// Setting Menu Items according to User Role
+        await SharedPrefs.setDisplayMenu(loginData.user!.displayMenu!);
+
+        /// Setting Default Location
+        await SharedPrefs.setDefaultLocation(loginData.user!.defaultLocation!);
+
         if (loginData.requirePasswordChange == true) {
           await SharedPrefs.setIsRequiredPasswordChange(true);
 
@@ -55,8 +67,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
     } catch (e) {
       // Handle API errors here
-      if (e is GenericCreateResponse) {
-        emit(LoginFailureState(message: e.message ?? 'An unexpected error occurred.'));
+      if (e is GenericResponse) {
+        emit(LoginFailureState(
+            message: e.message ?? 'An unexpected error occurred.'));
       } else {
         // Handle other unexpected errors
         log('An unexpected error occurred: $e');
@@ -79,7 +92,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         LoginSuccessState(message: loginData.message ?? ''),
       );
     } catch (e) {
-      if (e is GenericCreateResponse) {
+      if (e is GenericResponse) {
         emit(
           LoginFailureState(message: e.message ?? 'Please try after sometime'),
         );
@@ -103,7 +116,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       emit(LoginSuccessState(message: loginData.message ?? ''));
     } catch (e) {
-      if (e is GenericCreateResponse) {
+      if (e is GenericResponse) {
         emit(LoginFailureState(
             message: e.message ?? 'Please try after sometime'));
       } else {

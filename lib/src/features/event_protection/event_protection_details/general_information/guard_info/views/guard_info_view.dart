@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
@@ -114,7 +115,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
 
   getBodybuilder(GuardInfoState state, height) {
     if (state.status == FormStatus.loading) {
-      return const Center(child: CircularProgressIndicator());
+      return const BaseLoader();
     }
 
     return Container(

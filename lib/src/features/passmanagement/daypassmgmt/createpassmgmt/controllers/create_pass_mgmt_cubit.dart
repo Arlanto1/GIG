@@ -49,8 +49,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> createOrganisation(
       String name, String orgName, BuildContext context, String title) async {
     try {
-      Organisation createOrganisationData = await createpassmgmtServices
-          .createOrganisation(name, orgName, context);
+      Organisation createOrganisationData = await commonServices
+          .createOrganisation(name: name, orgName: orgName, context: context);
       emit(
         state.copyWith(
           createOrganisationResponse: createOrganisationData,
@@ -64,8 +64,9 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         await createPassMgmtCubit.getDayPassreasons('DAY_PASS_REASON', context);
       } else if (Constants.addreasonforvendorpass == title ||
           Constants.addreasonforvendorpass == title) {
-        await createPassMgmtCubit.getVendorPassreasons('VENDOR_PASS_REASON', context);
-      }else if (Constants.addentitytype == title) {
+        await createPassMgmtCubit.getVendorPassreasons(
+            'VENDOR_PASS_REASON', context);
+      } else if (Constants.addentitytype == title) {
         await createPassMgmtCubit.getEntities('ATOM_ENTITIES', context);
       }
       dismissLoadingDialog(context);
@@ -196,8 +197,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> createEmployeeDepartments(
       String name, String orgName, BuildContext context) async {
     try {
-      Organisation createEmployeeDeptData = await createpassmgmtServices
-          .createOrganisation(name, orgName, context);
+      Organisation createEmployeeDeptData = await commonServices
+          .createOrganisation(name: name, orgName: orgName, context: context);
       emit(
         state.copyWith(
           createEmployeeDepartments: createEmployeeDeptData,
@@ -229,7 +230,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   // Get locations api call
   Future<void> getLocations(String locationsStr, BuildContext context) async {
     try {
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await createpassmgmtServices.getLocations(name: locationsStr);
       emit(
         state.copyWith(
@@ -460,8 +461,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       // DayPassReason dayPassreasons =
       //     await createpassmgmtServices.getDayPassreason(companyStr, context);
 
-      VendorPassReason vendorPassreasons = await commonServices.getVendorPassReason(
-          name: companyStr, context: context);
+      VendorPassReason vendorPassreasons = await commonServices
+          .getVendorPassReason(name: companyStr, context: context);
       emit(
         state.copyWith(
           vendorPassReason: vendorPassreasons,
@@ -477,7 +478,9 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       );
     }
   }
-  getVendorPassReasonResponseData(Organisation? vendorPassReasonResponse) async {
+
+  getVendorPassReasonResponseData(
+      Organisation? vendorPassReasonResponse) async {
     try {
       emit(
         state.copyWith(
@@ -494,6 +497,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       );
     }
   }
+
   // Get analysts response
   Future<void> getAnalysts(String companyStr, BuildContext context) async {
     try {
@@ -661,7 +665,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   initializeValues(DayPassListElement model) async {
-
     emit(
       state.copyWith(
         selectedEntities: model.entities,
@@ -669,7 +672,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       ),
     );
     try {
-      if (model.companyType?.name != null && model.companyType!.name!.contains('CWR')) {
+      if (model.companyType?.name != null &&
+          model.companyType!.name!.contains('CWR')) {
         emit(
           state.copyWith(
             selectedEntities: model.entities,
@@ -789,50 +793,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
           dismissLoadingDialog(context);
           Utils.dynamicAlert(context, response.message ?? '', title, '');
-        });
-      }
-    } catch (e) {
-      emit(
-        state.copyWith(
-          errorMessage: Constants.errorText,
-          stateType: CreatePassMgmtStateType.failure,
-        ),
-      );
-
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        dismissLoadingDialog(context);
-        Utils.dynamicAlert(
-            context, Constants.errorText, title, Constants.errorText);
-      });
-    }
-  }
-
-  // Create new Found Article successfully API call
-  Future<void> lawcreateFoundArticleHandle(
-      Map<String, dynamic> bodyRequest,
-      bool isSubmit,
-      BuildContext context,
-      String username,
-      String title) async {
-    try {
-      CreatePassMgmtResponse? createpassFoundresponse =
-          await createpassmgmtServices.createLawFoundArticleHandle(
-              bodyRequest,
-              isSubmit,
-              username,
-              context); //replace empty model with bodyRequest
-      emit(
-        state.copyWith(
-          createpassFoundresponse: createpassFoundresponse,
-          stateType: CreatePassMgmtStateType.success,
-        ),
-      );
-
-      if (createpassFoundresponse.message != null) {
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          dismissLoadingDialog(context);
-          Utils.dynamicAlert(
-              context, createpassFoundresponse.message ?? '', title, '');
         });
       }
     } catch (e) {

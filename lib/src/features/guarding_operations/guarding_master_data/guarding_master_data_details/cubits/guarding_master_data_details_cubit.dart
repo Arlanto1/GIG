@@ -18,7 +18,7 @@ import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../models/responseModels/generic_create_response.dart';
+import '../../../../../models/responseModels/generic_response.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../createfound/models/serial_number_model.dart';
@@ -43,7 +43,7 @@ class GuardingMasterDataDetailsCubit
   }) : super(
           GuardingMasterDataDetailsState.initial(
               model: model ?? GuardingMastersDataModel(),
-              locations: GetLocations(),
+              locations: Locations(),
               loggedInUserDetails: User(),
               users: const [],
               emailUsers: const [],
@@ -102,7 +102,7 @@ class GuardingMasterDataDetailsCubit
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =
@@ -136,6 +136,17 @@ class GuardingMasterDataDetailsCubit
           .splitStringAfterComma(state.model.csrParticipationDates ?? '');
       log('-participationDates---${participationDates.toString()}---');
 
+      if (state.model.location == null) {
+        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+        if (defaultLocation != null) {
+          SerialNumberModel slNo = await commonServices.getSlNo(
+            locationId: defaultLocation.id.toString(),
+            moduleCode: Constants.guardingMasterDataModule,
+          );
+          state.model.location = defaultLocation;
+          state.model.slNo = slNo.serialNo;
+        }
+      }
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -272,6 +283,7 @@ class GuardingMasterDataDetailsCubit
 
     log('--guardImages---${guardImages?.length}----');
     if (guardImages != null) {
+      state.model.photoGraph = guardImages.first;
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -283,6 +295,7 @@ class GuardingMasterDataDetailsCubit
     }
 
     if (deploymentFiles != null) {
+      state.model.deploymentOrders = deploymentFiles;
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -294,6 +307,7 @@ class GuardingMasterDataDetailsCubit
     }
 
     if (bioDataFiles != null) {
+      state.model.bopData = bioDataFiles.first;
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -305,6 +319,7 @@ class GuardingMasterDataDetailsCubit
     }
 
     if (permanentAddressFiles != null) {
+      state.model.pvc = pVCFiles;
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -316,6 +331,7 @@ class GuardingMasterDataDetailsCubit
     }
 
     if (localAddressFiles != null) {
+      state.model.localAddressProof = localAddressFiles.first;
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -327,6 +343,7 @@ class GuardingMasterDataDetailsCubit
     }
 
     if (pVCFiles != null) {
+      state.model.pvc = pVCFiles;
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -338,6 +355,8 @@ class GuardingMasterDataDetailsCubit
     }
 
     if (trainingFiles != null) {
+      state.model.trainingCertificates = trainingFiles;
+
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -360,6 +379,8 @@ class GuardingMasterDataDetailsCubit
     }
 
     if (medicalFiles != null) {
+      log('---medicalFiles---------${medicalFiles.length}---');
+      state.model.medicalCertificates = medicalFiles;
       emit(
         state.copyWith(
           eventId: eventIds,
@@ -434,7 +455,7 @@ class GuardingMasterDataDetailsCubit
     GuardingMasterDataRequest request =
         GuardingMasterDataRequest(guardingMasterData: state.model);
 
-    GenericCreateResponse response = GenericCreateResponse();
+    GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {

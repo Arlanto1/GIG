@@ -14,7 +14,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
@@ -40,7 +40,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
   }) : super(
           OccurrenceGeneralInfoState.initial(
             model: Occurrence(),
-            locations: GetLocations(),
+            locations: Locations(),
             users: const [],
             emailUsers: const [],
             errorMessage: '',
@@ -81,7 +81,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
       log('-model----${model.shiftBrfngAttnded}---');
 
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =
@@ -101,6 +101,17 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
       List<User> entrySecurities = await commonServices.getUsers();
 
+      if (state.model.location == null) {
+        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+        if (defaultLocation != null) {
+          SerialNumberModel slNo = await commonServices.getSlNo(
+            locationId: defaultLocation.id.toString(),
+            moduleCode: Constants.occurrenceModule,
+          );
+          model.location = defaultLocation;
+          model.slNo = slNo.serialNo;
+        }
+      }
       model.entrySecurity = loggedInUserDetails;
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
@@ -154,7 +165,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       state.model.slNo = slNo.serialNo ?? '';
     }
 
-
     if (status != null) {
       state.model.status = status;
     }
@@ -165,7 +175,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         userName: shiftTakenOverBy.name,
         email: shiftTakenOverBy.email,
       );
-      state.model.handOverSecurity = userDetails;
+      state.model.handoverSecurity = userDetails;
     }
     emit(state.copyWith(
       model: state.model,
@@ -318,7 +328,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         OccurrenceGeneralInfoRequest(occurrence: state.model);
 
     log('--isSaveOnly----$isSaveOnly--');
-    GenericCreateResponse response = GenericCreateResponse();
+    GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
@@ -352,6 +362,14 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           isSubmit: true,
         ));
       }
+    }  on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception catch (e) {
       emit(
         state.copyWith(

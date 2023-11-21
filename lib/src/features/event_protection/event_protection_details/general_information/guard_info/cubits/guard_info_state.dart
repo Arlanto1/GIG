@@ -3,7 +3,7 @@ part of 'guard_info_cubit.dart';
 class GuardInfoState extends Equatable {
   final FormStatus status;
   final GuardInfoModel guardInfoModel;
-  final GetLocations? locations;
+  final Locations? locations;
   final User? loggedInUserDetails;
   final List<Organisation> departments;
   final int? eventId;
@@ -11,7 +11,7 @@ class GuardInfoState extends Equatable {
 
   factory GuardInfoState.initial({
     required GuardInfoModel guardInfoModel,
-    required GetLocations locations,
+    required Locations locations,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
@@ -55,7 +55,7 @@ class GuardInfoState extends Equatable {
   GuardInfoState copyWith({
     FormStatus? status,
     GuardInfoModel? guardInfoModel,
-    GetLocations? locations,
+    Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,

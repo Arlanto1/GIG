@@ -141,7 +141,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                     state.list[selectedIndex].materialMovement,
                                 leoVisit: state.list[selectedIndex].leoVisit,
                                 handOverSecurity:
-                                    state.list[selectedIndex].handOverSecurity,
+                                    state.list[selectedIndex].handoverSecurity,
                                 isOccurrenceStatus: true,
                                 isMasterGuard: false,
                                 isEventProtectionStatus: false,
@@ -167,7 +167,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                     state.list[selectedIndex].materialMovement,
                                 leoVisit: state.list[selectedIndex].leoVisit,
                                 handOverSecurity:
-                                    state.list[selectedIndex].handOverSecurity,
+                                    state.list[selectedIndex].handoverSecurity,
                                 isEventProtectionStatus: false,
                                 isMasterGuard: false,
                                 isOccurrenceStatus: true,

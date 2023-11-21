@@ -15,8 +15,10 @@ class CommonWidgets {
       double height = 24.0}) {
     return SvgPicture.asset(
       assetName,
-      color: color,
-      width: width,
+      colorFilter:  ColorFilter.mode(
+        color,
+        BlendMode.srcIn,
+      ),      width: width,
       height: height,
     );
   }

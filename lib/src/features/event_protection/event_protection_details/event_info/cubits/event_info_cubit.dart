@@ -11,7 +11,7 @@ import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dar
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
@@ -39,7 +39,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
   }) : super(
           EventInfoState.initial(
               model: EventInfoResponse(),
-              locations: GetLocations(),
+              locations: Locations(),
               loggedInUserDetails: User(),
               users: const [],
               eventDuration: eventDuration,
@@ -134,7 +134,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     EventInfoRequest request =
         EventInfoRequest(eventProtectionInfo: state.model);
 
-    GenericCreateResponse response = GenericCreateResponse();
+    GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
         response = (await services.createEventEi(

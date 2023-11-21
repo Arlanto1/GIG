@@ -4,10 +4,11 @@ class MaterialMovementDetailsState extends Equatable {
   final FormStatus status;
 
   final MaterialMovementModel model;
-  final GetLocations? locations;
+  final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
+  final List<BaseUser>? requestorEmailUsers;
   final List<BaseUser>? approver1Users;
   final List<BaseUser>? approver2Users;
   final List<Organisation> departments;
@@ -22,7 +23,7 @@ class MaterialMovementDetailsState extends Equatable {
 
   factory MaterialMovementDetailsState.initial({
     required MaterialMovementModel model,
-    required GetLocations locations,
+    required Locations locations,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
@@ -76,22 +77,55 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
-    if (model.challanNo.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Challan No');
-    }
+    // if (model.challanNo.isEmptyOrNull) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Challan No');
+    // }
     if (model.quantity == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Quantity');
     }
+
     log('--model.inwardMovement--${model.inwardMovement}--');
-    log('--model.materialComingFrom == null--${model.materialComingFrom == null}--');
+
+    /// For Inward Movement Only
     if (model.inwardMovement ?? false) {
-      if (model.materialComingFrom == null) {
-        log('--model.materialComingFrom == null--${model.materialComingFrom == null}--');
+      if (model.materialComingFrom.isEmptyOrNull) {
         return const ErrorResponse(
             status: false, message: 'Please enter Sender\'s Name');
       }
+
+      if (model.otherReceiverEmployeeId.isEmptyOrNull) {
+        log('--model.materialComingFrom == null--${model.materialComingFrom == null}--');
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received by Employee Id');
+      }
+
+      if (model.materialFromAddress.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Material coming from (Brief address)');
+      }
+
+      if (model.receiverEmployeeId.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received for Employee Id');
+      }
+
+      if (model.receiverDepartmenttName.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Receiver Department Name');
+      }
+
+      if (model.receiverDepartment == null) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Receiver Department');
+      }
+
+      if (!model.originalReceiver && model.receiverEmail.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received For');
+      }
+
     }
     if (model.unit == null) {
       return const ErrorResponse(status: false, message: 'Please enter Unit');
@@ -135,6 +169,7 @@ class MaterialMovementDetailsState extends Equatable {
     this.message,
     this.isInward = false,
     this.language,
+    this.requestorEmailUsers,
     this.approver1Users,
     this.approver2Users,
   });
@@ -142,10 +177,11 @@ class MaterialMovementDetailsState extends Equatable {
   MaterialMovementDetailsState copyWith({
     FormStatus? status,
     MaterialMovementModel? model,
-    GetLocations? locations,
+    Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
+    List<BaseUser>? requestorEmailUsers,
     List<BaseUser>? approver1Users,
     List<BaseUser>? approver2Users,
     List<Organisation>? departments,
@@ -164,6 +200,7 @@ class MaterialMovementDetailsState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
+      requestorEmailUsers: requestorEmailUsers ?? this.requestorEmailUsers,
       approver1Users: approver1Users ?? this.approver1Users,
       approver2Users: approver2Users ?? this.approver2Users,
       departments: departments ?? this.departments,

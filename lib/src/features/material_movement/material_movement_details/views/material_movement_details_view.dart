@@ -6,8 +6,10 @@ import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/add_button_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_drop_down.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_image_upload.dart';
 import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';
 import 'package:db_atom/src/common_widgets/base_widget/record_locked_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
@@ -59,7 +61,8 @@ class MaterialMovementDetailsView extends StatefulWidget {
       _MaterialMovementDetailsViewState();
 }
 
-class _MaterialMovementDetailsViewState extends State<MaterialMovementDetailsView> {
+class _MaterialMovementDetailsViewState
+    extends State<MaterialMovementDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController returnableTextController = TextEditingController();
   User? userDetails;
@@ -193,7 +196,7 @@ class _MaterialMovementDetailsViewState extends State<MaterialMovementDetailsVie
         state.model.returnable! ? 'Returnable' : 'Non Returnable';
 
     if (state.status == FormStatus.loading) {
-      return const Center(child: CircularProgressIndicator());
+      return const BaseLoader();
     }
 
     if (state.status == FormStatus.addAttachment ||
@@ -603,7 +606,7 @@ class _MaterialMovementDetailsViewState extends State<MaterialMovementDetailsVie
                                                 BlocProvider.of<
                                                             MaterialMovementDetailsCubit>(
                                                         context)
-                                                    .updateDropdownValues(
+                                                    .updateApproverEmailsValue(
                                                         requesterEmailUser:
                                                             user);
                                               },
@@ -1607,8 +1610,10 @@ class _MaterialMovementDetailsViewState extends State<MaterialMovementDetailsVie
                                         );
                                       }),
 
-                            if (state.model.status == 5 ||
-                                state.model.status == 6) ...[
+                            if ((state.model.status == 5 ||
+                                    state.model.status == 6) &&
+                                widget.isInward == false &&
+                                state.model.returnable == true) ...[
                               /// Actual Date Of Return
                               CommonWidgets.textDisplay(
                                 Constants.actualDateOfReturn,
@@ -1780,9 +1785,16 @@ class _MaterialMovementDetailsViewState extends State<MaterialMovementDetailsVie
                               ? uploadWidget(state)
                               : Container(),
 
-                          // Attachments
-                          getSpaceattchment(height),
-                          getAttachement(state, height),
+                          /// Attachments
+                          BaseImageUpload().getAttachment(
+                            height: height,
+                            attachments: state.loadAttachments,
+                            files: getFiles,
+                            showDownloadIcon:
+                                widget.materialMovement?.images != null
+                                    ? true
+                                    : false,
+                          ),
                         ]),
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
@@ -2025,12 +2037,11 @@ class _MaterialMovementDetailsViewState extends State<MaterialMovementDetailsVie
               Padding(
                 padding: const EdgeInsets.only(right: 5.0),
                 child: ElevatedButton.icon(
-                  style:
-                      ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: const Size(140, 50),
+                    backgroundColor: AppColors.navigationSkybluecolor,
+                  ),
                   onPressed: () {
-                    // Navigator.pushNamed(context,
-                    //     createFoundAttachmentRoute);
-                    //UploadAttachment();
                     showDialog(
                         context: context,
                         builder: (BuildContext dialogContext) {
@@ -2062,12 +2073,6 @@ class _MaterialMovementDetailsViewState extends State<MaterialMovementDetailsVie
                     height: 13,
                     key: const Key(Keys.userIcon),
                   ),
-                  // const Icon(
-                  //   // <-- Icon
-                  //   Icons.upload,
-                  //   color: AppColors.backgroundWhitecolor,
-                  //   size: 24.0,
-                  // ),
                   label: const Text(
                     Constants.clicktoupload,
                     style: Styles.textStyleRegularNormalWhite12,
@@ -2077,22 +2082,6 @@ class _MaterialMovementDetailsViewState extends State<MaterialMovementDetailsVie
             ]),
           )
         : Container();
-  }
-
-  Widget getSpaceattchment(double height) {
-    return getFiles.isNotEmpty || getAttachments.isNotEmpty
-        ? CommonWidgets.verticalSpacerWidget(height * 0.01)
-        : Container();
-  }
-
-  Widget getAttachement(MaterialMovementDetailsState state, double height) {
-    return (state.loadAttachments == null ||
-            state.loadAttachments!.isEmpty ||
-            widget.materialMovement == null)
-        ? state.loadAttachments!.isEmpty
-            ? Container()
-            : attachmentListviews(getFiles, getAttachments)
-        : attachmentListviews(getFiles, getAttachments);
   }
 
   Widget locationWidgetdislay(MaterialMovementDetailsState state) {
@@ -2105,8 +2094,10 @@ class _MaterialMovementDetailsViewState extends State<MaterialMovementDetailsVie
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
+              log('--locations.central?.length--${state.locations?.central?.length}--');
+
               return CustomExpansionListTexts(
-                getLocationsresponse: state.locations,
+                locationList: state.locations,
                 onTap: (Organisation? list) async {
                   Organisation location = Organisation();
                   location.id = list?.id;
@@ -2141,6 +2132,8 @@ class _MaterialMovementDetailsViewState extends State<MaterialMovementDetailsVie
     List<ImageContent>? attachmentListviews,
     List<ImageContent>? attachmentListviews1,
   ) {
+    log('---attachmentListviews1?.length---${attachmentListviews1?.length}------');
+    log('------attachmentListviews?.length--------${attachmentListviews?.length}------');
     return Container(
       decoration: BoxDecoration(
         border: Border.all(

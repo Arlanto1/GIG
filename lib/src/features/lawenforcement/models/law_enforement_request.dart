@@ -3,75 +3,87 @@ import 'dart:convert';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
 
-LawEnforcementRequestBody lawEnforcementRequestBodyFromJson(String str) => LawEnforcementRequestBody.fromJson(json.decode(str));
+LawEnforcementRequestBody lawEnforcementRequestBodyFromJson(String str) =>
+    LawEnforcementRequestBody.fromJson(json.decode(str));
 
-String lawEnforcementRequestBodyToJson(LawEnforcementRequestBody data) => json.encode(data.toJson());
+String lawEnforcementRequestBodyToJson(LawEnforcementRequestBody data) =>
+    json.encode(data.toJson());
 
 class LawEnforcementRequestBody {
-    LawEnforcement? lawEnforcement;
+  LawEnforcement? lawEnforcement;
 
-    LawEnforcementRequestBody({
-        this.lawEnforcement,
-    });
+  LawEnforcementRequestBody({
+    this.lawEnforcement,
+  });
 
-    factory LawEnforcementRequestBody.fromJson(Map<String, dynamic> json) => LawEnforcementRequestBody(
-        lawEnforcement: json["lawEnforcement"] == null ? null : LawEnforcement.fromJson(json["lawEnforcement"]),
-    );
+  factory LawEnforcementRequestBody.fromJson(Map<String, dynamic> json) =>
+      LawEnforcementRequestBody(
+        lawEnforcement: json["lawEnforcement"] == null
+            ? null
+            : LawEnforcement.fromJson(json["lawEnforcement"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "lawEnforcement": lawEnforcement?.toJson(),
-    };
+      };
 }
 
 class LawEnforcement {
-    int? id;
-    int? status;
-    LawEntrySecurity? entrySecurity;
-    LawLocation? location;
-    List<DbOfficialEmailDepartment>? entities;
-    String? slNo;
-    String? inputDate;
-    String? timeOfVisit;
-    bool? officialCardVerified;
-    bool? documentVerified;
-    bool? visitorInUniform;
-    String? dbOfficialEmail;
-    String? dbOfficialAccompaniedEmail;
-    DbOfficialEmailDepartment? dbOfficialEmailDepartment;
-    DbOfficialEmailDepartment? visitPurpose;
-    String? additionalInformation;
-    List<VisitingOfficial>? visitingOfficials;
-    List<Organisation>? mailList;
-    List<ImageContent>? images;
+  int? id;
+  int? status;
+  LawEntrySecurity? entrySecurity;
+  LawLocation? location;
+  List<DbOfficialEmailDepartment>? entities;
+  String? slNo;
+  String? inputDate;
+  String? timeOfVisit;
+  bool? officialCardVerified;
+  bool? documentVerified;
+  bool? visitorInUniform;
+  String? dbOfficialEmail;
+  String? dbOfficialAccompaniedEmail;
+  DbOfficialEmailDepartment? dbOfficialEmailDepartment;
+  DbOfficialEmailDepartment? visitPurpose;
+  String? additionalInformation;
+  List<VisitingOfficial>? visitingOfficials;
+  List<Organisation>? mailList;
+  List<ImageContent>? images;
 
-    LawEnforcement({
-        this.id,
-        this.status,
-        this.entrySecurity,
-        this.location,
-        this.entities,
-        this.slNo,
-        this.inputDate,
-        this.timeOfVisit,
-        this.officialCardVerified,
-        this.documentVerified,
-        this.visitorInUniform,
-        this.dbOfficialEmail,
-        this.dbOfficialAccompaniedEmail,
-        this.dbOfficialEmailDepartment,
-        this.visitPurpose,
-        this.additionalInformation,
-        this.visitingOfficials,
-        this.mailList,
-        this.images,
-    });
+  LawEnforcement({
+    this.id,
+    this.status,
+    this.entrySecurity,
+    this.location,
+    this.entities,
+    this.slNo,
+    this.inputDate,
+    this.timeOfVisit,
+    this.officialCardVerified,
+    this.documentVerified,
+    this.visitorInUniform,
+    this.dbOfficialEmail,
+    this.dbOfficialAccompaniedEmail,
+    this.dbOfficialEmailDepartment,
+    this.visitPurpose,
+    this.additionalInformation,
+    this.visitingOfficials,
+    this.mailList,
+    this.images,
+  });
 
-    factory LawEnforcement.fromJson(Map<String, dynamic> json) => LawEnforcement(
+  factory LawEnforcement.fromJson(Map<String, dynamic> json) => LawEnforcement(
         id: json["id"],
         status: json["status"],
-        entrySecurity: json["entrySecurity"] == null ? null : LawEntrySecurity.fromJson(json["entrySecurity"]),
-        location: json["location"] == null ? null : LawLocation.fromJson(json["location"]),
-        entities: json["entities"] == null ? [] : List<DbOfficialEmailDepartment>.from(json["entities"]!.map((x) => DbOfficialEmailDepartment.fromJson(x))),
+        entrySecurity: json["entrySecurity"] == null
+            ? null
+            : LawEntrySecurity.fromJson(json["entrySecurity"]),
+        location: json["location"] == null
+            ? null
+            : LawLocation.fromJson(json["location"]),
+        entities: json["entities"] == null
+            ? []
+            : List<DbOfficialEmailDepartment>.from(json["entities"]!
+                .map((x) => DbOfficialEmailDepartment.fromJson(x))),
         slNo: json["slNo"],
         inputDate: json["inputDate"],
         timeOfVisit: json["timeOfVisit"],
@@ -80,23 +92,35 @@ class LawEnforcement {
         visitorInUniform: json["visitorInUniform"],
         dbOfficialEmail: json["dbOfficialEmail"],
         dbOfficialAccompaniedEmail: json["dbOfficialAccompaniedEmail"],
-        dbOfficialEmailDepartment: json["dbOfficialEmailDepartment"] == null ? null : DbOfficialEmailDepartment.fromJson(json["dbOfficialEmailDepartment"]),
-        visitPurpose: json["visitPurpose"] == null ? null : DbOfficialEmailDepartment.fromJson(json["visitPurpose"]),
+        dbOfficialEmailDepartment: json["dbOfficialEmailDepartment"] == null
+            ? null
+            : DbOfficialEmailDepartment.fromJson(
+                json["dbOfficialEmailDepartment"]),
+        visitPurpose: json["visitPurpose"] == null
+            ? null
+            : DbOfficialEmailDepartment.fromJson(json["visitPurpose"]),
         additionalInformation: json["additionalInformation"],
-        visitingOfficials: json["visitingOfficials"] == null ? [] : List<VisitingOfficial>.from(json["visitingOfficials"]!.map((x) => VisitingOfficial.fromJson(x))),
-        mailList: json["mailList"] == null ? [] : List<Organisation>.from(json["mailList"]),
+        visitingOfficials: json["visitingOfficials"] == null
+            ? []
+            : List<VisitingOfficial>.from(json["visitingOfficials"]!
+                .map((x) => VisitingOfficial.fromJson(x))),
+        mailList: json["mailList"] == null
+            ? []
+            : List<Organisation>.from(json["mailList"]),
         images: json["images"] == null
             ? []
             : List<ImageContent>.from(
                 json["images"]!.map((x) => ImageContent.fromJson(x))),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "status": status,
         "entrySecurity": entrySecurity?.toJson(),
         "location": location?.toJson(),
-        "entities": entities == null ? [] : List<dynamic>.from(entities!.map((x) => x.toJson())),
+        "entities": entities == null
+            ? []
+            : List<dynamic>.from(entities!.map((x) => x.toJson())),
         "slNo": slNo,
         "inputDate": inputDate,
         "timeOfVisit": timeOfVisit,
@@ -108,96 +132,104 @@ class LawEnforcement {
         "dbOfficialEmailDepartment": dbOfficialEmailDepartment?.toJson(),
         "visitPurpose": visitPurpose?.toJson(),
         "additionalInformation": additionalInformation,
-        "visitingOfficials": visitingOfficials == null ? [] : List<dynamic>.from(visitingOfficials!.map((x) => x.toJson())),
-        "mailList": mailList == null ? [] : List<dynamic>.from(mailList!.map((x) => x)),
-         "images": images == null
+        "visitingOfficials": visitingOfficials == null
+            ? []
+            : List<dynamic>.from(visitingOfficials!.map((x) => x.toJson())),
+        "mailList":
+            mailList == null ? [] : List<dynamic>.from(mailList!.map((x) => x)),
+        "images": images == null
             ? []
             : List<dynamic>.from(images!.map((x) => x.toJson())),
-    };
+      };
 }
 
 class DbOfficialEmailDepartment {
-    int? id;
+  int? id;
 
-    DbOfficialEmailDepartment({
-        this.id,
-    });
+  DbOfficialEmailDepartment({
+    this.id,
+  });
 
-    factory DbOfficialEmailDepartment.fromJson(Map<String, dynamic> json) => DbOfficialEmailDepartment(
+  factory DbOfficialEmailDepartment.fromJson(Map<String, dynamic> json) =>
+      DbOfficialEmailDepartment(
         id: json["id"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
-    };
+      };
 }
 
 class LawEntrySecurity {
-    int? userId;
+  int? userId;
 
-    LawEntrySecurity({
-        this.userId,
-    });
+  LawEntrySecurity({
+    this.userId,
+  });
 
-    factory LawEntrySecurity.fromJson(Map<String, dynamic> json) => LawEntrySecurity(
+  factory LawEntrySecurity.fromJson(Map<String, dynamic> json) =>
+      LawEntrySecurity(
         userId: json["userId"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "userId": userId,
-    };
+      };
 }
 
 class LawLocation {
-    int? id;
-    String? name;
+  int? id;
+  String? name;
 
-    LawLocation({
-        this.id,
-        this.name,
-    });
+  LawLocation({
+    this.id,
+    this.name,
+  });
 
-    factory LawLocation.fromJson(Map<String, dynamic> json) => LawLocation(
+  factory LawLocation.fromJson(Map<String, dynamic> json) => LawLocation(
         id: json["id"],
         name: json["name"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-    };
+      };
 }
 
 class VisitingOfficial {
-    String? name;
-    String? designation;
-    String? address;
-    String? contactNo;
-    String? email;
-    DbOfficialEmailDepartment? department;
-    bool? mandatory;
+  String? name;
+  String? designation;
+  String? address;
+  String? contactNo;
+  String? email;
+  DbOfficialEmailDepartment? department;
+  bool? mandatory;
 
-    VisitingOfficial({
-        this.name,
-        this.designation,
-        this.address,
-        this.contactNo,
-        this.email,
-        this.department,
-        this.mandatory,
-    });
+  VisitingOfficial({
+    this.name,
+    this.designation,
+    this.address,
+    this.contactNo,
+    this.email,
+    this.department,
+    this.mandatory,
+  });
 
-    factory VisitingOfficial.fromJson(Map<String, dynamic> json) => VisitingOfficial(
+  factory VisitingOfficial.fromJson(Map<String, dynamic> json) =>
+      VisitingOfficial(
         name: json["name"],
         designation: json["designation"],
         address: json["address"],
         contactNo: json["contactNo"],
         email: json["email"],
-        department: json["department"] == null ? null : DbOfficialEmailDepartment.fromJson(json["department"]),
+        department: json["department"] == null
+            ? null
+            : DbOfficialEmailDepartment.fromJson(json["department"]),
         mandatory: json["mandatory"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "name": name,
         "designation": designation,
         "address": address,
@@ -205,5 +237,5 @@ class VisitingOfficial {
         "email": email,
         "department": department?.toJson(),
         "mandatory": mandatory,
-    };
+      };
 }

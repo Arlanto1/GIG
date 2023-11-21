@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
 import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/contact_details/models/requestModels/contact_details_gi_request.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
@@ -12,17 +10,13 @@ import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
-import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
-import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/language.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
@@ -31,7 +25,7 @@ import '../../../../enums/form_status.dart';
 import '../../../../models/base_user.dart';
 import '../../../../models/organisation.dart';
 import '../../../../models/responseModels/error_response_validation.dart';
-import '../../../../models/responseModels/generic_create_response.dart';
+import '../../../../models/responseModels/generic_response.dart';
 import '../../../createfound/models/emplyee_departments_model.dart';
 import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
@@ -49,7 +43,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
   }) : super(
           ContactDetailsState.initial(
             model: model ?? ContactDetailModel(),
-            locations: GetLocations(),
+            locations: Locations(),
             loggedInUserDetails: User(),
             users: const [],
             emailUsers: const [],
@@ -75,7 +69,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =
@@ -162,7 +156,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
-    if (location != null ) {
+    if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: location.id.toString(),
           moduleCode: Constants.materialMovementOutwardReturnableModule);
@@ -170,13 +164,11 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       state.model.slNo = slNo.serialNo;
     }
 
-
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
     ));
   }
-
 
   void addAttchment(List<ImageContent>? data) async {
     log('--state.status-1---${state.status}----');
@@ -216,12 +208,12 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
 
     // Create/Update API Call
     ContactDetailsGiRequest request =
-    ContactDetailsGiRequest(cdGi: state.model);
+        ContactDetailsGiRequest(cdGi: state.model);
 
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
     try {
-      GenericCreateResponse response = GenericCreateResponse();
+      GenericResponse response = GenericResponse();
       if (isSaveOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {

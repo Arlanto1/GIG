@@ -17,21 +17,21 @@ import '../../../../../utils/helpers/keys/keys.dart';
 import '../../../../../utils/validators/validator.dart';
 import '../pay_rates/cubits/pay_rate_cubit.dart';
 
-class GuardingRateDetails extends StatefulWidget {
+class GuardingRateDetailsView extends StatefulWidget {
   final String title;
   final GMRate rate;
 
-  const GuardingRateDetails({
+  const GuardingRateDetailsView({
     super.key,
     required this.title,
     required this.rate,
   });
 
   @override
-  State<GuardingRateDetails> createState() => GuardingRateDetailsState();
+  State<GuardingRateDetailsView> createState() => GuardingRateDetailsViewState();
 }
 
-class GuardingRateDetailsState extends State<GuardingRateDetails> {
+class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
   @override
   void initState() {
     super.initState();

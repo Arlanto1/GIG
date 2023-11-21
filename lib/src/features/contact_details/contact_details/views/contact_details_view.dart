@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/record_locked_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
@@ -167,7 +168,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
 
   getBodybuilder(ContactDetailsState state, height) {
     if (state.status == FormStatus.loading) {
-      return const Center(child: CircularProgressIndicator());
+      return const BaseLoader();
     }
 
     if (state.status == FormStatus.addAttachment ||
@@ -287,15 +288,14 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
 
                             GestureDetector(
                               onTap: () {
-
                                 // TODO: Need to save General Info Object First
-
                                 Navigator.pushNamed(
-                                    context, contactListingRoute,
-                                    arguments: {
+                                  context,
+                                  contactListingRoute,
+                                  arguments: {
                                     ConstantsArgument.title:
                                         Constants.generalContact,
-                                    },
+                                  },
                                 );
                               },
                               child: Row(
@@ -555,8 +555,10 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
               Padding(
                 padding: const EdgeInsets.only(right: 5.0),
                 child: ElevatedButton.icon(
-                  style:
-                      ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: const Size(140, 50),
+                    backgroundColor: AppColors.navigationSkybluecolor,
+                  ),
                   onPressed: () {
                     // Navigator.pushNamed(context,
                     //     createFoundAttachmentRoute);
@@ -635,7 +637,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
             context: context,
             builder: (BuildContext dialogContext) {
               return CustomExpansionListTexts(
-                getLocationsresponse: state.locations,
+                locationList: state.locations,
                 onTap: (Organisation? list) async {
                   Organisation location = Organisation();
                   location.id = list?.id;

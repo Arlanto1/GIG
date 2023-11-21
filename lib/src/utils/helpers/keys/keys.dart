@@ -64,7 +64,8 @@ class Keys {
 
   /// Material Movement
   static const String challanKey = 'material_inward_challan_key';
-  static const String returnChallanKey = 'material_outward_returnChallanKey_key';
+  static const String returnChallanKey =
+      'material_outward_returnChallanKey_key';
   static const String poNumberKey = 'po_number_mmi';
   static const String quantityKey = 'material_inward_quantity_key';
   static const String returnableKey = 'returnableKey_mmo';
@@ -101,6 +102,7 @@ class Keys {
   static const String toDateKey = 'toDateKey_gr';
   static const String commentKey = 'commentKey_gr';
   static const String vendorDepartmentKey = 'vendorDepartmentKey_gr';
+  static const String vendor3ContactKey = 'vendor3ContactKey_gr';
 
   ///Guarding Master Data
   static const String esicKey = 'esicNoKey_gd';
@@ -147,13 +149,18 @@ class Keys {
   //Event Protection
   static const String vendorIdKey = 'vendorIdKey_gd';
   static const String noOfSecurityOfficersKey = 'noOfSecurityOfficersKey_gd';
-  static const String noOfSecuritySupervisorsKey = 'noOfSecuritySupervisorsKey_gd';
+  static const String noOfSecuritySupervisorsKey =
+      'noOfSecuritySupervisorsKey_gd';
   static const String noOfSecurityGuardsKey = 'noOfSecurityGuardsKey_gd';
-  static const String noOfSecurityFacilitatorKey = 'noOfSecurityFacilitatorKey_gd';
-  static const String noOfSecurityOfficersHrsKey = 'noOfSecurityOfficersHrsKey_gd';
-  static const String noOfSecuritySupervisorsHrsKey = 'noOfSecuritySupervisorsHrsKey_gd';
+  static const String noOfSecurityFacilitatorKey =
+      'noOfSecurityFacilitatorKey_gd';
+  static const String noOfSecurityOfficersHrsKey =
+      'noOfSecurityOfficersHrsKey_gd';
+  static const String noOfSecuritySupervisorsHrsKey =
+      'noOfSecuritySupervisorsHrsKey_gd';
   static const String noOfSecurityGuardsHrsKey = 'noOfSecurityGuardsHrsKey_gd';
-  static const String noOfSecurityFacilitatorHrsKey = 'noOfSecurityFacilitatorHrsKey_gd';
+  static const String noOfSecurityFacilitatorHrsKey =
+      'noOfSecurityFacilitatorHrsKey_gd';
   static const String pONumberKey = 'pONumberKey_gd';
   static const String budgetKey = 'budgetKey_gd';
   static const String vendorAgencyPOCKey = 'vendorAgencyPOCKey_gd';
@@ -165,24 +172,26 @@ class Keys {
   static const String systemVendor2EmailKey = 'systemVendor2EmailKey_gd';
   static const String vendor1Contact1Key = 'vendor1ContactKey_gd';
   static const String vendor2ContactKey = 'vendor2ContactKey_gd';
-
+  static const String vendor3ContactPassKey = 'vendor3ContactPassKey_gd';
   static const String incidentDescription = 'incidentDescription_im';
   static const String shortIncidentDescription = 'shortIncidentDescription';
 
-
   //Occurrence
 
-  static const String premisesRoundTknCommentsKey = 'premisesRoundTknCommentsKey_occ';
+  static const String premisesRoundTknCommentsKey =
+      'premisesRoundTknCommentsKey_occ';
   static const String emergencyCommentsKey = 'emergencyCommentsKey_occ';
-  static const String socialEnggIncdntCommentsKey='socialEnggIncdntCommentsKey_occ';
-  static const String infraIssueCommentsKey='infraIssueCommentsKey_occ';
-  static const String fireAlarmEmrgncyCommentsKey = 'fireAlarmEmrgncyCommentsKey_occ';
-  static const String landlordIssueCommentsKey= 'landlordIssueCommentsKey_occ';
+  static const String socialEnggIncdntCommentsKey =
+      'socialEnggIncdntCommentsKey_occ';
+  static const String infraIssueCommentsKey = 'infraIssueCommentsKey_occ';
+  static const String fireAlarmEmrgncyCommentsKey =
+      'fireAlarmEmrgncyCommentsKey_occ';
+  static const String landlordIssueCommentsKey = 'landlordIssueCommentsKey_occ';
   static const String sysAlarmRcvdCommentsKey = 'sysAlarmRcvdCommentsKey_occ';
-  static const String transportIncdntCommentsKey ='transportIncdntCommentsKey_occ';
-  static const String notifyScriKey= 'notifyScriKey_occ';
-  static const String commentsKey= 'commentsKey_occ';
-  static const String complainantManagerKey= 'complainantManagerKey_occ';
+  static const String transportIncdntCommentsKey =
+      'transportIncdntCommentsKey_occ';
+  static const String notifyScriKey = 'notifyScriKey_occ';
+  static const String commentsKey = 'commentsKey_occ';
+  static const String complainantManagerKey = 'complainantManagerKey_occ';
   static const String shiftTakenOverByKey = 'shiftTakenOverByKey_occ';
-
 }

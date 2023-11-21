@@ -1,6 +1,3 @@
-
-
-
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -12,13 +9,16 @@ import 'package:flutter/material.dart';
 
 class DayPassInfoCustomPopUpList extends StatefulWidget {
   DaypassInfoListElement? userItem;
+
   DayPassInfoCustomPopUpList(this.userItem, {Key? key}) : super(key: key);
 
   @override
-  State<DayPassInfoCustomPopUpList> createState() => _DayPassInfoCustomPopUpListState();
+  State<DayPassInfoCustomPopUpList> createState() =>
+      _DayPassInfoCustomPopUpListState();
 }
 
-class _DayPassInfoCustomPopUpListState extends State<DayPassInfoCustomPopUpList> {
+class _DayPassInfoCustomPopUpListState
+    extends State<DayPassInfoCustomPopUpList> {
   //var firstStyle = Styles.textStyleSemiBoldGrey14;
 //var secondStyle = Styles.textStyleSemiBoldheighGrey14;
 
@@ -41,8 +41,6 @@ class _DayPassInfoCustomPopUpListState extends State<DayPassInfoCustomPopUpList>
       ),
     );
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -92,59 +90,62 @@ class _DayPassInfoCustomPopUpListState extends State<DayPassInfoCustomPopUpList>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              textHandling('Pass No : ', widget.userItem?.passNo.toString() ?? " "),
+              textHandling(
+                  'Pass No : ', widget.userItem?.passNo.toString() ?? " "),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
-                  Row(
-                    children: [
-                      Utils().passManagementPassTypeRow(widget.userItem?.passType ?? 0),
-                    ],
-                  ),
-          if(widget.userItem?.region !=null)...[
+          Row(
+            children: [
+              Utils().passManagementPassTypeRow(widget.userItem?.passType ?? 0),
+            ],
+          ),
+          if (widget.userItem?.region != null) ...[
+            CommonWidgets.verticalSpacerWidget(8),
+            Row(
+              children: [
+                textHandling('Region : ',
+                    widget.userItem?.region?.name.toString() ?? " "),
+              ],
+            ),
+          ],
+          if (widget.userItem?.location != null) ...[
+            CommonWidgets.verticalSpacerWidget(8),
+            Row(
+              children: [
+                textHandling('Location : ',
+                    widget.userItem?.location?.name.toString() ?? " "),
+              ],
+            ),
+          ],
+          if (widget.userItem?.entity != null) ...[
+            CommonWidgets.verticalSpacerWidget(8),
+            Row(
+              children: [
+                textHandling('Entity : ',
+                    widget.userItem?.entity?.name.toString() ?? ""),
+              ],
+            ),
+          ],
+          if (widget.userItem?.expiryDate != null) ...[
+            CommonWidgets.verticalSpacerWidget(8),
+            Row(
+              children: [
+                textHandling(
+                    'Expiry Date : ',
+                    widget.userItem?.expiryDate != null
+                        ? Utils.timestamptoDateConversion(
+                            int.parse(widget.userItem?.expiryDate ?? '0'),
+                            Constants.dateFormat)
+                        : ''),
+              ],
+            ),
+          ],
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
               textHandling(
-                  'Region : ', widget.userItem?.region?.name.toString() ?? " "),
-            ],
-          ),
-          ],
-    if(widget.userItem?.location !=null)...[
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling('Location : ',
-                  widget.userItem?.location?.name.toString() ?? " "),
-            ],
-          ),
-         ],
-         if(widget.userItem?.entity !=null)...[
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling('Entity : ',
-                  widget.userItem?.entity?.name.toString() ?? ""),
-            ],
-          ),
-           ],
-          if(widget.userItem?.expiryDate !=null)...[
-           CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling(
-                  'Expiry Date : ',
-                  widget.userItem?.expiryDate != null ?
-                  Utils.timestamptoDateConversion(
-                       int.parse(widget.userItem?.expiryDate ?? '0'),Constants.dateFormat): ''),
-            ],
-          ),
-          ],
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling('Is Dws Pass : ',
-                  widget.userItem?.dws.toString() ?? " "),
+                  'Is Dws Pass : ', widget.userItem?.dws.toString() ?? " "),
             ],
           ),
           // CommonWidgets.verticalSpacerWidget(8),
@@ -155,12 +156,12 @@ class _DayPassInfoCustomPopUpListState extends State<DayPassInfoCustomPopUpList>
           //   ],
           // ),
           CommonWidgets.verticalSpacerWidget(8),
-                  Row(
-                    children: [
-                      Utils().buildPassManagementStatusRow(
-                          widget.userItem?.status ?? 0),
-                    ],
-                  )
+          Row(
+            children: [
+              Utils()
+                  .buildPassManagementStatusRow(widget.userItem?.status ?? 0),
+            ],
+          )
         ])
                 //),
                 //    ),

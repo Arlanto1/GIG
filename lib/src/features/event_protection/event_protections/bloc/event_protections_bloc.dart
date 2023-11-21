@@ -13,17 +13,14 @@ part 'event_protections_state.dart';
 
 class EventProtectionsBloc
     extends Bloc<EventProtectionsEvent, EventProtectionsState> {
-
-  EventProtectionsBloc()
-      : super(const EventProtectionsState()) {
+  EventProtectionsBloc() : super(const EventProtectionsState()) {
     on<FetchData>(
       _fetchList,
       transformer: droppable(),
     );
   }
 
-  final EventProtectionServices _services =
-  EventProtectionServices();
+  final EventProtectionServices _services = EventProtectionServices();
 
   FutureOr<void> _fetchList(
       FetchData event, Emitter<EventProtectionsState> emit) async {
@@ -31,8 +28,7 @@ class EventProtectionsBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        EventProtectionResponse response =
-        await _services.getEventProtections(
+        EventProtectionResponse response = await _services.getEventProtections(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '77',
@@ -47,8 +43,7 @@ class EventProtectionsBloc
         );
       }
 
-      EventProtectionResponse response =
-      await _services.getEventProtections(
+      EventProtectionResponse response = await _services.getEventProtections(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '77',

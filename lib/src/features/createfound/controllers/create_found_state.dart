@@ -15,7 +15,7 @@ enum CreateFoundStateType { initial, loading, success, failure, addattachment }
 
 class CreateFoundState extends Equatable {
   GetDepositor? getDepositorResponse;
-  GetLocations? getLocationsResponse;
+  Locations? getLocationsResponse;
   EmployeeDepartments? getEmployeeDepartmentsResponse;
   GetArticleType? getArticleTypeResponse;
   Organisation? createOrganisationResponse;
@@ -27,28 +27,27 @@ class CreateFoundState extends Equatable {
   final String? message;
   final CreateFoundStateType stateType;
   List<ImageContent>? loadAttachments = [];
-   final int? eventId;
+  final int? eventId;
 
-  CreateFoundState({
-    this.getDepositorResponse,
-    this.getLocationsResponse,
-    this.getEmployeeDepartmentsResponse,
-    this.getArticleTypeResponse,
-    this.createOrganisationResponse,
-    this.createEmployeeDepartments,
-    this.createUserResponse,
-    this.loggedInUser,
-    this.createFoundResponse,
-    this.getSerialnumberResponse,
-    required this.stateType,
-    this.message,
-    this.loadAttachments,
-    this.eventId
-  });
+  CreateFoundState(
+      {this.getDepositorResponse,
+      this.getLocationsResponse,
+      this.getEmployeeDepartmentsResponse,
+      this.getArticleTypeResponse,
+      this.createOrganisationResponse,
+      this.createEmployeeDepartments,
+      this.createUserResponse,
+      this.loggedInUser,
+      this.createFoundResponse,
+      this.getSerialnumberResponse,
+      required this.stateType,
+      this.message,
+      this.loadAttachments,
+      this.eventId});
 
   CreateFoundState copyWith({
     GetDepositor? getDepositorResponse,
-    GetLocations? getLocationsResponse,
+    Locations? getLocationsResponse,
     EmployeeDepartments? getEmployeeDepartmentsResponse,
     GetArticleType? getArticleTypeResponse,
     Organisation? createOrganisationResponse,
@@ -74,15 +73,14 @@ class CreateFoundState extends Equatable {
         createEmployeeDepartments:
             createEmployeeDepartments ?? this.createEmployeeDepartments,
         createUserResponse: createUserResponse ?? this.createUserResponse,
-        loggedInUser:
-            loggedInUser ?? this.loggedInUser,
+        loggedInUser: loggedInUser ?? this.loggedInUser,
         createFoundResponse: createFoundResponse ?? this.createFoundResponse,
         getSerialnumberResponse:
             getSerialnumberResponse ?? this.getSerialnumberResponse,
         message: message ?? this.message,
         stateType: stateType ?? this.stateType,
         loadAttachments: loadAttachments ?? this.loadAttachments,
-        eventId :   eventId ?? this.eventId);
+        eventId: eventId ?? this.eventId);
   }
 
   @override

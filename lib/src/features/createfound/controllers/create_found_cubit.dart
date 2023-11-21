@@ -180,7 +180,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     try {
       // GetLocations getLocationsData =
       //     await createFoundServices.getLocations(locationsStr, context);
-      GetLocations getLocationsData = await commonServices.getLocations(
+      Locations getLocationsData = await commonServices.getLocations(
           name: locationsStr, context: context);
 
       emit(
@@ -371,14 +371,15 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         stateType: CreateFoundStateType.loading,
       ),
     );
+
     var userId = await SharedPrefs.getUserId();
     try {
       User loggedInUserDetails =
-      await commonServices.getUserDetails(userId: userId);
+          await commonServices.getUserDetails(userId: userId);
 
       emit(
         state.copyWith(
-            loggedInUser: loggedInUserDetails,
+          loggedInUser: loggedInUserDetails,
         ),
       );
     } catch (e) {
@@ -391,6 +392,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       );
     }
   }
+
   // Get user details call
   Future<void> getUserDetails(String userId, BuildContext context) async {
     try {

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 import 'dart:ui' as ui;
 
@@ -366,4 +367,16 @@ class SignatureController extends ValueNotifier<List<Point>> {
   svg.SvgPicture? toSVG({int? width, int? height}) => isEmpty
       ? null
       : svg.SvgPicture.string(toRawSVG(width: width, height: height)!);
+
+  Future<String> exportSignature(
+      SignatureController controller,
+      ) async {
+    Uint8List? signature = await controller.toPngBytes();
+    if (signature == null) {
+      return '';
+    }
+    String bs4str = base64Encode(signature);
+
+    return bs4str;
+  }
 }

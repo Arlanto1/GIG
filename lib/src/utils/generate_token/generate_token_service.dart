@@ -12,22 +12,26 @@ class GenerateTokenService {
     String token = await SharedPrefs.getToken();
 
     final endpoint = Environment().config.apiHost;
-   final url = Uri.parse('https://api.integration.dbatom.arlanto.com/oauth2/token').replace(queryParameters: {
+    final url =
+        Uri.parse('https://api.integration.dbatom.arlanto.com/oauth2/token')
+            .replace(queryParameters: {
       "clientId": "vzelhdxCKJekoEJVP0KrCQ==",
       "clientSecret": "17XCc4+opLnRhsY0th3i3L1I++0MhfqPf1Y8jDBYJYE=",
     });
     try {
-      final response = await http.get(url,
-         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-         //encoding:encoding ,
-          );
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        //encoding:encoding ,
+      );
       if (response.statusCode == 200) {
         try {
-          final refreshTokenData = RefreshTokenResponseModel.fromJson(json.decode(response.body));
+          final refreshTokenData =
+              RefreshTokenResponseModel.fromJson(json.decode(response.body));
           await SharedPrefs.setToken(refreshTokenData.token ?? '');
-          
+
           return refreshTokenData.status ?? 200;
         } catch (e) {
           return 449;

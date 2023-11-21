@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';
@@ -141,7 +142,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
       disableForm = true;
     }
     if (state.status == FormStatus.loading) {
-      return const Center(child: CircularProgressIndicator());
+      return const BaseLoader();
     }
 
     if (state.status == FormStatus.addAttachment ||
@@ -246,7 +247,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                 Styles.textStyleBlack14,
                               ),
                               TextfieldAddButton(
-                                  title: state.model.handOverSecurity?.name,
+                                  title: state.model.handoverSecurity?.name,
                                   height: 70,
                                   isDisableColor:
                                       state.model.status != 6 ? false : true,
@@ -623,35 +624,33 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                   isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.processBreachIncdnt ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
-                                      ? null
-                                      : (val) {
-                                          state.model.processBreachIncdnt =
-                                              true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  processBreachIncdnt: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: state.model.status == 4
-                                      ? null
-                                      : (val) {
-                                          state.model.processBreachIncdnt =
-                                              false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  processBreachIncdnt: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
-                                        },
+                                status: state.model.status ?? 0,
+                                selectedValue:
+                                    state.model.processBreachIncdnt ? 1 : 0,
+                                onChangedYes: state.model.status == 6
+                                    ? null
+                                    : (val) {
+                                        state.model.processBreachIncdnt = true;
+                                        BlocProvider.of<
+                                                    OccurrenceGeneralInfoCubit>(
+                                                context)
+                                            .showFields(
+                                                processBreachIncdnt: true);
+                                        //.onModelValueChange(state.guardingMasterData
+                                        //);
+                                      },
+                                onChangedNo: state.model.status == 4
+                                    ? null
+                                    : (val) {
+                                        state.model.processBreachIncdnt = false;
+                                        BlocProvider.of<
+                                                    OccurrenceGeneralInfoCubit>(
+                                                context)
+                                            .showFields(
+                                                processBreachIncdnt: false);
+                                        // .onModelValueChange(state.guardingMasterData
+                                        //  );
+                                      },
                               ),
 
                               if (state.model.processBreachIncdnt == true) ...[
@@ -1604,7 +1603,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
 
   Widget locationWidgetdislay({
     required bool enabled,
-    GetLocations? locations,
+    Locations? locations,
     required String selectedLocation,
     Function? onTap,
   }) {
@@ -1621,13 +1620,13 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     );
   }
 
-  void selectLocation({GetLocations? locations, Function? onTap}) {
+  void selectLocation({Locations? locations, Function? onTap}) {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         // print(state.getLocationsResponse);
         return CustomExpansionListTexts(
-          getLocationsresponse: locations,
+          locationList: locations,
           onTap: onTap,
         );
       },

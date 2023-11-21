@@ -9,7 +9,7 @@ import 'package:db_atom/src/features/event_protection/event_protection_details/g
 import 'package:db_atom/src/features/event_protection/models/event_protection_model.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
-import '../../../models/responseModels/generic_create_response.dart';
+import '../../../models/responseModels/generic_response.dart';
 import '../event_protection_details/event_info/models/event_info_response.dart';
 import '../event_protection_details/event_info/models/request_models/event_into_request.dart';
 import '../event_protection_details/general_info/models/general_info_model.dart';
@@ -38,14 +38,13 @@ class EventProtectionServices {
     return email;
   }
 
-
   Future<EventProtectionResponse> getEventProtections({
     required String startPosition,
     required String maximumRecords,
     required String userId,
   }) async {
     String url =
-        '${Apis._getEventProtections}startPos=$startPosition&maxResults=$maximumRecords&userId=${ await SharedPrefs.getUserId()}';
+        '${Apis._getEventProtections}startPos=$startPosition&maxResults=$maximumRecords&userId=${await SharedPrefs.getUserId()}';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -95,7 +94,7 @@ class EventProtectionServices {
     return ShowGuardInfoResponse.fromJson(response);
   }
 
-  Future<GenericCreateResponse> createEventGeneralInfo({
+  Future<GenericResponse> createEventGeneralInfo({
     required GeneralInfoRequest body,
     required bool isSubmit,
     // required int eventDuration,
@@ -108,10 +107,10 @@ class EventProtectionServices {
       url: url,
       requestedData: body.toJson(),
     );
-    return GenericCreateResponse.fromJson(response);
+    return GenericResponse.fromJson(response);
   }
 
-  Future<GenericCreateResponse> createEventEi({
+  Future<GenericResponse> createEventEi({
     required EventInfoRequest body,
     required bool isSubmit,
     required int eventDuration,
@@ -124,7 +123,7 @@ class EventProtectionServices {
       url: url,
       requestedData: body.toJson(),
     );
-    return GenericCreateResponse.fromJson(response);
+    return GenericResponse.fromJson(response);
   }
 
   Future<FoundListModel> getFoundArticleList({

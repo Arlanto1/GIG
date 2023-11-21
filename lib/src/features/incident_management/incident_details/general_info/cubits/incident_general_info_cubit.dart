@@ -13,7 +13,7 @@ import 'package:db_atom/src/features/occurrence/occurrences_details/general_info
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
@@ -45,7 +45,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
   }) : super(
           IncidentGeneralInfoState.initial(
             model: Incident(),
-            locations: GetLocations(),
+            locations: Locations(),
             users: const [],
             emailUsers: const [],
             errorMessage: '',
@@ -55,7 +55,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
             getEntitiesResponse: null,
             departments: const [],
             loggedInUserDetails: null,
-            getArticleTypeResponse:  const [],
+            getArticleTypeResponse: const [],
           ),
         );
 
@@ -90,7 +90,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       // Get Date of Creation
       model.inputDate = Utils().getCurrentDate();
 
-      GetLocations getLocationsData =
+      Locations getLocationsData =
           await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
       User loggedInUserDetails =
@@ -111,6 +111,18 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
+      if (state.model.location == null) {
+        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+        log('defaultLocation $defaultLocation');
+        if (defaultLocation != null) {
+          SerialNumberModel slNo = await commonServices.getSlNo(
+            locationId: defaultLocation.id.toString(),
+            moduleCode: Constants.incidentManagementModule,
+          );
+          model.location = defaultLocation;
+          model.slNo = slNo.serialNo;
+        }
+      }
       emit(
         state.copyWith(
           model: model,
@@ -123,7 +135,6 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
-
         ),
       );
     } catch (e) {
@@ -316,9 +327,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     IncidentGeneralInfoRequest request =
         IncidentGeneralInfoRequest(incidentManagement: state.model);
 
-    GenericCreateResponse response = GenericCreateResponse();
+    GenericResponse response = GenericResponse();
     try {
-
       log('---isSaveOnly-$isSaveOnly---');
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {

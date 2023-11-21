@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -112,7 +113,7 @@ class _EventInfoViewState extends State<EventInfoView> {
 
   getBodybuilder(EventInfoState state, height) {
     if (state.status == FormStatus.loading) {
-      return const Center(child: CircularProgressIndicator());
+      return const BaseLoader();
     }
 
     if (state.status == FormStatus.addAttachment ||

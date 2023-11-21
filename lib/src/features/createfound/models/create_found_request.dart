@@ -55,6 +55,7 @@ class Found {
   int? status;
   String? employeeId;
   User? claimant;
+  String? claimantName;
   Organisation? claimantDepartment;
   User? handoverSecurity;
   bool? claimantDbEmp;
@@ -62,35 +63,40 @@ class Found {
   bool? claimantConfirmByEmail;
   int? claimantEmployeeId;
 
-  Found(
-      {this.slNo,
-      this.eventProtection,
-      this.id,
-      this.typeOfAsset,
-      this.typeOfArticle,
-      this.foundLocation,
-      this.additionalInformation,
-      this.quantity,
-      this.claimantEmployeeId,
-      this.color,
-      this.depositorDbEmp,
-      this.inputDate,
-      this.foundDate,
-      this.entrySecurity,
-      this.location,
-      this.depositor,
-      this.images,
-      this.status,
-      this.depositorDepartment,
-      this.depositorName,
-      this.employeeId,
-      this.claimant,
-      this.claimantDepartment,
-      this.handoverSecurity,
-      this.claimantDbEmp,
-      this.claimantNoSign,
-      this.handoverDate,
-      this.claimantConfirmByEmail});
+  // ImageContent? claimantSign;
+
+  Found({
+    this.slNo,
+    this.eventProtection,
+    this.id,
+    this.typeOfAsset,
+    this.typeOfArticle,
+    this.foundLocation,
+    this.additionalInformation,
+    this.quantity,
+    this.claimantEmployeeId,
+    this.color,
+    this.depositorDbEmp,
+    this.inputDate,
+    this.foundDate,
+    this.entrySecurity,
+    // this.claimantSign,
+    this.location,
+    this.depositor,
+    this.images,
+    this.status,
+    this.depositorDepartment,
+    this.depositorName,
+    this.claimantName,
+    this.employeeId,
+    this.claimant,
+    this.claimantDepartment,
+    this.handoverSecurity,
+    this.claimantDbEmp,
+    this.claimantNoSign,
+    this.handoverDate,
+    this.claimantConfirmByEmail,
+  });
 
   factory Found.fromJson(Map<String, dynamic> json) => Found(
         slNo: json["slNo"],
@@ -129,12 +135,16 @@ class Found {
             : Organisation.fromJson(json["depositorDepartment"]),
         status: json["status"],
         depositorName: json["depositorName"],
+        claimantName: json["claimantName"],
         employeeId: json["employeeId"],
         claimant:
             json["claimant"] == null ? null : User.fromJson(json["claimant"]),
         claimantDepartment: json["claimantDepartment"] == null
             ? null
             : Organisation.fromJson(json["claimantDepartment"]),
+        // claimantSign: json["claimantSign"] == null
+        //     ? null
+        //     : ImageContent.fromJson(json["claimantSign"]),
         handoverSecurity: json["handoverSecurity"] == null
             ? null
             : User.fromJson(json["handoverSecurity"]),
@@ -166,11 +176,12 @@ class Found {
         "depositorDepartment": depositorDepartment?.toJson(),
         "status": status,
         "depositorName": depositorName,
+        "claimantName": claimantName,
         "employeeId": employeeId,
         "claimant": claimant?.toJson(),
+        // "claimantSign": claimantSign?.toJson(),
         "claimantDepartment": claimantDepartment?.toJson(),
         "handoverSecurity": handoverSecurity?.toJson(),
         "claimantConfirmByEmail": claimantConfirmByEmail
       };
 }
-

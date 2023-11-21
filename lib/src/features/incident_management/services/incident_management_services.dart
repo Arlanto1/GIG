@@ -5,7 +5,7 @@ import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
-import '../../../models/responseModels/generic_create_response.dart';
+import '../../../models/responseModels/generic_response.dart';
 import '../incident_details/general_info/models/requestModel/general_info_request.dart';
 import '../models/incidents_response.dart';
 
@@ -50,7 +50,7 @@ class IncidentManagementServices {
     return Incident.fromJson(response);
   }
 
-  Future<GenericCreateResponse> createIncidentManagement({
+  Future<GenericResponse> createIncidentManagement({
     required IncidentGeneralInfoRequest body,
     required bool isSubmit,
     // required int eventDuration,
@@ -62,6 +62,6 @@ class IncidentManagementServices {
       requestedData: body.toJson(),
     );
     log('------response----${response.toString()}');
-    return GenericCreateResponse.fromJson(response);
+    return GenericResponse.fromJson(response);
   }
 }

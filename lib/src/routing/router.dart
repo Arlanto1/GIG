@@ -15,7 +15,6 @@ const String customexpansionlisttextsRoute = '/customexpansionlisttextsRoute';
 const String createFoundAttachmentRoute = '/createfoundattachmentRoutepage';
 const String addemployeedepartmentRoute = '/addemployeedepartment';
 
-
 const String daypassmanagementListRoute = '/daypassmanagementlist';
 const String daypassregistertListRoute = '/daypassregistertlist';
 
@@ -34,19 +33,17 @@ const String eventInfoRoute = '/eventInfoRoute';
 const String incidentManagementsRoute = '/incidentManagementRoute';
 const String incidentManagementDetailsRoute = '/incidentManagementDetailsRoute';
 
-
 const String otpVerificationRoute = '/otpverification';
 const String forgotPwdScreenRoute = '/forgotPwdScreen';
 const String updatePasswordScreenRoute = '/updatePasswordScreenRoute';
 const String resetPwdScreenRoute = '/resetPwdScreen';
 
-
 const String materialMovementInwardsOutwardsRoute = '/materialMovementInwards';
-const String materialMovementInwardDetailsRoute = '/materialMovementInwardDetailsRoute';
+const String materialMovementInwardDetailsRoute =
+    '/materialMovementInwardDetailsRoute';
 
 const String sstIncidentListRoute = '/sstIncidentListRoute';
 const String sstIncidentDetailsRoute = '/sstIncidentDetailsRoute';
-
 
 const String guardingMasterReportRoute = '/guardingMasterReportRoute';
 const String guardingMasterDataRoute = '/guardingMasterDataRoute';
@@ -65,4 +62,3 @@ const String occurrenceDetailsRoute = '/occurrenceDetailsRoute';
 const String contactDetailsListRoute = '/contactDetailsListRoute';
 const String contactDetailsRoute = '/contactDetailsRoute';
 const String contactListingRoute = '/contactListingRoute';
-

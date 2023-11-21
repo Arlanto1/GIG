@@ -20,9 +20,8 @@ class Constants {
 
 
   /// UI Module Code
-  static const String materialMovementModuleCode = 'MM';
-
-
+  static const String userRoles = 'userRoles';
+  static const String defaultLocation = 'defaultLocation';
 
 
 
@@ -175,7 +174,7 @@ class Constants {
   static const String employeedepartment = 'Employee Department';
   static const String claimantdepartment = 'Claimant Department';
   static const String additionalinformation = 'Additional Information';
-  static const String claimantsignature = 'Claimant Signature';
+  static const String claimantSignature = 'Claimant Signature';
   static const String informationhere = 'Information here';
   static const String location = 'Location';
   static const String height = 'Height (cm)';

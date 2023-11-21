@@ -32,8 +32,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   LawEnforcementServices services;
   List<ImageContent>? loadAttachments;
 
-  LawEnforcementCubit(
-      {required this.services, this.loadAttachments})
+  LawEnforcementCubit({required this.services, this.loadAttachments})
       : super(
           LawEnforcementState(
             //lawenforcementServices: SubmitCreateFoundModel(),
@@ -46,8 +45,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> createOrganisation(
       String name, String orgName, BuildContext context, String title) async {
     try {
-      Organisation createOrganisationData = await services
-          .createOrganisation(name, orgName, context);
+      Organisation createOrganisationData =
+          await services.createOrganisation(name, orgName, context);
       emit(
         state.copyWith(
           createOrganisationResponse: createOrganisationData,
@@ -55,7 +54,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         ),
       );
       if (Constants.addentitytype == title) {
-        await lawEnforcementCubit.getEntities('ATOM_ENTITIES', context);
+        await lawEnforcementCubit.getEntities('ATOM_ENTITIES');
       } else if (Constants.addpurposeofvisittype == title) {
         await lawEnforcementCubit.getLeopurposeofvisit(
             'ATOM_LEO_PURPOSE_VISIT', context);
@@ -88,8 +87,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> createEmplyeeDepartments(
       String name, String orgName, BuildContext context) async {
     try {
-      Organisation createEmployeeDeptData = await services
-          .createOrganisation(name, orgName, context);
+      Organisation createEmployeeDeptData =
+          await services.createOrganisation(name, orgName, context);
       emit(
         state.copyWith(
           createEmployeeDepartments: createEmployeeDeptData,
@@ -162,10 +161,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // Get locations api call
-  Future<void> getLocations(String locationsStr, BuildContext context) async {
+  Future<void> getLocations(String name, BuildContext context) async {
     try {
-      GetLocations getLocationsData =
-          await services.getLocations(locationsStr, context);
+      Locations getLocationsData =
+          await services.getLocations(name, context);
       emit(
         state.copyWith(
           getLocationsResponse: getLocationsData,
@@ -229,8 +228,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> getEmployeeDepartments(
       String departmentStr, BuildContext context) async {
     try {
-      EmployeeDepartments getEmployeeDepartments = await services
-          .getEmployeeDepartments(departmentStr, context);
+      EmployeeDepartments getEmployeeDepartments =
+          await services.getEmployeeDepartments(departmentStr, context);
       emit(
         state.copyWith(
           employeeDepartment: getEmployeeDepartments,
@@ -251,8 +250,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> getCompanytypes(
       String departmentStr, BuildContext context) async {
     try {
-      EmployeeDepartments getEmployeeDepartments = await services
-          .getEmployeeDepartments(departmentStr, context);
+      EmployeeDepartments getEmployeeDepartments =
+          await services.getEmployeeDepartments(departmentStr, context);
       emit(
         state.copyWith(
           employeeDepartment: getEmployeeDepartments,
@@ -270,10 +269,9 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
 // Get entities api call
-  Future<void> getEntities(String name, BuildContext context) async {
+  Future<void> getEntities(String name) async {
     try {
-      AddEntities entities =
-          await services.getEntities(name, context);
+      AddEntities entities = await services.getEntities(name);
       emit(
         state.copyWith(
           getEntitiesResponse: entities,
@@ -300,7 +298,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   Future<void> addingVisits(
-      {required int visitCount, List<VisitingOfficialsModel>? getVisits}) async {
+      {required int visitCount,
+      List<VisitingOfficialsModel>? getVisits}) async {
     //int eventIds = Random.secure().nextInt(5);
     emit(
       state.copyWith(
@@ -314,8 +313,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   // Get user details call
   Future<void> getUserDetails(String userId, BuildContext context) async {
     try {
-      User getUserData =
-          await services.getUserDetails(userId, context);
+      User getUserData = await services.getUserDetails(userId, context);
       emit(
         state.copyWith(
           getUserDetailsResponse: getUserData,
@@ -376,8 +374,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> createUser(String firstName, String lastName, String email,
       String role, BuildContext context) async {
     try {
-      CreateUserModel createUserData = await services.createUser(
-          firstName, lastName, email, role, context);
+      CreateUserModel createUserData =
+          await services.createUser(firstName, lastName, email, role, context);
       emit(
         state.copyWith(
           createUserResponse: createUserData,
@@ -424,10 +422,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
 
   // get DB Official email ID Accompanied LEO official API call
   Future<void> getDBofficialByRoleDepositor(
-      String userRole, BuildContext context) async {
+      String roleName, BuildContext context) async {
     try {
-      GetDepositor getDepositorData = await services
-          .getDBOfficialdepartments(userRole, context);
+      GetDepositor getDepositorData =
+          await services.getDBOfficialdepartments(roleName, context);
       emit(
         state.copyWith(
           getDepositorResponse: getDepositorData,
@@ -627,9 +625,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  // void onModelValueChange(LawEnforcementDetails model) {
-  //   log('-onModelValueChange---');
-  //   emit(state.copyWith(model: model, status: FormStatus.initial));
-  // }
-
+// void onModelValueChange(LawEnforcementDetails model) {
+//   log('-onModelValueChange---');
+//   emit(state.copyWith(model: model, status: FormStatus.initial));
+// }
 }
