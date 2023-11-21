@@ -1103,10 +1103,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     Styles.textStyleBlack14),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
-                                datepickerWidgetLoading(
-                                    passvaliduntilTextController),
+                                // datepickerWidgetLoading(
+                                //     passvaliduntilTextController),
 
                                 BaseDate().datePickerWidgetLoading(
+                                  isDisabled: true,
                                   textController: passvaliduntilTextController,
                                   onlyDate: widget.model?.category == 1
                                       ? true
