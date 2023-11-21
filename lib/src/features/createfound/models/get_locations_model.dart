@@ -30,3 +30,21 @@ class Locations {
 
   Map<String, dynamic> toJson() => _$GetLocationsToJson(this);
 }
+
+// class LocationsNew {
+//   Map<String, List<Map<int,String>>> dd = {};
+//   Map<String, List<Organisation>> ddsd = {};
+//
+//   LocationsNew({
+//     this.west,
+//     this.south,
+//     this.northEast,
+//     this.mumbai,
+//     this.central
+//   });
+//
+//   factory Locations.fromJson(Map<String, dynamic> json) =>
+//       _$GetLocationsFromJson(json);
+//
+//   Map<String, dynamic> toJson() => _$GetLocationsToJson(this);
+// }

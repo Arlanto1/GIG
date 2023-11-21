@@ -945,24 +945,15 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .onCheckBoxChange(state.model);
 
-                                      // BlocProvider.of<GeneralInfoCubit>(context)
-                                      //     .updateDropdownValues(
-                                      //   epManager1: user,
-                                      // );
                                     },
                                   );
-                                  // addEPOfficers();
                                 },
                                 child: Row(
                                   children: <Widget>[
-                                    // Expanded(
-                                    //child:
                                     const SizedBox(width: 14),
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
-                                      //color: AppColors.navigationSkybluecolor,
                                     ),
-                                    // ),
                                     const SizedBox(width: 10),
                                     const Text(
                                       'Add Officer',
@@ -977,23 +968,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             ],
                             BasicWidgetFunctions().getStringText(
                                 strings: state.model.epOfficers ?? []),
-                            // TextfieldAddButton(
-                            //   title: state.model.epOfficers?[0],
-                            //   height: 70,
-                            //   isDisableColor: disableForm,
-                            //   onTap: () {
-                            //     BaseDepartmentDialog().userDialog(
-                            //       context: context,
-                            //       users: state.emailUsers!,
-                            //       onTap: (BaseUser user) {
-                            //         BlocProvider.of<GeneralInfoCubit>(context)
-                            //             .updateDropdownValues(
-                            //           epOfficers: user,
-                            //         );
-                            //       },
-                            //     );
-                            //   },
-                            // ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -1530,11 +1504,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             const Spacer(),
                             submitButtonDisplay(
                               onTap: () {
-                                log('--eventProtectionGi-11--${state.model.epOfficers}---------${addEPOfficerController.text}-');
                                 state.model.epOfficers ??= [];
                                 state.model.epOfficers
                                     ?.add(addEPOfficerController.text);
-                                log('--eventProtectionGi--22-${state.model.epOfficers}-');
 
                                 BlocProvider.of<GeneralInfoCubit>(this.context)
                                     .onCheckBoxChange(state.model);
