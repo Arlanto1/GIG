@@ -1533,7 +1533,7 @@ class _CreateFoundState extends State<CreateFound> {
                                 //   context: context,
                                 // ),
                               ],
-                              //  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// upload
                               widget.model == null
@@ -1555,8 +1555,11 @@ class _CreateFoundState extends State<CreateFound> {
                                                   right: 5.0),
                                               child: ElevatedButton.icon(
                                                 style: ElevatedButton.styleFrom(
-                                                    fixedSize:
-                                                        const Size(140, 50)),
+                                                  fixedSize:
+                                                      const Size(140, 50),
+                                                  backgroundColor: AppColors
+                                                      .navigationSkybluecolor,
+                                                ),
                                                 onPressed: () {
                                                   // Navigator.pushNamed(context,
                                                   //     createFoundAttachmentRoute);
@@ -1576,21 +1579,18 @@ class _CreateFoundState extends State<CreateFound> {
                                                 },
 
                                                 icon: SvgPicture.asset(
-                                                  //AppIcon.dropdownicon,
                                                   AppIcon.uploadicon,
-                                                  //fit: BoxFit.,
-                                                  color: AppColors
-                                                      .backgroundWhitecolor,
+                                                  colorFilter:
+                                                      const ColorFilter.mode(
+                                                    AppColors
+                                                        .backgroundWhitecolor,
+                                                    BlendMode.srcIn,
+                                                  ),
                                                   width: 13,
                                                   height: 13,
                                                   key: const Key(Keys.userIcon),
                                                 ),
-                                                // const Icon(
-                                                //   // <-- Icon
-                                                //   Icons.upload,
-                                                //   color: AppColors.backgroundWhitecolor,
-                                                //   size: 24.0,
-                                                // ),
+
                                                 label: const Text(
                                                   Constants.clicktoupload,
                                                   style: Styles
@@ -1811,8 +1811,7 @@ class _CreateFoundState extends State<CreateFound> {
             context: context,
             builder: (BuildContext dialogContext) {
               return CustomExpansionListTexts(
-                locationList:
-                    state.getLocationsResponse ?? Locations(),
+                locationList: state.getLocationsResponse ?? Locations(),
                 onTap: (Organisation? list) async {
                   await createFoundArticleCubit.getSerialnumberDetails(
                       list?.id.toString() ?? '', 'AF', context);

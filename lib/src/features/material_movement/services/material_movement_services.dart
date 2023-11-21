@@ -5,7 +5,7 @@ import 'package:db_atom/src/features/material_movement/models/material_movements
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
-import '../../../models/responseModels/generic_create_response.dart';
+import '../../../models/responseModels/generic_response.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -42,7 +42,7 @@ class MaterialMovementServices {
   }
 
   /// Create Services
-  Future<GenericCreateResponse> createMaterialMovement({
+  Future<GenericResponse> createMaterialMovement({
     required MaterialMovementRequest body,
     required bool isSubmit,
   }) async {
@@ -53,6 +53,6 @@ class MaterialMovementServices {
       url: url,
       requestedData: body.toJson(),
     );
-    return GenericCreateResponse.fromJson(response);
+    return GenericResponse.fromJson(response);
   }
 }

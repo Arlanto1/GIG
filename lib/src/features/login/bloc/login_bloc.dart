@@ -7,7 +7,7 @@ import 'package:db_atom/src/features/login/models/login_request_model.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:meta/meta.dart';
 
-import '../../../models/responseModels/generic_create_response.dart';
+import '../../../models/responseModels/generic_response.dart';
 import '../models/update_password_request.dart';
 import '../services/login_services.dart';
 
@@ -67,7 +67,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
     } catch (e) {
       // Handle API errors here
-      if (e is GenericCreateResponse) {
+      if (e is GenericResponse) {
         emit(LoginFailureState(
             message: e.message ?? 'An unexpected error occurred.'));
       } else {
@@ -92,7 +92,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         LoginSuccessState(message: loginData.message ?? ''),
       );
     } catch (e) {
-      if (e is GenericCreateResponse) {
+      if (e is GenericResponse) {
         emit(
           LoginFailureState(message: e.message ?? 'Please try after sometime'),
         );
@@ -116,7 +116,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       emit(LoginSuccessState(message: loginData.message ?? ''));
     } catch (e) {
-      if (e is GenericCreateResponse) {
+      if (e is GenericResponse) {
         emit(LoginFailureState(
             message: e.message ?? 'Please try after sometime'));
       } else {

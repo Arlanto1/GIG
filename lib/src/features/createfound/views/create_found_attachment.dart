@@ -283,7 +283,10 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                             const EdgeInsets.only(right: 5.0),
                                         child: ElevatedButton.icon(
                                           style: ElevatedButton.styleFrom(
-                                              fixedSize: const Size(140, 50)),
+                                            fixedSize: const Size(140, 50),
+                                            backgroundColor: AppColors
+                                                .navigationSkybluecolor,
+                                          ),
                                           onPressed: () {
                                             //_askPermission(Documnets.Photo);
                                             showImagePicker(context);
@@ -298,12 +301,6 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                             height: 13,
                                             key: const Key(Keys.userIcon),
                                           ),
-                                          // const Icon(
-                                          //   // <-- Icon
-                                          //   Icons.upload,
-                                          //   color: AppColors.backgroundWhitecolor,
-                                          //   size: 24.0,
-                                          // ),
                                           label: const Text(
                                             Constants.clicktoupload,
                                             style: Styles
@@ -443,22 +440,18 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
     //   allowedExtensions: ['png'],
     // );
 
-    if (result != null) {
-      // PlatformFile file = result.files.first;
+    // PlatformFile file = result.files.first;
 
-      // print(file.name);
-      // print(file.bytes);
-      // print(file.size);
-      // print(file.extension);
-      //showLoadingDialog(context);
-      print(result.path);
-      // String fileName = result.path.split('/').last;
-      ///String fileName = identifierId + '_' + connectorId.toString() + ".png";
-      //uploadaws(result.path, fileName);
-    } else {
-      // User canceled the picker
+    // print(file.name);
+    // print(file.bytes);
+    // print(file.size);
+    // print(file.extension);
+    //showLoadingDialog(context);
+    print(result.path);
+    // String fileName = result.path.split('/').last;
+    ///String fileName = identifierId + '_' + connectorId.toString() + ".png";
+    //uploadaws(result.path, fileName);
     }
-  }
 
   Future<void> _askPermission(Documnets documnets) async {
     if (documnets == Documnets.Camera) {

@@ -1,4 +1,5 @@
 import 'package:db_atom/src/common_widgets/app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/custom_pop_menu.dart';
@@ -115,7 +116,10 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
             Navigator.pop(context);
           },
           icon: SvgPicture.asset(AppIcon.backIcon,
-              color: AppColors.backgroundWhitecolor),
+            colorFilter: const ColorFilter.mode(
+              AppColors.backgroundWhitecolor,
+              BlendMode.srcIn,
+            ),          ),
         ),
         action: [
           CustomPopmenu(
@@ -293,7 +297,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               if (index >= userList.length) {
-                return const Center(child: CircularProgressIndicator());
+                return const BaseLoader();
               } else {
                 DaypassInfoListElement user = userList[index];
 

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
@@ -218,7 +219,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
     // state.materialMovement.returnable! ? 'Returnable' : 'Non Returnable';
 
     if (state.status == FormStatus.loading) {
-      return const Center(child: CircularProgressIndicator());
+      return const BaseLoader();
     }
 
     if (state.status == FormStatus.addAttachment ||

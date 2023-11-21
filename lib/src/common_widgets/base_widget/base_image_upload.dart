@@ -32,7 +32,10 @@ class BaseImageUpload {
         Padding(
           padding: const EdgeInsets.only(right: 5.0),
           child: ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
+            style: ElevatedButton.styleFrom(
+              fixedSize: const Size(140, 50),
+              backgroundColor: AppColors.navigationSkybluecolor,
+            ),
             onPressed: () {
               showDialog(
                   context: context,
