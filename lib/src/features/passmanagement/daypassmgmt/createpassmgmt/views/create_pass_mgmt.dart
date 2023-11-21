@@ -42,8 +42,8 @@ import '../../passmgmtlist/models/day_passlist_model.dart';
 
 class CreatePassManagement extends StatefulWidget {
   DayPassListElement? model;
-  String? passId = '0';
-  String? title;
+  final String? passId;
+  final String? title;
 
   CreatePassManagement({super.key, this.model, this.passId, this.title});
 
@@ -93,6 +93,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   @override
   Widget build(BuildContext context) {
+    log('--passId----${widget.passId}----');
     final size = MediaQuery.of(context).size;
     final height = size.height;
     return Scaffold(
@@ -2530,7 +2531,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       }
     }
 
-    if (widget.passId == '1') {
+    if (widget.passId == '1' || widget.passId == '2') {
       if (daypassnoTextController.text.isEmptyOrNull) {
         Validator().showToast(
           context,
@@ -2551,23 +2552,25 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
 
     PassInfo passInfo = widget.model?.passInfo ?? PassInfo();
-    switch (passtypeTextController.text) {
-      case 'DAY_PASS':
-        passInfo.passType = 0;
-        break;
-      case 'VISITOR_PASS':
-        passInfo.passType = 1;
-        break;
-      case 'VENDOR_PASS':
-        passInfo.passType = 2;
-        break;
-      case 'SEZ_PASS':
-        passInfo.passType = 3;
-        break;
-      default:
-        passInfo.passType = 0;
-        break;
-    }
+    // switch (passtypeTextController.text) {
+    //   case 'DAY_PASS':
+    //     passInfo.passType = 0;
+    //     break;
+    //   case 'VISITOR_PASS':
+    //     passInfo.passType = 1;
+    //     break;
+    //   case 'VENDOR_PASS':
+    //     passInfo.passType = 2;
+    //     break;
+    //   case 'SEZ_PASS':
+    //     passInfo.passType = 3;
+    //     break;
+    //   default:
+    //     passInfo.passType = 0;
+    //     break;
+    // }
+    passInfo.passType = widget.passId.toIntOrNull();
+
     if (widget.passId == '3') {
       passInfo.passNo = sezpassinfoTextController.text;
     } else {
