@@ -19,7 +19,7 @@ import 'package:equatable/equatable.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../models/responseModels/generic_create_response.dart';
+import '../../../../../models/responseModels/generic_response.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/get_depositor_model.dart';
 import '../../../../createfound/models/vendors_model.dart';
@@ -309,7 +309,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     /// Create/Update API Call
     SecuritySystemTicketIncidentRequest request =
         SecuritySystemTicketIncidentRequest(sstIncident: state.model);
-    GenericCreateResponse response = GenericCreateResponse();
+    GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
         response = await services.create(
@@ -332,7 +332,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           isSubmit: true,
         );
       }
-    }  on GenericCreateResponse catch (e) {
+    }  on GenericResponse catch (e) {
       emit(
         state.copyWith(
           message: e.message,

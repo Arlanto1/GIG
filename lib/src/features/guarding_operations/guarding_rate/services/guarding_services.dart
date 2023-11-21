@@ -4,7 +4,7 @@ import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 
-import '../../../../models/responseModels/generic_create_response.dart';
+import '../../../../models/responseModels/generic_response.dart';
 import '../../../../utils/shared_preferences.dart';
 import '../models/drop_pick_up_response.dart';
 import '../models/request/gm_rate_request.dart';
@@ -51,7 +51,7 @@ class GuardingServices {
   }
 
   /// Create
-  Future<GenericCreateResponse> createGmRate({
+  Future<GenericResponse> createGmRate({
     required GMRateRequest body,
     required bool isSubmit,
   }) async {
@@ -61,10 +61,10 @@ class GuardingServices {
       url: url,
       requestedData: body.toJson(),
     );
-    return GenericCreateResponse.fromJson(response);
+    return GenericResponse.fromJson(response);
   }
 
-  Future<GenericCreateResponse> createPayRate({
+  Future<GenericResponse> createPayRate({
     required PayRateRequest body,
     required bool isSubmit,
     required String griId,
@@ -76,7 +76,7 @@ class GuardingServices {
       url: url,
       requestedData: body.toJson(),
     );
-    return GenericCreateResponse.fromJson(response);
+    return GenericResponse.fromJson(response);
   }
 
 

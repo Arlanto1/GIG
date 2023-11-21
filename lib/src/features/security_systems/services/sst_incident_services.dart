@@ -4,7 +4,7 @@ import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
-import '../../../models/responseModels/generic_create_response.dart';
+import '../../../models/responseModels/generic_response.dart';
 import '../models/requestModel/general_info_request.dart';
 
 class Apis {
@@ -45,7 +45,7 @@ class SstIncidentServices {
     return SstIncident.fromJson(response);
   }
 
-  Future<GenericCreateResponse> loginUser({
+  Future<GenericResponse> loginUser({
     required SecuritySystemTicketIncidentRequest body,
     required bool isSubmit,
   }) async {
@@ -53,10 +53,10 @@ class SstIncidentServices {
     final String url = "${Apis._create}?userEmail=$userId&isSubmit=$isSubmit";
     final response = await BaseApiService()
         .postRequest(url: url, requestedData: body.toJson());
-    return GenericCreateResponse.fromJson(response);
+    return GenericResponse.fromJson(response);
   }
 
-  Future<GenericCreateResponse> create({
+  Future<GenericResponse> create({
     required SecuritySystemTicketIncidentRequest body,
     required bool isSubmit,
   }) async {
@@ -67,6 +67,6 @@ class SstIncidentServices {
       url: url,
       requestedData: body.toJson(),
     );
-    return GenericCreateResponse.fromJson(response);
+    return GenericResponse.fromJson(response);
   }
 }

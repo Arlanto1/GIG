@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -56,7 +56,7 @@ class BaseApiService {
         if (response.statusCode.toString() == "401") {
           log("will log out now${response.statusCode}");
           // TODO: Need to handle the logout case
-          throw GenericCreateResponse.fromJson(responseBody);
+          throw GenericResponse.fromJson(responseBody);
         }
         throw json.decode(response.body);
       }
@@ -98,7 +98,7 @@ class BaseApiService {
     log('Store the new token');
     if (loginData.token == null || loginData.token!.isEmpty) {
       log('---SETTING EMPTY TOKEN--------');
-      throw GenericCreateResponse(message: 'Refresh Token is null.');
+      throw GenericResponse(message: 'Refresh Token is null.');
     }
     await SharedPrefs.setToken(loginData.token!);
   }
@@ -134,11 +134,11 @@ class BaseApiService {
         final responseBody = json.decode(response.body);
         log("User is unauthorized. Logging out...");
         log("------responseBody.toString()-------------${responseBody.runtimeType.toString()}");
-        throw GenericCreateResponse.fromJson(responseBody);
+        throw GenericResponse.fromJson(responseBody);
       } else if (response.statusCode == 401) {
         // Unauthorized
         log("User is unauthorized. Logging out...");
-        throw GenericCreateResponse.fromJson(responseBody);
+        throw GenericResponse.fromJson(responseBody);
       }
 
       if (response.statusCode != HttpStatus.ok) {
@@ -154,7 +154,7 @@ class BaseApiService {
     } on SocketException {
       // Handle SocketException
       // TODO: Handle Error
-    } on GenericCreateResponse catch (e) {
+    } on GenericResponse catch (e) {
       // Handle GenericCreateResponse
       log('--on GenericCreateResponse POST---${e.toString()}---');
       rethrow;

@@ -14,7 +14,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
@@ -342,7 +342,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
     // GuardingMasterDataRequest request =
     //     GuardingMasterDataRequest(guardingMasterData: state.model);
 
-    GenericCreateResponse response = GenericCreateResponse();
+    GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
         // response = (await services.createGuardingMasterData(

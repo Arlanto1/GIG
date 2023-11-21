@@ -26,7 +26,7 @@ import '../../../../enums/form_status.dart';
 import '../../../../models/base_user.dart';
 import '../../../../models/organisation.dart';
 import '../../../../models/responseModels/error_response_validation.dart';
-import '../../../../models/responseModels/generic_create_response.dart';
+import '../../../../models/responseModels/generic_response.dart';
 import '../../../createfound/models/emplyee_departments_model.dart';
 import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 
@@ -472,7 +472,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
     try {
-      GenericCreateResponse response = GenericCreateResponse();
+      GenericResponse response = GenericResponse();
       if (isSaveOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
@@ -513,7 +513,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           status: FormStatus.success,
         ),
       );
-    }   on GenericCreateResponse catch (e) {
+    }   on GenericResponse catch (e) {
       emit(
         state.copyWith(
           message: e.message,
