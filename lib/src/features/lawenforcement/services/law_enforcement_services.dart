@@ -166,7 +166,7 @@ class LawEnforcementServices {
   Future<DistributionGroupModel> getDistributiongroupDetails(
     BuildContext? context,
   ) async {
-    String url = '${Apis._getGroup}';
+    String url = Apis._getGroup;
     final response = await BaseApiService().getRequest(
       url: url,
     );

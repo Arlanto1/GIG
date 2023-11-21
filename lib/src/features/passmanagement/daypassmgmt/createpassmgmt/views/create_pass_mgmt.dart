@@ -1909,7 +1909,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         .format(currentDate.add(const Duration(hours: 12)));
     dateofcreationTextController.text = formattedDate;
     passvalidfromTextController.text = formattedDate;
- passvaliduntilTextController.text = nextformattedDate;
+    passvaliduntilTextController.text = nextformattedDate;
     if (widget.model == null) {
       statusTextController.text = 'created';
     }
@@ -1931,11 +1931,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     padding: const EdgeInsets.only(right: 5.0),
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(140, 50)),
+                        fixedSize: const Size(140, 50),
+                        backgroundColor: AppColors.navigationSkybluecolor,
+                      ),
                       onPressed: () {
-                        // Navigator.pushNamed(context,
-                        //     createFoundAttachmentRoute);
-                        //UploadAttachment();
                         showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
@@ -1959,12 +1958,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                         height: 13,
                         key: const Key(Keys.userIcon),
                       ),
-                      // const Icon(
-                      //   // <-- Icon
-                      //   Icons.upload,
-                      //   color: AppColors.backgroundWhitecolor,
-                      //   size: 24.0,
-                      // ),
                       label: const Text(
                         Constants.clicktoupload,
                         style: Styles.textStyleRegularNormalWhite12,
@@ -2584,13 +2577,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
 
-   int passValidUntilDate = (DateTime
-       .now()
-        .millisecondsSinceEpoch ~/ 1000) + 24 * 3600 ; //Add
+    int passValidUntilDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 24 * 3600; //Add
     // int passvaliduntildate = (DateTime
     //       .now()
     //       .millisecondsSinceEpoch ~/ 1000) + 24 * 3600 * 1227; //Adding 1227 days
-     int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
 
     log('-inputdate---sss--$inputdate----');
     log('-DateTime---inputdate--${DateTime(inputdate)}----');
@@ -2719,7 +2711,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else if (passtypeTextController.text == "DWS_DAY_PASS") {
       passtypeIdentify = 4;
     }
-    ;
 
     int idValidationType = 0;
     if (photofidentityextController.text == "Aadhaar Card") {

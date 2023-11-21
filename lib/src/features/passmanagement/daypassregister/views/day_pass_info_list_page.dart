@@ -116,7 +116,10 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
             Navigator.pop(context);
           },
           icon: SvgPicture.asset(AppIcon.backIcon,
-              color: AppColors.backgroundWhitecolor),
+            colorFilter: const ColorFilter.mode(
+              AppColors.backgroundWhitecolor,
+              BlendMode.srcIn,
+            ),          ),
         ),
         action: [
           CustomPopmenu(

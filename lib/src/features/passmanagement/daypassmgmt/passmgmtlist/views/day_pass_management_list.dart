@@ -160,8 +160,13 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: SvgPicture.asset(AppIcon.backIcon,
-              color: AppColors.backgroundWhitecolor),
+          icon: SvgPicture.asset(
+            AppIcon.backIcon,
+            colorFilter: const ColorFilter.mode(
+              AppColors.backgroundWhitecolor,
+              BlendMode.srcIn,
+            ),
+          ),
         ),
         action: [
           CustomPopmenu(

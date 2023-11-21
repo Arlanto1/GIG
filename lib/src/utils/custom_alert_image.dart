@@ -47,7 +47,10 @@ class CustomAlertImageDialog extends StatelessWidget {
           : null,
       icon: SvgPicture.asset(
         image ?? "",
-        color: AppColors.navigationSkybluecolor,
+        colorFilter: const ColorFilter.mode(
+          AppColors.navigationSkybluecolor,
+          BlendMode.srcIn,
+        ),
         width: 50,
         //key: const Key(Keys.userIcon),
       ),

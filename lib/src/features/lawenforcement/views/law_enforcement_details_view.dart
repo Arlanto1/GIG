@@ -1205,11 +1205,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                     padding: const EdgeInsets.only(right: 5.0),
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(140, 50)),
+                        fixedSize: const Size(140, 50),
+                        backgroundColor: AppColors.navigationSkybluecolor,
+                      ),
                       onPressed: () {
-                        // Navigator.pushNamed(context,
-                        //     createFoundAttachmentRoute);
-                        //UploadAttachment();
                         showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
@@ -1231,12 +1230,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                         height: 13,
                         key: const Key(Keys.userIcon),
                       ),
-                      // const Icon(
-                      //   // <-- Icon
-                      //   Icons.upload,
-                      //   color: AppColors.backgroundWhitecolor,
-                      //   size: 24.0,
-                      // ),
                       label: const Text(
                         Constants.clicktoupload,
                         style: Styles.textStyleRegularNormalWhite12,
@@ -1476,10 +1469,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     return TextfieldAddButton(
       title: state.getuserResponse != null &&
               (state.getuserResponse?.name ?? '').isNotEmpty
-          ? ((state.getuserResponse?.name ?? '') +
-              '(' +
-              (state.getuserResponse?.email ?? '') +
-              ')')
+          ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
           : '',
       height: 70,
       isDisableColor: widget.model?.status != 3 ? false : true,

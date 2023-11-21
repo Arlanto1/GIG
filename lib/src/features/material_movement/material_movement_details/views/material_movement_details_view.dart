@@ -2037,12 +2037,11 @@ class _MaterialMovementDetailsViewState
               Padding(
                 padding: const EdgeInsets.only(right: 5.0),
                 child: ElevatedButton.icon(
-                  style:
-                      ElevatedButton.styleFrom(fixedSize: const Size(140, 50)),
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: const Size(140, 50),
+                    backgroundColor: AppColors.navigationSkybluecolor,
+                  ),
                   onPressed: () {
-                    // Navigator.pushNamed(context,
-                    //     createFoundAttachmentRoute);
-                    //UploadAttachment();
                     showDialog(
                         context: context,
                         builder: (BuildContext dialogContext) {
@@ -2074,12 +2073,6 @@ class _MaterialMovementDetailsViewState
                     height: 13,
                     key: const Key(Keys.userIcon),
                   ),
-                  // const Icon(
-                  //   // <-- Icon
-                  //   Icons.upload,
-                  //   color: AppColors.backgroundWhitecolor,
-                  //   size: 24.0,
-                  // ),
                   label: const Text(
                     Constants.clicktoupload,
                     style: Styles.textStyleRegularNormalWhite12,
