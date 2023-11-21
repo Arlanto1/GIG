@@ -513,6 +513,14 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           status: FormStatus.success,
         ),
       );
+    }   on GenericCreateResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception catch (e) {
       state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());

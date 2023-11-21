@@ -333,8 +333,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         );
       }
     }  on GenericCreateResponse catch (e) {
-      log('--on GenericErrorResponse catch---${e.toString()}---');
-
       emit(
         state.copyWith(
           message: e.message,
