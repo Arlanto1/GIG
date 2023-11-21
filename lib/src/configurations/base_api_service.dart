@@ -9,7 +9,6 @@ import 'package:http/http.dart' as http;
 import '../features/login/models/login_model.dart';
 import '../features/login/models/refresh_token_request.dart';
 import '../features/login/services/login_services.dart';
-import '../models/responseModels/generic_error_response.dart';
 import '../routing/router.dart';
 import '../utils/shared_preferences.dart';
 
@@ -99,7 +98,7 @@ class BaseApiService {
     log('Store the new token');
     if (loginData.token == null || loginData.token!.isEmpty) {
       log('---SETTING EMPTY TOKEN--------');
-      throw GenericErrorResponse(message: 'Refresh Token is null.');
+      throw GenericCreateResponse(message: 'Refresh Token is null.');
     }
     await SharedPrefs.setToken(loginData.token!);
   }
@@ -112,15 +111,14 @@ class BaseApiService {
     bool? showLoader,
   }) async {
     try {
-      // log("requestedData - $requestedData");
       log("requestedData - ${jsonEncode(requestedData)}");
+
       var response = await http.post(
         Uri.parse(url),
-        headers: await _getHeaders(
-          isAuthenticated: isAuthenticated ?? true,
-        ),
+        headers: await _getHeaders(isAuthenticated: isAuthenticated ?? true),
         body: json.encode(requestedData),
       );
+
       log("API URL: $url");
       log("HTTP Status Code: ${response.statusCode}");
       log("Response: ${response.body}");
@@ -129,55 +127,39 @@ class BaseApiService {
 
       if (response.statusCode == HttpStatus.ok) {
         return responseBody;
-      } else {
+      } else if (response.statusCode == 449) {
+        // Token Expired
+        return await _refreshTokenAndRetry(url);
+      } else if (response.statusCode == 400) {
+        final responseBody = json.decode(response.body);
+        log("User is unauthorized. Logging out...");
+        log("------responseBody.toString()-------------${responseBody.runtimeType.toString()}");
+        throw GenericCreateResponse.fromJson(responseBody);
+      } else if (response.statusCode == 401) {
+        // Unauthorized
+        log("User is unauthorized. Logging out...");
+        throw GenericCreateResponse.fromJson(responseBody);
+      }
+
+      if (response.statusCode != HttpStatus.ok) {
+        // Handle other error cases
         log("$url POST response is NOT OK:${response.statusCode}");
-
-        /// If Token is Expired
-        if (response.statusCode == 449) {
-          var response = await _refreshTokenAndRetry(url);
-          log('---response---449----');
-          return response;
-        }
-        try {
-          if (response.statusCode == 400) {
-            final responseBody = json.decode(response.body);
-            log("User is unauthorized. Logging out...");
-            log("------responseBody.toString()-------------${responseBody.runtimeType.toString()}");
-            // TODO: Handle logout logic here
-            // logout(context); // You can define this method to handle logout
-
-            throw GenericErrorResponse.fromJson(responseBody);
-          }
-        } catch (e) {
-          // Handle the exception
-          if (e is GenericErrorResponse) {
-            // Handle the case when the response is a GenericErrorResponse
-            log("Error ID: ${e.id}, Message: ${e.message}");
-            throw GenericErrorResponse.fromJson(responseBody);
-          } else {
-            // Handle other types of exceptions or log them
-            log("Unexpected error: $e");
-          }
-        }
-        if (response.statusCode == 401) {
-          log("User is unauthorized. Logging out...");
-          log("------responseBody.toString()-------------${responseBody.toString()}");
-          // TODO: Handle logout logic here
-          // logout(context); // You can define this method to handle logout
-          throw GenericCreateResponse.fromJson(responseBody);
-        }
-
-        // {"success":false,"message":"Incorrect Otp"}
         log("_response - ${responseBody['msg']}");
         if (responseBody["error"] != null &&
             responseBody["error"].runtimeType == String) {
           throw json.decode(response.body);
         }
-        return response;
       }
+      return response;
     } on SocketException {
+      // Handle SocketException
       // TODO: Handle Error
+    } on GenericCreateResponse catch (e) {
+      // Handle GenericCreateResponse
+      log('--on GenericCreateResponse POST---${e.toString()}---');
+      rethrow;
     } catch (e) {
+      // Handle other exceptions
       log("Exception thrown: $e");
       rethrow;
     }

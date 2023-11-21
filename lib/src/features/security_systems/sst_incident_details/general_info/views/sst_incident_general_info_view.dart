@@ -69,6 +69,7 @@ class _SstIncidentGeneralInfoViewState
         SstIncidentGeneralInfoState>(
       listener: (context, state) {
         log('--state.status---${state.status}---');
+        log('--state.message---${state.message}---');
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: Constants.generalInformation,
@@ -105,6 +106,7 @@ class _SstIncidentGeneralInfoViewState
         }
         if (state.status == FormStatus.error) {
           log('-if error-state.status---${state.status}---');
+          log('-if error-state.message---${state.message}---');
           Validator().showToast(
             context,
             state.message ?? 'Invalid Information',
@@ -113,7 +115,8 @@ class _SstIncidentGeneralInfoViewState
       },
       builder: (context, state) {
         state.model.status ??= 0;
-        if (state.model.status! > 0) {
+        if (state.model.id != null && state.model.status! > 0) {
+          log('--state.model.status----asd---${state.model.status}-');
           disableForm = true;
         }
         return Scaffold(
@@ -134,7 +137,7 @@ class _SstIncidentGeneralInfoViewState
           body: getBodybuilder(state, height),
         );
       },
-    ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
+    );
   }
 
   getBodybuilder(SstIncidentGeneralInfoState state, height) {
