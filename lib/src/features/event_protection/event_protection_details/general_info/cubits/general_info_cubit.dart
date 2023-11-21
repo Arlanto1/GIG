@@ -125,6 +125,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           status: FormStatus.initial,
           users: users.t1Analyst,
           emailUsers: emailUsers.atomStaticUser,
+          epOfficers: emailUsers.atomStaticUser,
           departments: departments.employeeDepartments,
           vendors: vendors.items,
           entrySecurities: entrySecurities,
@@ -188,6 +189,15 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       );
       state.model.epManager2 = userDetails;
     }
+    // if (epOfficers != null) {
+    //   User userDetails = User(
+    //     name: epOfficers.name,
+    //     userId: epOfficers.id,
+    //     userName: epOfficers.name,
+    //   );
+    //   state.epOfficers.add(userDetails.email??'');
+    // }
+
 
     if (vendors != null) {
       state.model.proposedVendors = vendors;

@@ -919,7 +919,39 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             if (!disableForm) ...[
                               GestureDetector(
                                 onTap: () {
-                                  addEPOfficers();
+                                  BaseDepartmentDialog().userDialog(
+                                    context: context,
+                                    enabled: !disableForm,
+                                    users: state.emailUsers!,
+                                    onTap: (BaseUser user) {
+                                      state.model.epOfficers ??= [];
+
+                                      if (state.model.epOfficers!
+                                          .contains(user.email!)) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                'Officer already added! Please add other officer.'),
+                                          ),
+                                        );
+                                        return;
+                                      }
+
+                                      state.model.epOfficers
+                                          ?.add(user.email ?? '');
+                                      log('--eventProtectionGi--22-${state.model.epOfficers}-');
+
+                                      BlocProvider.of<GeneralInfoCubit>(context)
+                                          .onCheckBoxChange(state.model);
+
+                                      // BlocProvider.of<GeneralInfoCubit>(context)
+                                      //     .updateDropdownValues(
+                                      //   epManager1: user,
+                                      // );
+                                    },
+                                  );
+                                  // addEPOfficers();
                                 },
                                 child: Row(
                                   children: <Widget>[

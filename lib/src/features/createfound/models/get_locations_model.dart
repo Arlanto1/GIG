@@ -28,6 +28,5 @@ class Locations {
   factory Locations.fromJson(Map<String, dynamic> json) =>
       _$GetLocationsFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$GetLocationsToJson(this);
 }

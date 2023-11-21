@@ -1752,11 +1752,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             final currentDate = DateTime.now();
             if (value.equalsIgnoreCase('Permanent')) {
               String nextFormattedDate = DateFormat(Constants.fulldateFormat)
-                  .format(currentDate.add(const Duration(days: 1241)));
+                  .format(currentDate.add(const Duration(days: 1227)));
               passvaliduntilTextController.text = nextFormattedDate;
             } else {
-              passvaliduntilTextController.text = Constants.passValidUntil;
+              final currentDate = DateTime.now();
+              String nextformattedDate = DateFormat(Constants.fulldateFormat)
+                  .format(currentDate.add(const Duration(hours: 12)));
+              passvaliduntilTextController.text = nextformattedDate;
             }
+            // }
 
             setState(() {});
           },
@@ -1886,12 +1890,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     if (textfield == passvalidfromTextController) {
       passvalidfromTextController.text = formattedDate;
     }
-    if (textfield == passvaliduntilTextController) {
-      final currentDate = DateTime.now();
-      String nextformattedDate = DateFormat(Constants.fulldateFormat)
-          .format(currentDate.add(const Duration(hours: 12)));
-      passvaliduntilTextController.text = nextformattedDate;
-    }
     // setState(() {
     //   // dateinput.text = formattedDate; //set output date to TextField value.
     // });
@@ -1910,7 +1908,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         .format(currentDate.add(const Duration(hours: 12)));
     dateofcreationTextController.text = formattedDate;
     passvalidfromTextController.text = formattedDate;
-    passvaliduntilTextController.text = nextformattedDate;
+ passvaliduntilTextController.text = nextformattedDate;
     if (widget.model == null) {
       statusTextController.text = 'created';
     }
@@ -2582,9 +2580,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     log('-passCategoryTextController111-----${passCategoryTextController.text}----');
 
     int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-    int passValidUntilDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000) +
-        12 * 3600; // Adding 12 hours
-    int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+
+   int passValidUntilDate = (DateTime
+       .now()
+        .millisecondsSinceEpoch ~/ 1000) + 24 * 3600 ; //Add
+    // int passvaliduntildate = (DateTime
+    //       .now()
+    //       .millisecondsSinceEpoch ~/ 1000) + 24 * 3600 * 1227; //Adding 1227 days
+     int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
 
     log('-inputdate---sss--$inputdate----');
     log('-DateTime---inputdate--${DateTime(inputdate)}----');
@@ -2593,9 +2596,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     String dateString = passvaliduntilTextController.text;
     log('--dateString---$dateString----');
 
-    DateTime dateTime = DateTime.parse(
-        "${dateString.split("/")[2]}-${dateString.split("/")[1]}-${dateString.split("/")[0]}");
-    passValidUntilDate = dateTime.millisecondsSinceEpoch;
+    // DateTime dateTime = DateTime.parse(
+    //     "${dateString.split("/")[2]}-${dateString.split("/")[1]}-${dateString.split("/")[0]}");
+    // passValidUntilDate = dateTime.millisecondsSinceEpoch;
 
     int statusValue = 0;
 
