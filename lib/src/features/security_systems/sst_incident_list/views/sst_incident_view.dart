@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
@@ -101,9 +102,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
         body: BlocBuilder<SstIncidentBloc, SstIncidentState>(
             builder: (context, state) {
           if (state.status == FormStatus.initial) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const BaseLoader();
           }
           log('--build main body---');
           return Container(

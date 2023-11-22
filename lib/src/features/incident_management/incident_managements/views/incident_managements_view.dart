@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
@@ -116,9 +117,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
 
   Widget getBody(IncidentManagementsState state) {
     if (state.status == FormStatus.initial) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+      return const BaseLoader();
     }
     if (state.items.isEmptyOrNull) {
       return const Center(
