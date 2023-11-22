@@ -28,6 +28,7 @@ import '../../../../models/responseModels/error_response_validation.dart';
 import '../../../../models/responseModels/generic_response.dart';
 import '../../../createfound/models/emplyee_departments_model.dart';
 import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
+import '../../models/contacts_list_response_model.dart';
 
 part 'contact_details_state.dart';
 

@@ -2,7 +2,6 @@ part of 'contact_details_cubit.dart';
 
 class ContactDetailsState extends Equatable {
   final FormStatus status;
-
   final ContactDetailModel model;
   final Locations? locations;
   final User? loggedInUserDetails;

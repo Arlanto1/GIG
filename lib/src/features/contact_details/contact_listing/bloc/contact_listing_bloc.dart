@@ -12,13 +12,14 @@ import '../../models/contacts_list_response_model.dart';
 import '../../services/contact_details_services.dart';
 
 part 'contact_listing_event.dart';
+
 part 'contact_listing_state.dart';
 
 class ContactListingBloc
     extends Bloc<ContactListingEvent, ContactListingState> {
   ContactListingBloc() : super(const ContactListingState()) {
     on<FetchData>(
-      _fetchMaterialMovements,
+      _fetchContacts,
       transformer: droppable(),
     );
     on<InitializeValues>(_initializeValues);
@@ -26,7 +27,7 @@ class ContactListingBloc
 
   final ContactDetailsServices services = ContactDetailsServices();
 
-  FutureOr<void> _fetchMaterialMovements(
+  FutureOr<void> _fetchContacts(
       FetchData event, Emitter<ContactListingState> emit) async {
     try {
       if (state.hasReachedMax) return;
@@ -46,8 +47,7 @@ class ContactListingBloc
         );
       }
 
-      ContactListResponseModel response =
-      await services.getCd(
+      ContactListResponseModel response = await services.getCd(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
       );

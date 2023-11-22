@@ -35,9 +35,12 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../common_widgets/spinnerdialog.dart';
 import '../../../../enums/form_status.dart';
 import '../../../../models/organisation.dart';
 import '../../../../utils/customalert.dart';
+import '../../models/contacts_list_response_model.dart';
+import '../../services/contact_details_services.dart';
 
 class ContactDetailsView extends StatefulWidget {
   final ContactDetailModel? model;
@@ -324,7 +327,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             GestureDetector(
                               onTap: () {
                                 // TODO: Need to save General Info Object First
-
+                                // getLawEnforcementId(state.items[index].id ?? 0,
+                                //     state.items[index].contact?[0].type ?? 0);
+                                //
                                 Navigator.pushNamed(
                                   context,
                                   contactListingRoute,
@@ -594,4 +599,25 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       validateTextField: (String? user) {},
     );
   }
+  // getLawEnforcementId(int id, int type) async {
+  //   showLoadingDialog(context);
+  //
+  //   ContactListResponseModel contactsModel =
+  //   await ContactDetailsServices().getCdById(id, type);
+  //
+  //   editDataLoading(contactsModel);
+  // }
+  // void editDataLoading(ContactListResponseModel? model) {
+  //   dismissLoadingDialog(context);
+  //   if (model != null) {
+  //     Navigator.pushNamed(
+  //       context,
+  //       contactDetailsRoute,
+  //       arguments: {
+  //         "model": model,
+  //         "title": Constants.contactDetails,
+  //       },
+  //     );
+  //   }
+  // }
 }
