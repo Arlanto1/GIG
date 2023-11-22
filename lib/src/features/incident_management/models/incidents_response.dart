@@ -5,7 +5,7 @@ import '../../../models/organisation.dart';
 import '../../createfound/models/user.dart';
 
 class IncidentsResponse {
-  List<Incident>? items;
+  List<IncidentModel>? items;
   int? totalCount;
   int? currentPageNo;
   int? totalPageCount;
@@ -19,7 +19,7 @@ class IncidentsResponse {
 
   IncidentsResponse.fromJson(Map<String, dynamic> json)
       : items = (json['data'] as List?)
-            ?.map((dynamic e) => Incident.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) => IncidentModel.fromJson(e as Map<String, dynamic>))
             .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
@@ -33,7 +33,7 @@ class IncidentsResponse {
       };
 }
 
-class Incident {
+class IncidentModel {
   int? id;
   String? slNo;
   String? inputDate;
@@ -107,7 +107,7 @@ class Incident {
   List<dynamic>? incidentWitness;
   List<dynamic>? incidentReadAcross;
   List<dynamic>? images;
-  Occurrence? occurrence;
+  OccurrenceModel? occurrence;
   int? occType;
   String? entrySecurityName;
   String? systemReviewerName;
@@ -119,7 +119,7 @@ class Incident {
   String? interviewedByName;
   String? complainantHrName;
 
-  Incident({
+  IncidentModel({
     this.id,
     this.slNo,
     this.inputDate,
@@ -206,7 +206,7 @@ class Incident {
     this.complainantHrName,
   });
 
-  Incident.fromJson(Map<String, dynamic> json)
+  IncidentModel.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
         slNo = json['slNo'] as String?,
         inputDate = json['inputDate'] as String?,
@@ -312,7 +312,7 @@ class Incident {
         images = json['images'] as List?,
         occType = json['occType'] as int?,
         occurrence = (json['occurrence'] as Map<String, dynamic>?) != null
-            ? Occurrence.fromJson(json['occurrence'] as Map<String, dynamic>)
+            ? OccurrenceModel.fromJson(json['occurrence'] as Map<String, dynamic>)
             : null,
         entrySecurityName = json['entrySecurityName'] as String?,
         systemReviewerName = json['systemReviewerName'] as String?,

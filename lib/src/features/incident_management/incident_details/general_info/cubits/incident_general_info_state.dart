@@ -2,7 +2,7 @@ part of 'incident_general_info_cubit.dart';
 
 class IncidentGeneralInfoState extends Equatable {
   final FormStatus status;
-  final Incident model;
+  final IncidentModel model;
   final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -17,7 +17,7 @@ class IncidentGeneralInfoState extends Equatable {
   final List<User>? entrySecurities;
 
   factory IncidentGeneralInfoState.initial({
-    required Incident model,
+    required IncidentModel model,
     required Locations locations,
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
@@ -177,7 +177,7 @@ class IncidentGeneralInfoState extends Equatable {
 
   IncidentGeneralInfoState copyWith({
     FormStatus? status,
-    Incident? model,
+    IncidentModel? model,
     Locations? locations,
     List<Organisation>? articleType,
     User? loggedInUserDetails,

@@ -39,7 +39,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     required this.id,
   }) : super(
           OccurrenceGeneralInfoState.initial(
-            model: Occurrence(),
+            model: OccurrenceModel(),
             locations: Locations(),
             users: const [],
             emailUsers: const [],
@@ -53,12 +53,12 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           ),
         );
 
-  void onModelValueChange(Occurrence occurrence) {
+  void onModelValueChange(OccurrenceModel occurrence) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: occurrence, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(Occurrence occurrence) {
+  void onCheckBoxChange(OccurrenceModel occurrence) {
     emit(state.copyWith(model: occurrence, status: FormStatus.loading));
 
     emit(state.copyWith(model: occurrence, status: FormStatus.initial));
@@ -74,7 +74,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      Occurrence model = Occurrence();
+      OccurrenceModel model = OccurrenceModel();
       if (!id.isEmptyOrNull) {
         model = await OccurrenceDetailsServices().getOccurrence(id);
       }
@@ -314,7 +314,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     ));
   }
 
-  void submitForm({bool isSaveOnly = false}) async {
+  Future<bool> submitForm(
+      {bool isSaveOnly = false, bool navigateToNextScreen = false}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -339,7 +340,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
               message: state.isValidDraft.message,
             ),
           );
-          return;
+          return false;
         }
         response = (await services.create(
           body: request,
@@ -354,7 +355,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
               message: state.isValid.message,
             ),
           );
-          return;
+          return false;
         }
 
         response = (await services.create(
@@ -362,14 +363,14 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           isSubmit: true,
         ));
       }
-    }  on GenericResponse catch (e) {
+    } on GenericResponse catch (e) {
       emit(
         state.copyWith(
           message: e.message,
           status: FormStatus.error,
         ),
       );
-      return;
+      return false;
     } on Exception catch (e) {
       emit(
         state.copyWith(
@@ -378,8 +379,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         ),
       );
     }
-
-    // log('---response--msg--${response.message}---');
 
     if (response.id != null) {
       int? id = int.tryParse(response.id!);
@@ -391,8 +390,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     emit(
       state.copyWith(
         message: response.message,
-        status: FormStatus.success,
+        status: navigateToNextScreen
+            ? FormStatus.navigateToNextScreen
+            : FormStatus.success,
       ),
     );
+    return true;
   }
 }

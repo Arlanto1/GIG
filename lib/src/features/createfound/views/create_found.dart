@@ -1015,7 +1015,7 @@ class _CreateFoundState extends State<CreateFound> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseDate().datePickerWidgetLoading(
-                                showAfterDate: false,
+                                showFutureDate: false,
                                 textController: foundDateTextController,
                                 onChange: (String value) {
                                   widget.model?.foundDate =

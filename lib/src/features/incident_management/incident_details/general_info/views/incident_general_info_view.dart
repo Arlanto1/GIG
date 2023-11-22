@@ -62,6 +62,9 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
   @override
   Widget build(BuildContext context) {
+
+    log('---viaOccurrence-----${widget.viaOccurrence}-----');
+
     final size = MediaQuery.of(context).size;
     final height = size.height;
     return BlocConsumer<IncidentGeneralInfoCubit, IncidentGeneralInfoState>(

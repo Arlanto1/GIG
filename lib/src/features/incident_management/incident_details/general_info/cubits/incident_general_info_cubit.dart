@@ -44,7 +44,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     required this.occType,
   }) : super(
           IncidentGeneralInfoState.initial(
-            model: Incident(),
+            model: IncidentModel(),
             locations: Locations(),
             users: const [],
             emailUsers: const [],
@@ -59,12 +59,12 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           ),
         );
 
-  void onModelValueChange(Incident model) {
+  void onModelValueChange(IncidentModel model) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(Incident model) {
+  void onCheckBoxChange(IncidentModel model) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
@@ -82,7 +82,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
     var userId = await SharedPrefs.getUserId();
     try {
-      Incident model = Incident();
+      IncidentModel model = IncidentModel();
       if (id.isNotEmpty) {
         model = await services.getIncidentDetails(id);
       }
@@ -317,7 +317,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-    state.model.occurrence ??= Occurrence();
+    state.model.occurrence ??= OccurrenceModel();
     state.model.occurrence?.id = occId.toIntOrNull();
     state.model.occType = occType;
 
