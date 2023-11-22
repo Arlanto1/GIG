@@ -127,61 +127,67 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                       value: state.items[index].returnable == true
                           ? 'Returnable'
                           : 'Not Returnable'));
+
+                  return index >= state.items.length
+                      ? const Center(
+                          child: CustomCircularProgressIndicator(),
+                        )
+                      : BaseListTileItem(
+                          id: state.items[index].id,
+                          labels: labels,
+                          status: state.items[index].status,
+                          isMasterGuard: false,
+                          isEventProtectionStatus: false,
+                          onTap: (selectedIndex) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return BasePopUpItems(
+                                  id: state.items[selectedIndex].id.toString(),
+                                  labels: labels,
+                                  quantity: state.items[selectedIndex].quantity
+                                      .toString(),
+                                  challanNo:
+                                      state.items[selectedIndex].challanNo,
+                                  slNo: state.items[selectedIndex].slNo,
+                                  status: state.items[selectedIndex].status,
+                                  entrySecurityName: state
+                                      .items[selectedIndex].entrySecurityName,
+                                  isMasterGuard: false,
+                                  isEventProtectionStatus: false,
+                                );
+                              },
+                            );
+                          },
+                          onEditTap: (selectedIndex) {
+                            getLawEnforcementId(state.items[index].id ?? 0);
+                          },
+                          onViewTap: (selectedIndex) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return BasePopUpItems(
+                                  id: state.items[selectedIndex].id.toString(),
+                                  labels: labels,
+                                  quantity: state.items[selectedIndex].quantity
+                                      .toString(),
+                                  challanNo:
+                                      state.items[selectedIndex].challanNo,
+                                  slNo: state.items[selectedIndex].slNo,
+                                  status: state.items[selectedIndex].status,
+                                  entrySecurityName: state
+                                      .items[selectedIndex].entrySecurityName,
+                                  isMasterGuard: false,
+                                );
+                              },
+                            );
+                          },
+                          index: index,
+                        );
                 }
-                return index >= state.items.length
-                    ? const Center(
-                        child: CustomCircularProgressIndicator(),
-                      )
-                    : BaseListTileItem(
-                        id: state.items[index].id,
-                        labels: labels,
-                        status: state.items[index].status,
-                        isMasterGuard: false,
-                        isEventProtectionStatus: false,
-                        onTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                labels: labels,
-                                quantity: state.items[selectedIndex].quantity
-                                    .toString(),
-                                challanNo: state.items[selectedIndex].challanNo,
-                                slNo: state.items[selectedIndex].slNo,
-                                status: state.items[selectedIndex].status,
-                                entrySecurityName: state
-                                    .items[selectedIndex].entrySecurityName,
-                                isMasterGuard: false,
-                                isEventProtectionStatus: false,
-                              );
-                            },
-                          );
-                        },
-                        onEditTap: (selectedIndex) {
-                          getLawEnforcementId(state.items[index].id ?? 0);
-                        },
-                        onViewTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                labels: labels,
-                                quantity: state.items[selectedIndex].quantity
-                                    .toString(),
-                                challanNo: state.items[selectedIndex].challanNo,
-                                slNo: state.items[selectedIndex].slNo,
-                                status: state.items[selectedIndex].status,
-                                entrySecurityName: state
-                                    .items[selectedIndex].entrySecurityName,
-                                isMasterGuard: false,
-                              );
-                            },
-                          );
-                        },
-                        index: index,
-                      );
+                return const Center(
+                  child: SizedBox(),
+                );
               },
             ),
           );
