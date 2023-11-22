@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../enums/form_status.dart';
+import '../../models/contacts_list_response_model.dart';
 import '../../services/contact_details_services.dart';
 
 part 'contact_listing_event.dart';
@@ -18,7 +18,7 @@ class ContactListingBloc
     extends Bloc<ContactListingEvent, ContactListingState> {
   ContactListingBloc() : super(const ContactListingState()) {
     on<FetchData>(
-      _fetchMaterialMovements,
+      _fetchContacts,
       transformer: droppable(),
     );
     on<InitializeValues>(_initializeValues);
@@ -26,37 +26,41 @@ class ContactListingBloc
 
   final ContactDetailsServices services = ContactDetailsServices();
 
-  FutureOr<void> _fetchMaterialMovements(
+  FutureOr<void> _fetchContacts(
       FetchData event, Emitter<ContactListingState> emit) async {
     try {
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        ContactDetailsListResponseModel response = await services.get(
+
+        ContactsListModel response = await services.getContactListByType(
+          id: '${event.id}',
+          type: '${event.type}',
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
         );
-
         return emit(
           state.copyWith(
-            items: response.items,
+            items: response.contacts,
             hasReachedMax: false,
             status: FormStatus.success,
           ),
         );
       }
 
-      ContactDetailsListResponseModel response = await services.get(
+      ContactsListModel response = await services.getContactListByType(
+        id: '${event.id}',
+        type: '${event.type}',
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
       );
 
-      if (response.items?.isEmpty == true) {
+      if (response.contacts?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));
       }
       return emit(
         state.copyWith(
-          items: List.of(state.items)..addAll(response.items ?? []),
+          items: List.of(state.items??[])..addAll(response.contacts ?? []),
           hasReachedMax: false,
         ),
       );

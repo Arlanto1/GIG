@@ -194,4 +194,9 @@ class Keys {
   static const String commentsKey = 'commentsKey_occ';
   static const String complainantManagerKey = 'complainantManagerKey_occ';
   static const String shiftTakenOverByKey = 'shiftTakenOverByKey_occ';
+
+
+  //Contact Details
+  static const String phoneNumberKey = 'phoneNumberKey_cd';
+  static const String nameKey = 'nameKey_cd';
 }

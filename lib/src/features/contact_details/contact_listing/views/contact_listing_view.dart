@@ -10,7 +10,6 @@ import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/contact_details/contact_listing/views/add_contact_pop_up.dart';
-import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
@@ -21,16 +20,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../enums/form_status.dart';
-import '../../../../utils/util.dart';
+import '../../models/contact_info.dart';
+import '../../models/contacts_list_response_model.dart';
 import '../bloc/contact_listing_bloc.dart';
 
 class ContactListingView extends StatefulWidget {
   const ContactListingView({
     super.key,
+    required this.id,
     required this.title,
+    required this.type,
   });
 
+  final int id;
   final String title;
+  final int type;
 
   @override
   State<ContactListingView> createState() => _ContactListingViewState();
@@ -63,23 +67,23 @@ class _ContactListingViewState extends State<ContactListingView> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<ContactListingBloc>().add(
-            FetchData(startPos: pageNumber, maxPos: 20),
-          );
+      context.read<ContactListingBloc>().add(FetchData(
+          id: widget.id, type: widget.type, startPos: pageNumber, maxPos: 20));
     }
   }
 
   showAddContactPopUp({
     required BuildContext context,
-    required PayRate payRate,
+    required ContactInfo contact,
     required final List<BaseUser> users,
   }) {
+    log('--.users--llen--${users?.length}---');
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         return AddContactPopUp(
           title: widget.title,
-          payRate: payRate,
+          contact: contact,
           mainContext: context,
           users: users,
           onSubmit: (PayRate payRate) {
@@ -87,28 +91,6 @@ class _ContactListingViewState extends State<ContactListingView> {
             FocusScope.of(context).unfocus();
 
             log('-widget.title---${widget.title}----');
-
-            switch (widget.title) {
-              case Constants.createSecurityGuard:
-                payRate.rankId = 1;
-                break;
-
-              case Constants.createSecuritySupervisor:
-                payRate.rankId = 3;
-                break;
-
-              case Constants.createSecurityOfficer:
-                payRate.rankId = 2;
-                break;
-
-              case Constants.createSecurityFacilitator:
-                payRate.rankId = 4;
-                break;
-
-              default:
-                payRate.rankId = 5;
-                break;
-            }
 
             log('--newPayRate--total---${payRate.total}------------');
             log('--newPayRate--2222--33333--rankid-${payRate.rankId}------------');
@@ -135,7 +117,7 @@ class _ContactListingViewState extends State<ContactListingView> {
           onPressed: () {
             showAddContactPopUp(
               context: context,
-              payRate: PayRate(),
+              contact: ContactInfo(),
               users: state.users ?? [],
             );
           },
@@ -168,87 +150,88 @@ class _ContactListingViewState extends State<ContactListingView> {
       child: ListView.builder(
         controller: _scrollController,
         itemCount:
-            state.hasReachedMax ? state.items.length : state.items.length + 1,
+            state.hasReachedMax ? state.items?.length : state.items!.length + 1,
         itemBuilder: (context, index) {
           List<Label> labels = [];
-          if (index < state.items.length) {
-            labels.add(Label(
-                key: 'Date',
-                value: state.items[index].inputDate != null
-                    ? Utils.timestamptoDateConversion(
-                        int.parse(state.items[index].inputDate ?? '0'),
-                        Constants.dateFormat)
-                    : ''));
-            labels.add(Label(
-                key: 'Region',
-                value: state.items[index].locationRegion?.name ?? ''));
-            labels.add(Label(
-                key: 'Location',
-                value: state.items[index].location?.name ?? ''));
+          if (index < state.items!.length) {
+            labels.add(
+              Label(
+                key: 'Email',
+                value: state.items![index].email ?? '',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Rank',
+                value: state.items![index].generalRank?.name ?? '',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Contact No',
+                value: state.items![index].contactNo ?? '',
+              ),
+            );
+
+            return index >= state.items!.length
+                ? const Center(
+                    child: CustomCircularProgressIndicator(),
+                  )
+                : BaseListTileItem(
+                    id: state.items?[index].id,
+                    labels: labels,
+                    onTap: (selectedIndex) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return BasePopUpItems(
+                            id: state.items?[selectedIndex].id.toString(),
+                            labels: labels,
+                          );
+                        },
+                      );
+                    },
+                    onEditTap: (selectedIndex) async {
+                      ContactInfo contactsModel = await ContactDetailsServices().getCdById(state.items?[index].id ?? 0);
+
+                      log('--state.users--llen--${state.users?.length}---');
+
+                      showAddContactPopUp(
+                        context: context,
+                        contact: contactsModel,
+                        users: state.users ?? [],
+                      );
+                      // getDetails(state.items?[index].id ?? 0);
+                    },
+                    onViewTap: (selectedIndex) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return BasePopUpItems(
+                            id: state.items?[selectedIndex].id.toString(),
+                            labels: labels,
+                          );
+                        },
+                      );
+                    },
+                    index: index,
+                  );
           }
-          return index >= state.items.length
-              ? const Center(
-                  child: CustomCircularProgressIndicator(),
-                )
-              : BaseListTileItem(
-                  id: state.items[index].id,
-                  labels: labels,
-                  status: state.items[index].status,
-                  isMasterGuard: false,
-                  isEventProtectionStatus: false,
-                  onTap: (selectedIndex) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext dialogContext) {
-                        return BasePopUpItems(
-                          id: state.items[selectedIndex].id.toString(),
-                          labels: labels,
-                          slNo: state.items[selectedIndex].slNo,
-                          status: state.items[selectedIndex].status,
-                          entrySecurityName:
-                              state.items[selectedIndex].entrySecurity?.name,
-                          isMasterGuard: false,
-                          isEventProtectionStatus: false,
-                        );
-                      },
-                    );
-                  },
-                  onEditTap: (selectedIndex) {
-                    getLawEnforcementId(state.items[index].id ?? 0);
-                  },
-                  onViewTap: (selectedIndex) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext dialogContext) {
-                        return BasePopUpItems(
-                          id: state.items[selectedIndex].id.toString(),
-                          labels: labels,
-                          slNo: state.items[selectedIndex].slNo,
-                          status: state.items[selectedIndex].status,
-                          entrySecurityName:
-                              state.items[selectedIndex].entrySecurity?.name,
-                          isMasterGuard: false,
-                        );
-                      },
-                    );
-                  },
-                  index: index,
-                );
+          return null;
         },
       ),
     );
   }
 
-  getLawEnforcementId(int id) async {
+  getDetails(int id) async {
     showLoadingDialog(context);
 
-    ContactDetailModel materialMovementModel =
-        await ContactDetailsServices().getById(id);
+    ContactInfo contactsModel = await ContactDetailsServices().getCdById(id);
 
-    editDataLoading(materialMovementModel);
+    editDataLoading(contactsModel);
   }
 
-  void editDataLoading(ContactDetailModel? model) {
+  void editDataLoading(ContactInfo? model) {
     dismissLoadingDialog(context);
     if (model != null) {
       Navigator.pushNamed(

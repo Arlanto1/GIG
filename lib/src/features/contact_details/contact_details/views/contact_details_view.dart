@@ -1,7 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:typed_data';
-
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
@@ -10,21 +6,14 @@ import 'package:db_atom/src/common_widgets/base_widget/record_locked_widget.dart
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
-import 'package:db_atom/src/common_widgets/custom_pop_list_texts.dart';
-import 'package:db_atom/src/common_widgets/image_download.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
-import 'package:db_atom/src/common_widgets/signature/signature_func.dart';
-import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constant_agruments.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/contact_details/contact_details/cubits/contact_details_cubit.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
-import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
-import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -171,10 +160,6 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       return const BaseLoader();
     }
 
-    if (state.status == FormStatus.addAttachment ||
-        state.status == FormStatus.initial) {
-      getFiles = state.loadAttachments ?? [];
-    }
     bool isQuantityDisabled =
         (state.model.status == 6 || state.model.status == 1);
     return Container(
@@ -252,6 +237,10 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            datecreateWidgetdisplay(
+                                state.model.inputDate ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Location
                             CommonWidgets.textDisplay(
@@ -262,11 +251,6 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             locationWidgetdislay(state),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(
-                                state.model.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Sl No.
@@ -295,6 +279,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   arguments: {
                                     ConstantsArgument.title:
                                         Constants.generalContact,
+                                    ConstantsArgument.type: 0,
+                                    ConstantsArgument.id: state.model.id,
                                   },
                                 );
                               },
@@ -306,7 +292,178 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
-                                    'Add/View General Contact(s)',
+                                    'Add/View Contact(s)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.guardingAgencyContact,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            GestureDetector(
+                              onTap: () {
+                                // TODO: Need to save General Info Object First
+                                // getLawEnforcementId(state.items[index].id ?? 0,
+                                //     state.items[index].contact?[0].type ?? 0);
+                                //
+                                Navigator.pushNamed(
+                                  context,
+                                  contactListingRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.generalContact,
+                                    ConstantsArgument.type: 1,
+                                    ConstantsArgument.id: state.model.id,
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View Contact(s)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.systemEscalationContact,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            GestureDetector(
+                              onTap: () {
+                                // TODO: Need to save General Info Object First
+
+                                Navigator.pushNamed(
+                                  context,
+                                  contactListingRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.generalContact,
+                                    ConstantsArgument.type: 2,
+                                    ConstantsArgument.id: state.model.id,
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View Contact(s)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.supervisorContact,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            GestureDetector(
+                              onTap: () {
+                                // TODO: Need to save General Info Object First
+
+                                Navigator.pushNamed(
+                                  context,
+                                  contactListingRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.generalContact,
+                                    ConstantsArgument.type: 3,
+                                    ConstantsArgument.id: state.model.id,
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View Contact(s)',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.zonalEscalationContact,
+                                style: Styles.styleHeaderGreyText16,
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            GestureDetector(
+                              onTap: () {
+                                // TODO: Need to save General Info Object First
+
+                                Navigator.pushNamed(
+                                  context,
+                                  contactListingRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.generalContact,
+                                    ConstantsArgument.type: 4,
+                                    ConstantsArgument.id: state.model.id,
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View Contact(s)',
                                     style: TextStyle(
                                       color: AppColors.navigationSkybluecolor,
                                       decoration: TextDecoration.underline,
@@ -362,155 +519,15 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
     );
   }
 
-  Column buildSignature({
-    required SignatureController controller,
-    required String label,
-    required double spaceHeight,
-    required MaterialMovementDetailsState state,
-  }) {
-    bool isEditable = false;
-    bool isSigned = false;
-    bool isReceiver = label.equalsIgnoreCase(Constants.receiverSignature);
-    if (isReceiver) {
-      isSigned = state.model.receiverSign != null &&
-          !state.model.receiverSign!.imageContent.isEmptyOrNull;
-      isEditable = state.isReceiverSignEditable;
-    } else {
-      isSigned = state.model.entrySecuritySign != null &&
-          !state.model.entrySecuritySign!.imageContent.isEmptyOrNull;
-      isEditable = state.isEntrySecuritySignatureSignEditable;
-    }
-
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CommonWidgets.textDisplay(
-              label,
-              Styles.textStyleBlack14,
-            ),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    controller.clear();
-                    if (isReceiver) {
-                      BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                          .makeSignEditable(receiverSign: true);
-                    } else {
-                      BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                          .makeSignEditable(
-                              entrySecuritySignatureSignEditable: true);
-                    }
-                  },
-                  iconSize: 20,
-                  color: Colors.grey,
-                  icon: const Icon(Icons.refresh),
-                ),
-              ],
-            ),
-          ],
-        ),
-        CommonWidgets.verticalSpacerWidget(spaceHeight * 0.001),
-        ClipRect(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(2.0),
-              border: Border.all(
-                color: AppColors.gerylightBackground,
-                width: 1, // Border width
-              ),
-            ),
-            height: 100,
-            width: double.infinity,
-            child: (!isEditable && isSigned)
-                ? Image.memory(
-                    Uint8List.fromList(
-                      base64Decode(
-                        isReceiver
-                            ? state.model.receiverSign!.imageContent ?? ''
-                            : state.model.entrySecuritySign!.imageContent ?? '',
-                      ),
-                    ),
-                    fit: BoxFit.none,
-                  )
-                : Signature(
-                    controller: controller,
-                    backgroundColor: Colors.white,
-                  ),
-          ),
-        ),
-        CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
-      ],
-    );
-  }
-
   String getStatusString(int status) {
     switch (status) {
       case 0:
         return 'Draft';
       case 1:
-        return 'Submitted';
-      case 2:
-        return 'Approved';
-      case 3:
-        return 'Rejected';
-      case 4:
-        return 'Outward Waiting';
-      case 5:
-        return 'Inward Waiting';
-      case 6:
-        return 'Closed';
-      case 7:
-        return 'Cancelled';
+        return 'Active';
       default:
-        return 'Unknown Status';
+        return '';
     }
-  }
-
-  Widget quantityUnitPopUp(MaterialMovementDetailsState state) {
-    return TextfieldAddButton(
-      title: 'Quantity',
-      height: 70,
-      isDisableColor: state.model.quantity == null ? false : true,
-      onTap: () {
-        if ((state.model.status != 6 || state.model.status != 1)) {
-          quantityUnitDialog(
-              context: context, quantityUnits: state.quantityUnits);
-        }
-      },
-    );
-  }
-
-  quantityUnitDialog({
-    required BuildContext context,
-    required List<Organisation> quantityUnits,
-  }) {
-    showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomListTexts(
-            duplicateQuantityUnitList: quantityUnits,
-            leftImageName: AppIcon.addicon,
-            onLeftButtonTap: () {
-              Navigator.pop(context);
-              showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return const AddEmployeeDepartment(
-                      title: Constants.addQuantity,
-                      // createoundstate:  state,
-                    );
-                  });
-            },
-            onTap: (Organisation unit) {
-              BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                  .updateDropdownValues(quantityUnit: unit);
-            },
-          );
-        });
   }
 
   Widget cancelButtonDisplay() {
@@ -541,116 +558,26 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
     );
   }
 
-  Widget uploadWidget(MaterialMovementDetailsState state) {
-    return widget.model == null
-        ? Container(
-            height: 60,
-            decoration: BoxDecoration(
-                border: Border.all(
-                  color: const Color(0xFFCACACA),
-                  width: 1.0,
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(8))),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 5.0),
-                child: ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(140, 50),
-                    backgroundColor: AppColors.navigationSkybluecolor,
-                  ),
-                  onPressed: () {
-                    // Navigator.pushNamed(context,
-                    //     createFoundAttachmentRoute);
-                    //UploadAttachment();
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return UploadAttachment(
-                            userdetails: state.loggedInUserDetails ?? User(),
-                            getFiles: getFiles,
-                            inwardState: state,
-                            onImageSelected: (ImageContent data) {
-                              log('-------function---onImageSelected---------');
-                              List<ImageContent>? files = [];
-                              files.add(data);
-                              for (ImageContent image in getFiles.toList()) {
-                                files.add(image);
-                              }
-                              BlocProvider.of<MaterialMovementDetailsCubit>(
-                                      context)
-                                  .addAttchment(files);
-                            },
-                          );
-                        });
-                  },
-
-                  icon: SvgPicture.asset(
-                    //AppIcon.dropdownicon,
-                    AppIcon.uploadicon,
-                    //fit: BoxFit.,
-                    color: AppColors.backgroundWhitecolor,
-                    width: 13,
-                    height: 13,
-                    key: const Key(Keys.userIcon),
-                  ),
-                  // const Icon(
-                  //   // <-- Icon
-                  //   Icons.upload,
-                  //   color: AppColors.backgroundWhitecolor,
-                  //   size: 24.0,
-                  // ),
-                  label: const Text(
-                    Constants.clicktoupload,
-                    style: Styles.textStyleRegularNormalWhite12,
-                  ), // <-- Text
-                ),
-              ),
-            ]),
-          )
-        : Container();
-  }
-
-  Widget getSpaceattchment(double height) {
-    return getFiles.isNotEmpty || getAttachments.isNotEmpty
-        ? CommonWidgets.verticalSpacerWidget(height * 0.01)
-        : Container();
-  }
-
-  Widget getAttachement(MaterialMovementDetailsState state, double height) {
-    return (state.loadAttachments == null ||
-            state.loadAttachments!.isEmpty ||
-            widget.model == null)
-        ? state.loadAttachments!.isEmpty
-            ? Container()
-            : attachmentListviews(getFiles, getAttachments)
-        : attachmentListviews(getFiles, getAttachments);
-  }
-
   Widget locationWidgetdislay(ContactDetailsState state) {
     return GestureDetector(
       onTap: () {
-        if ((widget.model?.status == 6 || widget.model?.status == 1)
-            ? false
-            : true) {
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              return CustomExpansionListTexts(
-                locationList: state.locations,
-                onTap: (Organisation? list) async {
-                  Organisation location = Organisation();
-                  location.id = list?.id;
-                  location.name = list?.name;
-                  state.model.location = location;
+        showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            return CustomExpansionListTexts(
+              locationList: state.locations,
+              onTap: (Organisation? list) async {
+                Organisation location = Organisation();
+                location.id = list?.id;
+                location.name = list?.name;
+                state.model.location = location;
 
-                  BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                      .updateDropdownValues(location: location);
-                },
-              );
-            },
-          );
-        }
+                BlocProvider.of<ContactDetailsCubit>(context)
+                    .updateDropdownValues(location: location);
+              },
+            );
+          },
+        );
       },
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
@@ -667,64 +594,25 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       validateTextField: (String? user) {},
     );
   }
-
-  Widget attachmentListviews(
-    List<ImageContent>? attachmentListviews,
-    List<ImageContent>? attachmentListviews1,
-  ) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: const Color(0xFFCACACA),
-          style: BorderStyle.solid,
-          width: 1.0,
-        ),
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: (attachmentListviews1?.length ?? 0) >
-                (attachmentListviews?.length ?? 0)
-            ? attachmentListviews1?.length
-            : attachmentListviews?.length ?? 0,
-        itemBuilder: (BuildContext context, int index) {
-          ImageContent? imageData;
-          ImageContent? imageData1;
-          if (widget.model != null) {
-            imageData1 = attachmentListviews1?[index];
-          } else {
-            imageData = attachmentListviews?[index];
-          }
-
-          return Column(
-            children: <Widget>[
-              ListTile(
-                trailing: widget.model != null
-                    ? SvgPicture.asset(AppIcon.download,
-                        color: AppColors.boldgreyBackground)
-                    : const SizedBox(
-                        height: 0,
-                        width: 0,
-                      ),
-                onTap: () {
-                  DownloadImage().saveImage(
-                      context, imageData1?.id ?? 0, imageData1?.title ?? '');
-                },
-                title: widget.model != null
-                    ? Text(imageData1?.title ?? '')
-                    : Text(imageData?.title ?? ''),
-              ),
-
-              const Divider(
-                color: Color(0xFFCACACA),
-                thickness: 1,
-              ), //
-            ],
-          );
-        },
-      ),
-    );
-  }
+// getLawEnforcementId(int id, int type) async {
+//   showLoadingDialog(context);
+//
+//   ContactListResponseModel contactsModel =
+//   await ContactDetailsServices().getCdById(id, type);
+//
+//   editDataLoading(contactsModel);
+// }
+// void editDataLoading(ContactListResponseModel? model) {
+//   dismissLoadingDialog(context);
+//   if (model != null) {
+//     Navigator.pushNamed(
+//       context,
+//       contactDetailsRoute,
+//       arguments: {
+//         "model": model,
+//         "title": Constants.contactDetails,
+//       },
+//     );
+//   }
+// }
 }

@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../enums/form_status.dart';
-import '../../../../utils/util.dart';
 import '../bloc/contact_details_list_bloc.dart';
 
 class ContactDetailsListView extends StatefulWidget {
@@ -100,15 +99,13 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                 List<Label> labels = [];
                 if (index < state.items.length) {
                   labels.add(Label(
-                      key: 'Date',
-                      value: state.items[index].inputDate != null
-                          ? Utils.timestamptoDateConversion(
-                              int.parse(state.items[index].inputDate ?? '0'),
-                              Constants.dateFormat)
-                          : ''));
-                  labels.add(Label(
                       key: 'Region',
                       value: state.items[index].locationRegion?.name ?? ''));
+                  labels.add(Label(
+                      key: 'Created By',
+                      value: state.items[index].entrySecurity?.name ?? ''));
+                  labels.add(Label(
+                      key: 'SL No', value: state.items[index].slNo ?? ''));
                   labels.add(Label(
                       key: 'Location',
                       value: state.items[index].location?.name ?? ''));
@@ -121,8 +118,8 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                         id: state.items[index].id,
                         labels: labels,
                         status: state.items[index].status,
-                        isMasterGuard: false,
                         isEventProtectionStatus: false,
+                        isContactDetailsStatus: true,
                         onTap: (selectedIndex) {
                           showDialog(
                             context: context,
@@ -130,12 +127,8 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                               return BasePopUpItems(
                                 id: state.items[selectedIndex].id.toString(),
                                 labels: labels,
-                                slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
-                                entrySecurityName: state
-                                    .items[selectedIndex].entrySecurity?.name,
-                                isMasterGuard: false,
-                                isEventProtectionStatus: false,
+                                isContactDetailsStatus: true,
                               );
                             },
                           );
@@ -150,11 +143,8 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                               return BasePopUpItems(
                                 id: state.items[selectedIndex].id.toString(),
                                 labels: labels,
-                                slNo: state.items[selectedIndex].slNo,
                                 status: state.items[selectedIndex].status,
-                                entrySecurityName: state
-                                    .items[selectedIndex].entrySecurity?.name,
-                                isMasterGuard: false,
+                                isContactDetailsStatus: true,
                               );
                             },
                           );
@@ -171,7 +161,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
     showLoadingDialog(context);
 
     ContactDetailModel materialMovementModel =
-        await ContactDetailsServices().getById(id);
+        await ContactDetailsServices().getGcdById(id);
 
     editDataLoading(materialMovementModel);
   }

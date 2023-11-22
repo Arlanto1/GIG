@@ -28,10 +28,11 @@ class ContactDetailsListBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        ContactDetailsListResponseModel response = await services.get(
+        ContactDetailsListResponseModel response = await services.getGcd(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
         );
+
 
         return emit(
           state.copyWith(
@@ -42,7 +43,7 @@ class ContactDetailsListBloc
         );
       }
 
-      ContactDetailsListResponseModel response = await services.get(
+      ContactDetailsListResponseModel response = await services.getGcd(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
       );

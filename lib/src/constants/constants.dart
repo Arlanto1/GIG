@@ -17,7 +17,7 @@ class Constants {
   static const String guardingRatesModule = 'GR';
   static const String occurrenceModule = 'OCC';
   static const String incidentManagementModule = 'IM';
-
+  static const String contactDetailsModule = 'CD';
 
   /// UI Module Code
   static const String userRoles = 'userRoles';
@@ -530,7 +530,6 @@ class Constants {
 
   static const String assetType = 'Asset Type';
 
-  static const String generalContact = 'General Contact';
 
 
 
@@ -578,6 +577,14 @@ class Constants {
   //SLA Violation Penalty
   static const String sLAViolationPenalty = 'SLA Violation Penalty';
 
+
+  //Contact Details
+  static const String phoneNumber = 'Phone Number';
+  static const String generalContact = 'General Contact';
+  static const String guardingAgencyContact = 'Guarding Agency Escalation Contact';
+  static const String systemEscalationContact = 'System Escalation Contact';
+  static const String supervisorContact = 'Supervisor Contact';
+  static const String zonalEscalationContact = 'Zonal Escalation Contact';
 
 }
 
