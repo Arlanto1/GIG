@@ -1222,7 +1222,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.01)
                                     : Container(),
 
-                                ///upload
+                                ///upload Photo of Visitor
                                 widget.passId == '1' && widget.model == null
                                     ? CommonWidgets.textDisplay(
                                         'Photo of Visitor',
@@ -1245,6 +1245,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     ? photogetAttachement(height)
                                     : Container(),
 
+                                ///upload
                                 widget.model == null
                                     ? CommonWidgets.textDisplay(
                                         Constants.upload,
@@ -1597,10 +1598,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
       Organisation dep = widget.model?.department ?? Organisation();
       createPassMgmtCubit.selectedEmployeeDepartment(dep);
-      // getAttachments =
-      //     widget.listuser?.images != null ? widget.listuser?.images ?? [] : [];
+      getAttachments =
+          widget.model?.evidenceDocuments != null ? widget.model?.evidenceDocuments ?? [] : [];
       // photogetAttachments =
-      //     widget.listuser?.visitorImage != null ? widget.listuser?.visitorImage ?? [] : [];
+      //     widget.model?.visitorImage != null ? widget.model?.visitorImage ?? [] : [];
 
       emailTextController.text = widget.model?.email ?? '';
       purposeofvisitTextController.text = widget.model?.visitingPurpose ?? '';
@@ -1985,20 +1986,17 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             : Container();
   }
 
+
   Widget getSpaceattchment(double height) {
-    return getAttachments != null ||
-            getFiles != null ||
-            getFiles.isNotEmpty ||
-            getAttachments.isNotEmpty
+    return getFiles.isNotEmpty || getAttachments.isNotEmpty
         ? CommonWidgets.verticalSpacerWidget(height * 0.01)
         : Container();
   }
-
   Widget getAttachement(double height) {
     return (getAttachments.isEmpty || widget.model == null)
         ? getFiles.isEmpty
-            ? Container()
-            : attachmentListviews(getFiles, getAttachments)
+        ? Container()
+        : attachmentListviews(getFiles, getAttachments)
         : attachmentListviews(getFiles, getAttachments);
   }
 
@@ -2745,7 +2743,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       category = 1;
     }
 
-    List<ImageContent>? images = getFiles ?? [];
+    List<ImageContent>? evidenceDocuments = getFiles ?? [];
     List<ImageContent>? photoimages = photogetFiles ?? [];
     User? entrySecurity = widget.model?.entrySecurity ??
         User(userId: state.getUserDetailsResponse?.userId ?? 1);
@@ -2774,7 +2772,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
       return;
     }
-
     //Organisation? dayPass = widget.model?.dayPassReason;
     PassManagement? passmgmtbody;
     log('--pass info id--${passInfo.id}---');
@@ -2816,7 +2813,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             ? state.hostResponse?.name ?? ''
             : state.dbsponsorResponse?.name ?? '',
         companyType: companyType,
-        images: images,
+        evidenceDocuments: evidenceDocuments,
         entities: entities,
         department: department,
         passInfo: passInfo,
@@ -2872,7 +2869,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? state.hostResponse?.name ?? ''
               : state.dbsponsorResponse?.name ?? '',
           companyType: companyType,
-          images: images,
+          evidenceDocuments: evidenceDocuments,
           entities: entities,
           department: department,
           passInfo: info,
@@ -3201,10 +3198,71 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     );
   }
 
+  // Widget attachmentListviews(
+  //   List<ImageContent>? attachmentListviews,
+  //   List<ImageContent>? attachmentListviews1,
+  // ) {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //       border: Border.all(
+  //         color: const Color(0xFFCACACA),
+  //         style: BorderStyle.solid,
+  //         width: 1.0,
+  //       ),
+  //       color: Colors.transparent,
+  //       borderRadius: BorderRadius.circular(10.0),
+  //     ),
+  //
+  //     child: ListView.builder(
+  //         shrinkWrap: true,
+  //         physics: const NeverScrollableScrollPhysics(),
+  //         itemCount: (attachmentListviews1?.length ?? 0) >
+  //                 (attachmentListviews?.length ?? 0)
+  //             ? attachmentListviews?.length
+  //             : attachmentListviews?.length ?? 0,
+  //         itemBuilder: (BuildContext context, int index) {
+  //           ImageContent? imagedata;
+  //           ImageContent? imagedata1;
+  //           if (widget.model != null) {
+  //             imagedata1 = attachmentListviews1?[index];
+  //           } else {
+  //             imagedata = attachmentListviews?[index];
+  //           }
+  //           log('--attachmentListviews1?.length--${attachmentListviews1?.length}');
+  //           log('--attachmentListviews?.length--${attachmentListviews?.length}');
+  //           return Column(
+  //             children: <Widget>[
+  //               ListTile(
+  //                 trailing: widget.model != null
+  //                     ? SvgPicture.asset(AppIcon.download,
+  //                         color: AppColors.boldgreyBackground)
+  //                     : const SizedBox(
+  //                         height: 0,
+  //                         width: 0,
+  //                       ),
+  //                 onTap: () {
+  //                   DownloadImage().saveImage(
+  //                       context, imagedata1?.id ?? 0, imagedata1?.title ?? '');
+  //                 },
+  //                 title: widget.model != null
+  //                     ? Text(imagedata1?.title ?? '')
+  //                     : Text(imagedata?.title ?? ''),
+  //               ),
+  //
+  //               const Divider(
+  //                 color: Color(0xFFCACACA),
+  //                 thickness: 1,
+  //               ), //                           <-- Divider
+  //             ],
+  //           );
+  //         }),
+  //   );
+  // }
+
   Widget attachmentListviews(
-    List<ImageContent>? attachmentListviews,
-    List<ImageContent>? attachmentListviews1,
-  ) {
+      List<ImageContent>? attachmentListviews,
+      List<ImageContent>? attachmentListviews1,
+      ) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -3219,35 +3277,37 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: (attachmentListviews1?.length ?? 0) >
-                  (attachmentListviews?.length ?? 0)
+              (attachmentListviews?.length ?? 0)
               ? attachmentListviews1?.length
               : attachmentListviews?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
-            ImageContent? imagedata;
-            ImageContent? imagedata1;
+            ImageContent? imageData;
+            ImageContent? imageData1;
             if (widget.model != null) {
-              imagedata1 = attachmentListviews1?[index];
+              imageData1 = attachmentListviews1?[index];
             } else {
-              imagedata = attachmentListviews?[index];
+              imageData = attachmentListviews?[index];
             }
+            log('--attachmentListviews1?.length--${attachmentListviews1?.length}');
+            log('--attachmentListviews?.length--${attachmentListviews?.length}');
 
             return Column(
               children: <Widget>[
                 ListTile(
                   trailing: widget.model != null
                       ? SvgPicture.asset(AppIcon.download,
-                          color: AppColors.boldgreyBackground)
+                      color: AppColors.boldgreyBackground)
                       : const SizedBox(
-                          height: 0,
-                          width: 0,
-                        ),
+                    height: 0,
+                    width: 0,
+                  ),
                   onTap: () {
                     DownloadImage().saveImage(
-                        context, imagedata1?.id ?? 0, imagedata1?.title ?? '');
+                        context, imageData1?.id ?? 0, imageData1?.title ?? '');
                   },
                   title: widget.model != null
-                      ? Text(imagedata1?.title ?? '')
-                      : Text(imagedata?.title ?? ''),
+                      ? Text(imageData1?.title ?? '')
+                      : Text(imageData?.title ?? ''),
                 ),
 
                 const Divider(
@@ -3259,7 +3319,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           }),
     );
   }
-
   Widget textFieldWidgetLoad(
     TextEditingController textController,
     int index,
