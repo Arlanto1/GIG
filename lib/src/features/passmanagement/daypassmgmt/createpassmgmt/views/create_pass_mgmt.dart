@@ -1070,6 +1070,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
+                                ///Exceptional approval for External auditors
+                                widget.passId == '0'
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.exceptionalApproval,
+                                        isMandatory: true,
+                                        Styles.textStyleBlack14)
+                                    : Container(),
+                                widget.passId == '0'
+                                    ? radioButtonHandling(
+                                        state.exceptionalApproval ?? 1,
+                                        Constants.exceptionalApproval,
+                                      )
+                                    : Container(),
+
                                 /// Pass Valid From
                                 if (widget.passId != '3') ...[
                                   CommonWidgets.textDisplay(
@@ -1109,7 +1123,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 BaseDate().datePickerWidgetLoading(
                                   isDisabled: true,
                                   textController: passvaliduntilTextController,
-                                  onlyDate: widget.model?.category == 1
+                                  onlyDate: (widget.passId == '3' &&
+                                          widget.model?.category == 1)
                                       ? true
                                       : false,
                                   onChange: (String value) {
@@ -1285,7 +1300,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   ),
                 ),
                 if ((widget.model?.status == 2 ||
-                    widget.model?.status == 4 ||
+                        widget.model?.status == 4 ||
                         widget.model?.status == 5 ||
                         widget.model?.status == 6 ||
                         widget.model?.status == 7 ||
@@ -1753,7 +1768,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
             final currentDate = DateTime.now();
             if (value.equalsIgnoreCase('Permanent')) {
-              String nextFormattedDate = DateFormat(Constants.fulldateFormat)
+              String nextFormattedDate = DateFormat(Constants.dateFormat)
                   .format(currentDate.add(const Duration(days: 1227)));
               passvaliduntilTextController.text = nextFormattedDate;
             } else {
@@ -2579,22 +2594,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
 
     int passValidUntilDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 24 * 3600; //Add
-    // int passvaliduntildate = (DateTime
-    //       .now()
-    //       .millisecondsSinceEpoch ~/ 1000) + 24 * 3600 * 1227; //Adding 1227 days
-    int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 12 * 3600; //Add
 
-    log('-inputdate---sss--$inputdate----');
-    log('-DateTime---inputdate--${DateTime(inputdate)}----');
-    log('-DateTime---passValidUntilDate--${DateTime(passValidUntilDate)}----');
+    int passValidUntilDatePermanent =
+        ((DateTime.now().millisecondsSinceEpoch ~/ 1000) +
+            24 * 3600 * 1227); //Adding 1227 days
+
+    int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
 
     String dateString = passvaliduntilTextController.text;
     log('--dateString---$dateString----');
 
-    // DateTime dateTime = DateTime.parse(
-    //     "${dateString.split("/")[2]}-${dateString.split("/")[1]}-${dateString.split("/")[0]}");
-    // passValidUntilDate = dateTime.millisecondsSinceEpoch;
+    //  DateTime dateTime = DateTime.parse(
+    //      "${dateString.split("-")[0]}-${dateString.split("-")[1]}-${dateString.split("-")[2]}");
+    // int passValidUntilDate = dateTime.millisecondsSinceEpoch ~/ 1000;
 
     int statusValue = 0;
 
@@ -2795,7 +2808,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             : dbsponsorTextController.text,
         mifareNo: mtpApplicationNoTextController.text,
         passIssuedOn: passvalidfromdate.toString(),
-        endTime: passValidUntilDate.toString(),
+        endTime: widget.passId == '3' && widget.model?.category == 0
+            ? passValidUntilDatePermanent.toString()
+            : passValidUntilDate.toString(),
         startTime: passvalidfromdate.toString(),
         hostName: dbsponsorTextController.text.isEmpty
             ? state.hostResponse?.name ?? ''
@@ -2814,6 +2829,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         visitorComingFrom: visitorcomingfromTextController.text,
         visitingPurpose: visitorcomingfromTextController.text,
         escortedByHost: state.escortedbyhost == 1 ? true : false,
+        exceptionalApproval: state.exceptionalApproval == 1 ? true : false,
         idValidationType: idValidationType,
         //mifareNo: mtpapplicationnoTextController.text ?? '',
         category: category,
@@ -2848,7 +2864,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? hostemployeeidTextController.text
               : dbsponsorTextController.text,
           passIssuedOn: passvalidfromdate.toString(),
-          endTime: passValidUntilDate.toString(),
+          endTime: widget.passId == '3' && widget.model?.category == 0
+              ? passValidUntilDatePermanent.toString()
+              : passValidUntilDate.toString(),
           startTime: passvalidfromdate.toString(),
           hostName: dbsponsorTextController.text.isEmpty
               ? state.hostResponse?.name ?? ''
@@ -2866,6 +2884,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           visitorComingFrom: visitorcomingfromTextController.text,
           visitingPurpose: visitorcomingfromTextController.text,
           escortedByHost: state.escortedbyhost == 1 ? true : false,
+          exceptionalApproval: state.exceptionalApproval == 1 ? true : false,
           idValidationType: idValidationType,
           // mifareNo: mtpapplicationnoTextController.text ?? '',
           category: category,

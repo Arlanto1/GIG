@@ -147,9 +147,8 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                     ? Utils.timestamptoDateConversion(
                         int.parse(state.items[index].inputDate ?? '0'),
                         Constants.dateFormat)
-                    : '',
-              ),
-            );
+
+            : ''));
             labels.add(
               Label(
                 key: 'Region',
