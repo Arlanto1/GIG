@@ -128,21 +128,21 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                passValidations(context, globalState);
-              },
-              child: const Padding(
-                padding: EdgeInsets.only(right: 20.0),
-                child: Icon(
-                  Icons.send,
-                  color: AppColors.backgroundWhitecolor,
-                ),
-                // SvgPicture.asset(
-                //   AppIcon.createfoundsaveicon,
-                //),
-              ),
-            ),
+            // GestureDetector(
+            //   onTap: () {
+            //     passValidations(context, globalState);
+            //   },
+            //   child: const Padding(
+            //     padding: EdgeInsets.only(right: 20.0),
+            //     child: Icon(
+            //       Icons.send,
+            //       color: AppColors.backgroundWhitecolor,
+            //     ),
+            //     // SvgPicture.asset(
+            //     //   AppIcon.createfoundsaveicon,
+            //     //),
+            //   ),
+            // ),
           ],
         ],
         //backgroundColor: AppColors.navigationSkybluecolor,
