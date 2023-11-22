@@ -314,7 +314,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     ));
   }
 
-  void submitForm({bool isSaveOnly = false}) async {
+  void submitForm(
+      {bool isSaveOnly = false, bool navigateToNextScreen = false}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -362,7 +363,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           isSubmit: true,
         ));
       }
-    }  on GenericResponse catch (e) {
+    } on GenericResponse catch (e) {
       emit(
         state.copyWith(
           message: e.message,
@@ -379,8 +380,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       );
     }
 
-    // log('---response--msg--${response.message}---');
-
     if (response.id != null) {
       int? id = int.tryParse(response.id!);
       if (id != null) {
@@ -391,7 +390,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     emit(
       state.copyWith(
         message: response.message,
-        status: FormStatus.success,
+        status: navigateToNextScreen
+            ? FormStatus.navigateToNextScreen
+            : FormStatus.success,
       ),
     );
   }

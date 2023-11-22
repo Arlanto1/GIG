@@ -679,8 +679,9 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
-                                      if (state.model.incidentItems !=
-                                          null) ...[
+                                      if (state.model.incidentItems != null &&
+                                          state.model.incidentItems!
+                                              .isNotEmpty) ...[
                                         CommonWidgets.horizontalSpacerWidget(
                                             height * 0.01),
                                         showButtonDisplay(
@@ -799,7 +800,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                       const SizedBox(width: 14),
                                       SvgPicture.asset(
                                         AppIcon.pluscircle,
-                                        //color: AppColors.navigationSkybluecolor,
+                                        color: AppColors.navigationSkybluecolor,
                                       ),
                                       // ),
                                       const SizedBox(width: 10),
@@ -811,8 +812,9 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
-                                      if (state.model.incidentItems !=
-                                          null) ...[
+                                      if (state.model.incidentItems != null &&
+                                          state.model.incidentItems!
+                                              .isNotEmpty) ...[
                                         CommonWidgets.horizontalSpacerWidget(
                                             height * 0.01),
                                         showButtonDisplay(
@@ -1485,11 +1487,16 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     bool? isInternal,
   }) async {
     log('---navigateToCreateIncident--@@@-');
-    // if (state.model.id == null) {
-    //   BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
-    //       .submitForm(isSaveOnly: true);
-    // }
+    BlocProvider.of<OccurrenceGeneralInfoCubit>(context).submitForm(
+      isSaveOnly: true,
+      navigateToNextScreen: true,
+    );
 
+    // For checking validations
+    if (state.status == FormStatus.error) {
+      return;
+    }
+    log('--state.model.id-----occId-------${state.model.id}-----');
     var map = {
       'occId': state.model.id.toString(),
       'occType': occId,
@@ -1513,6 +1520,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     bool? showPopUp,
     required OccurrenceGeneralInfoState state,
   }) {
+    log('--occId-ogi--$occId--');
     return AppButton(
       // Customize the button properties as needed
       height: 40,
