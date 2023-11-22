@@ -781,7 +781,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                   suspiciousActivity: false);
                                           // .onModelValueChange(state.guardingMasterData
                                           //  );
-                                        }),
+                                        },),
 
                               if (state.model.suspiciousActivity == true) ...[
                                 CommonWidgets.textDisplay(
@@ -804,6 +804,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                       ),
                                       // ),
                                       const SizedBox(width: 10),
+                                      Text('---${state.model.incidentItems}---'),
                                       const Text(
                                         'Add Incident Item List',
                                         style: TextStyle(

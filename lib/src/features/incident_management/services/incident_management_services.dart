@@ -42,12 +42,12 @@ class IncidentManagementServices {
     return IncidentsResponse.fromJson(response);
   }
 
-  Future<Incident> getIncidentDetails(String id) async {
+  Future<IncidentModel> getIncidentDetails(String id) async {
     final String url = '${Apis._getDetails}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return Incident.fromJson(response);
+    return IncidentModel.fromJson(response);
   }
 
   Future<GenericResponse> createIncidentManagement({

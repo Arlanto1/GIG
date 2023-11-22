@@ -39,7 +39,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     required this.id,
   }) : super(
           OccurrenceGeneralInfoState.initial(
-            model: Occurrence(),
+            model: OccurrenceModel(),
             locations: Locations(),
             users: const [],
             emailUsers: const [],
@@ -53,12 +53,12 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           ),
         );
 
-  void onModelValueChange(Occurrence occurrence) {
+  void onModelValueChange(OccurrenceModel occurrence) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: occurrence, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(Occurrence occurrence) {
+  void onCheckBoxChange(OccurrenceModel occurrence) {
     emit(state.copyWith(model: occurrence, status: FormStatus.loading));
 
     emit(state.copyWith(model: occurrence, status: FormStatus.initial));
@@ -74,7 +74,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     );
     var userId = await SharedPrefs.getUserId();
     try {
-      Occurrence model = Occurrence();
+      OccurrenceModel model = OccurrenceModel();
       if (!id.isEmptyOrNull) {
         model = await OccurrenceDetailsServices().getOccurrence(id);
       }

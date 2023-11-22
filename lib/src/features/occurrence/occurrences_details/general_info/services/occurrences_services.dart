@@ -35,12 +35,12 @@ class OccurrenceDetailsServices {
     return OccurrenceResponse.fromJson(response);
   }
 
-  Future<Occurrence> getOccurrence(String id) async {
+  Future<OccurrenceModel> getOccurrence(String id) async {
     final String url = '${Apis._getOccurrence}/$id';
     var response = await BaseApiService().getRequest(
       url: url,
     );
-    return Occurrence.fromJson(response);
+    return OccurrenceModel.fromJson(response);
   }
 
   Future<GenericResponse> create({
