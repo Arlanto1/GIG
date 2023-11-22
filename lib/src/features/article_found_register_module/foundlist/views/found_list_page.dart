@@ -1,5 +1,6 @@
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/custom_list_pop_up.dart';
@@ -87,8 +88,10 @@ class _FoundListState extends State<FoundList> {
     dismissLoadingDialog(context);
     // Navigator.pushNamed(context, createfoundScreenRoute);
     if (foundArticleDetailsResponse != null) {
-      Navigator.pushNamed(context, createfoundScreenRoute,
-          arguments: {"UserElement": foundArticleDetailsResponse,'eventId':foundArticleDetailsResponse.id });
+      Navigator.pushNamed(context, createfoundScreenRoute, arguments: {
+        "UserElement": foundArticleDetailsResponse,
+        'eventId': foundArticleDetailsResponse.id
+      });
     }
   }
 
@@ -160,6 +163,11 @@ class _FoundListState extends State<FoundList> {
           bloc: foundListArticleCubit,
           builder: (context, state) {
             if (state.stateType == FoundListStateType.success) {
+              if (state.foundListModel?.list == null ||
+                  state.foundListModel!.list!.isEmpty) {
+                return const NoRecordFoundWidget();
+              }
+
               if (state.foundListModel?.list == null &&
                   state.foundListModel!.list!.isEmpty) {
                 if (pageNumber == 0) {

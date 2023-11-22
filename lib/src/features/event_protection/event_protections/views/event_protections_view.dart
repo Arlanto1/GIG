@@ -73,27 +73,27 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () => {
-            Navigator.pushNamed(
-              context,
-              eventProtectionDetailsTabRoute,
-            )
-          },
-        ),
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: Constants.eventProtectionTitle,
-          showPopUp: true,
-          showSaveButton: false,
-          excelAPIName: 'exportEPExcel',
-          pdfAPIName: 'exportEPPDF',
-        ),
-        body: BlocBuilder<EventProtectionsBloc, EventProtectionsState>(
-            builder: (context, state) {
+      backgroundColor: AppColors.cardBgColor,
+      floatingActionButton: Flutterfloatingbutton(
+        backgroundColor: AppColors.navigationSkybluecolor,
+        foregroundColor: AppColors.backgroundWhitecolor,
+        onPressed: () => {
+          Navigator.pushNamed(
+            context,
+            eventProtectionDetailsTabRoute,
+          )
+        },
+      ),
+      appBar: BaseAppBar().buildAppHeader(
+        context: context,
+        title: Constants.eventProtectionTitle,
+        showPopUp: true,
+        showSaveButton: false,
+        excelAPIName: 'exportEPExcel',
+        pdfAPIName: 'exportEPPDF',
+      ),
+      body: BlocBuilder<EventProtectionsBloc, EventProtectionsState>(
+        builder: (context, state) {
           if (state.status == FormStatus.initial) {
             return const BaseLoader();
           }
@@ -126,61 +126,68 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                   labels.add(Label(
                       key: 'Location',
                       value: state.items[index].location?.name ?? ''));
-                }
 
-                return index >= state.items.length
-                    ? const Center(
-                        child: CustomCircularProgressIndicator(),
-                      )
-                    : BaseListTileItem(
-                        id: state.items[index].id,
-                        labels: labels,
-                        status: state.items[index].status,
-                        isMasterGuard: false,
-                        onTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                labels: labels,
-                                slNo: state.items[selectedIndex].slNo,
-                                status: state.items[selectedIndex].status,
-                                isMasterGuard: false,
-                                epManager1Name:
-                                    state.items[selectedIndex].epManager1Name,
-                                eventType: state.items[selectedIndex].eventType,
-                              );
-                            },
-                          );
-                        },
-                        onEditTap: (selectedIndex) {
-                          getId(
-                              id: state.items[index].id ?? 0,
-                              eventStatus: state.items[index].status ?? 0);
-                        },
-                        onViewTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                labels: labels,
-                                slNo: state.items[selectedIndex].slNo,
-                                status: state.items[selectedIndex].status,
-                                epManager1Name:
-                                    state.items[selectedIndex].epManager1Name,
-                                eventType: state.items[selectedIndex].eventType,
-                              );
-                            },
-                          );
-                        },
-                        index: index,
-                      );
+                  return index >= state.items.length
+                      ? const Center(
+                          child: CustomCircularProgressIndicator(),
+                        )
+                      : BaseListTileItem(
+                          id: state.items[index].id,
+                          labels: labels,
+                          status: state.items[index].status,
+                          isMasterGuard: false,
+                          onTap: (selectedIndex) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return BasePopUpItems(
+                                  id: state.items[selectedIndex].id.toString(),
+                                  labels: labels,
+                                  slNo: state.items[selectedIndex].slNo,
+                                  status: state.items[selectedIndex].status,
+                                  isMasterGuard: false,
+                                  epManager1Name:
+                                      state.items[selectedIndex].epManager1Name,
+                                  eventType:
+                                      state.items[selectedIndex].eventType,
+                                );
+                              },
+                            );
+                          },
+                          onEditTap: (selectedIndex) {
+                            getId(
+                                id: state.items[index].id ?? 0,
+                                eventStatus: state.items[index].status ?? 0);
+                          },
+                          onViewTap: (selectedIndex) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return BasePopUpItems(
+                                  id: state.items[selectedIndex].id.toString(),
+                                  labels: labels,
+                                  slNo: state.items[selectedIndex].slNo,
+                                  status: state.items[selectedIndex].status,
+                                  epManager1Name:
+                                      state.items[selectedIndex].epManager1Name,
+                                  eventType:
+                                      state.items[selectedIndex].eventType,
+                                );
+                              },
+                            );
+                          },
+                          index: index,
+                        );
+                }
+                return const Center(
+                  child: SizedBox(),
+                );
               },
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 
   getId({
