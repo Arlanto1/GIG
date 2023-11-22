@@ -123,16 +123,13 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                 List<Label> labels = [];
 
                 if (index < state.items.length) {
-                  labels.add(
-                    Label(
+                  labels.add(Label(
                       key: 'Date of Creation',
                       value: state.items[index].inputDate != null
                           ? Utils.timestamptoDateConversion(
-                              int.parse(state.items[index].inputDate ?? '0'),
-                              Constants.dateFormat)
-                          : '',
-                    ),
-                  );
+                          int.parse(state.items[index].inputDate ?? '0'),
+                          Constants.dateFormat)
+                          : ''));
                   labels.add(
                     Label(
                       key: 'Region',

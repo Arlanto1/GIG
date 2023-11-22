@@ -17,7 +17,7 @@ class ImageContent {
     this.foundId,
     this.title,
     this.fileSize,
-    this.type = 1,
+    this.type,
     this.imageContent,
   });
 
