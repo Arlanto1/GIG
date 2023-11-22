@@ -343,8 +343,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                   context)
                                               .showFields(
                                                   shiftBrfngAttnded: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
                                         }),
 
                               ///premises Round Taken
@@ -377,8 +375,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                   context)
                                               .showFields(
                                                   premisesRoundTkn: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
                                         }),
 
                               if (state.model.premisesRoundTkn == true) ...[
@@ -434,8 +430,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                   context)
                                               .showFields(
                                                   medicalEmrgncy: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
                                         }),
                               if (state.model.medicalEmrgncy == true) ...[
                                 /// Medical Emergency Comments
@@ -490,8 +484,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                   context)
                                               .showFields(
                                                   materialMovement: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
                                         }),
 
                               ///LEO Visit
@@ -521,8 +513,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
                                               .showFields(leoVisit: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
                                         }),
 
                               ///Social Engineering Incidents
@@ -555,8 +545,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                   context)
                                               .showFields(
                                                   socialEnggIncdnt: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
                                         }),
 
                               if (state.model.socialEnggIncdnt == true) ...[
@@ -615,8 +603,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                   context)
                                               .showFields(
                                                   foundArticleTrnsctn: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
                                         }),
 
                               ///Process Breach Incident
@@ -723,8 +709,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
                                               .showFields(infraIssue: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
                                         }),
 
                               if (state.model.infraIssue == true) ...[
@@ -767,8 +751,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                 context)
                                             .showFields(
                                                 suspiciousActivity: true);
-                                        //.onModelValueChange(state.guardingMasterData
-                                        //);
                                       },
                                 onChangedNo: state.model.status == 4
                                     ? null
@@ -779,8 +761,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                 context)
                                             .showFields(
                                                 suspiciousActivity: false);
-                                        // .onModelValueChange(state.guardingMasterData
-                                        //  );
                                       },
                               ),
 
@@ -796,8 +776,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                   ),
                                   child: Row(
                                     children: <Widget>[
-                                      // Expanded(
-                                      //child:
                                       const SizedBox(width: 14),
                                       SvgPicture.asset(
                                         AppIcon.pluscircle,
@@ -806,9 +784,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           BlendMode.srcIn,
                                         ),
                                       ),
-                                      // ),
                                       const SizedBox(width: 10),
-                                      // Text('---${state.model.incidentItems}---'),
                                       const Text(
                                         'Add Incident Item List',
                                         style: TextStyle(
@@ -851,8 +827,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                   context)
                                               .showFields(
                                                   fireAlarmEmrgncy: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
                                         },
                                   onChangedNo: state.model.status == 4
                                       ? null
@@ -863,8 +837,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                   context)
                                               .showFields(
                                                   fireAlarmEmrgncy: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
                                         }),
 
                               if (state.model.fireAlarmEmrgncy == true) ...[
@@ -908,8 +880,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
                                               .showFields(landlordIssue: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
                                         },
                                   onChangedNo: state.model.status == 4
                                       ? null
@@ -919,8 +889,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
                                               .showFields(landlordIssue: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
                                         }),
 
                               if (state.model.landlordIssue == true) ...[
@@ -964,8 +932,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                 context)
                                             .showFields(
                                                 secSysFailureIncdnt: true);
-                                        //.onModelValueChange(state.guardingMasterData
-                                        //);
                                       },
                                 onChangedNo: state.model.status == 4
                                     ? null
@@ -976,8 +942,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                 context)
                                             .showFields(
                                                 secSysFailureIncdnt: false);
-                                        // .onModelValueChange(state.guardingMasterData
-                                        //  );
                                       },
                               ),
                               if (state.model.secSysFailureIncdnt == true) ...[
@@ -1038,8 +1002,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
                                               .showFields(sysAlarmRcvd: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
                                         },
                                   onChangedNo: state.model.status == 4
                                       ? null
@@ -1049,8 +1011,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
                                               .showFields(sysAlarmRcvd: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
                                         }),
 
                               if (state.model.sysAlarmRcvd == true) ...[
@@ -1082,33 +1042,28 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                   isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.transportIncdnt ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
-                                      ? null
-                                      : (val) {
-                                          state.model.transportIncdnt = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  transportIncdnt: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: state.model.status == 4
-                                      ? null
-                                      : (val) {
-                                          state.model.transportIncdnt = false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  transportIncdnt: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
-                                        }),
+                                status: state.model.status ?? 0,
+                                selectedValue:
+                                    state.model.transportIncdnt ? 1 : 0,
+                                onChangedYes: state.model.status == 6
+                                    ? null
+                                    : (val) {
+                                        state.model.transportIncdnt = true;
+                                        BlocProvider.of<
+                                                    OccurrenceGeneralInfoCubit>(
+                                                context)
+                                            .showFields(transportIncdnt: true);
+                                      },
+                                onChangedNo: state.model.status == 4
+                                    ? null
+                                    : (val) {
+                                        state.model.transportIncdnt = false;
+                                        BlocProvider.of<
+                                                    OccurrenceGeneralInfoCubit>(
+                                                context)
+                                            .showFields(transportIncdnt: false);
+                                      },
+                              ),
 
                               if (state.model.transportIncdnt == true) ...[
                                 /// Transport incident  Comments
@@ -1139,30 +1094,29 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                   isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue: state.model.anyEvent ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
-                                      ? null
-                                      : (val) {
-                                          state.model.anyEvent = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(anyEvent: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: state.model.status == 4
-                                      ? null
-                                      : (val) {
-                                          state.model.anyEvent = false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(anyEvent: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
-                                        }),
+                                status: state.model.status ?? 0,
+                                selectedValue: state.model.anyEvent ? 1 : 0,
+                                onChangedYes: state.model.status == 6
+                                    ? null
+                                    : (val) {
+                                        state.model.anyEvent = true;
+                                        BlocProvider.of<
+                                                    OccurrenceGeneralInfoCubit>(
+                                                context)
+                                            .showFields(anyEvent: true);
+                                        //.onModelValueChange(state.guardingMasterData
+                                        //);
+                                      },
+                                onChangedNo: state.model.status == 4
+                                    ? null
+                                    : (val) {
+                                        state.model.anyEvent = false;
+                                        BlocProvider.of<
+                                                    OccurrenceGeneralInfoCubit>(
+                                                context)
+                                            .showFields(anyEvent: false);
+                                      },
+                              ),
 
                               if (state.model.anyEvent == true) ...[
                                 /// Notifi SCRI
@@ -1205,8 +1159,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
                                               .showFields(powerFailure: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
                                         },
                                   onChangedNo: state.model.status == 4
                                       ? null
@@ -1216,8 +1168,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
                                               .showFields(powerFailure: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
                                         }),
 
                               if (state.model.powerFailure == true) ...[
@@ -1274,30 +1224,29 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     isMandatory: true,
                                     Styles.textStyleBlack14),
                                 RadioButtonsYesNo(
-                                    status: state.model.status ?? 0,
-                                    selectedValue: state.model.dgWrking ? 1 : 0,
-                                    onChangedYes: state.model.status == 6
-                                        ? null
-                                        : (val) {
-                                            state.model.dgWrking = true;
-                                            BlocProvider.of<
-                                                        OccurrenceGeneralInfoCubit>(
-                                                    context)
-                                                .showFields(dgWrking: true);
-                                            //.onModelValueChange(state.guardingMasterData
-                                            //);
-                                          },
-                                    onChangedNo: state.model.status == 4
-                                        ? null
-                                        : (val) {
-                                            state.model.dgWrking = false;
-                                            BlocProvider.of<
-                                                        OccurrenceGeneralInfoCubit>(
-                                                    context)
-                                                .showFields(dgWrking: false);
-                                            // .onModelValueChange(state.guardingMasterData
-                                            //  );
-                                          }),
+                                  status: state.model.status ?? 0,
+                                  selectedValue: state.model.dgWrking ? 1 : 0,
+                                  onChangedYes: state.model.status == 6
+                                      ? null
+                                      : (val) {
+                                          state.model.dgWrking = true;
+                                          BlocProvider.of<
+                                                      OccurrenceGeneralInfoCubit>(
+                                                  context)
+                                              .showFields(dgWrking: true);
+                                          //.onModelValueChange(state.guardingMasterData
+                                          //);
+                                        },
+                                  onChangedNo: state.model.status == 4
+                                      ? null
+                                      : (val) {
+                                          state.model.dgWrking = false;
+                                          BlocProvider.of<
+                                                      OccurrenceGeneralInfoCubit>(
+                                                  context)
+                                              .showFields(dgWrking: false);
+                                        },
+                                ),
                               ],
 
                               ///ATM Vendor Visit
@@ -1329,8 +1278,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                   context)
                                               .showFields(
                                                   atmVendorVisit: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
                                         }),
 
                               ///CWM Visit
@@ -1360,8 +1307,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
                                               .showFields(cwmVisit: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
                                         }),
 
                               /// Follow up actions for next shift
@@ -1414,8 +1359,6 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
                                               .showFields(followedUp: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
                                         }),
 
                               /// SubmitButton
