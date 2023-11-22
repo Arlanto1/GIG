@@ -14,7 +14,7 @@ import '../../../../../../constants/constants.dart';
 import '../../../../../../enums/form_status.dart';
 import '../../../../../../models/organisation.dart';
 import '../../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../../models/responseModels/generic_create_response.dart';
+import '../../../../../../models/responseModels/generic_response.dart';
 import '../../../../../../utils/shared_preferences.dart';
 import '../../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../../createfound/models/get_locations_model.dart';
@@ -230,7 +230,7 @@ class PayRateCubit extends Cubit<PayRateState> {
     state.model.inputDate = createdDate;
     log('---inputDate--final-${state.model.inputDate}--ccc-$createdDate--');
     GMRateRequest request = GMRateRequest(guardingRateInfo: state.model);
-    GenericCreateResponse response = GenericCreateResponse();
+    GenericResponse response = GenericResponse();
 
     log('---newPayRate------$newPayRate-');
 
@@ -251,6 +251,14 @@ class PayRateCubit extends Cubit<PayRateState> {
         response =
             await services.createGmRate(body: request, isSubmit: isSubmit);
         state.model.id = int.parse(response.id ?? '');
+      } on GenericResponse catch (e) {
+        emit(
+          state.copyWith(
+            message: e.message,
+            status: FormStatus.error,
+          ),
+        );
+        return;
       } catch (e) {
         log('$e');
         return;
@@ -268,22 +276,39 @@ class PayRateCubit extends Cubit<PayRateState> {
         return;
       }
 
-      if (newPayRate != null) {
-        response = await services.createPayRate(
-            body: payRateRequest,
-            isSubmit: isSubmit,
-            griId: state.model.id.toString());
-        newPayRate.id = int.parse(response.id ?? '');
-      } else {
-        response =
-            await services.createGmRate(body: request, isSubmit: isSubmit);
-        state.model.id = int.parse(response.id ?? '');
+      try {
+        if (newPayRate != null) {
+          response = await services.createPayRate(
+              body: payRateRequest,
+              isSubmit: isSubmit,
+              griId: state.model.id.toString());
+          newPayRate.id = int.parse(response.id ?? '');
+        } else {
+          response =
+              await services.createGmRate(body: request, isSubmit: isSubmit);
+          state.model.id = int.parse(response.id ?? '');
+        }
+      } on GenericResponse catch (e) {
+        emit(
+          state.copyWith(
+            message: e.message,
+            status: FormStatus.error,
+          ),
+        );
+        return;
+      } on Exception catch (e) {
+        log('--e.message-Exception-${e.toString()}---');
+        emit(
+          state.copyWith(
+            message: e.toString(),
+            status: FormStatus.error,
+          ),
+        );
+        return;
       }
     }
 
-    log('-@@@@@@-----');
     GMRate rateResponse = await services.getRate(state.model.id!);
-    log('-@@@@2222@@---${newPayRate?.rankId}----');
 
     List<PayRate>? newRates = [];
     if (newPayRate != null) {
@@ -315,7 +340,6 @@ class PayRateCubit extends Cubit<PayRateState> {
         default:
       }
     }
-    log('-@@@@@@---#####--');
 
     emit(
       state.copyWith(

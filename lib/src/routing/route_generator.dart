@@ -68,7 +68,7 @@ import '../features/guarding_operations/guarding_master_data/services/guarding_m
 import '../features/guarding_operations/guarding_master_reports/bloc/guarding_master_report_bloc.dart';
 import '../features/guarding_operations/guarding_master_reports/views/guarding_master_reports.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/views/pay_rate_view.dart';
-import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/guarding_rate_details.dart';
+import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/guarding_rate_details_view.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/rates_info.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates.dart';
 import '../features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart';
@@ -652,7 +652,7 @@ class RouteGenerator {
                     rate: rate,
                     payRates: [],
                   ),
-                  child: GuardingRateDetails(
+                  child: GuardingRateDetailsView(
                     rate: rate,
                     title: title,
                   ),

@@ -1,6 +1,5 @@
-// Created by Ramesh
-
 import 'package:db_atom/src/common_widgets/app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/custom_list_pop_up.dart';
@@ -294,7 +293,7 @@ class _FoundListState extends State<FoundList> {
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             if (index >= userList.length) {
-              return const Center(child: CircularProgressIndicator());
+              return const BaseLoader();
             } else {
               FoundModel user = userList[index];
 

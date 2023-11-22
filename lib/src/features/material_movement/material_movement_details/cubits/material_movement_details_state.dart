@@ -77,10 +77,10 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
-    if (model.challanNo.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Challan No');
-    }
+    // if (model.challanNo.isEmptyOrNull) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Challan No');
+    // }
     if (model.quantity == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Quantity');

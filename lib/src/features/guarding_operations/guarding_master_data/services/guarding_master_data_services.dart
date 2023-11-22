@@ -4,7 +4,7 @@ import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
 
-import '../../../../models/responseModels/generic_create_response.dart';
+import '../../../../models/responseModels/generic_response.dart';
 import '../../../../utils/shared_preferences.dart';
 import '../models/guarding_master_data_model.dart';
 
@@ -49,7 +49,7 @@ class GuardingMasterDataServices {
 
   /// Create Services
 
-  Future<GenericCreateResponse> createGuardingMasterData({
+  Future<GenericResponse> createGuardingMasterData({
     required GuardingMasterDataRequest body,
     required bool isSubmit,
   }) async {
@@ -60,7 +60,7 @@ class GuardingMasterDataServices {
       url: url,
       requestedData: body.toJson(),
     );
-    return GenericCreateResponse.fromJson(response);
+    return GenericResponse.fromJson(response);
   }
 
 }

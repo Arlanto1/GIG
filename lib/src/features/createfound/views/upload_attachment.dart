@@ -169,12 +169,8 @@ class UploadAttachmentState extends State<UploadAttachment>
     //   allowedExtensions: ['png'],
     // );
 
-    if (result != null) {
-      imageupload(result);
-    } else {
-      // User canceled the picker
+    imageupload(result);
     }
-  }
 
   imageupload(File result) async {
     String fileName = result.path.split('/').last;

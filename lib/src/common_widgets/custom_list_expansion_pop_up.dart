@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/search_widget.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
@@ -58,7 +60,7 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
   }
 
   Widget expansionListWidget() {
-    if (widget.locationList != null && widget.locationList!.west != null) {
+    if (widget.locationList != null) {
       return Expanded(
           child: MyExpansionTileList(widget.locationList, widget.onTap));
     } else {
@@ -78,6 +80,9 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
     final size = MediaQuery.of(context).size;
     final height = size.height;
     final width = size.width;
+
+    log('-----items----lenthg---${widget.locationList?.south?.length}');
+
     return Center(
       child: SizedBox(
         height: height / 1.5,
@@ -133,18 +138,33 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
-        _buildPlayerModelList(widget.locations!.west, 'West', context),
-        _buildPlayerModelList(widget.locations!.south, 'South', context),
-        _buildPlayerModelList(
-            widget.locations!.northEast, 'North East', context),
-        _buildPlayerModelList(widget.locations!.mumbai, 'Mumbai', context),
-        _buildPlayerModelList(widget.locations!.central, 'Central', context),
+        if (widget.locations!.west != null) ...[
+          _buildPlayerModelList(widget.locations!.west, 'West', context),
+        ],
+        if (widget.locations!.south != null) ...[
+          _buildPlayerModelList(
+              widget.locations!.south, 'South', context),
+        ],
+        if (widget.locations!.northEast != null) ...[
+          _buildPlayerModelList(
+              widget.locations!.northEast, 'North East', context),
+        ],
+        if (widget.locations!.mumbai != null) ...[
+          _buildPlayerModelList(
+              widget.locations!.mumbai, 'Mumbai', context),
+        ],
+        if (widget.locations!.central != null) ...[
+          _buildPlayerModelList(
+              widget.locations!.central, 'Central', context),
+        ],
       ],
     );
   }
 
   Widget _buildPlayerModelList(
       List<Organisation>? items, String title, BuildContext context) {
+    log('-----items-------${items?.length}');
+
     return ExpansionTile(
       trailing: const SizedBox.shrink(),
       key: GlobalKey(),

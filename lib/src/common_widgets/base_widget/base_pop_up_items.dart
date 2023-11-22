@@ -629,7 +629,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.status != null && widget.isIncident == true) ...[
+      if (widget.status != null && widget.isIncident) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

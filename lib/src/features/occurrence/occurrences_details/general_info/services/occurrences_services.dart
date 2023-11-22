@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/requestModel/general_info_request.dart';
-import 'package:db_atom/src/models/responseModels/generic_create_response.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 
 import '../models/general_info_model.dart';
@@ -43,7 +43,7 @@ class OccurrenceDetailsServices {
     return Occurrence.fromJson(response);
   }
 
-  Future<GenericCreateResponse> create({
+  Future<GenericResponse> create({
     required OccurrenceGeneralInfoRequest body,
     required bool isSubmit,
   }) async {
@@ -54,6 +54,6 @@ class OccurrenceDetailsServices {
       url: url,
       requestedData: body.toJson(),
     );
-    return GenericCreateResponse.fromJson(response);
+    return GenericResponse.fromJson(response);
   }
 }

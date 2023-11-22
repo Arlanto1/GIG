@@ -18,7 +18,7 @@ import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../models/responseModels/generic_create_response.dart';
+import '../../../../../models/responseModels/generic_response.dart';
 import '../../../../../utils/util.dart';
 import '../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../createfound/models/serial_number_model.dart';
@@ -455,7 +455,7 @@ class GuardingMasterDataDetailsCubit
     GuardingMasterDataRequest request =
         GuardingMasterDataRequest(guardingMasterData: state.model);
 
-    GenericCreateResponse response = GenericCreateResponse();
+    GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {

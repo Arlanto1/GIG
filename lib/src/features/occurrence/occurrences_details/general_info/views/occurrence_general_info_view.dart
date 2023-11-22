@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';
@@ -141,7 +142,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
       disableForm = true;
     }
     if (state.status == FormStatus.loading) {
-      return const Center(child: CircularProgressIndicator());
+      return const BaseLoader();
     }
 
     if (state.status == FormStatus.addAttachment ||
@@ -1222,6 +1223,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
+                                  showAfterDate: false,
                                   textController:
                                       powerFailureStartDateController,
                                   onChange: (String value) {
@@ -1243,9 +1245,10 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
-
+                                //
                                 BaseDate().datePickerWidgetLoading(
                                   textController: powerFailureEndDateController,
+                                  onlyDate: true,
                                   onChange: (String value) {
                                     state.model.powerFailureEndDate =
                                         Utils().formatTime(value);

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_drop_down.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_entities_dropdown.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
@@ -139,7 +140,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
   getBodybuilder(GeneralInfoState state, height) {
     initializeDates(state);
     if (state.status == FormStatus.loading) {
-      return const Center(child: CircularProgressIndicator());
+      return const BaseLoader();
     }
 
     return Container(
@@ -919,18 +920,41 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             if (!disableForm) ...[
                               GestureDetector(
                                 onTap: () {
-                                  addEPOfficers();
+                                  BaseDepartmentDialog().userDialog(
+                                    context: context,
+                                    enabled: !disableForm,
+                                    users: state.emailUsers!,
+                                    onTap: (BaseUser user) {
+                                      state.model.epOfficers ??= [];
+
+                                      if (state.model.epOfficers!
+                                          .contains(user.email!)) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                'Officer already added! Please add other officer.'),
+                                          ),
+                                        );
+                                        return;
+                                      }
+
+                                      state.model.epOfficers
+                                          ?.add(user.email ?? '');
+                                      log('--eventProtectionGi--22-${state.model.epOfficers}-');
+
+                                      BlocProvider.of<GeneralInfoCubit>(context)
+                                          .onCheckBoxChange(state.model);
+
+                                    },
+                                  );
                                 },
                                 child: Row(
                                   children: <Widget>[
-                                    // Expanded(
-                                    //child:
                                     const SizedBox(width: 14),
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
-                                      //color: AppColors.navigationSkybluecolor,
                                     ),
-                                    // ),
                                     const SizedBox(width: 10),
                                     const Text(
                                       'Add Officer',
@@ -945,23 +969,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             ],
                             BasicWidgetFunctions().getStringText(
                                 strings: state.model.epOfficers ?? []),
-                            // TextfieldAddButton(
-                            //   title: state.model.epOfficers?[0],
-                            //   height: 70,
-                            //   isDisableColor: disableForm,
-                            //   onTap: () {
-                            //     BaseDepartmentDialog().userDialog(
-                            //       context: context,
-                            //       users: state.emailUsers!,
-                            //       onTap: (BaseUser user) {
-                            //         BlocProvider.of<GeneralInfoCubit>(context)
-                            //             .updateDropdownValues(
-                            //           epOfficers: user,
-                            //         );
-                            //       },
-                            //     );
-                            //   },
-                            // ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -1498,11 +1505,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             const Spacer(),
                             submitButtonDisplay(
                               onTap: () {
-                                log('--eventProtectionGi-11--${state.model.epOfficers}---------${addEPOfficerController.text}-');
                                 state.model.epOfficers ??= [];
                                 state.model.epOfficers
                                     ?.add(addEPOfficerController.text);
-                                log('--eventProtectionGi--22-${state.model.epOfficers}-');
 
                                 BlocProvider.of<GeneralInfoCubit>(this.context)
                                     .onCheckBoxChange(state.model);

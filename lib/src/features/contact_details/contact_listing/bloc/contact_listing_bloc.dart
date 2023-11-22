@@ -80,7 +80,7 @@ class ContactListingBloc
           hasReachedMax: false,
         ),
       );
-    } on Exception catch (e) {
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

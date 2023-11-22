@@ -7,6 +7,7 @@ import 'package:db_atom/src/utils/shared_preferences.dart';
 import '../../../models/responseModels/generic_create_response.dart';
 import '../models/contacts_list_response_model.dart';
 import '../models/requestModels/contacts_request.dart';
+import '../../../models/responseModels/generic_response.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -45,7 +46,7 @@ class ContactDetailsServices {
   }
 
   /// Create Services
-  Future<GenericCreateResponse> createContactDetailsGi({
+  Future<GenericResponse> createContactDetailsGi({
     required ContactDetailsGiRequest body,
     required bool isSubmit,
   }) async {
@@ -91,6 +92,6 @@ class ContactDetailsServices {
       url: url,
       requestedData: body.toJson(),
     );
-    return GenericCreateResponse.fromJson(response);
+    return GenericResponse.fromJson(response);
   }
 }
