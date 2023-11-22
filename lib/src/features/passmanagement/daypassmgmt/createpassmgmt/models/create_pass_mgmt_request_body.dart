@@ -52,7 +52,7 @@ class PassManagement {
   bool? exceptionalApproval;
   PassInfo? passInfo;
   String? endTime;
-  List<dynamic>? evidenceDocuments;
+  //List<ImageContent>? evidenceDocuments;
   String? contactNo;
   bool? escortedByHost;
   String? escortedBy;
@@ -69,7 +69,7 @@ class PassManagement {
   String? passNo;
   String? handOverSecurityName;
   String? mifareNo;
-  List<ImageContent>? images;
+  List<ImageContent>? evidenceDocuments;
   Organisation? department;
   User? host;
   String? visitorName;
@@ -97,7 +97,7 @@ class PassManagement {
     this.exceptionalApproval,
     this.passInfo,
     this.endTime,
-    this.evidenceDocuments,
+    //this.evidenceDocuments,
     this.contactNo,
     this.escortedByHost,
     this.escortedBy,
@@ -114,7 +114,7 @@ class PassManagement {
     this.passNo,
     this.handOverSecurityName,
     this.mifareNo,
-    this.images,
+    this.evidenceDocuments,
     this.department,
     this.host,
     this.visitorName,
@@ -163,9 +163,9 @@ class PassManagement {
             ? null
             : PassInfo.fromJson(json["passInfo"]),
         endTime: json["endTime"],
-        evidenceDocuments: json["evidenceDocuments"] == null
-            ? []
-            : List<dynamic>.from(json["evidenceDocuments"]!.map((x) => x)),
+        // evidenceDocuments: json["evidenceDocuments"] == null
+        //     ? []
+        //     : List<dynamic>.from(json["evidenceDocuments"]!.map((x) => x)),
         contactNo: json["contactNo"],
         escortedByHost: json["escortedByHost"],
         escortedBy: json["escortedBy"],
@@ -182,10 +182,10 @@ class PassManagement {
         passNo: json["passNo"],
         handOverSecurityName: json["handOverSecurityName"],
         mifareNo: json["mifareNo"],
-        images: json["images"] == null
+    evidenceDocuments: json["evidenceDocuments"] == null
             ? []
             : List<ImageContent>.from(
-                json["images"]!.map((x) => ImageContent.fromJson(x))),
+                json["evidenceDocuments"]!.map((x) => ImageContent.fromJson(x))),
         department: json["department"] == null
             ? null
             : Organisation.fromJson(json["department"]),
@@ -226,9 +226,9 @@ class PassManagement {
         "exceptionalApproval": exceptionalApproval,
         "passInfo": passInfo?.toJson(),
         "endTime": endTime,
-        "evidenceDocuments": evidenceDocuments == null
-            ? []
-            : List<dynamic>.from(evidenceDocuments!.map((x) => x)),
+        // "evidenceDocuments": evidenceDocuments == null
+        //     ? []
+        //     : List<dynamic>.from(evidenceDocuments!.map((x) => x)),
         "contactNo": contactNo,
         "escortedByHost": escortedByHost,
         "escortedBy": escortedBy,
@@ -245,9 +245,9 @@ class PassManagement {
         "passNo": passNo,
         "handOverSecurityName": handOverSecurityName,
         "mifareNo": mifareNo,
-        "images": images == null
+        "evidenceDocuments": evidenceDocuments == null
             ? []
-            : List<dynamic>.from(images!.map((x) => x.toJson())),
+            : List<dynamic>.from(evidenceDocuments!.map((x) => x.toJson())),
         "department": department?.toJson(),
         "visitorName": visitorName,
         "visitorImage": visitorImage == null

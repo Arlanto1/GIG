@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:db_atom/src/features/createfound/models/user.dart';
 
 import '../../../../../models/history.dart';
+import '../../../../../models/image_content.dart';
 import '../../../../../models/organisation.dart';
 
 DayPassListResponse dayPassListResponseFromJson(String str) =>
@@ -74,7 +75,7 @@ class DayPassListElement {
   String? startTime;
   String? endTime;
   String? returnedTime;
-  List<dynamic>? evidenceDocuments;
+  List<ImageContent>? evidenceDocuments;
   String? contactNo;
   bool? escortedByHost;
   String? escortedBy;
@@ -198,7 +199,8 @@ class DayPassListElement {
         returnedTime: json["returnedTime"],
         evidenceDocuments: json["evidenceDocuments"] == null
             ? []
-            : List<dynamic>.from(json["evidenceDocuments"]!.map((x) => x)),
+            : List<ImageContent>.from(
+            json["evidenceDocuments"]!.map((x) => ImageContent.fromJson(x))),
         contactNo: json["contactNo"],
         escortedByHost: json["escortedByHost"],
         escortedBy: json["escortedBy"],
