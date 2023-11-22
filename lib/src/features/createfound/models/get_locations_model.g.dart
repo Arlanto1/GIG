@@ -6,7 +6,7 @@ part of 'get_locations_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Locations _$GetLocationsFromJson(Map<String, dynamic> json) => Locations(
+Locations _$LocationsFromJson(Map<String, dynamic> json) => Locations(
       west: (json['West'] as List<dynamic>?)
           ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -24,8 +24,7 @@ Locations _$GetLocationsFromJson(Map<String, dynamic> json) => Locations(
           .toList(),
     );
 
-Map<String, dynamic> _$GetLocationsToJson(Locations instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$LocationsToJson(Locations instance) => <String, dynamic>{
       'West': instance.west,
       'South': instance.south,
       'North & East': instance.northEast,

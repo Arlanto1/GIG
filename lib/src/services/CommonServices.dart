@@ -72,7 +72,6 @@ class CommonServices {
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    log('--response----${response.toString()}----');
     return Locations.fromJson(response);
   }
 

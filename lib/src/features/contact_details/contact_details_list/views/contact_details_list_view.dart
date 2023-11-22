@@ -1,4 +1,5 @@
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
@@ -79,17 +80,15 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
         ),
         body: BlocBuilder<ContactDetailsListBloc, ContactDetailsListState>(
             builder: (context, state) {
-              if (state.status == FormStatus.initial) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return Container(
-                margin: allMargin16,
-                decoration: const ShapeDecoration(
-                    color: AppColors.backgroundWhitecolor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
+          if (state.status == FormStatus.initial) {
+            return const BaseLoader();
+          }
+          return Container(
+            margin: allMargin16,
+            decoration: const ShapeDecoration(
+                color: AppColors.backgroundWhitecolor,
+                shape: RoundedRectangleBorder(
+                  borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
                     )),
                 child: ListView.builder(
