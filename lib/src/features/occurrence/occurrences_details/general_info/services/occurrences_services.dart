@@ -48,7 +48,7 @@ class OccurrenceDetailsServices {
     required bool isSubmit,
   }) async {
     final String url =
-        "${Apis._createOccurrence}?userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
+        "${Apis._createOccurrence}userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,

@@ -1096,7 +1096,7 @@ class _MaterialMovementDetailsViewState
                                   height * 0.001),
 
                               BaseDate().datePickerWidgetLoading(
-                                showBackDate: false,
+                                showPastDate: false,
                                 isDisabled: (widget.materialMovement?.status ==
                                             6 ||
                                         widget.materialMovement?.status == 1)

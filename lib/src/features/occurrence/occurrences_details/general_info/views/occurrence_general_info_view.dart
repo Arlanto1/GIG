@@ -804,7 +804,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                       ),
                                       // ),
                                       const SizedBox(width: 10),
-                                      Text('---${state.model.incidentItems}---'),
+                                      // Text('---${state.model.incidentItems}---'),
                                       const Text(
                                         'Add Incident Item List',
                                         style: TextStyle(
@@ -1226,7 +1226,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
-                                  showAfterDate: false,
+                                  showFutureDate: false,
                                   textController:
                                       powerFailureStartDateController,
                                   onChange: (String value) {
@@ -1490,13 +1490,14 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     bool? isInternal,
   }) async {
     log('---navigateToCreateIncident--@@@-');
-    BlocProvider.of<OccurrenceGeneralInfoCubit>(context).submitForm(
+    bool isSaveSuccess = await BlocProvider.of<OccurrenceGeneralInfoCubit>(context).submitForm(
       isSaveOnly: true,
       navigateToNextScreen: true,
     );
 
+    log('--state.status---navigateToCreateIncident----${state.status}-----');
     // For checking validations
-    if (state.status == FormStatus.error) {
+    if (!isSaveSuccess ) {
       return;
     }
     log('--state.model.id-----occId-------${state.model.id}-----');

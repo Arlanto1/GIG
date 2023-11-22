@@ -314,7 +314,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     ));
   }
 
-  void submitForm(
+  Future<bool> submitForm(
       {bool isSaveOnly = false, bool navigateToNextScreen = false}) async {
     emit(
       state.copyWith(
@@ -340,7 +340,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
               message: state.isValidDraft.message,
             ),
           );
-          return;
+          return false;
         }
         response = (await services.create(
           body: request,
@@ -355,7 +355,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
               message: state.isValid.message,
             ),
           );
-          return;
+          return false;
         }
 
         response = (await services.create(
@@ -370,7 +370,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           status: FormStatus.error,
         ),
       );
-      return;
+      return false;
     } on Exception catch (e) {
       emit(
         state.copyWith(
@@ -395,5 +395,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
             : FormStatus.success,
       ),
     );
+    return true;
   }
 }
