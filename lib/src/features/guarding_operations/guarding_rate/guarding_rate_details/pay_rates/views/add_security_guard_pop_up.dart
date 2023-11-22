@@ -200,7 +200,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
 
                       BaseDate().datePickerWidgetLoading(
                         textController: toDateController,
-                        showBackDate: false,
+                        showPastDate: false,
                         onChange: (String value) {
                           widget.payRate.toDate = value;
                           BlocProvider.of<PayRateCubit>(widget.mainContext)

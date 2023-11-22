@@ -35,12 +35,12 @@ class OccurrenceDetailsServices {
     return OccurrenceResponse.fromJson(response);
   }
 
-  Future<Occurrence> getOccurrence(String id) async {
+  Future<OccurrenceModel> getOccurrence(String id) async {
     final String url = '${Apis._getOccurrence}/$id';
     var response = await BaseApiService().getRequest(
       url: url,
     );
-    return Occurrence.fromJson(response);
+    return OccurrenceModel.fromJson(response);
   }
 
   Future<GenericResponse> create({
@@ -48,7 +48,7 @@ class OccurrenceDetailsServices {
     required bool isSubmit,
   }) async {
     final String url =
-        "${Apis._createOccurrence}?userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
+        "${Apis._createOccurrence}userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
     final response = await BaseApiService().postRequest(
       url: url,

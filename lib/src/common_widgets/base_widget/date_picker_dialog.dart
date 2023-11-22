@@ -28,8 +28,8 @@ class BaseDate {
   Widget datePickerWidgetLoading({
     required TextEditingController textController,
     bool isDisabled = false,
-    bool showBackDate = true,
-    bool showAfterDate = true,
+    bool showPastDate = true,
+    bool showFutureDate = true,
     bool onlyDate = false,
     required Function(String) onChange,
     required BuildContext context,
@@ -38,13 +38,12 @@ class BaseDate {
       onTap: () async {
         if (!isDisabled) {
           textController.text = await BaseDate().datePickerDialog(
-            textController: textController,
-            showBackDate: showBackDate,
-              showAfterDate:showAfterDate,
-            onChange: onChange,
-            context: context,
-            onlyDate: onlyDate
-          );
+              textController: textController,
+              showPastDate: showPastDate,
+              showFutureDate: showFutureDate,
+              onChange: onChange,
+              context: context,
+              onlyDate: onlyDate);
           log('--textController.text-2--1--${textController.text}----');
         }
       },
@@ -79,7 +78,10 @@ class BaseDate {
             padding: const EdgeInsets.all(20.0),
             child: SvgPicture.asset(
               AppIcon.calendaricon,
-              color: AppColors.textgreyThemecolor,
+              colorFilter: const ColorFilter.mode(
+                AppColors.textgreyThemecolor,
+                BlendMode.srcIn,
+              ),
               width: 20,
               key: const Key(Keys.userIcon),
             ),
@@ -93,20 +95,20 @@ class BaseDate {
     required TextEditingController textController,
     required Function(String) onChange,
     required BuildContext context,
-    bool? showBackDate = true,
-    bool? showAfterDate =true,
+    bool? showPastDate = true,
+    bool? showFutureDate = true,
     bool onlyDate = false,
   }) async {
     DateTime? pickedDate = await showDateTimePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: showBackDate! ? DateTime(1900) : DateTime.now(),
-      lastDate: showAfterDate! ?DateTime(2101): DateTime.now(),
+      firstDate: showPastDate! ? DateTime(1900) : DateTime.now(),
+      lastDate: showFutureDate! ? DateTime(2101) : DateTime.now(),
     );
 
-    String formattedDate = DateFormat(
-            onlyDate ? Constants.dateFormat : Constants.fulldateFormat)
-        .format(pickedDate ?? DateTime.now());
+    String formattedDate =
+        DateFormat(onlyDate ? Constants.dateFormat : Constants.fulldateFormat)
+            .format(pickedDate ?? DateTime.now());
 
     textController.text = formattedDate;
     onChange(formattedDate);
