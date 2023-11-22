@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../enums/form_status.dart';
-import '../../../../utils/util.dart';
 import '../bloc/contact_details_list_bloc.dart';
 
 class ContactDetailsListView extends StatefulWidget {
@@ -90,81 +89,79 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
-                    )),
-                child: ListView.builder(
-                  controller: _scrollController,
-                  itemCount: state.hasReachedMax
-                      ? state.items.length
-                      : state.items.length + 1,
-                  itemBuilder: (context, index) {
-                    List<Label> labels = [];
-                    if (index < state.items.length) {
-                      labels.add(Label(
-                          key: 'Region',
-                          value: state.items[index].locationRegion?.name ?? ''));
-                      labels.add(Label(
-                          key: 'Created By',
-                          value: state.items[index].entrySecurity?.name ?? ''));
-                      labels.add(Label(
-                          key: 'SL No',
-                          value: state.items[index].slNo??''));
-                      labels.add(Label(
-                          key: 'Location',
-                          value: state.items[index].location?.name ?? ''));
-                    }
-                    return index >= state.items.length
-                        ? const Center(
-                      child: CustomCircularProgressIndicator(),
-                    )
-                        : BaseListTileItem(
-                      id: state.items[index].id,
-                      labels: labels,
-                      status: state.items[index].status,
-                      isEventProtectionStatus: false,
-                      isContactDetailsStatus: true,
-                      onTap: (selectedIndex) {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext dialogContext) {
-                            return BasePopUpItems(
-                              id: state.items[selectedIndex].id.toString(),
-                              labels: labels,
-                              status: state.items[selectedIndex].status,
-                              isContactDetailsStatus: true,
-
-                            );
-                          },
-                        );
-                      },
-                      onEditTap: (selectedIndex) {
-                        getLawEnforcementId(state.items[index].id ?? 0);
-                      },
-                      onViewTap: (selectedIndex) {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext dialogContext) {
-                            return BasePopUpItems(
-                              id: state.items[selectedIndex].id.toString(),
-                              labels: labels,
-                              status: state.items[selectedIndex].status,
-                              isContactDetailsStatus: true,
-                            );
-                          },
-                        );
-                      },
-                      index: index,
-                    );
-                  },
-                ),
-              );
-            }));
+                )),
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: state.hasReachedMax
+                  ? state.items.length
+                  : state.items.length + 1,
+              itemBuilder: (context, index) {
+                List<Label> labels = [];
+                if (index < state.items.length) {
+                  labels.add(Label(
+                      key: 'Region',
+                      value: state.items[index].locationRegion?.name ?? ''));
+                  labels.add(Label(
+                      key: 'Created By',
+                      value: state.items[index].entrySecurity?.name ?? ''));
+                  labels.add(Label(
+                      key: 'SL No', value: state.items[index].slNo ?? ''));
+                  labels.add(Label(
+                      key: 'Location',
+                      value: state.items[index].location?.name ?? ''));
+                }
+                return index >= state.items.length
+                    ? const Center(
+                        child: CustomCircularProgressIndicator(),
+                      )
+                    : BaseListTileItem(
+                        id: state.items[index].id,
+                        labels: labels,
+                        status: state.items[index].status,
+                        isEventProtectionStatus: false,
+                        isContactDetailsStatus: true,
+                        onTap: (selectedIndex) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext dialogContext) {
+                              return BasePopUpItems(
+                                id: state.items[selectedIndex].id.toString(),
+                                labels: labels,
+                                status: state.items[selectedIndex].status,
+                                isContactDetailsStatus: true,
+                              );
+                            },
+                          );
+                        },
+                        onEditTap: (selectedIndex) {
+                          getLawEnforcementId(state.items[index].id ?? 0);
+                        },
+                        onViewTap: (selectedIndex) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext dialogContext) {
+                              return BasePopUpItems(
+                                id: state.items[selectedIndex].id.toString(),
+                                labels: labels,
+                                status: state.items[selectedIndex].status,
+                                isContactDetailsStatus: true,
+                              );
+                            },
+                          );
+                        },
+                        index: index,
+                      );
+              },
+            ),
+          );
+        }));
   }
 
   getLawEnforcementId(int id) async {
     showLoadingDialog(context);
 
     ContactDetailModel materialMovementModel =
-    await ContactDetailsServices().getGcdById(id);
+        await ContactDetailsServices().getGcdById(id);
 
     editDataLoading(materialMovementModel);
   }

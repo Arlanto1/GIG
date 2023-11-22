@@ -32,7 +32,7 @@ class AddContactPopUp extends StatefulWidget {
 
   final String title;
   final Function onSubmit;
-  final Contacts contact;
+  final Contact contact;
   final List<BaseUser> users;
   final BuildContext mainContext;
 

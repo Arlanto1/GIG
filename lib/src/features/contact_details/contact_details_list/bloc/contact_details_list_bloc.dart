@@ -33,6 +33,7 @@ class ContactDetailsListBloc
           maximumRecords: '${event.maxPos}',
         );
 
+
         return emit(
           state.copyWith(
             items: response.items,

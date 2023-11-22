@@ -9,7 +9,8 @@ import '../../../models/responseModels/generic_response.dart';
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _get = '$baseUrl/getGcdList?';
+  static final String _getContactListByType = '$baseUrl/getGcdTypeById/';
+  static final String _getGcd = '$baseUrl/getGcdList?';
 
   static final String _getById = '$baseUrl/getGcdGiById';
 
@@ -21,12 +22,28 @@ class Apis {
 }
 
 class ContactDetailsServices {
+
+  Future<ContactsListModel> getContactListByType({
+    required String id,
+    required String type,
+    required String startPosition,
+    required String maximumRecords,
+  }) async {
+    String url =
+        '${Apis._getContactListByType}$id?type=$type';
+    var response = await BaseApiService().getRequest(
+      isAuthenticated: true,
+      url: url,
+    );
+    return ContactsListModel.fromJson(response);
+  }
+
   Future<ContactDetailsListResponseModel> getGcd({
     required String startPosition,
     required String maximumRecords,
   }) async {
     String url =
-        '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords';
+        '${Apis._getGcd}startPos=$startPosition&maxResults=$maximumRecords';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
@@ -62,7 +79,7 @@ class ContactDetailsServices {
     required String maximumRecords,
   }) async {
     String url =
-        '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords';
+        '${Apis._getGcd}startPos=$startPosition&maxResults=$maximumRecords';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,

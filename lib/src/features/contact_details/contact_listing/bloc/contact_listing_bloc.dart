@@ -12,7 +12,6 @@ import '../../models/contacts_list_response_model.dart';
 import '../../services/contact_details_services.dart';
 
 part 'contact_listing_event.dart';
-
 part 'contact_listing_state.dart';
 
 class ContactListingBloc
@@ -33,31 +32,35 @@ class ContactListingBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        ContactListResponseModel response = await services.getCd(
+
+        ContactsListModel response = await services.getContactListByType(
+          id: '${event.id}',
+          type: '${event.type}',
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
         );
-
         return emit(
           state.copyWith(
-            items: response.items,
+            items: response.contacts,
             hasReachedMax: false,
             status: FormStatus.success,
           ),
         );
       }
 
-      ContactListResponseModel response = await services.getCd(
+      ContactsListModel response = await services.getContactListByType(
+        id: '${event.id}',
+        type: '${event.type}',
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
       );
 
-      if (response.items?.isEmpty == true) {
+      if (response.contacts?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));
       }
       return emit(
         state.copyWith(
-          items: List.of(state.items)..addAll(response.items ?? []),
+          items: List.of(state.items??[])..addAll(response.contacts ?? []),
           hasReachedMax: false,
         ),
       );

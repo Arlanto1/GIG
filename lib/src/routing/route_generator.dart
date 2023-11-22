@@ -405,16 +405,27 @@ class RouteGenerator {
 
       case contactListingRoute:
         String title = '';
+        int id = 0;
+        int type = 0;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
+          type = arguments[ConstantsArgument.type] ?? 0;
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<cl.ContactListingBloc>(
             create: (_) => cl.ContactListingBloc()
-              ..add(const cl.FetchData(startPos: 0, maxPos: 100)),
+              ..add(cl.FetchData(
+                id: id,
+                type: type,
+                startPos: 0,
+                maxPos: 100,
+              )),
             child: ContactListingView(
+              id: id,
+              type: type,
               title: title,
             ),
           ),

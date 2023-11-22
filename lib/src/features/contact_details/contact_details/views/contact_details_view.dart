@@ -1,7 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:typed_data';
-
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
@@ -10,22 +6,14 @@ import 'package:db_atom/src/common_widgets/base_widget/record_locked_widget.dart
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
-import 'package:db_atom/src/common_widgets/custom_pop_list_texts.dart';
-import 'package:db_atom/src/common_widgets/image_download.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
-import 'package:db_atom/src/common_widgets/signature/signature_func.dart';
-import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constant_agruments.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/contact_details/contact_details/cubits/contact_details_cubit.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
-import 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/cubits/contact_info_cubit.dart';
-import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -35,12 +23,9 @@ import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../common_widgets/spinnerdialog.dart';
 import '../../../../enums/form_status.dart';
 import '../../../../models/organisation.dart';
 import '../../../../utils/customalert.dart';
-import '../../models/contacts_list_response_model.dart';
-import '../../services/contact_details_services.dart';
 
 class ContactDetailsView extends StatefulWidget {
   final ContactDetailModel? model;
@@ -294,6 +279,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   arguments: {
                                     ConstantsArgument.title:
                                         Constants.generalContact,
+                                    ConstantsArgument.type: 0,
+                                    ConstantsArgument.id: state.model.id,
                                   },
                                 );
                               },
@@ -336,6 +323,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   arguments: {
                                     ConstantsArgument.title:
                                         Constants.generalContact,
+                                    ConstantsArgument.type: 1,
+                                    ConstantsArgument.id: state.model.id,
                                   },
                                 );
                               },
@@ -377,6 +366,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   arguments: {
                                     ConstantsArgument.title:
                                         Constants.generalContact,
+                                    ConstantsArgument.type: 2,
+                                    ConstantsArgument.id: state.model.id,
                                   },
                                 );
                               },
@@ -417,6 +408,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   arguments: {
                                     ConstantsArgument.title:
                                         Constants.generalContact,
+                                    ConstantsArgument.type: 3,
+                                    ConstantsArgument.id: state.model.id,
                                   },
                                 );
                               },
@@ -457,6 +450,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   arguments: {
                                     ConstantsArgument.title:
                                         Constants.generalContact,
+                                    ConstantsArgument.type: 4,
+                                    ConstantsArgument.id: state.model.id,
                                   },
                                 );
                               },
@@ -599,25 +594,25 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       validateTextField: (String? user) {},
     );
   }
-  // getLawEnforcementId(int id, int type) async {
-  //   showLoadingDialog(context);
-  //
-  //   ContactListResponseModel contactsModel =
-  //   await ContactDetailsServices().getCdById(id, type);
-  //
-  //   editDataLoading(contactsModel);
-  // }
-  // void editDataLoading(ContactListResponseModel? model) {
-  //   dismissLoadingDialog(context);
-  //   if (model != null) {
-  //     Navigator.pushNamed(
-  //       context,
-  //       contactDetailsRoute,
-  //       arguments: {
-  //         "model": model,
-  //         "title": Constants.contactDetails,
-  //       },
-  //     );
-  //   }
-  // }
+// getLawEnforcementId(int id, int type) async {
+//   showLoadingDialog(context);
+//
+//   ContactListResponseModel contactsModel =
+//   await ContactDetailsServices().getCdById(id, type);
+//
+//   editDataLoading(contactsModel);
+// }
+// void editDataLoading(ContactListResponseModel? model) {
+//   dismissLoadingDialog(context);
+//   if (model != null) {
+//     Navigator.pushNamed(
+//       context,
+//       contactDetailsRoute,
+//       arguments: {
+//         "model": model,
+//         "title": Constants.contactDetails,
+//       },
+//     );
+//   }
+// }
 }

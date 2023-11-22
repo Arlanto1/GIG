@@ -10,7 +10,6 @@ import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/contact_details/contact_listing/views/add_contact_pop_up.dart';
-import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
@@ -27,10 +26,14 @@ import '../bloc/contact_listing_bloc.dart';
 class ContactListingView extends StatefulWidget {
   const ContactListingView({
     super.key,
+    required this.id,
     required this.title,
+    required this.type,
   });
 
+  final int id;
   final String title;
+  final int type;
 
   @override
   State<ContactListingView> createState() => _ContactListingViewState();
@@ -45,8 +48,8 @@ class _ContactListingViewState extends State<ContactListingView> {
     super.initState();
     _scrollController = ScrollController()..addListener(_onScroll);
     context.read<ContactListingBloc>().add(
-      const InitializeValues(),
-    );
+          const InitializeValues(),
+        );
   }
 
   @override
@@ -63,17 +66,15 @@ class _ContactListingViewState extends State<ContactListingView> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<ContactListingBloc>().add(
-        FetchData(startPos: pageNumber, maxPos: 20),
-      );
+      context.read<ContactListingBloc>().add(FetchData(
+          id: widget.id, type: widget.type, startPos: pageNumber, maxPos: 20));
     }
   }
 
   showAddContactPopUp({
     required BuildContext context,
-    required Contacts contacts,
+    required Contact contacts,
     required final List<BaseUser> users,
-
   }) {
     showDialog(
       context: context,
@@ -82,12 +83,12 @@ class _ContactListingViewState extends State<ContactListingView> {
           title: widget.title,
           contact: contacts,
           mainContext: context,
-          users: users,onSubmit: (PayRate payRate) {
+          users: users,
+          onSubmit: (PayRate payRate) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();
 
             log('-widget.title---${widget.title}----');
-
 
             log('--newPayRate--total---${payRate.total}------------');
             log('--newPayRate--2222--33333--rankid-${payRate.rankId}------------');
@@ -104,8 +105,8 @@ class _ContactListingViewState extends State<ContactListingView> {
   Widget build(BuildContext context) {
     return BlocConsumer<ContactListingBloc, ContactListingState>(
         listener: (context, state) {
-          // TODO: implement listener
-        }, builder: (context, state) {
+      // TODO: implement listener
+    }, builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
         floatingActionButton: Flutterfloatingbutton(
@@ -114,7 +115,7 @@ class _ContactListingViewState extends State<ContactListingView> {
           onPressed: () {
             showAddContactPopUp(
               context: context,
-              contacts: Contacts(),
+              contacts: Contact(),
               users: state.users ?? [],
             );
           },
@@ -145,77 +146,82 @@ class _ContactListingViewState extends State<ContactListingView> {
             borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
           )),
       child: ListView.builder(
-          controller: _scrollController,
-          itemCount:
-          state.hasReachedMax ? state.items.length : state.items.length + 1,
-          itemBuilder: (context, index) {
-            List<Label> labels = [];
-            if (index < state.items.length) {
-              labels.add(Label(
-                key: 'Contact',
-                value: state.items[index].contact
-                    ?.map((contact) => contact.email)
-                    ?.join(' , ') ??
-                    '',
-              ));
-              labels.add(Label(
-                key: 'Contact',
-                value: state.items[index].contact
-                    ?.map((contact) => contact.id)
-                    ?.join(' , ') ??
-                    '',
-              ));
-              return index >= state.items.length
-                  ? const Center(
-                child: CustomCircularProgressIndicator(),
-              )
-                  : BaseListTileItem(
-                id: state.items[index].id,
-                labels: labels,
-                onTap: (selectedIndex) {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext dialogContext) {
-                      return BasePopUpItems(
-                        id: state.items[selectedIndex].id.toString(),
-                        labels: labels,
+        controller: _scrollController,
+        itemCount:
+            state.hasReachedMax ? state.items?.length : state.items!.length + 1,
+        itemBuilder: (context, index) {
+          List<Label> labels = [];
+          if (index < state.items!.length) {
+            labels.add(
+              Label(
+                key: 'Email',
+                value: state.items![index].email ?? '',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Rank',
+                value: state.items![index].generalRank?.name ?? '',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Contact No',
+                value: state.items![index].contactNo ?? '',
+              ),
+            );
+
+            return index >= state.items!.length
+                ? const Center(
+                    child: CustomCircularProgressIndicator(),
+                  )
+                : BaseListTileItem(
+                    id: state.items?[index].id,
+                    labels: labels,
+                    onTap: (selectedIndex) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return BasePopUpItems(
+                            id: state.items?[selectedIndex].id.toString(),
+                            labels: labels,
+                          );
+                        },
                       );
                     },
-                  );
-                },
-                onEditTap: (selectedIndex) {
-                  showAddContactPopUp(
-                    context: context,
-                    contacts: Contacts(),
-                    users: state.users ?? [],
-                  );
-                  getLawEnforcementId(state.items[index].id ?? 0,
-                      state.items[index].contact?[0].type ?? 0);
-                },
-                onViewTap: (selectedIndex) {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext dialogContext) {
-                      return BasePopUpItems(
-                        id: state.items[selectedIndex].id.toString(),
-                        labels: labels,
+                    onEditTap: (selectedIndex) {
+                      showAddContactPopUp(
+                        context: context,
+                        contacts: Contact(),
+                        users: state.users ?? [],
+                      );
+                      getDetails(state.items?[index].id ?? 0, widget.type);
+                    },
+                    onViewTap: (selectedIndex) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return BasePopUpItems(
+                            id: state.items?[selectedIndex].id.toString(),
+                            labels: labels,
+                          );
+                        },
                       );
                     },
+                    index: index,
                   );
-                },
-                index: index,
-              );
-            }
-            ;
-          }),
+          }
+          return null;
+        },
+      ),
     );
   }
 
-  getLawEnforcementId(int id, int type) async {
+  getDetails(int id, int type) async {
     showLoadingDialog(context);
 
     ContactListResponseModel contactsModel =
-    await ContactDetailsServices().getCdById(id, type);
+        await ContactDetailsServices().getCdById(id, type);
 
     editDataLoading(contactsModel);
   }
