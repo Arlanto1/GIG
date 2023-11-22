@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../enums/form_status.dart';
+import '../../models/contact_info.dart';
 import '../../models/contacts_list_response_model.dart';
 import '../bloc/contact_listing_bloc.dart';
 
@@ -73,15 +74,16 @@ class _ContactListingViewState extends State<ContactListingView> {
 
   showAddContactPopUp({
     required BuildContext context,
-    required Contact contacts,
+    required ContactInfo contact,
     required final List<BaseUser> users,
   }) {
+    log('--.users--llen--${users?.length}---');
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         return AddContactPopUp(
           title: widget.title,
-          contact: contacts,
+          contact: contact,
           mainContext: context,
           users: users,
           onSubmit: (PayRate payRate) {
@@ -115,7 +117,7 @@ class _ContactListingViewState extends State<ContactListingView> {
           onPressed: () {
             showAddContactPopUp(
               context: context,
-              contacts: Contact(),
+              contact: ContactInfo(),
               users: state.users ?? [],
             );
           },
@@ -189,13 +191,17 @@ class _ContactListingViewState extends State<ContactListingView> {
                         },
                       );
                     },
-                    onEditTap: (selectedIndex) {
+                    onEditTap: (selectedIndex) async {
+                      ContactInfo contactsModel = await ContactDetailsServices().getCdById(state.items?[index].id ?? 0);
+
+                      log('--state.users--llen--${state.users?.length}---');
+
                       showAddContactPopUp(
                         context: context,
-                        contacts: Contact(),
+                        contact: contactsModel,
                         users: state.users ?? [],
                       );
-                      getDetails(state.items?[index].id ?? 0, widget.type);
+                      // getDetails(state.items?[index].id ?? 0);
                     },
                     onViewTap: (selectedIndex) {
                       showDialog(
@@ -217,16 +223,15 @@ class _ContactListingViewState extends State<ContactListingView> {
     );
   }
 
-  getDetails(int id, int type) async {
+  getDetails(int id) async {
     showLoadingDialog(context);
 
-    ContactListResponseModel contactsModel =
-        await ContactDetailsServices().getCdById(id, type);
+    ContactInfo contactsModel = await ContactDetailsServices().getCdById(id);
 
     editDataLoading(contactsModel);
   }
 
-  void editDataLoading(ContactListResponseModel? model) {
+  void editDataLoading(ContactInfo? model) {
     dismissLoadingDialog(context);
     if (model != null) {
       Navigator.pushNamed(

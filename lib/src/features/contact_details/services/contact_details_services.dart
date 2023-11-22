@@ -1,6 +1,7 @@
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
+import 'package:db_atom/src/features/contact_details/models/contact_info.dart';
 import 'package:db_atom/src/features/contact_details/models/requestModels/contact_details_gi_request.dart';
 import '../models/contacts_list_response_model.dart';
 import '../models/requestModels/contacts_request.dart';
@@ -16,7 +17,7 @@ class Apis {
 
   static final String _createGeneralInformation = '$baseUrl/createCDGI?';
 
-  static final String _getCById = '$baseUrl/getGcdTypeById';
+  static final String _getContactDetailsById = '$baseUrl/getCntInfoById';
 
   static final String _createContacts = '$baseUrl/createCDGI?';
 }
@@ -87,12 +88,12 @@ class ContactDetailsServices {
     return ContactListResponseModel.fromJson(response);
   }
 
-  Future<ContactListResponseModel> getCdById(int id, int type) async {
-    final String url = '${Apis._getCById}/$id?type=$type';
+  Future<ContactInfo> getCdById(int id) async {
+    final String url = '${Apis._getContactDetailsById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return ContactListResponseModel.fromJson(response);
+    return ContactInfo.fromJson(response);
   }
 
   /// Create Services

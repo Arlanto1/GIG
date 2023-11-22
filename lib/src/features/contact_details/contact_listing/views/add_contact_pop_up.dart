@@ -1,25 +1,19 @@
 import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
-import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/pop_button.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
+import 'package:db_atom/src/features/contact_details/models/contact_info.dart';
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/responseModels/error_response_validation.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/util.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../models/contacts_list_response_model.dart';
 
 class AddContactPopUp extends StatefulWidget {
   const AddContactPopUp({
@@ -27,12 +21,13 @@ class AddContactPopUp extends StatefulWidget {
     required this.title,
     required this.onSubmit,
     required this.contact,
-    required this.mainContext, required this.users,
+    required this.mainContext,
+    required this.users,
   });
 
   final String title;
   final Function onSubmit;
-  final Contact contact;
+  final ContactInfo contact;
   final List<BaseUser> users;
   final BuildContext mainContext;
 
@@ -53,7 +48,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
   @override
   Widget build(BuildContext context) {
-    log('---users-${widget.users.length}--');
+    log('---widget.users--len---${widget.users.length}--');
 
     return AlertDialog(
       title: Align(
@@ -72,7 +67,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
         var width = MediaQuery.of(context).size.width;
 
         return SizedBox(
-          height: height /2,
+          height: height / 2,
           width: width,
           child: Stack(
             clipBehavior: Clip.none,
@@ -91,7 +86,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             isMandatory: true,
                           ),
                           TextfieldAddButton(
-                            title: 'Rank',
+                            title: widget.contact.contact?.name??'',
                             height: 70,
                             isDisableColor: false,
                             onTap: () {
@@ -99,6 +94,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                 context: context,
                                 users: widget.users,
                                 onTap: (BaseUser user) {
+                                  widget.contact.contact?.name = user.email;
                                   // BlocProvider.of<ContactListingBloc>(context)
                                   //     .updateApproverEmailsValue(
                                   //         approver1EmailUser: user);
@@ -118,12 +114,12 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        textFieldController: nameController,
+                        initialValue: widget.contact.email??'',
                         keyboardType: TextInputType.text,
                         textFormKey: Keys.nameKey,
                         hintText: '',
-                        isEnable: false,
-                        isDisableColor: true,
+                        isEnable: true,
+                        isDisableColor: false,
                         onChange: (String value) {
                           // widget.payRate.perHour = double.parse(value);
                           // BlocProvider.of<PayRateCubit>(widget.mainContext)
@@ -140,12 +136,12 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        textFieldController: contactController,
+                        initialValue: '${widget.contact.contactNo??''}',
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
-                        isEnable: false,
-                        isDisableColor: true,
+                        isEnable: true,
+                        isDisableColor: false,
                         onChange: (String value) {
                           // widget.payRate.perHour = double.parse(value);
                           // BlocProvider.of<PayRateCubit>(widget.mainContext)
@@ -170,16 +166,12 @@ class AddContactPopUpState extends State<AddContactPopUp> {
   }
 
   Widget buttonViews(BuildContext context, double width) {
-    return Container(
-      color: AppColors.backgroundWhitecolor,
-      child: Row(
-        //mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          cancelButton(width),
-          saveButton(width, widget.onSubmit)
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        cancelButton(width),
+        saveButton(width, widget.onSubmit)
+      ],
     );
   }
 
@@ -191,6 +183,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       buttonTextKey: Keys.cancelButtonText,
       foregroundColor: AppColors.textgreyThemecolor,
       textStyle: Styles.styleHeaderGreyText16,
+      backgroundColor: AppColors.white,
       boardercolor: AppColors.textgreyThemecolor,
       onTap: () {
         //loginFormKey.currentState!.validate();
@@ -211,10 +204,10 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
-        if (!isPayRateValid.status) {
+        if (!isFormValid.status) {
           Validator().showToast(
             context,
-            isPayRateValid.message,
+            isFormValid.message,
           );
           return;
         }
@@ -223,14 +216,12 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     );
   }
 
-  ErrorResponse get isPayRateValid {
-    if (widget.contact.generalRank == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Rank.');
+  ErrorResponse get isFormValid {
+    if (widget.contact.contact == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Rank.');
     }
     if (widget.contact.email == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Name.');
+      return const ErrorResponse(status: false, message: 'Please enter Name.');
     }
     if (widget.contact.contactNo == null) {
       return const ErrorResponse(
