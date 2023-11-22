@@ -39,8 +39,8 @@ class BaseDate {
         if (!isDisabled) {
           textController.text = await BaseDate().datePickerDialog(
               textController: textController,
-              showBackDate: showPastDate,
-              showAfterDate: showFutureDate,
+              showPastDate: showPastDate,
+              showFutureDate: showFutureDate,
               onChange: onChange,
               context: context,
               onlyDate: onlyDate);
@@ -95,15 +95,15 @@ class BaseDate {
     required TextEditingController textController,
     required Function(String) onChange,
     required BuildContext context,
-    bool? showBackDate = true,
-    bool? showAfterDate = true,
+    bool? showPastDate = true,
+    bool? showFutureDate = true,
     bool onlyDate = false,
   }) async {
     DateTime? pickedDate = await showDateTimePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: showBackDate! ? DateTime(1900) : DateTime.now(),
-      lastDate: showAfterDate! ? DateTime(2101) : DateTime.now(),
+      firstDate: showPastDate! ? DateTime(1900) : DateTime.now(),
+      lastDate: showFutureDate! ? DateTime(2101) : DateTime.now(),
     );
 
     String formattedDate =
