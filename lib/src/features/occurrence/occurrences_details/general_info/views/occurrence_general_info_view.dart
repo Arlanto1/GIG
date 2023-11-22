@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
@@ -754,34 +755,34 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                   isMandatory: true,
                                   Styles.textStyleBlack14),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.suspiciousActivity ? 1 : 0,
-                                  onChangedYes: state.model.status == 6
-                                      ? null
-                                      : (val) {
-                                          state.model.suspiciousActivity = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  suspiciousActivity: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: state.model.status == 4
-                                      ? null
-                                      : (val) {
-                                          state.model.suspiciousActivity =
-                                              false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  suspiciousActivity: false);
-                                          // .onModelValueChange(state.guardingMasterData
-                                          //  );
-                                        },),
+                                status: state.model.status ?? 0,
+                                selectedValue:
+                                    state.model.suspiciousActivity ? 1 : 0,
+                                onChangedYes: state.model.status == 6
+                                    ? null
+                                    : (val) {
+                                        state.model.suspiciousActivity = true;
+                                        BlocProvider.of<
+                                                    OccurrenceGeneralInfoCubit>(
+                                                context)
+                                            .showFields(
+                                                suspiciousActivity: true);
+                                        //.onModelValueChange(state.guardingMasterData
+                                        //);
+                                      },
+                                onChangedNo: state.model.status == 4
+                                    ? null
+                                    : (val) {
+                                        state.model.suspiciousActivity = false;
+                                        BlocProvider.of<
+                                                    OccurrenceGeneralInfoCubit>(
+                                                context)
+                                            .showFields(
+                                                suspiciousActivity: false);
+                                        // .onModelValueChange(state.guardingMasterData
+                                        //  );
+                                      },
+                              ),
 
                               if (state.model.suspiciousActivity == true) ...[
                                 CommonWidgets.textDisplay(
@@ -800,7 +801,10 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                       const SizedBox(width: 14),
                                       SvgPicture.asset(
                                         AppIcon.pluscircle,
-                                        color: AppColors.navigationSkybluecolor,
+                                        colorFilter: const ColorFilter.mode(
+                                          AppColors.navigationSkybluecolor,
+                                          BlendMode.srcIn,
+                                        ),
                                       ),
                                       // ),
                                       const SizedBox(width: 10),
@@ -982,14 +986,14 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     Styles.textStyleBlack14),
                                 GestureDetector(
                                   onTap: () {
-                                    openPopUp(state);
+                                    openSecuritySystemSLATypePopUp(
+                                        state: state, showListing: false);
                                   },
                                   child: Row(
                                     children: <Widget>[
                                       const SizedBox(width: 14),
                                       SvgPicture.asset(
                                         AppIcon.pluscircle,
-                                        //color: AppColors.navigationSkybluecolor,
                                       ),
                                       const SizedBox(width: 10),
                                       const Text(
@@ -1431,7 +1435,10 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
         ])));
   }
 
-  openPopUp(OccurrenceGeneralInfoState state) {
+  openSecuritySystemSLATypePopUp({
+    required OccurrenceGeneralInfoState state,
+    required bool showListing,
+  }) {
     BaseDropDown().assetTypeDialog(
       context: context,
       dropDownValues: sstIncidentType.map((label) => label.key).toList(),
@@ -1442,6 +1449,15 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
           (label) => label.key == value,
           orElse: () => const Label(key: '', value: ''),
         );
+
+        if (showListing) {
+          // Navigate to Listing Page
+          Navigator.pushNamed(context, sstIncidentListRoute, arguments: {
+            "isInternal":
+                selectedLabel.value.equalsIgnoreCase('0') ? true : false
+          });
+          return;
+        }
 
         // Call navigateToCreateIncident here
         navigateToCreateIncident(
@@ -1490,14 +1506,16 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     bool? isInternal,
   }) async {
     log('---navigateToCreateIncident--@@@-');
-    bool isSaveSuccess = await BlocProvider.of<OccurrenceGeneralInfoCubit>(context).submitForm(
+    NavigatorState nav = Navigator.of(context);
+    bool isSaveSuccess =
+        await BlocProvider.of<OccurrenceGeneralInfoCubit>(context).submitForm(
       isSaveOnly: true,
       navigateToNextScreen: true,
     );
 
     log('--state.status---navigateToCreateIncident----${state.status}-----');
     // For checking validations
-    if (!isSaveSuccess ) {
+    if (!isSaveSuccess) {
       return;
     }
     log('--state.model.id-----occId-------${state.model.id}-----');
@@ -1509,12 +1527,15 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
       map.putIfAbsent('isInternal', () => isInternal ?? false);
     }
     log('---navigateToCreateIncident--@@@----2----');
-
-    Navigator.pushNamed(
-      context,
+    nav.pushNamed(
       isSSTIncident ? sstIncidentDetailsRoute : incidentManagementDetailsRoute,
       arguments: map,
     );
+    // Navigator.pushNamed(
+    //   context,
+    //   isSSTIncident ? sstIncidentDetailsRoute : incidentManagementDetailsRoute,
+    //   arguments: map,
+    // );
   }
 
   Widget showButtonDisplay({
@@ -1535,7 +1556,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
       buttonTextKey: Keys.showButton,
       onTap: () => {
         showPopUp ?? false
-            ? openPopUp(state)
+            ? openSecuritySystemSLATypePopUp(state: state, showListing: true)
             : Navigator.pushNamed(
                 context,
                 incidentManagementsRoute,
