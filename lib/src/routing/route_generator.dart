@@ -12,7 +12,7 @@ import 'package:db_atom/src/features/contact_details/contact_details/views/conta
 import 'package:db_atom/src/features/contact_details/contact_details_list/bloc/contact_details_list_bloc.dart'
     as cd;
 import 'package:db_atom/src/features/contact_details/contact_details_list/views/contact_details_list_view.dart';
-import 'package:db_atom/src/features/contact_details/contact_record//bloc/contact_record_bloc.dart'
+import 'package:db_atom/src/features/contact_details/contact_record/bloc/contact_record_bloc.dart'
     as cr;
 import 'package:db_atom/src/features/contact_details/contact_record/views/contact_record_view.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';

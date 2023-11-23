@@ -367,7 +367,8 @@ class _CreateFoundState extends State<CreateFound> {
         id: locationSelectedlist?.id ?? widget.model?.location?.id);
     Organisation? depositorDepartment =
         selectedEmployeedepartment ?? widget.model?.depositorDepartment;
-    List<ImageContent>? images = getFiles;
+    List<ImageContent>? images =
+        getFiles.isEmpty ? widget.model?.images : getFiles;
     Organisation? claimantDepartment =
         selectedClaimdepartment ?? widget.model?.claimantDepartment;
 
@@ -1533,7 +1534,7 @@ class _CreateFoundState extends State<CreateFound> {
                                 //   context: context,
                                 // ),
                               ],
-                               CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// upload
                               widget.model == null
