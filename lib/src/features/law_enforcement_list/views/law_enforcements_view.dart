@@ -1,5 +1,8 @@
 import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
 import 'package:db_atom/src/features/law_enforcement_list/bloc/law_enforcement_bloc.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +14,6 @@ import '../../../common_widgets/cubits.dart';
 import '../../../common_widgets/custom_pop_menu.dart';
 import '../../../common_widgets/floating_button.dart';
 import '../../../common_widgets/image_download.dart';
-import '../../../common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
 import '../../../common_widgets/spinnerdialog.dart';
 import '../../../constants/app_icon.dart';
 import '../../../constants/ui_geometry_constants.dart';
@@ -131,10 +133,13 @@ class _LnPageState extends State<LnPage> {
       body: BlocBuilder<LawEnforcementBloc, LawEnforcementState>(
           builder: (context, state) {
         if (state.status == FormStatus.initial) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const BaseLoader();
         } else if (state.status == FormStatus.success) {}
+
+        if (state.items.isEmptyOrNull) {
+          return const NoRecordFoundWidget();
+        }
+
         return Container(
           margin: allMargin16,
           decoration: const ShapeDecoration(
@@ -145,42 +150,44 @@ class _LnPageState extends State<LnPage> {
           child: ListView.builder(
             controller: _scrollController,
             itemCount: state.hasReachedMax
-                ? state.lawEnforceItems.length
-                : state.lawEnforceItems.length + 1,
+                ? state.items.length
+                : state.items.length + 1,
             itemBuilder: (context, index) {
               // buildTodo(context, state, index);
 
-              return index >= state.lawEnforceItems.length
-                  ? const Center(
-                      child: CustomCircularProgressIndicator(),
-                    )
-                  : LawEnforcementListItem(
-                      userItem: state.lawEnforceItems[index],
-                      onTap: (selectedIndex) {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext dialogContext) {
-                            return LawEnforcementCustomPopUpList(
-                                state.lawEnforceItems[index]);
-                          },
-                        );
-                        //do the detail edit of user found
-                      },
-                      onEditTap: (selectedIndex) {
-                        getLawEnforcementId(
-                            state.lawEnforceItems[index].id ?? 0);
-                      },
-                      onViewTap: (selectedIndex) {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext dialogContext) {
-                            return LawEnforcementCustomPopUpList(
-                                state.lawEnforceItems[selectedIndex]);
-                          },
-                        );
-                      },
-                      index: index,
-                    );
+              if (index < state.items.length) {
+                return index >= state.items.length
+                    ? const BaseLoader()
+                    : LawEnforcementListItem(
+                        userItem: state.items[index],
+                        onTap: (selectedIndex) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext dialogContext) {
+                              return LawEnforcementCustomPopUpList(
+                                  state.items[index]);
+                            },
+                          );
+                          //do the detail edit of user found
+                        },
+                        onEditTap: (selectedIndex) {
+                          getLawEnforcementId(state.items[index].id ?? 0);
+                        },
+                        onViewTap: (selectedIndex) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext dialogContext) {
+                              return LawEnforcementCustomPopUpList(
+                                  state.items[selectedIndex]);
+                            },
+                          );
+                        },
+                        index: index,
+                      );
+              }
+              return const Center(
+                child: SizedBox(),
+              );
             },
           ),
         );
@@ -191,8 +198,7 @@ class _LnPageState extends State<LnPage> {
   getLawEnforcementId(int lawEnforcementId) async {
     showLoadingDialog(context);
     LawEnforcementDetails? model =
-        await lawEnforcementListCubit.getById(
-            lawEnforcementId, context);
+        await lawEnforcementListCubit.getById(lawEnforcementId, context);
 
     log('-model--maillist--${model?.mailList}-');
 
@@ -202,12 +208,11 @@ class _LnPageState extends State<LnPage> {
   void editDataLoading(LawEnforcementDetails? model) {
     dismissLoadingDialog(context);
     if (model != null) {
-
-      for(Organisation organisation in model.entities??[]) {
+      for (Organisation organisation in model.entities ?? []) {
         log('-111--organisation.name--populateData--en-${organisation.name}');
       }
 
-      for(Organisation organisation in model.mailList??[]) {
+      for (Organisation organisation in model.mailList ?? []) {
         log('--111-organisation.name--populateData---${organisation.name}');
       }
 

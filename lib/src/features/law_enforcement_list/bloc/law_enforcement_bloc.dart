@@ -74,7 +74,7 @@ class LawEnforcementBloc
       } else {
         return emit(
           state.copyWith(
-            todos: List.of(state.lawEnforceItems)
+            todos: List.of(state.items)
               ..addAll(lawEnforcementList.list ?? []),
             hasReachedMax: false,
           ),
