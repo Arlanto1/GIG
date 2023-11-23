@@ -1070,19 +1070,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
-                                ///Exceptional approval for External auditors
-                                widget.passId == '0'
-                                    ? CommonWidgets.textDisplay(
-                                        Constants.exceptionalApproval,
-                                        isMandatory: true,
-                                        Styles.textStyleBlack14)
-                                    : Container(),
-                                widget.passId == '0'
-                                    ? radioButtonHandling(
-                                        state.exceptionalApproval ?? 1,
-                                        Constants.exceptionalApproval,
-                                      )
-                                    : Container(),
+                                // ///Exceptional approval for External auditors
+                                // widget.passId == '0'
+                                //     ? CommonWidgets.textDisplay(
+                                //         Constants.exceptionalApproval,
+                                //         isMandatory: true,
+                                //         Styles.textStyleBlack14)
+                                //     : Container(),
+                                // widget.passId == '0'
+                                //     ? radioButtonHandling(
+                                //         state.exceptionalApproval ?? 1,
+                                //         Constants.exceptionalApproval,
+                                //       )
+                                //     : Container(),
 
                                 /// Pass Valid From
                                 if (widget.passId != '3') ...[
@@ -1598,10 +1598,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
       Organisation dep = widget.model?.department ?? Organisation();
       createPassMgmtCubit.selectedEmployeeDepartment(dep);
-      getAttachments =
-          widget.model?.evidenceDocuments != null ? widget.model?.evidenceDocuments ?? [] : [];
-      // photogetAttachments =
-      //     widget.model?.visitorImage != null ? widget.model?.visitorImage ?? [] : [];
+      getAttachments = widget.model?.evidenceDocuments != null
+          ? widget.model?.evidenceDocuments ?? []
+          : [];
+      photogetAttachments = widget.model?.visitorImage != null
+          ? widget.model?.visitorImage ?? []
+          : [];
 
       emailTextController.text = widget.model?.email ?? '';
       purposeofvisitTextController.text = widget.model?.visitingPurpose ?? '';
@@ -1986,17 +1988,17 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             : Container();
   }
 
-
   Widget getSpaceattchment(double height) {
     return getFiles.isNotEmpty || getAttachments.isNotEmpty
         ? CommonWidgets.verticalSpacerWidget(height * 0.01)
         : Container();
   }
+
   Widget getAttachement(double height) {
     return (getAttachments.isEmpty || widget.model == null)
         ? getFiles.isEmpty
-        ? Container()
-        : attachmentListviews(getFiles, getAttachments)
+            ? Container()
+            : attachmentListviews(getFiles, getAttachments)
         : attachmentListviews(getFiles, getAttachments);
   }
 
@@ -3260,9 +3262,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   // }
 
   Widget attachmentListviews(
-      List<ImageContent>? attachmentListviews,
-      List<ImageContent>? attachmentListviews1,
-      ) {
+    List<ImageContent>? attachmentListviews,
+    List<ImageContent>? attachmentListviews1,
+  ) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -3277,7 +3279,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: (attachmentListviews1?.length ?? 0) >
-              (attachmentListviews?.length ?? 0)
+                  (attachmentListviews?.length ?? 0)
               ? attachmentListviews1?.length
               : attachmentListviews?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
@@ -3296,11 +3298,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 ListTile(
                   trailing: widget.model != null
                       ? SvgPicture.asset(AppIcon.download,
-                      color: AppColors.boldgreyBackground)
+                          color: AppColors.boldgreyBackground)
                       : const SizedBox(
-                    height: 0,
-                    width: 0,
-                  ),
+                          height: 0,
+                          width: 0,
+                        ),
                   onTap: () {
                     DownloadImage().saveImage(
                         context, imageData1?.id ?? 0, imageData1?.title ?? '');
@@ -3319,6 +3321,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           }),
     );
   }
+
   Widget textFieldWidgetLoad(
     TextEditingController textController,
     int index,
