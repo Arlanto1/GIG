@@ -86,7 +86,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             isMandatory: true,
                           ),
                           TextfieldAddButton(
-                            title: widget.contact.contact?.name??'',
+                            title: widget.contact.rank?.name??'',
                             height: 70,
                             isDisableColor: false,
                             onTap: () {
@@ -94,7 +94,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                 context: context,
                                 users: widget.users,
                                 onTap: (BaseUser user) {
-                                  widget.contact.contact?.name = user.email;
+                                  widget.contact.rank?.name = user.email;
                                   // BlocProvider.of<ContactListingBloc>(context)
                                   //     .updateApproverEmailsValue(
                                   //         approver1EmailUser: user);
@@ -217,7 +217,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
   }
 
   ErrorResponse get isFormValid {
-    if (widget.contact.contact == null) {
+    if (widget.contact.rank == null) {
       return const ErrorResponse(status: false, message: 'Please enter Rank.');
     }
     if (widget.contact.email == null) {
