@@ -1,9 +1,10 @@
 import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
-import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
@@ -132,7 +133,7 @@ class _PayRateViewState extends State<PayRateView> {
               );
             }
 
-            if (state.items.isEmpty) {
+            if (state.items.isEmptyOrNull) {
               return Center(
                 child: AppButton(
                   width: 150,
@@ -171,9 +172,7 @@ class _PayRateViewState extends State<PayRateView> {
                           value: '${state.items[index].perHour}'));
 
                       return index >= state.items.length
-                          ? const Center(
-                              child: CustomCircularProgressIndicator(),
-                            )
+                          ? const BaseLoader()
                           : BaseListTileItem(
                               id: state.items[index].id,
                               labels: labels,
