@@ -1,8 +1,9 @@
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
-import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -68,6 +69,9 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
           if (state.status == FormStatus.initial) {
             return const BaseLoader();
           }
+          if (state.list.isEmptyOrNull) {
+            return const NoRecordFoundWidget();
+          }
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
@@ -83,9 +87,7 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
                   : state.list.length + 1,
               itemBuilder: (context, index) {
                 return index >= state.list.length
-                    ? const Center(
-                        child: CustomCircularProgressIndicator(),
-                      )
+                    ? const BaseLoader()
                     : BaseListTileItem(
                         id: state.list[index].id,
                         vendor: state.list[index].vendor,

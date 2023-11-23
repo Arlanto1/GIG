@@ -1,9 +1,10 @@
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
-import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
@@ -93,6 +94,9 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
           if (state.status == FormStatus.initial) {
             return const BaseLoader();
           }
+          if (state.items.isEmptyOrNull) {
+            return const NoRecordFoundWidget();
+          }
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
@@ -129,9 +133,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                           : 'Not Returnable'));
 
                   return index >= state.items.length
-                      ? const Center(
-                          child: CustomCircularProgressIndicator(),
-                        )
+                      ? const BaseLoader()
                       : BaseListTileItem(
                           id: state.items[index].id,
                           labels: labels,

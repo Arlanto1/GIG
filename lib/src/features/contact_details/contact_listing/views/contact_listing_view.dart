@@ -5,7 +5,6 @@ import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
-import 'package:db_atom/src/common_widgets/progress_indicators/custom_circular_progress_indicator.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
@@ -21,7 +20,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../enums/form_status.dart';
 import '../../models/contact_info.dart';
-import '../../models/contacts_list_response_model.dart';
 import '../bloc/contact_listing_bloc.dart';
 
 class ContactListingView extends StatefulWidget {
@@ -77,7 +75,7 @@ class _ContactListingViewState extends State<ContactListingView> {
     required ContactInfo contact,
     required final List<BaseUser> users,
   }) {
-    log('--.users--llen--${users?.length}---');
+    log('--.users--llen--${users.length}---');
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
@@ -174,9 +172,7 @@ class _ContactListingViewState extends State<ContactListingView> {
             );
 
             return index >= state.items!.length
-                ? const Center(
-                    child: CustomCircularProgressIndicator(),
-                  )
+                ? const BaseLoader()
                 : BaseListTileItem(
                     id: state.items?[index].id,
                     labels: labels,

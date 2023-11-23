@@ -1,12 +1,12 @@
 part of 'law_enforcement_bloc.dart';
 
 class LawEnforcementState extends Equatable {
-  final List<LawEnforcementListElement> lawEnforceItems;
+  final List<LawEnforcementListElement> items;
   final bool hasReachedMax;
   final FormStatus status;
 
   const LawEnforcementState(
-      {this.lawEnforceItems = const <LawEnforcementListElement>[],
+      {this.items = const <LawEnforcementListElement>[],
       this.hasReachedMax = false,
       this.status = FormStatus.initial});
 
@@ -16,12 +16,12 @@ class LawEnforcementState extends Equatable {
     FormStatus? status,
   }) {
     return LawEnforcementState(
-      lawEnforceItems: todos ?? this.lawEnforceItems,
+      items: todos ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
     );
   }
 
   @override
-  List<Object?> get props => [lawEnforceItems, hasReachedMax, status];
+  List<Object?> get props => [items, hasReachedMax, status];
 }

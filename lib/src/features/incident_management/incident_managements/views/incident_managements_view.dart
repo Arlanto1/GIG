@@ -4,6 +4,7 @@ import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -119,9 +120,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
       return const BaseLoader();
     }
     if (state.items.isEmptyOrNull) {
-      return const Center(
-        child: Text('No Records Found.'),
-      );
+      return const NoRecordFoundWidget();
     }
 
     return Container(
