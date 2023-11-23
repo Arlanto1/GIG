@@ -232,17 +232,14 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
     state.model.status = status ?? state.model.status;
 
-    log('--state.model.incidentType--@@---${state.model.incidentType}-');
 
-    // if (state.model.incidentType != null) {
-    //   log('--incidentType---$incidentType-');
-    //   state.model.incidentType = incidentType;
-    //   log('--state.model.incidentType--@@---${state.model.incidentType}-');
+    // if (state.model.typeOfArticle != null) {
+    //   state.model.typeOfArticle = typeOfArticle;
     // }
 
-    if (state.model.typeOfAsset != null) {
-      state.model.typeOfAsset = typeOfAsset;
-    }
+    // if (state.model.typeOfAsset != null) {
+    //   state.model.typeOfAsset = typeOfAsset;
+    // }
 
     if (entities != null) {
       state.model.entities = entities;
