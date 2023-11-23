@@ -87,6 +87,12 @@ class _SstIncidentViewState extends State<SstIncidentView> {
             Navigator.pushNamed(
               context,
               sstIncidentDetailsRoute,
+              arguments: {
+                "isInternal": widget.isInternal,
+                "title": widget.isInternal
+                    ? Constants.internalStaff
+                    : Constants.externalVendor
+              },
             )
           },
         ),
@@ -147,7 +153,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                           isMasterGuard: false,
                           isEventProtectionStatus: false,
                           isSLAViolationStatus: false,
-                        isOccurrenceStatus: true,
+                          isOccurrenceStatus: true,
                           onTap: (selectedIndex) {
                             showDialog(
                               context: context,
@@ -205,6 +211,9 @@ class _SstIncidentViewState extends State<SstIncidentView> {
       arguments: {
         'id': id.toString(),
         'isInternal': widget.isInternal,
+        "title": widget.isInternal
+            ? Constants.externalVendor
+            : Constants.internalStaff
       },
     );
   }
