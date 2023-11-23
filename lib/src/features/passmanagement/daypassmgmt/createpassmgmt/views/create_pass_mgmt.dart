@@ -1246,16 +1246,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     : Container(),
 
                                 ///upload
-                                widget.model == null
+                                widget.model == null && widget.passId != '1'
                                     ? CommonWidgets.textDisplay(
                                         Constants.upload,
                                         Styles.textStyleBlack14)
                                     : Container(),
-                                widget.model == null
+                                widget.model == null && widget.passId != '1'
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
                                     : Container(),
-                                widget.model == null
+                                widget.model == null && widget.passId != '1'
                                     ? uploadWidget(state, false)
                                     : Container(),
 
