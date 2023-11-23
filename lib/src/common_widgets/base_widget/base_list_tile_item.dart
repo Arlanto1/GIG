@@ -1,5 +1,4 @@
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/util.dart';
@@ -26,6 +25,7 @@ class BaseListTileItem extends StatefulWidget {
   final Function? onTap;
   final Function? onEditTap;
   final Function? onViewTap;
+  final Function? onDeleteTap;
   final int? incidentType;
   final bool isIncident;
 
@@ -67,7 +67,8 @@ class BaseListTileItem extends StatefulWidget {
     this.isOccurrenceStatus = false,
     this.isSLAViolationStatus = false,
     this.incidentType,
-    this.isContactDetailsStatus =false,
+    this.isContactDetailsStatus = false,
+    this.onDeleteTap,
   });
 
   @override
@@ -182,7 +183,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               !widget.isOccurrenceStatus &&
                               !widget.isEventProtectionStatus &&
                               !widget.isSLAViolationStatus &&
-                              !widget.isIncident && !widget.isContactDetailsStatus) ...[
+                              !widget.isIncident &&
+                              !widget.isContactDetailsStatus) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
                             Utils().buildStatusRow(widget.status ?? 0),
                           ],
@@ -238,10 +240,11 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               ],
                             ),
                           ],
-                          if (widget.status != null && widget.isContactDetailsStatus ==true && widget.isEventProtectionStatus == false) ...[
+                          if (widget.status != null &&
+                              widget.isContactDetailsStatus == true &&
+                              widget.isEventProtectionStatus == false) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
-                            Utils()
-                                .contactDetailsStatus(widget.status ?? 0),
+                            Utils().contactDetailsStatus(widget.status ?? 0),
                           ],
                         ],
                       ),
@@ -264,7 +267,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               ? widget.onEditTap!(widget.index)
                               : null;
                         },
-                        icon: SvgPicture.asset(AppIcon.editIcon),
+                        icon: const Icon(Icons.edit),
                       ),
                     ],
                     IconButton(
@@ -274,8 +277,19 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                             ? widget.onViewTap!(widget.index)
                             : null;
                       },
-                      icon: SvgPicture.asset(AppIcon.viewIcon),
+                      icon: const Icon(Icons.remove_red_eye),
                     ),
+                    if (widget.onDeleteTap != null) ...[
+                      IconButton(
+                        onPressed: () {
+                          //do action on view
+                          widget.onDeleteTap != null
+                              ? widget.onDeleteTap!(widget.index)
+                              : null;
+                        },
+                        icon: const Icon(Icons.delete),
+                      ),
+                    ],
                   ],
                 ),
               ),

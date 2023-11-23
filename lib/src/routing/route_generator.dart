@@ -12,9 +12,9 @@ import 'package:db_atom/src/features/contact_details/contact_details/views/conta
 import 'package:db_atom/src/features/contact_details/contact_details_list/bloc/contact_details_list_bloc.dart'
     as cd;
 import 'package:db_atom/src/features/contact_details/contact_details_list/views/contact_details_list_view.dart';
-import 'package:db_atom/src/features/contact_details/contact_listing/bloc/contact_listing_bloc.dart'
-    as cl;
-import 'package:db_atom/src/features/contact_details/contact_listing/views/contact_listing_view.dart';
+import 'package:db_atom/src/features/contact_details/contact_record//bloc/contact_record_bloc.dart'
+    as cr;
+import 'package:db_atom/src/features/contact_details/contact_record/views/contact_record_view.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
@@ -415,15 +415,15 @@ class RouteGenerator {
           type = arguments[ConstantsArgument.type] ?? 0;
         }
         return MaterialPageRoute(
-          builder: (context) => BlocProvider<cl.ContactListingBloc>(
-            create: (_) => cl.ContactListingBloc()
-              ..add(cl.FetchData(
+          builder: (context) => BlocProvider<cr.ContactRecordBloc>(
+            create: (_) => cr.ContactRecordBloc()
+              ..add(cr.FetchData(
                 id: id,
                 type: type,
                 startPos: 0,
                 maxPos: 100,
               )),
-            child: ContactListingView(
+            child: ContactRecordView(
               id: id,
               type: type,
               title: title,
