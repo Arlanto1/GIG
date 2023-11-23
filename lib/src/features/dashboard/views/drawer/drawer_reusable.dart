@@ -33,14 +33,12 @@ class NavigationDrawer1 extends StatelessWidget {
     expansionTileDrawerItems = await checkDisplayMenu();
   }
 
-  checkDisplayMenu() async {
+   Future<List<MenuItem>> checkDisplayMenu() async {
     DisplayMenu? displayMenu = await SharedPrefs.getDisplayMenu();
-    List<MenuItem> expansionTileDrawerItems = [];
-
-    if (displayMenu == null) {
-      log('Display Menu Object is null.');
-      return;
+    if(displayMenu == null){
+      return [];
     }
+    List<MenuItem> expansionTileDrawerItems = [];
     if (displayMenu.aF ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.articlefoundregister, AppIcon.clipboardImage, 0));

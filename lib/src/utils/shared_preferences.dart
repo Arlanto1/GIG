@@ -162,6 +162,9 @@ class SharedPrefs {
 
   static Future<DisplayMenu?> getDisplayMenu() async {
     String jsonString = instance.getString(Constants.userRoles) ?? '';
+    if(jsonString.isEmptyOrNull){
+      return null;
+    }
     Map<String, dynamic> jsonMap = jsonDecode(jsonString);
 
     if (jsonMap.isNotEmpty) {
