@@ -24,3 +24,11 @@ class FetchData extends ContactListingEvent {
 class InitializeValues extends ContactListingEvent {
   const InitializeValues();
 }
+
+class DeleteRecord extends ContactListingEvent {
+  final int id;
+  final int mainContactId;
+  final int type;
+
+  const DeleteRecord(this.id, this.type, this.mainContactId);
+}

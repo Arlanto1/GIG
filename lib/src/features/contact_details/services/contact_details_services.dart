@@ -18,6 +18,7 @@ class Apis {
   static final String _createGeneralInformation = '$baseUrl/createCDGI?';
 
   static final String _getContactDetailsById = '$baseUrl/getCntInfoById';
+  static final String _deleteContactDetailsById = '$baseUrl/deleteContactInfo';
 
   static final String _createContacts = '$baseUrl/createCDGI?';
 }
@@ -27,8 +28,6 @@ class ContactDetailsServices {
   Future<ContactsListModel> getContactListByType({
     required String id,
     required String type,
-    required String startPosition,
-    required String maximumRecords,
   }) async {
     String url =
         '${Apis._getContactListByType}$id?type=$type';
@@ -94,6 +93,14 @@ class ContactDetailsServices {
       url: url,
     );
     return ContactInfo.fromJson(response);
+  }
+
+  Future<GenericResponse> deleteCdById(int id) async {
+    final String url = '${Apis._deleteContactDetailsById}/$id';
+    final response = await BaseApiService().deleteRequest(
+      url: url,
+    );
+    return GenericResponse.fromJson(response);
   }
 
   /// Create Services

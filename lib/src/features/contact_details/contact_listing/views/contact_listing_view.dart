@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
@@ -70,37 +72,6 @@ class _ContactListingViewState extends State<ContactListingView> {
     }
   }
 
-  showAddContactPopUp({
-    required BuildContext context,
-    required ContactInfo contact,
-    required final List<BaseUser> users,
-  }) {
-    log('--.users--llen--${users.length}---');
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return AddContactPopUp(
-          title: widget.title,
-          contact: contact,
-          mainContext: context,
-          users: users,
-          onSubmit: (PayRate payRate) {
-            //loginFormKey.currentState!.validate();
-            FocusScope.of(context).unfocus();
-
-            log('-widget.title---${widget.title}----');
-
-            log('--newPayRate--total---${payRate.total}------------');
-            log('--newPayRate--2222--33333--rankid-${payRate.rankId}------------');
-
-            BlocProvider.of<PayRateCubit>(context)
-                .onSave(isSubmit: false, newPayRate: payRate);
-          },
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ContactListingBloc, ContactListingState>(
@@ -134,9 +105,13 @@ class _ContactListingViewState extends State<ContactListingView> {
   }
 
   getBody(ContactListingState state) {
-    log('---users---state-${state.users?.length}--');
-    if (state.status == FormStatus.initial) {
+    if (state.status == FormStatus.initial ||
+        state.status == FormStatus.loading) {
       return const BaseLoader();
+    }
+
+    if (state.items.isEmptyOrNull) {
+      return const NoRecordFoundWidget();
     }
     return Container(
       margin: allMargin16,
@@ -170,7 +145,6 @@ class _ContactListingViewState extends State<ContactListingView> {
                 value: state.items![index].contactNo ?? '',
               ),
             );
-
             return index >= state.items!.length
                 ? const BaseLoader()
                 : BaseListTileItem(
@@ -188,7 +162,8 @@ class _ContactListingViewState extends State<ContactListingView> {
                       );
                     },
                     onEditTap: (selectedIndex) async {
-                      ContactInfo contactsModel = await ContactDetailsServices().getCdById(state.items?[index].id ?? 0);
+                      ContactInfo contactsModel = await ContactDetailsServices()
+                          .getCdById(state.items?[index].id ?? 0);
 
                       log('--state.users--llen--${state.users?.length}---');
 
@@ -210,12 +185,48 @@ class _ContactListingViewState extends State<ContactListingView> {
                         },
                       );
                     },
+                    onDeleteTap: (selectedIndex) async {
+                      // Call Delete API
+                      BlocProvider.of<ContactListingBloc>(context)
+                          .add(DeleteRecord(state.items![selectedIndex].id!.toInt(), widget.type, widget.id));
+                    },
                     index: index,
                   );
           }
           return null;
         },
       ),
+    );
+  }
+
+  showAddContactPopUp({
+    required BuildContext context,
+    required ContactInfo contact,
+    required final List<BaseUser> users,
+  }) {
+    log('--.users--llen--${users.length}---');
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AddContactPopUp(
+          title: widget.title,
+          contact: contact,
+          mainContext: context,
+          users: users,
+          onSubmit: (PayRate payRate) {
+            //loginFormKey.currentState!.validate();
+            FocusScope.of(context).unfocus();
+
+            log('-widget.title---${widget.title}----');
+
+            log('--newPayRate--total---${payRate.total}------------');
+            log('--newPayRate--2222--33333--rankid-${payRate.rankId}------------');
+
+            BlocProvider.of<PayRateCubit>(context)
+                .onSave(isSubmit: false, newPayRate: payRate);
+          },
+        );
+      },
     );
   }
 

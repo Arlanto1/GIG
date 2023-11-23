@@ -5,8 +5,10 @@ class ContactListingState extends Equatable {
   final bool hasReachedMax;
   final FormStatus status;
   final List<BaseUser>? users;
+  final String? message;
 
   const ContactListingState({
+    this.message,
     this.items = const <Contact>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
@@ -18,12 +20,14 @@ class ContactListingState extends Equatable {
     bool? hasReachedMax,
     FormStatus? status,
     List<BaseUser>? users,
+    String? message,
   }) {
     return ContactListingState(
       items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
       users: users ?? this.users,
+      message: message ?? this.message,
     );
   }
 

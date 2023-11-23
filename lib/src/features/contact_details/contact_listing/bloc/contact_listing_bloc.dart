@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/models/base_user.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:equatable/equatable.dart';
 
@@ -12,6 +13,7 @@ import '../../models/contacts_list_response_model.dart';
 import '../../services/contact_details_services.dart';
 
 part 'contact_listing_event.dart';
+
 part 'contact_listing_state.dart';
 
 class ContactListingBloc
@@ -22,6 +24,7 @@ class ContactListingBloc
       transformer: droppable(),
     );
     on<InitializeValues>(_initializeValues);
+    on<DeleteRecord>(_deleteRecord);
   }
 
   final ContactDetailsServices services = ContactDetailsServices();
@@ -32,12 +35,9 @@ class ContactListingBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-
         ContactsListModel response = await services.getContactListByType(
           id: '${event.id}',
           type: '${event.type}',
-          startPosition: '${event.startPos}',
-          maximumRecords: '${event.maxPos}',
         );
         return emit(
           state.copyWith(
@@ -51,8 +51,6 @@ class ContactListingBloc
       ContactsListModel response = await services.getContactListByType(
         id: '${event.id}',
         type: '${event.type}',
-        startPosition: '${event.startPos}',
-        maximumRecords: '${event.maxPos}',
       );
 
       if (response.contacts?.isEmpty == true) {
@@ -60,7 +58,7 @@ class ContactListingBloc
       }
       return emit(
         state.copyWith(
-          items: List.of(state.items??[])..addAll(response.contacts ?? []),
+          items: List.of(state.items ?? [])..addAll(response.contacts ?? []),
           hasReachedMax: false,
         ),
       );
@@ -83,6 +81,39 @@ class ContactListingBloc
           hasReachedMax: false,
         ),
       );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
+  FutureOr<void> _deleteRecord(
+      DeleteRecord event, Emitter<ContactListingState> emit) async {
+    try {
+      emit(
+        state.copyWith(
+          status: FormStatus.loading,
+        ),
+      );
+      await ContactDetailsServices().deleteCdById(event.id);
+      ContactsListModel response = await services.getContactListByType(
+        id: '${event.mainContactId}',
+        type: '${event.type}',
+      );
+
+      return emit(
+        state.copyWith(
+            items: response.contacts,
+            hasReachedMax: false,
+            status: FormStatus.success),
+      );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
