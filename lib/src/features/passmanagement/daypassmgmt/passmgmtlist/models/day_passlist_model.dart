@@ -76,6 +76,7 @@ class DayPassListElement {
   String? endTime;
   String? returnedTime;
   List<ImageContent>? evidenceDocuments;
+  List<ImageContent>? visitorImage;
   String? contactNo;
   bool? escortedByHost;
   String? escortedBy;
@@ -133,6 +134,7 @@ class DayPassListElement {
     this.idValidationType,
     this.visitingPurpose,
     this.category,
+    this.visitorImage,
     this.hostName,
     this.passNo,
     this.entrySecurityName,
@@ -178,6 +180,10 @@ class DayPassListElement {
         companyType: json["companyType"] == null
             ? null
             : Organisation.fromJson(json["companyType"]),
+        visitorImage: json["visitorImage"] == null
+            ? []
+            : List<ImageContent>.from(
+                json["visitorImage"]!.map((x) => ImageContent.fromJson(x))),
         companyName: json["companyName"],
         employeeName: json["employeeName"],
         employeeId: json["employeeId"],
@@ -199,8 +205,8 @@ class DayPassListElement {
         returnedTime: json["returnedTime"],
         evidenceDocuments: json["evidenceDocuments"] == null
             ? []
-            : List<ImageContent>.from(
-            json["evidenceDocuments"]!.map((x) => ImageContent.fromJson(x))),
+            : List<ImageContent>.from(json["evidenceDocuments"]!
+                .map((x) => ImageContent.fromJson(x))),
         contactNo: json["contactNo"],
         escortedByHost: json["escortedByHost"],
         escortedBy: json["escortedBy"],
@@ -264,6 +270,9 @@ class DayPassListElement {
         "visitorComingFrom": visitorComingFrom,
         "idValidated": idValidated,
         "idValidationType": idValidationType,
+        "visitorImage": visitorImage == null
+            ? []
+            : List<dynamic>.from(visitorImage!.map((x) => x.toJson())),
         "visitingPurpose": visitingPurpose,
         "category": category,
         "hostName": hostName,

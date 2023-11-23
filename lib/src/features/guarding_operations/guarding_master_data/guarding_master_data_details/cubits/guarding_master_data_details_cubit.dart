@@ -319,7 +319,7 @@ class GuardingMasterDataDetailsCubit
     }
 
     if (permanentAddressFiles != null) {
-      state.model.pvc = pVCFiles;
+      state.model.permanentAddressProof = permanentAddressFiles.first;
       emit(
         state.copyWith(
           eventId: eventIds,

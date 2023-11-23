@@ -1,7 +1,7 @@
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'contact_info.g.dart';
+part 'contact_info_g.dart';
 
 @JsonSerializable()
 class ContactInfo {

@@ -1148,6 +1148,44 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            CommonWidgets.textDisplay(
+                                Constants.uploadBioData,
+                                Styles.textStyleBlack14),
+                            widget.guardingMasterData == null
+                                ? CommonWidgets.verticalSpacerWidget(
+                                height * 0.001)
+                                : Container(),
+                            BaseImageUpload().uploadWidget(
+                              context: context,
+                              loggedInUserDetails:
+                              state.loggedInUserDetails ?? User(),
+                              getFiles: bioDataFiles,
+                              onImageSelected: (ImageContent data) {
+                                log('-------function---onImageSelected---------');
+                                List<ImageContent>? files = [];
+                                files.add(data);
+                                for (ImageContent image
+                                in bioDataFiles ?? []) {
+                                  files.add(image);
+                                }
+                                BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                    context)
+                                    .addAttachment(bioDataFiles: files);
+                              },
+                            ),
+                            // Attachments
+                            BaseImageUpload().getAttachment(
+                              height: height,
+                              attachments: state.bioDataAttachments,
+                              files: bioDataFiles,
+                              showDownloadIcon:
+                              widget.guardingMasterData != null
+                                  ? true
+                                  : false,
+                            ),
+
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                             /// permanent Address
                             CommonWidgets.textDisplay(
                                 Constants.permanentAddress,
@@ -1178,25 +1216,24 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             widget.guardingMasterData == null
                                 ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
+                                height * 0.001)
                                 : Container(),
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
-                                  state.loggedInUserDetails ?? User(),
+                              state.loggedInUserDetails ?? User(),
                               getFiles: permanentAddressFiles,
                               onImageSelected: (ImageContent data) {
                                 log('-------function---onImageSelected---------');
                                 List<ImageContent>? files = [];
                                 files.add(data);
                                 for (ImageContent image
-                                    in permanentAddressFiles ?? []) {
+                                in permanentAddressFiles ?? []) {
                                   files.add(image);
                                 }
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                                        context)
-                                    .addAttachment(
-                                        permanentAddressFiles: files);
+                                    context)
+                                    .addAttachment(permanentAddressFiles: files);
                               },
                             ),
                             // Attachments
@@ -1205,9 +1242,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               attachments: state.permanentAddressAttachments,
                               files: permanentAddressFiles,
                               showDownloadIcon:
-                                  widget.guardingMasterData != null
-                                      ? true
-                                      : false,
+                              widget.guardingMasterData != null
+                                  ? true
+                                  : false,
                             ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
