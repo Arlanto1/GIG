@@ -62,14 +62,14 @@ class Contact {
   final int? id;
   final String? email;
   final String? contactNo;
-  final Organisation? generalRank;
+  final Organisation? rank;
   final int? type;
 
   Contact({
     this.id,
     this.email,
     this.contactNo,
-    this.generalRank,
+    this.rank,
     this.type,
   });
 
@@ -77,7 +77,7 @@ class Contact {
       : id = json['id'] as int?,
         email = json['email'] as String?,
         contactNo = json['contactNo'] as String?,
-        generalRank = (json['generalRank'] as Map<String, dynamic>?) != null
+        rank = (json['generalRank'] as Map<String, dynamic>?) != null
             ? Organisation.fromJson(json['generalRank'] as Map<String, dynamic>)
             : null,
         type = json['type'] as int?;
@@ -86,7 +86,7 @@ class Contact {
         'id': id,
         'email': email,
         'contactNo': contactNo,
-        'generalRank': generalRank?.toJson(),
+        'generalRank': rank?.toJson(),
         'type': type
       };
 }
