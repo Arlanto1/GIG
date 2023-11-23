@@ -382,13 +382,30 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     Styles.textStyleBlack14),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
-                                textfieldWidgetLoad(
+                                FlutterInputField(
+                                  showBorder: true,
+                                  lineHeight: 6,
+                                  textFieldController:
                                   additionalInformationTextController,
-                                  0,
-                                  state,
+                                  textFormKey:
+                                  Keys.additionalinformationTextController,
+                                  hintText: Constants.informationhere,
+                                  isEnable: widget.model?.status == 0 ||
+                                      widget.model == null
+                                      ? true
+                                      : false,
+                                  isDisableColor: widget.model?.status == 0 ||
+                                      widget.model == null
+                                      ? false
+                                      : true,
+                                  onChange: (String username) {
+                                    //this.username = username;
+                                    setState(() {});
+                                  },
+                                  validateTextField: (String? user) {},
                                 ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                               ]),
                             ),
 
