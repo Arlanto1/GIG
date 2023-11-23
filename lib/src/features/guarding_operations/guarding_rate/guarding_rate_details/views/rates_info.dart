@@ -278,7 +278,6 @@ class _RatesInfoState extends State<RatesInfo> {
   Widget locationWidgetdislay(PayRateState state) {
     return GestureDetector(
       onTap: () {
-        if (widget.rate == null || (state.model.location?.name ?? '').isEmpty) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
@@ -312,7 +311,6 @@ class _RatesInfoState extends State<RatesInfo> {
               );
             },
           );
-        }
       },
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
