@@ -10,7 +10,7 @@ import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/contact_details/contact_listing/views/add_contact_pop_up.dart';
+import 'package:db_atom/src/features/contact_details/contact_record/views/add_contact_pop_up.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
@@ -22,10 +22,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../enums/form_status.dart';
 import '../../models/contact_info.dart';
-import '../bloc/contact_listing_bloc.dart';
+import '../bloc/contact_record_bloc.dart';
 
-class ContactListingView extends StatefulWidget {
-  const ContactListingView({
+class ContactRecordView extends StatefulWidget {
+  const ContactRecordView({
     super.key,
     required this.id,
     required this.title,
@@ -37,10 +37,10 @@ class ContactListingView extends StatefulWidget {
   final int type;
 
   @override
-  State<ContactListingView> createState() => _ContactListingViewState();
+  State<ContactRecordView> createState() => _ContactRecordViewState();
 }
 
-class _ContactListingViewState extends State<ContactListingView> {
+class _ContactRecordViewState extends State<ContactRecordView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
 
@@ -48,7 +48,7 @@ class _ContactListingViewState extends State<ContactListingView> {
   void initState() {
     super.initState();
     _scrollController = ScrollController()..addListener(_onScroll);
-    context.read<ContactListingBloc>().add(
+    context.read<ContactRecordBloc>().add(
           const InitializeValues(),
         );
   }
@@ -67,14 +67,14 @@ class _ContactListingViewState extends State<ContactListingView> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<ContactListingBloc>().add(FetchData(
+      context.read<ContactRecordBloc>().add(FetchData(
           id: widget.id, type: widget.type, startPos: pageNumber, maxPos: 20));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ContactListingBloc, ContactListingState>(
+    return BlocConsumer<ContactRecordBloc, ContactRecordState>(
         listener: (context, state) {
       // TODO: implement listener
     }, builder: (context, state) {
@@ -104,7 +104,7 @@ class _ContactListingViewState extends State<ContactListingView> {
     });
   }
 
-  getBody(ContactListingState state) {
+  getBody(ContactRecordState state) {
     if (state.status == FormStatus.initial ||
         state.status == FormStatus.loading) {
       return const BaseLoader();
@@ -187,7 +187,7 @@ class _ContactListingViewState extends State<ContactListingView> {
                     },
                     onDeleteTap: (selectedIndex) async {
                       // Call Delete API
-                      BlocProvider.of<ContactListingBloc>(context)
+                      BlocProvider.of<ContactRecordBloc>(context)
                           .add(DeleteRecord(state.items![selectedIndex].id!.toInt(), widget.type, widget.id));
                     },
                     index: index,

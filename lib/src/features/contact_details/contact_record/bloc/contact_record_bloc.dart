@@ -12,13 +12,13 @@ import '../../../../enums/form_status.dart';
 import '../../models/contacts_list_response_model.dart';
 import '../../services/contact_details_services.dart';
 
-part 'contact_listing_event.dart';
+part 'contact_record_event.dart';
 
-part 'contact_listing_state.dart';
+part 'contact_record_state.dart';
 
-class ContactListingBloc
-    extends Bloc<ContactListingEvent, ContactListingState> {
-  ContactListingBloc() : super(const ContactListingState()) {
+class ContactRecordBloc
+    extends Bloc<ContactRecordEvent, ContactRecordState> {
+  ContactRecordBloc() : super(const ContactRecordState()) {
     on<FetchData>(
       _fetchContacts,
       transformer: droppable(),
@@ -30,7 +30,7 @@ class ContactListingBloc
   final ContactDetailsServices services = ContactDetailsServices();
 
   FutureOr<void> _fetchContacts(
-      FetchData event, Emitter<ContactListingState> emit) async {
+      FetchData event, Emitter<ContactRecordState> emit) async {
     try {
       if (state.hasReachedMax) return;
 
@@ -70,7 +70,7 @@ class ContactListingBloc
   CommonServices commonServices = CommonServices();
 
   FutureOr<void> _initializeValues(
-      InitializeValues event, Emitter<ContactListingState> emit) async {
+      InitializeValues event, Emitter<ContactRecordState> emit) async {
     try {
       GetDepositor users =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
@@ -87,7 +87,7 @@ class ContactListingBloc
   }
 
   FutureOr<void> _deleteRecord(
-      DeleteRecord event, Emitter<ContactListingState> emit) async {
+      DeleteRecord event, Emitter<ContactRecordState> emit) async {
     try {
       emit(
         state.copyWith(

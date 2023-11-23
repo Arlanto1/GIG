@@ -1,13 +1,13 @@
-part of 'contact_listing_bloc.dart';
+part of 'contact_record_bloc.dart';
 
-abstract class ContactListingEvent extends Equatable {
-  const ContactListingEvent();
+abstract class ContactRecordEvent extends Equatable {
+  const ContactRecordEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-class FetchData extends ContactListingEvent {
+class FetchData extends ContactRecordEvent {
   final int id;
   final int type;
   final int startPos;
@@ -21,11 +21,11 @@ class FetchData extends ContactListingEvent {
   });
 }
 
-class InitializeValues extends ContactListingEvent {
+class InitializeValues extends ContactRecordEvent {
   const InitializeValues();
 }
 
-class DeleteRecord extends ContactListingEvent {
+class DeleteRecord extends ContactRecordEvent {
   final int id;
   final int mainContactId;
   final int type;
