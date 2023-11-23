@@ -20,18 +20,18 @@ class Apis {
   static final String _getContactDetailsById = '$baseUrl/getCntInfoById';
 
   static final String _createContacts = '$baseUrl/createCDGI?';
+
+  static final String _deleteContacts = '$baseUrl/deleteContactInfo';
 }
 
 class ContactDetailsServices {
-
   Future<ContactsListModel> getContactListByType({
     required String id,
     required String type,
     required String startPosition,
     required String maximumRecords,
   }) async {
-    String url =
-        '${Apis._getContactListByType}$id?type=$type';
+    String url = '${Apis._getContactListByType}$id?type=$type';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
@@ -74,7 +74,6 @@ class ContactDetailsServices {
     return GenericResponse.fromJson(response);
   }
 
-
   Future<ContactListResponseModel> getCd({
     required String startPosition,
     required String maximumRecords,
@@ -108,5 +107,13 @@ class ContactDetailsServices {
       requestedData: body.toJson(),
     );
     return GenericResponse.fromJson(response);
+  }
+
+  Future<ContactInfo> deleteContacts(int id) async {
+    final String url = '${Apis._deleteContacts}/$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return ContactInfo.fromJson(response);
   }
 }

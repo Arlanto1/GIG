@@ -9,7 +9,7 @@ class ContactInfo {
   final int? contactId;
   final String? email;
   final String? contactNo;
-  final Organisation? contact;
+  final Organisation? rank;
   final int? type;
 
   ContactInfo({
@@ -17,7 +17,7 @@ class ContactInfo {
     this.contactId,
     this.email,
     this.contactNo,
-    this.contact,
+    this.rank,
     this.type,
   });
 
