@@ -6,11 +6,7 @@ class ContactDetailsState extends Equatable {
   final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
-  final List<BaseUser>? emailUsers;
-  final List<BaseUser>? approver1Users;
-  final List<BaseUser>? approver2Users;
   final String? message;
-  final Language? language;
 
   factory ContactDetailsState.initial({
     required ContactDetailModel model,
@@ -26,7 +22,6 @@ class ContactDetailsState extends Equatable {
       locations: locations,
       loggedInUserDetails: loggedInUserDetails,
       users: users,
-      emailUsers: emailUsers,
       message: errorMessage,
     );
   }
@@ -72,11 +67,7 @@ class ContactDetailsState extends Equatable {
     this.locations,
     this.loggedInUserDetails,
     this.users,
-    this.emailUsers,
     this.message,
-    this.language,
-    this.approver1Users,
-    this.approver2Users,
   });
 
   ContactDetailsState copyWith({
@@ -85,11 +76,7 @@ class ContactDetailsState extends Equatable {
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
-    List<BaseUser>? emailUsers,
-    List<BaseUser>? approver1Users,
-    List<BaseUser>? approver2Users,
     String? message,
-    Language? language,
   }) {
     return ContactDetailsState(
       status: status ?? this.status,
@@ -97,11 +84,7 @@ class ContactDetailsState extends Equatable {
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
-      emailUsers: emailUsers ?? this.emailUsers,
-      approver1Users: approver1Users ?? this.approver1Users,
-      approver2Users: approver2Users ?? this.approver2Users,
       message: message ?? this.message,
-      language: language ?? this.language,
        );
   }
 }

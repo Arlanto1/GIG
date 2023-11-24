@@ -1,18 +1,13 @@
 import 'dart:developer';
-import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/contact_details/models/requestModels/contact_details_gi_request.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
-import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/models/language.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/util.dart';
@@ -26,9 +21,7 @@ import '../../../../models/base_user.dart';
 import '../../../../models/organisation.dart';
 import '../../../../models/responseModels/error_response_validation.dart';
 import '../../../../models/responseModels/generic_response.dart';
-import '../../../createfound/models/emplyee_departments_model.dart';
 import '../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
-import '../../models/contacts_list_response_model.dart';
 
 part 'contact_details_state.dart';
 
@@ -79,21 +72,20 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
-      // log('--getlabels-----}--');
-      //
-      // MmUiLabels uilabels = await commonServices.getUiLabels(
-      //     language: 'en', moduleCode: Constants.materialMovementModuleCode);
-      //
-      // log('--uilabels-----${uilabels.locale}--');
-      // log('--uilabels---2232--${uilabels.locale.status}--');
-
-      GetDepositor emailUsers =
-          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
-
+      if (state.model.location == null) {
+        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+        if (defaultLocation != null) {
+          SerialNumberModel slNo = await commonServices.getSlNo(
+            locationId: defaultLocation.id.toString(),
+            moduleCode: Constants.eventProtectionModule,
+          );
+          state.model.location = defaultLocation;
+          state.model.slNo = slNo.serialNo;
+        }
+      }
 
       state.model.entrySecurity = loggedInUserDetails;
 
-      log('-emailUsers.atomStaticUser----init--${emailUsers.atomStaticUser?.length}---');
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -101,15 +93,10 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
           status: FormStatus.initial,
           model: state.model,
           users: users.t1Analyst,
-          emailUsers: emailUsers.atomStaticUser,
-          approver1Users: emailUsers.atomStaticUser,
-          approver2Users: emailUsers.atomStaticUser,
-          //  language: uilabels
         ),
       );
     } catch (e) {
-      log('initialization issue',
-          error: e, name: 'Contact Details Cubit');
+      log('initialization issue', error: e, name: 'Contact Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -124,7 +111,6 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
     Organisation? location,
     BaseUser? user,
     BaseUser? receiverEmailUser,
-
   }) async {
     emit(
       state.copyWith(
@@ -154,9 +140,9 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
     ));
   }
 
-
-  Future<void> submitForm({
+  Future<bool> submitForm({
     bool isSaveOnly = false,
+    bool navigateToNextScreen = false,
   }) async {
     emit(
       state.copyWith(
@@ -187,7 +173,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
               message: state.isValidDraft.message,
             ),
           );
-          return;
+          return false;
         }
         response = await services.createContactDetailsGi(
             body: request, isSubmit: false);
@@ -202,7 +188,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
               message: state.isValid.message,
             ),
           );
-          return;
+          return false;
         }
         response = await services.createContactDetailsGi(
             body: request, isSubmit: true);
@@ -210,12 +196,22 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
 
       log('---response--msg--${response.message}---');
 
+      if (response.id != null) {
+        int? id = int.tryParse(response.id!);
+        if (id != null) {
+          state.model.id = id;
+        }
+      }
       emit(
         state.copyWith(
+          model: state.model,
           message: response.message,
-          status: FormStatus.success,
+          status: navigateToNextScreen
+              ? FormStatus.navigateToNextScreen
+              : FormStatus.success,
         ),
       );
+      return true;
     } on Exception catch (e) {
       state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
@@ -225,6 +221,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
           status: FormStatus.error,
         ),
       );
+      return false;
     }
   }
 }

@@ -314,8 +314,10 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     ));
   }
 
-  Future<bool> submitForm(
-      {bool isSaveOnly = false, bool navigateToNextScreen = false}) async {
+  Future<bool> submitForm({
+    bool isSaveOnly = false,
+    bool navigateToNextScreen = false,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
