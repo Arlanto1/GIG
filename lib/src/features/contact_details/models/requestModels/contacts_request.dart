@@ -1,16 +1,16 @@
-import 'package:db_atom/src/features/contact_details/models/contacts_list_response_model.dart';
+import 'package:db_atom/src/features/contact_details/models/contact_info.dart';
 
-class ContactsRequest {
-  final Contact? cd;
+class ContactRecordRequest {
+   ContactRecord? cit;
 
-  ContactsRequest({
-    this.cd,
+  ContactRecordRequest({
+    this.cit,
   });
 
-  ContactsRequest.fromJson(Map<String, dynamic> json)
-      : cd = (json['cd'] as Map<String, dynamic>?) != null
-            ? Contact.fromJson(json['cd'] as Map<String, dynamic>)
-            : null;
+  ContactRecordRequest.fromJson(Map<String, dynamic> json)
+      : cit = (json['cit'] as Map<String,dynamic>?) != null ? ContactRecord.fromJson(json['cit'] as Map<String,dynamic>) : null;
 
-  Map<String, dynamic> toJson() => {'cd': cd?.toJson()};
+  Map<String, dynamic> toJson() => {
+    'cit' : cit?.toJson()
+  };
 }

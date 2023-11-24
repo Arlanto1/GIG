@@ -12,7 +12,7 @@ ContactsListModel _$ContactsListModelFromJson(Map<String, dynamic> json) =>
       status: json['status'] as int?,
       modifiedBy: json['modifiedBy'] as String?,
       contacts: (json['contact'] as List<dynamic>?)
-          ?.map((e) => Contact.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => ContactRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
     )..lock = json['lock'] as String?;
 

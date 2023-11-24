@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'contact_info.g.dart';
 
 @JsonSerializable()
-class ContactInfo {
+class ContactRecord {
   final int? id;
   final int? contactId;
   final String? email;
@@ -12,7 +12,7 @@ class ContactInfo {
   final Organisation? rank;
   final int? type;
 
-  ContactInfo({
+  ContactRecord({
     this.id,
     this.contactId,
     this.email,
@@ -21,8 +21,8 @@ class ContactInfo {
     this.type,
   });
 
-  factory ContactInfo.fromJson(Map<String, dynamic> json) =>
-      _$ContactInfoFromJson(json);
+  factory ContactRecord.fromJson(Map<String, dynamic> json) =>
+      _$ContactRecordFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ContactInfoToJson(this);
+  Map<String, dynamic> toJson() => _$ContactRecordToJson(this);
 }

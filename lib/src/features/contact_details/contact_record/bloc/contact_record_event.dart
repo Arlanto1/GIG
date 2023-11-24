@@ -25,6 +25,13 @@ class InitializeValues extends ContactRecordEvent {
   const InitializeValues();
 }
 
+class SaveRecord extends ContactRecordEvent {
+  final ContactRecord contactInfo;
+  final int mainContactId;
+  final int type;
+  const SaveRecord(this.contactInfo, this.mainContactId, this.type);
+}
+
 class DeleteRecord extends ContactRecordEvent {
   final int id;
   final int mainContactId;

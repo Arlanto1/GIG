@@ -2,24 +2,28 @@
 
 part of 'contact_info.dart';
 
-ContactInfo _$ContactInfoFromJson(Map<String, dynamic> json) =>
-    ContactInfo(
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+ContactRecord _$ContactRecordFromJson(Map<String, dynamic> json) =>
+    ContactRecord(
       id: json['id'] as int?,
       contactId: json['contactId'] as int?,
       email: json['email'] as String?,
       contactNo: json['contactNo'] as String?,
-      rank: json['contact'] == null
+      rank: json['rank'] == null
           ? null
-          : Organisation.fromJson(json['contact'] as Map<String, dynamic>),
+          : Organisation.fromJson(json['rank'] as Map<String, dynamic>),
       type: json['type'] as int?,
     );
 
-Map<String, dynamic> _$ContactInfoToJson(ContactInfo instance) =>
+Map<String, dynamic> _$ContactRecordToJson(ContactRecord instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'status': instance.contactId,
-      'modifiedBy': instance.email,
+      'contactId': instance.contactId,
+      'email': instance.email,
       'contactNo': instance.contactNo,
-      'contact': instance.rank,
+      'rank': instance.rank,
       'type': instance.type,
     };

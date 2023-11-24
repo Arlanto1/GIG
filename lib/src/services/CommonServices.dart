@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/main_DEV.dart';
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
+import 'package:db_atom/src/features/contact_details/models/contact_rank_response.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -28,6 +29,7 @@ class Apis {
 
   // static const String v2 = '/v2';
   static final String _getUiLabels = '$baseUrl/getLabels?';
+  static final String _getRanks = '$baseUrl/getOrganisation?name=';
   static final String _getLocations = '$baseUrl/getOrganisation?name=';
   static final String _getArticleType = '$baseUrl/getOrganisation?name=';
   static final String _getUserDetails = '$baseUrl/getUserDetails?userId=';
@@ -62,6 +64,17 @@ class CommonServices {
     log('--response----${model.locale}----');
     log('--response----${model.locale.status}----');
     return MmUiLabels.fromJson(response);
+  }
+
+  Future<ContactRankResponse> getRanks({
+    required String name,
+    BuildContext? context,
+  }) async {
+    String url = '${Apis._getRanks}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return ContactRankResponse.fromJson(response);
   }
 
   Future<Locations> getLocations({

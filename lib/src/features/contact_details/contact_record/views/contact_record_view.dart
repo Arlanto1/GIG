@@ -12,9 +12,7 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/contact_details/contact_record/views/add_contact_pop_up.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
-import 'package:db_atom/src/models/base_user.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
@@ -86,8 +84,8 @@ class _ContactRecordViewState extends State<ContactRecordView> {
           onPressed: () {
             showAddContactPopUp(
               context: context,
-              contact: ContactInfo(),
-              users: state.users ?? [],
+              contact: ContactRecord(),
+              users: state.ranks ?? [],
             );
           },
         ),
@@ -162,15 +160,15 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                       );
                     },
                     onEditTap: (selectedIndex) async {
-                      ContactInfo contactsModel = await ContactDetailsServices()
+                      ContactRecord contactsModel = await ContactDetailsServices()
                           .getCdById(state.items?[index].id ?? 0);
 
-                      log('--state.users--llen--${state.users?.length}---');
+                      log('--state.users--llen--${state.ranks?.length}---');
 
                       showAddContactPopUp(
                         context: context,
                         contact: contactsModel,
-                        users: state.users ?? [],
+                        users: state.ranks ?? [],
                       );
                       // getDetails(state.items?[index].id ?? 0);
                     },
@@ -201,8 +199,8 @@ class _ContactRecordViewState extends State<ContactRecordView> {
 
   showAddContactPopUp({
     required BuildContext context,
-    required ContactInfo contact,
-    required final List<BaseUser> users,
+    required ContactRecord contact,
+    required final List<Organisation> users,
   }) {
     log('--.users--llen--${users.length}---');
     showDialog(
@@ -213,17 +211,14 @@ class _ContactRecordViewState extends State<ContactRecordView> {
           contact: contact,
           mainContext: context,
           users: users,
-          onSubmit: (PayRate payRate) {
+          onSubmit: (ContactRecord model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();
 
             log('-widget.title---${widget.title}----');
 
-            log('--newPayRate--total---${payRate.total}------------');
-            log('--newPayRate--2222--33333--rankid-${payRate.rankId}------------');
-
-            BlocProvider.of<PayRateCubit>(context)
-                .onSave(isSubmit: false, newPayRate: payRate);
+            BlocProvider.of<ContactRecordBloc>(context)
+                .add(SaveRecord(model, widget.id, widget.type));
           },
         );
       },
@@ -233,12 +228,12 @@ class _ContactRecordViewState extends State<ContactRecordView> {
   getDetails(int id) async {
     showLoadingDialog(context);
 
-    ContactInfo contactsModel = await ContactDetailsServices().getCdById(id);
+    ContactRecord contactsModel = await ContactDetailsServices().getCdById(id);
 
     editDataLoading(contactsModel);
   }
 
-  void editDataLoading(ContactInfo? model) {
+  void editDataLoading(ContactRecord? model) {
     dismissLoadingDialog(context);
     if (model != null) {
       Navigator.pushNamed(

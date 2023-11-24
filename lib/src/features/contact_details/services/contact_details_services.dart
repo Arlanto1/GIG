@@ -20,7 +20,7 @@ class Apis {
   static final String _getContactDetailsById = '$baseUrl/getCntInfoById';
   static final String _deleteContactDetailsById = '$baseUrl/deleteContactInfo';
 
-  static final String _createContacts = '$baseUrl/createCDGI?';
+  static final String _createContactRecord = '$baseUrl/createContactInfo?';
 
   static final String _deleteContacts = '$baseUrl/deleteContactInfo';
 }
@@ -86,12 +86,12 @@ class ContactDetailsServices {
     return ContactListResponseModel.fromJson(response);
   }
 
-  Future<ContactInfo> getCdById(int id) async {
+  Future<ContactRecord> getCdById(int id) async {
     final String url = '${Apis._getContactDetailsById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return ContactInfo.fromJson(response);
+    return ContactRecord.fromJson(response);
   }
 
   Future<GenericResponse> deleteCdById(int id) async {
@@ -102,13 +102,12 @@ class ContactDetailsServices {
     return GenericResponse.fromJson(response);
   }
 
-  /// Create Services
-  Future<GenericResponse> createContactDetailsCd({
-    required ContactsRequest body,
+  Future<GenericResponse> createContactRecord({
+    required ContactRecordRequest body,
     required bool isSubmit,
   }) async {
     // var userId = await SharedPrefs.getUserId();
-    final String url = "${Apis._createContacts}isSubmit=$isSubmit";
+    final String url = "${Apis._createContactRecord}isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),
@@ -116,11 +115,11 @@ class ContactDetailsServices {
     return GenericResponse.fromJson(response);
   }
 
-  Future<ContactInfo> deleteContacts(int id) async {
+  Future<ContactRecord> deleteContacts(int id) async {
     final String url = '${Apis._deleteContacts}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return ContactInfo.fromJson(response);
+    return ContactRecord.fromJson(response);
   }
 }

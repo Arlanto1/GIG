@@ -278,17 +278,17 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             GestureDetector(
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess =
-                                    await BlocProvider.of<ContactDetailsCubit>(
-                                            context)
-                                        .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
-
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
+                                // bool isSaveSuccess =
+                                //     await BlocProvider.of<ContactDetailsCubit>(
+                                //             context)
+                                //         .submitForm(
+                                //   isSaveOnly: true,
+                                //   navigateToNextScreen: true,
+                                // );
+                                //
+                                // if (!isSaveSuccess) {
+                                //   return;
+                                // }
                                 log('--state.model.id---${state.model.id}--');
 
                                 nav.pushNamed(
@@ -309,7 +309,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
-                                    'Add/View Contact(s)ssss',
+                                    'Add/View Contact(s)',
                                     style: TextStyle(
                                       color: AppColors.navigationSkybluecolor,
                                       decoration: TextDecoration.underline,
@@ -332,10 +332,11 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
                                 bool isSaveSuccess =
-                                    await BlocProvider.of<ContactDetailsCubit>(
-                                            context)
-                                        .submitForm(
+                                await BlocProvider.of<ContactDetailsCubit>(
+                                    context)
+                                    .submitForm(
                                   isSaveOnly: true,
+                                  navigateToNextScreen: true,
                                 );
 
                                 if (!isSaveSuccess) {
@@ -347,7 +348,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   contactListingRoute,
                                   arguments: {
                                     ConstantsArgument.title:
-                                        Constants.generalContact,
+                                    Constants.generalContact,
                                     ConstantsArgument.type: 1,
                                     ConstantsArgument.id: state.model.id,
                                   },
@@ -382,15 +383,26 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             GestureDetector(
-                              onTap: () {
-                                // TODO: Need to save General Info Object First
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                bool isSaveSuccess =
+                                    await BlocProvider.of<ContactDetailsCubit>(
+                                    context)
+                                    .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
+                                );
 
-                                Navigator.pushNamed(
-                                  context,
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
+                                log('--state.model.id---${state.model.id}--');
+
+                                nav.pushNamed(
                                   contactListingRoute,
                                   arguments: {
                                     ConstantsArgument.title:
-                                        Constants.generalContact,
+                                    Constants.generalContact,
                                     ConstantsArgument.type: 2,
                                     ConstantsArgument.id: state.model.id,
                                   },
@@ -424,18 +436,29 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             GestureDetector(
-                              onTap: () {
-                                // TODO: Need to save General Info Object First
+                              onTap: () async {
+                                 NavigatorState nav = Navigator.of(context);
+                                bool isSaveSuccess =
+                                await BlocProvider.of<ContactDetailsCubit>(
+                                context)
+                                    .submitForm(
+                                isSaveOnly: true,
+                                navigateToNextScreen: true,
+                                );
 
-                                Navigator.pushNamed(
-                                  context,
-                                  contactListingRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.generalContact,
-                                    ConstantsArgument.type: 3,
-                                    ConstantsArgument.id: state.model.id,
-                                  },
+                                if (!isSaveSuccess) {
+                                return;
+                                }
+                                log('--state.model.id---${state.model.id}--');
+
+                                nav.pushNamed(
+                                contactListingRoute,
+                                arguments: {
+                                ConstantsArgument.title:
+                                Constants.generalContact,
+                                ConstantsArgument.type: 3,
+                                ConstantsArgument.id: state.model.id,
+                                },
                                 );
                               },
                               child: Row(
@@ -466,15 +489,26 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             GestureDetector(
-                              onTap: () {
-                                // TODO: Need to save General Info Object First
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                bool isSaveSuccess =
+                                    await BlocProvider.of<ContactDetailsCubit>(
+                                    context)
+                                    .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
+                                );
 
-                                Navigator.pushNamed(
-                                  context,
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
+                                log('--state.model.id---${state.model.id}--');
+
+                                nav.pushNamed(
                                   contactListingRoute,
                                   arguments: {
                                     ConstantsArgument.title:
-                                        Constants.generalContact,
+                                    Constants.generalContact,
                                     ConstantsArgument.type: 4,
                                     ConstantsArgument.id: state.model.id,
                                   },

@@ -7,7 +7,7 @@ import 'package:db_atom/src/common_widgets/pop_button.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_info.dart';
-import 'package:db_atom/src/models/base_user.dart';
+import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/error_response_validation.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -27,8 +27,8 @@ class AddContactPopUp extends StatefulWidget {
 
   final String title;
   final Function onSubmit;
-  final ContactInfo contact;
-  final List<BaseUser> users;
+  final ContactRecord contact;
+  final List<Organisation> users;
   final BuildContext mainContext;
 
   @override
@@ -86,15 +86,16 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             isMandatory: true,
                           ),
                           TextfieldAddButton(
-                            title: widget.contact.rank?.name??'',
+                            title: widget.contact.rank?.name ?? '',
                             height: 70,
                             isDisableColor: false,
                             onTap: () {
                               BaseDepartmentDialog().userDialog(
                                 context: context,
-                                users: widget.users,
-                                onTap: (BaseUser user) {
-                                  widget.contact.rank?.name = user.email;
+                                entities: widget.users,
+                                onTap: (Organisation user) {
+                                  widget.contact.rank?.name = user.name;
+                                  setState(() {});
                                   // BlocProvider.of<ContactListingBloc>(context)
                                   //     .updateApproverEmailsValue(
                                   //         approver1EmailUser: user);
@@ -114,7 +115,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue: widget.contact.email??'',
+                        initialValue: widget.contact.email ?? '',
                         keyboardType: TextInputType.text,
                         textFormKey: Keys.nameKey,
                         hintText: '',
@@ -136,7 +137,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue: '${widget.contact.contactNo??''}',
+                        initialValue: '${widget.contact.contactNo ?? ''}',
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
