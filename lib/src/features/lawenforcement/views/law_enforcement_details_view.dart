@@ -121,7 +121,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           GestureDetector(
             onTap: () {
               if (!isDistrbuted) {
-                createLawEnforcement(false, widget.model?.id ?? 0, globalState);
+                submitForm(false, widget.model?.id ?? 0, globalState);
               }
             },
             child: Padding(
@@ -386,16 +386,16 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   showBorder: true,
                                   lineHeight: 6,
                                   textFieldController:
-                                  additionalInformationTextController,
+                                      additionalInformationTextController,
                                   textFormKey:
-                                  Keys.additionalinformationTextController,
+                                      Keys.additionalinformationTextController,
                                   hintText: Constants.informationhere,
                                   isEnable: widget.model?.status == 0 ||
-                                      widget.model == null
+                                          widget.model == null
                                       ? true
                                       : false,
                                   isDisableColor: widget.model?.status == 0 ||
-                                      widget.model == null
+                                          widget.model == null
                                       ? false
                                       : true,
                                   onChange: (String username) {
@@ -404,8 +404,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   },
                                   validateTextField: (String? user) {},
                                 ),
-                                CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
                               ]),
                             ),
 
@@ -1555,9 +1555,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     );
   }
 
-  Future createLawEnforcement(
+  Future submitForm(
       bool isSubmit, int isFoundId, LawEnforcementState state) async {
-    log('---createLawEnforcement----');
+    log('---submitForm----');
     int actualDate = Utils.dateToTimestampConversion(
         actualDateTextController.text, Constants.fulldateFormat);
     int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
@@ -1635,7 +1635,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     //   //lawenforcementCubit.geDistributonData(entity);
     //   loadGroups.add(entity);
     // }
-    List<ImageContent>? images = getFiles ?? [];
+    List<ImageContent>? images =
+        getFiles.isEmpty ? widget.model?.images : getFiles;
     LawEnforcement? lawEnforcement;
     if (widget.model != null) {
       lawEnforcement = LawEnforcement(
@@ -1807,7 +1808,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             );
             break;
           } else {
-            createLawEnforcement(true, widget.model?.id ?? 0, globalState);
+            submitForm(true, widget.model?.id ?? 0, globalState);
             break;
           }
         }
@@ -1822,7 +1823,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           "Please enter distribution groups",
         );
       } else {
-        createLawEnforcement(true, widget.model?.id ?? 0, globalState);
+        submitForm(true, widget.model?.id ?? 0, globalState);
       }
     }
   }

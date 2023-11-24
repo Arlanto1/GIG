@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
@@ -89,6 +91,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
     double height = size.height;
     return BlocConsumer<ContactDetailsCubit, ContactDetailsState>(
       listener: (context, state) {
+        log('--NN-state.status-${state.status}-------');
+
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Material Movement',
@@ -141,6 +145,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
               FocusScope.of(context).unfocus();
               BlocProvider.of<ContactDetailsCubit>(context).submitForm(
                 isSaveOnly: true,
+                navigateToNextScreen: true,
               );
             },
           ),
@@ -271,10 +276,22 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             GestureDetector(
-                              onTap: () {
-                                // TODO: Need to save General Info Object First
-                                Navigator.pushNamed(
-                                  context,
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                bool isSaveSuccess =
+                                    await BlocProvider.of<ContactDetailsCubit>(
+                                            context)
+                                        .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
+                                );
+
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
+                                log('--state.model.id---${state.model.id}--');
+
+                                nav.pushNamed(
                                   contactListingRoute,
                                   arguments: {
                                     ConstantsArgument.title:
@@ -292,7 +309,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
-                                    'Add/View Contact(s)',
+                                    'Add/View Contact(s)ssss',
                                     style: TextStyle(
                                       color: AppColors.navigationSkybluecolor,
                                       decoration: TextDecoration.underline,
@@ -312,13 +329,21 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             GestureDetector(
-                              onTap: () {
-                                // TODO: Need to save General Info Object First
-                                // getLawEnforcementId(state.items[index].id ?? 0,
-                                //     state.items[index].contact?[0].type ?? 0);
-                                //
-                                Navigator.pushNamed(
-                                  context,
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                bool isSaveSuccess =
+                                    await BlocProvider.of<ContactDetailsCubit>(
+                                            context)
+                                        .submitForm(
+                                  isSaveOnly: true,
+                                );
+
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
+                                log('--state.model.id---${state.model.id}--');
+
+                                nav.pushNamed(
                                   contactListingRoute,
                                   arguments: {
                                     ConstantsArgument.title:
