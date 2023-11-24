@@ -1508,6 +1508,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
+                              onlyDate: false,
                               showPastDate: false,
                               textController:
                                   medicalCertificateValidUntilController,
@@ -1800,6 +1801,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
+                              onlyDate: false,
                               showFutureDate: false,
                               textController: dateOfFirstCovidDoseController,
                               onChange: (String value) {
@@ -1823,6 +1825,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
+                              onlyDate: false,
                               showFutureDate: false,
                               textController: dateOfSecondCovidDoseController,
                               onChange: (String value) {
@@ -1845,6 +1848,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
+                              onlyDate: false,
                               showFutureDate: false,
                               textController: dateOfPrecautionaryCovidDose,
                               onChange: (String value) {
@@ -1867,6 +1871,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
+                              onlyDate: false,
                               showFutureDate: false,
                               textController: ertCertificationDate,
                               onChange: (String value) {
@@ -1889,6 +1894,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
+                              onlyDate: false,
                               showFutureDate: false,
                               textController: firstAidTrainingCompletionDate,
                               onChange: (String value) {

@@ -694,7 +694,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: closureTargetDateController,
-                              onlyDate: true,
+                              onlyDate: false,
                               onChange: (String value) {
                                 log('---value-$value------');
                                 state.model.closureTargetDate =
