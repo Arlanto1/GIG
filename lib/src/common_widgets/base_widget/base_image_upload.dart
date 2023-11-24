@@ -81,7 +81,7 @@ class BaseImageUpload {
         children: [
           CommonWidgets.verticalSpacerWidget(height * 0.01),
           _attachmentListviews(
-            attachmentListviews: files,
+            attachmentListviews: files??attachments,
             showDownloadIcon: showDownloadIcon,
           ),
         ],
