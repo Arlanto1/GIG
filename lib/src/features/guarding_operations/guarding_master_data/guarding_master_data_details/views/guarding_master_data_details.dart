@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/models/image_content.dart';
@@ -17,6 +18,7 @@ import '../../../../../common_widgets/base_widget/check_box.dart';
 import '../../../../../common_widgets/base_widget/date_picker_dialog.dart';
 import '../../../../../common_widgets/base_widget/multiple_selection_pop_up.dart';
 import '../../../../../common_widgets/base_widget/radio_buttons_yes_no.dart';
+import '../../../../../common_widgets/base_widget/record_locked_widget.dart';
 import '../../../../../common_widgets/base_widget/selected_tile_value_widget.dart';
 import '../../../../../common_widgets/basic_reusable_widgets.dart';
 import '../../../../../common_widgets/create_fields.dart';
@@ -95,6 +97,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
   TextEditingController statusController = TextEditingController();
   TextEditingController mSGbFormBSubmittedController = TextEditingController();
   bool isDisabled = true;
+  bool isReadOnly = false;
 
   get guardingMasterData => null;
 
@@ -146,6 +149,13 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
         }
       },
       builder: (context, state) {
+        if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
+        if (state.model.status == null) {
+          isReadOnly = false;
+        }
+
         initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
@@ -267,6 +277,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0, right: 20),
                           child: Column(children: [
+                            if (!state.model.lock.isEmptyOrNull) ...[
+                              RecordLockedWidget(text: '${state.model.lock}'),
+                            ],
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -1148,28 +1161,26 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            CommonWidgets.textDisplay(
-                                Constants.uploadBioData,
+                            CommonWidgets.textDisplay(Constants.uploadBioData,
                                 Styles.textStyleBlack14),
                             widget.guardingMasterData == null
                                 ? CommonWidgets.verticalSpacerWidget(
-                                height * 0.001)
+                                    height * 0.001)
                                 : Container(),
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
-                              state.loggedInUserDetails ?? User(),
+                                  state.loggedInUserDetails ?? User(),
                               getFiles: bioDataFiles,
                               onImageSelected: (ImageContent data) {
                                 log('-------function---onImageSelected---------');
                                 List<ImageContent>? files = [];
                                 files.add(data);
-                                for (ImageContent image
-                                in bioDataFiles ?? []) {
+                                for (ImageContent image in bioDataFiles ?? []) {
                                   files.add(image);
                                 }
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                                    context)
+                                        context)
                                     .addAttachment(bioDataFiles: files);
                               },
                             ),
@@ -1179,9 +1190,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               attachments: state.bioDataAttachments,
                               files: bioDataFiles,
                               showDownloadIcon:
-                              widget.guardingMasterData != null
-                                  ? true
-                                  : false,
+                                  widget.guardingMasterData != null
+                                      ? true
+                                      : false,
                             ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1216,24 +1227,25 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                 Styles.textStyleBlack14),
                             widget.guardingMasterData == null
                                 ? CommonWidgets.verticalSpacerWidget(
-                                height * 0.001)
+                                    height * 0.001)
                                 : Container(),
                             BaseImageUpload().uploadWidget(
                               context: context,
                               loggedInUserDetails:
-                              state.loggedInUserDetails ?? User(),
+                                  state.loggedInUserDetails ?? User(),
                               getFiles: permanentAddressFiles,
                               onImageSelected: (ImageContent data) {
                                 log('-------function---onImageSelected---------');
                                 List<ImageContent>? files = [];
                                 files.add(data);
                                 for (ImageContent image
-                                in permanentAddressFiles ?? []) {
+                                    in permanentAddressFiles ?? []) {
                                   files.add(image);
                                 }
                                 BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                                    context)
-                                    .addAttachment(permanentAddressFiles: files);
+                                        context)
+                                    .addAttachment(
+                                        permanentAddressFiles: files);
                               },
                             ),
                             // Attachments
@@ -1242,9 +1254,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               attachments: state.permanentAddressAttachments,
                               files: permanentAddressFiles,
                               showDownloadIcon:
-                              widget.guardingMasterData != null
-                                  ? true
-                                  : false,
+                                  widget.guardingMasterData != null
+                                      ? true
+                                      : false,
                             ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
