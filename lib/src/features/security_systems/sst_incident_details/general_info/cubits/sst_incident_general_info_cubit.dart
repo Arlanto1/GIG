@@ -117,11 +117,20 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         if (defaultLocation != null) {
           SerialNumberModel slNo = await commonServices.getSlNo(
             locationId: defaultLocation.id.toString(),
-            moduleCode: Constants.eventProtectionModule,
+            moduleCode: Constants.securitySystem,
           );
           model.location = defaultLocation;
           model.slNo = slNo.serialNo;
         }
+      }
+
+      if(isInternal == true) {
+        state.model.staffType= 1;
+        state.model.ticketType = 1;
+      }
+      else{
+        state.model.staffType = 2;
+        state.model.ticketType =1;
       }
 
       emit(
@@ -298,12 +307,20 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     if (state.model.status == 0 || state.model.status == null) {
       state.model.status = 1;
     }
+    if(isInternal == true) {
+      state.model.staffType= 1;
+      state.model.ticketType = 1;
+    }
+    else{
+      state.model.staffType = 2;
+      state.model.ticketType =1;
+    }
     // Setting time in milliseconds
     state.model.createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-    state.model.occurrence ??= OccurrenceModel();
-    state.model.occurrence?.id = occId.toIntOrNull() ?? 0;
+    // state.model.occurrence ??= OccurrenceModel();
+    // state.model.occurrence?.id = occId.toIntOrNull() ?? 0;
     state.model.occType = occType;
 
     /// Create/Update API Call

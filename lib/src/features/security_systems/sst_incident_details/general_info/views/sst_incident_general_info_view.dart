@@ -85,7 +85,7 @@ class _SstIncidentGeneralInfoViewState
                   context,
                   occurrenceDetailsRoute,
                   arguments: {
-                    'id': state.model.occurrence?.id.toString(),
+                   // 'id': state.model.occurrence?.id.toString(),
                     "title": Constants.editOccurrence,
                   },
                 );
