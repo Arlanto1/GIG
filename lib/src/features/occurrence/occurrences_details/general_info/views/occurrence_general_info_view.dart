@@ -1180,6 +1180,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                     height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
+                                  onlyDate: false,
                                   showFutureDate: false,
                                   textController:
                                       powerFailureStartDateController,
@@ -1205,7 +1206,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                 //
                                 BaseDate().datePickerWidgetLoading(
                                   textController: powerFailureEndDateController,
-                                  onlyDate: true,
+                                  onlyDate: false,
                                   onChange: (String value) {
                                     state.model.powerFailureEndDate =
                                         Utils().formatTime(value);

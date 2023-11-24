@@ -1070,7 +1070,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
-                                ///Exceptional approval for External auditors
+
+          if (widget.model?.dayPassReason?.name?.toLowerCase() == 'external auditors')...[
+          ///Exceptional approval for External auditors
                                 widget.passId == '0'
                                     ? CommonWidgets.textDisplay(
                                     Constants.exceptionalApproval,
@@ -1083,6 +1085,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                   Constants.exceptionalApproval,
                                 )
                                     : Container(),
+                        ],
 
                                 /// Pass Valid From
                                 if (widget.passId != '3') ...[
@@ -1448,7 +1451,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       hostTextController.text = widget.model?.hostName != null
           ? widget.model?.hostName.toString() ?? ""
           : '';
-
       log('-widget.model?.host----${widget.model?.host?.userName}----');
       User? host1 = widget.model?.host ??
           User(userId: int.parse(userId), name: hostTextController.text);
