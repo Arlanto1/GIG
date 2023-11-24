@@ -319,8 +319,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     state.model.createdDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-    // state.model.occurrence ??= OccurrenceModel();
-    // state.model.occurrence?.id = occId.toIntOrNull() ?? 0;
+    state.model.occurrence ??= OccurrenceModel();
+    state.model.occurrence?.id = occId.toIntOrNull() ?? 0;
     state.model.occType = occType;
 
     /// Create/Update API Call
