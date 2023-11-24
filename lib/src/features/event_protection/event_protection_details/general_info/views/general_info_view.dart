@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
@@ -25,6 +26,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../main_DEV.dart';
 import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
 import '../../../../../common_widgets/base_widget/radio_buttons_yes_no.dart';
+import '../../../../../common_widgets/base_widget/record_locked_widget.dart';
 import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../constants/app_icon.dart';
@@ -99,6 +101,14 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
         }
       },
       builder: (context, state) {
+
+        if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
+          disableForm = true;
+        }
+
+        if (state.model.status == null) {
+          disableForm = false;
+        }
         state.model.status ??= 0;
         if (state.model.status! > 0) {
           disableForm = true;
@@ -174,6 +184,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 20.0, right: 20),
                           child: Column(children: [
+                            if (!state.model.lock.isEmptyOrNull) ...[
+                              RecordLockedWidget(text: '${state.model.lock}'),
+                            ],
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
