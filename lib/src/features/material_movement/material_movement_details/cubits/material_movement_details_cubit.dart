@@ -105,7 +105,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
-      MmUiLabels uilabels = await commonServices.getUiLabels(
+      MmUiLabels labels = await commonServices.getUiLabels(
           language: 'en', moduleCode: Constants.materialMovementModuleCode);
 
       GetDepositor emailUsers =
@@ -149,7 +149,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
             approver2Users: emailUsers.atomStaticUser,
             departments: departments.employeeDepartments,
             quantityUnits: quantityUnits.units,
-            labels: uilabels),
+            labels: labels),
       );
     } catch (e) {
       log('initialization issue',
