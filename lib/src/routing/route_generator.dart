@@ -80,6 +80,8 @@ import '../features/guarding_operations/sla_violation_penalty/sla_violation_pena
 import '../features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/bloc/sla_violation_penalty_list_bloc.dart'
 as sla;
 import '../features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/views/sla_violation_penalty_list_view.dart';
+import '../features/guarding_operations/sla_violation_penalty/violation_penalty_record/bloc/violation_penalty_record_bloc.dart' as vp;
+import '../features/guarding_operations/sla_violation_penalty/violation_penalty_record/views/violation_penalty_record_view.dart';
 import '../features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart';
 import '../features/incident_management/incident_details/general_info/views/incident_general_info_view.dart';
 import '../features/incident_management/incident_managements/views/incident_managements_view.dart';
@@ -406,6 +408,34 @@ class RouteGenerator {
             ),
             child: SLAViolationPenaltyDetailsView(
               model: model,
+              title: title,
+            ),
+          ),
+        );
+
+      case slaViolationPenaltyListingRoute:
+        String title = '';
+        int id = 0;
+        int type = 0;
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id];
+          title = arguments[ConstantsArgument.title];
+          type = arguments[ConstantsArgument.type] ?? 0;
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<vp.ViolationPenaltyRecordBloc>(
+            create: (_) => vp.ViolationPenaltyRecordBloc()
+              ..add(vp.FetchData(
+                id: id,
+                type: type,
+                startPos: 0,
+                maxPos: 100,
+              )),
+            child: ViolationPenaltyRecordView(
+              id: id,
+              type: type,
               title: title,
             ),
           ),

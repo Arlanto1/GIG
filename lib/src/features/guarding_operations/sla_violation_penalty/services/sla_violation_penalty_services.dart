@@ -6,7 +6,10 @@ import 'package:db_atom/src/features/contact_details/models/requestModels/contac
 
 import '../../../../models/responseModels/generic_response.dart';
 import '../models/requestModels/sla_violation_penalty_request.dart';
+import '../models/requestModels/violation_penalty_request.dart';
 import '../models/sla_violation_penalty_response_model.dart';
+import '../models/violation_penalty_list_response_model.dart';
+import '../models/violation_penalty_model.dart';
 
 
 class Apis {
@@ -28,7 +31,7 @@ class Apis {
 }
 
 class SLAViolationPenaltyServices {
-  Future<SLAViolationPenaltyModel> getContactListByType({
+  Future<ViolationPenaltyListModel> getContactListByType({
     required String id,
     required String type,
   }) async {
@@ -37,7 +40,7 @@ class SLAViolationPenaltyServices {
       isAuthenticated: true,
       url: url,
     );
-    return SLAViolationPenaltyModel.fromJson(response);
+    return ViolationPenaltyListModel.fromJson(response);
   }
 
   Future<ContactDetailsListResponseModel> getGcd({
@@ -75,25 +78,25 @@ class SLAViolationPenaltyServices {
     return GenericResponse.fromJson(response);
   }
 
-  // Future<ContactListResponseModel> getCd({
-  //   required String startPosition,
-  //   required String maximumRecords,
-  // }) async {
-  //   String url =
-  //       '${Apis._getGcd}startPos=$startPosition&maxResults=$maximumRecords';
-  //   var response = await BaseApiService().getRequest(
-  //     isAuthenticated: true,
-  //     url: url,
-  //   );
-  //   return ContactListResponseModel.fromJson(response);
-  // }
+  Future<ViolationPenaltyListResponseModel> getCd({
+    required String startPosition,
+    required String maximumRecords,
+  }) async {
+    String url =
+        '${Apis._getGcd}startPos=$startPosition&maxResults=$maximumRecords';
+    var response = await BaseApiService().getRequest(
+      isAuthenticated: true,
+      url: url,
+    );
+    return ViolationPenaltyListResponseModel.fromJson(response);
+  }
 
-  Future<ContactRecord> getCdById(int id) async {
+  Future<ViolationPenaltyRecord> getCdById(int id) async {
     final String url = '${Apis._getContactDetailsById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return ContactRecord.fromJson(response);
+    return ViolationPenaltyRecord.fromJson(response);
   }
 
   Future<GenericResponse> deleteCdById(int id) async {
@@ -104,24 +107,24 @@ class SLAViolationPenaltyServices {
     return GenericResponse.fromJson(response);
   }
 
-  // Future<GenericResponse> createContactRecord({
-  //   required ContactRecordRequest body,
-  //   required bool isSubmit,
-  // }) async {
-  //   // var userId = await SharedPrefs.getUserId();
-  //   final String url = "${Apis._createContactRecord}isSubmit=$isSubmit";
-  //   final response = await BaseApiService().postRequest(
-  //     url: url,
-  //     requestedData: body.toJson(),
-  //   );
-  //   return GenericResponse.fromJson(response);
-  // }
+  Future<GenericResponse> createContactRecord({
+    required ViolationPenaltyRecordRequest body,
+    required bool isSubmit,
+  }) async {
+    // var userId = await SharedPrefs.getUserId();
+    final String url = "${Apis._createContactRecord}isSubmit=$isSubmit";
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return GenericResponse.fromJson(response);
+  }
 
-  Future<ContactRecord> deleteContacts(int id) async {
+  Future<ViolationPenaltyRecord> deleteContacts(int id) async {
     final String url = '${Apis._deleteContacts}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return ContactRecord.fromJson(response);
+    return ViolationPenaltyRecord.fromJson(response);
   }
 }

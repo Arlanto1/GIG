@@ -422,7 +422,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
                                 nav.pushNamed(
-                                  contactListingRoute,
+                                  slaViolationPenaltyListingRoute,
                                   arguments: {
                                     ConstantsArgument.title:
                                     Constants.generalContact,
@@ -560,6 +560,15 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
     );
   }
 
+  Widget submitButton(
+      {required Function onTap, String? label = Constants.submit}) {
+    return AppButton(
+      width: 150,
+      buttonText: label,
+      buttonTextKey: Keys.submitButton,
+      onTap: onTap,
+    );
+  }
   void addGuardingAgencyPOC() {
     final cubit = context.read<SLAViolationPenaltyDetailsCubit>();
     showDialog(
@@ -605,15 +614,15 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                             ],
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             const Spacer(),
-                            submitButtonDisplay(
-                              // onTap: () async {
-                              //   state.model.guardingAgencyPOC ??= [];
-                              //   state.model.guardingAgencyPOC
-                              //       ?.add(guardingAgencyPOCController.text);
-                              //   BlocProvider.of<SLAViolationPenaltyDetailsCubit>(this.context)
-                              //       .onCheckBoxChange(state.model);
-                              //   Navigator.pop(context);
-                              // },
+                            submitButton(
+                              onTap: () async {
+                                state.model.guardingAgencyPOC ??= [];
+                                state.model.guardingAgencyPOC
+                                    ?.add(guardingAgencyPOCController.text);
+                                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(this.context)
+                                    .onCheckBoxChange(state.model);
+                                Navigator.pop(context);
+                              },
                             ),
                           ],
                         ),
