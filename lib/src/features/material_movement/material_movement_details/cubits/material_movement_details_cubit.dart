@@ -9,11 +9,11 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
+import 'package:db_atom/src/features/material_movement/models/mm_ui_labels.dart';
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
 import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
 import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/models/language.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/util.dart';
@@ -104,13 +104,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       }
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-      // log('--getlabels-----}--');
-      //
-      // MmUiLabels uilabels = await commonServices.getUiLabels(
-      //     language: 'en', moduleCode: Constants.materialMovementModuleCode);
-      //
-      // log('--uilabels-----${uilabels.locale}--');
-      // log('--uilabels---2232--${uilabels.locale.status}--');
+
+      MmUiLabels uilabels = await commonServices.getUiLabels(
+          language: 'en', moduleCode: Constants.materialMovementModuleCode);
 
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
@@ -142,19 +138,18 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       log('-emailUsers.atomStaticUser----init--${emailUsers.atomStaticUser?.length}---');
       emit(
         state.copyWith(
-          locations: locations,
-          loggedInUserDetails: loggedInUserDetails,
-          status: FormStatus.initial,
-          model: state.model,
-          users: users.t1Analyst,
-          loadAttachments: state.model.images,
-          emailUsers: emailUsers.atomStaticUser,
-          approver1Users: emailUsers.atomStaticUser,
-          approver2Users: emailUsers.atomStaticUser,
-          departments: departments.employeeDepartments,
-          quantityUnits: quantityUnits.units,
-          //  language: uilabels
-        ),
+            locations: locations,
+            loggedInUserDetails: loggedInUserDetails,
+            status: FormStatus.initial,
+            model: state.model,
+            users: users.t1Analyst,
+            loadAttachments: state.model.images,
+            emailUsers: emailUsers.atomStaticUser,
+            approver1Users: emailUsers.atomStaticUser,
+            approver2Users: emailUsers.atomStaticUser,
+            departments: departments.employeeDepartments,
+            quantityUnits: quantityUnits.units,
+            labels: uilabels),
       );
     } catch (e) {
       log('initialization issue',
@@ -513,7 +508,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           status: FormStatus.success,
         ),
       );
-    }   on GenericResponse catch (e) {
+    } on GenericResponse catch (e) {
       emit(
         state.copyWith(
           message: e.message,

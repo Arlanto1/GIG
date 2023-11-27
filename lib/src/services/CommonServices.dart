@@ -47,7 +47,6 @@ class Apis {
 
 class CommonServices {
 
-  // TODO: Need to fix Mapping
   Future<MmUiLabels> getUiLabels({
     required String language,
     required String moduleCode,
@@ -58,11 +57,7 @@ class CommonServices {
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    log('--response----${response.toString()}----');
     MmUiLabels model = MmUiLabels.fromJson(response);
-
-    log('--response----${model.locale}----');
-    log('--response----${model.locale.status}----');
     return MmUiLabels.fromJson(response);
   }
 
