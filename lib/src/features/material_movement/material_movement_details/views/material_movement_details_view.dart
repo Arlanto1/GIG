@@ -141,7 +141,6 @@ class _MaterialMovementDetailsViewState
         }
       },
       builder: (context, state) {
-        log('--status langu--1--${state.language?.en?.comarlantoatommaterialMovementstatus}-----');
         if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
@@ -250,7 +249,9 @@ class _MaterialMovementDetailsViewState
 
                           /// Material Movement Type
                           CommonWidgets.textDisplay(
-                            'Material Movement Type',
+                            state.labels?.locale.type ??
+                                state.labels?.defaultLocale.type ??
+                                'Material Movement Type',
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
@@ -297,8 +298,8 @@ class _MaterialMovementDetailsViewState
 
                           /// Status
                           CommonWidgets.textDisplay(
-                            state.language?.en
-                                    ?.comarlantoatommaterialMovementstatus ??
+                            state.labels?.locale.status ??
+                                state.labels?.defaultLocale.status ??
                                 Constants.status,
                             Styles.textStyleBlack14,
                             isMandatory: true,

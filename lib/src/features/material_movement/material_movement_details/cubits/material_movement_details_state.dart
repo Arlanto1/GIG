@@ -19,7 +19,7 @@ class MaterialMovementDetailsState extends Equatable {
   final bool isInward;
   final bool isReceiverSignEditable;
   final bool isEntrySecuritySignatureSignEditable;
-  final Language? language;
+  final MmUiLabels? labels;
 
   factory MaterialMovementDetailsState.initial({
     required MaterialMovementModel model,
@@ -168,7 +168,7 @@ class MaterialMovementDetailsState extends Equatable {
     this.eventId,
     this.message,
     this.isInward = false,
-    this.language,
+    this.labels,
     this.requestorEmailUsers,
     this.approver1Users,
     this.approver2Users,
@@ -189,7 +189,7 @@ class MaterialMovementDetailsState extends Equatable {
     List<Organisation>? quantityUnits,
     int? eventId,
     String? message,
-    Language? language,
+    MmUiLabels? labels,
     bool? isReceiverSignEditable,
     bool? isEntrySecuritySignatureSignEditable,
   }) {
@@ -208,7 +208,7 @@ class MaterialMovementDetailsState extends Equatable {
       quantityUnits: quantityUnits ?? this.quantityUnits,
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
-      language: language ?? this.language,
+      labels: labels ?? this.labels,
       isReceiverSignEditable:
           isReceiverSignEditable ?? this.isReceiverSignEditable,
 

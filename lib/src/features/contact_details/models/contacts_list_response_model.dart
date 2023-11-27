@@ -1,3 +1,4 @@
+import 'package:db_atom/src/features/contact_details/models/contact_info.dart';
 import 'package:db_atom/src/models/base_object.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -42,7 +43,7 @@ class ContactsListModel extends BaseObject {
   final int? status;
   final String? modifiedBy;
   @JsonKey(name: 'contact')
-  final List<Contact>? contacts;
+  final List<ContactRecord>? contacts;
 
   ContactsListModel({
     this.id,
@@ -58,35 +59,35 @@ class ContactsListModel extends BaseObject {
   Map<String, dynamic> toJson() => _$ContactsListModelToJson(this);
 }
 
-class Contact {
-  final int? id;
-  final String? email;
-  final String? contactNo;
-  final Organisation? rank;
-  final int? type;
-
-  Contact({
-    this.id,
-    this.email,
-    this.contactNo,
-    this.rank,
-    this.type,
-  });
-
-  Contact.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        email = json['email'] as String?,
-        contactNo = json['contactNo'] as String?,
-        rank = (json['generalRank'] as Map<String, dynamic>?) != null
-            ? Organisation.fromJson(json['generalRank'] as Map<String, dynamic>)
-            : null,
-        type = json['type'] as int?;
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'email': email,
-        'contactNo': contactNo,
-        'generalRank': rank?.toJson(),
-        'type': type
-      };
-}
+// class Contact {
+//   final int? id;
+//   final String? email;
+//   final String? contactNo;
+//   final Organisation? rank;
+//   final int? type;
+//
+//   Contact({
+//     this.id,
+//     this.email,
+//     this.contactNo,
+//     this.rank,
+//     this.type,
+//   });
+//
+//   Contact.fromJson(Map<String, dynamic> json)
+//       : id = json['id'] as int?,
+//         email = json['email'] as String?,
+//         contactNo = json['contactNo'] as String?,
+//         rank = (json['generalRank'] as Map<String, dynamic>?) != null
+//             ? Organisation.fromJson(json['generalRank'] as Map<String, dynamic>)
+//             : null,
+//         type = json['type'] as int?;
+//
+//   Map<String, dynamic> toJson() => {
+//         'id': id,
+//         'email': email,
+//         'contactNo': contactNo,
+//         'generalRank': rank?.toJson(),
+//         'type': type
+//       };
+// }

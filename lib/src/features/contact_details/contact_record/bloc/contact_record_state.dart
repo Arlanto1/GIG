@@ -1,32 +1,32 @@
 part of 'contact_record_bloc.dart';
 
 class ContactRecordState extends Equatable {
-  final List<Contact>? items;
+  final List<ContactRecord>? items;
   final bool hasReachedMax;
   final FormStatus status;
-  final List<BaseUser>? users;
+  final List<Organisation>? ranks;
   final String? message;
 
   const ContactRecordState({
     this.message,
-    this.items = const <Contact>[],
+    this.items = const <ContactRecord>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
-    this.users,
+    this.ranks,
   });
 
   ContactRecordState copyWith({
-    List<Contact>? items,
+    List<ContactRecord>? items,
     bool? hasReachedMax,
     FormStatus? status,
-    List<BaseUser>? users,
+    List<Organisation>? ranks,
     String? message,
   }) {
     return ContactRecordState(
       items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
-      users: users ?? this.users,
+      ranks: ranks ?? this.ranks,
       message: message ?? this.message,
     );
   }
