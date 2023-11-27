@@ -530,11 +530,11 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 5) {
       Navigator.pushNamed(context, occurrenceRoute);
     } else if (index == 6) {
-      // Navigator.pushNamed(context, sstIncidentRoute,
-      //     arguments: {"SLA Violation Penalty": false});
+      Navigator.pushNamed(context, slaViolationPenaltyListRoute,
+          arguments: {"SLA Violation Penalty": false});
     } else if (index == 7) {
       Navigator.pushNamed(context, contactDetailsListRoute,
-          arguments: {"SLA Violation Penalty": false});
+          arguments: {"Contact Details": true});
     }
   }
 

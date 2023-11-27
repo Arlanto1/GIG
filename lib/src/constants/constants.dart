@@ -590,6 +590,12 @@ class Constants {
   static const String supervisorContact = 'Supervisor Contact';
   static const String zonalEscalationContact = 'Zonal Escalation Contact';
 
+  ///SLA Violation Penalty
+  static const String typeOfService = 'Type Of Service';
+  static const String aSL = 'ASL';
+  static const String violationPenalty = 'Violation Penalty';
+
+
 }
 
 
