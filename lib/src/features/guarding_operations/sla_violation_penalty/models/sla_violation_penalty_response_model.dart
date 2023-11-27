@@ -51,6 +51,7 @@ class SLAViolationPenaltyModel extends BaseObject {
   List<Organisation>? entities;
   List<Organisation>? vendors;
   User? asl;
+  List<String>? guardingAgencyPOC;
 
   SLAViolationPenaltyModel({
     this.id,
@@ -65,6 +66,8 @@ class SLAViolationPenaltyModel extends BaseObject {
     this.entities,
     this.vendors,
     this.asl,
+    this.guardingAgencyPOC,
+
   });
 
   factory SLAViolationPenaltyModel.fromJson(Map<String, dynamic> json) =>

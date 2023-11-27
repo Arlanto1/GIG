@@ -25,6 +25,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
 import '../../../../../common_widgets/base_widget/base_entities_dropdown.dart';
+import '../../../../../common_widgets/base_widget/basicWidgetFunctions.dart';
 import '../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/base_user.dart';
@@ -45,7 +46,8 @@ class SLAViolationPenaltyDetailsView extends StatefulWidget {
   });
 
   @override
-  State<SLAViolationPenaltyDetailsView> createState() => _ContactDetailsViewState();
+  State<SLAViolationPenaltyDetailsView> createState() =>
+      _ContactDetailsViewState();
 }
 
 class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
@@ -79,7 +81,8 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
         penStrokeWidth: 2,
         penColor: Colors.black,
         exportBackgroundColor: Colors.white);
-    BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context).initializeValues();
+    BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+        .initializeValues();
     initializeDates();
   }
 
@@ -92,9 +95,13 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery
+        .of(context)
+        .size;
     double height = size.height;
-    return BlocConsumer<SLAViolationPenaltyDetailsCubit, SLAViolationPenaltyDetailsState>(
+    return BlocConsumer<
+        SLAViolationPenaltyDetailsCubit,
+        SLAViolationPenaltyDetailsState>(
       listener: (context, state) {
         log('--NN-state.status-${state.status}-------');
 
@@ -148,7 +155,8 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                 : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context).submitForm(
+              BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                  .submitForm(
                 isSaveOnly: true,
                 navigateToNextScreen: true,
               );
@@ -219,7 +227,9 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                             /// Created By
                             CommonWidgets.verticalTextHandling(
                                 Constants.createdby,
-                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                                '${state.loggedInUserDetails?.firstName ??
+                                    ''} ${state.loggedInUserDetails?.lastName ??
+                                    ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status
@@ -283,8 +293,10 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                                 all: state.vendors ?? [],
                                 enabled: !isReadOnly,
                                 onTap: (List<Organisation> selectedVendors) {
-                                  log('--selectedEntities----${selectedVendors.length}');
-                                  BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                                  log('--selectedEntities----${selectedVendors
+                                      .length}');
+                                  BlocProvider.of<
+                                      SLAViolationPenaltyDetailsCubit>(context)
                                       .updateDropdownValues(
                                       vendors: selectedVendors);
                                   Navigator.of(context)
@@ -304,8 +316,10 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                                 all: state.listOfEntities ?? [],
                                 enabled: !isReadOnly,
                                 onTap: (List<Organisation> selectedEntities) {
-                                  log('--selectedEntities----${selectedEntities.length}');
-                                  BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                                  log('--selectedEntities----${selectedEntities
+                                      .length}');
+                                  BlocProvider.of<
+                                      SLAViolationPenaltyDetailsCubit>(context)
                                       .updateDropdownValues(
                                       entities: selectedEntities);
                                   Navigator.of(context)
@@ -315,7 +329,8 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
 
                             /// Type Of Service
                             CommonWidgets.textDisplay(
-                                Constants.typeOfService, Styles.textStyleBlack14,
+                                Constants.typeOfService,
+                                Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -325,8 +340,10 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                                 all: state.vendors ?? [],
                                 enabled: !isReadOnly,
                                 onTap: (List<Organisation> selectedVendors) {
-                                  log('--selectedEntities----${selectedVendors.length}');
-                                  BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                                  log('--selectedEntities----${selectedVendors
+                                      .length}');
+                                  BlocProvider.of<
+                                      SLAViolationPenaltyDetailsCubit>(context)
                                       .updateDropdownValues(
                                       vendors: selectedVendors);
                                   Navigator.of(context)
@@ -334,7 +351,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Event Protection Manager 1
+                            /// ASL
                             CommonWidgets.textDisplay(
                                 Constants.aSL,
                                 Styles.textStyleBlack14,
@@ -349,7 +366,9 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                                   enabled: !isReadOnly,
                                   users: state.users!,
                                   onTap: (BaseUser user) {
-                                    BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                                    BlocProvider.of<
+                                        SLAViolationPenaltyDetailsCubit>(
+                                        context)
                                         .updateDropdownValues(
                                       user: user,
                                     );
@@ -357,6 +376,55 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                                 );
                               },
                             ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+
+                            ///Event Protection Officer
+                            CommonWidgets.textDisplay(
+                                Constants.guardingAgencyPOC,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
+                            //if (!disableForm) ...[
+                            GestureDetector(
+                              onTap: () {
+                                FlutterInputField(
+                                  // labelText: Constants.lsm2ContactNo,
+                                  keyboardType: TextInputType.number,
+                                  initialValue:'',
+                                  textFormKey: Keys.lsm2ContactNOKey,
+                                  hintText: '',
+                                  isEnable: !isReadOnly,
+                                  isDisableColor: isReadOnly,
+                                  onChange: (List<String> value) {
+                                    state.model.guardingAgencyPOC = value;
+                                    context
+                                        .read<SLAViolationPenaltyDetailsCubit>()
+                                        .onModelValueChange(state.model);
+                                  },
+                                  validateTextField: (String? user) {},
+                                );
+                              },
+                              child: Row(
+                                children: <Widget>[
+                                  const SizedBox(width: 14),
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add Guarding Agency POC',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // ],
+                            BasicWidgetFunctions().getStringText(
+                                strings: state.model.guardingAgencyPOC ?? []),
+
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             Container(
@@ -372,19 +440,6 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                             GestureDetector(
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
-                                // bool isSaveSuccess =
-                                //     await BlocProvider.of<ContactDetailsCubit>(
-                                //             context)
-                                //         .submitForm(
-                                //   isSaveOnly: true,
-                                //   navigateToNextScreen: true,
-                                // );
-                                //
-                                // if (!isSaveSuccess) {
-                                //   return;
-                                // }
-                                log('--state.model.id---${state.model.id}--');
-
                                 nav.pushNamed(
                                   contactListingRoute,
                                   arguments: {
