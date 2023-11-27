@@ -4,7 +4,8 @@ part 'mm_ui_labels.g.dart';
 
 @JsonSerializable()
 class MmUiLabels {
-  MmUiLabels(this.defaultLocale, {
+  MmUiLabels({
+    // required this.defaultLocale,
     required this.locale,
   });
 
@@ -14,8 +15,8 @@ class MmUiLabels {
   Map<String, dynamic> toJson() => _$MmUiLabelsToJson(this);
 
   final MmUiLabelsLocale locale;
-  @JsonKey(name: 'default')
-  final MmUiLabelsLocale defaultLocale;
+  // @JsonKey(name: 'default')
+  // final MmUiLabelsLocale defaultLocale;
 }
 
 @JsonSerializable()
@@ -317,6 +318,4 @@ class MmUiLabelsLocale {
 
   @JsonKey(name: 'com.arlanto.atom.materialMovement.status.closed')
   final String statusClosed;
-
-
 }

@@ -7,14 +7,12 @@ part of 'mm_ui_labels.dart';
 // **************************************************************************
 
 MmUiLabels _$MmUiLabelsFromJson(Map<String, dynamic> json) => MmUiLabels(
-      MmUiLabelsLocale.fromJson(json['default'] as Map<String, dynamic>),
       locale: MmUiLabelsLocale.fromJson(json['locale'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$MmUiLabelsToJson(MmUiLabels instance) =>
     <String, dynamic>{
       'locale': instance.locale,
-      'default': instance.defaultLocale,
     };
 
 MmUiLabelsLocale _$MmUiLabelsLocaleFromJson(Map<String, dynamic> json) =>
