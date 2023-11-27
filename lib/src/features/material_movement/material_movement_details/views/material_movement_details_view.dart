@@ -319,13 +319,17 @@ class _MaterialMovementDetailsViewState
 
                           /// Created By
                           CommonWidgets.verticalTextHandling(
-                              Constants.createdby,
+                              state.labels?.locale.entrySecurity ??
+                                  state.labels?.defaultLocale.entrySecurity ??
+                                  Constants.createdby,
                               '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Location
                           CommonWidgets.textDisplay(
-                            Constants.location,
+                            state.labels?.locale.location ??
+                                state.labels?.defaultLocale.location ??
+                                Constants.location,
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
@@ -336,7 +340,9 @@ class _MaterialMovementDetailsViewState
 
                           /// Date of creation
                           CommonWidgets.textDisplay(
-                            Constants.dateofcreation,
+                            state.labels?.locale.inputDate ??
+                                state.labels?.defaultLocale.inputDate ??
+                                Constants.dateofcreation,
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
@@ -346,7 +352,9 @@ class _MaterialMovementDetailsViewState
 
                           /// Sl No.
                           CommonWidgets.horizentaltextHandling(
-                            Constants.slno,
+                            state.labels?.locale.slNo ??
+                                state.labels?.defaultLocale.slNo ??
+                                Constants.slno,
                             state.model.slNo ?? '',
                             isMandatory: true,
                           ),
@@ -354,7 +362,9 @@ class _MaterialMovementDetailsViewState
 
                           /// Challan/ Invoice Nos/ Gate Pass
                           CommonWidgets.textDisplay(
-                            Constants.challan,
+                            state.labels?.locale.challanNo ??
+                                state.labels?.defaultLocale.challanNo ??
+                                Constants.challan,
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
@@ -383,7 +393,9 @@ class _MaterialMovementDetailsViewState
                           if (widget.isInward) ...[
                             /// PO Number
                             CommonWidgets.textDisplay(
-                              Constants.poNumber,
+                              state.labels?.locale.poNumber ??
+                                  state.labels?.defaultLocale.poNumber ??
+                                  Constants.poNumber,
                               Styles.textStyleBlack14,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -418,7 +430,10 @@ class _MaterialMovementDetailsViewState
 
                           /// Material Brief Description
                           CommonWidgets.textDisplay(
-                            Constants.materialBriefDescription,
+                            state.labels?.locale.materialDescription ??
+                                state.labels?.defaultLocale
+                                    .materialDescription ??
+                                Constants.materialBriefDescription,
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
@@ -447,7 +462,9 @@ class _MaterialMovementDetailsViewState
 
                           /// Quantity
                           CommonWidgets.textDisplay(
-                            Constants.quantity,
+                            state.labels?.locale.quantity ??
+                                state.labels?.defaultLocale.quantity ??
+                                Constants.quantity,
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
@@ -521,7 +538,9 @@ class _MaterialMovementDetailsViewState
                           if (!widget.isInward) ...[
                             /// Equipment No/Identification
                             CommonWidgets.textDisplay(
-                              Constants.equipmentNo,
+                              state.labels?.locale.modelInfo ??
+                                  state.labels?.defaultLocale.modelInfo ??
+                                  Constants.equipmentNo,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -550,7 +569,9 @@ class _MaterialMovementDetailsViewState
 
                             /// Address
                             CommonWidgets.textDisplay(
-                              Constants.address,
+                              state.labels?.locale.address ??
+                                  state.labels?.defaultLocale.address ??
+                                  Constants.address,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -581,7 +602,10 @@ class _MaterialMovementDetailsViewState
                             Column(
                               children: [
                                 CommonWidgets.textDisplay(
-                                  Constants.requestorEmail,
+                                  state.labels?.locale.requestorEmail ??
+                                      state.labels?.defaultLocale
+                                          .requestorEmail ??
+                                      Constants.requestorEmail,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -633,7 +657,10 @@ class _MaterialMovementDetailsViewState
 
                             /// Requestor Employee Id
                             CommonWidgets.textDisplay(
-                              Constants.requestorEmployeeId,
+                              state.labels?.locale.requestorEmployeeId ??
+                                  state.labels?.defaultLocale
+                                      .requestorEmployeeId ??
+                                  Constants.requestorEmployeeId,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -664,7 +691,10 @@ class _MaterialMovementDetailsViewState
 
                             /// Requester Department
                             CommonWidgets.textDisplay(
-                              Constants.requestorDepartment,
+                              state.labels?.locale.requestorDepartment ??
+                                  state.labels?.defaultLocale
+                                      .requestorDepartment ??
+                                  Constants.requestorDepartment,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -723,7 +753,9 @@ class _MaterialMovementDetailsViewState
 
                             /// Sent To
                             CommonWidgets.textDisplay(
-                              Constants.sentTo,
+                              state.labels?.locale.sentTo ??
+                                  state.labels?.defaultLocale.sentTo ??
+                                  Constants.sentTo,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -751,7 +783,9 @@ class _MaterialMovementDetailsViewState
 
                             /// Purpose
                             CommonWidgets.textDisplay(
-                              Constants.purpose,
+                              state.labels?.locale.purpose ??
+                                  state.labels?.defaultLocale.purpose ??
+                                  Constants.purpose,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -782,7 +816,9 @@ class _MaterialMovementDetailsViewState
 
                             /// Prepared By
                             CommonWidgets.textDisplay(
-                              Constants.preparedBy,
+                              state.labels?.locale.preparedBy ??
+                                  state.labels?.defaultLocale.preparedBy ??
+                                  Constants.preparedBy,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -813,7 +849,10 @@ class _MaterialMovementDetailsViewState
 
                             /// Prepared By Department
                             CommonWidgets.textDisplay(
-                              Constants.preparedByDepartment,
+                              state.labels?.locale.preparedByDepartment ??
+                                  state.labels?.defaultLocale
+                                      .preparedByDepartment ??
+                                  Constants.preparedByDepartment,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -875,7 +914,10 @@ class _MaterialMovementDetailsViewState
                             Column(
                               children: [
                                 CommonWidgets.textDisplay(
-                                  Constants.approver1Email,
+                                  state.labels?.locale.approver1Email ??
+                                      state.labels?.defaultLocale
+                                          .approver1Email ??
+                                      Constants.approver1Email,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -923,7 +965,10 @@ class _MaterialMovementDetailsViewState
 
                             /// Approver1 By Department
                             CommonWidgets.textDisplay(
-                              Constants.approver1Department,
+                              state.labels?.locale.approver1Department ??
+                                  state.labels?.defaultLocale
+                                      .approver1Department ??
+                                  Constants.approver1Department,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -982,7 +1027,10 @@ class _MaterialMovementDetailsViewState
                             Column(
                               children: [
                                 CommonWidgets.textDisplay(
-                                  Constants.approver2Email,
+                                  state.labels?.locale.approver2Email ??
+                                      state.labels?.defaultLocale
+                                          .approver2Email ??
+                                      Constants.approver2Email,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -1031,7 +1079,10 @@ class _MaterialMovementDetailsViewState
                             /// Approver2 By Department
                             /// Approver1 By Department
                             CommonWidgets.textDisplay(
-                              Constants.approver2Department,
+                              state.labels?.locale.approver2Department ??
+                                  state.labels?.defaultLocale
+                                      .approver2Department ??
+                                  Constants.approver2Department,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -1089,7 +1140,10 @@ class _MaterialMovementDetailsViewState
                             if (state.model.returnable == true) ...[
                               /// Expected Date Of Return
                               CommonWidgets.textDisplay(
-                                Constants.expectedDateOfReturn,
+                                state.labels?.locale.expectedDateOfReturn ??
+                                    state.labels?.defaultLocale
+                                        .expectedDateOfReturn ??
+                                    Constants.expectedDateOfReturn,
                                 Styles.textStyleBlack14,
                                 isMandatory: true,
                               ),
@@ -1130,14 +1184,20 @@ class _MaterialMovementDetailsViewState
 
                                 /// Approved By
                                 CommonWidgets.verticalTextHandling(
-                                    Constants.approvedBy,
+                                    state.labels?.locale.approvedBy ??
+                                        state
+                                            .labels?.defaultLocale.approvedBy ??
+                                        Constants.approvedBy,
                                     state.model.approvedBy ?? ''),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
                                 /// Approved Date
                                 CommonWidgets.verticalTextHandling(
-                                    Constants.approvedDate,
+                                    state.labels?.locale.approvedDate ??
+                                        state.labels?.defaultLocale
+                                            .approvedDate ??
+                                        Constants.approvedDate,
                                     state.model.approvedDate ?? ''),
 
                                 CommonWidgets.verticalSpacerWidget(
@@ -1145,7 +1205,10 @@ class _MaterialMovementDetailsViewState
 
                                 /// Taken Out By
                                 CommonWidgets.textDisplay(
-                                  Constants.takenOutBy,
+                                  state.labels?.locale.takenOutName ??
+                                      state
+                                          .labels?.defaultLocale.takenOutName ??
+                                      Constants.takenOutBy,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -1171,7 +1234,10 @@ class _MaterialMovementDetailsViewState
 
                                 /// Taken Out By Contact No.
                                 CommonWidgets.textDisplay(
-                                  Constants.takenOutByContactNo,
+                                  state.labels?.locale.takenOutContactNo ??
+                                      state.labels?.defaultLocale
+                                          .takenOutContactNo ??
+                                      Constants.takenOutByContactNo,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -1197,7 +1263,10 @@ class _MaterialMovementDetailsViewState
 
                                 /// Taken Out Address
                                 CommonWidgets.textDisplay(
-                                  Constants.takenOutAddress,
+                                  state.labels?.locale.takenOutAddress ??
+                                      state.labels?.defaultLocale
+                                          .takenOutAddress ??
+                                      Constants.takenOutAddress,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -1225,7 +1294,10 @@ class _MaterialMovementDetailsViewState
                                 //if (state.materialMovement.status == 2 && state.isInward == false) ...[
                                 /// Taken Out On
                                 CommonWidgets.textDisplay(
-                                  Constants.takenOutOn,
+                                  state.labels?.locale.takenOutDate ??
+                                      state
+                                          .labels?.defaultLocale.takenOutDate ??
+                                      Constants.takenOutOn,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -1254,19 +1326,27 @@ class _MaterialMovementDetailsViewState
                             if (state.model.status == 3) ...[
                               /// Rejected By
                               CommonWidgets.verticalTextHandling(
-                                  Constants.rejectedBy,
+                                  state.labels?.locale.rejectedBy ??
+                                      state.labels?.defaultLocale.rejectedBy ??
+                                      Constants.rejectedBy,
                                   state.model.rejectedBy ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Rejected Date
                               CommonWidgets.verticalTextHandling(
-                                  Constants.rejectedDate,
+                                  state.labels?.locale.rejectedDate ??
+                                      state
+                                          .labels?.defaultLocale.rejectedDate ??
+                                      Constants.rejectedDate,
                                   state.model.rejectedDate ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Rejected Comment
                               CommonWidgets.verticalTextHandling(
-                                  Constants.rejectedComment,
+                                  state.labels?.locale.rejectionComment ??
+                                      state.labels?.defaultLocale
+                                          .rejectionComment ??
+                                      Constants.rejectedComment,
                                   state.model.rejectionComment ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
@@ -1275,7 +1355,10 @@ class _MaterialMovementDetailsViewState
                           if (widget.isInward) ...[
                             /// Senders Name
                             CommonWidgets.textDisplay(
-                              Constants.sendersName,
+                              state.labels?.locale.materialComingFrom ??
+                                  state.labels?.defaultLocale
+                                      .materialComingFrom ??
+                                  Constants.sendersName,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -1299,7 +1382,10 @@ class _MaterialMovementDetailsViewState
 
                             /// Material Coming From Address
                             CommonWidgets.textDisplay(
-                              Constants.materialComingFromBriefDescription,
+                              state.labels?.locale.materialComingFromAddress ??
+                                  state.labels?.defaultLocale
+                                      .materialComingFromAddress ??
+                                  Constants.materialComingFromBriefDescription,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -1324,7 +1410,10 @@ class _MaterialMovementDetailsViewState
 
                             /// Is original receiver receiving
                             CommonWidgets.textDisplay(
-                              Constants.isOriginalReceiverReceiving,
+                              state.labels?.locale.originalReceiver ??
+                                  state
+                                      .labels?.defaultLocale.originalReceiver ??
+                                  Constants.isOriginalReceiverReceiving,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -1359,8 +1448,14 @@ class _MaterialMovementDetailsViewState
                               children: [
                                 CommonWidgets.textDisplay(
                                   !state.model.originalReceiver
-                                      ? Constants.receivedFor
-                                      : Constants.receivedBy,
+                                      ? state.labels?.locale.otherReceiverName ??
+                                          state.labels?.defaultLocale
+                                              .otherReceiverName ??
+                                          Constants.receivedFor
+                                      : state.labels?.locale.receiverName ??
+                                          state.labels?.defaultLocale
+                                              .receiverName ??
+                                          Constants.receivedBy,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -1407,8 +1502,15 @@ class _MaterialMovementDetailsViewState
                             /// Received for Employee Id
                             CommonWidgets.textDisplay(
                               !state.model.originalReceiver
-                                  ? Constants.receivedForEmployeeId
-                                  : Constants.receiverEmployeeId,
+                                  ? state.labels?.locale.receiverEmployeeId ??
+                                      state.labels?.defaultLocale
+                                          .receiverEmployeeId ??
+                                      Constants.receivedForEmployeeId
+                                  : state.labels?.locale
+                                          .otherReceiverEmployeeId ??
+                                      state.labels?.defaultLocale
+                                          .otherReceiverEmployeeId ??
+                                      Constants.receiverEmployeeId,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -1431,7 +1533,10 @@ class _MaterialMovementDetailsViewState
 
                             /// Receiver Department
                             CommonWidgets.textDisplay(
-                              Constants.receiverDepartment,
+                              state.labels?.locale.receiverDepartment ??
+                                  state.labels?.defaultLocale
+                                      .receiverDepartment ??
+                                  Constants.receiverDepartment,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -1483,7 +1588,9 @@ class _MaterialMovementDetailsViewState
                             if (!state.model.originalReceiver) ...[
                               /// Received by
                               CommonWidgets.textDisplay(
-                                Constants.receivedBy,
+                                state.labels?.locale.receiverName ??
+                                    state.labels?.defaultLocale.receiverName ??
+                                    Constants.receivedBy,
                                 Styles.textStyleBlack14,
                                 isMandatory: true,
                               ),
@@ -1507,7 +1614,10 @@ class _MaterialMovementDetailsViewState
 
                               /// Received by Employee Id
                               CommonWidgets.textDisplay(
-                                Constants.receiverEmployeeId,
+                                state.labels?.locale.receiverEmployeeId ??
+                                    state.labels?.defaultLocale
+                                        .receiverEmployeeId ??
+                                    Constants.receiverEmployeeId,
                                 Styles.textStyleBlack14,
                                 isMandatory: true,
                               ),
@@ -1534,7 +1644,9 @@ class _MaterialMovementDetailsViewState
                             /// Receiver Signature test
                             buildSignature(
                               controller: receiverSignatureController,
-                              label: Constants.receiverSignature,
+                              label: state.labels?.locale.receiverSign ??
+                                  state.labels?.defaultLocale.receiverSign ??
+                                  Constants.receiverSignature,
                               spaceHeight: height,
                               state: state,
                             ),
@@ -1542,7 +1654,10 @@ class _MaterialMovementDetailsViewState
                             /// Security Signature
                             buildSignature(
                               controller: securitySignatureController,
-                              label: Constants.securitySignature,
+                              label: state.labels?.locale.entrySecuritySign ??
+                                  state.labels?.defaultLocale
+                                      .entrySecuritySign ??
+                                  Constants.securitySignature,
                               spaceHeight: height,
                               state: state,
                             ),
@@ -1573,7 +1688,10 @@ class _MaterialMovementDetailsViewState
                               widget.isInward) ...[
                             /// Is Material Physically Checked
                             CommonWidgets.textDisplay(
-                              Constants.isPhysicallyChecked,
+                              state.labels?.locale.materialPhysicallyChecked ??
+                                  state.labels?.defaultLocale
+                                      .materialPhysicallyChecked ??
+                                  Constants.isPhysicallyChecked,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -1617,7 +1735,10 @@ class _MaterialMovementDetailsViewState
                                 state.model.returnable == true) ...[
                               /// Actual Date Of Return
                               CommonWidgets.textDisplay(
-                                Constants.actualDateOfReturn,
+                                state.labels?.locale.actualDateOfReturn ??
+                                    state.labels?.defaultLocale
+                                        .actualDateOfReturn ??
+                                    Constants.actualDateOfReturn,
                                 Styles.textStyleBlack14,
                               ),
                               CommonWidgets.verticalSpacerWidget(
@@ -1639,7 +1760,10 @@ class _MaterialMovementDetailsViewState
 
                               ///Material Returned Challan No
                               CommonWidgets.textDisplay(
-                                Constants.materialReturnedChallanNo,
+                                state.labels?.locale.materialReturnedChallanNo ??
+                                    state.labels?.defaultLocale
+                                        .materialReturnedChallanNo ??
+                                    Constants.materialReturnedChallanNo,
                                 Styles.textStyleBlack14,
                                 isMandatory: true,
                               ),
@@ -1670,7 +1794,10 @@ class _MaterialMovementDetailsViewState
                               Column(
                                 children: [
                                   CommonWidgets.textDisplay(
-                                    Constants.returnReceiverEmail,
+                                    state.labels?.locale.returnReceiverMailId ??
+                                        state.labels?.defaultLocale
+                                            .returnReceiverMailId ??
+                                        Constants.returnReceiverEmail,
                                     Styles.textStyleBlack14,
                                     isMandatory: true,
                                   ),
@@ -1718,7 +1845,10 @@ class _MaterialMovementDetailsViewState
 
                               ///Returned Quantity
                               CommonWidgets.textDisplay(
-                                Constants.returnedQuantity,
+                                state.labels?.locale.returnQuantity ??
+                                    state
+                                        .labels?.defaultLocale.returnQuantity ??
+                                    Constants.returnedQuantity,
                                 Styles.textStyleBlack14,
                                 isMandatory: true,
                               ),
@@ -1746,7 +1876,10 @@ class _MaterialMovementDetailsViewState
                             /// Comment
                             if (!state.model.materialPhysicallyChecked) ...[
                               CommonWidgets.textDisplay(
-                                Constants.comment,
+                                state.labels?.locale.materialNotCheckedComment ??
+                                    state.labels?.defaultLocale
+                                        .materialNotCheckedComment ??
+                                    Constants.comment,
                                 Styles.textStyleBlack14,
                                 isMandatory: true,
                               ),
@@ -1951,7 +2084,9 @@ class _MaterialMovementDetailsViewState
 
   Widget quantityUnitPopUp(MaterialMovementDetailsState state) {
     return TextfieldAddButton(
-      title: 'Quantity',
+      title: state.labels?.locale.quantity ??
+          state.labels?.defaultLocale.quantity ??
+          Constants.quantity,
       height: 70,
       isDisableColor: state.model.quantity == null ? false : true,
       onTap: () {
