@@ -55,6 +55,11 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
   void onModelValueChange(SLAViolationPenaltyModel model) {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
+  void onCheckBoxChange(SLAViolationPenaltyModel model) {
+    emit(state.copyWith(model: model, status: FormStatus.loading));
+
+    emit(state.copyWith(model: model, status: FormStatus.initial));
+  }
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
