@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
@@ -37,13 +38,16 @@ class AddContactPopUp extends StatefulWidget {
 
 class AddContactPopUpState extends State<AddContactPopUp> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController contactController = TextEditingController();
+  TextEditingController rankController = TextEditingController();
   TextEditingController nameController = TextEditingController();
-  TextEditingController toDateController = TextEditingController();
+  TextEditingController contactNoController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    rankController.text = widget.contact.rank?.name ?? '';
+    nameController.text = widget.contact.email ?? '';
+    contactNoController.text = widget.contact.contactNo ?? '';
   }
 
   @override
@@ -62,7 +66,6 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       backgroundColor: AppColors.backgroundWhitecolor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
-        // Get available height and width of the build area of this widget. Make a choice depending on the size.
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
 
@@ -85,8 +88,10 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
+
+                          /// Rank
                           TextfieldAddButton(
-                            title: widget.contact.rank?.name ?? '',
+                            title: rankController.text,
                             height: 70,
                             isDisableColor: false,
                             onTap: () {
@@ -94,7 +99,14 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                 context: context,
                                 entities: widget.users,
                                 onTap: (Organisation user) {
-                                  widget.contact.rank?.name = user.name;
+                                  log('-user.name----${user.name}-');
+
+                                  rankController.text = user.name ?? '';
+
+                                  widget.contact.rank ??= Organisation();
+                                  widget.contact.rank = user;
+                                  log('-widget.contact.rank?.name----${widget.contact.rank?.name}-');
+
                                   setState(() {});
                                   // BlocProvider.of<ContactListingBloc>(context)
                                   //     .updateApproverEmailsValue(
@@ -115,13 +127,17 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue: widget.contact.email ?? '',
+                        initialValue: nameController.text,
                         keyboardType: TextInputType.text,
                         textFormKey: Keys.nameKey,
                         hintText: '',
                         isEnable: true,
                         isDisableColor: false,
                         onChange: (String value) {
+                          log('-widget.contact.rank?.name--value--$value-');
+                          widget.contact.email = value;
+                          log('-widget.contact.rank?.name----${widget.contact.email}-');
+
                           // widget.payRate.perHour = double.parse(value);
                           // BlocProvider.of<PayRateCubit>(widget.mainContext)
                           //     .onModelValueChange(widget.payRate);
@@ -137,13 +153,16 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue: '${widget.contact.contactNo ?? ''}',
+                        initialValue: widget.contact.contactNo ?? '',
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
                         isEnable: true,
                         isDisableColor: false,
                         onChange: (String value) {
+                          log('-widget.contact.rank?.name--value--$value-');
+                          widget.contact.contactNo = value;
+                          log('-widget.contact.contactNo?.name----${widget.contact.contactNo}-');
                           // widget.payRate.perHour = double.parse(value);
                           // BlocProvider.of<PayRateCubit>(widget.mainContext)
                           //     .onModelValueChange(widget.payRate);
@@ -213,18 +232,19 @@ class AddContactPopUpState extends State<AddContactPopUp> {
           return;
         }
         onSubmit(widget.contact);
+        Navigator.pop(context);
       },
     );
   }
 
   ErrorResponse get isFormValid {
-    if (widget.contact.rank == null) {
+    if (widget.contact.rank?.name == null) {
       return const ErrorResponse(status: false, message: 'Please enter Rank.');
     }
-    if (widget.contact.email == null) {
+    if (widget.contact.email.isEmptyOrNull) {
       return const ErrorResponse(status: false, message: 'Please enter Name.');
     }
-    if (widget.contact.contactNo == null) {
+    if (widget.contact.contactNo.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Contact No.');
     }
