@@ -163,7 +163,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
     showLoadingDialog(context);
 
     SLAViolationPenaltyModel model =
-    await SLAViolationPenaltyServices().getGcdById(id);
+    await SLAViolationPenaltyServices().getGvpById(id);
 
     editDataLoading(model);
   }

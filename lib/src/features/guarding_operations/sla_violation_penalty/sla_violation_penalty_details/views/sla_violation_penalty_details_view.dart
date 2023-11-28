@@ -285,7 +285,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
 
                             BaseEntitiesSelection().entityDropDownSelection(
                                 context: context,
-                                selectedValues: state.model.vendors ?? [],
+                                selectedValues: state.model.vendor ?? [],
                                 all: state.vendors ?? [],
                                 enabled: !isReadOnly,
                                 onTap: (List<Organisation> selectedVendors) {
@@ -332,7 +332,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
 
                             BaseEntitiesSelection().entityDropDownSelection(
                                 context: context,
-                                selectedValues: state.model.vendors ?? [],
+                                selectedValues: state.model.vendor ?? [],
                                 all: state.vendors ?? [],
                                 enabled: !isReadOnly,
                                 onTap: (List<Organisation> selectedVendors) {
@@ -404,7 +404,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                             ),
                             // ],
                             BasicWidgetFunctions().getStringText(
-                                strings: state.model.guardingAgencyPOC ?? []),
+                                strings: state.model.poc ?? []),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -616,8 +616,8 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                             const Spacer(),
                             submitButton(
                               onTap: () async {
-                                state.model.guardingAgencyPOC ??= [];
-                                state.model.guardingAgencyPOC
+                                state.model.poc ??= [];
+                                state.model.poc
                                     ?.add(guardingAgencyPOCController.text);
                                 BlocProvider.of<SLAViolationPenaltyDetailsCubit>(this.context)
                                     .onCheckBoxChange(state.model);

@@ -16,9 +16,10 @@ class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
   static final String _getContactListByType = '$baseUrl/getGcdTypeById/';
-  static final String _getGcd = '$baseUrl/getGcdList?';
 
-  static final String _getById = '$baseUrl/getGcdGiById';
+  static final String _getVP = '$baseUrl/getSvpList?';
+
+  static final String _getById = '$baseUrl/getSvpGiById';
 
   static final String _createGeneralInformation = '$baseUrl/createCDGI?';
 
@@ -43,20 +44,20 @@ class SLAViolationPenaltyServices {
     return ViolationPenaltyListModel.fromJson(response);
   }
 
-  Future<ContactDetailsListResponseModel> getGcd({
+  Future<SLAViolationPenaltyResponseModel> getGcd({
     required String startPosition,
     required String maximumRecords,
   }) async {
     String url =
-        '${Apis._getGcd}startPos=$startPosition&maxResults=$maximumRecords';
+        '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
     );
-    return ContactDetailsListResponseModel.fromJson(response);
+    return SLAViolationPenaltyResponseModel.fromJson(response);
   }
 
-  Future<SLAViolationPenaltyModel> getGcdById(int id) async {
+  Future<SLAViolationPenaltyModel> getGvpById(int id) async {
     final String url = '${Apis._getById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -83,7 +84,7 @@ class SLAViolationPenaltyServices {
     required String maximumRecords,
   }) async {
     String url =
-        '${Apis._getGcd}startPos=$startPosition&maxResults=$maximumRecords';
+        '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,

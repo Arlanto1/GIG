@@ -27,13 +27,13 @@ SLAViolationPenaltyModel _$SLAViolationPenaltyModelFromJson(Map<String, dynamic>
           entities : (json['entities'] as List?)
               ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
               .toList(),
-          vendors : (json['vendors'] as List?)
+      vendor : (json['vendor'] as List?)
               ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
               .toList(),
       asl : (json['asl'] as Map<String, dynamic>?) != null
           ? User.fromJson(json['asl'] as Map<String, dynamic>)
           : null,
-      guardingAgencyPOC : (json['guardingAgencyPOC'] as List?)
+      poc : (json['poc'] as List?)
           ?.map((dynamic e) => e as String)
           .toList(),
     )..lock = json['lock'] as String?;
@@ -51,7 +51,7 @@ Map<String, dynamic> _$SLAViolationPenaltyModelToJson(SLAViolationPenaltyModel i
       'modifiedBy': instance.modifiedBy,
       'status': instance.status,
           'entities': instance.entities?.map((e) => e.toJson()).toList(),
-          'vendors': instance.vendors?.map((e) => e.toJson()).toList(),
+          'vendor': instance.vendor?.map((e) => e.toJson()).toList(),
       'asl':instance. asl?.toJson(),
-      'guardingAgencyPOC': instance.guardingAgencyPOC,
+      'guardingAgencyPOC': instance.poc,
     };

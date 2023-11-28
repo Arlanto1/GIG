@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../../enums/form_status.dart';
+import '../../models/sla_violation_penalty_response_model.dart';
 import '../../services/sla_violation_penalty_services.dart';
 
 
@@ -29,7 +29,7 @@ class SLAViolationPenaltyListBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        ContactDetailsListResponseModel response = await services.getGcd(
+        SLAViolationPenaltyResponseModel response = await services.getGcd(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
         );
@@ -44,7 +44,7 @@ class SLAViolationPenaltyListBloc
         );
       }
 
-      ContactDetailsListResponseModel response = await services.getGcd(
+      SLAViolationPenaltyResponseModel response = await services.getGcd(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
       );

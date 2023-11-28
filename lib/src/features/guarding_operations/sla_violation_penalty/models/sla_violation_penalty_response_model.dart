@@ -49,9 +49,9 @@ class SLAViolationPenaltyModel extends BaseObject {
   String? modifiedBy;
   int? status;
   List<Organisation>? entities;
-  List<Organisation>? vendors;
+  List<Organisation>? vendor;
   User? asl;
-  List<String>? guardingAgencyPOC;
+  List<String>? poc;
 
   SLAViolationPenaltyModel({
     this.id,
@@ -64,9 +64,9 @@ class SLAViolationPenaltyModel extends BaseObject {
     this.modifiedBy,
     this.status,
     this.entities,
-    this.vendors,
+    this.vendor,
     this.asl,
-    this.guardingAgencyPOC,
+    this.poc,
 
   });
 

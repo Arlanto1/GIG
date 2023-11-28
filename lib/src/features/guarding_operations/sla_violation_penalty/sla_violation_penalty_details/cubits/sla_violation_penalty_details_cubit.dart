@@ -159,7 +159,7 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
       state.model.entities = entities;
     }
     if (vendors != null) {
-      state.model.vendors = vendors;
+      state.model.vendor = vendors;
     }
     if (user != null) {
       User userDetails = User(
