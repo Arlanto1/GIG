@@ -60,26 +60,26 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () => {
-            Navigator.pushNamed(context, contactDetailsRoute, arguments: {
-              "title": Constants.contactDetails,
-            })
-          },
-        ),
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: Constants.contactDetails,
-          showPopUp: true,
-          showSaveButton: false,
-          excelAPIName: 'exportMMExcel',
-          pdfAPIName: 'exportMMPDF',
-        ),
-        body: BlocBuilder<ContactDetailsListBloc, ContactDetailsListState>(
-            builder: (context, state) {
+      backgroundColor: AppColors.cardBgColor,
+      floatingActionButton: Flutterfloatingbutton(
+        backgroundColor: AppColors.navigationSkybluecolor,
+        foregroundColor: AppColors.backgroundWhitecolor,
+        onPressed: () => {
+          Navigator.pushNamed(context, contactDetailsRoute, arguments: {
+            "title": Constants.contactDetails,
+          })
+        },
+      ),
+      appBar: BaseAppBar().buildAppHeader(
+        context: context,
+        title: Constants.contactDetails,
+        showPopUp: true,
+        showSaveButton: false,
+        excelAPIName: 'exportMMExcel',
+        pdfAPIName: 'exportMMPDF',
+      ),
+      body: BlocBuilder<ContactDetailsListBloc, ContactDetailsListState>(
+        builder: (context, state) {
           if (state.status == FormStatus.initial) {
             return const BaseLoader();
           }
@@ -113,7 +113,6 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                   labels.add(Label(
                       key: 'Location',
                       value: state.items[index].location?.name ?? ''));
-                }
                 return index >= state.items.length
                     ? const BaseLoader()
                     : BaseListTileItem(
@@ -153,10 +152,13 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                         },
                         index: index,
                       );
+                }
               },
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 
   getLawEnforcementId(int id) async {
