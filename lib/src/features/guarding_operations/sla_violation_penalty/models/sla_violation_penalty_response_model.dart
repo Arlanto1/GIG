@@ -21,20 +21,20 @@ class SLAViolationPenaltyResponseModel extends BaseObject {
 
   SLAViolationPenaltyResponseModel.fromJson(Map<String, dynamic> json)
       : items = (json['data'] as List?)
-      ?.map((dynamic e) =>
-      SLAViolationPenaltyModel.fromJson(e as Map<String, dynamic>))
-      .toList(),
+            ?.map((dynamic e) =>
+                SLAViolationPenaltyModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   @override
   Map<String, dynamic> toJson() => {
-    'data': items?.map((e) => e.toJson()).toList(),
-    'totalCount': totalCount,
-    'currentPageNo': currentPageNo,
-    'totalPageCount': totalPageCount
-  };
+        'data': items?.map((e) => e.toJson()).toList(),
+        'totalCount': totalCount,
+        'currentPageNo': currentPageNo,
+        'totalPageCount': totalPageCount
+      };
 }
 
 @JsonSerializable()
@@ -50,7 +50,7 @@ class SLAViolationPenaltyModel extends BaseObject {
   int? status;
   List<Organisation>? entities;
   List<Organisation>? vendor;
-  User? asl;
+  List<Organisation>? typeOfService;
   List<String>? poc;
 
   SLAViolationPenaltyModel({
@@ -65,9 +65,8 @@ class SLAViolationPenaltyModel extends BaseObject {
     this.status,
     this.entities,
     this.vendor,
-    this.asl,
     this.poc,
-
+    this.typeOfService,
   });
 
   factory SLAViolationPenaltyModel.fromJson(Map<String, dynamic> json) =>

@@ -9,21 +9,21 @@ part of 'violation_penalty_model.dart';
 ViolationPenaltyRecord _$ViolationPenaltyRecordFromJson(Map<String, dynamic> json) =>
     ViolationPenaltyRecord(
       id: json['id'] as int?,
-      contactId: json['contactId'] as int?,
-      email: json['email'] as String?,
-      contactNo: json['contactNo'] as String?,
-      rank: json['rank'] == null
-          ? null
-          : Organisation.fromJson(json['rank'] as Map<String, dynamic>),
-      type: json['type'] as int?,
+          penaltyAmount: json['penaltyAmount'] as int?,
+          totalViolations: json['totalViolations'] as int?,
+          staffCategory: json['staffCategory'] as int?,
+          // violation: json['violation'] == null
+          // ? null
+          // : Violation(id: id, name: name, keyname: keyname, description: description).fromJson(json['violation'] as Map<String, dynamic>),
+          totalPenaltyAmount: json['totalPenaltyAmount'] as int?,
     );
 
 Map<String, dynamic> _$ViolationPenaltyRecordToJson(ViolationPenaltyRecord instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'contactId': instance.contactId,
-      'email': instance.email,
-      'contactNo': instance.contactNo,
-      'rank': instance.rank,
-      'type': instance.type,
+      'penaltyAmount': instance.penaltyAmount,
+      'totalViolations': instance.totalViolations,
+      'staffCategory': instance.staffCategory,
+     // 'violation': instance.violation,
+      'totalPenaltyAmount': instance.totalPenaltyAmount,
     };

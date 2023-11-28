@@ -353,7 +353,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextfieldAddButton(
-                              title: state.model.asl?.name,
+                              title: state.model.entrySecurity?.name,
                               height: 60,
                               isDisableColor: isReadOnly,
                               onTap: () {

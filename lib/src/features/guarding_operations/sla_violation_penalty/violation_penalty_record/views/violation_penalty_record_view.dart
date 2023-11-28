@@ -125,24 +125,24 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
         itemBuilder: (context, index) {
           List<Label> labels = [];
           if (index < state.items!.length) {
+            //labels.add(
+            //   Label(
+            //     key: 'Email',
+            //     value: state.items![index].staffCategory ?? '',
+            //   ),
+            // );
             labels.add(
               Label(
-                key: 'Email',
-                value: state.items![index].email ?? '',
+                key: 'Violation',
+                value: state.items![index].violation?.name ?? '',
               ),
             );
-            labels.add(
-              Label(
-                key: 'Rank',
-                value: state.items![index].rank?.name ?? '',
-              ),
-            );
-            labels.add(
-              Label(
-                key: 'Contact No',
-                value: state.items![index].contactNo ?? '',
-              ),
-            );
+            // labels.add(
+            //   Label(
+            //     key: 'Contact No',
+            //     value: state.items[index].penaltyAmount??0,
+            //   ),
+            // );
             return index >= state.items!.length
                 ? const BaseLoader()
                 : BaseListTileItem(
@@ -208,7 +208,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
       builder: (BuildContext dialogContext) {
         return AddContactPopUp(
           title: widget.title,
-          contact: contact,
+          violation: contact,
           mainContext: context,
           users: users,
           onSubmit: (ViolationPenaltyRecord model) {

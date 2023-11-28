@@ -167,7 +167,7 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
         userId: user.id,
         userName: user.name,
       );
-      state.model.asl = userDetails;
+      state.model.entrySecurity = userDetails;
     }
     emit(state.copyWith(
       model: state.model,

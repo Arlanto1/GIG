@@ -22,14 +22,14 @@ class AddContactPopUp extends StatefulWidget {
     super.key,
     required this.title,
     required this.onSubmit,
-    required this.contact,
+    required this.violation,
     required this.mainContext,
     required this.users,
   });
 
   final String title;
   final Function onSubmit;
-  final ViolationPenaltyRecord contact;
+  final ViolationPenaltyRecord violation;
   final List<Organisation> users;
   final BuildContext mainContext;
 
@@ -88,7 +88,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             isMandatory: true,
                           ),
                           TextfieldAddButton(
-                            title: widget.contact.rank?.name ?? '',
+                            title: widget.violation.violation?.name ?? '',
                             height: 70,
                             isDisableColor: false,
                             onTap: () {
@@ -96,7 +96,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                 context: context,
                                 entities: widget.users,
                                 onTap: (Organisation user) {
-                                  widget.contact.rank?.name = user.name;
+                               //   widget.violation.violation?.name = user.name;
                                   setState(() {});
                                   // BlocProvider.of<ContactListingBloc>(context)
                                   //     .updateApproverEmailsValue(
@@ -109,7 +109,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      /// Name
+                      /// Violation
                       CommonWidgets.textDisplay(
                         Constants.name,
                         isMandatory: true,
@@ -117,7 +117,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue: widget.contact.email ?? '',
+                        initialValue: '',
                         keyboardType: TextInputType.text,
                         textFormKey: Keys.nameKey,
                         hintText: '',
@@ -132,14 +132,14 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      /// Phone Number
+                      /// Total No of Violations
                       CommonWidgets.textDisplay(
                         Constants.phoneNumber,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue: '${widget.contact.contactNo ?? ''}',
+                        initialValue: '${widget.violation.totalViolations ?? ''}',
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
@@ -214,21 +214,21 @@ class AddContactPopUpState extends State<AddContactPopUp> {
           );
           return;
         }
-        onSubmit(widget.contact);
+        onSubmit(widget.violation);
       },
     );
   }
 
   ErrorResponse get isFormValid {
-    if (widget.contact.rank == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Rank.');
+    if (widget.violation.violation == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Violation.');
     }
-    if (widget.contact.email == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Name.');
+    if (widget.violation.staffCategory == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Staff Category.');
     }
-    if (widget.contact.contactNo == null) {
+    if (widget.violation.totalViolations == null) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Contact No.');
+          status: false, message: 'Please enter Total No of Violations');
     }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
