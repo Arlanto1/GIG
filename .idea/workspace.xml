@@ -4,72 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="image display issue fixed">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="Contact Details status handled">
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKImagePickerController-DKImagePickerController.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKImagePickerController.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKPhotoGallery-DKPhotoGallery.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/DKPhotoGallery.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/Flutter.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/Pods-Runner.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/Reachability.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/SDWebImage.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/SwiftyGif.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/app_settings.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/connectivity.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/file_picker.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/flutter_file_dialog.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/flutter_keyboard_visibility.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/image_picker_ios.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/path_provider_foundation.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/permission_handler_apple.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/ios/Pods.build/Release-iphonesimulator/shared_preferences_foundation.build/dgph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/custom_list_expansion_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/custom_list_expansion_pop_up.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details/cubits/contact_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details/cubits/contact_details_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details/cubits/contact_details_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details/cubits/contact_details_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details/views/contact_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details/views/contact_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/models/get_locations_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/models/get_locations_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/contact_info/cubits/contact_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/contact_info/cubits/contact_info_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/contact_info/cubits/contact_info_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/contact_info/cubits/contact_info_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/event_info/cubits/event_info_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/event_info/cubits/event_info_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/cubits/general_info_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/cubits/general_info_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/views/general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/views/general_info_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_information/guard_info/cubits/guard_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_information/guard_info/cubits/guard_info_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_information/guard_info/cubits/guard_info_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_information/guard_info/cubits/guard_info_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_rate/guarding_rate_details/views/rates_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_rate/guarding_rate_details/views/rates_info.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/cubits/incident_general_info_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/cubits/incident_general_info_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/views/incident_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/views/incident_general_info_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/services/law_enforcement_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/services/law_enforcement_services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgmt_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgmt_services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/cubits/sst_incident_general_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/cubits/sst_incident_general_info_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/cubits/sst_incident_general_info_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/cubits/sst_incident_general_info_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/views/sst_incident_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/views/sst_incident_general_info_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/services/CommonServices.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/services/CommonServices.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,17 +24,28 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="67ec82efee9a40db69a865fcbfcfaa05d551b601" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
+  }
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="recentNewPullRequestHead">
       <RepoCoordinatesHolder>
         <option name="owner" value="Arlanto1" />
         <option name="repository" value="Arlanto-App-Codebase" />
       </RepoCoordinatesHolder>
+    </option>
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="831b44e6-23bf-4143-9ddb-2968557d3a5b" />
+        <option name="url" value="git@github.com:Arlanto1/Arlanto-App-Codebase.git" />
+      </UrlAndAccount>
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -116,23 +65,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.android.tools.idea.streaming.emulator.frame.visible&quot;: &quot;false&quot;,
-    &quot;com.android.tools.idea.streaming.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/anuragdhunna/AndroidStudioProjects/Arlanto-App-Codebase/lib/src/common_widgets/base_widget&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true",
+    "com.android.tools.idea.streaming.emulator.frame.visible": "false",
+    "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "/home/anuragdhunna/AndroidStudioProjects/Arlanto-App-Codebase/lib/src/common_widgets/base_widget",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/lib/src/common_widgets/base_widget" />
@@ -166,258 +115,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1690954965616</updated>
-    </task>
-    <task id="LOCAL-00009" summary="material outward movement list ui done">
-      <created>1691487643566</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1691487643566</updated>
-    </task>
-    <task id="LOCAL-00010" summary="WIP: material inward detail page">
-      <created>1691583576093</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1691583576093</updated>
-    </task>
-    <task id="LOCAL-00011" summary="WIP: material inward detail page">
-      <created>1691640200710</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1691640200710</updated>
-    </task>
-    <task id="LOCAL-00012" summary="wip: create material movement inward API call">
-      <created>1691667840659</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1691667840659</updated>
-    </task>
-    <task id="LOCAL-00013" summary="wip: material movement list on View Detail pop up done">
-      <created>1691669500636</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1691669500636</updated>
-    </task>
-    <task id="LOCAL-00014" summary="wip: material movement inward details location">
-      <created>1691684124222</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1691684124222</updated>
-    </task>
-    <task id="LOCAL-00015" summary="wip: material movement inward details location">
-      <created>1691747025101</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1691747025101</updated>
-    </task>
-    <task id="LOCAL-00016" summary="validation added and show hide fields on radio button selection">
-      <created>1691834700186</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1691834700186</updated>
-    </task>
-    <task id="LOCAL-00017" summary="validation and radio button improvements&#10;WIP: quantity">
-      <created>1691845668527</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1691845668527</updated>
-    </task>
-    <task id="LOCAL-00018" summary="unused code removed">
-      <created>1691897030741</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1691897030741</updated>
-    </task>
-    <task id="LOCAL-00019" summary="WIP: movement quantity">
-      <created>1691914884726</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1691914884726</updated>
-    </task>
-    <task id="LOCAL-00020" summary="git ignore updated">
-      <created>1691988645458</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1691988645458</updated>
-    </task>
-    <task id="LOCAL-00021" summary="merge">
-      <created>1691989031789</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1691989031789</updated>
-    </task>
-    <task id="LOCAL-00022" summary="remianing files">
-      <created>1691989059954</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1691989059954</updated>
-    </task>
-    <task id="LOCAL-00023" summary="git ignore">
-      <created>1691989550147</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1691989550147</updated>
-    </task>
-    <task id="LOCAL-00024" summary="git ignore">
-      <created>1691989643826</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1691989643826</updated>
-    </task>
-    <task id="LOCAL-00025" summary="improvements,&#10;outward details">
-      <created>1692006337707</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1692006337707</updated>
-    </task>
-    <task id="LOCAL-00026" summary="improvements,&#10;outward details">
-      <created>1692006786140</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1692006786140</updated>
-    </task>
-    <task id="LOCAL-00027" summary="improvements in inward and outward details">
-      <created>1692007050196</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1692007050196</updated>
-    </task>
-    <task id="LOCAL-00028" summary="radio button common widget created">
-      <created>1692009812261</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1692009812261</updated>
-    </task>
-    <task id="LOCAL-00029" summary="material movement outward and material physically checked comment">
-      <created>1692080702594</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1692080702594</updated>
-    </task>
-    <task id="LOCAL-00030" summary="model package moved">
-      <created>1692081279542</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1692081279542</updated>
-    </task>
-    <task id="LOCAL-00031" summary="Merge remote-tracking branch 'origin/main' into dev&#10;&#10;# Conflicts:&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/.filecache&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/app.dill&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/debug_ios_bundle_flutter_assets.stamp&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/flutter_assets.d&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/kernel_snapshot.d&#10;#&#9;.dart_tool/flutter_build/4ea7df5d09ae22c8b0cadbf4f72ab43b/kernel_snapshot.stamp&#10;#&#9;.flutter-plugins-dependencies&#10;#&#9;build/08cc42a12d40126f9972e2438221aca3.cache.dill.track.dill&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/App&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/App&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Frameworks/file_picker.framework/file_picker&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/Runner&#10;#&#9;build/ios/Debug-iphonesimulator/Runner.app/_CodeSignature/CodeResources&#10;#&#9;build/ios/Debug-iphonesimulator/file_picker/file_picker.framework/file_picker&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/App&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/_CodeSignature/CodeResources&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/kernel_blob.bin&#10;#&#9;build/ios/iphonesimulator/Runner.app/Frameworks/file_picker.framework/file_picker&#10;#&#9;build/ios/iphonesimulator/Runner.app/Runner&#10;#&#9;build/ios/iphonesimulator/Runner.app/_CodeSignature/CodeResources&#10;#&#9;lib/src/features/createfound/views/upload_attachment.dart&#10;#&#9;lib/src/routing/route_generator.dart">
-      <created>1692088797661</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1692088797661</updated>
-    </task>
-    <task id="LOCAL-00032" summary="files renamed">
-      <created>1692159795217</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1692159795217</updated>
-    </task>
-    <task id="LOCAL-00033" summary="files renamed">
-      <created>1692160099165</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1692160099165</updated>
-    </task>
-    <task id="LOCAL-00034" summary="files renamed&#10;&#10;class T1Analyst and AtomStaticUser changed to Baseuser&#10;&#10;created Reusable Dialog Boxs">
-      <created>1692188701209</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1692188701209</updated>
-    </task>
-    <task id="LOCAL-00035" summary="title made dynamic for material movement &#10;flutter upgrade">
-      <created>1692254809439</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1692254809439</updated>
-    </task>
-    <task id="LOCAL-00036" summary="title made dynamic for material movement &#10;flutter upgrade">
-      <created>1692254965555</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1692254965555</updated>
-    </task>
-    <task id="LOCAL-00037" summary="Integrated Signature Functionality.">
-      <created>1698349607916</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1698349607917</updated>
-    </task>
-    <task id="LOCAL-00038" summary="done: default location for mm">
-      <created>1700195664229</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1700195664229</updated>
-    </task>
-    <task id="LOCAL-00039" summary="unused code removed">
-      <created>1700196062288</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1700196062288</updated>
-    </task>
-    <task id="LOCAL-00040" summary="minor improvement">
-      <created>1700198443618</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1700198443618</updated>
-    </task>
-    <task id="LOCAL-00041" summary="default location, sl no issue">
-      <created>1700200626114</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1700200626114</updated>
-    </task>
-    <task id="LOCAL-00042" summary="article signature">
-      <created>1700202833406</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1700202833406</updated>
-    </task>
-    <task id="LOCAL-00043" summary="submit button issue fixed">
-      <created>1700204599402</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1700204599402</updated>
-    </task>
-    <task id="LOCAL-00044" summary="wip: article found signature&#10;images">
-      <created>1700367153581</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1700367153581</updated>
     </task>
     <task id="LOCAL-00045" summary="default location for incident management done">
       <created>1700371567648</created>
@@ -510,7 +207,259 @@
       <option name="project" value="LOCAL" />
       <updated>1700475333563</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="ep officer dropdown in EP">
+      <created>1700541267698</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1700541267698</updated>
+    </task>
+    <task id="LOCAL-00059" summary="show only permitted location for user">
+      <created>1700543961336</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1700543961336</updated>
+    </task>
+    <task id="LOCAL-00060" summary="validation removed for escorted by field because field is also removed.">
+      <created>1700548356776</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1700548356776</updated>
+    </task>
+    <task id="LOCAL-00061" summary="passtype issue solved">
+      <created>1700550380412</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1700550380412</updated>
+    </task>
+    <task id="LOCAL-00062" summary="api error handled incident management">
+      <created>1700559064125</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1700559064125</updated>
+    </task>
+    <task id="LOCAL-00063" summary="api error handled MM">
+      <created>1700559337475</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1700559337475</updated>
+    </task>
+    <task id="LOCAL-00064" summary="api error handled">
+      <created>1700559762537</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1700559762537</updated>
+    </task>
+    <task id="LOCAL-00065" summary="common loader used">
+      <created>1700560375353</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1700560375353</updated>
+    </task>
+    <task id="LOCAL-00066" summary="upload icon color changed">
+      <created>1700563593667</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1700563593667</updated>
+    </task>
+    <task id="LOCAL-00067" summary="improvement">
+      <created>1700564659082</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1700564659082</updated>
+    </task>
+    <task id="LOCAL-00068" summary="occurrence improvements">
+      <created>1700631825122</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1700631825122</updated>
+    </task>
+    <task id="LOCAL-00069" summary="loader changed">
+      <created>1700632475686</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1700632475686</updated>
+    </task>
+    <task id="LOCAL-00070" summary="models updated">
+      <created>1700633292350</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1700633292350</updated>
+    </task>
+    <task id="LOCAL-00071" summary="occurrence module improved">
+      <created>1700638825486</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1700638825486</updated>
+    </task>
+    <task id="LOCAL-00072" summary="improvements">
+      <created>1700639322659</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1700639322659</updated>
+    </task>
+    <task id="LOCAL-00073" summary="navigation for sst sla in occ">
+      <created>1700640421203</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1700640421203</updated>
+    </task>
+    <task id="LOCAL-00074" summary="improvements in occ">
+      <created>1700643320583</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1700643320583</updated>
+    </task>
+    <task id="LOCAL-00075" summary="missing file">
+      <created>1700643623884</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1700643623884</updated>
+    </task>
+    <task id="LOCAL-00076" summary="WIP: contact listing">
+      <created>1700649099970</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1700649099970</updated>
+    </task>
+    <task id="LOCAL-00077" summary="WIP: contact listing">
+      <created>1700657604576</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1700657604576</updated>
+    </task>
+    <task id="LOCAL-00078" summary="List page improvements">
+      <created>1700659280565</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1700659280565</updated>
+    </task>
+    <task id="LOCAL-00079" summary="improvements">
+      <created>1700712457747</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1700712457747</updated>
+    </task>
+    <task id="LOCAL-00080" summary="improvements">
+      <created>1700712581934</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1700712581934</updated>
+    </task>
+    <task id="LOCAL-00081" summary="empty list message for listing page">
+      <created>1700722585818</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1700722585818</updated>
+    </task>
+    <task id="LOCAL-00082" summary="done: delete contact record">
+      <created>1700735671508</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1700735671508</updated>
+    </task>
+    <task id="LOCAL-00083" summary="package name changed.">
+      <created>1700736005733</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1700736005733</updated>
+    </task>
+    <task id="LOCAL-00084" summary="model updated">
+      <created>1700736702775</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1700736702775</updated>
+    </task>
+    <task id="LOCAL-00085" summary="image upload issue fixed">
+      <created>1700737218232</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1700737218232</updated>
+    </task>
+    <task id="LOCAL-00086" summary="minor improvements">
+      <created>1700743122697</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1700743122698</updated>
+    </task>
+    <task id="LOCAL-00087" summary="WIP: contact details improvements">
+      <created>1700802870921</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1700802870921</updated>
+    </task>
+    <task id="LOCAL-00088" summary="WIP: contact details api implementation">
+      <created>1700815926176</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1700815926176</updated>
+    </task>
+    <task id="LOCAL-00089" summary="WIP: Dynamic UI Labels for MM">
+      <created>1701063325855</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1701063325855</updated>
+    </task>
+    <task id="LOCAL-00090" summary="WIP: Dynamic UI Labels for MM">
+      <created>1701078097889</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1701078097889</updated>
+    </task>
+    <task id="LOCAL-00091" summary="WIP: Contact Details POP UP">
+      <created>1701145002189</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1701145002189</updated>
+    </task>
+    <task id="LOCAL-00092" summary="WIP: Contact Details Base Functionality is complete. &#10;ONLY API response need to be changed from backend">
+      <created>1701153226133</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1701153226133</updated>
+    </task>
+    <task id="LOCAL-00093" summary="Contact Details status handled">
+      <created>1701153921825</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1701153921825</updated>
+    </task>
+    <option name="localTasksCounter" value="94" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -534,7 +483,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/menu-item-role" />
+                        <option value="pass_management" />
                       </list>
                     </value>
                   </entry>
@@ -547,32 +496,32 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="files renamed&#10;&#10;class T1Analyst and AtomStaticUser changed to Baseuser&#10;&#10;created Reusable Dialog Boxs" />
-    <MESSAGE value="title made dynamic for material movement &#10;flutter upgrade" />
-    <MESSAGE value="Integrated Signature Functionality." />
-    <MESSAGE value="done: menu role" />
-    <MESSAGE value="done: default location for mm" />
-    <MESSAGE value="unused code removed" />
-    <MESSAGE value="minor improvement" />
-    <MESSAGE value="default location, sl no issue" />
-    <MESSAGE value="article signature" />
-    <MESSAGE value="submit button issue fixed" />
-    <MESSAGE value="wip: article found signature&#10;images" />
-    <MESSAGE value="default location for incident management done" />
-    <MESSAGE value="default location for occurence, event protection done" />
-    <MESSAGE value="validation added for qualification in GMD" />
-    <MESSAGE value="default location bug fix" />
+    <MESSAGE value="common loader used" />
+    <MESSAGE value="upload icon color changed" />
+    <MESSAGE value="improvement" />
+    <MESSAGE value="occurrence improvements" />
+    <MESSAGE value="loader changed" />
+    <MESSAGE value="models updated" />
+    <MESSAGE value="occurrence module improved" />
+    <MESSAGE value="navigation for sst sla in occ" />
+    <MESSAGE value="improvements in occ" />
     <MESSAGE value="missing file" />
-    <MESSAGE value="dead code removed" />
-    <MESSAGE value="dead code removed and code improvements" />
-    <MESSAGE value="logs added for token issue" />
-    <MESSAGE value="Bugs #484" />
-    <MESSAGE value="token issue fixed" />
-    <MESSAGE value="minor change" />
-    <MESSAGE value="added throw condition for refresh token" />
-    <MESSAGE value="validations added" />
-    <MESSAGE value="image display issue fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="image display issue fixed" />
+    <MESSAGE value="WIP: contact listing" />
+    <MESSAGE value="List page improvements" />
+    <MESSAGE value="improvements" />
+    <MESSAGE value="empty list message for listing page" />
+    <MESSAGE value="done: delete contact record" />
+    <MESSAGE value="package name changed." />
+    <MESSAGE value="model updated" />
+    <MESSAGE value="image upload issue fixed" />
+    <MESSAGE value="minor improvements" />
+    <MESSAGE value="WIP: contact details improvements" />
+    <MESSAGE value="WIP: contact details api implementation" />
+    <MESSAGE value="WIP: Dynamic UI Labels for MM" />
+    <MESSAGE value="WIP: Contact Details POP UP" />
+    <MESSAGE value="WIP: Contact Details Base Functionality is complete. &#10;ONLY API response need to be changed from backend" />
+    <MESSAGE value="Contact Details status handled" />
+    <option name="LAST_COMMIT_MESSAGE" value="Contact Details status handled" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
