@@ -4,7 +4,7 @@ class ContactRecordState extends Equatable {
   final List<ContactRecord>? items;
   final bool hasReachedMax;
   final FormStatus status;
-  final List<Organisation>? ranks;
+  final List<Organisation> ranks;
   final String? message;
 
   const ContactRecordState({
@@ -12,7 +12,7 @@ class ContactRecordState extends Equatable {
     this.items = const <ContactRecord>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
-    this.ranks,
+    required this.ranks,
   });
 
   ContactRecordState copyWith({

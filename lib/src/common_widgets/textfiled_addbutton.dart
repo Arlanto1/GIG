@@ -8,7 +8,9 @@ class TextfieldAddButton extends StatelessWidget {
   final String? title;
   final double? height;
   final bool? isDisableColor;
-  const TextfieldAddButton({Key? key, this.onTap, this.title,this.height,this.isDisableColor
+
+  const TextfieldAddButton(
+      {Key? key, this.onTap, this.title, this.height, this.isDisableColor
 
       // required this.textfield,
       })
@@ -21,25 +23,27 @@ class TextfieldAddButton extends StatelessWidget {
       children: <Widget>[
         GestureDetector(
           onTap: () {
-                  //  datePickerselection(context);
-                  onTap!();
-                },
+            //  datePickerselection(context);
+            onTap!();
+          },
           child: AddButtonWidget(isDisableColor: isDisableColor),
         ),
         const SizedBox(
           width: 5,
         ),
         Expanded(
-            child: Container(
-          height: height,
-          decoration: BoxDecoration(
-            color: (isDisableColor ?? false) ? AppColors.disabletextfieldBackground:AppColors.enabletextfieldBackground,
-              border: Border.all(
-                color: const Color(0xFFCACACA),
-                width: 1.0,
-              ),
-              borderRadius: const BorderRadius.all(Radius.circular(8))),
-          child: Align(
+          child: Container(
+            height: height,
+            decoration: BoxDecoration(
+                color: (isDisableColor ?? false)
+                    ? AppColors.disabletextfieldBackground
+                    : AppColors.enabletextfieldBackground,
+                border: Border.all(
+                  color: const Color(0xFFCACACA),
+                  width: 1.0,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(8))),
+            child: Align(
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -48,8 +52,10 @@ class TextfieldAddButton extends StatelessWidget {
                   style: Styles.textStyleRegularGrey16,
                   textAlign: TextAlign.left, //Icon(Icons.cancel)
                 ),
-              )),
-        )),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

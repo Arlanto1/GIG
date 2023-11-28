@@ -137,7 +137,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
             title: widget.title,
             showPopUp: false,
             showSaveButton: state.model.status != 6 &&
-                    state.model.status != 1 &&
+                    // state.model.status != 1 &&
                     !isReadOnly
                 ? true
                 : false,
@@ -266,6 +266,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            /// General Contact
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -278,26 +279,28 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             GestureDetector(
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
-                                // bool isSaveSuccess =
-                                //     await BlocProvider.of<ContactDetailsCubit>(
-                                //             context)
-                                //         .submitForm(
-                                //   isSaveOnly: true,
-                                //   navigateToNextScreen: true,
-                                // );
-                                //
-                                // if (!isSaveSuccess) {
-                                //   return;
-                                // }
+                                bool isSaveSuccess =
+                                    await BlocProvider.of<ContactDetailsCubit>(
+                                            context)
+                                        .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
+                                );
+
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
                                 log('--state.model.id---${state.model.id}--');
 
                                 nav.pushNamed(
-                                  contactListingRoute,
+                                  contactRecordsRoute,
                                   arguments: {
                                     ConstantsArgument.title:
                                         Constants.generalContact,
                                     ConstantsArgument.type: 0,
                                     ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.rankType:
+                                        Constants.contactGeneralRank,
                                   },
                                 );
                               },
@@ -319,6 +322,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                            /// Guarding Agency Escalation Contact
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -332,9 +337,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
                                 bool isSaveSuccess =
-                                await BlocProvider.of<ContactDetailsCubit>(
-                                    context)
-                                    .submitForm(
+                                    await BlocProvider.of<ContactDetailsCubit>(
+                                            context)
+                                        .submitForm(
                                   isSaveOnly: true,
                                   navigateToNextScreen: true,
                                 );
@@ -345,12 +350,14 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 log('--state.model.id---${state.model.id}--');
 
                                 nav.pushNamed(
-                                  contactListingRoute,
+                                  contactRecordsRoute,
                                   arguments: {
                                     ConstantsArgument.title:
-                                    Constants.generalContact,
+                                        Constants.generalContact,
                                     ConstantsArgument.type: 1,
                                     ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.rankType: Constants
+                                        .contactGuardingAgencyEscalationRank,
                                   },
                                 );
                               },
@@ -373,6 +380,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
+                            /// System Escalation Contact
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -387,8 +395,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 NavigatorState nav = Navigator.of(context);
                                 bool isSaveSuccess =
                                     await BlocProvider.of<ContactDetailsCubit>(
-                                    context)
-                                    .submitForm(
+                                            context)
+                                        .submitForm(
                                   isSaveOnly: true,
                                   navigateToNextScreen: true,
                                 );
@@ -399,12 +407,14 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 log('--state.model.id---${state.model.id}--');
 
                                 nav.pushNamed(
-                                  contactListingRoute,
+                                  contactRecordsRoute,
                                   arguments: {
                                     ConstantsArgument.title:
-                                    Constants.generalContact,
+                                        Constants.generalContact,
                                     ConstantsArgument.type: 2,
                                     ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.rankType:
+                                        Constants.contactSystemEscalationRank,
                                   },
                                 );
                               },
@@ -426,6 +436,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                            /// Supervisor Contact
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -437,28 +449,30 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
 
                             GestureDetector(
                               onTap: () async {
-                                 NavigatorState nav = Navigator.of(context);
+                                NavigatorState nav = Navigator.of(context);
                                 bool isSaveSuccess =
-                                await BlocProvider.of<ContactDetailsCubit>(
-                                context)
-                                    .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
+                                    await BlocProvider.of<ContactDetailsCubit>(
+                                            context)
+                                        .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
                                 );
 
                                 if (!isSaveSuccess) {
-                                return;
+                                  return;
                                 }
                                 log('--state.model.id---${state.model.id}--');
 
                                 nav.pushNamed(
-                                contactListingRoute,
-                                arguments: {
-                                ConstantsArgument.title:
-                                Constants.generalContact,
-                                ConstantsArgument.type: 3,
-                                ConstantsArgument.id: state.model.id,
-                                },
+                                  contactRecordsRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.generalContact,
+                                    ConstantsArgument.type: 3,
+                                    ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.rankType:
+                                        Constants.contactSupervisorRank,
+                                  },
                                 );
                               },
                               child: Row(
@@ -479,6 +493,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                            /// Zonal Escalation Contact
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -493,8 +509,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 NavigatorState nav = Navigator.of(context);
                                 bool isSaveSuccess =
                                     await BlocProvider.of<ContactDetailsCubit>(
-                                    context)
-                                    .submitForm(
+                                            context)
+                                        .submitForm(
                                   isSaveOnly: true,
                                   navigateToNextScreen: true,
                                 );
@@ -505,12 +521,14 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 log('--state.model.id---${state.model.id}--');
 
                                 nav.pushNamed(
-                                  contactListingRoute,
+                                  contactRecordsRoute,
                                   arguments: {
                                     ConstantsArgument.title:
-                                    Constants.generalContact,
+                                        Constants.generalContact,
                                     ConstantsArgument.type: 4,
                                     ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.rankType:
+                                        Constants.contactZone,
                                   },
                                 );
                               },
@@ -537,14 +555,19 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                      if ((state.model.status == 6 || state.model.status == 1)
+                      if ((state.model.status == 6
+                          )
                           ? false
                           : true) ...[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             cancelButtonDisplay(),
-                            submitButtonDisplay()
+                            // if ((state.model.status != 1
+                                // || state.model.status == 1
+                                // )) ...[
+                              submitButtonDisplay(),
+                            // ],
                           ],
                         ),
                       ],
@@ -554,24 +577,6 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                 ),
               ),
             ),
-            if (state.model.status == 6 || state.model.status == 1) ...[
-              Container(
-                padding: const EdgeInsets.all(5.0),
-                decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(00.0)),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    cancelButtonDisplay(),
-                  ],
-                ),
-              ),
-            ],
           ],
         ),
       ),

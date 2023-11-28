@@ -5,12 +5,12 @@ part 'contact_info.g.dart';
 
 @JsonSerializable()
 class ContactRecord {
-  final int? id;
-  final int? contactId;
-  final String? email;
-  final String? contactNo;
-  final Organisation? rank;
-  final int? type;
+  int? id;
+  int? contactId;
+  String? email;
+  String? contactNo;
+  Organisation? rank;
+  int? type;
 
   ContactRecord({
     this.id,

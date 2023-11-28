@@ -12,9 +12,9 @@ import 'package:db_atom/src/features/contact_details/contact_details/views/conta
 import 'package:db_atom/src/features/contact_details/contact_details_list/bloc/contact_details_list_bloc.dart'
     as cd;
 import 'package:db_atom/src/features/contact_details/contact_details_list/views/contact_details_list_view.dart';
-import 'package:db_atom/src/features/contact_details/contact_record/bloc/contact_record_bloc.dart'
+import 'package:db_atom/src/features/contact_details/contact_records/bloc/contact_record_bloc.dart'
     as cr;
-import 'package:db_atom/src/features/contact_details/contact_record/views/contact_record_view.dart';
+import 'package:db_atom/src/features/contact_details/contact_records/views/contact_record_view.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
@@ -403,20 +403,24 @@ class RouteGenerator {
           ),
         );
 
-      case contactListingRoute:
+      case contactRecordsRoute:
         String title = '';
         int id = 0;
         int type = 0;
+        String rankType = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
           type = arguments[ConstantsArgument.type] ?? 0;
+          rankType = arguments[ConstantsArgument.rankType] ?? '';
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<cr.ContactRecordBloc>(
-            create: (_) => cr.ContactRecordBloc()
+            create: (_) => cr.ContactRecordBloc(
+              rankType: rankType,
+            )
               ..add(cr.FetchData(
                 id: id,
                 type: type,

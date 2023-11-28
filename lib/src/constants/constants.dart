@@ -23,12 +23,18 @@ class Constants {
   /// UI Module Code
   static const String materialMovementModuleCode = 'MM';
 
+  /// Rank Types for Contact Details
+  static const String contactGeneralRank = 'CONTACT_GENERAL_RANK';
+  static const String contactGuardingAgencyEscalationRank =
+      'CONTACT_GUARDING_AGENCY_ESCALATION_RANK';
+  static const String contactSystemEscalationRank =
+      'CONTACT_SYSTEM_ESCALATION_RANK';
+  static const String contactZone = 'CONTACT_ZONE';
+
+  static const String contactSupervisorRank = 'CONTACT_SUPERVISOR_RANK';
 
   static const String userRoles = 'userRoles';
   static const String defaultLocation = 'defaultLocation';
-
-
-
 
   static const String customFontFamily = 'Poppins';
   static const String customFontMediumFamily = 'Poppins-Medium';
@@ -173,7 +179,7 @@ class Constants {
   static const String createdby = 'Created By';
   static const String itemhandoverby = 'Item Handover By';
   static const String slno = 'Sl No.';
-  static const String articleType= 'Article Type';
+  static const String articleType = 'Article Type';
   static const String depositor = 'Depositor';
   static const String employeedepartment = 'Employee Department';
   static const String claimantdepartment = 'Claimant Department';
@@ -253,7 +259,8 @@ class Constants {
   static const String host = 'Host';
   static const String passIssuedOn = 'Pass Issued On';
   static const String passvlidfrom = 'Pass Valid From';
-  static const String exceptionalApproval = 'Exceptional Approval for External Auditors';
+  static const String exceptionalApproval =
+      'Exceptional Approval for External Auditors';
   static const String passvliduntil = 'Pass Valid Until';
   static const String escortedby = 'Escorted By';
   static const String identifiedBy = 'Identified By';
@@ -307,7 +314,8 @@ class Constants {
   static const String editMaterialMovementOutwardTitle =
       'Edit OutWard Material Movement';
   static const String entryBy = 'Entry By';
-  static const String materialReturnedChallanNo = 'Material Returned Challan No';
+  static const String materialReturnedChallanNo =
+      'Material Returned Challan No';
   static const String inwardMaterialMovementType = 'Inward';
   static const String returnedQuantity = 'Returned Quantity';
   static const String outwardMaterialMovementType = 'Outward';
@@ -534,64 +542,64 @@ class Constants {
 
   static const String assetType = 'Asset Type';
 
-
-
-
   //Occurrence
   static const String createOccurrence = 'Create Occurrence';
   static const String editOccurrence = 'Edit Occurrence';
-  static const String shiftHandoverBy   = 'Shift Handover By  ';
+  static const String shiftHandoverBy = 'Shift Handover By  ';
   static const String shiftTakenOverBy = 'Shift Taken Over By';
-  static const String shiftBriefingAttended  ='Shift Briefing Attended';
-  static const String premisesRoundTaken    ='Premises Round Taken';
-   static const String medicalEmergency    ='Medical Emergency';
-  static const String lEOVisit    ='LEO Visit';
-  static const String incidentItemList    ='Incident Item List';
-  static const String securitySystemSLAList    ='Security System SLA List';
-  static const String socialEngineeringIncidents  ='Social Engineering Incidents?';
-  static const String foundArticleTransaction  ='Found Article Transaction?';
-  static const String processBreachIncident  ='Process Breach Incident?';
-  static const String anyInfrastructuralIssue  ='Any Infrastructural Issue? ';
-  static const String anySuspiciousActivity  ='Any Suspicious Activity?';
-  static const String fireAlarmEmergencyOccurred  ='Fire Alarm Emergency Occurred';
-  static const String landlordIssue  ='Landlord Issue?';
-  static const String securitySystemFailureIncidents  ='Security System Failure Incidents?';
-  static const String anySystemAlarmReceived  ='Any System Alarm Received?';
-  static const String transportIncident  ='Transport Incident?';
-  static const String anyEvent  ='Any Event?';
-  static const String notifySCRI    ='Notify SCRI  ';
-  static const String powerFailure  ='Power Failure?';
-  static const String aTMVendorVisit  ='ATM Vendor Visit?';
-  static const String cWMVisit  ='CWM Visit?';
-  static const String dgWrking  ='DG Working';
-  static const String followUp ='Follow Up Actions For Next Shift';
-  static const String followedUp    ='Followed Up ';
-  static const String powerFailureDate    ='Power Failure Start Date & Time';
-  static const String powerFailureEndDate    ='Power Failure End Date & Time';
+  static const String shiftBriefingAttended = 'Shift Briefing Attended';
+  static const String premisesRoundTaken = 'Premises Round Taken';
+  static const String medicalEmergency = 'Medical Emergency';
+  static const String lEOVisit = 'LEO Visit';
+  static const String incidentItemList = 'Incident Item List';
+  static const String securitySystemSLAList = 'Security System SLA List';
+  static const String socialEngineeringIncidents =
+      'Social Engineering Incidents?';
+  static const String foundArticleTransaction = 'Found Article Transaction?';
+  static const String processBreachIncident = 'Process Breach Incident?';
+  static const String anyInfrastructuralIssue = 'Any Infrastructural Issue? ';
+  static const String anySuspiciousActivity = 'Any Suspicious Activity?';
+  static const String fireAlarmEmergencyOccurred =
+      'Fire Alarm Emergency Occurred';
+  static const String landlordIssue = 'Landlord Issue?';
+  static const String securitySystemFailureIncidents =
+      'Security System Failure Incidents?';
+  static const String anySystemAlarmReceived = 'Any System Alarm Received?';
+  static const String transportIncident = 'Transport Incident?';
+  static const String anyEvent = 'Any Event?';
+  static const String notifySCRI = 'Notify SCRI  ';
+  static const String powerFailure = 'Power Failure?';
+  static const String aTMVendorVisit = 'ATM Vendor Visit?';
+  static const String cWMVisit = 'CWM Visit?';
+  static const String dgWrking = 'DG Working';
+  static const String followUp = 'Follow Up Actions For Next Shift';
+  static const String followedUp = 'Followed Up ';
+  static const String powerFailureDate = 'Power Failure Start Date & Time';
+  static const String powerFailureEndDate = 'Power Failure End Date & Time';
   static const String systemManager = 'System Manager';
   static const String lsm = 'LSM';
   static const String asl = 'ASL';
   static const String system = 'System';
   static const String vendorPoc = 'Vendor Poc';
   static const String locationTeam = 'Location Team';
-  static const String shortIncidentDescription = 'Short Description of Incident';
+  static const String shortIncidentDescription =
+      'Short Description of Incident';
   static const String detailIncidentDescription = 'Detail Description';
   static const String ipbArea = 'IPB Area';
   static const String colourMake = 'Colour/Make/Model';
+
   //SLA Violation Penalty
   static const String sLAViolationPenalty = 'SLA Violation Penalty';
-
 
   //Contact Details
   static const String phoneNumber = 'Phone Number';
   static const String generalContact = 'General Contact';
-  static const String guardingAgencyContact = 'Guarding Agency Escalation Contact';
+  static const String guardingAgencyContact =
+      'Guarding Agency Escalation Contact';
   static const String systemEscalationContact = 'System Escalation Contact';
   static const String supervisorContact = 'Supervisor Contact';
   static const String zonalEscalationContact = 'Zonal Escalation Contact';
-
 }
-
 
 //static const String height = 'Height(cm)';
 
@@ -641,12 +649,12 @@ const List<Label> systemDropDownValues = [
   Label(key: 'ACS, CCTV AND IDS', value: '6'),
 ];
 
- const List<Label> assetTypeValues = [
+const List<Label> assetTypeValues = [
   Label(key: 'Personal', value: '0'),
   Label(key: 'Company', value: '1'),
 ];
 
- const List<Label> incidentManagementStatus = [
+const List<Label> incidentManagementStatus = [
   Label(key: 'Created', value: '0'),
   Label(key: 'Complainant Review', value: '1'),
   Label(key: 'IM Pre-Review', value: '2'),
