@@ -137,7 +137,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
             title: widget.title,
             showPopUp: false,
             showSaveButton: state.model.status != 6 &&
-                    state.model.status != 1 &&
+                    // state.model.status != 1 &&
                     !isReadOnly
                 ? true
                 : false,
@@ -413,8 +413,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                         Constants.generalContact,
                                     ConstantsArgument.type: 2,
                                     ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.rankType: Constants
-                                        .contactSystemEscalationRank,
+                                    ConstantsArgument.rankType:
+                                        Constants.contactSystemEscalationRank,
                                   },
                                 );
                               },
@@ -470,8 +470,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                         Constants.generalContact,
                                     ConstantsArgument.type: 3,
                                     ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.rankType: Constants
-                                        .contactSupervisorRank,
+                                    ConstantsArgument.rankType:
+                                        Constants.contactSupervisorRank,
                                   },
                                 );
                               },
@@ -527,8 +527,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                         Constants.generalContact,
                                     ConstantsArgument.type: 4,
                                     ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.rankType: Constants
-                                        .contactZone,
+                                    ConstantsArgument.rankType:
+                                        Constants.contactZone,
                                   },
                                 );
                               },
@@ -555,14 +555,19 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                      if ((state.model.status == 6 || state.model.status == 1)
+                      if ((state.model.status == 6
+                          )
                           ? false
                           : true) ...[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             cancelButtonDisplay(),
-                            submitButtonDisplay()
+                            // if ((state.model.status != 1
+                                // || state.model.status == 1
+                                // )) ...[
+                              submitButtonDisplay(),
+                            // ],
                           ],
                         ),
                       ],
@@ -572,24 +577,6 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                 ),
               ),
             ),
-            if (state.model.status == 6 || state.model.status == 1) ...[
-              Container(
-                padding: const EdgeInsets.all(5.0),
-                decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(00.0)),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    cancelButtonDisplay(),
-                  ],
-                ),
-              ),
-            ],
           ],
         ),
       ),
