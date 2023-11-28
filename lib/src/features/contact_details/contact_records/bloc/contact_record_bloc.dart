@@ -19,7 +19,10 @@ part 'contact_record_event.dart';
 part 'contact_record_state.dart';
 
 class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
-  ContactRecordBloc() : super(const ContactRecordState()) {
+  final String rankType;
+
+  ContactRecordBloc({required this.rankType})
+      : super(const ContactRecordState(ranks: [])) {
     on<FetchData>(
       _fetchContacts,
       transformer: droppable(),
@@ -28,8 +31,26 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
     on<SaveRecord>(_saveRecord);
     on<DeleteRecord>(_deleteRecord);
   }
-
   final ContactDetailsServices services = ContactDetailsServices();
+  final CommonServices commonServices = CommonServices();
+
+  FutureOr<void> _initializeValues(
+      InitializeValues event, Emitter<ContactRecordState> emit) async {
+    try {
+      ContactRankResponse response =
+          await commonServices.getRanks(name: rankType);
+
+      return emit(
+        state.copyWith(
+          ranks: response.ranks,
+          hasReachedMax: false,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
 
   FutureOr<void> _fetchContacts(
       FetchData event, Emitter<ContactRecordState> emit) async {
@@ -69,25 +90,6 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
     }
   }
 
-  CommonServices commonServices = CommonServices();
-
-  FutureOr<void> _initializeValues(
-      InitializeValues event, Emitter<ContactRecordState> emit) async {
-    try {
-      ContactRankResponse response =
-          await commonServices.getRanks(name: 'CONTACT_GENERAL_RANK');
-
-      return emit(
-        state.copyWith(
-          ranks: response.ranks,
-          hasReachedMax: false,
-        ),
-      );
-    } on Exception {
-      return emit(state.copyWith(status: FormStatus.failure));
-    }
-  }
-
   FutureOr<void> _deleteRecord(
       DeleteRecord event, Emitter<ContactRecordState> emit) async {
     emit(
@@ -103,9 +105,7 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
       );
 
       return emit(
-        state.copyWith(
-            items: response.contacts,
-            status: FormStatus.success),
+        state.copyWith(items: response.contacts, status: FormStatus.success),
       );
     } on GenericResponse catch (e) {
       emit(
@@ -140,9 +140,7 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
         type: '${event.type}',
       );
       return emit(
-        state.copyWith(
-            items: response.contacts,
-            status: FormStatus.success),
+        state.copyWith(items: response.contacts, status: FormStatus.success),
       );
     } on GenericResponse catch (e) {
       emit(

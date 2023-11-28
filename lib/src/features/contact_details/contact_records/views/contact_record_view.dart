@@ -10,7 +10,7 @@ import 'package:db_atom/src/common_widgets/floating_button.dart';
 import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/contact_details/contact_record/views/add_contact_pop_up.dart';
+import 'package:db_atom/src/features/contact_details/contact_records/views/add_contact_pop_up.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/routing/router.dart';
@@ -45,10 +45,10 @@ class _ContactRecordViewState extends State<ContactRecordView> {
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController()..addListener(_onScroll);
     context.read<ContactRecordBloc>().add(
           const InitializeValues(),
         );
+    _scrollController = ScrollController()..addListener(_onScroll);
   }
 
   @override
@@ -84,8 +84,14 @@ class _ContactRecordViewState extends State<ContactRecordView> {
           onPressed: () {
             showAddContactPopUp(
               context: context,
-              contact: ContactRecord(),
-              users: state.ranks ?? [],
+              contact: ContactRecord(
+                contactId: widget.id,
+                email: '',
+                contactNo: '',
+                rank: Organisation(),
+                type: widget.type,
+              ),
+              users: state.ranks,
             );
           },
         ),
@@ -160,8 +166,9 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                       );
                     },
                     onEditTap: (selectedIndex) async {
-                      ContactRecord contactsModel = await ContactDetailsServices()
-                          .getCdById(state.items?[index].id ?? 0);
+                      ContactRecord contactsModel =
+                          await ContactDetailsServices()
+                              .getCdById(state.items?[index].id ?? 0);
 
                       log('--state.users--llen--${state.ranks?.length}---');
 
@@ -185,8 +192,9 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                     },
                     onDeleteTap: (selectedIndex) async {
                       // Call Delete API
-                      BlocProvider.of<ContactRecordBloc>(context)
-                          .add(DeleteRecord(state.items![selectedIndex].id!.toInt(), widget.type, widget.id));
+                      BlocProvider.of<ContactRecordBloc>(context).add(
+                          DeleteRecord(state.items![selectedIndex].id!.toInt(),
+                              widget.type, widget.id));
                     },
                     index: index,
                   );
