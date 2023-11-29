@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/main_DEV.dart';
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
-import 'package:db_atom/src/features/contact_details/models/contact_rank_response.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -20,7 +19,6 @@ import '../features/createfound/models/get_depositor_model.dart';
 import '../features/createfound/models/user.dart';
 import '../features/createfound/models/vendors_model.dart';
 import '../features/lawenforcement/models/addentities.dart';
-import '../features/material_movement/models/mm_ui_labels.dart';
 import '../features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
 
 class Apis {
@@ -29,7 +27,7 @@ class Apis {
 
   // static const String v2 = '/v2';
   static final String _getUiLabels = '$baseUrl/getLabels?';
-  static final String _getRanks = '$baseUrl/getOrganisation?name=';
+  static final String _getOrganisations = '$baseUrl/getOrganisation?name=';
   static final String _getLocations = '$baseUrl/getOrganisation?name=';
   static final String _getArticleType = '$baseUrl/getOrganisation?name=';
   static final String _getUserDetails = '$baseUrl/getUserDetails?userId=';
@@ -46,8 +44,7 @@ class Apis {
 }
 
 class CommonServices {
-
-  Future<MmUiLabels> getUiLabels({
+  Future<dynamic> getUiLabels({
     required String language,
     required String moduleCode,
     BuildContext? context,
@@ -57,19 +54,23 @@ class CommonServices {
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    MmUiLabels model = MmUiLabels.fromJson(response);
-    return MmUiLabels.fromJson(response);
+    return response;
   }
 
-  Future<ContactRankResponse> getRanks({
+  Future<List<Organisation>> getOrganisations({
     required String name,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getRanks}$name';
+    String url = '${Apis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return ContactRankResponse.fromJson(response);
+
+    if (response == null || response['data'] == null) {
+      return [];
+    }
+    return List<Organisation>.from(
+        response['data'].map((x) => Organisation.fromJson(x)));
   }
 
   Future<Locations> getLocations({
@@ -242,12 +243,16 @@ class CommonServices {
     );
     return Organisation.fromJson(response);
   }
+
   Future<CreateUserModel> createUser({
-    required String firstName, required String lastName,
-    required String email, required String role,
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String role,
     BuildContext? context,
   }) async {
-    final String url = "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
+    final String url =
+        "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
     final response = await BaseApiService().getRequest(
       url: url,
     );

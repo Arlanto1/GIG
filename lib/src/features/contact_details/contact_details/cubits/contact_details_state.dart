@@ -7,6 +7,7 @@ class ContactDetailsState extends Equatable {
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
   final String? message;
+  final CdUiLabels? labels;
 
   factory ContactDetailsState.initial({
     required ContactDetailModel model,
@@ -68,6 +69,8 @@ class ContactDetailsState extends Equatable {
     this.loggedInUserDetails,
     this.users,
     this.message,
+    this.labels,
+
   });
 
   ContactDetailsState copyWith({
@@ -77,6 +80,8 @@ class ContactDetailsState extends Equatable {
     User? loggedInUserDetails,
     List<BaseUser>? users,
     String? message,
+    final CdUiLabels? labels,
+
   }) {
     return ContactDetailsState(
       status: status ?? this.status,
@@ -85,6 +90,8 @@ class ContactDetailsState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       message: message ?? this.message,
-       );
+      labels: labels ?? this.labels,
+
+    );
   }
 }

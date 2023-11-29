@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../constants/app_icon.dart';
-import '../../utils/app_themes/colors/app_color.dart';
 import '../app_bar.dart';
 import '../custom_pop_menu.dart';
 import '../image_download.dart';
@@ -15,6 +14,7 @@ class BaseAppBar {
     required bool showPopUp,
     required bool showSaveButton,
     Function? onTapSave,
+    void Function()? popAndReplace,
     bool? showAddButton,
     Function? onTapAddButton,
     String? excelAPIName,
@@ -24,11 +24,12 @@ class BaseAppBar {
       isTitleCenter: false,
       title: title,
       backBtn: IconButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        icon: SvgPicture.asset(AppIcon.backIcon,
-            color: AppColors.backgroundWhitecolor),
+        onPressed: popAndReplace ??
+            () {
+              Navigator.pop(context);
+            },
+        icon:
+            const Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white),
       ),
       action: [
         if (showPopUp) ...[

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
@@ -56,6 +58,26 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
           .add(FetchData(startPos: pageNumber, maxPos: 20));
     }
   }
+
+  @override
+  void didUpdateWidget(covariant oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    log('-----didUpdateWidget----------');
+    // This method is called when the widget is updated or rebuilt
+    // You can perform actions here when the state is resumed
+    setState(() {
+      // Fetch or update yourItemList here
+    });
+  }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   log('-----didChangeDependencies----------');
+  //   // Fetch or update yourItemList here
+  //   _scrollController = ScrollController()..addListener(_onScroll);
+  //
+  // }
 
   @override
   Widget build(BuildContext context) {

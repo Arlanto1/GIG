@@ -8,163 +8,169 @@ part of 'mm_ui_labels.dart';
 
 MmUiLabels _$MmUiLabelsFromJson(Map<String, dynamic> json) => MmUiLabels(
       locale: MmUiLabelsLocale.fromJson(json['locale'] as Map<String, dynamic>),
+      defaultLocale:
+          MmUiLabelsLocale.fromJson(json['default'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$MmUiLabelsToJson(MmUiLabels instance) =>
     <String, dynamic>{
       'locale': instance.locale,
+      'default': instance.defaultLocale,
     };
 
 MmUiLabelsLocale _$MmUiLabelsLocaleFromJson(Map<String, dynamic> json) =>
     MmUiLabelsLocale(
-      unit: json['com.arlanto.atom.materialMovement.unit'] as String,
+      unit: json['com.arlanto.atom.materialMovement.unit'] as String?,
       receiverName:
-          json['com.arlanto.atom.materialMovement.receiverName'] as String,
+          json['com.arlanto.atom.materialMovement.receiverName'] as String?,
       requestorEmployeeId:
           json['com.arlanto.atom.materialMovement.requestorEmployeeId']
-              as String,
+              as String?,
       materialReturnedChallanNo:
           json['com.arlanto.atom.materialMovement.materialReturnedChallanNo']
-              as String,
+              as String?,
       approver2Department:
           json['com.arlanto.atom.materialMovement.approver2Department']
-              as String,
-      entity: json['com.arlanto.atom.materialMovement.entity'] as String,
+              as String?,
+      entity: json['com.arlanto.atom.materialMovement.entity'] as String?,
       originalReceiver:
-          json['com.arlanto.atom.materialMovement.originalReceiver'] as String,
+          json['com.arlanto.atom.materialMovement.originalReceiver'] as String?,
       takenOutEmail:
-          json['com.arlanto.atom.materialMovement.takenOutEmail'] as String,
+          json['com.arlanto.atom.materialMovement.takenOutEmail'] as String?,
       expectedDateOfReturn:
           json['com.arlanto.atom.materialMovement.expectedDateOfReturn']
-              as String,
+              as String?,
       receiverDepartment:
           json['com.arlanto.atom.materialMovement.receiverDepartment']
-              as String,
+              as String?,
       rejectionComment:
-          json['com.arlanto.atom.materialMovement.rejectionComment'] as String,
+          json['com.arlanto.atom.materialMovement.rejectionComment'] as String?,
       materialComingFromAddress:
           json['com.arlanto.atom.materialMovement.materialComingFromAddress']
-              as String,
-      remarks: json['com.arlanto.atom.materialMovement.remarks'] as String,
+              as String?,
+      remarks: json['com.arlanto.atom.materialMovement.remarks'] as String?,
       otherReceiverName:
-          json['com.arlanto.atom.materialMovement.otherReceiverName'] as String,
+          json['com.arlanto.atom.materialMovement.otherReceiverName']
+              as String?,
       rejectedDate:
-          json['com.arlanto.atom.materialMovement.rejectedDate'] as String,
+          json['com.arlanto.atom.materialMovement.rejectedDate'] as String?,
       returnable:
-          json['com.arlanto.atom.materialMovement.returnable'] as String,
+          json['com.arlanto.atom.materialMovement.returnable'] as String?,
       takenOutDate:
-          json['com.arlanto.atom.materialMovement.takenOutDate'] as String,
+          json['com.arlanto.atom.materialMovement.takenOutDate'] as String?,
       returnReceiverMailId:
           json['com.arlanto.atom.materialMovement.returnReceiverMailId']
-              as String,
+              as String?,
       rejectedBy:
-          json['com.arlanto.atom.materialMovement.rejectedBy'] as String,
+          json['com.arlanto.atom.materialMovement.rejectedBy'] as String?,
       materialComingFrom:
           json['com.arlanto.atom.materialMovement.materialComingFrom']
-              as String,
+              as String?,
       takenOutAddress:
-          json['com.arlanto.atom.materialMovement.takenOutAddress'] as String,
-      address: json['com.arlanto.atom.materialMovement.address'] as String,
+          json['com.arlanto.atom.materialMovement.takenOutAddress'] as String?,
+      address: json['com.arlanto.atom.materialMovement.address'] as String?,
       statusOutWardWaiting:
           json['com.arlanto.atom.materialMovement.status.outWardWaiting']
-              as String,
-      slNo: json['com.arlanto.atom.materialMovement.slNo'] as String,
+              as String?,
+      slNo: json['com.arlanto.atom.materialMovement.slNo'] as String?,
       entrySecurity:
-          json['com.arlanto.atom.materialMovement.entrySecurity'] as String,
+          json['com.arlanto.atom.materialMovement.entrySecurity'] as String?,
       receiverEmployeeId:
           json['com.arlanto.atom.materialMovement.receiverEmployeeId']
-              as String,
+              as String?,
       approver1Department:
           json['com.arlanto.atom.materialMovement.approver1Department']
-              as String,
+              as String?,
       statusApproved:
-          json['com.arlanto.atom.materialMovement.status.approved'] as String,
+          json['com.arlanto.atom.materialMovement.status.approved'] as String?,
       preparedByDepartment:
           json['com.arlanto.atom.materialMovement.preparedByDepartment']
-              as String,
-      out: json['com.arlanto.atom.materialMovement.out'] as String,
-      purpose: json['com.arlanto.atom.materialMovement.purpose'] as String,
+              as String?,
+      out: json['com.arlanto.atom.materialMovement.out'] as String?,
+      purpose: json['com.arlanto.atom.materialMovement.purpose'] as String?,
       receiverSign:
-          json['com.arlanto.atom.materialMovement.receiverSign'] as String,
+          json['com.arlanto.atom.materialMovement.receiverSign'] as String?,
       statusInWardWaiting:
           json['com.arlanto.atom.materialMovement.status.inWardWaiting']
-              as String,
-      submitted: json['com.arlanto.atom.materialMovement.submitted'] as String,
-      location: json['com.arlanto.atom.materialMovement.location'] as String,
+              as String?,
+      submitted: json['com.arlanto.atom.materialMovement.submitted'] as String?,
+      location: json['com.arlanto.atom.materialMovement.location'] as String?,
       approver2Email:
-          json['com.arlanto.atom.materialMovement.approver2Email'] as String,
+          json['com.arlanto.atom.materialMovement.approver2Email'] as String?,
       approvedDate:
-          json['com.arlanto.atom.materialMovement.approvedDate'] as String,
+          json['com.arlanto.atom.materialMovement.approvedDate'] as String?,
       materialNotCheckedComment:
           json['com.arlanto.atom.materialMovement.materialNotCheckedComment']
-              as String,
-      inputDate: json['com.arlanto.atom.materialMovement.inputDate'] as String,
+              as String?,
+      inputDate: json['com.arlanto.atom.materialMovement.inputDate'] as String?,
       nonReturnable:
-          json['com.arlanto.atom.materialMovement.nonReturnable'] as String,
+          json['com.arlanto.atom.materialMovement.nonReturnable'] as String?,
       requestorDepartment:
           json['com.arlanto.atom.materialMovement.requestorDepartment']
-              as String,
+              as String?,
       preparedBy:
-          json['com.arlanto.atom.materialMovement.preparedBy'] as String,
+          json['com.arlanto.atom.materialMovement.preparedBy'] as String?,
       materialDescription:
           json['com.arlanto.atom.materialMovement.materialDescription']
-              as String,
+              as String?,
       requestorEmail:
-          json['com.arlanto.atom.materialMovement.requestorEmail'] as String,
+          json['com.arlanto.atom.materialMovement.requestorEmail'] as String?,
       statusDraft:
-          json['com.arlanto.atom.materialMovement.status.draft'] as String,
+          json['com.arlanto.atom.materialMovement.status.draft'] as String?,
       takenOutName:
-          json['com.arlanto.atom.materialMovement.takenOutName'] as String,
+          json['com.arlanto.atom.materialMovement.takenOutName'] as String?,
       statusRejected:
-          json['com.arlanto.atom.materialMovement.status.rejected'] as String,
+          json['com.arlanto.atom.materialMovement.status.rejected'] as String?,
       takenOutDepartment:
           json['com.arlanto.atom.materialMovement.takenOutDepartment']
-              as String,
+              as String?,
       gatePassSecuritySign:
           json['com.arlanto.atom.materialMovement.gatePassSecuritySign']
-              as String,
-      poNumber: json['com.arlanto.atom.materialMovement.poNumber'] as String,
-      modelInfo: json['com.arlanto.atom.materialMovement.modelInfo'] as String,
-      quantity: json['com.arlanto.atom.materialMovement.quantity'] as String,
+              as String?,
+      poNumber: json['com.arlanto.atom.materialMovement.poNumber'] as String?,
+      modelInfo: json['com.arlanto.atom.materialMovement.modelInfo'] as String?,
+      quantity: json['com.arlanto.atom.materialMovement.quantity'] as String?,
       takenOutContactNo:
-          json['com.arlanto.atom.materialMovement.takenOutContactNo'] as String,
+          json['com.arlanto.atom.materialMovement.takenOutContactNo']
+              as String?,
       receiverEmail:
-          json['com.arlanto.atom.materialMovement.receiverEmail'] as String,
+          json['com.arlanto.atom.materialMovement.receiverEmail'] as String?,
       statusCancelled:
-          json['com.arlanto.atom.materialMovement.status.cancelled'] as String,
-      inward: json['com.arlanto.atom.materialMovement.in'] as String,
+          json['com.arlanto.atom.materialMovement.status.cancelled'] as String?,
+      inward: json['com.arlanto.atom.materialMovement.in'] as String?,
       returnQuantity:
-          json['com.arlanto.atom.materialMovement.returnQuantity'] as String,
-      type: json['com.arlanto.atom.materialMovement.type'] as String,
+          json['com.arlanto.atom.materialMovement.returnQuantity'] as String?,
+      type: json['com.arlanto.atom.materialMovement.type'] as String?,
       approver1Email:
-          json['com.arlanto.atom.materialMovement.approver1Email'] as String,
-      sentTo: json['com.arlanto.atom.materialMovement.sentTo'] as String,
+          json['com.arlanto.atom.materialMovement.approver1Email'] as String?,
+      sentTo: json['com.arlanto.atom.materialMovement.sentTo'] as String?,
       materialPhysicallyChecked:
           json['com.arlanto.atom.materialMovement.materialPhysicallyChecked']
-              as String,
+              as String?,
       otherReceiverEmployeeId:
           json['com.arlanto.atom.materialMovement.otherReceiverEmployeeId']
-              as String,
-      status: json['com.arlanto.atom.materialMovement.status'] as String,
+              as String?,
+      status: json['com.arlanto.atom.materialMovement.status'] as String?,
       approver1Name:
-          json['com.arlanto.atom.materialMovement.approver1Name'] as String,
+          json['com.arlanto.atom.materialMovement.approver1Name'] as String?,
       returnReceiverName:
           json['com.arlanto.atom.materialMovement.returnReceiverName']
-              as String,
+              as String?,
       approver2Name:
-          json['com.arlanto.atom.materialMovement.approver2Name'] as String,
+          json['com.arlanto.atom.materialMovement.approver2Name'] as String?,
       entrySecuritySign:
-          json['com.arlanto.atom.materialMovement.entrySecuritySign'] as String,
-      challanNo: json['com.arlanto.atom.materialMovement.challanNo'] as String,
+          json['com.arlanto.atom.materialMovement.entrySecuritySign']
+              as String?,
+      challanNo: json['com.arlanto.atom.materialMovement.challanNo'] as String?,
       requestorName:
-          json['com.arlanto.atom.materialMovement.requestorName'] as String,
+          json['com.arlanto.atom.materialMovement.requestorName'] as String?,
       actualDateOfReturn:
           json['com.arlanto.atom.materialMovement.actualDateOfReturn']
-              as String,
+              as String?,
       approvedBy:
-          json['com.arlanto.atom.materialMovement.approvedBy'] as String,
+          json['com.arlanto.atom.materialMovement.approvedBy'] as String?,
       statusClosed:
-          json['com.arlanto.atom.materialMovement.status.closed'] as String,
+          json['com.arlanto.atom.materialMovement.status.closed'] as String?,
     );
 
 Map<String, dynamic> _$MmUiLabelsLocaleToJson(MmUiLabelsLocale instance) =>

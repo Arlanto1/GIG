@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:dart_extensions/dart_extensions.dart';
+import 'package:db_atom/src/features/contact_details/models/cd_ui_labels.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/contact_details/models/requestModels/contact_details_gi_request.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
@@ -69,8 +70,14 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
 
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      // state.model.inputDate =
+      //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
+
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: 'en', moduleCode: Constants.materialMovementModuleCode);
+      // log('--default--${responseLabels.toString()}----//Getting Proper response as JSON------');
+      CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
+      log('--default--${labels.defaultLocale}----------');
 
       if (state.model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();

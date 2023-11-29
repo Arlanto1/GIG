@@ -141,6 +141,15 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                     !isReadOnly
                 ? true
                 : false,
+            popAndReplace: () {
+              log('--popAndReplace-----');
+              // Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.popAndPushNamed(
+                context,
+                contactDetailsListRoute,
+              );
+            },
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<ContactDetailsCubit>(context).submitForm(
@@ -213,13 +222,17 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
 
                             /// Created By
                             CommonWidgets.verticalTextHandling(
-                                Constants.createdby,
+                                state.labels?.locale.entrySecurity ??
+                                    state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.createdby,
                                 '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status
                             CommonWidgets.textDisplay(
-                              Constants.status,
+                              state.labels?.locale.status ??
+                                  state.labels?.defaultLocale.status ??
+                                  Constants.status,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -238,7 +251,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
-                              Constants.dateofcreation,
+                              state.labels?.locale.date ??
+                                  state.labels?.defaultLocale.date ??
+                                  Constants.dateofcreation,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -249,7 +264,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
 
                             /// Location
                             CommonWidgets.textDisplay(
-                              Constants.location,
+                              state.labels?.locale.location ??
+                                  state.labels?.defaultLocale.location ??
+                                  Constants.location,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -260,7 +277,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
-                              Constants.slno,
+                              state.labels?.locale.slNo ??
+                                  state.labels?.defaultLocale.slNo ??
+                                  Constants.slno,
                               state.model.slNo ?? '',
                               isMandatory: true,
                             ),
@@ -270,7 +289,10 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                Constants.generalContact,
+                                state.labels?.locale.generalContact ??
+                                    state
+                                        .labels?.defaultLocale.generalContact ??
+                                    Constants.generalContact,
                                 style: Styles.styleHeaderGreyText16,
                               ),
                             ),
@@ -327,7 +349,11 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                Constants.guardingAgencyContact,
+                                state.labels?.locale
+                                        .guardingAgencyEscalationContact ??
+                                    state.labels?.defaultLocale
+                                        .guardingAgencyEscalationContact ??
+                                    Constants.guardingAgencyContact,
                                 style: Styles.styleHeaderGreyText16,
                               ),
                             ),
@@ -384,7 +410,10 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                Constants.systemEscalationContact,
+                                state.labels?.locale.systemEscalationContact ??
+                                    state.labels?.defaultLocale
+                                        .systemEscalationContact ??
+                                    Constants.systemEscalationContact,
                                 style: Styles.styleHeaderGreyText16,
                               ),
                             ),
@@ -441,7 +470,10 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                Constants.supervisorContact,
+                                state.labels?.locale.supervisorRank ??
+                                    state
+                                        .labels?.defaultLocale.supervisorRank ??
+                                    Constants.supervisorContact,
                                 style: Styles.styleHeaderGreyText16,
                               ),
                             ),
@@ -498,7 +530,11 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                Constants.zonalEscalationContact,
+                                state.labels?.locale
+                                        .guardingAgencyZonalManager ??
+                                    state.labels?.defaultLocale
+                                        .guardingAgencyZonalManager ??
+                                    Constants.zonalEscalationContact,
                                 style: Styles.styleHeaderGreyText16,
                               ),
                             ),
@@ -555,18 +591,15 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                      if ((state.model.status == 6
-                          )
-                          ? false
-                          : true) ...[
+                      if ((state.model.status == 6) ? false : true) ...[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             cancelButtonDisplay(),
                             // if ((state.model.status != 1
-                                // || state.model.status == 1
-                                // )) ...[
-                              submitButtonDisplay(),
+                            // || state.model.status == 1
+                            // )) ...[
+                            submitButtonDisplay(),
                             // ],
                           ],
                         ),

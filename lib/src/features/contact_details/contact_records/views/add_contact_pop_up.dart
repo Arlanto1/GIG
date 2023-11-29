@@ -244,10 +244,10 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     if (widget.contact.email.isEmptyOrNull) {
       return const ErrorResponse(status: false, message: 'Please enter Name.');
     }
-    if (widget.contact.contactNo.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Contact No.');
-    }
+    // if (widget.contact.contactNo.isEmptyOrNull) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Contact No.');
+    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }
