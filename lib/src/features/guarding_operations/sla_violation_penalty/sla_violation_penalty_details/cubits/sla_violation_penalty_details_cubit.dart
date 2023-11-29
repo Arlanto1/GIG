@@ -111,7 +111,7 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
         ),
       );
     } catch (e) {
-      log('initialization issue', error: e, name: 'Contact Details Cubit');
+      log('initialization issue', error: e, name: 'SLA Violation Penalty Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,

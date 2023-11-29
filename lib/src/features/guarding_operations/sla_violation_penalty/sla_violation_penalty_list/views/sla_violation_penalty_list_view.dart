@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../enums/form_status.dart';
+import '../../../../../utils/util.dart';
 import '../../models/sla_violation_penalty_response_model.dart';
 import '../../services/sla_violation_penalty_services.dart';
 import '../bloc/sla_violation_penalty_list_bloc.dart';
@@ -106,13 +107,17 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                           key: 'Region',
                           value: state.items[index].locationRegion?.name ?? ''));
                       labels.add(Label(
-                          key: 'Created By',
-                          value: state.items[index].entrySecurity?.name ?? ''));
+                          key: 'Location',
+                          value: state.items[index].location?.name ?? ''));
                       labels.add(Label(
                           key: 'SL No', value: state.items[index].slNo ?? ''));
                       labels.add(Label(
-                          key: 'Location',
-                          value: state.items[index].location?.name ?? ''));
+                          key: 'Date of Creation',
+                          value: state.items[index].inputDate != null
+                              ? Utils.timestamptoDateConversion(
+                              int.parse(state.items[index].inputDate ?? '0'),
+                              Constants.dateFormat)
+                              : ''));
                     }
                     return index >= state.items.length
                         ? const BaseLoader()
