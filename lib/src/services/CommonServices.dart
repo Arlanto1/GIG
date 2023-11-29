@@ -47,7 +47,7 @@ class Apis {
 
 class CommonServices {
 
-  Future<MmUiLabels> getUiLabels({
+  Future<dynamic> getUiLabels({
     required String language,
     required String moduleCode,
     BuildContext? context,
@@ -57,8 +57,7 @@ class CommonServices {
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    MmUiLabels model = MmUiLabels.fromJson(response);
-    return MmUiLabels.fromJson(response);
+    return response;
   }
 
   Future<ContactRankResponse> getRanks({

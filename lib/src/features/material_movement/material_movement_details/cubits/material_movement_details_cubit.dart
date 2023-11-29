@@ -105,8 +105,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
-      MmUiLabels labels = await commonServices.getUiLabels(
+      dynamic responseLabels = await commonServices.getUiLabels(
           language: 'en', moduleCode: Constants.materialMovementModuleCode);
+      // log('--default--${responseLabels.toString()}----//Getting Proper response as JSON------');
+      MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
+      log('--default--${labels.defaultLocale}----------');
 
       GetDepositor emailUsers =
           await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
