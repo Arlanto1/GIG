@@ -1175,7 +1175,7 @@ class _MaterialMovementDetailsViewState
                                 /// Approved By
                                 CommonWidgets.verticalTextHandling(
                                     state.labels?.locale.approvedBy ??
-                                        state.labels?.locale.approvedBy ??
+                                        state.labels?.defaultLocale.approvedBy ??
                                         Constants.approvedBy,
                                     state.model.approvedBy ?? ''),
                                 CommonWidgets.verticalSpacerWidget(
