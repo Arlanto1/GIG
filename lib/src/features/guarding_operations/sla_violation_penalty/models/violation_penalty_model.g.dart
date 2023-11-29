@@ -6,24 +6,28 @@ part of 'violation_penalty_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ViolationPenaltyRecord _$ViolationPenaltyRecordFromJson(Map<String, dynamic> json) =>
+ViolationPenaltyRecord _$ViolationPenaltyRecordFromJson(
+        Map<String, dynamic> json) =>
     ViolationPenaltyRecord(
       id: json['id'] as int?,
-          penaltyAmount: json['penaltyAmount'] as int?,
-          totalViolations: json['totalViolations'] as int?,
-          staffCategory: json['staffCategory'] as int?,
-          // violation: json['violation'] == null
-          // ? null
-          // : Violation(id: id, name: name, keyname: keyname, description: description).fromJson(json['violation'] as Map<String, dynamic>),
-          totalPenaltyAmount: json['totalPenaltyAmount'] as int?,
+      svpId: json['svpId'] as int?,
+      penaltyAmount: json['penaltyAmount'] as double?,
+      totalViolations: json['totalViolations'] as int?,
+      staffCategory: json['staffCategory'] as int?,
+      violation: json['violation'] == null
+          ? null
+          : Violation.fromJson(json['violation'] as Map<String, dynamic>),
+      totalPenaltyAmount: json['totalPenaltyAmount'] as double?,
     );
 
-Map<String, dynamic> _$ViolationPenaltyRecordToJson(ViolationPenaltyRecord instance) =>
+Map<String, dynamic> _$ViolationPenaltyRecordToJson(
+        ViolationPenaltyRecord instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'svpId': instance.svpId,
       'penaltyAmount': instance.penaltyAmount,
       'totalViolations': instance.totalViolations,
       'staffCategory': instance.staffCategory,
-     // 'violation': instance.violation,
+      'violation': instance.violation,
       'totalPenaltyAmount': instance.totalPenaltyAmount,
     };

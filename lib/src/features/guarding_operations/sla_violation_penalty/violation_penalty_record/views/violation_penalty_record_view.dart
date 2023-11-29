@@ -27,10 +27,12 @@ class ViolationPenaltyRecordView extends StatefulWidget {
     super.key,
     required this.id,
     required this.title,
+    this.model,
   });
 
   final int id;
   final String title;
+  final ViolationPenaltyRecord? model;
 
   @override
   State<ViolationPenaltyRecordView> createState() => _ContactRecordViewState();
@@ -159,7 +161,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
               },
               onEditTap: (selectedIndex) async {
                 ViolationPenaltyRecord contactsModel = await SLAViolationPenaltyServices()
-                    .getCdById(state.items?[index].id ?? 0);
+                    .getVPById(state.items?[index].id ?? 0);
 
                 log('--state.users--llen--${state.ranks?.length}---');
 
@@ -168,7 +170,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
                   contact: contactsModel,
                   users: state.ranks ?? [],
                 );
-                // getDetails(state.items?[index].id ?? 0);
+                getDetails(state.items?[index].id ?? 0);
               },
               onViewTap: (selectedIndex) {
                 showDialog(
@@ -226,9 +228,9 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
   getDetails(int id) async {
     showLoadingDialog(context);
 
-    ViolationPenaltyRecord contactsModel = await SLAViolationPenaltyServices().getCdById(id);
+    ViolationPenaltyRecord violationPenaltyRecord = await SLAViolationPenaltyServices().getVPById(id);
 
-    editDataLoading(contactsModel);
+    editDataLoading(violationPenaltyRecord);
   }
 
   void editDataLoading(ViolationPenaltyRecord? model) {

@@ -20,7 +20,7 @@ class ViolationPenaltyListResponseModel extends BaseObject {
   });
 
   ViolationPenaltyListResponseModel.fromJson(Map<String, dynamic> json)
-      : items = (json['data'] as List?)
+      : items = (json[''] as List?)
       ?.map((dynamic e) =>
       ViolationPenaltyListModel.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -30,7 +30,7 @@ class ViolationPenaltyListResponseModel extends BaseObject {
 
   @override
   Map<String, dynamic> toJson() => {
-    'data': items?.map((e) => e.toJson()).toList(),
+    '': items?.map((e) => e.toJson()).toList(),
     'totalCount': totalCount,
     'currentPageNo': currentPageNo,
     'totalPageCount': totalPageCount
@@ -39,16 +39,9 @@ class ViolationPenaltyListResponseModel extends BaseObject {
 
 @JsonSerializable()
 class ViolationPenaltyListModel extends BaseObject {
-  final int? id;
-  final int? status;
-  final String? modifiedBy;
-  @JsonKey(name: 'violation')
   final List<ViolationPenaltyRecord>? violationPenalties;
 
   ViolationPenaltyListModel({
-    this.id,
-    this.status,
-    this.modifiedBy,
     this.violationPenalties,
   });
 
@@ -59,35 +52,3 @@ class ViolationPenaltyListModel extends BaseObject {
   Map<String, dynamic> toJson() => _$ViolationPenaltyListModelToJson(this);
 }
 
-// class Contact {
-//   final int? id;
-//   final String? email;
-//   final String? contactNo;
-//   final Organisation? rank;
-//   final int? type;
-//
-//   Contact({
-//     this.id,
-//     this.email,
-//     this.contactNo,
-//     this.rank,
-//     this.type,
-//   });
-//
-//   Contact.fromJson(Map<String, dynamic> json)
-//       : id = json['id'] as int?,
-//         email = json['email'] as String?,
-//         contactNo = json['contactNo'] as String?,
-//         rank = (json['generalRank'] as Map<String, dynamic>?) != null
-//             ? Organisation.fromJson(json['generalRank'] as Map<String, dynamic>)
-//             : null,
-//         type = json['type'] as int?;
-//
-//   Map<String, dynamic> toJson() => {
-//         'id': id,
-//         'email': email,
-//         'contactNo': contactNo,
-//         'generalRank': rank?.toJson(),
-//         'type': type
-//       };
-// }

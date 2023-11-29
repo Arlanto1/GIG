@@ -22,10 +22,8 @@ SLAViolationPenaltyModel _$SLAViolationPenaltyModelFromJson(
       entrySecurity: json['entrySecurity'] == null
           ? null
           : User.fromJson(json['entrySecurity'] as Map<String, dynamic>),
-      modifiedDate: json['modifiedDate'] as String?,
-      modifiedBy: json['modifiedBy'] as String?,
       status: json['status'] as int?,
-      entities: (json['entities'] as List?)
+      entity: (json['entities'] as List?)
           ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
           .toList(),
       vendor: (json['vendor'] as List?)
@@ -34,7 +32,10 @@ SLAViolationPenaltyModel _$SLAViolationPenaltyModelFromJson(
       typeOfService: (json['typeOfService'] as List?)
           ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      poc: (json['poc'] as List?)?.map((dynamic e) => e as String).toList(),
+      poc: json['poc'] as String?,
+      approver: json['approver'] == null
+          ? null
+          : User.fromJson(json['approver'] as Map<String, dynamic>),
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$SLAViolationPenaltyModelToJson(
@@ -47,11 +48,10 @@ Map<String, dynamic> _$SLAViolationPenaltyModelToJson(
       'locationRegion': instance.locationRegion,
       'inputDate': instance.inputDate,
       'entrySecurity': instance.entrySecurity,
-      'modifiedDate': instance.modifiedDate,
-      'modifiedBy': instance.modifiedBy,
       'status': instance.status,
-      'entities': instance.entities?.map((e) => e.toJson()).toList(),
+      'entity': instance.entity?.map((e) => e.toJson()).toList(),
       'vendor': instance.vendor?.map((e) => e.toJson()).toList(),
       'typeOfService': instance.typeOfService?.map((e) => e.toJson()).toList(),
-      'guardingAgencyPOC': instance.poc,
+      'poc': instance.poc,
+      'approver': instance.approver,
     };

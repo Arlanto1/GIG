@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 
@@ -11,7 +13,7 @@ import '../models/violation_penalty_model.dart';
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getViolationPenaltiesListByType = '$baseUrl/getVpById/';
+  static final String _getViolationPenaltiesListByType = '$baseUrl/getVpListById/';
 
   static final String _getVP = '$baseUrl/getSvpList?';
 
@@ -19,16 +21,14 @@ class Apis {
 
   static final String _createGeneralInformation = '$baseUrl/createSvpGI?';
 
-  static final String _getContactDetailsById = '$baseUrl/getCntInfoById';
-  static final String _deleteContactDetailsById = '$baseUrl/deleteContactInfo';
+  static final String _getViolationPenaltyById = '$baseUrl/getVpById';
+  static final String _deleteContactDetailsById = '$baseUrl/deleteSlaVp';
 
   static final String _createViolationPenaltyRecord = '$baseUrl/createSlaVp?';
-
-  static final String _deleteContacts = '$baseUrl/deleteContactInfo';
 }
 
 class SLAViolationPenaltyServices {
-  Future<ViolationPenaltyListModel> getViolationPenaltyListByType({
+  Future<List<ViolationPenaltyRecord>> getViolationPenaltyList({
     required String id,
   }) async {
     String url = '${Apis._getViolationPenaltiesListByType}$id';
@@ -36,91 +36,90 @@ class SLAViolationPenaltyServices {
       isAuthenticated: true,
       url: url,
     );
-    return ViolationPenaltyListModel.fromJson(response);
+
+    log('--response-----------${response.toString()}-------------');
+    return List<ViolationPenaltyRecord>.from(
+        response.map((x) => ViolationPenaltyRecord.fromJson(x)));
   }
 
-  Future<SLAViolationPenaltyResponseModel> getGcd({
-    required String startPosition,
-    required String maximumRecords,
-  }) async {
-    String url =
-        '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords';
-    var response = await BaseApiService().getRequest(
-      isAuthenticated: true,
-      url: url,
-    );
-    return SLAViolationPenaltyResponseModel.fromJson(response);
-  }
 
-  Future<SLAViolationPenaltyModel> getGvpById(int id) async {
-    final String url = '${Apis._getById}/$id';
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return SLAViolationPenaltyModel.fromJson(response);
-  }
+    Future<SLAViolationPenaltyResponseModel> getGSvp({
+      required String startPosition,
+      required String maximumRecords,
+    }) async {
+      String url =
+          '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords';
+      var response = await BaseApiService().getRequest(
+        isAuthenticated: true,
+        url: url,
+      );
+      log('--response-----------${response.toString()}-------------');
+      return SLAViolationPenaltyResponseModel.fromJson(response);
+    }
 
-  /// Create Services
-  Future<GenericResponse> createSLAViolationPenaltyGi({
-    required SLAViolationPenaltyRequest body,
-    required bool isSubmit,
-  }) async {
-    // var userId = await SharedPrefs.getUserId();
-    final String url = "${Apis._createGeneralInformation}isSubmit=$isSubmit";
-    final response = await BaseApiService().postRequest(
-      url: url,
-      requestedData: body.toJson(),
-    );
-    return GenericResponse.fromJson(response);
-  }
+    Future<SLAViolationPenaltyModel> getGvpById(int id) async {
+      final String url = '${Apis._getById}/$id';
+      final response = await BaseApiService().getRequest(
+        url: url,
+      );
+      return SLAViolationPenaltyModel.fromJson(response);
+    }
 
-  Future<ViolationPenaltyListResponseModel> getCd({
-    required String startPosition,
-    required String maximumRecords,
-  }) async {
-    String url =
-        '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords';
-    var response = await BaseApiService().getRequest(
-      isAuthenticated: true,
-      url: url,
-    );
-    return ViolationPenaltyListResponseModel.fromJson(response);
-  }
+    /// Create Services
+    Future<GenericResponse> createSLAViolationPenaltyGi({
+      required SLAViolationPenaltyRequest body,
+      required bool isSubmit,
+    }) async {
+      // var userId = await SharedPrefs.getUserId();
+      final String url = "${Apis._createGeneralInformation}isSubmit=$isSubmit";
+      final response = await BaseApiService().postRequest(
+        url: url,
+        requestedData: body.toJson(),
+      );
+      return GenericResponse.fromJson(response);
+    }
 
-  Future<ViolationPenaltyRecord> getCdById(int id) async {
-    final String url = '${Apis._getContactDetailsById}/$id';
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return ViolationPenaltyRecord.fromJson(response);
-  }
+    Future<ViolationPenaltyListResponseModel> getCd({
+      required String startPosition,
+      required String maximumRecords,
+    }) async {
+      String url =
+          '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords';
+      var response = await BaseApiService().getRequest(
+        isAuthenticated: true,
+        url: url,
+      );
+      return ViolationPenaltyListResponseModel.fromJson(response);
+    }
 
-  Future<GenericResponse> deleteCdById(int id) async {
-    final String url = '${Apis._deleteContactDetailsById}/$id';
-    final response = await BaseApiService().deleteRequest(
-      url: url,
-    );
-    return GenericResponse.fromJson(response);
-  }
+    Future<ViolationPenaltyRecord> getVPById(int id) async {
+      final String url = '${Apis._getViolationPenaltyById}/$id';
+      final response = await BaseApiService().getRequest(
+        url: url,
+      );
+      return ViolationPenaltyRecord.fromJson(response);
+    }
 
-  Future<GenericResponse> createViolationPenaltyRecord({
-    required ViolationPenaltyRecordRequest body,
-    required bool isSubmit,
-  }) async {
-    // var userId = await SharedPrefs.getUserId();
-    final String url = "${Apis._createViolationPenaltyRecord}isSubmit=$isSubmit";
-    final response = await BaseApiService().postRequest(
-      url: url,
-      requestedData: body.toJson(),
-    );
-    return GenericResponse.fromJson(response);
-  }
+    Future<GenericResponse> deleteVpById(int id) async {
+      final String url = '${Apis._deleteContactDetailsById}/$id';
+      final response = await BaseApiService().deleteRequest(
+        url: url,
+      );
+      return GenericResponse.fromJson(response);
+    }
 
-  Future<ViolationPenaltyRecord> deleteContacts(int id) async {
-    final String url = '${Apis._deleteContacts}/$id';
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return ViolationPenaltyRecord.fromJson(response);
+    Future<GenericResponse> createViolationPenaltyRecord({
+      required ViolationPenaltyRecordRequest body,
+      required bool isSubmit,
+    }) async {
+      // var userId = await SharedPrefs.getUserId();
+      final String url = "${Apis
+          ._createViolationPenaltyRecord}isSubmit=$isSubmit";
+      final response = await BaseApiService().postRequest(
+        url: url,
+        requestedData: body.toJson(),
+      );
+      return GenericResponse.fromJson(response);
+    }
+
   }
-}

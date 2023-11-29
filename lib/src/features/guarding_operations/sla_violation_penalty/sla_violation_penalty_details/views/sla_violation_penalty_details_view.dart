@@ -308,7 +308,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
 
                             BaseEntitiesSelection().entityDropDownSelection(
                                 context: context,
-                                selectedValues: state.model.entities ?? [],
+                                selectedValues: state.model.entity ?? [],
                                 all: state.listOfEntities ?? [],
                                 enabled: !isReadOnly,
                                 onTap: (List<Organisation> selectedEntities) {
@@ -353,7 +353,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextfieldAddButton(
-                              title: state.model.entrySecurity?.name,
+                              title: state.model.approver?.name,
                               height: 60,
                               isDisableColor: isReadOnly,
                               onTap: () {
@@ -383,7 +383,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                             //if (!disableForm) ...[
                             GestureDetector(
                               onTap: () {
-                                addGuardingAgencyPOC();
+                                //addGuardingAgencyPOC();
                               },
                               child: Row(
                                 children: <Widget>[
@@ -403,8 +403,8 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                               ),
                             ),
                             // ],
-                            BasicWidgetFunctions().getStringText(
-                                strings: state.model.poc ?? []),
+                            // BasicWidgetFunctions().getStringText(
+                            //     strings: state.model.poc ?? []),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -450,10 +450,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                                   arguments: {
                                     ConstantsArgument.title:
                                     Constants.violationPenalty,
-                                    //ConstantsArgument.type: 0,
                                     ConstantsArgument.id: state.model.id,
-                                    //ConstantsArgument.rankType:
-                                    //Constants.contactGeneralRank,
                                   },
                                 );
                               },
@@ -595,74 +592,74 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
       onTap: onTap,
     );
   }
-  void addGuardingAgencyPOC() {
-    final cubit = context.read<SLAViolationPenaltyDetailsCubit>();
-    showDialog(
-      context: context,
-      builder: (context) {
-        return BlocProvider<SLAViolationPenaltyDetailsCubit>.value(
-          value: cubit,
-          child: BlocBuilder<SLAViolationPenaltyDetailsCubit, SLAViolationPenaltyDetailsState>(
-            builder: (context, state) {
-              return AlertDialog(
-                backgroundColor: AppColors.backgroundWhitecolor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                content: Builder(
-                  builder: (context) {
-                    var height = MediaQuery.of(context).size.height;
-                    var width = MediaQuery.of(context).size.width;
-                    return SizedBox(
-                      height: height * 0.19,
-                      width: width,
-                      child: Center(
-                        child: Column(
-                          children: [
-                            CommonWidgets.textDisplay(
-                                'Add Guarding Agency POC',
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              lineHeight: 1,
-                              textFieldController: guardingAgencyPOCController,
-                              textFormKey: Keys.equipmentNoKey,
-                              hintText: '',
-                              isEnable: true,
-                              isDisableColor: false,
-                              onChange: (String value) {},
-                              validateTextField: (String value) {},
-                            ),
-                            if (state.status == FormStatus.invalidEmail) ...[
-                              const Text(
-                                'Please enter valid email',
-                                style: TextStyle(color: Colors.red),
-                              )
-                            ],
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            const Spacer(),
-                            submitButton(
-                              onTap: () async {
-                                state.model.poc ??= [];
-                                state.model.poc
-                                    ?.add(guardingAgencyPOCController.text);
-                                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(this.context)
-                                    .onCheckBoxChange(state.model);
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
+  // void addGuardingAgencyPOC() {
+  //   final cubit = context.read<SLAViolationPenaltyDetailsCubit>();
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return BlocProvider<SLAViolationPenaltyDetailsCubit>.value(
+  //         value: cubit,
+  //         child: BlocBuilder<SLAViolationPenaltyDetailsCubit, SLAViolationPenaltyDetailsState>(
+  //           builder: (context, state) {
+  //             return AlertDialog(
+  //               backgroundColor: AppColors.backgroundWhitecolor,
+  //               shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(20)),
+  //               content: Builder(
+  //                 builder: (context) {
+  //                   var height = MediaQuery.of(context).size.height;
+  //                   var width = MediaQuery.of(context).size.width;
+  //                   return SizedBox(
+  //                     height: height * 0.19,
+  //                     width: width,
+  //                     child: Center(
+  //                       child: Column(
+  //                         children: [
+  //                           CommonWidgets.textDisplay(
+  //                               'Add Guarding Agency POC',
+  //                               Styles.textStyleBlack14),
+  //                           CommonWidgets.verticalSpacerWidget(height * 0.001),
+  //                           FlutterInputField(
+  //                             lineHeight: 1,
+  //                             textFieldController: guardingAgencyPOCController,
+  //                             textFormKey: Keys.equipmentNoKey,
+  //                             hintText: '',
+  //                             isEnable: true,
+  //                             isDisableColor: false,
+  //                             onChange: (String value) {},
+  //                             validateTextField: (String value) {},
+  //                           ),
+  //                           if (state.status == FormStatus.invalidEmail) ...[
+  //                             const Text(
+  //                               'Please enter valid email',
+  //                               style: TextStyle(color: Colors.red),
+  //                             )
+  //                           ],
+  //                           CommonWidgets.verticalSpacerWidget(height * 0.01),
+  //                           const Spacer(),
+  //                           submitButton(
+  //                             onTap: () async {
+  //                               state.model.poc ??= [];
+  //                               state.model.poc
+  //                                   ?.add(guardingAgencyPOCController.text);
+  //                               BlocProvider.of<SLAViolationPenaltyDetailsCubit>(this.context)
+  //                                   .onCheckBoxChange(state.model);
+  //                               Navigator.pop(context);
+  //                             },
+  //                           ),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   );
+  //                 },
+  //               ),
+  //             );
+  //           },
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
   Widget datecreateWidgetdisplay(String date) {
     return FlutterInputField(
       textFormKey: Keys.dateofcreationTextController,

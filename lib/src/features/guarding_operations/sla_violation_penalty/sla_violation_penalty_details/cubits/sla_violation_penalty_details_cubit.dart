@@ -132,6 +132,7 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
     List<Organisation>? vendors,
     Organisation? location,
     BaseUser? user,
+    BaseUser? approver,
     BaseUser? receiverEmailUser,
   }) async {
     emit(
@@ -156,7 +157,7 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
       state.model.slNo = slNo.serialNo;
     }
     if (entities != null) {
-      state.model.entities = entities;
+      state.model.entity = entities;
     }
     if (vendors != null) {
       state.model.vendor = vendors;
@@ -168,6 +169,15 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
         userName: user.name,
       );
       state.model.entrySecurity = userDetails;
+    }
+
+    if (user != null) {
+      User userDetails = User(
+        name: user.name,
+        userId: user.id,
+        userName: user.name,
+      );
+      state.model.approver = userDetails;
     }
     emit(state.copyWith(
       model: state.model,

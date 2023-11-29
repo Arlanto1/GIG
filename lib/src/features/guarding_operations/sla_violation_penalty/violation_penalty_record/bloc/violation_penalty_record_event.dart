@@ -27,6 +27,7 @@ class SaveRecord extends ViolationPenaltyRecordEvent {
   final ViolationPenaltyRecord violationPenaltyRecord;
   final int mainContactId;
   const SaveRecord(this.violationPenaltyRecord, this.mainContactId,);
+
 }
 
 class DeleteRecord extends ViolationPenaltyRecordEvent {

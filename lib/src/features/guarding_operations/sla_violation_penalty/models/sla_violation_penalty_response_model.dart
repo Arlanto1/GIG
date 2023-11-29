@@ -45,29 +45,26 @@ class SLAViolationPenaltyModel extends BaseObject {
   Organisation? locationRegion;
   String? inputDate;
   User? entrySecurity;
-  String? modifiedDate;
-  String? modifiedBy;
   int? status;
-  List<Organisation>? entities;
   List<Organisation>? vendor;
   List<Organisation>? typeOfService;
-  List<String>? poc;
+  List<Organisation>? entity;
+  User? approver;
+  String? poc;
 
-  SLAViolationPenaltyModel({
-    this.id,
-    this.slNo,
-    this.location,
-    this.locationRegion,
-    this.inputDate,
-    this.entrySecurity,
-    this.modifiedDate,
-    this.modifiedBy,
-    this.status,
-    this.entities,
-    this.vendor,
-    this.poc,
-    this.typeOfService,
-  });
+  SLAViolationPenaltyModel(
+      {this.id,
+      this.slNo,
+      this.location,
+      this.locationRegion,
+      this.inputDate,
+      this.entrySecurity,
+      this.status,
+      this.entity,
+      this.vendor,
+      this.poc,
+      this.typeOfService,
+      this.approver});
 
   factory SLAViolationPenaltyModel.fromJson(Map<String, dynamic> json) =>
       _$SLAViolationPenaltyModelFromJson(json);

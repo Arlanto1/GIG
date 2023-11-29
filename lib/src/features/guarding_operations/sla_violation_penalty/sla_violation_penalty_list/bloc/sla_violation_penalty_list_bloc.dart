@@ -29,7 +29,7 @@ class SLAViolationPenaltyListBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        SLAViolationPenaltyResponseModel response = await services.getGcd(
+        SLAViolationPenaltyResponseModel response = await services.getGSvp(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
         );
@@ -44,7 +44,7 @@ class SLAViolationPenaltyListBloc
         );
       }
 
-      SLAViolationPenaltyResponseModel response = await services.getGcd(
+      SLAViolationPenaltyResponseModel response = await services.getGSvp(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
       );
