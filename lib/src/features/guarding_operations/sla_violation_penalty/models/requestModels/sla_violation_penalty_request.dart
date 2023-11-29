@@ -2,16 +2,16 @@
 import '../sla_violation_penalty_response_model.dart';
 
 class SLAViolationPenaltyRequest {
-  final SLAViolationPenaltyModel? sla;
+  final SLAViolationPenaltyModel? svpGi;
 
   SLAViolationPenaltyRequest({
-    this.sla,
+    this.svpGi,
   });
 
   SLAViolationPenaltyRequest.fromJson(Map<String, dynamic> json)
-      : sla = (json['sla'] as Map<String, dynamic>?) != null
+      : svpGi = (json['svpGi'] as Map<String, dynamic>?) != null
       ? SLAViolationPenaltyModel.fromJson(json['sla'] as Map<String, dynamic>)
       : null;
 
-  Map<String, dynamic> toJson() => {'sla': sla?.toJson()};
+  Map<String, dynamic> toJson() => {'svpGi': svpGi?.toJson()};
 }

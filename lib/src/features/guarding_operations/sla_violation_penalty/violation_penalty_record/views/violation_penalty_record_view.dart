@@ -157,7 +157,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
                       labels: labels,
                     );
                   },
-                );
+                )  ;
               },
               onEditTap: (selectedIndex) async {
                 ViolationPenaltyRecord contactsModel = await SLAViolationPenaltyServices()

@@ -1,8 +1,5 @@
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
-import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
-import 'package:db_atom/src/features/contact_details/models/contact_info.dart';
-import 'package:db_atom/src/features/contact_details/models/requestModels/contact_details_gi_request.dart';
 
 import '../../../../models/responseModels/generic_response.dart';
 import '../models/requestModels/sla_violation_penalty_request.dart';
@@ -10,7 +7,6 @@ import '../models/requestModels/violation_penalty_request.dart';
 import '../models/sla_violation_penalty_response_model.dart';
 import '../models/violation_penalty_list_response_model.dart';
 import '../models/violation_penalty_model.dart';
-
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -21,7 +17,7 @@ class Apis {
 
   static final String _getById = '$baseUrl/getSvpGiById';
 
-  static final String _createGeneralInformation = '$baseUrl/createCDGI?';
+  static final String _createGeneralInformation = '$baseUrl/createSvpGI?';
 
   static final String _getContactDetailsById = '$baseUrl/getCntInfoById';
   static final String _deleteContactDetailsById = '$baseUrl/deleteContactInfo';

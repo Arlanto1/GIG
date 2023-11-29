@@ -191,7 +191,7 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
 
     // Create/Update API Call
     SLAViolationPenaltyRequest request =
-    SLAViolationPenaltyRequest(sla: state.model);
+    SLAViolationPenaltyRequest(svpGi: state.model);
 
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
