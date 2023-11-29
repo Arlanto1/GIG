@@ -141,6 +141,15 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                     !isReadOnly
                 ? true
                 : false,
+            popAndReplace: () {
+              log('--popAndReplace-----');
+              // Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.popAndPushNamed(
+                context,
+                contactDetailsListRoute,
+              );
+            },
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<ContactDetailsCubit>(context).submitForm(

@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_info.dart';
-import 'package:db_atom/src/features/contact_details/models/contact_rank_response.dart';
+import 'package:db_atom/src/features/contact_details/models/generic_organisation_response.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
@@ -37,12 +37,12 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
   FutureOr<void> _initializeValues(
       InitializeValues event, Emitter<ContactRecordState> emit) async {
     try {
-      ContactRankResponse response =
-          await commonServices.getRanks(name: rankType);
+      List<Organisation> items =
+          await commonServices.getOrganisations(name: rankType);
 
       return emit(
         state.copyWith(
-          ranks: response.ranks,
+          ranks: items,
           hasReachedMax: false,
         ),
       );

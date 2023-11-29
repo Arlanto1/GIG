@@ -70,8 +70,8 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
 
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+      // state.model.inputDate =
+      //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: 'en', moduleCode: Constants.materialMovementModuleCode);
