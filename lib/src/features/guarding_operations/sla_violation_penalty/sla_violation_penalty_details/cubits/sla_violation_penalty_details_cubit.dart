@@ -2,9 +2,6 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
-import 'package:db_atom/src/features/contact_details/models/requestModels/contact_details_gi_request.dart';
-import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
@@ -86,8 +83,6 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
 
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
-      state.model.inputDate =
-          DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
       if (state.model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();

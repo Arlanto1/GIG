@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
@@ -22,7 +21,7 @@ class Apis {
   static final String _createGeneralInformation = '$baseUrl/createSvpGI?';
 
   static final String _getViolationPenaltyById = '$baseUrl/getVpById';
-  static final String _deleteContactDetailsById = '$baseUrl/deleteSlaVp';
+  static final String _deleteViolationRecordsById = '$baseUrl/deleteSlaVp';
 
   static final String _createViolationPenaltyRecord = '$baseUrl/createSlaVp?';
 }
@@ -36,8 +35,6 @@ class SLAViolationPenaltyServices {
       isAuthenticated: true,
       url: url,
     );
-
-    log('--response-----------${response.toString()}-------------');
     return List<ViolationPenaltyRecord>.from(
         response.map((x) => ViolationPenaltyRecord.fromJson(x)));
   }
@@ -53,7 +50,6 @@ class SLAViolationPenaltyServices {
         isAuthenticated: true,
         url: url,
       );
-      log('--response-----------${response.toString()}-------------');
       return SLAViolationPenaltyResponseModel.fromJson(response);
     }
 
@@ -79,7 +75,7 @@ class SLAViolationPenaltyServices {
       return GenericResponse.fromJson(response);
     }
 
-    Future<ViolationPenaltyListResponseModel> getCd({
+    Future<ViolationPenaltyListResponseModel> getVp({
       required String startPosition,
       required String maximumRecords,
     }) async {
@@ -101,7 +97,7 @@ class SLAViolationPenaltyServices {
     }
 
     Future<GenericResponse> deleteVpById(int id) async {
-      final String url = '${Apis._deleteContactDetailsById}/$id';
+      final String url = '${Apis._deleteViolationRecordsById}/$id';
       final response = await BaseApiService().deleteRequest(
         url: url,
       );

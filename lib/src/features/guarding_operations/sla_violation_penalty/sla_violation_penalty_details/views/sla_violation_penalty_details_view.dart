@@ -25,7 +25,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
 import '../../../../../common_widgets/base_widget/base_entities_dropdown.dart';
-import '../../../../../common_widgets/base_widget/basicWidgetFunctions.dart';
 import '../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/base_user.dart';
@@ -62,30 +61,14 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
   TextEditingController guardingAgencyPOCController = TextEditingController();
   bool isReadOnly = false;
 
-  SignatureController receiverSignatureController = SignatureController();
-  SignatureController securitySignatureController = SignatureController();
-
   @override
   void initState() {
     super.initState();
-    receiverSignatureController = SignatureController(
-        penStrokeWidth: 2,
-        penColor: Colors.black,
-        exportBackgroundColor: Colors.white);
-
-    securitySignatureController = SignatureController(
-        penStrokeWidth: 2,
-        penColor: Colors.black,
-        exportBackgroundColor: Colors.white);
-    BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
-        .initializeValues();
     initializeDates();
   }
 
   @override
   void dispose() {
-    receiverSignatureController.dispose();
-    securitySignatureController.dispose();
     super.dispose();
   }
 
@@ -99,11 +82,10 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
         SLAViolationPenaltyDetailsCubit,
         SLAViolationPenaltyDetailsState>(
       listener: (context, state) {
-        log('--NN-state.status-${state.status}-------');
-
-        if (state.status == FormStatus.success) {
+        log('-state.status---${state.status}----');
+        //if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
-            title: 'Material Movement',
+            title: 'SLA Violation Penalty',
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
             onPostivePressed: () {
@@ -113,6 +95,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
               Navigator.popAndPushNamed(
                 context,
                 slaViolationPenaltyListRoute,
+                arguments: {},
               );
             },
           );
@@ -120,10 +103,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
-
-          // Utils.dynamicAlert(
-          //     context, state.message ?? '', 'Material Movement', '');
-        }
+       // }
         if (state.status == FormStatus.error) {
           Validator().showToast(
             context,
@@ -446,7 +426,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                                 log('--state.model.id---${state.model.id}--');
 
                                 nav.pushNamed(
-                                  slaViolationPenaltyListingRoute,
+                                  slaViolationPenaltyRecordsRoute,
                                   arguments: {
                                     ConstantsArgument.title:
                                     Constants.violationPenalty,

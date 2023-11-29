@@ -437,7 +437,7 @@ class RouteGenerator {
       //     ),
       //   );
 
-      case slaViolationPenaltyListingRoute:
+      case slaViolationPenaltyRecordsRoute:
         String title = '';
         int id = 0;
         if (settings.arguments != null) {

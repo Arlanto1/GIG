@@ -65,5 +65,5 @@ const String contactRecordsRoute = '/contactRecordsRoute';
 
 const String slaViolationPenaltyListRoute = '/slaViolationPenaltyRoute';
 const String slaViolationPenaltyDetailsRoute = '/slaViolationPenaltyDetailsRoute';
-const String slaViolationPenaltyListingRoute = '/slaViolationPenaltyListingRoute';
+const String slaViolationPenaltyRecordsRoute = '/slaViolationPenaltyListingRoute';
 
