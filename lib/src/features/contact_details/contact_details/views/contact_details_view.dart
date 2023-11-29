@@ -141,6 +141,15 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                     !isReadOnly
                 ? true
                 : false,
+            popAndReplace: () {
+              log('--popAndReplace-----');
+              // Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.popAndPushNamed(
+                context,
+                contactDetailsListRoute,
+              );
+            },
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<ContactDetailsCubit>(context).submitForm(
@@ -555,18 +564,15 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                      if ((state.model.status == 6
-                          )
-                          ? false
-                          : true) ...[
+                      if ((state.model.status == 6) ? false : true) ...[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             cancelButtonDisplay(),
                             // if ((state.model.status != 1
-                                // || state.model.status == 1
-                                // )) ...[
-                              submitButtonDisplay(),
+                            // || state.model.status == 1
+                            // )) ...[
+                            submitButtonDisplay(),
                             // ],
                           ],
                         ),

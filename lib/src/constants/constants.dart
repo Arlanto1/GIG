@@ -30,7 +30,6 @@ class Constants {
   static const String contactSystemEscalationRank =
       'CONTACT_SYSTEM_ESCALATION_RANK';
   static const String contactZone = 'CONTACT_ZONE';
-
   static const String contactSupervisorRank = 'CONTACT_SUPERVISOR_RANK';
 
   static const String userRoles = 'userRoles';
