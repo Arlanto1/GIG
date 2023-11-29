@@ -131,7 +131,7 @@ class ViolationPenaltyRecordBloc extends Bloc<ViolationPenaltyRecordEvent, Viola
 
       //request.cit = event.contactInfo;
       await SLAViolationPenaltyServices()
-          .createContactRecord(body: request, isSubmit: false);
+          .createViolationPenaltyRecord(body: request, isSubmit: false);
 
       /// Refresh list
       ViolationPenaltyListModel response = await services.getViolationPenaltyListByType(

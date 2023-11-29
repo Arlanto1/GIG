@@ -22,7 +22,7 @@ class Apis {
   static final String _getContactDetailsById = '$baseUrl/getCntInfoById';
   static final String _deleteContactDetailsById = '$baseUrl/deleteContactInfo';
 
-  static final String _createContactRecord = '$baseUrl/createContactInfo?';
+  static final String _createViolationPenaltyRecord = '$baseUrl/createSlaVp?';
 
   static final String _deleteContacts = '$baseUrl/deleteContactInfo';
 }
@@ -31,7 +31,7 @@ class SLAViolationPenaltyServices {
   Future<ViolationPenaltyListModel> getViolationPenaltyListByType({
     required String id,
   }) async {
-    String url = '${Apis._getViolationPenaltiesListByType}$id?';
+    String url = '${Apis._getViolationPenaltiesListByType}$id';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
@@ -103,12 +103,12 @@ class SLAViolationPenaltyServices {
     return GenericResponse.fromJson(response);
   }
 
-  Future<GenericResponse> createContactRecord({
+  Future<GenericResponse> createViolationPenaltyRecord({
     required ViolationPenaltyRecordRequest body,
     required bool isSubmit,
   }) async {
     // var userId = await SharedPrefs.getUserId();
-    final String url = "${Apis._createContactRecord}isSubmit=$isSubmit";
+    final String url = "${Apis._createViolationPenaltyRecord}isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

@@ -604,6 +604,11 @@ class Constants {
   static const String typeOfService = 'Type Of Service';
   static const String aSL = 'ASL';
   static const String violationPenalty = 'Violation Penalty';
+  static const String penaltyAmount = 'Penalty Amount';
+  static const String totalNoOfViolations = 'Total No Of Violations';
+  static const String totalPenaltyAmount = 'Total Penalty Amount';
+  static const String violation = 'Violation';
+  static const String staffCategory = 'Staff Category';
 
 
 }
@@ -745,6 +750,16 @@ const List<Label> guardRankDropDownValues = [
   Label(key: 'Security Facilitator', value: '4'),
   Label(key: 'Gun Man', value: '5'),
   Label(key: 'Lady Security Guard', value: '6'),
+];
+
+const List<Label> staffCategoryDropDownValues = [
+  Label(key: 'Guarding Agency', value: '1'),
+  Label(key: 'Security Guard', value: '2'),
+  Label(key: 'Security Lady', value: '3'),
+  Label(key: 'Security Supervisor', value: '4'),
+  Label(key: 'Security Officer', value: '5'),
+  Label(key: 'Security Facilitator', value: '6'),
+  Label(key: 'NA', value: '7'),
 ];
 const List<Label> deploymentTypeDropDownValues = [
   Label(key: 'New Deployment', value: '1'),

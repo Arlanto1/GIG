@@ -89,7 +89,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
         ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.contactDetails,
+          title: Constants.violationPenalty,
           showPopUp: true,
           showSaveButton: false,
           excelAPIName: 'exportMMExcel',
@@ -236,10 +236,10 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
     if (model != null) {
       Navigator.pushNamed(
         context,
-        contactDetailsRoute,
+        slaViolationPenaltyDetailsRoute,
         arguments: {
           "model": model,
-          "title": Constants.contactDetails,
+          "title": Constants.violationPenalty,
         },
       );
     }

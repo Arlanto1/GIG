@@ -15,6 +15,7 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../common_widgets/base_widget/base_drop_down.dart';
 import '../../models/violation_penalty_model.dart';
 
 class AddContactPopUp extends StatefulWidget {
@@ -40,7 +41,7 @@ class AddContactPopUp extends StatefulWidget {
 class AddContactPopUpState extends State<AddContactPopUp> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController contactController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
+  TextEditingController staffCategoryController = TextEditingController();
   TextEditingController toDateController = TextEditingController();
 
   @override
@@ -69,7 +70,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
         var width = MediaQuery.of(context).size.width;
 
         return SizedBox(
-          height: height / 2,
+          height: height / 1.4,
           width: width,
           child: Stack(
             clipBehavior: Clip.none,
@@ -83,7 +84,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       Column(
                         children: [
                           CommonWidgets.textDisplay(
-                            Constants.rank,
+                            Constants.violation,
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
@@ -109,9 +110,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      /// Violation
+                      /// Penalty Amount
                       CommonWidgets.textDisplay(
-                        Constants.name,
+                        Constants.penaltyAmount,
                         isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
@@ -132,10 +133,69 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+
+                      /// Staff Category
+                      CommonWidgets.textDisplay(
+                          Constants.staffCategory,
+                          isMandatory: true,
+                          Styles.textStyleBlack14),
+                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+                      BaseDropDown().getDropDown(
+                          isDisabled: widget.violation != null,
+                          textController: staffCategoryController,
+                          items: staffCategoryDropDownValues,
+                          initialValue: '',
+                          onTap: () {
+                              BaseDropDown().assetTypeDialog(
+                                  context: context,
+                                  dropDownValues: staffCategoryDropDownValues
+                                      .map((label) => label.key)
+                                      .toList(),
+                                  onTap: (String value) {
+                                    // Label? selectedLabel;
+                                    // selectedLabel =
+                                    //     guardRankDropDownValues
+                                    //         .firstWhere(
+                                    //           (label) => label.key == value,
+                                    //       orElse: () =>
+                                    //       const Label(key: '', value: ''),
+                                    //     );
+                                  });
+
+                          }),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                       /// Total No of Violations
                       CommonWidgets.textDisplay(
-                        Constants.phoneNumber,
+                        Constants.totalNoOfViolations,
                         Styles.textStyleBlack14,
+                        isMandatory: true,
+
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      FlutterInputField(
+                        initialValue: '${widget.violation.totalViolations ?? ''}',
+                        keyboardType: TextInputType.number,
+                        textFormKey: Keys.phoneNumberKey,
+                        hintText: '',
+                        isEnable: true,
+                        isDisableColor: false,
+                        onChange: (String value) {
+                          // widget.payRate.perHour = double.parse(value);
+                          // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                          //     .onModelValueChange(widget.payRate);
+                        },
+                        validateTextField: (String? user) {},
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                      /// Total Penalty Amount
+                      CommonWidgets.textDisplay(
+                        Constants.totalPenaltyAmount,
+                        Styles.textStyleBlack14,
+                        isMandatory: true,
+
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(

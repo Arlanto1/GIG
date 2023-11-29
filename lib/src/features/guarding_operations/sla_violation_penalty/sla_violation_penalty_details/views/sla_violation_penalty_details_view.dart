@@ -446,7 +446,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                                 log('--state.model.id---${state.model.id}--');
 
                                 nav.pushNamed(
-                                  contactRecordsRoute,
+                                  slaViolationPenaltyListingRoute,
                                   arguments: {
                                     ConstantsArgument.title:
                                     Constants.violationPenalty,

@@ -24,9 +24,9 @@ class InitializeValues extends ViolationPenaltyRecordEvent {
 }
 
 class SaveRecord extends ViolationPenaltyRecordEvent {
-  final ViolationPenaltyRecord contactInfo;
+  final ViolationPenaltyRecord violationPenaltyRecord;
   final int mainContactId;
-  const SaveRecord(this.contactInfo, this.mainContactId,);
+  const SaveRecord(this.violationPenaltyRecord, this.mainContactId,);
 }
 
 class DeleteRecord extends ViolationPenaltyRecordEvent {
