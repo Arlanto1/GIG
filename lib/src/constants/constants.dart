@@ -20,7 +20,7 @@ class Constants {
   static const String incidentManagementModule = 'IM';
   static const String contactDetailsModule = 'CD';
 
-  /// UI Module Code
+  /// UI Labels Module Code
   static const String materialMovementModuleCode = 'MM';
 
   /// Rank Types for Contact Details
