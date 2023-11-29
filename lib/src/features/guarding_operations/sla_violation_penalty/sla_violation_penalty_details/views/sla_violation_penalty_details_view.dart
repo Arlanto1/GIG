@@ -83,7 +83,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
         SLAViolationPenaltyDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
-        //if (state.status == FormStatus.success) {
+        if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'SLA Violation Penalty',
             message: state.message ?? '',
@@ -103,7 +103,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
-       // }
+        }
         if (state.status == FormStatus.error) {
           Validator().showToast(
             context,
