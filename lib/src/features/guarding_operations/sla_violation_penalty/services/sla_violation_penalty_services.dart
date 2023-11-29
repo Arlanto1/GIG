@@ -11,7 +11,7 @@ import '../models/violation_penalty_model.dart';
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getContactListByType = '$baseUrl/getGcdTypeById/';
+  static final String _getViolationPenaltiesListByType = '$baseUrl/getVpById/';
 
   static final String _getVP = '$baseUrl/getSvpList?';
 
@@ -28,11 +28,10 @@ class Apis {
 }
 
 class SLAViolationPenaltyServices {
-  Future<ViolationPenaltyListModel> getContactListByType({
+  Future<ViolationPenaltyListModel> getViolationPenaltyListByType({
     required String id,
-    required String type,
   }) async {
-    String url = '${Apis._getContactListByType}$id?type=$type';
+    String url = '${Apis._getViolationPenaltiesListByType}$id?';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,

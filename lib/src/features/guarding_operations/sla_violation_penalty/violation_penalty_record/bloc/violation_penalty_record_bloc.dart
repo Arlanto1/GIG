@@ -8,7 +8,6 @@ import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:equatable/equatable.dart';
-
 import '../../models/requestModels/violation_penalty_request.dart';
 import '../../models/violation_penalty_list_response_model.dart';
 import '../../models/violation_penalty_model.dart';
@@ -37,9 +36,9 @@ class ViolationPenaltyRecordBloc extends Bloc<ViolationPenaltyRecordEvent, Viola
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        ViolationPenaltyListModel response = await services.getContactListByType(
+        ViolationPenaltyListModel response = await services.getViolationPenaltyListByType(
           id: '${event.id}',
-          type: '${event.type}',
+         // type: '${event.type}',
         );
         return emit(
           state.copyWith(
@@ -50,9 +49,9 @@ class ViolationPenaltyRecordBloc extends Bloc<ViolationPenaltyRecordEvent, Viola
         );
       }
 
-      ViolationPenaltyListModel response = await services.getContactListByType(
+      ViolationPenaltyListModel response = await services.getViolationPenaltyListByType(
         id: '${event.id}',
-        type: '${event.type}',
+       // type: '${event.type}',
       );
 
       if (response.violationPenalties?.isEmpty == true) {
@@ -97,9 +96,9 @@ class ViolationPenaltyRecordBloc extends Bloc<ViolationPenaltyRecordEvent, Viola
     );
     try {
       await SLAViolationPenaltyServices().deleteCdById(event.id);
-      ViolationPenaltyListModel response = await services.getContactListByType(
+      ViolationPenaltyListModel response = await services.getViolationPenaltyListByType(
         id: '${event.mainContactId}',
-        type: '${event.type}',
+      //  type: '${event.type}',
       );
 
       return emit(
@@ -135,9 +134,9 @@ class ViolationPenaltyRecordBloc extends Bloc<ViolationPenaltyRecordEvent, Viola
           .createContactRecord(body: request, isSubmit: false);
 
       /// Refresh list
-      ViolationPenaltyListModel response = await services.getContactListByType(
+      ViolationPenaltyListModel response = await services.getViolationPenaltyListByType(
         id: '${event.mainContactId}',
-        type: '${event.type}',
+       // type: '${event.type}',
       );
       return emit(
         state.copyWith(

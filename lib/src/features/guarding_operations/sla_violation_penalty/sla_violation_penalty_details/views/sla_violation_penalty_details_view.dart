@@ -375,7 +375,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
 
-                            ///Event Protection Officer
+                            ///Guarding Agency POC
                             CommonWidgets.textDisplay(
                                 Constants.guardingAgencyPOC,
                                 Styles.textStyleBlack14,
@@ -419,15 +419,41 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
 
 
                             GestureDetector(
+                              // onTap: () async {
+                              //   NavigatorState nav = Navigator.of(context);
+                              //   nav.pushNamed(
+                              //     slaViolationPenaltyListingRoute,
+                              //     arguments: {
+                              //       ConstantsArgument.title:
+                              //       Constants.generalContact,
+                              //       ConstantsArgument.id: state.model.id,
+                              //     },
+                              //   );
+                              // },
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
+                                bool isSaveSuccess =
+                                await BlocProvider.of<SLAViolationPenaltyDetailsCubit>(
+                                    context)
+                                    .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
+                                );
+
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
+                                log('--state.model.id---${state.model.id}--');
+
                                 nav.pushNamed(
-                                  slaViolationPenaltyListingRoute,
+                                  contactRecordsRoute,
                                   arguments: {
                                     ConstantsArgument.title:
-                                    Constants.generalContact,
-                                    ConstantsArgument.type: 0,
+                                    Constants.violationPenalty,
+                                    //ConstantsArgument.type: 0,
                                     ConstantsArgument.id: state.model.id,
+                                    //ConstantsArgument.rankType:
+                                    //Constants.contactGeneralRank,
                                   },
                                 );
                               },

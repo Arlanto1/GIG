@@ -9,13 +9,11 @@ abstract class ViolationPenaltyRecordEvent extends Equatable {
 
 class FetchData extends ViolationPenaltyRecordEvent {
   final int id;
-  final int type;
   final int startPos;
   final int maxPos;
 
   const FetchData({
     required this.id,
-    required this.type,
     required this.startPos,
     required this.maxPos,
   });
@@ -28,14 +26,12 @@ class InitializeValues extends ViolationPenaltyRecordEvent {
 class SaveRecord extends ViolationPenaltyRecordEvent {
   final ViolationPenaltyRecord contactInfo;
   final int mainContactId;
-  final int type;
-  const SaveRecord(this.contactInfo, this.mainContactId, this.type);
+  const SaveRecord(this.contactInfo, this.mainContactId,);
 }
 
 class DeleteRecord extends ViolationPenaltyRecordEvent {
   final int id;
   final int mainContactId;
-  final int type;
 
-  const DeleteRecord(this.id, this.type, this.mainContactId);
+  const DeleteRecord(this.id, this.mainContactId);
 }

@@ -27,12 +27,10 @@ class ViolationPenaltyRecordView extends StatefulWidget {
     super.key,
     required this.id,
     required this.title,
-    required this.type,
   });
 
   final int id;
   final String title;
-  final int type;
 
   @override
   State<ViolationPenaltyRecordView> createState() => _ContactRecordViewState();
@@ -66,7 +64,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<ViolationPenaltyRecordBloc>().add(FetchData(
-          id: widget.id, type: widget.type, startPos: pageNumber, maxPos: 20));
+          id: widget.id, startPos: pageNumber, maxPos: 20));
     }
   }
 
@@ -186,7 +184,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
               onDeleteTap: (selectedIndex) async {
                 // Call Delete API
                 BlocProvider.of<ViolationPenaltyRecordBloc>(context)
-                    .add(DeleteRecord(state.items![selectedIndex].id!.toInt(), widget.type, widget.id));
+                    .add(DeleteRecord(state.items![selectedIndex].id!.toInt(), widget.id));
               },
               index: index,
             );
@@ -218,7 +216,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
             log('-widget.title---${widget.title}----');
 
             BlocProvider.of<ViolationPenaltyRecordBloc>(context)
-                .add(SaveRecord(model, widget.id, widget.type));
+                .add(SaveRecord(model, widget.id, ));
           },
         );
       },

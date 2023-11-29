@@ -413,29 +413,54 @@ class RouteGenerator {
           ),
         );
 
+      // case slaViolationPenaltyListingRoute:
+      //   String title = '';
+      //   int id = 0;
+      //   int type = 0;
+      //   if (settings.arguments != null) {
+      //     Map<String, dynamic> arguments =
+      //     settings.arguments as Map<String, dynamic>;
+      //     id = arguments[ConstantsArgument.id];
+      //     title = arguments[ConstantsArgument.title];
+      //     type = arguments[ConstantsArgument.type] ?? 0;
+      //   }
+      //   return MaterialPageRoute(
+      //     builder: (context) => BlocProvider<vp.ViolationPenaltyRecordBloc>(
+      //       create: (_) => vp.ViolationPenaltyRecordBloc()
+      //         ..add(vp.FetchData(
+      //           id: id,
+      //           type: type,
+      //           startPos: 0,
+      //           maxPos: 100,
+      //         )),
+      //       child: ViolationPenaltyRecordView(
+      //         id: id,
+      //         type: type,
+      //         title: title,
+      //       ),
+      //     ),
+      //   );
+
       case slaViolationPenaltyListingRoute:
         String title = '';
         int id = 0;
-        int type = 0;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
           settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
-          type = arguments[ConstantsArgument.type] ?? 0;
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<vp.ViolationPenaltyRecordBloc>(
-            create: (_) => vp.ViolationPenaltyRecordBloc()
+            create: (_) =>vp.ViolationPenaltyRecordBloc(
+            )
               ..add(vp.FetchData(
                 id: id,
-                type: type,
                 startPos: 0,
                 maxPos: 100,
               )),
             child: ViolationPenaltyRecordView(
               id: id,
-              type: type,
               title: title,
             ),
           ),
