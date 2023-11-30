@@ -25,6 +25,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
 import '../../../../../common_widgets/base_widget/base_entities_dropdown.dart';
+import '../../../../../common_widgets/base_widget/basicWidgetFunctions.dart';
 import '../../../../../common_widgets/spinnerdialog.dart';
 import '../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../enums/form_status.dart';
@@ -82,7 +83,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
         SLAViolationPenaltyDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
-        if (state.status == FormStatus.navigateToNextScreen) {
+        if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'SLA Violation Penalty',
             message: state.message ?? '',
@@ -353,6 +354,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
 
+
                             ///Guarding Agency POC
                             CommonWidgets.textDisplay(
                                 Constants.guardingAgencyPOC,
@@ -381,9 +383,6 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                               ),
                             ),
                             // ],
-                            // BasicWidgetFunctions().getStringText(
-                            //     strings: state.model.poc ?? []),
-
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             Container(
@@ -619,9 +618,8 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                             const Spacer(),
                             submitButton(
                               onTap: () async {
-                              // state.model.poc ??= [];
-                              // state.model.poc
-                                //   ?.add(guardingAgencyPOCController.text);
+                              state.model.poc ??='';
+                              (state.model.poc??'')+guardingAgencyPOCController.text;
                                 BlocProvider.of<SLAViolationPenaltyDetailsCubit>(this.context)
                                     .onCheckBoxChange(state.model);
                                 Navigator.pop(context);
