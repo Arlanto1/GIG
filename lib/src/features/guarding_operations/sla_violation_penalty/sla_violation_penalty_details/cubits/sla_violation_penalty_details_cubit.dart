@@ -61,12 +61,17 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
   }
 
   void onAddPOC(String poc) {
+    log('-poc---$poc-');
+
     emit(state.copyWith(model: model, status: FormStatus.loading));
+    log('-state.poc---before---${state.pocs}----');
+
     List<String>? pocs = state.pocs ?? [];
     pocs.add(poc);
     state.copyWith(
       pocs: pocs,
     );
+    log('-state.poc---after---${state.pocs}----');
     state.model.poc = Utils().joinListWithComma(pocs);
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }

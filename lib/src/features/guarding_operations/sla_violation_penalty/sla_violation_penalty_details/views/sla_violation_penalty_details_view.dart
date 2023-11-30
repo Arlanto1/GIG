@@ -692,12 +692,9 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
   List<Widget> getPOC(
       SLAViolationPenaltyDetailsState state, height) {
     List<Widget> widgets = [];
-    log('-state.poc---${state.pocs?.length}---');
+    log('-state.poc.length---${state.pocs?.length}---');
     for (String poc in state.pocs ?? []) {
       TextEditingController pocController = TextEditingController();
-      // dateController.text = Utils.timestamptoDateConversion(
-      //     int.parse(widget.guardingMasterData?.dateOfBirth ?? '0'),
-      //     Constants.dateFormat);
       pocController.text = poc;
       widgets.add(
         FlutterInputField(
@@ -708,10 +705,10 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
           isEnable: true,
           isDisableColor: false,
           onChange: (String value) {
+             widget.model?.poc = value;
             BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
                 .onModelValueChange(state.model);
           },
-          validateTextField: (String value) {},
         ),
       );
       widgets.add(CommonWidgets.verticalSpacerWidget(height * 0.01));
