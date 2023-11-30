@@ -82,7 +82,7 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
         SLAViolationPenaltyDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
-        if (state.status == FormStatus.success) {
+        if (state.status == FormStatus.navigateToNextScreen) {
           var dialog = CustomAlertDialog(
             title: 'SLA Violation Penalty',
             message: state.message ?? '',
@@ -94,7 +94,6 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
               Navigator.popAndPushNamed(
                 context,
                 slaViolationPenaltyListRoute,
-                arguments: {},
               );
             },
           );

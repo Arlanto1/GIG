@@ -14,9 +14,12 @@ import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common_widgets/base_widget/base_drop_down.dart';
+import '../../../../../common_widgets/base_widget/base_list_tile_item.dart';
 import '../../models/violation_penalty_model.dart';
+import '../bloc/violation_penalty_record_bloc.dart';
 
 class AddContactPopUp extends StatefulWidget {
   const AddContactPopUp({
@@ -93,11 +96,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             height: 70,
                             isDisableColor: false,
                             onTap: () {
-                              BaseDepartmentDialog().userDialog(
+                              BaseDepartmentDialog().departmentDialog(
                                 context: context,
-                                entities: widget.users,
+                                departments: widget.users,
                                 onTap: (Organisation user) {
-                               //   widget.violation.violation?.name = user.name;
+                                  widget.violation.violation?.name = user.name;
                                   setState(() {});
                                   // BlocProvider.of<ContactListingBloc>(context)
                                   //     .updateApproverEmailsValue(
@@ -152,16 +155,27 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                   dropDownValues: staffCategoryDropDownValues
                                       .map((label) => label.key)
                                       .toList(),
-                                  onTap: (String value) {
-                                    // Label? selectedLabel;
-                                    // selectedLabel =
-                                    //     guardRankDropDownValues
-                                    //         .firstWhere(
-                                    //           (label) => label.key == value,
-                                    //       orElse: () =>
-                                    //       const Label(key: '', value: ''),
-                                    //     );
-                                  });
+                                  onTap: (int value) {
+                                    Label? selectedLabel;
+                                    selectedLabel =
+                                        staffCategoryDropDownValues
+                                            .firstWhere(
+                                              (label) => label.key == value,
+                                          orElse: () =>
+                                          const Label(key: '', value: ''),
+                                        );
+                                    setState(() {
+                                      widget.violation.staffCategory = value;
+
+                                    });
+
+                                   // BlocProvider.of<
+                                       // ViolationPenaltyRecordBloc>(
+                                       // context)
+                                       // .updateDropdownValues(
+                                       // staffCategoryDropDownValues: int.tryParse(
+                                          //  selectedLabel.value));
+                                 });
 
                           }),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),

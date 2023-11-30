@@ -64,6 +64,26 @@ class SLAViolationPenaltyDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
+    if (model.vendor == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Vendor');
+    }
+    if (model.entity == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Entity');
+    }
+    if (model.typeOfService == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Type of Services');
+    }
+    if (model.approver == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter ASL');
+    }
+    if (model.poc == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Guarding Agency POC');
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 

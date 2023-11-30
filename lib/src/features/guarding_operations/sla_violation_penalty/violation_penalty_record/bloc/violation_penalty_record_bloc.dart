@@ -51,7 +51,6 @@ class ViolationPenaltyRecordBloc extends Bloc<ViolationPenaltyRecordEvent, Viola
     }
   }
 
-
   FutureOr<void> _fetchContacts(
       FetchData event, Emitter<ViolationPenaltyRecordState> emit) async {
     try {

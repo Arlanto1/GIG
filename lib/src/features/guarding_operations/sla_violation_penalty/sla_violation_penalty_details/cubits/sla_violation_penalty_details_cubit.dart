@@ -93,7 +93,7 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
         if (defaultLocation != null) {
           SerialNumberModel slNo = await commonServices.getSlNo(
             locationId: defaultLocation.id.toString(),
-            moduleCode: Constants.eventProtectionModule,
+            moduleCode: Constants.slaViolationPenaltyDetailsModule,
           );
           state.model.location = defaultLocation;
           state.model.slNo = slNo.serialNo;
@@ -145,7 +145,7 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.contactDetailsModule,
+        moduleCode: Constants.slaViolationPenaltyDetailsModule,
       );
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
@@ -153,7 +153,7 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: location.id.toString(),
-          moduleCode: Constants.contactDetailsModule);
+          moduleCode: Constants.slaViolationPenaltyDetailsModule);
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
