@@ -619,9 +619,9 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                             const Spacer(),
                             submitButton(
                               onTap: () async {
-                               // state.model.poc ??= [];
-                              //  state.model.poc
-                              //      ?.add(guardingAgencyPOCController.text);
+                              // state.model.poc ??= [];
+                              // state.model.poc
+                                //   ?.add(guardingAgencyPOCController.text);
                                 BlocProvider.of<SLAViolationPenaltyDetailsCubit>(this.context)
                                     .onCheckBoxChange(state.model);
                                 Navigator.pop(context);

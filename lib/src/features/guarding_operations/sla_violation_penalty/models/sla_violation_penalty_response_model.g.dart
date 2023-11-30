@@ -31,7 +31,7 @@ SLAViolationPenaltyModel _$SLAViolationPenaltyModelFromJson(
           .toList(),
       typeOfService: (json['typeOfService'] as List?)
           ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
-          .toList(),
+           .toList(),
       poc: json['poc'] as String?,
       approver: json['approver'] == null
           ? null

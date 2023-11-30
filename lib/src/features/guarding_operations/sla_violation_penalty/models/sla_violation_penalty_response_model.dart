@@ -51,7 +51,6 @@ class SLAViolationPenaltyModel extends BaseObject {
   List<Organisation>? entity;
   User? approver;
   String? poc;
-
   SLAViolationPenaltyModel(
       {this.id,
       this.slNo,
