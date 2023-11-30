@@ -31,6 +31,7 @@ import '../../../../../models/organisation.dart';
 import '../../../../../utils/customalert.dart';
 import '../../models/sla_violation_penalty_response_model.dart';
 import '../cubits/sla_violation_penalty_details_cubit.dart';
+import 'add_poc_pop_up.dart';
 
 class SLAViolationPenaltyDetailsView extends StatefulWidget {
   final SLAViolationPenaltyModel? model;
@@ -53,6 +54,8 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
   User? userDetails;
   TextEditingController guardingAgencyPOCController = TextEditingController();
   bool isReadOnly = false;
+
+  get model => null;
 
   @override
   void initState() {
@@ -343,37 +346,90 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///Guarding Agency POC
-                            CommonWidgets.textDisplay(
-                                Constants.guardingAgencyPOC,
-                                Styles.textStyleBlack14,
-                                isMandatory: true),
-                            //if (!disableForm) ...[
-                            GestureDetector(
-                              onTap: () {
-                                addGuardingAgencyPOC();
-                              },
-                              child: Row(
-                                children: <Widget>[
-                                  const SizedBox(width: 14),
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add Guarding Agency POC',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
-                                      decoration: TextDecoration.underline,
+
+                            /// Guarding Agency POC
+                              CommonWidgets.textDisplay(
+                                  Constants.guardingAgencyPOC,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext dialogContext) {
+                                        return AddPOCPopUp(
+                                          model:
+                                          model,
+                                          mainContext: context,
+                                          onSubmit: (SLAViolationPenaltyModel
+                                          model) {
+                                            //loginFormKey.currentState!.validate();
+                                            FocusScope.of(context).unfocus();
+                                            BlocProvider.of<
+                                                SLAViolationPenaltyDetailsCubit>(
+                                                context)
+                                                .submitForm(isSaveOnly: true);
+                                          },
+                                        );
+                                      });
+                                },
+                                child: Row(
+                                  children: <Widget>[
+                                    // Expanded(
+                                    //child:
+                                    const SizedBox(width: 14),
+                                    SvgPicture.asset(
+                                      AppIcon.pluscircle,
+                                      //color: AppColors.navigationSkybluecolor,
                                     ),
-                                  ),
-                                ],
+                                    // ),
+                                    const SizedBox(width: 10),
+                                    const Text(
+                                      Constants.addGuardingAgencyPOC,
+                                      style: TextStyle(
+                                        color: AppColors.navigationSkybluecolor,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
+                            Column(
+                              children: getPOC(state, height),
                             ),
-                            BasicWidgetFunctions().getStringText(
-                                strings: state.pocs ?? []),
-                            // ],
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            // ///Guarding Agency POC
+                            // CommonWidgets.textDisplay(
+                            //     Constants.guardingAgencyPOC,
+                            //     Styles.textStyleBlack14,
+                            //     isMandatory: true),
+                            // //if (!disableForm) ...[
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     addGuardingAgencyPOC();
+                            //   },
+                            //   child: Row(
+                            //     children: <Widget>[
+                            //       const SizedBox(width: 14),
+                            //       SvgPicture.asset(
+                            //         AppIcon.pluscircle,
+                            //       ),
+                            //       const SizedBox(width: 10),
+                            //       const Text(
+                            //         'Add Guarding Agency POC',
+                            //         style: TextStyle(
+                            //           color: AppColors.navigationSkybluecolor,
+                            //           decoration: TextDecoration.underline,
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
+                            // BasicWidgetFunctions().getStringText(
+                            //     strings: state.pocs ?? []),
+                            // // ],
+                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Violation Penalty
                             Container(
@@ -633,6 +689,35 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
     );
   }
 
+  List<Widget> getPOC(
+      SLAViolationPenaltyDetailsState state, height) {
+    List<Widget> widgets = [];
+    log('-state.poc---${state.pocs?.length}---');
+    for (String poc in state.pocs ?? []) {
+      TextEditingController pocController = TextEditingController();
+      // dateController.text = Utils.timestamptoDateConversion(
+      //     int.parse(widget.guardingMasterData?.dateOfBirth ?? '0'),
+      //     Constants.dateFormat);
+      pocController.text = poc;
+      widgets.add(
+        FlutterInputField(
+          lineHeight: 1,
+          textFieldController: pocController,
+          textFormKey: Keys.equipmentNoKey,
+          hintText: '',
+          isEnable: true,
+          isDisableColor: false,
+          onChange: (String value) {
+            BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                .onModelValueChange(state.model);
+          },
+          validateTextField: (String value) {},
+        ),
+      );
+      widgets.add(CommonWidgets.verticalSpacerWidget(height * 0.01));
+    }
+    return widgets;
+  }
   Widget datecreateWidgetdisplay(String date) {
     return FlutterInputField(
       textFormKey: Keys.dateofcreationTextController,

@@ -22,6 +22,8 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     required final List<Organisation> typeOfServices,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
+    List<String>? pocs,
+
   }) {
     return SLAViolationPenaltyDetailsState(
       status: FormStatus.initial,
@@ -33,6 +35,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
       vendors: vendors,
       typeOfServices: typeOfServices,
       message: errorMessage,
+      pocs: pocs,
     );
   }
 

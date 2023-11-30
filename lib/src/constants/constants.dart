@@ -612,6 +612,7 @@ class Constants {
   static const String violation = 'Violation';
   static const String staffCategory = 'Staff Category';
   static const String slaViolation = 'SLA_VIOLATION_DESCRIPTION';
+  static const String addGuardingAgencyPOC = 'Add Guarding Agency POC';
 
 
 }

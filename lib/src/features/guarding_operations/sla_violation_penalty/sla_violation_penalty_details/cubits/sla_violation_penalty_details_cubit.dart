@@ -60,6 +60,18 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
+  void onAddPOC(String poc) {
+    emit(state.copyWith(model: model, status: FormStatus.loading));
+    List<String>? pocs = state.pocs ?? [];
+    pocs.add(poc);
+    state.copyWith(
+      pocs: pocs,
+    );
+    state.model.poc = Utils().joinListWithComma(pocs);
+    emit(state.copyWith(model: model, status: FormStatus.initial));
+  }
+
+
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     //Show Loader and emit loading state
