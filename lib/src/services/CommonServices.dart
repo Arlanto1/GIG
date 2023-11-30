@@ -62,7 +62,7 @@ class CommonServices {
     required String name,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getOrganisations}$name';
+    String url = '${Apis._getOrganisations}$name&noRole=true';
     final response = await BaseApiService().getRequest(
       url: url,
     );
