@@ -23,16 +23,16 @@ SLAViolationPenaltyModel _$SLAViolationPenaltyModelFromJson(
           ? null
           : User.fromJson(json['entrySecurity'] as Map<String, dynamic>),
       status: json['status'] as int?,
-      entity: (json['entity'] as List?)
-          ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
+      entity: (json['entity'] as List<dynamic>?)
+          ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      vendor: (json['vendor'] as List?)
-          ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
+      vendor: (json['vendor'] as List<dynamic>?)
+          ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      typeOfService: (json['typeOfService'] as List?)
-          ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
-           .toList(),
       poc: json['poc'] as String?,
+      typeOfService: (json['typeOfService'] as List<dynamic>?)
+          ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
+          .toList(),
       approver: json['approver'] == null
           ? null
           : User.fromJson(json['approver'] as Map<String, dynamic>),
@@ -49,9 +49,9 @@ Map<String, dynamic> _$SLAViolationPenaltyModelToJson(
       'inputDate': instance.inputDate,
       'entrySecurity': instance.entrySecurity,
       'status': instance.status,
-      'entity': instance.entity?.map((e) => e.toJson()).toList(),
-      'vendor': instance.vendor?.map((e) => e.toJson()).toList(),
-      'typeOfService': instance.typeOfService?.map((e) => e.toJson()).toList(),
-      'poc': instance.poc,
+      'vendor': instance.vendor,
+      'typeOfService': instance.typeOfService,
+      'entity': instance.entity,
       'approver': instance.approver,
+      'poc': instance.poc,
     };

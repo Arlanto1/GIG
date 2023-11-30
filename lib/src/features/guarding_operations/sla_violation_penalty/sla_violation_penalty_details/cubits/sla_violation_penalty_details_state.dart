@@ -10,6 +10,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
   final List<Organisation> vendors;
   final List<Organisation> typeOfServices;
   final String? message;
+  final List<String>? pocs;
 
   factory SLAViolationPenaltyDetailsState.initial({
     required SLAViolationPenaltyModel model,
@@ -30,7 +31,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
       users: users,
       listOfEntities: listOfEntities,
       vendors: vendors,
-      typeOfServices:typeOfServices,
+      typeOfServices: typeOfServices,
       message: errorMessage,
     );
   }
@@ -65,20 +66,17 @@ class SLAViolationPenaltyDetailsState extends Equatable {
           status: false, message: 'Please enter Location');
     }
     if (model.vendor == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Vendor');
+      return const ErrorResponse(status: false, message: 'Please enter Vendor');
     }
     if (model.entity == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Entity');
+      return const ErrorResponse(status: false, message: 'Please enter Entity');
     }
     if (model.typeOfService == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Type of Services');
     }
     if (model.approver == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter ASL');
+      return const ErrorResponse(status: false, message: 'Please enter ASL');
     }
     if (model.poc == null) {
       return const ErrorResponse(
@@ -90,7 +88,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
   @override
   List<Object?> get props => [model, status];
 
-  const SLAViolationPenaltyDetailsState( {
+  const SLAViolationPenaltyDetailsState({
     required this.status,
     required this.model,
     this.locations,
@@ -100,6 +98,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     required this.typeOfServices,
     this.users,
     this.message,
+    this.pocs,
   });
 
   SLAViolationPenaltyDetailsState copyWith({
@@ -111,7 +110,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     List<Organisation>? listOfEntities,
     List<Organisation>? vendors,
     List<Organisation>? typeOfServices,
-
+    List<String>? pocs,
     String? message,
   }) {
     return SLAViolationPenaltyDetailsState(
@@ -124,6 +123,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
       vendors: vendors ?? this.vendors,
       typeOfServices: typeOfServices ?? this.typeOfServices,
       message: message ?? this.message,
+      pocs: pocs ?? this.pocs,
     );
   }
 }

@@ -102,16 +102,13 @@ class AddDatePopUpState extends State<AddDatePopUp> {
   }
 
   Widget buttonViews(BuildContext context, double width) {
-    return Container(
-      color: AppColors.backgroundWhitecolor,
-      child: Row(
-        //mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          cancelButton(width),
-          saveButton(width, widget.onSubmit)
-        ],
-      ),
+    return Row(
+      //mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        cancelButton(width),
+        saveButton(width, widget.onSubmit)
+      ],
     );
   }
 
