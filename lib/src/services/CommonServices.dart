@@ -61,16 +61,16 @@ class CommonServices {
     required String name,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getOrganisations}$name';
+    String url = '${Apis._getOrganisations}$name&noRole=true';
     final response = await BaseApiService().getRequest(
       url: url,
     );
 
-    if (response == null || response['data'] == null) {
+    if (response == null || response['dimension'] == null) {
       return [];
     }
     return List<Organisation>.from(
-        response['data'].map((x) => Organisation.fromJson(x)));
+        response['dimension'].map((x) => Organisation.fromJson(x)));
   }
 
   Future<Locations> getLocations({
