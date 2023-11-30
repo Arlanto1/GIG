@@ -8,6 +8,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
   final List<BaseUser>? users;
   final List<Organisation>? listOfEntities;
   final List<Organisation> vendors;
+  final List<Organisation> typeOfServices;
   final String? message;
 
   factory SLAViolationPenaltyDetailsState.initial({
@@ -17,6 +18,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     required List<BaseUser>? users,
     required final List<Organisation>? listOfEntities,
     required final List<Organisation> vendors,
+    required final List<Organisation> typeOfServices,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
   }) {
@@ -28,6 +30,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
       users: users,
       listOfEntities: listOfEntities,
       vendors: vendors,
+      typeOfServices:typeOfServices,
       message: errorMessage,
     );
   }
@@ -74,6 +77,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     this.loggedInUserDetails,
     this.listOfEntities,
     required this.vendors,
+    required this.typeOfServices,
     this.users,
     this.message,
   });
@@ -86,6 +90,8 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     List<BaseUser>? users,
     List<Organisation>? listOfEntities,
     List<Organisation>? vendors,
+    List<Organisation>? typeOfServices,
+
     String? message,
   }) {
     return SLAViolationPenaltyDetailsState(
@@ -96,6 +102,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
       users: users ?? this.users,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       vendors: vendors ?? this.vendors,
+      typeOfServices: typeOfServices ?? this.typeOfServices,
       message: message ?? this.message,
     );
   }

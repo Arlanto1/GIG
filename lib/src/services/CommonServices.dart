@@ -7,6 +7,7 @@ import 'package:db_atom/src/features/createfound/models/emplyee_departments_mode
 import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
+import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/models/type_of_service_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
@@ -66,11 +67,11 @@ class CommonServices {
       url: url,
     );
 
-    if (response == null || response['data'] == null) {
+    if (response == null || response['dimension'] == null) {
       return [];
     }
     return List<Organisation>.from(
-        response['data'].map((x) => Organisation.fromJson(x)));
+        response['dimension'].map((x) => Organisation.fromJson(x)));
   }
 
   Future<Locations> getLocations({
@@ -138,6 +139,16 @@ class CommonServices {
     return Vendors.fromJson(response);
   }
 
+
+  Future<TypeOfServices> getTypeOfService({
+    required String name,
+  }) async {
+    String url = '${Apis._getLocations}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return TypeOfServices.fromJson(response);
+  }
   Future<GetArticleType> getArticleType({
     required String name,
     BuildContext? context,

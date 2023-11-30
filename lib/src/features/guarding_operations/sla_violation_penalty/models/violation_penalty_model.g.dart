@@ -16,7 +16,7 @@ ViolationPenaltyRecord _$ViolationPenaltyRecordFromJson(
       staffCategory: json['staffCategory'] as int?,
       violation: json['violation'] == null
           ? null
-          : Violation.fromJson(json['violation'] as Map<String, dynamic>),
+          : Organisation.fromJson(json['violation'] as Map<String, dynamic>),
       totalPenaltyAmount: json['totalPenaltyAmount'] as double?,
     );
 

@@ -25,12 +25,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
 import '../../../../../common_widgets/base_widget/base_entities_dropdown.dart';
+import '../../../../../common_widgets/spinnerdialog.dart';
 import '../../../../../common_widgets/textfiled_addbutton.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/base_user.dart';
 import '../../../../../models/organisation.dart';
 import '../../../../../utils/customalert.dart';
 import '../../models/sla_violation_penalty_response_model.dart';
+import '../../models/violation_penalty_list_response_model.dart';
+import '../../services/sla_violation_penalty_services.dart';
 import '../cubits/sla_violation_penalty_details_cubit.dart';
 
 
@@ -53,17 +56,13 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController returnableTextController = TextEditingController();
   User? userDetails;
-  List<ImageContent> getFiles = [];
-  List<ImageContent> getAttachments = [];
-  TextEditingController takenOutOnDateController = TextEditingController();
-  TextEditingController expectedDateOfReturnController =
-  TextEditingController();
   TextEditingController guardingAgencyPOCController = TextEditingController();
   bool isReadOnly = false;
 
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context).initializeValues();
     initializeDates();
   }
 
@@ -312,16 +311,16 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
 
                             BaseEntitiesSelection().entityDropDownSelection(
                                 context: context,
-                                selectedValues: state.model.vendor ?? [],
-                                all: state.vendors ?? [],
+                                selectedValues: state.model.typeOfService ?? [],
+                                all: state.typeOfServices ?? [],
                                 enabled: !isReadOnly,
-                                onTap: (List<Organisation> selectedVendors) {
-                                  log('--selectedEntities----${selectedVendors
+                                onTap: (List<Organisation> selectedTypeOfVendors) {
+                                  log('--selectedEntities----${selectedTypeOfVendors
                                       .length}');
                                   BlocProvider.of<
                                       SLAViolationPenaltyDetailsCubit>(context)
                                       .updateDropdownValues(
-                                      vendors: selectedVendors);
+                                      typeOfServices: selectedTypeOfVendors);
                                   Navigator.of(context)
                                       .pop(); // Close the dialog
                                 }),
@@ -431,6 +430,8 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
                                     ConstantsArgument.title:
                                     Constants.violationPenalty,
                                     ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.violationDescription:
+                                    Constants.slaViolation,
                                   },
                                 );
                               },
@@ -651,23 +652,23 @@ class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
       validateTextField: (String? user) {},
     );
   }
-// getLawEnforcementId(int id, int type) async {
+// getLawEnforcementId(int id) async {
 //   showLoadingDialog(context);
 //
-//   ContactListResponseModel contactsModel =
-//   await ContactDetailsServices().getCdById(id, type);
+//   SLAViolationPenaltyModel contactsModel =
+//   await SLAViolationPenaltyServices().getGvpById(id);
 //
 //   editDataLoading(contactsModel);
 // }
-// void editDataLoading(ContactListResponseModel? model) {
+// void editDataLoading(SLAViolationPenaltyModel? model) {
 //   dismissLoadingDialog(context);
 //   if (model != null) {
 //     Navigator.pushNamed(
 //       context,
-//       contactDetailsRoute,
+//       slaViolationPenaltyDetailsRoute,
 //       arguments: {
 //         "model": model,
-//         "title": Constants.contactDetails,
+//         "title": Constants.slaViolationPenalty,
 //       },
 //     );
 //   }

@@ -85,7 +85,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
             showAddContactPopUp(
               context: context,
               contact: ViolationPenaltyRecord(),
-              users: state.ranks ?? [],
+              users: state.violationDescription ?? [],
             );
           },
         ),
@@ -163,12 +163,12 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
                 ViolationPenaltyRecord contactsModel = await SLAViolationPenaltyServices()
                     .getVPById(state.items?[index].id ?? 0);
 
-                log('--state.users--llen--${state.ranks?.length}---');
+                log('--state.users--llen--${state.violationDescription?.length}---');
 
                 showAddContactPopUp(
                   context: context,
                   contact: contactsModel,
-                  users: state.ranks ?? [],
+                  users: state.violationDescription ?? [],
                 );
                 getDetails(state.items?[index].id ?? 0);
               },

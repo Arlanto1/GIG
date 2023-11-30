@@ -5,6 +5,7 @@ import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/models/type_of_service_model.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/util.dart';
@@ -45,6 +46,7 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
       emailUsers: const [],
       listOfEntities: const [],
       vendors: const [],
+      typeOfServices: const [],
       errorMessage: '',
     ),
   );
@@ -75,6 +77,8 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
       await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
       Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
+
+      TypeOfServices typeOfService = await commonServices.getTypeOfService(name: 'SLA_VIOLATION_TYPE_OF_SERVICE');
 
       User loggedInUserDetails =
       await commonServices.getUserDetails(userId: userId);
@@ -107,6 +111,7 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
           users: users.t1Analyst,
           listOfEntities: entities.atomEntities,
           vendors: vendors.items,
+            typeOfServices: typeOfService.items
 
         ),
       );
@@ -125,6 +130,7 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
   Future<void> updateDropdownValues({
     List<Organisation>? entities,
     List<Organisation>? vendors,
+    List<Organisation>? typeOfServices,
     Organisation? location,
     BaseUser? user,
     BaseUser? approver,
@@ -156,6 +162,9 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
     }
     if (vendors != null) {
       state.model.vendor = vendors;
+    }
+    if (typeOfServices != null) {
+      state.model.typeOfService = typeOfServices;
     }
     if (user != null) {
       User userDetails = User(

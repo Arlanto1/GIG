@@ -23,7 +23,7 @@ SLAViolationPenaltyModel _$SLAViolationPenaltyModelFromJson(
           ? null
           : User.fromJson(json['entrySecurity'] as Map<String, dynamic>),
       status: json['status'] as int?,
-      entity: (json['entities'] as List?)
+      entity: (json['entity'] as List?)
           ?.map((dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
           .toList(),
       vendor: (json['vendor'] as List?)

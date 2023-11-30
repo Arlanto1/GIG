@@ -19,9 +19,12 @@ class Constants {
   static const String occurrenceModule = 'OCC';
   static const String incidentManagementModule = 'IM';
   static const String contactDetailsModule = 'CD';
+  static const String slaViolationPenaltyDetailsModule = 'SVP';
+
 
   /// UI Labels Module Code
   static const String materialMovementModuleCode = 'MM';
+
 
   /// Rank Types for Contact Details
   static const String contactGeneralRank = 'CONTACT_GENERAL_RANK';
@@ -608,6 +611,7 @@ class Constants {
   static const String totalPenaltyAmount = 'Total Penalty Amount';
   static const String violation = 'Violation';
   static const String staffCategory = 'Staff Category';
+  static const String slaViolation = 'SLA_VIOLATION_DESCRIPTION';
 
 
 }
