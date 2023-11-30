@@ -16,6 +16,8 @@ class Apis {
 
   static final String _getVP = '$baseUrl/getSvpList?';
 
+  static final String _getStaff = '$baseUrl/getStaffCategAndViolations';
+
   static final String _getById = '$baseUrl/getSvpGiById';
 
   static final String _createGeneralInformation = '$baseUrl/createSvpGI?';
@@ -39,6 +41,14 @@ class SLAViolationPenaltyServices {
         response.map((x) => ViolationPenaltyRecord.fromJson(x)));
   }
 
+  Future<ViolationPenaltyRecord> getStaff() async {
+    String url = Apis._getStaff;
+    var response = await BaseApiService().getRequest(
+      isAuthenticated: true,
+      url: url,
+    );
+return ViolationPenaltyRecord.fromJson(response);
+  }
 
     Future<SLAViolationPenaltyResponseModel> getGSvp({
       required String startPosition,

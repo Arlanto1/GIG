@@ -43,9 +43,9 @@ class AddContactPopUp extends StatefulWidget {
 
 class AddContactPopUpState extends State<AddContactPopUp> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController contactController = TextEditingController();
+  TextEditingController violationController = TextEditingController();
   TextEditingController staffCategoryController = TextEditingController();
-  TextEditingController toDateController = TextEditingController();
+  TextEditingController penaltyAmountController = TextEditingController();
 
   @override
   void initState() {
@@ -84,6 +84,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
+
+                      ///Violation
                       Column(
                         children: [
                           CommonWidgets.textDisplay(
@@ -100,11 +102,13 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                 context: context,
                                 departments: widget.users,
                                 onTap: (Organisation user) {
-                                  widget.violation.violation?.name = user.name;
+                                  violationController.text = user.name ?? '';
+
+                                  widget.violation.violation ??= Organisation();
+                                  widget.violation.violation = user;
+                                  log('-widget.violation.violation?.name----${widget.violation.violation?.name}-');
+
                                   setState(() {});
-                                  // BlocProvider.of<ContactListingBloc>(context)
-                                  //     .updateApproverEmailsValue(
-                                  //         approver1EmailUser: user);
                                 },
                               );
                             },
@@ -120,20 +124,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      FlutterInputField(
-                        initialValue: '',
-                        keyboardType: TextInputType.text,
-                        textFormKey: Keys.nameKey,
-                        hintText: '',
-                        isEnable: true,
-                        isDisableColor: false,
-                        onChange: (String value) {
-                          // widget.payRate.perHour = double.parse(value);
-                          // BlocProvider.of<PayRateCubit>(widget.mainContext)
-                          //     .onModelValueChange(widget.payRate);
-                        },
-                        validateTextField: (String? user) {},
-                      ),
+
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
 
@@ -144,6 +135,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           Styles.textStyleBlack14),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
+
                       BaseDropDown().getDropDown(
                           isDisabled: widget.violation != null,
                           textController: staffCategoryController,
@@ -165,7 +157,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                           const Label(key: '', value: ''),
                                         );
                                     setState(() {
-                                      widget.violation.staffCategory = value;
+                                    //  widget.violation.staffCategory = value;
 
                                     });
 

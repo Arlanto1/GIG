@@ -39,7 +39,8 @@ class ViolationPenaltyRecordBloc extends Bloc<ViolationPenaltyRecordEvent, Viola
     try {
       List<Organisation> items =
       await commonServices.getOrganisations(name: violationDescription);
-
+       await SLAViolationPenaltyServices()
+            .getStaff();
       return emit(
         state.copyWith(
           violationDescription: items,

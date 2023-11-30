@@ -42,6 +42,8 @@ class Apis {
 
   static final String _createOrganisation = '$baseUrl/createOrganisation?';
   static final String _createUser = '$baseUrl/createUser?';
+  static final String _getStaffCategory = '$baseUrl/getStaffCategAndViolations';
+
 }
 
 class CommonServices {

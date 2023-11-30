@@ -10,7 +10,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
   final List<Organisation> vendors;
   final List<Organisation> typeOfServices;
   final String? message;
-  final List<String>? pocs;
+   final List<String>? pocs;
 
   factory SLAViolationPenaltyDetailsState.initial({
     required SLAViolationPenaltyModel model,
@@ -22,7 +22,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     required final List<Organisation> typeOfServices,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
-    List<String>? poc,
+    final List<String>? poc,
 
   }) {
     return SLAViolationPenaltyDetailsState(

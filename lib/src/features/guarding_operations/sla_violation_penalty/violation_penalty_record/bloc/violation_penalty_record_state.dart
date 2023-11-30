@@ -5,6 +5,7 @@ class ViolationPenaltyRecordState extends Equatable {
   final bool hasReachedMax;
   final FormStatus status;
   final List<Organisation>? violationDescription;
+
   final String? message;
 
   const ViolationPenaltyRecordState({
@@ -21,6 +22,7 @@ class ViolationPenaltyRecordState extends Equatable {
     FormStatus? status,
     List<Organisation>? violationDescription,
     String? message,
+
   }) {
     return ViolationPenaltyRecordState(
       items: items ?? this.items,
@@ -28,6 +30,7 @@ class ViolationPenaltyRecordState extends Equatable {
       status: status ?? this.status,
       violationDescription: violationDescription ?? this.violationDescription,
       message: message ?? this.message,
+
     );
   }
 
