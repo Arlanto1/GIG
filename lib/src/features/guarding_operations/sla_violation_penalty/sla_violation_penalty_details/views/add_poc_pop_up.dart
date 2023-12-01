@@ -130,12 +130,11 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
       backgroundColor: AppColors.navigationSkybluecolor,
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
-    onTap: () {
-      widget.model?.poc = pocController.text;
-      BlocProvider.of<SLAViolationPenaltyDetailsCubit>(widget.mainContext)
-          .onAddPOC(pocController.text);
-      Navigator.pop(context);
-    }
+    onTap: onSubmit
+      // widget.model?.poc = pocController.text;
+      // BlocProvider.of<SLAViolationPenaltyDetailsCubit>(widget.mainContext)
+      //     .onAddPOC(pocController.text);
+      // Navigator.pop(context);
     );
   }
 

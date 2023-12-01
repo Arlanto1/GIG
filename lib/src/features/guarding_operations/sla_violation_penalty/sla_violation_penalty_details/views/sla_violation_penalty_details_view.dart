@@ -45,10 +45,10 @@ class SLAViolationPenaltyDetailsView extends StatefulWidget {
 
   @override
   State<SLAViolationPenaltyDetailsView> createState() =>
-      _ContactDetailsViewState();
+      _SLAViolationViewState();
 }
 
-class _ContactDetailsViewState extends State<SLAViolationPenaltyDetailsView> {
+class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController returnableTextController = TextEditingController();
   User? userDetails;
