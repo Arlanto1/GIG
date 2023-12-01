@@ -124,7 +124,7 @@ class CustomInternationalizationState extends State<CustomInternationalization> 
                             buttonTextKey: Keys.cancelButtonText,
           foregroundColor: AppColors.textgreyThemecolor,
           textStyle: Styles.styleHeaderGreyText16,
-          boardercolor: AppColors.textgreyThemecolor,
+          boarderColor: AppColors.textgreyThemecolor,
                             onTap: () {
                               //loginFormKey.currentState!.validate();
                               FocusScope.of(context).unfocus();
@@ -146,7 +146,7 @@ class CustomInternationalizationState extends State<CustomInternationalization> 
                             key: const Key(Keys.saveButton),
                             buttonText: Constants.save,
                             buttonTextKey: Keys.saveButtonText,
-                            boardercolor:AppColors.navigationSkybluecolor,
+                            boarderColor:AppColors.navigationSkybluecolor,
                             backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: Colors.white,
           textStyle: Styles.textStyleSemiBold16White,

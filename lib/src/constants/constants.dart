@@ -19,9 +19,12 @@ class Constants {
   static const String occurrenceModule = 'OCC';
   static const String incidentManagementModule = 'IM';
   static const String contactDetailsModule = 'CD';
+  static const String slaViolationPenaltyDetailsModule = 'SVP';
+
 
   /// UI Labels Module Code
   static const String materialMovementModuleCode = 'MM';
+
 
   /// Rank Types for Contact Details
   static const String contactGeneralRank = 'CONTACT_GENERAL_RANK';
@@ -154,6 +157,7 @@ class Constants {
   static const String yes = 'Yes';
   static const String no = 'No';
   static const String name = 'Name';
+  static const String state = 'State';
   static const String key = 'Key';
 
   // Create Found
@@ -406,6 +410,8 @@ class Constants {
   static const String guardingPoc = 'Guarding Partner POC';
   static const String guardingAgencyEmpCode = 'Guarding Agency Employee Code';
   static const String rank = 'Rank';
+  static const String zone = 'Zone';
+  static const String areaNameManager = 'Area Name Manager';
   static const String guardName = 'Name';
   static const String typeOfDuty = 'Type of Duty';
   static const String gender = 'Gender';
@@ -598,6 +604,21 @@ class Constants {
   static const String systemEscalationContact = 'System Escalation Contact';
   static const String supervisorContact = 'Supervisor Contact';
   static const String zonalEscalationContact = 'Zonal Escalation Contact';
+  static const String escalationLevel = 'Escalation Level';
+
+  ///SLA Violation Penalty
+  static const String typeOfService = 'Type Of Service';
+  static const String aSL = 'ASL';
+  static const String violationPenalty = 'Violation Penalty';
+  static const String penaltyAmount = 'Penalty Amount';
+  static const String totalNoOfViolations = 'Total No Of Violations';
+  static const String totalPenaltyAmount = 'Total Penalty Amount';
+  static const String violation = 'Violation';
+  static const String staffCategory = 'Staff Category';
+  static const String slaViolation = 'SLA_VIOLATION_DESCRIPTION';
+  static const String addGuardingAgencyPOC = 'Add Guarding Agency POC';
+
+
 }
 
 //static const String height = 'Height(cm)';
@@ -626,6 +647,10 @@ const List<Label> systemAccessDropDownValues = [
 const List<Label> maritalStatusDropDownValues = [
   Label(key: 'Single', value: '1'),
   Label(key: 'Married', value: '2'),
+];
+const List<Label> escalationLevelDropDownValues = [
+  Label(key: 'Escalation Level 1', value: '0'),
+  Label(key: 'Escalation Level 2', value: '1'),
 ];
 const List<Label> genderDropDownValues = [
   Label(key: 'Male', value: '1'),
@@ -737,6 +762,16 @@ const List<Label> guardRankDropDownValues = [
   Label(key: 'Security Facilitator', value: '4'),
   Label(key: 'Gun Man', value: '5'),
   Label(key: 'Lady Security Guard', value: '6'),
+];
+
+const List<Label> staffCategoryDropDownValues = [
+  Label(key: 'Guarding Agency', value: '1'),
+  Label(key: 'Security Guard', value: '2'),
+  Label(key: 'Security Lady', value: '3'),
+  Label(key: 'Security Supervisor', value: '4'),
+  Label(key: 'Security Officer', value: '5'),
+  Label(key: 'Security Facilitator', value: '6'),
+  Label(key: 'NA', value: '7'),
 ];
 const List<Label> deploymentTypeDropDownValues = [
   Label(key: 'New Deployment', value: '1'),

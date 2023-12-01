@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import '../../models/organisation.dart';
 
 class BaseListTileItem extends StatefulWidget {
-  final int? id;
+  final num? id;
   final Organisation? location;
   final bool? returnable;
   final Organisation? locationRegion;

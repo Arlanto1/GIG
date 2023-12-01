@@ -73,6 +73,15 @@ import '../features/guarding_operations/guarding_rate/guarding_rate_details/pay_
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/guarding_rate_details_view.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/rates_info.dart';
 import '../features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates.dart';
+import '../features/guarding_operations/sla_violation_penalty/models/sla_violation_penalty_response_model.dart';
+import '../features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
+import '../features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart';
+import '../features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/views/sla_violation_penalty_details_view.dart';
+import '../features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/bloc/sla_violation_penalty_list_bloc.dart'
+as sla;
+import '../features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/views/sla_violation_penalty_list_view.dart';
+import '../features/guarding_operations/sla_violation_penalty/violation_penalty_record/bloc/violation_penalty_record_bloc.dart' as vp;
+import '../features/guarding_operations/sla_violation_penalty/violation_penalty_record/views/violation_penalty_records_view.dart';
 import '../features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart';
 import '../features/incident_management/incident_details/general_info/views/incident_general_info_view.dart';
 import '../features/incident_management/incident_managements/views/incident_managements_view.dart';
@@ -372,6 +381,92 @@ class RouteGenerator {
       //       ));
       //
 
+      case slaViolationPenaltyListRoute:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<sla.SLAViolationPenaltyListBloc>(
+            create: (_) => sla.SLAViolationPenaltyListBloc()
+              ..add(const sla.FetchData(startPos: 0, maxPos: 20)),
+            child: const SLAViolationPenaltyListView(),
+          ),
+        );
+
+
+      case slaViolationPenaltyDetailsRoute:
+        SLAViolationPenaltyServices services = SLAViolationPenaltyServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        SLAViolationPenaltyModel? model = arguments["model"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<SLAViolationPenaltyDetailsCubit>(
+            create: (_) => SLAViolationPenaltyDetailsCubit(
+              services: services,
+              model: model,
+              commonServices: commonServices,
+            ),
+            child: SLAViolationPenaltyDetailsView(
+              model: model,
+              title: title,
+            ),
+          ),
+        );
+
+      // case slaViolationPenaltyListingRoute:
+      //   String title = '';
+      //   int id = 0;
+      //   if (settings.arguments != null) {
+      //     Map<String, dynamic> arguments =
+      //     settings.arguments as Map<String, dynamic>;
+      //     id = arguments[ConstantsArgument.id];
+      //     title = arguments[ConstantsArgument.title];
+      //   }
+      //   return MaterialPageRoute(
+      //     builder: (context) => BlocProvider<vp.ViolationPenaltyRecordBloc>(
+      //       create: (_) => vp.ViolationPenaltyRecordBloc()
+      //         ..add(vp.FetchData(
+      //           id: id,
+      //           startPos: 0,
+      //           maxPos: 100,
+      //         )),
+      //       child: ViolationPenaltyRecordView(
+      //         id: id,
+      //         title: title,
+      //       ),
+      //     ),
+      //   );
+
+      case slaViolationPenaltyRecordsRoute:
+        String title = '';
+        int id = 0;
+        String violationDescription = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id];
+          title = arguments[ConstantsArgument.title];
+          violationDescription = arguments[ConstantsArgument.violationDescription] ?? '';
+
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<vp.ViolationPenaltyRecordBloc>(
+            create: (_) =>vp.ViolationPenaltyRecordBloc(
+               violationDescription: violationDescription,
+
+            )
+              ..add(vp.FetchData(
+                id: id,
+                startPos: 0,
+                maxPos: 100,
+              )),
+            child: ViolationPenaltyRecordsView(
+              id: id,
+              title: title,
+            ),
+          ),
+         );
+
       case contactDetailsListRoute:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<cd.ContactDetailsListBloc>(
@@ -431,6 +526,7 @@ class RouteGenerator {
               id: id,
               type: type,
               title: title,
+              rankType: rankType,
             ),
           ),
         );

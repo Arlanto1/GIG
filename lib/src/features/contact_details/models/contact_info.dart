@@ -8,9 +8,12 @@ class ContactRecord {
   int? id;
   int? contactId;
   String? email;
+  String? state;
   String? contactNo;
   Organisation? rank;
   int? type;
+  @JsonKey(name: 'escltnLevel')
+  int? escalationLevel;
 
   ContactRecord({
     this.id,
@@ -19,6 +22,8 @@ class ContactRecord {
     this.contactNo,
     this.rank,
     this.type,
+    this.state,
+    this.escalationLevel
   });
 
   factory ContactRecord.fromJson(Map<String, dynamic> json) =>

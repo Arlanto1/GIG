@@ -980,8 +980,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 ),
                               ),
                             ],
-                            BasicWidgetFunctions().getStringText(
-                                strings: state.model.epOfficers ?? []),
+                              BasicWidgetFunctions().getStringText(
+                                  strings: state.model.epOfficers ?? []),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 

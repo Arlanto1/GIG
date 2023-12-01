@@ -195,7 +195,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
       key: const Key(Keys.createnewuserButton),
       buttonText: Constants.createnewuser,
       buttonTextKey: Keys.createnewuserButtonText,
-      boardercolor: AppColors.navigationSkybluecolor,
+      boarderColor: AppColors.navigationSkybluecolor,
       backgroundColor: AppColors.navigationSkybluecolor,
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
