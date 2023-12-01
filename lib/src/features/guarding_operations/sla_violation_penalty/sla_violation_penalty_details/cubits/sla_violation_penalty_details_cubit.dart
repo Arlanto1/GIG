@@ -28,7 +28,8 @@ import '../../services/sla_violation_penalty_services.dart';
 
 part 'sla_violation_penalty_details_state.dart';
 
-class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsState> {
+class SLAViolationPenaltyDetailsCubit
+    extends Cubit<SLAViolationPenaltyDetailsState> {
   final SLAViolationPenaltyServices services;
   final SLAViolationPenaltyModel? model;
   final CommonServices commonServices;
@@ -38,22 +39,23 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
     required this.commonServices,
     this.model,
   }) : super(
-    SLAViolationPenaltyDetailsState.initial(
-      model: model ?? SLAViolationPenaltyModel(),
-      locations: Locations(),
-      loggedInUserDetails: User(),
-      users: const [],
-      emailUsers: const [],
-      listOfEntities: const [],
-      vendors: const [],
-      typeOfServices: const [],
-      errorMessage: '',
-    ),
-  );
+          SLAViolationPenaltyDetailsState.initial(
+            model: model ?? SLAViolationPenaltyModel(),
+            locations: Locations(),
+            loggedInUserDetails: User(),
+            users: const [],
+            emailUsers: const [],
+            listOfEntities: const [],
+            vendors: const [],
+            typeOfServices: const [],
+            errorMessage: '',
+          ),
+        );
 
   void onModelValueChange(SLAViolationPenaltyModel model) {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
+
   void onCheckBoxChange(SLAViolationPenaltyModel model) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
@@ -63,19 +65,26 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
   void onAddPOC(String poc) {
     log('-poc---$poc-');
 
-    emit(state.copyWith(model: model, status: FormStatus.loading));
+    emit(state.copyWith(
+      model: model,
+      status: FormStatus.loading,
+    ));
     log('-state.poc---before---${state.pocs}----');
 
     List<String>? pocs = state.pocs ?? [];
+    log('-pocs--$pocs----');
     pocs.add(poc);
+    log('-pocs-22-$pocs----');
     state.copyWith(
       pocs: pocs,
     );
     log('-state.poc---after---${state.pocs}----');
     state.model.poc = Utils().joinListWithComma(pocs);
-    emit(state.copyWith(model: model, status: FormStatus.initial));
+    emit(state.copyWith(
+      model: model,
+      status: FormStatus.initial,
+    ));
   }
-
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
@@ -88,19 +97,20 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
     var userId = await SharedPrefs.getUserId();
     try {
       Locations getLocationsData =
-      await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
 
       AddEntities entities =
-      await commonServices.getEntities(name: 'ATOM_ENTITIES');
+          await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
       Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
 
-      TypeOfServices typeOfService = await commonServices.getTypeOfService(name: 'SLA_VIOLATION_TYPE_OF_SERVICE');
+      TypeOfServices typeOfService = await commonServices.getTypeOfService(
+          name: 'SLA_VIOLATION_TYPE_OF_SERVICE');
 
       User loggedInUserDetails =
-      await commonServices.getUserDetails(userId: userId);
+          await commonServices.getUserDetails(userId: userId);
       Analyst users =
-      await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
@@ -117,6 +127,9 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
         }
       }
 
+      List<String> pocs = Utils().splitStringAfterComma(state.model.poc ?? '');
+      log('-pocs---${pocs.toString()}---');
+
       state.model.entrySecurity = loggedInUserDetails;
 
       emit(
@@ -128,12 +141,13 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
           users: users.t1Analyst,
           listOfEntities: entities.atomEntities,
           vendors: vendors.items,
-            typeOfServices: typeOfService.items
-
+          typeOfServices: typeOfService.items,
+          pocs: pocs,
         ),
       );
     } catch (e) {
-      log('initialization issue', error: e, name: 'SLA Violation Penalty Details Cubit');
+      log('initialization issue',
+          error: e, name: 'SLA Violation Penalty Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -222,7 +236,7 @@ class SLAViolationPenaltyDetailsCubit extends Cubit<SLAViolationPenaltyDetailsSt
 
     // Create/Update API Call
     SLAViolationPenaltyRequest request =
-    SLAViolationPenaltyRequest(svpGi: state.model);
+        SLAViolationPenaltyRequest(svpGi: state.model);
 
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;

@@ -22,7 +22,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     required final List<Organisation> typeOfServices,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
-    final List<String>? poc,
+    final List<String>? pocs,
 
   }) {
     return SLAViolationPenaltyDetailsState(
@@ -35,7 +35,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
       vendors: vendors,
       typeOfServices: typeOfServices,
       message: errorMessage,
-      pocs: poc,
+      pocs: pocs,
     );
   }
 

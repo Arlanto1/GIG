@@ -4,7 +4,6 @@ import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/basicWidgetFunctions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/record_locked_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/selected_tile_value_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
@@ -148,8 +147,6 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       return const BaseLoader();
     }
 
-    bool isQuantityDisabled =
-        (state.model.status == 6 || state.model.status == 1);
     return Container(
       color: AppColors.navigationSkybluecolor,
       child: SingleChildScrollView(
@@ -161,11 +158,12 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
+                color: AppColors.backgroundWhitecolor,
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(20.0)),
+                ),
+              ),
               child: AbsorbPointer(
                 absorbing: isReadOnly,
                 child: Form(
@@ -302,22 +300,21 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseEntitiesSelection().entityDropDownSelection(
-                                context: context,
-                                selectedValues: state.model.typeOfService ?? [],
-                                all: state.typeOfServices ?? [],
-                                enabled: !isReadOnly,
-                                onTap:
-                                    (List<Organisation> selectedTypeOfVendors) {
-                                  log('--selectedEntities----${selectedTypeOfVendors.length}');
-                                  BlocProvider.of<
-                                              SLAViolationPenaltyDetailsCubit>(
-                                          context)
-                                      .updateDropdownValues(
-                                          typeOfServices:
-                                              selectedTypeOfVendors);
-                                  Navigator.of(context)
-                                      .pop(); // Close the dialog
-                                }),
+                              context: context,
+                              selectedValues: state.model.typeOfService ?? [],
+                              all: state.typeOfServices ?? [],
+                              enabled: !isReadOnly,
+                              onTap:
+                                  (List<Organisation> selectedTypeOfVendors) {
+                                log('--selectedEntities----${selectedTypeOfVendors.length}');
+                                BlocProvider.of<
+                                            SLAViolationPenaltyDetailsCubit>(
+                                        context)
+                                    .updateDropdownValues(
+                                        typeOfServices: selectedTypeOfVendors);
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// ASL
@@ -347,52 +344,45 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Guarding Agency POC
-                              CommonWidgets.textDisplay(
-                                  Constants.guardingAgencyPOC,
-                                  Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext dialogContext) {
-                                        return AddPOCPopUp(
-                                          model:
-                                          model,
-                                          mainContext: context,
-                                          onSubmit: (SLAViolationPenaltyModel
-                                          model) {
-                                            //loginFormKey.currentState!.validate();
-                                            FocusScope.of(context).unfocus();
-                                            BlocProvider.of<
-                                                SLAViolationPenaltyDetailsCubit>(
-                                                context)
-                                                .submitForm(isSaveOnly: true);
-                                          },
-                                        );
-                                      });
-                                },
-                                child: Row(
-                                  children: <Widget>[
-                                    // Expanded(
-                                    //child:
-                                    const SizedBox(width: 14),
-                                    SvgPicture.asset(
-                                      AppIcon.pluscircle,
-                                      //color: AppColors.navigationSkybluecolor,
+                            CommonWidgets.textDisplay(
+                                Constants.guardingAgencyPOC,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            GestureDetector(
+                              onTap: () {
+                                log('--onTap------');
+
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext dialogContext) {
+                                    return AddPOCPopUp(
+                                      model: model,
+                                      mainContext: context,
+                                    );
+                                  },
+                                );
+                              },
+                              child: Row(
+                                children: <Widget>[
+                                  // Expanded(
+                                  //child:
+                                  const SizedBox(width: 14),
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                    //color: AppColors.navigationSkybluecolor,
+                                  ),
+                                  // ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    Constants.addGuardingAgencyPOC,
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkybluecolor,
+                                      decoration: TextDecoration.underline,
                                     ),
-                                    // ),
-                                    const SizedBox(width: 10),
-                                    const Text(
-                                      Constants.addGuardingAgencyPOC,
-                                      style: TextStyle(
-                                        color: AppColors.navigationSkybluecolor,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
+                            ),
                             Column(
                               children: getPOC(state, height),
                             ),
@@ -607,8 +597,10 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
     );
   }
 
-  Widget submitButton(
-      {required Function onTap, String? label = Constants.submit}) {
+  Widget submitButton({
+    required Function onTap,
+    String? label = Constants.submit,
+  }) {
     return AppButton(
       width: 150,
       buttonText: label,
@@ -688,8 +680,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
   //   );
   // }
 
-  List<Widget> getPOC(
-      SLAViolationPenaltyDetailsState state, height) {
+  List<Widget> getPOC(SLAViolationPenaltyDetailsState state, height) {
     List<Widget> widgets = [];
     log('-state.poc.length---${state.pocs?.length}---');
     for (String poc in state.pocs ?? []) {
@@ -704,7 +695,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
           isEnable: true,
           isDisableColor: false,
           onChange: (String value) {
-             widget.model?.poc = value;
+            widget.model?.poc = value;
             BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
                 .onModelValueChange(state.model);
           },
@@ -714,6 +705,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
     }
     return widgets;
   }
+
   Widget datecreateWidgetdisplay(String date) {
     return FlutterInputField(
       textFormKey: Keys.dateofcreationTextController,

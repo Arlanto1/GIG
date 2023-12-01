@@ -1,7 +1,8 @@
-
+import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/pop_button.dart';
 import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
@@ -10,17 +11,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../models/sla_violation_penalty_response_model.dart';
-import '../cubits/sla_violation_penalty_details_cubit.dart';
 
 class AddPOCPopUp extends StatefulWidget {
   const AddPOCPopUp({
     super.key,
-    required this.onSubmit,
     required this.mainContext,
     required this.model,
   });
 
-  final Function onSubmit;
   final BuildContext mainContext;
   final SLAViolationPenaltyModel? model;
 
@@ -31,7 +29,6 @@ class AddPOCPopUp extends StatefulWidget {
 class AddPOCPopUpState extends State<AddPOCPopUp> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController pocController = TextEditingController();
-
 
   @override
   void initState() {
@@ -48,7 +45,7 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
         return SizedBox(
-          height: height /4.9,
+          height: height / 4.9,
           width: width,
           child: Stack(
             clipBehavior: Clip.none,
@@ -59,7 +56,6 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-
                       ///Guarding Agency POC
                       CommonWidgets.textDisplay(
                         Constants.guardingAgencyPOC,
@@ -96,10 +92,7 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
     return Row(
       //mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        cancelButton(width),
-        saveButton(width, widget.onSubmit)
-      ],
+      children: <Widget>[cancelButton(width), saveButton(width)],
     );
   }
 
@@ -111,32 +104,27 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
       buttonTextKey: Keys.cancelButtonText,
       foregroundColor: AppColors.textgreyThemecolor,
       textStyle: Styles.styleHeaderGreyText16,
-      boardercolor: AppColors.textgreyThemecolor,
+      boarderColor: AppColors.textgreyThemecolor,
       onTap: () {
-        //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
         Navigator.of(context).pop();
       },
     );
   }
 
-  Widget saveButton(double width, Function onSubmit) {
-    return PopButton(
+  Widget saveButton(double width) {
+    return AppButton(
       width: width / 3.5,
       key: const Key(Keys.saveButton),
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
-      boardercolor: AppColors.navigationSkybluecolor,
       backgroundColor: AppColors.navigationSkybluecolor,
-      foregroundColor: Colors.white,
-      textStyle: Styles.textStyleSemiBold16White,
-    onTap: onSubmit
-      // widget.model?.poc = pocController.text;
-      // BlocProvider.of<SLAViolationPenaltyDetailsCubit>(widget.mainContext)
-      //     .onAddPOC(pocController.text);
-      // Navigator.pop(context);
+      onTap: () {
+        widget.model?.poc = pocController.text;
+        BlocProvider.of<SLAViolationPenaltyDetailsCubit>(widget.mainContext)
+            .onAddPOC(pocController.text);
+        Navigator.pop(context);
+      },
     );
   }
-
 }
-
