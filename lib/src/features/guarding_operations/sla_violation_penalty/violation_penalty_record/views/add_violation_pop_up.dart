@@ -23,14 +23,14 @@ class AddContactPopUp extends StatefulWidget {
     super.key,
     required this.title,
     required this.onSubmit,
-    required this.violation,
+    required this.model,
     required this.mainContext,
     required this.users,
   });
 
   final String title;
   final Function onSubmit;
-  final ViolationPenaltyRecord violation;
+  final ViolationPenaltyRecord model;
   final List<Organisation> users;
   final BuildContext mainContext;
 
@@ -47,6 +47,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
   @override
   void initState() {
     super.initState();
+    penaltyAmountController.text = widget.model.penaltyAmount.toString();
   }
 
   @override
@@ -90,21 +91,29 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             isMandatory: true,
                           ),
                           TextfieldAddButton(
-                            title: widget.violation.violation?.name ?? '',
+                            title: widget.model.violation?.name ?? '',
                             height: 70,
                             isDisableColor: false,
                             onTap: () {
                               BaseDepartmentDialog().departmentDialog(
                                 context: context,
                                 departments: widget.users,
-                                onTap: (Organisation user) {
-                                  violationController.text = user.name ?? '';
+                                onTap: (Organisation org) {
+                                  violationController.text = org.name ?? '';
 
-                                  widget.violation.violation ??= Organisation();
-                                  widget.violation.violation = user;
-                                  log('-widget.violation.violation?.name----${widget.violation.violation?.name}-');
+                                  log('-org.keyName----${org.keyName}-');
 
-                                  setState(() {});
+                                  penaltyAmountController.text =
+                                      org.keyName ?? '';
+                                  widget.model.violation ??= Organisation();
+                                  widget.model.violation = org;
+                                  log('-widget.violation.violation?.name----${widget.model.violation?.name}-');
+
+                                  setState(() {
+                                    log('-setstate-');
+                                    penaltyAmountController.text =
+                                        org.keyName ?? '';
+                                  });
                                 },
                               );
                             },
@@ -119,6 +128,21 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
+                      FlutterInputField(
+                        initialValue: '${widget.model.penaltyAmount}',
+                        textFieldController: penaltyAmountController,
+                        keyboardType: TextInputType.number,
+                        textFormKey: Keys.phoneNumberKey,
+                        hintText: '',
+                        isEnable: false,
+                        isDisableColor: true,
+                        onChange: (String value) {
+                          // widget.payRate.perHour = double.parse(value);
+                          // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                          //     .onModelValueChange(widget.payRate);
+                        },
+                        validateTextField: (String? user) {},
+                      ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -132,7 +156,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                       BaseDropDown().getDropDown(
-                          isDisabled: widget.violation != null,
+                          isDisabled: widget.model != null,
                           textController: staffCategoryController,
                           items: staffCategoryDropDownValues,
                           initialValue: '',
@@ -172,8 +196,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue:
-                            '${widget.violation.totalViolations ?? ''}',
+                        initialValue: '${widget.model.totalViolations ?? ''}',
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
@@ -196,8 +219,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue:
-                            '${widget.violation.totalViolations ?? ''}',
+                        initialValue: '${widget.model.totalViolations ?? ''}',
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
@@ -272,21 +294,21 @@ class AddContactPopUpState extends State<AddContactPopUp> {
           );
           return;
         }
-        onSubmit(widget.violation);
+        onSubmit(widget.model);
       },
     );
   }
 
   ErrorResponse get isFormValid {
-    if (widget.violation.violation == null) {
+    if (widget.model.violation == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Violation.');
     }
-    if (widget.violation.staffCategory == null) {
+    if (widget.model.staffCategory == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Staff Category.');
     }
-    if (widget.violation.totalViolations == null) {
+    if (widget.model.totalViolations == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Total No of Violations');
     }

@@ -210,7 +210,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
       builder: (BuildContext dialogContext) {
         return AddContactPopUp(
           title: widget.title,
-          violation: contact,
+          model: contact,
           mainContext: context,
           users: users,
           onSubmit: (ViolationPenaltyRecord model) {
