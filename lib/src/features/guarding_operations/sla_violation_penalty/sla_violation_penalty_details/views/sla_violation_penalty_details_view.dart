@@ -127,7 +127,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
                   .submitForm(
                 isSaveOnly: true,
-                navigateToNextScreen: true,
+                navigateToNextScreen: false,
               );
             },
           ),
