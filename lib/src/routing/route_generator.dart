@@ -526,6 +526,7 @@ class RouteGenerator {
               id: id,
               type: type,
               title: title,
+              rankType: rankType,
             ),
           ),
         );

@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_drop_down.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/pop_button.dart';
@@ -24,6 +26,7 @@ class AddContactPopUp extends StatefulWidget {
     required this.contact,
     required this.mainContext,
     required this.users,
+    required this.rankType,
   });
 
   final String title;
@@ -31,6 +34,7 @@ class AddContactPopUp extends StatefulWidget {
   final ContactRecord contact;
   final List<Organisation> users;
   final BuildContext mainContext;
+  final String rankType;
 
   @override
   State<AddContactPopUp> createState() => AddContactPopUpState();
@@ -40,14 +44,21 @@ class AddContactPopUpState extends State<AddContactPopUp> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController rankController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController stateController = TextEditingController();
   TextEditingController contactNoController = TextEditingController();
+  TextEditingController escalationLevelController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+
+    log('---widget.contact.state---${widget.contact.state}-----');
     rankController.text = widget.contact.rank?.name ?? '';
     nameController.text = widget.contact.email ?? '';
+    stateController.text = widget.contact.state ?? '';
     contactNoController.text = widget.contact.contactNo ?? '';
+    escalationLevelController.text =
+        widget.contact.escalationLevel.toString() ?? '';
   }
 
   @override
@@ -70,7 +81,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
         var width = MediaQuery.of(context).size.width;
 
         return SizedBox(
-          height: height / 2,
+          height: height / 1.8,
           width: width,
           child: Stack(
             clipBehavior: Clip.none,
@@ -83,13 +94,14 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                     children: <Widget>[
                       Column(
                         children: [
+                          /// Rank
                           CommonWidgets.textDisplay(
-                            Constants.rank,
+                            widget.rankType == Constants.contactZone
+                                ? Constants.zone
+                                : Constants.rank,
                             Styles.textStyleBlack14,
                             isMandatory: true,
                           ),
-
-                          /// Rank
                           TextfieldAddButton(
                             title: rankController.text,
                             height: 70,
@@ -119,9 +131,74 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                      /// State
+                      if (widget.rankType == Constants.contactZone) ...[
+                        CommonWidgets.textDisplay(
+                          Constants.state,
+                          isMandatory: true,
+                          Styles.textStyleBlack14,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        FlutterInputField(
+                          initialValue: stateController.text,
+                          keyboardType: TextInputType.text,
+                          textFormKey: Keys.nameKey,
+                          hintText: '',
+                          isEnable: true,
+                          isDisableColor: false,
+                          onChange: (String value) {
+                            log('-widget.contact.rank?.state--value--$value-');
+                            widget.contact.state = value;
+                            log('-widget.contact.rank?.state----${widget.contact.state}-');
+                          },
+                          validateTextField: (String? user) {},
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                        /// Escalation Level
+                        CommonWidgets.textDisplay(
+                            Constants.escalationLevel,
+                            isMandatory: true,
+                            Styles.textStyleBlack14),
+                        BaseDropDown().getDropDown(
+                          isDisabled: false,
+                          textController: escalationLevelController,
+                          items: escalationLevelDropDownValues,
+                          initialValue: escalationLevelController.text,
+                          onTap: () {
+                            BaseDropDown().assetTypeDialog(
+                              context: context,
+                              dropDownValues: escalationLevelDropDownValues
+                                  .map((label) => label.key)
+                                  .toList(),
+                              onTap: (String value) {
+                                Label? selectedLabel;
+                                selectedLabel =
+                                    escalationLevelDropDownValues.firstWhere(
+                                  (label) => label.key == value,
+                                  orElse: () => const Label(key: '', value: ''),
+                                );
+                                widget.contact.escalationLevel =
+                                    int.tryParse(selectedLabel.value);
+                                escalationLevelController.text = selectedLabel.key;
+                                setState(() {});
+                                // BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                //         context)
+                                //     .updateDropdownValues(
+                                //         maritalStatus:
+                                //             int.tryParse(selectedLabel.value));
+                              },
+                            );
+                          },
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      ],
+
                       /// Name
                       CommonWidgets.textDisplay(
-                        Constants.name,
+                        widget.rankType == Constants.contactZone
+                            ? Constants.areaNameManager
+                            : Constants.name,
                         isMandatory: true,
                         Styles.textStyleBlack14,
                       ),

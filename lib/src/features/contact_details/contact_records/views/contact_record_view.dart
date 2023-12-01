@@ -28,11 +28,13 @@ class ContactRecordView extends StatefulWidget {
     required this.id,
     required this.title,
     required this.type,
+    required this.rankType,
   });
 
   final int id;
   final String title;
   final int type;
+  final String rankType;
 
   @override
   State<ContactRecordView> createState() => _ContactRecordViewState();
@@ -83,16 +85,16 @@ class _ContactRecordViewState extends State<ContactRecordView> {
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () {
             showAddContactPopUp(
-              context: context,
-              contact: ContactRecord(
-                contactId: widget.id,
-                email: '',
-                contactNo: '',
-                rank: Organisation(),
-                type: widget.type,
-              ),
-              users: state.ranks,
-            );
+                context: context,
+                contact: ContactRecord(
+                  contactId: widget.id,
+                  email: '',
+                  contactNo: '',
+                  rank: Organisation(),
+                  type: widget.type,
+                ),
+                users: state.ranks,
+                rankType: widget.rankType);
           },
         ),
         appBar: BaseAppBar().buildAppHeader(
@@ -170,13 +172,13 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                           await ContactDetailsServices()
                               .getCdById(state.items?[index].id ?? 0);
 
-                      log('--state.users--llen--${state.ranks?.length}---');
+                      log('--state.users--llen--${state.ranks.length}---');
 
                       showAddContactPopUp(
-                        context: context,
-                        contact: contactsModel,
-                        users: state.ranks ?? [],
-                      );
+                          context: context,
+                          contact: contactsModel,
+                          users: state.ranks,
+                          rankType: widget.rankType);
                       // getDetails(state.items?[index].id ?? 0);
                     },
                     onViewTap: (selectedIndex) {
@@ -209,6 +211,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
     required BuildContext context,
     required ContactRecord contact,
     required final List<Organisation> users,
+    required String rankType,
   }) {
     log('--.users--llen--${users.length}---');
     showDialog(
@@ -219,6 +222,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
           contact: contact,
           mainContext: context,
           users: users,
+          rankType: rankType,
           onSubmit: (ContactRecord model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();
