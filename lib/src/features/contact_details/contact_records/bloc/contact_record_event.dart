@@ -29,6 +29,7 @@ class SaveRecord extends ContactRecordEvent {
   final ContactRecord contactInfo;
   final int mainContactId;
   final int type;
+
   const SaveRecord(this.contactInfo, this.mainContactId, this.type);
 }
 

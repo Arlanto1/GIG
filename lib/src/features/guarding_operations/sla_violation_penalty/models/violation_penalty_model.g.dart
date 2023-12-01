@@ -9,14 +9,14 @@ part of 'violation_penalty_model.dart';
 ViolationPenaltyRecord _$ViolationPenaltyRecordFromJson(
         Map<String, dynamic> json) =>
     ViolationPenaltyRecord(
-      id: json['id'] as int?,
-      svpId: json['svpId'] as int?,
+      id: json['id'] as num?,
+      svpId: json['svpId'] as num?,
       violation: json['violation'] == null
           ? null
           : Organisation.fromJson(json['violation'] as Map<String, dynamic>),
       penaltyAmount: (json['penaltyAmount'] as num?)?.toDouble(),
-      totalViolations: json['totalViolations'] as int?,
-      staffCategory: json['staffCategory'] as int?,
+      totalViolations: json['totalViolations'] as num?,
+      staffCategory: json['staffCategory'] as num?,
       totalPenaltyAmount: (json['totalPenaltyAmount'] as num?)?.toDouble(),
     );
 

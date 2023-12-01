@@ -5,12 +5,12 @@ part 'violation_penalty_model.g.dart';
 
 @JsonSerializable()
 class ViolationPenaltyRecord {
-  int? id;
-  int? svpId;
+  num? id;
+  num? svpId;
   Organisation? violation;
   double? penaltyAmount;
-  int? totalViolations;
-  int? staffCategory;
+  num? totalViolations;
+  num? staffCategory;
   double? totalPenaltyAmount;
 
   ViolationPenaltyRecord({

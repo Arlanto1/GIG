@@ -81,7 +81,7 @@ import '../features/guarding_operations/sla_violation_penalty/sla_violation_pena
 as sla;
 import '../features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/views/sla_violation_penalty_list_view.dart';
 import '../features/guarding_operations/sla_violation_penalty/violation_penalty_record/bloc/violation_penalty_record_bloc.dart' as vp;
-import '../features/guarding_operations/sla_violation_penalty/violation_penalty_record/views/violation_penalty_record_view.dart';
+import '../features/guarding_operations/sla_violation_penalty/violation_penalty_record/views/violation_penalty_records_view.dart';
 import '../features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart';
 import '../features/incident_management/incident_details/general_info/views/incident_general_info_view.dart';
 import '../features/incident_management/incident_managements/views/incident_managements_view.dart';
@@ -460,7 +460,7 @@ class RouteGenerator {
                 startPos: 0,
                 maxPos: 100,
               )),
-            child: ViolationPenaltyRecordView(
+            child: ViolationPenaltyRecordsView(
               id: id,
               title: title,
             ),

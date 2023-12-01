@@ -98,7 +98,7 @@ class SLAViolationPenaltyServices {
     return ViolationPenaltyListResponseModel.fromJson(response);
   }
 
-  Future<ViolationPenaltyRecord> getVPById(int id) async {
+  Future<ViolationPenaltyRecord> getVPById(num id) async {
     final String url = '${Apis._getViolationPenaltyById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,

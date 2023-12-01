@@ -7,13 +7,11 @@ import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart'
 import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/violation_penalty_record/views/add_violation_pop_up.dart';
 import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,8 +20,8 @@ import '../../../../../enums/form_status.dart';
 import '../../models/violation_penalty_model.dart';
 import '../bloc/violation_penalty_record_bloc.dart';
 
-class ViolationPenaltyRecordView extends StatefulWidget {
-  const ViolationPenaltyRecordView({
+class ViolationPenaltyRecordsView extends StatefulWidget {
+  const ViolationPenaltyRecordsView({
     super.key,
     required this.id,
     required this.title,
@@ -35,10 +33,10 @@ class ViolationPenaltyRecordView extends StatefulWidget {
   final ViolationPenaltyRecord? model;
 
   @override
-  State<ViolationPenaltyRecordView> createState() => _ContactRecordViewState();
+  State<ViolationPenaltyRecordsView> createState() => _ContactRecordViewState();
 }
 
-class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
+class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
 
@@ -47,8 +45,8 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
     super.initState();
     _scrollController = ScrollController()..addListener(_onScroll);
     context.read<ViolationPenaltyRecordBloc>().add(
-      const InitializeValues(),
-    );
+          const InitializeValues(),
+        );
   }
 
   @override
@@ -65,17 +63,18 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<ViolationPenaltyRecordBloc>().add(FetchData(
-          id: widget.id, startPos: pageNumber, maxPos: 20));
+      context
+          .read<ViolationPenaltyRecordBloc>()
+          .add(FetchData(id: widget.id, startPos: pageNumber, maxPos: 20));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ViolationPenaltyRecordBloc, ViolationPenaltyRecordState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        }, builder: (context, state) {
+    return BlocConsumer<ViolationPenaltyRecordBloc,
+        ViolationPenaltyRecordState>(listener: (context, state) {
+      // TODO: implement listener
+    }, builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
         floatingActionButton: Flutterfloatingbutton(
@@ -123,7 +122,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
       child: ListView.builder(
         controller: _scrollController,
         itemCount:
-        state.hasReachedMax ? state.items?.length : state.items!.length + 1,
+            state.hasReachedMax ? state.items?.length : state.items!.length + 1,
         itemBuilder: (context, index) {
           List<Label> labels = [];
           if (index < state.items!.length) {
@@ -148,50 +147,51 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
             return index >= state.items!.length
                 ? const BaseLoader()
                 : BaseListTileItem(
-              id: state.items?[index].id,
-              labels: labels,
-              onTap: (selectedIndex) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return BasePopUpItems(
-                      id: state.items?[selectedIndex].id.toString(),
-                      labels: labels,
-                    );
-                  },
-                )  ;
-              },
-              onEditTap: (selectedIndex) async {
-                ViolationPenaltyRecord contactsModel = await SLAViolationPenaltyServices()
-                    .getVPById(state.items?[index].id ?? 0);
+                    id: state.items?[index].id,
+                    labels: labels,
+                    onTap: (selectedIndex) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return BasePopUpItems(
+                            id: state.items?[selectedIndex].id.toString(),
+                            labels: labels,
+                          );
+                        },
+                      );
+                    },
+                    onEditTap: (selectedIndex) async {
+                      ViolationPenaltyRecord contactsModel =
+                          await SLAViolationPenaltyServices()
+                              .getVPById(state.items?[index].id ?? 0);
 
-                log('--state.users--llen--${state.violationDescriptions?.length}---');
+                      log('--state.users--llen--${state.violationDescriptions?.length}---');
 
-                showAddContactPopUp(
-                  context: context,
-                  contact: contactsModel,
-                  users: state.violationDescriptions ?? [],
-                );
-                getDetails(state.items?[index].id ?? 0);
-              },
-              onViewTap: (selectedIndex) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return BasePopUpItems(
-                      id: state.items?[selectedIndex].id.toString(),
-                      labels: labels,
-                    );
-                  },
-                );
-              },
-              onDeleteTap: (selectedIndex) async {
-                // Call Delete API
-                BlocProvider.of<ViolationPenaltyRecordBloc>(context)
-                    .add(DeleteRecord(state.items![selectedIndex].id!.toInt(), widget.id));
-              },
-              index: index,
-            );
+                      showAddContactPopUp(
+                        context: context,
+                        contact: contactsModel,
+                        users: state.violationDescriptions ?? [],
+                      );
+                    },
+                    onViewTap: (selectedIndex) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return BasePopUpItems(
+                            id: state.items?[selectedIndex].id.toString(),
+                            labels: labels,
+                          );
+                        },
+                      );
+                    },
+                    onDeleteTap: (selectedIndex) async {
+                      // Call Delete API
+                      BlocProvider.of<ViolationPenaltyRecordBloc>(context).add(
+                          DeleteRecord(state.items![selectedIndex].id!.toInt(),
+                              widget.id));
+                    },
+                    index: index,
+                  );
           }
           return null;
         },
@@ -219,33 +219,15 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
 
             log('-widget.title---${widget.title}----');
 
-            BlocProvider.of<ViolationPenaltyRecordBloc>(context)
-                .add(SaveRecord(model, widget.id, ));
+            BlocProvider.of<ViolationPenaltyRecordBloc>(context).add(
+              SaveRecord(
+                model,
+                widget.id,
+              ),
+            );
           },
         );
       },
     );
-  }
-
-  getDetails(int id) async {
-    showLoadingDialog(context);
-
-    ViolationPenaltyRecord violationPenaltyRecord = await SLAViolationPenaltyServices().getVPById(id);
-
-    editDataLoading(violationPenaltyRecord);
-  }
-
-  void editDataLoading(ViolationPenaltyRecord? model) {
-    dismissLoadingDialog(context);
-    if (model != null) {
-      Navigator.pushNamed(
-        context,
-        slaViolationPenaltyDetailsRoute,
-        arguments: {
-          "model": model,
-          "title": Constants.violationPenalty,
-        },
-      );
-    }
   }
 }

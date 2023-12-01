@@ -63,7 +63,6 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
   @override
   Widget build(BuildContext context) {
-    log('---widget.users--len---${widget.users.length}--');
 
     return AlertDialog(
       title: Align(

@@ -133,7 +133,7 @@ class ViolationPenaltyRecordBloc
     try {
       ViolationPenaltyRecordRequest request = ViolationPenaltyRecordRequest();
 
-      //request.cit = event.contactInfo;
+      request.vp = event.violationPenaltyRecord;
       await SLAViolationPenaltyServices()
           .createViolationPenaltyRecord(body: request, isSubmit: false);
 
