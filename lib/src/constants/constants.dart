@@ -157,6 +157,7 @@ class Constants {
   static const String yes = 'Yes';
   static const String no = 'No';
   static const String name = 'Name';
+  static const String state = 'State';
   static const String key = 'Key';
 
   // Create Found
@@ -409,6 +410,8 @@ class Constants {
   static const String guardingPoc = 'Guarding Partner POC';
   static const String guardingAgencyEmpCode = 'Guarding Agency Employee Code';
   static const String rank = 'Rank';
+  static const String zone = 'Zone';
+  static const String areaNameManager = 'Area Name Manager';
   static const String guardName = 'Name';
   static const String typeOfDuty = 'Type of Duty';
   static const String gender = 'Gender';
@@ -601,6 +604,7 @@ class Constants {
   static const String systemEscalationContact = 'System Escalation Contact';
   static const String supervisorContact = 'Supervisor Contact';
   static const String zonalEscalationContact = 'Zonal Escalation Contact';
+  static const String escalationLevel = 'Escalation Level';
 
   ///SLA Violation Penalty
   static const String typeOfService = 'Type Of Service';
@@ -643,6 +647,10 @@ const List<Label> systemAccessDropDownValues = [
 const List<Label> maritalStatusDropDownValues = [
   Label(key: 'Single', value: '1'),
   Label(key: 'Married', value: '2'),
+];
+const List<Label> escalationLevelDropDownValues = [
+  Label(key: 'Escalation Level 1', value: '0'),
+  Label(key: 'Escalation Level 2', value: '1'),
 ];
 const List<Label> genderDropDownValues = [
   Label(key: 'Male', value: '1'),

@@ -16,6 +16,8 @@ ContactRecord _$ContactRecordFromJson(Map<String, dynamic> json) =>
           ? null
           : Organisation.fromJson(json['rank'] as Map<String, dynamic>),
       type: json['type'] as int?,
+      state: json['state'] as String?,
+      escalationLevel: json['escltnLevel'] as int?,
     );
 
 Map<String, dynamic> _$ContactRecordToJson(ContactRecord instance) =>
@@ -23,7 +25,9 @@ Map<String, dynamic> _$ContactRecordToJson(ContactRecord instance) =>
       'id': instance.id,
       'contactId': instance.contactId,
       'email': instance.email,
+      'state': instance.state,
       'contactNo': instance.contactNo,
       'rank': instance.rank,
       'type': instance.type,
+      'escltnLevel': instance.escalationLevel,
     };
