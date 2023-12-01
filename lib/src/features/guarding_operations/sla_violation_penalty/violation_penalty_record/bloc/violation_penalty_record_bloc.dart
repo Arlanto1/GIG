@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -12,17 +13,16 @@ import '../../models/requestModels/violation_penalty_request.dart';
 import '../../models/violation_penalty_model.dart';
 import '../../services/sla_violation_penalty_services.dart';
 
-
-
 part 'violation_penalty_record_event.dart';
 
 part 'violation_penalty_record_state.dart';
 
-class ViolationPenaltyRecordBloc extends Bloc<ViolationPenaltyRecordEvent, ViolationPenaltyRecordState> {
+class ViolationPenaltyRecordBloc
+    extends Bloc<ViolationPenaltyRecordEvent, ViolationPenaltyRecordState> {
   final String violationDescription;
 
   ViolationPenaltyRecordBloc({required this.violationDescription})
-      : super(const ViolationPenaltyRecordState(violationDescription: [])) {
+      : super(const ViolationPenaltyRecordState(violationDescriptions: [])) {
     on<FetchData>(
       _fetchContacts,
       transformer: droppable(),
@@ -31,6 +31,7 @@ class ViolationPenaltyRecordBloc extends Bloc<ViolationPenaltyRecordEvent, Viola
     on<SaveRecord>(_saveRecord);
     on<DeleteRecord>(_deleteRecord);
   }
+
   final SLAViolationPenaltyServices services = SLAViolationPenaltyServices();
   final CommonServices commonServices = CommonServices();
 
@@ -38,12 +39,13 @@ class ViolationPenaltyRecordBloc extends Bloc<ViolationPenaltyRecordEvent, Viola
       InitializeValues event, Emitter<ViolationPenaltyRecordState> emit) async {
     try {
       List<Organisation> items =
-      await commonServices.getOrganisations(name: violationDescription);
-       await SLAViolationPenaltyServices()
-            .getStaff();
+          await commonServices.getOrganisations(name: violationDescription);
+
+      log('-items-----${items.length}-');
+      await SLAViolationPenaltyServices().getStaff();
       return emit(
         state.copyWith(
-          violationDescription: items,
+          violationDescriptions: items,
           hasReachedMax: false,
         ),
       );
@@ -58,9 +60,10 @@ class ViolationPenaltyRecordBloc extends Bloc<ViolationPenaltyRecordEvent, Viola
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        List<ViolationPenaltyRecord> response = await services.getViolationPenaltyList(
+        List<ViolationPenaltyRecord> response =
+            await services.getViolationPenaltyList(
           id: '${event.id}',
-         // type: '${event.type}',
+          // type: '${event.type}',
         );
         return emit(
           state.copyWith(
@@ -71,9 +74,10 @@ class ViolationPenaltyRecordBloc extends Bloc<ViolationPenaltyRecordEvent, Viola
         );
       }
 
-      List<ViolationPenaltyRecord> response = await services.getViolationPenaltyList(
+      List<ViolationPenaltyRecord> response =
+          await services.getViolationPenaltyList(
         id: '${event.id}',
-       // type: '${event.type}',
+        // type: '${event.type}',
       );
 
       if (response.isEmpty == true) {
@@ -90,7 +94,6 @@ class ViolationPenaltyRecordBloc extends Bloc<ViolationPenaltyRecordEvent, Viola
     }
   }
 
-
   FutureOr<void> _deleteRecord(
       DeleteRecord event, Emitter<ViolationPenaltyRecordState> emit) async {
     emit(
@@ -100,7 +103,8 @@ class ViolationPenaltyRecordBloc extends Bloc<ViolationPenaltyRecordEvent, Viola
     );
     try {
       await SLAViolationPenaltyServices().deleteVpById(event.id);
-      List<ViolationPenaltyRecord> response = await services.getViolationPenaltyList(
+      List<ViolationPenaltyRecord> response =
+          await services.getViolationPenaltyList(
         id: '${event.mainContactId}',
       );
       return emit(
@@ -134,17 +138,16 @@ class ViolationPenaltyRecordBloc extends Bloc<ViolationPenaltyRecordEvent, Viola
           .createViolationPenaltyRecord(body: request, isSubmit: false);
 
       /// Refresh list
-      List<ViolationPenaltyRecord> response = await services.getViolationPenaltyList(
+      List<ViolationPenaltyRecord> response =
+          await services.getViolationPenaltyList(
         id: '${event.mainContactId}',
         // type: '${event.type}',
       );
-      return emit(
-          state.copyWith(
-            items: response,
-            hasReachedMax: false,
-            status: FormStatus.success,
-          )
-      );
+      return emit(state.copyWith(
+        items: response,
+        hasReachedMax: false,
+        status: FormStatus.success,
+      ));
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(

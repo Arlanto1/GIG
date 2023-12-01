@@ -4,7 +4,7 @@ class ViolationPenaltyRecordState extends Equatable {
   final List<ViolationPenaltyRecord>? items;
   final bool hasReachedMax;
   final FormStatus status;
-  final List<Organisation>? violationDescription;
+  final List<Organisation>? violationDescriptions;
 
   final String? message;
 
@@ -13,27 +13,27 @@ class ViolationPenaltyRecordState extends Equatable {
     this.items = const <ViolationPenaltyRecord>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
-    this.violationDescription,
+    this.violationDescriptions,
   });
 
   ViolationPenaltyRecordState copyWith({
     List<ViolationPenaltyRecord>? items,
     bool? hasReachedMax,
     FormStatus? status,
-    List<Organisation>? violationDescription,
+    List<Organisation>? violationDescriptions,
     String? message,
-
   }) {
     return ViolationPenaltyRecordState(
       items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
-      violationDescription: violationDescription ?? this.violationDescription,
+      violationDescriptions:
+          violationDescriptions ?? this.violationDescriptions,
       message: message ?? this.message,
-
     );
   }
 
   @override
-  List<Object?> get props => [items, hasReachedMax, status];
+  List<Object?> get props =>
+      [items, hasReachedMax, status, violationDescriptions];
 }

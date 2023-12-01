@@ -111,7 +111,7 @@ class BaseApiService {
     bool? showLoader,
   }) async {
     try {
-      log("requestedData - ${jsonEncode(requestedData)}");
+      // log("requestedData - ${jsonEncode(requestedData)}");
 
       var response = await http.post(
         Uri.parse(url),

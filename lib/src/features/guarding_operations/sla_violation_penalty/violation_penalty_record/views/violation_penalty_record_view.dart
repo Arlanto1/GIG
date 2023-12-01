@@ -82,10 +82,12 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () {
+            log('--state.users--llen-fff-${state.violationDescriptions?.length}---');
+
             showAddContactPopUp(
               context: context,
               contact: ViolationPenaltyRecord(),
-              users: state.violationDescription ?? [],
+              users: state.violationDescriptions ?? [],
             );
           },
         ),
@@ -163,12 +165,12 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
                 ViolationPenaltyRecord contactsModel = await SLAViolationPenaltyServices()
                     .getVPById(state.items?[index].id ?? 0);
 
-                log('--state.users--llen--${state.violationDescription?.length}---');
+                log('--state.users--llen--${state.violationDescriptions?.length}---');
 
                 showAddContactPopUp(
                   context: context,
                   contact: contactsModel,
-                  users: state.violationDescription ?? [],
+                  users: state.violationDescriptions ?? [],
                 );
                 getDetails(state.items?[index].id ?? 0);
               },
@@ -202,7 +204,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordView> {
     required ViolationPenaltyRecord contact,
     required final List<Organisation> users,
   }) {
-    log('--.users--llen--${users.length}---');
+    log('--.users-1111-llen--${users.length}---');
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {

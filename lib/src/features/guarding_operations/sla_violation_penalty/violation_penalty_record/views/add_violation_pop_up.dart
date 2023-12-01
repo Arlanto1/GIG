@@ -6,7 +6,6 @@ import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/pop_button.dart';
 import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/contact_details/models/contact_info.dart';
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:db_atom/src/models/responseModels/error_response_validation.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
@@ -14,12 +13,10 @@ import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common_widgets/base_widget/base_drop_down.dart';
 import '../../../../../common_widgets/base_widget/base_list_tile_item.dart';
 import '../../models/violation_penalty_model.dart';
-import '../bloc/violation_penalty_record_bloc.dart';
 
 class AddContactPopUp extends StatefulWidget {
   const AddContactPopUp({
@@ -84,7 +81,6 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-
                       ///Violation
                       Column(
                         children: [
@@ -127,7 +123,6 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
                       /// Staff Category
                       CommonWidgets.textDisplay(
                           Constants.staffCategory,
@@ -142,33 +137,30 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           items: staffCategoryDropDownValues,
                           initialValue: '',
                           onTap: () {
-                              BaseDropDown().assetTypeDialog(
-                                  context: context,
-                                  dropDownValues: staffCategoryDropDownValues
-                                      .map((label) => label.key)
-                                      .toList(),
-                                  onTap: (int value) {
-                                    Label? selectedLabel;
-                                    selectedLabel =
-                                        staffCategoryDropDownValues
-                                            .firstWhere(
-                                              (label) => label.key == value,
-                                          orElse: () =>
-                                          const Label(key: '', value: ''),
-                                        );
-                                    setState(() {
+                            BaseDropDown().assetTypeDialog(
+                                context: context,
+                                dropDownValues: staffCategoryDropDownValues
+                                    .map((label) => label.key)
+                                    .toList(),
+                                onTap: (int value) {
+                                  Label? selectedLabel;
+                                  selectedLabel =
+                                      staffCategoryDropDownValues.firstWhere(
+                                    (label) => label.key == value,
+                                    orElse: () =>
+                                        const Label(key: '', value: ''),
+                                  );
+                                  setState(() {
                                     //  widget.violation.staffCategory = value;
+                                  });
 
-                                    });
-
-                                   // BlocProvider.of<
-                                       // ViolationPenaltyRecordBloc>(
-                                       // context)
-                                       // .updateDropdownValues(
-                                       // staffCategoryDropDownValues: int.tryParse(
-                                          //  selectedLabel.value));
-                                 });
-
+                                  // BlocProvider.of<
+                                  // ViolationPenaltyRecordBloc>(
+                                  // context)
+                                  // .updateDropdownValues(
+                                  // staffCategoryDropDownValues: int.tryParse(
+                                  //  selectedLabel.value));
+                                });
                           }),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -177,11 +169,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         Constants.totalNoOfViolations,
                         Styles.textStyleBlack14,
                         isMandatory: true,
-
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue: '${widget.violation.totalViolations ?? ''}',
+                        initialValue:
+                            '${widget.violation.totalViolations ?? ''}',
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
@@ -201,11 +193,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         Constants.totalPenaltyAmount,
                         Styles.textStyleBlack14,
                         isMandatory: true,
-
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue: '${widget.violation.totalViolations ?? ''}',
+                        initialValue:
+                            '${widget.violation.totalViolations ?? ''}',
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
@@ -287,10 +279,12 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
   ErrorResponse get isFormValid {
     if (widget.violation.violation == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Violation.');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Violation.');
     }
     if (widget.violation.staffCategory == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Staff Category.');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Staff Category.');
     }
     if (widget.violation.totalViolations == null) {
       return const ErrorResponse(
