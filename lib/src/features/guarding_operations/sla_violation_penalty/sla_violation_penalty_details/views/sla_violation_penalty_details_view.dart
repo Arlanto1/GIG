@@ -364,12 +364,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               },
                               child: Row(
                                 children: <Widget>[
-                                  // Expanded(
-                                  //child:
                                   const SizedBox(width: 14),
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
-                                    //color: AppColors.navigationSkybluecolor,
                                   ),
                                   // ),
                                   const SizedBox(width: 10),
@@ -387,38 +384,6 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               children: getPOC(state, height),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            // ///Guarding Agency POC
-                            // CommonWidgets.textDisplay(
-                            //     Constants.guardingAgencyPOC,
-                            //     Styles.textStyleBlack14,
-                            //     isMandatory: true),
-                            // //if (!disableForm) ...[
-                            // GestureDetector(
-                            //   onTap: () {
-                            //     addGuardingAgencyPOC();
-                            //   },
-                            //   child: Row(
-                            //     children: <Widget>[
-                            //       const SizedBox(width: 14),
-                            //       SvgPicture.asset(
-                            //         AppIcon.pluscircle,
-                            //       ),
-                            //       const SizedBox(width: 10),
-                            //       const Text(
-                            //         'Add Guarding Agency POC',
-                            //         style: TextStyle(
-                            //           color: AppColors.navigationSkybluecolor,
-                            //           decoration: TextDecoration.underline,
-                            //         ),
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
-                            // BasicWidgetFunctions().getStringText(
-                            //     strings: state.pocs ?? []),
-                            // // ],
-                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Violation Penalty
                             Container(
@@ -688,6 +653,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       pocController.text = poc;
       widgets.add(
         FlutterInputField(
+          showBorder: true,
           lineHeight: 1,
           textFieldController: pocController,
           textFormKey: Keys.equipmentNoKey,
