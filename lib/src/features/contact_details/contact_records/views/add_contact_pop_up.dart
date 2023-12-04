@@ -331,7 +331,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       }
       if (widget.model.escalationLevel == null) {
         return const ErrorResponse(
-            status: false, message: 'Please enter Name.');
+            status: false, message: 'Please enter Escalation Level.');
       }
     }
     // if (widget.contact.contactNo.isEmptyOrNull) {
