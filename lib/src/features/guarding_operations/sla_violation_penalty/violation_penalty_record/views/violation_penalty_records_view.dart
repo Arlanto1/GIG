@@ -85,8 +85,12 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
 
             showAddContactPopUp(
               context: context,
-              contact: ViolationPenaltyRecord(),
+              contact: ViolationPenaltyRecord(
+                svpId: widget.id,
+              ),
               users: state.violationDescriptions ?? [],
+              staffCategoriesValues:
+                  state.staffCategoriesValues ?? <String, int>{},
             );
           },
         ),
@@ -171,6 +175,8 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                         context: context,
                         contact: contactsModel,
                         users: state.violationDescriptions ?? [],
+                        staffCategoriesValues:
+                        state.staffCategoriesValues ?? <String, int>{},
                       );
                     },
                     onViewTap: (selectedIndex) {
@@ -203,6 +209,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
     required BuildContext context,
     required ViolationPenaltyRecord contact,
     required final List<Organisation> users,
+    required final Map<String, dynamic> staffCategoriesValues,
   }) {
     log('--.users-1111-llen--${users.length}---');
     showDialog(
@@ -213,6 +220,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
           model: contact,
           mainContext: context,
           users: users,
+          staffCategoriesValues: staffCategoriesValues,
           onSubmit: (ViolationPenaltyRecord model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();

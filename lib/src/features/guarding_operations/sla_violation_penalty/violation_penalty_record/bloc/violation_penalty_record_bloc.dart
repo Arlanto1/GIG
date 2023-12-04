@@ -42,11 +42,13 @@ class ViolationPenaltyRecordBloc
           await commonServices.getOrganisations(name: violationDescription);
 
       log('-items-----${items.length}-');
-      await SLAViolationPenaltyServices().getStaff();
+      Map<String, dynamic> staffCategoriesValues =
+          await SLAViolationPenaltyServices().getStaffCategoriesValues();
       return emit(
         state.copyWith(
           violationDescriptions: items,
           hasReachedMax: false,
+          staffCategoriesValues: staffCategoriesValues,
         ),
       );
     } on Exception {
@@ -85,7 +87,7 @@ class ViolationPenaltyRecordBloc
       }
       return emit(
         state.copyWith(
-          items: List.of(state.items ?? [])..addAll(response ?? []),
+          items: List.of(state.items ?? [])..addAll(response),
           hasReachedMax: false,
         ),
       );

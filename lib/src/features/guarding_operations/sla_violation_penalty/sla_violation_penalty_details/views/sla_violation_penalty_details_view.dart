@@ -194,13 +194,17 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
 
                             /// Created By
                             CommonWidgets.verticalTextHandling(
-                                Constants.createdby,
+                                state.labels?.locale.entrySecurity ??
+                                    state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.createdby,
                                 '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status
                             CommonWidgets.textDisplay(
-                              Constants.status,
+                              state.labels?.locale.status ??
+                                  state.labels?.defaultLocale.status ??
+                                  Constants.status,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -219,7 +223,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
-                              Constants.dateofcreation,
+                              state.labels?.locale.inputDate ??
+                                  state.labels?.defaultLocale.inputDate ??
+                                  Constants.dateofcreation,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -230,7 +236,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
 
                             /// Location
                             CommonWidgets.textDisplay(
-                              Constants.location,
+                              state.labels?.locale.location ??
+                                  state.labels?.defaultLocale.location ??
+                                  Constants.location,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -241,7 +249,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
-                              Constants.slno,
+                              state.labels?.locale.slNo ??
+                                  state.labels?.defaultLocale.slNo ??
+                                  Constants.slno,
                               state.model.slNo ?? '',
                               isMandatory: true,
                             ),
@@ -249,7 +259,10 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
 
                             /// Vendor
                             CommonWidgets.textDisplay(
-                                Constants.vendor, Styles.textStyleBlack14,
+                                state.labels?.locale.vendor ??
+                                    state.labels?.defaultLocale.vendor ??
+                                    Constants.vendor,
+                                Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -272,7 +285,10 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
 
                             /// Entity
                             CommonWidgets.textDisplay(
-                                Constants.entity, Styles.textStyleBlack14,
+                                state.labels?.locale.entity ??
+                                    state.labels?.defaultLocale.entity ??
+                                    Constants.entity,
+                                Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -294,7 +310,10 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Type Of Service
-                            CommonWidgets.textDisplay(Constants.typeOfService,
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.typeOfService ??
+                                    state.labels?.defaultLocale.typeOfService ??
+                                    Constants.typeOfService,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -319,7 +338,10 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
 
                             /// ASL
                             CommonWidgets.textDisplay(
-                                Constants.aSL, Styles.textStyleBlack14,
+                                state.labels?.locale.approver ??
+                                    state.labels?.defaultLocale.approver ??
+                                    Constants.aSL,
+                                Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextfieldAddButton(
                               title: state.model.approver?.name,
@@ -345,8 +367,11 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
 
                             /// Guarding Agency POC
                             CommonWidgets.textDisplay(
-                                Constants.guardingAgencyPOC,
-                                Styles.textStyleBlack14),
+                                state.labels?.locale.poc ??
+                                    state.labels?.defaultLocale.poc ??
+                                    Constants.guardingAgencyPOC,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             GestureDetector(
                               onTap: () {
@@ -640,6 +665,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       return []; // Or provide a default list based on your requirements
     }
   }
+
   Widget datecreateWidgetdisplay(String date) {
     return FlutterInputField(
       textFormKey: Keys.dateofcreationTextController,

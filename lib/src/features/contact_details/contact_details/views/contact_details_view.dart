@@ -154,7 +154,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
               FocusScope.of(context).unfocus();
               BlocProvider.of<ContactDetailsCubit>(context).submitForm(
                 isSaveOnly: true,
-                navigateToNextScreen: true,
+                navigateToNextScreen: false,
               );
             },
           ),
