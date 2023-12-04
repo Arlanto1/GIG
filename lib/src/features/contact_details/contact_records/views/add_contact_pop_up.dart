@@ -23,7 +23,7 @@ class AddContactPopUp extends StatefulWidget {
     super.key,
     required this.title,
     required this.onSubmit,
-    required this.contact,
+    required this.model,
     required this.mainContext,
     required this.users,
     required this.rankType,
@@ -31,7 +31,7 @@ class AddContactPopUp extends StatefulWidget {
 
   final String title;
   final Function onSubmit;
-  final ContactRecord contact;
+  final ContactRecord model;
   final List<Organisation> users;
   final BuildContext mainContext;
   final String rankType;
@@ -52,18 +52,19 @@ class AddContactPopUpState extends State<AddContactPopUp> {
   void initState() {
     super.initState();
 
-    log('---widget.contact.state---${widget.contact.state}-----');
-    rankController.text = widget.contact.rank?.name ?? '';
-    nameController.text = widget.contact.email ?? '';
-    stateController.text = widget.contact.state ?? '';
-    contactNoController.text = widget.contact.contactNo ?? '';
-    escalationLevelController.text =
-        widget.contact.escalationLevel.toString() ?? '';
+    log('---widget.contact.state---${widget.model.state}-----');
+    rankController.text = widget.model.rank?.name ?? '';
+    nameController.text = widget.model.email ?? '';
+    stateController.text = widget.model.state ?? '';
+    contactNoController.text = widget.model.contactNo ?? '';
+
+    escalationLevelController.text = widget.model.escalationLevel == null
+        ? ''
+        : widget.model.escalationLevel.toString();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return AlertDialog(
       title: Align(
         alignment: Alignment.center,
@@ -114,9 +115,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
                                   rankController.text = user.name ?? '';
 
-                                  widget.contact.rank ??= Organisation();
-                                  widget.contact.rank = user;
-                                  log('-widget.contact.rank?.name----${widget.contact.rank?.name}-');
+                                  widget.model.rank ??= Organisation();
+                                  widget.model.rank = user;
+                                  log('-widget.contact.rank?.name----${widget.model.rank?.name}-');
 
                                   setState(() {});
                                   // BlocProvider.of<ContactListingBloc>(context)
@@ -147,8 +148,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           isDisableColor: false,
                           onChange: (String value) {
                             log('-widget.contact.rank?.state--value--$value-');
-                            widget.contact.state = value;
-                            log('-widget.contact.rank?.state----${widget.contact.state}-');
+                            widget.model.state = value;
+                            log('-widget.contact.rank?.state----${widget.model.state}-');
                           },
                           validateTextField: (String? user) {},
                         ),
@@ -160,10 +161,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             isMandatory: true,
                             Styles.textStyleBlack14),
                         BaseDropDown().getDropDown(
-                          isDisabled: false,
+                          isDisabled: true,
                           textController: escalationLevelController,
                           items: escalationLevelDropDownValues,
-                          initialValue: escalationLevelController.text,
                           onTap: () {
                             BaseDropDown().assetTypeDialog(
                               context: context,
@@ -177,15 +177,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                   (label) => label.key == value,
                                   orElse: () => const Label(key: '', value: ''),
                                 );
-                                widget.contact.escalationLevel =
+                                widget.model.escalationLevel =
                                     int.tryParse(selectedLabel.value);
-                                escalationLevelController.text = selectedLabel.key;
+                                escalationLevelController.text =
+                                    selectedLabel.key;
                                 setState(() {});
-                                // BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                                //         context)
-                                //     .updateDropdownValues(
-                                //         maritalStatus:
-                                //             int.tryParse(selectedLabel.value));
                               },
                             );
                           },
@@ -211,8 +207,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         isDisableColor: false,
                         onChange: (String value) {
                           log('-widget.contact.rank?.name--value--$value-');
-                          widget.contact.email = value;
-                          log('-widget.contact.rank?.name----${widget.contact.email}-');
+                          widget.model.email = value;
+                          log('-widget.contact.rank?.name----${widget.model.email}-');
 
                           // widget.payRate.perHour = double.parse(value);
                           // BlocProvider.of<PayRateCubit>(widget.mainContext)
@@ -229,7 +225,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue: widget.contact.contactNo ?? '',
+                        initialValue: widget.model.contactNo ?? '',
                         keyboardType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
@@ -237,8 +233,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         isDisableColor: false,
                         onChange: (String value) {
                           log('-widget.contact.rank?.name--value--$value-');
-                          widget.contact.contactNo = value;
-                          log('-widget.contact.contactNo?.name----${widget.contact.contactNo}-');
+                          widget.model.contactNo = value;
+                          log('-widget.contact.contactNo?.name----${widget.model.contactNo}-');
                           // widget.payRate.perHour = double.parse(value);
                           // BlocProvider.of<PayRateCubit>(widget.mainContext)
                           //     .onModelValueChange(widget.payRate);
@@ -307,18 +303,36 @@ class AddContactPopUpState extends State<AddContactPopUp> {
           );
           return;
         }
-        onSubmit(widget.contact);
+        onSubmit(widget.model);
         Navigator.pop(context);
       },
     );
   }
 
   ErrorResponse get isFormValid {
-    if (widget.contact.rank?.name == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Rank.');
+    if (widget.model.rank?.name == null) {
+      return ErrorResponse(
+          status: false,
+          message: widget.rankType == Constants.contactZone
+              ? 'Please enter Zone.'
+              : 'Please enter Rank.');
     }
-    if (widget.contact.email.isEmptyOrNull) {
-      return const ErrorResponse(status: false, message: 'Please enter Name.');
+    if (widget.model.email.isEmptyOrNull) {
+      return ErrorResponse(
+          status: false,
+          message: widget.rankType == Constants.contactZone
+              ? 'Please enter Area Name Manager.'
+              : 'Please enter Name.');
+    }
+    if (widget.rankType == Constants.contactZone) {
+      if (widget.model.state.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Name.');
+      }
+      if (widget.model.escalationLevel == null) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Name.');
+      }
     }
     // if (widget.contact.contactNo.isEmptyOrNull) {
     //   return const ErrorResponse(

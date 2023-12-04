@@ -27,6 +27,7 @@ class AddContactPopUp extends StatefulWidget {
     required this.model,
     required this.mainContext,
     required this.users,
+    required this.staffCategoriesValues,
   });
 
   final String title;
@@ -34,6 +35,7 @@ class AddContactPopUp extends StatefulWidget {
   final ViolationPenaltyRecord model;
   final List<Organisation> users;
   final BuildContext mainContext;
+  final Map<String, dynamic> staffCategoriesValues;
 
   @override
   State<AddContactPopUp> createState() => AddContactPopUpState();
@@ -71,8 +73,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
     log('--matchingLabel?.value---${matchingLabel?.value}--');
 
-    staffCategoryController.text =
-        matchingLabel?.key ?? ''; // Set a default value if no match
+    staffCategoryController.text = matchingLabel?.key ?? '';
     log('--staffCategoryController.text---${staffCategoryController.text}--');
   }
 
@@ -131,6 +132,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                       org.keyName ?? ''; // Penalty Amount
                                   widget.model.violation ??= Organisation();
                                   widget.model.violation = org;
+                                  widget.model.penaltyAmount =
+                                      double.tryParse(org.keyName ?? '0');
                                   log('-widget.violation.violation?.name----${widget.model.violation?.name}-');
 
                                   if (!numberOfViolationsAmountController
@@ -208,6 +211,17 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                               staffCategoryController.text = selectedLabel.key;
                               widget.model.staffCategory =
                                   int.tryParse(selectedLabel.value);
+
+                              int? staffCategoriesValue = widget
+                                  .staffCategoriesValues[selectedLabel.key];
+                              log('--staffCategoriesValue----$staffCategoriesValue---');
+                              if (staffCategoriesValue != null) {
+                                numberOfViolationsAmountController.text =
+                                    staffCategoriesValue.toString();
+                              }
+                              // if (selectedLabel.value == '1') {
+                              //   numberOfViolationsAmountController.text = '1';
+                              // }
                               setState(() {});
 
                               // BlocProvider.of<
@@ -230,8 +244,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue: '${widget.model.totalViolations ?? ''}',
+                        // initialValue: '${widget.model.totalViolations ?? ''}',
                         keyboardType: TextInputType.number,
+                        textFieldController: numberOfViolationsAmountController,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
                         isEnable: true,
@@ -244,6 +259,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           log('--sum-----$sum---');
                           totalPenaltyAmountController.text = sum.toString();
 
+                          widget.model.totalPenaltyAmount = sum;
                           numberOfViolationsAmountController.text = value;
                           log('--totalPenaltyAmountController.text-----${totalPenaltyAmountController.text}---');
 

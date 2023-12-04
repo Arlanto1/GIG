@@ -219,7 +219,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
       builder: (BuildContext dialogContext) {
         return AddContactPopUp(
           title: widget.title,
-          contact: contact,
+          model: contact,
           mainContext: context,
           users: users,
           rankType: rankType,

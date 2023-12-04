@@ -16,7 +16,7 @@ class Apis {
 
   static final String _getVP = '$baseUrl/getSvpList?';
 
-  static final String _getStaff = '$baseUrl/getStaffCategAndViolations';
+  static final String _getStaffCategoriesValues = '$baseUrl/getStaffCategAndViolations';
 
   static final String _getById = '$baseUrl/getSvpGiById';
 
@@ -41,13 +41,14 @@ class SLAViolationPenaltyServices {
         response.map((x) => ViolationPenaltyRecord.fromJson(x)));
   }
 
-  Future<ViolationPenaltyRecord> getStaff() async {
-    String url = Apis._getStaff;
-    var response = await BaseApiService().getRequest(
+  Future<Map<String, dynamic>> getStaffCategoriesValues() async {
+    String url = Apis._getStaffCategoriesValues;
+    Map<String, dynamic> response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
     );
-    return ViolationPenaltyRecord.fromJson(response);
+
+    return response;
   }
 
   Future<SLAViolationPenaltyResponseModel> getGSvp({

@@ -17,7 +17,7 @@ ViolationPenaltyRecord _$ViolationPenaltyRecordFromJson(
       penaltyAmount: (json['penaltyAmount'] as num?)?.toDouble(),
       totalViolations: json['totalViolations'] as num?,
       staffCategory: json['staffCategory'] as num?,
-      totalPenaltyAmount: (json['totalPenaltyAmount'] as num?)?.toDouble(),
+      totalPenaltyAmount: json['totalPenaltyAmount'] as num?,
     );
 
 Map<String, dynamic> _$ViolationPenaltyRecordToJson(
