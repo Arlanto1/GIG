@@ -128,7 +128,7 @@ class SLAViolationPenaltyDetailsCubit
       }
 
       List<String> pocs = Utils().splitStringAfterComma(state.model.poc ?? '');
-      log('-pocs---${pocs.toString()}---');
+      log('-typeOfService.items---${typeOfService.items}---');
 
       state.model.entrySecurity = loggedInUserDetails;
 

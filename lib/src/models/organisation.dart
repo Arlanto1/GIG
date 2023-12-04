@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'organisation.g.dart';
+// part 'organisation.g.dart';
 
-@JsonSerializable()
+// @JsonSerializable()
 class Organisation {
   int? id;
   String? name;
@@ -18,13 +18,13 @@ class Organisation {
   });
 
 
-  factory Organisation.fromJson(Map<String, dynamic> json) => _$OrganisationFromJson(json);
+  // factory Organisation.fromJson(Map<String, dynamic> json) => _$OrganisationFromJson(json);
+  //
+  // Map<String, dynamic> toJson() => _$OrganisationToJson(this);
 
-  Map<String, dynamic> toJson() => _$OrganisationToJson(this);
-  //
-  // Organisation.fromJson(Map<String, dynamic> json)
-  //     : id = json['id'] ?? json['Id'] as int?,
-  //       name = json['name'] ?? json['Name'] as String?;
-  //
-  // Map<String, dynamic> toJson() => {'id': id, 'name': name};
+  Organisation.fromJson(Map<String, dynamic> json)
+      : id = json['id'] ?? json['Id'] as int?,
+        name = json['name'] ?? json['Name'] as String?;
+
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
 }

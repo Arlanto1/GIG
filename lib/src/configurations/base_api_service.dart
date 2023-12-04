@@ -12,6 +12,12 @@ import '../features/login/services/login_services.dart';
 import '../routing/router.dart';
 import '../utils/shared_preferences.dart';
 
+enum RequestType {
+  get,
+  post,
+  delete,
+}
+
 class BaseApiService {
   Future<Map<String, String>> _getHeaders({bool? isAuthenticated}) async {
     Map<String, String> headers = {'Content-Type': 'application/json'};
@@ -48,7 +54,8 @@ class BaseApiService {
 
         /// If Token is Expired
         if (response.statusCode == 449) {
-          var response = await _refreshTokenAndRetry(url);
+          var response = await _refreshTokenAndRetry(
+              originalUrl: url, requestType: RequestType.get);
           log('---response---449----');
           return response;
         }
@@ -75,13 +82,26 @@ class BaseApiService {
         context, loginScreenRoute, (route) => false);
   }
 
-  Future<dynamic> _refreshTokenAndRetry(String originalUrl) async {
+  Future<dynamic> _refreshTokenAndRetry({
+    required String originalUrl,
+    required RequestType requestType,
+    Map<String, dynamic>? requestedData,
+  }) async {
     log('--_refreshTokenAndRetry-$originalUrl--');
     // Call refresh token API
     await callRefreshTokenApi();
 
     // Retry the original request
-    return getRequest(url: originalUrl);
+    if (requestType == RequestType.get) {
+      return getRequest(url: originalUrl);
+    }
+
+    if (requestType == RequestType.post) {
+      return postRequest(
+        url: originalUrl,
+        requestedData: requestedData!,
+      );
+    }
   }
 
   Future<void> callRefreshTokenApi() async {
@@ -129,7 +149,11 @@ class BaseApiService {
         return responseBody;
       } else if (response.statusCode == 449) {
         // Token Expired
-        return await _refreshTokenAndRetry(url);
+        return await _refreshTokenAndRetry(
+          originalUrl: url,
+          requestType: RequestType.post,
+          requestedData: requestedData,
+        );
       } else if (response.statusCode == 400) {
         final responseBody = json.decode(response.body);
         log("User is unauthorized. Logging out...");
@@ -188,7 +212,8 @@ class BaseApiService {
 
         /// If Token is Expired
         if (response.statusCode == 449) {
-          var response = await _refreshTokenAndRetry(url);
+          var response = await _refreshTokenAndRetry(
+              originalUrl: url, requestType: RequestType.delete);
           log('---response---449----');
           return response;
         }

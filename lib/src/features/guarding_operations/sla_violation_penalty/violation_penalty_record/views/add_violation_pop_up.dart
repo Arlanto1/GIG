@@ -72,7 +72,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     log('--matchingLabel?.value---${matchingLabel?.value}--');
 
     staffCategoryController.text =
-        matchingLabel?.key ?? ''; // Set a default value if no match
+        matchingLabel?.key ?? '';
     log('--staffCategoryController.text---${staffCategoryController.text}--');
   }
 
@@ -208,6 +208,10 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                               staffCategoryController.text = selectedLabel.key;
                               widget.model.staffCategory =
                                   int.tryParse(selectedLabel.value);
+
+                              if (selectedLabel.value == '1') {
+                                numberOfViolationsAmountController.text = '1';
+                              }
                               setState(() {});
 
                               // BlocProvider.of<
@@ -230,8 +234,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
-                        initialValue: '${widget.model.totalViolations ?? ''}',
+                        // initialValue: '${widget.model.totalViolations ?? ''}',
                         keyboardType: TextInputType.number,
+                        textFieldController: numberOfViolationsAmountController,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
                         isEnable: true,
