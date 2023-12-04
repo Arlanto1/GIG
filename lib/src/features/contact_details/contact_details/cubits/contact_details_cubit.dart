@@ -84,7 +84,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
         if (defaultLocation != null) {
           SerialNumberModel slNo = await commonServices.getSlNo(
             locationId: defaultLocation.id.toString(),
-            moduleCode: Constants.eventProtectionModule,
+            moduleCode: Constants.contactDetailsModule,
           );
           state.model.location = defaultLocation;
           state.model.slNo = slNo.serialNo;
