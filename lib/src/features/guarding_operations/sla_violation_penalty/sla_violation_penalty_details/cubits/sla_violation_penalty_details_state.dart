@@ -11,6 +11,8 @@ class SLAViolationPenaltyDetailsState extends Equatable {
   final List<Organisation> typeOfServices;
   final String? message;
    final List<String>? pocs;
+  final SlaUiLabels? labels;
+
 
   factory SLAViolationPenaltyDetailsState.initial({
     required SLAViolationPenaltyModel model,
@@ -102,6 +104,8 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     this.users,
     this.message,
     this.pocs,
+    this.labels,
+
   });
 
   SLAViolationPenaltyDetailsState copyWith({
@@ -115,6 +119,8 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     List<Organisation>? typeOfServices,
     List<String>? pocs,
     String? message,
+    final SlaUiLabels? labels,
+
   }) {
     return SLAViolationPenaltyDetailsState(
       status: status ?? this.status,
@@ -127,6 +133,8 @@ class SLAViolationPenaltyDetailsState extends Equatable {
       typeOfServices: typeOfServices ?? this.typeOfServices,
       message: message ?? this.message,
       pocs: pocs ?? this.pocs,
+      labels: labels ?? this.labels,
+
     );
   }
 }
