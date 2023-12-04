@@ -17,14 +17,18 @@ class Organisation {
     this.isSelected = false,
   });
 
-
   // factory Organisation.fromJson(Map<String, dynamic> json) => _$OrganisationFromJson(json);
   //
   // Map<String, dynamic> toJson() => _$OrganisationToJson(this);
 
   Organisation.fromJson(Map<String, dynamic> json)
-      : id = json['id'] ?? json['Id'] as int?,
-        name = json['name'] ?? json['Name'] as String?;
+      : id = json['id'] as int?,
+        name = json['name'] as String,
+        keyName = json['keyname'] as String?;
 
-  Map<String, dynamic> toJson() => {'id': id, 'name': name};
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'keyname': keyName,
+      };
 }

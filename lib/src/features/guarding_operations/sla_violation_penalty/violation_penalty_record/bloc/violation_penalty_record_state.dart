@@ -5,7 +5,7 @@ class ViolationPenaltyRecordState extends Equatable {
   final bool hasReachedMax;
   final FormStatus status;
   final List<Organisation>? violationDescriptions;
-
+  final Map<String, dynamic>? staffCategoriesValues;
   final String? message;
 
   const ViolationPenaltyRecordState({
@@ -14,6 +14,7 @@ class ViolationPenaltyRecordState extends Equatable {
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
     this.violationDescriptions,
+    this.staffCategoriesValues,
   });
 
   ViolationPenaltyRecordState copyWith({
@@ -21,6 +22,7 @@ class ViolationPenaltyRecordState extends Equatable {
     bool? hasReachedMax,
     FormStatus? status,
     List<Organisation>? violationDescriptions,
+    Map<String, dynamic>? staffCategoriesValues,
     String? message,
   }) {
     return ViolationPenaltyRecordState(
@@ -29,6 +31,8 @@ class ViolationPenaltyRecordState extends Equatable {
       status: status ?? this.status,
       violationDescriptions:
           violationDescriptions ?? this.violationDescriptions,
+      staffCategoriesValues:
+          staffCategoriesValues ?? this.staffCategoriesValues,
       message: message ?? this.message,
     );
   }

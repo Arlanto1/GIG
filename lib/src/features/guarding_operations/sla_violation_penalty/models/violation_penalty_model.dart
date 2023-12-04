@@ -11,7 +11,7 @@ class ViolationPenaltyRecord {
   double? penaltyAmount;
   num? totalViolations;
   num? staffCategory;
-  double? totalPenaltyAmount;
+  num? totalPenaltyAmount;
 
   ViolationPenaltyRecord({
     this.id,
@@ -29,34 +29,5 @@ class ViolationPenaltyRecord {
   Map<String, dynamic> toJson() => _$ViolationPenaltyRecordToJson(this);
 
 }
-   // class Violation {
-   // Violation({
-   // required this.id,
-   // required this.name,
-   // required this.keyname,
-   // required this.description,
-   // });
-   // late final int id;
-   // late final String name;
-   // late final String keyname;
-   // late final String description;
-   //
-   // Violation.fromJson(Map<String, dynamic> json){
-   // id = json['id'];
-   // name = json['name'];
-   // keyname = json['keyname'];
-   // description = json['description'];
-   // }
-   //
-   // Map<String, dynamic> toJson() {
-   // final _data = <String, dynamic>{};
-   // _data['id'] = id;
-   // _data['name'] = name;
-   // _data['keyname'] = keyname;
-   // _data['description'] = description;
-   // return _data;
-   // }
-//}
-
 
 
