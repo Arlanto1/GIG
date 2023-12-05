@@ -7,6 +7,7 @@ import 'package:db_atom/src/features/createfound/models/get_locations_model.dart
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
+import 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/ep_ui_labels.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addentities.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
@@ -98,6 +99,12 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
 
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: 'en', moduleCode: Constants.eventProtectionModuleCode);
+      // log('--default--${responseLabels.toString()}----//Getting Proper response as JSON------');
+      EpUiLabels labels = EpUiLabels.fromJson(responseLabels);
+      log('--default--${labels.defaultLocale}----------');
+
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
@@ -131,6 +138,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
+          labels: labels,
         ),
       );
     } catch (e) {
