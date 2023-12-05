@@ -1614,9 +1614,9 @@ class _MaterialMovementDetailsViewState
 
                               /// Received by Employee Id
                               CommonWidgets.textDisplay(
-                                state.labels?.locale.receiverEmployeeId ??
+                                state.labels?.locale.otherReceiverEmployeeId ??
                                     state.labels?.defaultLocale
-                                        .receiverEmployeeId ??
+                                        .otherReceiverEmployeeId ??
                                     Constants.receiverEmployeeId,
                                 Styles.textStyleBlack14,
                                 isMandatory: true,

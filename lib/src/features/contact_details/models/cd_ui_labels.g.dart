@@ -76,7 +76,7 @@ Map<String, dynamic> _$CdUiLabelsLocaleToJson(CdUiLabelsLocale instance) =>
       'com.arlanto.atom.contact.typeOfContact.generalContact':
           instance.generalContact,
       'com.arlanto.atom.contact.status.draft': instance.draft,
-      'com.arlanto.atom.contact.locationRegion': instance.region,
+      'com.arlanto.atom.contact.locationRegion': instance.locationRegion,
       'com.arlanto.atom.contact.generalRank': instance.rank,
       'com.arlanto.atom.contact.inputDate': instance.date,
       'com.arlanto.atom.contact.status.active': instance.active,

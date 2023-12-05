@@ -53,6 +53,7 @@ class GuardingMastersDataModel extends BaseObject{
   ImageContent? photoGraph;
   Organisation? entity;
   String? inputDate;
+  String? msgbExemptionDate;
   String? csrParticipationDates;
   String? medicalCertificateValidUntil;
   String? covidFirstDoseDate;
@@ -125,6 +126,7 @@ class GuardingMastersDataModel extends BaseObject{
     this.photoGraph,
     this.entity,
     this.inputDate,
+    this.msgbExemptionDate,
     this.csrParticipationDates,
     this.medicalCertificateValidUntil,
     this.covidFirstDoseDate,

@@ -638,10 +638,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
+      CommonWidgets.verticalSpacerWidget(5),
       if (widget.status != null && widget.isContactDetailsStatus ==true && widget.isEventProtectionStatus == false) ...[
         CommonWidgets.horizontalSpacerWidget(5),
+        Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
         Utils()
-            .contactDetailsStatus(widget.status ?? 0),
+            .contactDetailsStatus(widget.status ?? 0),],
+        ),
       ],
       if (widget.incidentType != null) ...[
         CommonWidgets.verticalSpacerWidget(5),

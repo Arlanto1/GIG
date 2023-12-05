@@ -61,7 +61,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
         (widget.model.penaltyAmount ?? 0) *
             (widget.model.totalViolations ?? 0));
     totalPenaltyAmountController.text = sum.toString();
-
+    numberOfViolationsAmountController.text = widget.model.totalViolations == null
+        ? ''
+        : widget.model.totalViolations.toString();
     updateStaffCategoryText();
   }
 
@@ -219,9 +221,12 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                 numberOfViolationsAmountController.text =
                                     staffCategoriesValue.toString();
                               }
-                              // if (selectedLabel.value == '1') {
-                              //   numberOfViolationsAmountController.text = '1';
-                              // }
+                              if (selectedLabel.value == '1') {
+                                numberOfViolationsAmountController.text = '1';
+                                widget.model.totalViolations = 1;
+                                totalPenaltyAmountController.text = '${(widget.model.penaltyAmount??0) * (widget.model.totalViolations??0)}';
+                                widget.model.totalPenaltyAmount = (widget.model.penaltyAmount??0) * (widget.model.totalViolations??0);
+                              }
                               setState(() {});
 
                               // BlocProvider.of<

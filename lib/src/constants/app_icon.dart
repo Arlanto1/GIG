@@ -4,7 +4,8 @@ class AppIcon {
   static const String secureIcon = 'assets/images/lock.svg';
   static const String closeEye = 'assets/images/eye-slash.svg';
   static const String openEye = 'assets/images/eye.svg';
-  static const String titleLogoLogin = 'assets/images/arlanto_login.png';
+  // static const String titleLogoLogin = 'assets/images/arlanto_login.png';
+  static const String titleLogoLogin = 'assets/images/atom.png';
   static const String usercircle = 'assets/images/user-circle.svg';
   static const String tasklist = 'assets/images/task-list.png';
   static const String settings = 'assets/images/settings.png';

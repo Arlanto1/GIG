@@ -55,7 +55,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
         );
 
   Future<void> initializeValues() async {
-    log('-status-1-${state.status}--');
+    log('-status-ddd1-${state.status}--');
     //Show Loader and emit loading state
     emit(
       state.copyWith(

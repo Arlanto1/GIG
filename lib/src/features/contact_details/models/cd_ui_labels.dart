@@ -77,7 +77,7 @@ class CdUiLabelsLocale {
   final String? draft;
 
   @JsonKey(name: 'com.arlanto.atom.contact.locationRegion')
-  final String? region;
+  final String? locationRegion;
 
   @JsonKey(name: 'com.arlanto.atom.contact.generalRank')
   final String? rank;
@@ -123,7 +123,7 @@ class CdUiLabelsLocale {
       this.contactType,
       this.generalContact,
       this.draft,
-      this.region,
+      this.locationRegion,
       this.rank,
       this.date,
       this.active,

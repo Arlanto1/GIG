@@ -24,6 +24,11 @@ class Constants {
 
   /// UI Labels Module Code
   static const String materialMovementModuleCode = 'MM';
+  static const String contactDetailsModuleCode = 'CD';
+  static const String guardingMasterModuleCode = 'GM';
+  static const String eventProtectionModuleCode = 'EP';
+
+
 
 
   /// Rank Types for Contact Details
@@ -73,7 +78,8 @@ class Constants {
 
   // Images
   static const String bg = 'assets/images/bg.png';
-  static const String splashscreen = 'assets/images/Arlantologin.png';
+  //static const String splashscreen = 'assets/images/Arlantologin.png';
+  static const String splashscreen = 'assets/images/atom_login.png';
 
   // Names
   static const String version = 'Version';
