@@ -36,6 +36,9 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
   @override
   void initState() {
     super.initState();
+    context.read<ContactDetailsListBloc>().add(
+          const InitializeValues(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -125,7 +128,9 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                 List<Label> labels = [];
                 if (index < state.items.length) {
                   labels.add(Label(
-                      key: 'Region',
+                      key: state.labels?.locale.region ??
+                          state.labels?.defaultLocale.region ??
+                          'Region',
                       value: state.items[index].locationRegion?.name ?? ''));
                   labels.add(Label(
                       key: 'Created By',
@@ -135,45 +140,45 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                   labels.add(Label(
                       key: 'Location',
                       value: state.items[index].location?.name ?? ''));
-                return index >= state.items.length
-                    ? const BaseLoader()
-                    : BaseListTileItem(
-                        id: state.items[index].id,
-                        labels: labels,
-                        status: state.items[index].status,
-                        isEventProtectionStatus: false,
-                        isContactDetailsStatus: true,
-                        onTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                labels: labels,
-                                status: state.items[selectedIndex].status,
-                                isContactDetailsStatus: true,
-                              );
-                            },
-                          );
-                        },
-                        onEditTap: (selectedIndex) {
-                          getLawEnforcementId(state.items[index].id ?? 0);
-                        },
-                        onViewTap: (selectedIndex) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return BasePopUpItems(
-                                id: state.items[selectedIndex].id.toString(),
-                                labels: labels,
-                                status: state.items[selectedIndex].status,
-                                isContactDetailsStatus: true,
-                              );
-                            },
-                          );
-                        },
-                        index: index,
-                      );
+                  return index >= state.items.length
+                      ? const BaseLoader()
+                      : BaseListTileItem(
+                          id: state.items[index].id,
+                          labels: labels,
+                          status: state.items[index].status,
+                          isEventProtectionStatus: false,
+                          isContactDetailsStatus: true,
+                          onTap: (selectedIndex) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return BasePopUpItems(
+                                  id: state.items[selectedIndex].id.toString(),
+                                  labels: labels,
+                                  status: state.items[selectedIndex].status,
+                                  isContactDetailsStatus: true,
+                                );
+                              },
+                            );
+                          },
+                          onEditTap: (selectedIndex) {
+                            getLawEnforcementId(state.items[index].id ?? 0);
+                          },
+                          onViewTap: (selectedIndex) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return BasePopUpItems(
+                                  id: state.items[selectedIndex].id.toString(),
+                                  labels: labels,
+                                  status: state.items[selectedIndex].status,
+                                  isContactDetailsStatus: true,
+                                );
+                              },
+                            );
+                          },
+                          index: index,
+                        );
                 }
               },
             ),
