@@ -22,22 +22,22 @@ EpUiLabelsLocale _$EpUiLabelsLocaleFromJson(Map<String, dynamic> json) =>
     EpUiLabelsLocale(
       json['com.arlanto.atom.eventProtection.slNo'] as String?,
       json['com.arlanto.atom.eventProtection.inputDate'] as String?,
-      json['com.arlanto.atom.eventProtection.status'] as String?,
-      json['com.arlanto.atom.eventProtection.locationRegion'] as String?,
       json['com.arlanto.atom.eventProtection.location'] as String?,
+      json['com.arlanto.atom.eventProtection.locationRegion'] as String?,
       json['com.arlanto.atom.eventProtection.entity'] as String?,
+      json['com.arlanto.atom.eventProtection.status'] as String?,
       json['com.arlanto.atom.eventProtection.annualPowerShutdown'] as String?,
       json['com.arlanto.atom.eventProtection.eventStartDate'] as String?,
       json['com.arlanto.atom.eventProtection.eventEndDate'] as String?,
       json['com.arlanto.atom.eventProtection.epManager1'] as String?,
       json['com.arlanto.atom.eventProtection.epManager2'] as String?,
       json['com.arlanto.atom.eventProtection.lsm1'] as String?,
-      json['com.arlanto.atom.eventProtection.lsm2'] as String?,
       json['com.arlanto.atom.eventProtection.lsm1ContactNo'] as String?,
+      json['com.arlanto.atom.eventProtection.lsm2'] as String?,
       json['com.arlanto.atom.eventProtection.lsm2ContactNo'] as String?,
       json['com.arlanto.atom.eventProtection.bu1'] as String?,
-      json['com.arlanto.atom.eventProtection.bu2'] as String?,
       json['com.arlanto.atom.eventProtection.bu1ContactNo'] as String?,
+      json['com.arlanto.atom.eventProtection.bu2'] as String?,
       json['com.arlanto.atom.eventProtection.bu2ContactNo'] as String?,
       json['com.arlanto.atom.eventProtection.requesterDepartment'] as String?,
       json['com.arlanto.atom.eventProtection.epOfficers'] as String?,
@@ -77,11 +77,12 @@ EpUiLabelsLocale _$EpUiLabelsLocaleFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$EpUiLabelsLocaleToJson(EpUiLabelsLocale instance) =>
     <String, dynamic>{
-      'com.arlanto.atom.eventProtection.status': instance.status,
       'com.arlanto.atom.eventProtection.slNo': instance.slNo,
       'com.arlanto.atom.eventProtection.inputDate': instance.inputDate,
+      'com.arlanto.atom.eventProtection.status': instance.status,
       'com.arlanto.atom.eventProtection.locationRegion':
           instance.locationRegion,
+      'com.arlanto.atom.eventProtection.location': instance.location,
       'com.arlanto.atom.eventProtection.entity': instance.entity,
       'com.arlanto.atom.eventProtection.annualPowerShutdown':
           instance.annualPowerShutdown,
@@ -108,11 +109,11 @@ Map<String, dynamic> _$EpUiLabelsLocaleToJson(EpUiLabelsLocale instance) =>
       'com.arlanto.atom.eventProtection.systemVendor1': instance.systemVendor1,
       'com.arlanto.atom.eventProtection.systemVendor2': instance.systemVendor2,
       'com.arlanto.atom.eventProtection.systemVendor3': instance.systemVendor3,
-      'com.arlanto.atom.eventProtection.systemVendor1':
+      'com.arlanto.atom.eventProtection.systemVendor1ContactNo':
           instance.systemVendor1ContactNo,
       'com.arlanto.atom.eventProtection.systemVendor2ContactNo':
           instance.systemVendor2ContactNo,
-      'com.arlanto.atom.eventProtection.systemVendor2ContactNo':
+      'com.arlanto.atom.eventProtection.systemVendor3ContactNo':
           instance.systemVendor3ContactNo,
       'com.arlanto.atom.eventProtection.extraSecurityDeployed':
           instance.extraSecurityDeployed,
