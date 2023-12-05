@@ -333,6 +333,8 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Created By
                             CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.entrySecurity ??
+                                    state.labels?.defaultLocale.entrySecurity ??
                                 Constants.createdby,
                                 isMandatory: true,
                                 '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),

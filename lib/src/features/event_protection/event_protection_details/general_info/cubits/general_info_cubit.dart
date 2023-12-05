@@ -138,6 +138,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
+          labels: labels,
         ),
       );
     } catch (e) {

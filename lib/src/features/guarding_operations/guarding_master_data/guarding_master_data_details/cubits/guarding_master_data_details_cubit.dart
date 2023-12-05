@@ -195,6 +195,7 @@ class GuardingMasterDataDetailsCubit
           // mSGBAttachments: state.guardingMasterData.m
 
           medicalAttachments: state.model.medicalCertificates,
+          labels: labels,
         ),
       );
     } catch (e) {
