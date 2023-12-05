@@ -73,7 +73,8 @@ class Constants {
 
   // Images
   static const String bg = 'assets/images/bg.png';
-  static const String splashscreen = 'assets/images/Arlantologin.png';
+  //static const String splashscreen = 'assets/images/Arlantologin.png';
+  static const String splashscreen = 'assets/images/atom_login.png';
 
   // Names
   static const String version = 'Version';
