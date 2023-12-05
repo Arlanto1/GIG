@@ -26,6 +26,7 @@ class GuardingMasterDataDetailsState extends Equatable {
   final List<ImageContent>? medicalAttachments;
   final List<ImageContent>? mSGBAttachments;
   final List<User>? entrySecurities;
+  final GmUiLabels? labels;
 
   factory GuardingMasterDataDetailsState.initial({
     required GuardingMastersDataModel model,
@@ -99,24 +100,19 @@ class GuardingMasterDataDetailsState extends Equatable {
 
   ErrorResponse get isValid {
     if (model.status == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Status');
+      return const ErrorResponse(status: false, message: 'Please enter Status');
     }
     if (model.entity == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Entity');
+      return const ErrorResponse(status: false, message: 'Please enter Entity');
     }
     if (model.vendor == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Vendor');
+      return const ErrorResponse(status: false, message: 'Please enter Vendor');
     }
     if (model.guard == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Name');
+      return const ErrorResponse(status: false, message: 'Please enter Name');
     }
     if (model.guardRank == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Rank');
+      return const ErrorResponse(status: false, message: 'Please enter Rank');
     }
     if (model.guardingPOC == null) {
       return const ErrorResponse(
@@ -132,8 +128,7 @@ class GuardingMasterDataDetailsState extends Equatable {
           status: false, message: 'Please enter Type of Duty');
     }
     if (model.gender == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Gender');
+      return const ErrorResponse(status: false, message: 'Please enter Gender');
     }
 
     if (model.qualifications == null || model.qualifications!.isEmpty) {
@@ -169,8 +164,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     //       status: false, message: 'Please Select Deployment Order Submitted? ');
     // }
     if (model.height == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Height');
+      return const ErrorResponse(status: false, message: 'Please enter Height');
     }
     // if (guardingMasterData.physicallyFit == null) {
     //   return const ErrorResponse(
@@ -206,7 +200,8 @@ class GuardingMasterDataDetailsState extends Equatable {
     // }
     if (model.medicalCertificateValidUntil == null) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Medical Certificate Valid Until');
+          status: false,
+          message: 'Please enter Medical Certificate Valid Until');
     }
     if (model.systemAccess == null) {
       return const ErrorResponse(
@@ -276,6 +271,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     this.medicalAttachments,
     this.entrySecurities,
     this.mSGBAttachments,
+    this.labels,
   });
 
   GuardingMasterDataDetailsState copyWith({
@@ -304,6 +300,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     List<ImageContent>? medicalAttachments,
     List<ImageContent>? mSGBAttachments,
     List<User>? entrySecurities,
+    final GmUiLabels? labels,
   }) {
     return GuardingMasterDataDetailsState(
       status: status ?? this.status,
@@ -334,6 +331,7 @@ class GuardingMasterDataDetailsState extends Equatable {
       trainingAttachments: trainingAttachments ?? this.trainingAttachments,
       medicalAttachments: medicalAttachments ?? this.medicalAttachments,
       entrySecurities: entrySecurities ?? this.entrySecurities,
+      labels: labels ?? this.labels,
     );
   }
 }

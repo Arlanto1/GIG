@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/get_depositor_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/vendors_model.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
 import 'package:db_atom/src/models/image_content.dart';
@@ -135,6 +136,12 @@ class GuardingMasterDataDetailsCubit
       List<String> participationDates = Utils()
           .splitStringAfterComma(state.model.csrParticipationDates ?? '');
       log('-participationDates---${participationDates.toString()}---');
+
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: 'en', moduleCode: Constants.guardingMasterModuleCode);
+      // log('--default--${responseLabels.toString()}----//Getting Proper response as JSON------');
+      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      log('--default--${labels.defaultLocale}----------');
 
       if (state.model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();

@@ -291,7 +291,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Status
                             CommonWidgets.textDisplay(
-                                Constants.status, Styles.textStyleBlack14,
+                                state.labels?.locale.status ??
+                                    state.labels?.defaultLocale.status ??
+                                    Constants.status,
+                                Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -337,7 +340,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
-                                Constants.dateofcreation,
+                                state.labels?.locale.inputDate ??
+                                    state.labels?.defaultLocale.inputDate ??
+                                    Constants.dateofcreation,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -347,7 +352,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             ///Building  Location
                             CommonWidgets.textDisplay(
-                                Constants.buildingLocation,
+                                state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    Constants.buildingLocation,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -385,7 +392,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
-                              Constants.slno,
+                              state.labels?.locale.slNo ??
+                                  state.labels?.defaultLocale.slNo ??
+                                  Constants.slno,
                               state.model.slNo ?? '',
                               isMandatory: true,
                             ),
@@ -395,7 +404,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             Column(
                               children: [
                                 CommonWidgets.textDisplay(
-                                  Constants.name,
+                                  state.labels?.locale.guard ??
+                                      state.labels?.defaultLocale.guard ??
+                                      Constants.name,
                                   isMandatory: true,
                                   Styles.textStyleBlack14,
                                 ),
@@ -466,7 +477,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Guarding Vendor
                             CommonWidgets.textDisplay(
-                              Constants.guardingVendor,
+                              state.labels?.locale.vendor ??
+                                  state.labels?.defaultLocale.vendor ??
+                                  Constants.guardingVendor,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -493,7 +506,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Guarding Partner POC
                             CommonWidgets.textDisplay(
-                                Constants.guardingPoc,
+                                state.labels?.locale.guardingPOC ??
+                                    state.labels?.defaultLocale.guardingPOC ??
+                                    Constants.guardingPoc,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -516,7 +531,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Guarding Agency Employee Code
                             CommonWidgets.textDisplay(
-                                Constants.guardingAgencyEmpCode,
+                                state.labels?.locale.employeeCode ??
+                                    state.labels?.defaultLocale.employeeCode ??
+                                    Constants.guardingAgencyEmpCode,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -546,7 +563,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Rank
                             CommonWidgets.textDisplay(
-                                Constants.rank,
+                                state.labels?.locale.guardRank ??
+                                    state.labels?.defaultLocale.guardRank ??
+                                    Constants.rank,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -584,7 +603,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// DB Employee ID
-                            CommonWidgets.textDisplay(Constants.dbEmployeeId,
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.dbEmployeeId ??
+                                    state.labels?.defaultLocale.dbEmployeeId ??
+                                    Constants.dbEmployeeId,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
@@ -613,7 +635,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Type of Duty
                             CommonWidgets.textDisplay(
-                                Constants.typeOfDuty,
+                                state.labels?.locale.dutyType ??
+                                    state.labels?.defaultLocale.dutyType ??
+                                    Constants.typeOfDuty,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -651,7 +675,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Gender
                             CommonWidgets.textDisplay(
-                                Constants.gender,
+                                state.labels?.locale.gender ??
+                                    state.labels?.defaultLocale.gender ??
+                                    Constants.gender,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -691,7 +717,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Marital Status
                             CommonWidgets.textDisplay(
-                                Constants.maritalStatus,
+                                state.labels?.locale.maritalStatus ??
+                                    state.labels?.defaultLocale.maritalStatus ??
+                                    Constants.maritalStatus,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -732,7 +760,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Contact Num
                             CommonWidgets.textDisplay(
-                                Constants.mobileNum,
+                                state.labels?.locale.contactNo ??
+                                    state.labels?.defaultLocale.contactNo ??
+                                    Constants.mobileNum,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -762,7 +792,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Dependents No
                             CommonWidgets.textDisplay(
-                                Constants.dependentsNo,
+                                state.labels?.locale.dependentsNo ??
+                                    state.labels?.defaultLocale.dependentsNo ??
+                                    Constants.dependentsNo,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -785,7 +817,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Date of Birth
                             CommonWidgets.textDisplay(
-                              Constants.dateOfBirth,
+                              state.labels?.locale.dateOfBirth ??
+                                  state.labels?.defaultLocale.dateOfBirth ??
+                                  Constants.dateOfBirth,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -808,7 +842,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Date Of Joining
                             CommonWidgets.textDisplay(
-                              Constants.dateOfJoining,
+                              state.labels?.locale.dateOfJoining ??
+                                  state.labels?.defaultLocale.dateOfJoining ??
+                                  Constants.dateOfJoining,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -833,7 +869,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Type of Deployment
                             CommonWidgets.textDisplay(
-                                Constants.typeOfDeployment,
+                                state.labels?.locale.typeOfDeployment ??
+                                    state.labels?.defaultLocale
+                                        .typeOfDeployment ??
+                                    Constants.typeOfDeployment,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -876,7 +915,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Deployment order Submitted?
                             CommonWidgets.textDisplay(
-                                Constants.deploymentOrderSubmitted,
+                                state.labels?.locale.deploymentOrderSubmitted ??
+                                    state.labels?.defaultLocale
+                                        .deploymentOrderSubmitted ??
+                                    Constants.deploymentOrderSubmitted,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
@@ -952,7 +994,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Height
                             CommonWidgets.textDisplay(
-                                Constants.height,
+                                state.labels?.locale.height ??
+                                    state.labels?.defaultLocale.height ??
+                                    Constants.height,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -975,7 +1019,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Weight
                             CommonWidgets.textDisplay(
-                                Constants.weight, Styles.textStyleBlack14),
+                                state.labels?.locale.weight ??
+                                    state.labels?.defaultLocale.weight ??
+                                    Constants.weight,
+                                Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.number,
@@ -996,7 +1043,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             ///Chest
                             CommonWidgets.textDisplay(
-                                Constants.chest, Styles.textStyleBlack14),
+                                state.labels?.locale.chest ??
+                                    state.labels?.defaultLocale.chest ??
+                                    Constants.chest,
+                                Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.number,
@@ -1017,7 +1067,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Local Language
                             CommonWidgets.textDisplay(
-                                Constants.localLanguage,
+                                state.labels?.locale.localLanguage ??
+                                    state.labels?.defaultLocale.localLanguage ??
+                                    Constants.localLanguage,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -1053,7 +1105,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             ///Local Language Proficiency
                             CommonWidgets.textDisplay(
-                                Constants.localLanguageProficiency,
+                                state.labels?.locale.localLangProficiency ??
+                                    state.labels?.defaultLocale
+                                        .localLangProficiency ??
+                                    Constants.localLanguageProficiency,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
 
@@ -1061,21 +1116,29 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             ///Hindi Language Proficiency
                             CommonWidgets.textDisplay(
-                                Constants.hindiLanguageProficiency,
+                                state.labels?.locale.hindiLangProficiency ??
+                                    state.labels?.defaultLocale
+                                        .hindiLangProficiency ??
+                                    Constants.hindiLanguageProficiency,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             hindiLanguageProficiency(state),
 
                             ///English Language Proficiency
                             CommonWidgets.textDisplay(
-                                Constants.englishLanguageProficiency,
+                                state.labels?.locale.englishLangProficiency ??
+                                    state.labels?.defaultLocale
+                                        .englishLangProficiency ??
+                                    Constants.englishLanguageProficiency,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             englishLanguageProficiency(state),
 
                             /// Physically Fit
                             CommonWidgets.textDisplay(
-                                Constants.physicallyFit,
+                                state.labels?.locale.physicallyFit ??
+                                    state.labels?.defaultLocale.physicallyFit ??
+                                    Constants.physicallyFit,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
@@ -1105,7 +1168,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Security Experience
                             CommonWidgets.textDisplay(
-                                Constants.securityExperience,
+                                state.labels?.locale.securityExperience ??
+                                    state.labels?.defaultLocale
+                                        .securityExperience ??
+                                    Constants.securityExperience,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -1128,7 +1194,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// upload Bio Data
-                            CommonWidgets.textDisplay(Constants.uploadBioData,
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.bopData ??
+                                    state.labels?.defaultLocale.bopData ??
+                                    Constants.uploadBioData,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseImageUpload().uploadWidget(
@@ -1161,45 +1230,48 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            CommonWidgets.textDisplay(Constants.uploadBioData,
-                                Styles.textStyleBlack14),
-                            widget.guardingMasterData == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                : Container(),
-                            BaseImageUpload().uploadWidget(
-                              context: context,
-                              loggedInUserDetails:
-                                  state.loggedInUserDetails ?? User(),
-                              getFiles: bioDataFiles,
-                              onImageSelected: (ImageContent data) {
-                                log('-------function---onImageSelected---------');
-                                List<ImageContent>? files = [];
-                                files.add(data);
-                                for (ImageContent image in bioDataFiles ?? []) {
-                                  files.add(image);
-                                }
-                                BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                                        context)
-                                    .addAttachment(bioDataFiles: files);
-                              },
-                            ),
-                            // Attachments
-                            BaseImageUpload().getAttachment(
-                              height: height,
-                              attachments: state.bioDataAttachments,
-                              files: bioDataFiles,
-                              showDownloadIcon:
-                                  widget.guardingMasterData != null
-                                      ? true
-                                      : false,
-                            ),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            // CommonWidgets.textDisplay(Constants.uploadBioData,
+                            //     Styles.textStyleBlack14),
+                            // widget.guardingMasterData == null
+                            //     ? CommonWidgets.verticalSpacerWidget(
+                            //         height * 0.001)
+                            //     : Container(),
+                            // BaseImageUpload().uploadWidget(
+                            //   context: context,
+                            //   loggedInUserDetails:
+                            //       state.loggedInUserDetails ?? User(),
+                            //   getFiles: bioDataFiles,
+                            //   onImageSelected: (ImageContent data) {
+                            //     log('-------function---onImageSelected---------');
+                            //     List<ImageContent>? files = [];
+                            //     files.add(data);
+                            //     for (ImageContent image in bioDataFiles ?? []) {
+                            //       files.add(image);
+                            //     }
+                            //     BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                            //             context)
+                            //         .addAttachment(bioDataFiles: files);
+                            //   },
+                            // ),
+                            // // Attachments
+                            // BaseImageUpload().getAttachment(
+                            //   height: height,
+                            //   attachments: state.bioDataAttachments,
+                            //   files: bioDataFiles,
+                            //   showDownloadIcon:
+                            //       widget.guardingMasterData != null
+                            //           ? true
+                            //           : false,
+                            // ),
+                            //
+                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// permanent Address
                             CommonWidgets.textDisplay(
-                                Constants.permanentAddress,
+                                state.labels?.locale.permanentAddress ??
+                                    state.labels?.defaultLocale
+                                        .permanentAddress ??
+                                    Constants.permanentAddress,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -1223,7 +1295,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// upload Permanent Address Proof
                             CommonWidgets.textDisplay(
-                                Constants.uploadPermanentAddressProof,
+                                state.labels?.locale.permanentAddressProof ??
+                                    state.labels?.defaultLocale
+                                        .permanentAddressProof ??
+                                    Constants.uploadPermanentAddressProof,
                                 Styles.textStyleBlack14),
                             widget.guardingMasterData == null
                                 ? CommonWidgets.verticalSpacerWidget(
@@ -1263,7 +1338,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Local Address
                             CommonWidgets.textDisplay(
-                                Constants.localAddress,
+                                state.labels?.locale.localAddress ??
+                                    state.labels?.defaultLocale.localAddress ??
+                                    Constants.localAddress,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -1287,7 +1364,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// upload Local Address Proof
                             CommonWidgets.textDisplay(
-                                Constants.uploadLocalAddressProof,
+                                state.labels?.locale.localAddressProof ??
+                                    state.labels?.defaultLocale
+                                        .localAddressProof ??
+                                    Constants.uploadLocalAddressProof,
                                 Styles.textStyleBlack14),
                             widget.guardingMasterData == null
                                 ? CommonWidgets.verticalSpacerWidget(
@@ -1326,7 +1406,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Qualifications
                             CommonWidgets.textDisplay(
-                              Constants.qualifications,
+                              state.labels?.locale.qualifications ??
+                                  state.labels?.defaultLocale.qualifications ??
+                                  Constants.qualifications,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -1342,7 +1424,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// PVC Issued Date
                             CommonWidgets.textDisplay(
-                              Constants.pvcIssuedDate,
+                              state.labels?.locale.pvcIssuedDate ??
+                                  state.labels?.defaultLocale.pvcIssuedDate ??
+                                  Constants.pvcIssuedDate,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -1367,7 +1451,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// PVC Expiry Date
                             CommonWidgets.textDisplay(
-                              Constants.pvcExpiryDate,
+                              state.labels?.locale.pvcExpiryDate ??
+                                  state.labels?.defaultLocale.pvcExpiryDate ??
+                                  Constants.pvcExpiryDate,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -1437,7 +1523,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Training Certificate
                             CommonWidgets.textDisplay(
-                                Constants.trainingCertificate,
+                                state.labels?.locale
+                                        .trainingCertificateProvided ??
+                                    state.labels?.defaultLocale
+                                        .trainingCertificateProvided ??
+                                    Constants.trainingCertificate,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
@@ -1473,7 +1563,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             if (state.model.trainingCertificateProvided) ...[
                               /// upload Training Certificate
                               CommonWidgets.textDisplay(
-                                  Constants.uploadTrainingCertificate,
+                                  state.labels?.locale.trainingCertificates ??
+                                      state.labels?.defaultLocale
+                                          .trainingCertificates ??
+                                      Constants.uploadTrainingCertificate,
                                   Styles.textStyleBlack14),
                               widget.guardingMasterData == null
                                   ? CommonWidgets.verticalSpacerWidget(
@@ -1513,7 +1606,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Medical Certificate Valid Until
                             CommonWidgets.textDisplay(
-                              Constants.medicalCertificateValidUntil,
+                              state.labels?.locale
+                                      .medicalCertificateValidUntil ??
+                                  state.labels?.defaultLocale
+                                      .medicalCertificateValidUntil ??
+                                  Constants.medicalCertificateValidUntil,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -1538,7 +1635,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// upload Medical Certificates
                             CommonWidgets.textDisplay(
-                                Constants.uploadMedicalCertificate,
+                                state.labels?.locale.medicalCertificates ??
+                                    state.labels?.defaultLocale
+                                        .medicalCertificates ??
+                                    Constants.uploadMedicalCertificate,
                                 Styles.textStyleBlack14),
                             widget.guardingMasterData == null
                                 ? CommonWidgets.verticalSpacerWidget(
@@ -1575,7 +1675,9 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// System Access
                             CommonWidgets.textDisplay(
-                                Constants.systemAccess,
+                                state.labels?.locale.systemAccess ??
+                                    state.labels?.defaultLocale.systemAccess ??
+                                    Constants.systemAccess,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -1616,7 +1718,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// OnBoarded
                             CommonWidgets.textDisplay(
-                                Constants.onBoarded, Styles.textStyleBlack14),
+                                state.labels?.locale.onboarded ??
+                                    state.labels?.defaultLocale.onboarded ??
+                                    Constants.onBoarded,
+                                Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue: state.model.onboarded ? 1 : 0,
@@ -1643,7 +1748,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// ESIC No
                             CommonWidgets.textDisplay(
-                                Constants.esicNo, Styles.textStyleBlack14),
+                                state.labels?.locale.esicNo ??
+                                    state.labels?.defaultLocale.esicNo ??
+                                    Constants.esicNo,
+                                Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.number,
@@ -1675,7 +1783,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// UAN  No
                             CommonWidgets.textDisplay(
-                                Constants.uanNo, Styles.textStyleBlack14),
+                                state.labels?.locale.uanNo ??
+                                    state.labels?.defaultLocale.uanNo ??
+                                    Constants.uanNo,
+                                Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               keyboardType: TextInputType.number,
@@ -1706,7 +1817,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             ///MSGB Exempted
-                            CommonWidgets.textDisplay(Constants.mSGBExempted,
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.msgbExempted ??
+                                    state.labels?.defaultLocale.msgbExempted ??
+                                    Constants.mSGBExempted,
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
@@ -1738,7 +1852,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             if (state.model.msgbExempted) ...[
                               /// MSGB Exemption Date
                               CommonWidgets.textDisplay(
-                                  Constants.mSGBExemptionDate,
+                                  state.labels?.locale.msgbExemptionDate ??
+                                      state.labels?.defaultLocale
+                                          .msgbExemptionDate ??
+                                      Constants.mSGBExemptionDate,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -1746,8 +1863,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                               BaseDate().datePickerWidgetLoading(
                                 textController: mSGBExemptionDate,
                                 onChange: (String value) {
-                                  log('--fr-value-${dateOfFirstCovidDoseController.text}------');
-                                  state.model.inputDate =
+                                  state.model.msgbExemptionDate =
                                       Utils().formatTime(value);
                                   BlocProvider.of<
                                               GuardingMasterDataDetailsCubit>(
@@ -1761,7 +1877,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             if (!state.model.msgbExempted) ...[
                               CommonWidgets.textDisplay(
-                                  Constants.mSGBFormBSubmitted,
+                                  state.labels?.locale.msgbFormBSubmitted ??
+                                      state.labels?.defaultLocale
+                                          .msgbFormBSubmitted ??
+                                      Constants.mSGBFormBSubmitted,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -1806,7 +1925,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Date of First Covid Dose
                             CommonWidgets.textDisplay(
-                              Constants.dateOfFirstCovidDose,
+                              state.labels?.locale.covidFirstDoseDate ??
+                                  state.labels?.defaultLocale
+                                      .covidFirstDoseDate ??
+                                  Constants.dateOfFirstCovidDose,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -1830,7 +1952,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Date of Second Covid Dose
                             CommonWidgets.textDisplay(
-                              Constants.dateOfSecondCovidDose,
+                              state.labels?.locale.covidSecondDoseDate ??
+                                  state.labels?.defaultLocale
+                                      .covidSecondDoseDate ??
+                                  Constants.dateOfSecondCovidDose,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -1854,7 +1979,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Date of Precautionary Covid Dose
                             CommonWidgets.textDisplay(
-                              Constants.dateOfPrecautionaryCovidDose,
+                              state.labels?.locale.covidPrecautionaryDoseDate ??
+                                  state.labels?.defaultLocale
+                                      .covidPrecautionaryDoseDate ??
+                                  Constants.dateOfPrecautionaryCovidDose,
                               Styles.textStyleBlack14,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -1877,7 +2005,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// ERT Certification Date
                             CommonWidgets.textDisplay(
-                              Constants.ertCertificationDate,
+                              state.labels?.locale.ertCertificationDate ??
+                                  state.labels?.defaultLocale
+                                      .ertCertificationDate ??
+                                  Constants.ertCertificationDate,
                               Styles.textStyleBlack14,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -1900,7 +2031,11 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// First Aid Training Completion Date
                             CommonWidgets.textDisplay(
-                              Constants.firstAidTrainingCompletionDate,
+                              state.labels?.locale
+                                      .firstAidTrainingCompletionDate ??
+                                  state.labels?.defaultLocale
+                                      .firstAidTrainingCompletionDate ??
+                                  Constants.firstAidTrainingCompletionDate,
                               Styles.textStyleBlack14,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -1923,7 +2058,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// CSR Participation
                             CommonWidgets.textDisplay(
-                                Constants.csrParticipation,
+                                state.labels?.locale.csrParticipation ??
+                                    state.labels?.defaultLocale
+                                        .csrParticipation ??
+                                    Constants.csrParticipation,
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
@@ -1955,7 +2093,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             if (state.model.csrParticipation) ...[
                               CommonWidgets.textDisplay(
-                                  Constants.csrParticipationDate,
+                                  state.labels?.locale.csrParticipationDates ??
+                                      state.labels?.defaultLocale
+                                          .csrParticipationDates ??
+                                      Constants.csrParticipationDate,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                               GestureDetector(
@@ -2010,7 +2151,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Special Achivements
                             CommonWidgets.textDisplay(
-                                Constants.specialAchievements,
+                                state.labels?.locale.specialAchievement ??
+                                    state.labels?.defaultLocale
+                                        .specialAchievement ??
+                                    Constants.specialAchievements,
                                 Styles.textStyleBlack14),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
@@ -2067,7 +2211,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
                             /// Additional Initiatives Info
                             CommonWidgets.textDisplay(
-                                Constants.additionalInitiativesInfo,
+                                state.labels?.locale.additionalInitiatives ??
+                                    state.labels?.defaultLocale
+                                        .additionalInitiatives ??
+                                    Constants.additionalInitiativesInfo,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
