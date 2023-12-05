@@ -128,17 +128,24 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                 List<Label> labels = [];
                 if (index < state.items.length) {
                   labels.add(Label(
-                      key: state.labels?.locale.region ??
-                          state.labels?.defaultLocale.region ??
+                      key: state.labels?.locale.entrySecurity ??
+                          state.labels?.defaultLocale.entrySecurity ??
+                          'Created By',
+                      value: state.items[index].entrySecurity?.name ?? ''));
+                  labels.add(Label(
+                      key: state.labels?.locale.locationRegion ??
+                          state.labels?.defaultLocale.locationRegion ??
                           'Region',
                       value: state.items[index].locationRegion?.name ?? ''));
                   labels.add(Label(
-                      key: 'Created By',
-                      value: state.items[index].entrySecurity?.name ?? ''));
+                      key: state.labels?.locale.slNo ??
+                          state.labels?.defaultLocale.slNo ??
+                          'SL No',
+                      value: state.items[index].slNo ?? ''));
                   labels.add(Label(
-                      key: 'SL No', value: state.items[index].slNo ?? ''));
-                  labels.add(Label(
-                      key: 'Location',
+                      key: state.labels?.locale.location ??
+                          state.labels?.defaultLocale.location ??
+                          'Location',
                       value: state.items[index].location?.name ?? ''));
                   return index >= state.items.length
                       ? const BaseLoader()
@@ -157,6 +164,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                                   labels: labels,
                                   status: state.items[selectedIndex].status,
                                   isContactDetailsStatus: true,
+                                  isEventProtectionStatus: false,
                                 );
                               },
                             );
@@ -173,6 +181,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                                   labels: labels,
                                   status: state.items[selectedIndex].status,
                                   isContactDetailsStatus: true,
+                                  isEventProtectionStatus: false,
                                 );
                               },
                             );

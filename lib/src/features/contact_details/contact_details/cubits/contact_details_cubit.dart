@@ -100,6 +100,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
           status: FormStatus.initial,
           model: state.model,
           users: users.t1Analyst,
+          labels: labels,
         ),
       );
     } catch (e) {
