@@ -24,6 +24,7 @@ class Constants {
 
   /// UI Labels Module Code
   static const String materialMovementModuleCode = 'MM';
+  static const String contactDetailsModuleCode = 'CD';
 
 
   /// Rank Types for Contact Details

@@ -74,7 +74,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
       dynamic responseLabels = await commonServices.getUiLabels(
-          language: 'en', moduleCode: Constants.materialMovementModuleCode);
+          language: 'en', moduleCode: Constants.contactDetailsModule);
       // log('--default--${responseLabels.toString()}----//Getting Proper response as JSON------');
       CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       log('--default--${labels.defaultLocale}----------');
