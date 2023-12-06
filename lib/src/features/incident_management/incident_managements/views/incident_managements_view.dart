@@ -203,6 +203,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                             labels: labels,
                             slNo: state.items[selectedIndex].slNo,
                             status: state.items[selectedIndex].status,
+                            isMasterGuard: false,
                             isEventProtectionStatus: false,
                             isIncident: true,
                             incidentType:
