@@ -9,7 +9,9 @@ import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../../constants/constants.dart';
 import '../../models/requestModels/violation_penalty_request.dart';
+import '../../models/sla_ui_labels.dart';
 import '../../models/violation_penalty_model.dart';
 import '../../services/sla_violation_penalty_services.dart';
 
@@ -41,6 +43,10 @@ class ViolationPenaltyRecordBloc
       List<Organisation> items =
           await commonServices.getOrganisations(name: violationDescription);
 
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: 'en', moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+      log('--default--${responseLabels.toString()}----//Getting Proper response as JSON------');
+      SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
       log('-items-----${items.length}-');
       Map<String, dynamic> staffCategoriesValues =
           await SLAViolationPenaltyServices().getStaffCategoriesValues();
@@ -48,6 +54,7 @@ class ViolationPenaltyRecordBloc
         state.copyWith(
           violationDescriptions: items,
           hasReachedMax: false,
+          labels: labels,
           staffCategoriesValues: staffCategoriesValues,
         ),
       );

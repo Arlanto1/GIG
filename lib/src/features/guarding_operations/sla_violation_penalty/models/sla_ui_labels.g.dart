@@ -48,7 +48,7 @@ SlaUiLabelsLocale _$SlaUiLabelsLocaleFromJson(Map<String, dynamic> json) =>
       json['com.arlanto.atom.violtnPenalty.entity'] as String?,
       json['com.arlanto.atom.violtnPenalty.staffCategory.secSupervisor']
           as String?,
-      json['com.arlanto.atom.contact.status'] as String?,
+      json['com.arlanto.atom.violtnPenalty.status'] as String?,
       json['com.arlanto.atom.violtnPenalty.penaltyAmount'] as String?,
       json['com.arlanto.atom.violtnPenalty.violation'] as String?,
     );
@@ -62,7 +62,7 @@ Map<String, dynamic> _$SlaUiLabelsLocaleToJson(SlaUiLabelsLocale instance) =>
           instance.grdngAgency,
       'com.arlanto.atom.violtnPenalty.status.draft': instance.statusDraft,
       'com.arlanto.atom.violtnPenalty.staffCategory.secLady': instance.secLady,
-      'com.arlanto.atom.contact.status': instance.status,
+      'com.arlanto.atom.violtnPenalty.status': instance.status,
       'com.arlanto.atom.violtnPenalty.poc': instance.poc,
       'com.arlanto.atom.violtnPenalty.inputDate': instance.inputDate,
       'com.arlanto.atom.violtnPenalty.slNo': instance.slNo,
