@@ -105,7 +105,7 @@ class SharedPrefs {
   }
 
   static Future<void> setToken(String token) async {
-    if(token.isEmptyOrNull){
+    if (token.isEmptyOrNull) {
       log('---SETTING EMPTY TOKEN--------');
     }
     instance.setString(Constants.isAccessToken, token);
@@ -162,7 +162,7 @@ class SharedPrefs {
 
   static Future<DisplayMenu?> getDisplayMenu() async {
     String jsonString = instance.getString(Constants.userRoles) ?? '';
-    if(jsonString.isEmptyOrNull){
+    if (jsonString.isEmptyOrNull) {
       return null;
     }
     Map<String, dynamic> jsonMap = jsonDecode(jsonString);
@@ -189,5 +189,15 @@ class SharedPrefs {
       return defaultLocation;
     }
     return null;
+  }
+
+  static Future<void> setLastInteractionTime(String value) async {
+    instance.setString(Constants.lastInteractionTime, value);
+  }
+
+  static Future<String> getLastInteractionTime() async {
+    String? value = instance.getString(Constants.lastInteractionTime) ??
+        DateTime.now().toString();
+    return value; //Future<bool>.value(isLoggedIn);
   }
 }

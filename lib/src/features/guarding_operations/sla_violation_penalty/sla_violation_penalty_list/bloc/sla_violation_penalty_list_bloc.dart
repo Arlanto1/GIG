@@ -1,20 +1,26 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/models/sla_ui_labels.dart';
+import 'package:db_atom/src/models/responseModels/token_expired.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
+import '../../../../../services/CommonServices.dart';
 import '../../models/sla_violation_penalty_response_model.dart';
 import '../../services/sla_violation_penalty_services.dart';
 
-
 part 'sla_violation_penalty_list_event.dart';
+
 part 'sla_violation_penalty_list_state.dart';
 
 class SLAViolationPenaltyListBloc
     extends Bloc<SLAViolationPenaltyListEvent, SLAViolationPenaltyListState> {
   SLAViolationPenaltyListBloc() : super(const SLAViolationPenaltyListState()) {
+    on<InitializeValues>(_initializeValues);
     on<FetchData>(
       _fetchSLAViolationPenalty,
       transformer: droppable(),
@@ -22,7 +28,28 @@ class SLAViolationPenaltyListBloc
   }
 
   final SLAViolationPenaltyServices services = SLAViolationPenaltyServices();
+  final CommonServices commonServices = CommonServices();
 
+  FutureOr<void> _initializeValues(
+      InitializeValues event, Emitter<SLAViolationPenaltyListState> emit) async {
+    log('_initializeValues');
+    try {
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: 'en', moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+      log('--default--${responseLabels.toString()}----//Getting Proper response as JSON------');
+      SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
+
+      return emit(
+        state.copyWith(
+          labels: labels,
+          hasReachedMax: false,
+        ),
+      );
+    }
+    on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
   FutureOr<void> _fetchSLAViolationPenalty(
       FetchData event, Emitter<SLAViolationPenaltyListState> emit) async {
     try {
@@ -33,7 +60,6 @@ class SLAViolationPenaltyListBloc
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
         );
-
 
         return emit(
           state.copyWith(
@@ -58,6 +84,14 @@ class SLAViolationPenaltyListBloc
           hasReachedMax: false,
         ),
       );
+    } on TokenExpiredException catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.sessionExpired,
+        ),
+      );
+      return;
     } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }

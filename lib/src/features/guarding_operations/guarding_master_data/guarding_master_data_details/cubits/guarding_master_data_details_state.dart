@@ -91,6 +91,10 @@ class GuardingMasterDataDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
+    if (model.entrySecurity == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Entry Security');
+    }
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }

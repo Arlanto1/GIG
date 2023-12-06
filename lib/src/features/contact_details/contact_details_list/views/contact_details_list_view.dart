@@ -14,6 +14,7 @@ import 'package:db_atom/src/features/contact_details/models/contact_details_list
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
+import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -103,7 +104,15 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
         excelAPIName: 'exportMMExcel',
         pdfAPIName: 'exportMMPDF',
       ),
-      body: BlocBuilder<ContactDetailsListBloc, ContactDetailsListState>(
+      body: BlocConsumer<ContactDetailsListBloc, ContactDetailsListState>(
+        listener: (context, state) {
+          if (state.status == FormStatus.sessionExpired) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                backgroundColor: Colors.red,
+                content: Text(state.message ?? 'Session Expired...')));
+            Validator.logoutAction(context);
+          }
+        },
         builder: (context, state) {
           if (state.status == FormStatus.initial) {
             return const BaseLoader();
@@ -114,11 +123,11 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                )),
+              color: AppColors.backgroundWhitecolor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+              ),
+            ),
             child: ListView.builder(
               controller: _scrollController,
               itemCount: state.hasReachedMax

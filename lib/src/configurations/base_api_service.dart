@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -9,6 +10,7 @@ import 'package:http/http.dart' as http;
 import '../features/login/models/login_model.dart';
 import '../features/login/models/refresh_token_request.dart';
 import '../features/login/services/login_services.dart';
+import '../models/responseModels/token_expired.dart';
 import '../routing/router.dart';
 import '../utils/shared_preferences.dart';
 
@@ -25,6 +27,9 @@ class BaseApiService {
     if (isAuthenticated != null && isAuthenticated) {
       String token = await SharedPrefs.getToken();
       log("token is:$token");
+      if(token.isEmptyOrNull) {
+        throw TokenExpiredException(message: 'Session has Expired');
+      }
       headers.addAll({"Authorization": 'Bearer $token'});
     }
     return headers;

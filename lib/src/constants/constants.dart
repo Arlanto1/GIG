@@ -27,6 +27,7 @@ class Constants {
   static const String contactDetailsModuleCode = 'CD';
   static const String guardingMasterModuleCode = 'GM';
   static const String eventProtectionModuleCode = 'EP';
+  static const String slaViolationPenaltyDetailsModuleCode = 'SVP';
 
 
 
@@ -68,6 +69,7 @@ class Constants {
   static const String isUserNameKey = 'isUserName';
   static const String isEmailKey = 'isEmail';
   static const String isRequiredPasswordChangeKey = 'isRequiredPasswordChange';
+  static const String lastInteractionTime = 'lastInteractionTime';
 
   static const String isUserIdKey = 'isUserId';
   static const String isFoundIdKey = 'isFoundId';
@@ -128,14 +130,14 @@ class Constants {
   static const String settings = "Settings";
   static const String administration = "Administration";
   static const String profile = 'Profile';
-  static const String articlefoundregister = 'Article Found Register';
-  static const String lawenforcementvisitslist = 'Law Enforcement Visits List';
-  static const String eventprotectionlist = 'Event Protection List';
+  static const String articlefoundregister = 'Article Found';
+  static const String lawenforcementvisitslist = 'Law Enforcement Visits';
+  static const String eventprotectionlist = 'Event Protection';
   static const String incidentManagement = 'Incident Management';
   static const String occurrence = 'Occurrence';
   static const String materialMovement = 'Material Movement';
-  static const String passmanagement = 'Pass Management';
-  static const String guarding = 'Guarding Operation';
+  static const String passmanagement = 'Non-Magnetic Pass Management';
+  static const String guarding = 'Guarding Operations';
   static const String logout = 'Logout';
 
   static const String materialMovementInward = 'Material Movement Inward';
@@ -536,7 +538,7 @@ class Constants {
   static const String isAnnualPowerShutdown = 'Is Annual Power Shutdown';
 
   static const String incident = 'Incident';
-  static const String internalStaff = 'Internal Staff';
+  static const String ticketLifeCycle = 'Ticket Life Cycle';
   static const String externalVendor = 'External Vendor';
   static const String incidentType = 'Incident Type';
   static const String dbComplaint = 'DB Complaint';

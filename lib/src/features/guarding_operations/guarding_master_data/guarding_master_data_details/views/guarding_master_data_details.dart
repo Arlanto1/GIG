@@ -5,6 +5,7 @@ import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/organisation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
@@ -335,7 +336,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                             CommonWidgets.horizentaltextHandling(
                                 state.labels?.locale.entrySecurity ??
                                     state.labels?.defaultLocale.entrySecurity ??
-                                Constants.createdby,
+                                    Constants.createdby,
                                 isMandatory: true,
                                 '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),

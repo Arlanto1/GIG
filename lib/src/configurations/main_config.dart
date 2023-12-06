@@ -21,16 +21,16 @@ class MainConfig {
       defaultValue: F.title == "DEV"
           ? Environment.DEV
           : F.title == "QA"
-              ? Environment.QA
-              : F.title == "UAT"
-                  ? Environment.UAT
-                  : Environment.PROD,
+          ? Environment.QA
+          : F.title == "UAT"
+          ? Environment.UAT
+          : Environment.PROD,
     );
 
     Environment().initConfig(environment);
   }
 
-  static initialSetup() async {
+  static initialSetup(GlobalKey<NavigatorState> navigatorKey) async {
     log('-initialSetup---main_config--');
     Locale? locale;
 
@@ -43,8 +43,14 @@ class MainConfig {
     // bool isLoggedIn = await SharedPrefs.getLoggedIn() ?? false;
     // GlobalKey<ScaffoldState> _menuscaffoldKey = new GlobalKey<ScaffoldState>();
     //  final _menuscaffoldKey = GlobalKey<ScaffoldState>();
-    //Environment setup
+    // Environment setup
     environmentsChanging();
+
+    // Update lastInteractionTime whenever the user interacts with the app
+    Future<void> updateUserInteraction() async {
+      log('Updating Last User Interaction Time: ${DateTime.now()}');
+      await SharedPrefs.setLastInteractionTime(DateTime.now().toString());
+    }
 
     runApp(
       InitializeProviders(
@@ -58,15 +64,23 @@ class MainConfig {
             // fillColor: AppColors.textfilBbackGroundColor, //<-- SEE HERE
             // ),
           ),
+          navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           initialRoute: splashScreenRoute,
           onGenerateRoute: RouteGenerator.generateRoute,
           locale: locale,
           supportedLocales: LocaleSupportedMethod.supportedLocale,
-          localizationsDelegates:
-              LocaleSupportedMethod.getLocalizationsDelegates(),
+          localizationsDelegates: LocaleSupportedMethod.getLocalizationsDelegates(),
           localeResolutionCallback: (locale, supportedLocales) =>
               LocaleSupportedMethod.getLocale(locale, supportedLocales),
+          // Add a builder to wrap your MaterialApp with a GestureDetector
+          builder: (context, child) {
+            return GestureDetector(
+              // Trigger updateUserInteraction whenever the user interacts with the app
+              onTap: () => updateUserInteraction(),
+              child: child!,
+            );
+          },
         ),
       ),
     );

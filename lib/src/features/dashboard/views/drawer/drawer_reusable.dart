@@ -101,7 +101,7 @@ class NavigationDrawer1 extends StatelessWidget {
   ];
   final securitySystemTicketsIncidentItems = [
     const MenuItem(
-        Constants.internalStaff, AppIcon.materialMovementOutwardIcon, 0),
+        Constants.ticketLifeCycle, AppIcon.materialMovementOutwardIcon, 0),
     const MenuItem(
         Constants.externalVendor, AppIcon.materialMovementOutwardIcon, 0),
   ];
@@ -1114,7 +1114,8 @@ Widget createDrawerHeader(
       color: AppColors.backgroundWhitecolor,
     ),
     child: InkWell(
-      onTap: () {
+      onTap: () async {
+        // await SharedPrefs.setToken('');
         Navigator.pushNamed(
           context,
           resetPwdScreenRoute,

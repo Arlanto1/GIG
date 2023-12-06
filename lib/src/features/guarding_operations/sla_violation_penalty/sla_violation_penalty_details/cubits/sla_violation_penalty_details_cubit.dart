@@ -116,6 +116,11 @@ class SLAViolationPenaltyDetailsCubit
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
 
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: 'en', moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+      SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
+      log('--default--${labels.defaultLocale}----------');
+
       if (state.model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
         if (defaultLocation != null) {
@@ -144,6 +149,7 @@ class SLAViolationPenaltyDetailsCubit
           vendors: vendors.items,
           typeOfServices: typeOfService.items,
           pocs: pocs,
+          labels: labels,
         ),
       );
     } catch (e) {

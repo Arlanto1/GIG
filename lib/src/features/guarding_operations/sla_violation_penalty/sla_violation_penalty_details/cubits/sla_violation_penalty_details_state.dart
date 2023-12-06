@@ -119,7 +119,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     List<Organisation>? typeOfServices,
     List<String>? pocs,
     String? message,
-    final SlaUiLabels? labels,
+     SlaUiLabels? labels,
 
   }) {
     return SLAViolationPenaltyDetailsState(
@@ -134,7 +134,6 @@ class SLAViolationPenaltyDetailsState extends Equatable {
       message: message ?? this.message,
       pocs: pocs ?? this.pocs,
       labels: labels ?? this.labels,
-
     );
   }
 }

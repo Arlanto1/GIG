@@ -6,6 +6,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/contact_details/models/cd_ui_labels.dart';
 import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
+import 'package:db_atom/src/models/responseModels/token_expired.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:equatable/equatable.dart';
 
@@ -81,6 +82,14 @@ class ContactDetailsListBloc
           hasReachedMax: false,
         ),
       );
+    } on TokenExpiredException catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.sessionExpired,
+        ),
+      );
+      return;
     } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }

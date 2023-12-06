@@ -15,14 +15,14 @@ class Validator {
   }
 
   static logoutAction(BuildContext context) {
-    SharedPrefs.setUserId('');
-    SharedPrefs.setEmail('');
-    SharedPrefs.setToken('');
-    SharedPrefs.setUsername('');
-    SharedPrefs.setSessionToken('');
-    SharedPrefs.setLoggedIn(false);
-    SharedPrefs.setFoundId(100);
-    SharedPrefs.clearSharedPreferences();
+    // SharedPrefs.setUserId('');
+    // SharedPrefs.setEmail('');
+    // SharedPrefs.setToken('');
+    // SharedPrefs.setUsername('');
+    // SharedPrefs.setSessionToken('');
+    // SharedPrefs.setLoggedIn(false);
+    // SharedPrefs.setFoundId(100);
+    // SharedPrefs.clearSharedPreferences();
     Navigator.of(context)
         .pushNamedAndRemoveUntil(loginScreenRoute, (route) => false);
   }
