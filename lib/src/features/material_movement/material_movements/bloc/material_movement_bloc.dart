@@ -5,11 +5,13 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
+import 'package:db_atom/src/models/responseModels/token_expired.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../enums/form_status.dart';
 
 part 'material_movement_event.dart';
+
 part 'material_movement_state.dart';
 
 class MaterialMovementBloc
@@ -24,8 +26,7 @@ class MaterialMovementBloc
     );
   }
 
-  final MaterialMovementServices services =
-      MaterialMovementServices();
+  final MaterialMovementServices services = MaterialMovementServices();
 
   FutureOr<void> _fetchMaterialMovements(
       FetchData event, Emitter<MaterialMovementState> emit) async {
@@ -33,8 +34,7 @@ class MaterialMovementBloc
       if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial) {
-        MaterialMovementsModel response =
-            await services.getMaterialMovements(
+        MaterialMovementsModel response = await services.getMaterialMovements(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '77',
@@ -50,8 +50,7 @@ class MaterialMovementBloc
         );
       }
 
-      MaterialMovementsModel response =
-          await services.getMaterialMovements(
+      MaterialMovementsModel response = await services.getMaterialMovements(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '77', //TODO: make it dynamic
@@ -67,6 +66,14 @@ class MaterialMovementBloc
           hasReachedMax: false,
         ),
       );
+    } on TokenExpiredException catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.sessionExpired,
+        ),
+      );
+      return;
     } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }

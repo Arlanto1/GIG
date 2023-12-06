@@ -3,14 +3,15 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/models/sla_ui_labels.dart';
+import 'package:db_atom/src/models/responseModels/token_expired.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../../enums/form_status.dart';
 import '../../models/sla_violation_penalty_response_model.dart';
 import '../../services/sla_violation_penalty_services.dart';
 
-
 part 'sla_violation_penalty_list_event.dart';
+
 part 'sla_violation_penalty_list_state.dart';
 
 class SLAViolationPenaltyListBloc
@@ -35,7 +36,6 @@ class SLAViolationPenaltyListBloc
           maximumRecords: '${event.maxPos}',
         );
 
-
         return emit(
           state.copyWith(
             items: response.items,
@@ -59,6 +59,14 @@ class SLAViolationPenaltyListBloc
           hasReachedMax: false,
         ),
       );
+    } on TokenExpiredException catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.sessionExpired,
+        ),
+      );
+      return;
     } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }

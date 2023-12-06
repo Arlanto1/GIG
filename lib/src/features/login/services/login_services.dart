@@ -22,7 +22,7 @@ class LoginService {
     String url = Apis._login;
     log('---url----$url----');
     final response = await BaseApiService()
-        .postRequest(url: url, requestedData: data.toJson());
+        .postRequest(url: url, requestedData: data.toJson(), isAuthenticated: false);
     return LoginResponseModel.fromJson(response);
   }
 

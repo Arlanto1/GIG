@@ -7,6 +7,7 @@ import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
+import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -60,25 +61,33 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () => {
-            Navigator.pushNamed(context, guardingMasterDataDetailsRoute,
-                arguments: {"title": Constants.createGuardingMasterData}),
-          },
-        ),
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: Constants.guardingMasterDataTitle,
-          showPopUp: true,
-          showSaveButton: false,
-          excelAPIName: 'exportGMDataExcel',
-          pdfAPIName: 'exportGMDataPDF',
-        ),
-        body: BlocBuilder<GuardingMasterDataBloc, GuardingMasterDataState>(
-            builder: (context, state) {
+      backgroundColor: AppColors.cardBgColor,
+      floatingActionButton: Flutterfloatingbutton(
+        backgroundColor: AppColors.navigationSkybluecolor,
+        foregroundColor: AppColors.backgroundWhitecolor,
+        onPressed: () => {
+          Navigator.pushNamed(context, guardingMasterDataDetailsRoute,
+              arguments: {"title": Constants.createGuardingMasterData}),
+        },
+      ),
+      appBar: BaseAppBar().buildAppHeader(
+        context: context,
+        title: Constants.guardingMasterDataTitle,
+        showPopUp: true,
+        showSaveButton: false,
+        excelAPIName: 'exportGMDataExcel',
+        pdfAPIName: 'exportGMDataPDF',
+      ),
+      body: BlocConsumer<GuardingMasterDataBloc, GuardingMasterDataState>(
+        listener: (context, state) {
+          if (state.status == FormStatus.sessionExpired) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                backgroundColor: Colors.red,
+                content: Text(state.message ?? 'Session Expired...')));
+            Validator.logoutAction(context);
+          }
+        },
+        builder: (context, state) {
           if (state.status == FormStatus.initial) {
             return const BaseLoader();
           }
@@ -88,11 +97,11 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                )),
+              color: AppColors.backgroundWhitecolor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+              ),
+            ),
             child: ListView.builder(
               controller: _scrollController,
               itemCount: state.hasReachedMax
@@ -130,7 +139,6 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                                     state.list[selectedIndex].maritalStatus,
                                 labels: labels,
                                 isMaterGuard: true,
-                                //isEventProtectionStatus: false,
                                 status: state.list[selectedIndex].status,
                               );
                             },
@@ -155,7 +163,6 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                                 labels: labels,
                                 status: state.list[selectedIndex].status,
                                 isMaterGuard: true,
-                               // isEventProtectionStatus: false,
                               );
                             },
                           );
@@ -165,7 +172,9 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
               },
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 
   getLawEnforcementId(int id) async {

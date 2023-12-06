@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:db_atom/src/models/responseModels/token_expired.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../../enums/form_status.dart';
@@ -9,6 +10,7 @@ import '../../models/guarding_master_data_model.dart';
 import '../../services/guarding_master_data_services.dart';
 
 part 'guarding_master_data_event.dart';
+
 part 'guarding_master_data_state.dart';
 
 class GuardingMasterDataBloc
@@ -29,7 +31,7 @@ class GuardingMasterDataBloc
 
       if (state.status == FormStatus.initial) {
         GuardingMasterDataResponse getGuardingMaterialDatas =
-        await _services.getGuardingMasterData(
+            await _services.getGuardingMasterData(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           userId: '7',
@@ -45,7 +47,7 @@ class GuardingMasterDataBloc
       }
 
       GuardingMasterDataResponse getGuardingMasterData =
-      await _services.getGuardingMasterData(
+          await _services.getGuardingMasterData(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
         userId: '7',
@@ -58,10 +60,18 @@ class GuardingMasterDataBloc
       return emit(
         state.copyWith(
           items: List.of(state.list)
-            ..addAll(getGuardingMasterData.items?.toList()??[]),
+            ..addAll(getGuardingMasterData.items?.toList() ?? []),
           hasReachedMax: false,
         ),
       );
+    } on TokenExpiredException catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.sessionExpired,
+        ),
+      );
+      return;
     } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }

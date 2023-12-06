@@ -68,6 +68,7 @@ class Constants {
   static const String isUserNameKey = 'isUserName';
   static const String isEmailKey = 'isEmail';
   static const String isRequiredPasswordChangeKey = 'isRequiredPasswordChange';
+  static const String lastInteractionTime = 'lastInteractionTime';
 
   static const String isUserIdKey = 'isUserId';
   static const String isFoundIdKey = 'isFoundId';

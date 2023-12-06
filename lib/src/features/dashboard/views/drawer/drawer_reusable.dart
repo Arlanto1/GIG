@@ -1114,7 +1114,8 @@ Widget createDrawerHeader(
       color: AppColors.backgroundWhitecolor,
     ),
     child: InkWell(
-      onTap: () {
+      onTap: () async {
+        // await SharedPrefs.setToken('');
         Navigator.pushNamed(
           context,
           resetPwdScreenRoute,
