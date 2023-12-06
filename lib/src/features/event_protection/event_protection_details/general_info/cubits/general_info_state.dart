@@ -16,6 +16,8 @@ class GeneralInfoState extends Equatable {
   final int? eventId;
   final String? message;
   final List<User>? entrySecurities;
+  final EpUiLabels? labels;
+
 
   factory GeneralInfoState.initial({
     required EventProtectionGi model,
@@ -141,6 +143,8 @@ class GeneralInfoState extends Equatable {
     this.message,
     this.entrySecurities,
     this.loggedInUserDetails,
+    this.labels,
+
   });
 
   GeneralInfoState copyWith({
@@ -159,6 +163,8 @@ class GeneralInfoState extends Equatable {
     int? eventId,
     String? message,
     List<User>? entrySecurities,
+    final EpUiLabels? labels,
+
   }) {
     return GeneralInfoState(
       status: status ?? this.status,
@@ -176,6 +182,8 @@ class GeneralInfoState extends Equatable {
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
+      labels: labels ?? this.labels,
+
     );
   }
 }

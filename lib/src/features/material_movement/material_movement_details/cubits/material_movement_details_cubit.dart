@@ -66,27 +66,36 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
-    //Show Loader and emit loading state
+    // Show Loader and emit loading state
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
+
     var userId = await SharedPrefs.getUserId();
     try {
-      Locations locations =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+      // Use Future.wait to call API functions concurrently
+      final futures = await Future.wait([
+        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getUserDetails(userId: userId),
+        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
+        commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
+        commonServices.getUiLabels(
+            language: 'en', moduleCode: Constants.materialMovementModuleCode),
+        SharedPrefs.getDefaultLocation(),
+        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getQuantityUnits(),
+      ]);
 
-      // log('--locations.central?.length--${locations.central?.length}--');
-      // for(Organisation centralLocation in locations.central??[]){
-      //   log('--centralLocation.name--${centralLocation.name}--');
-      //   log('--centralLocation.id--${centralLocation.id}--');
-      //
-      // }
-      User loggedInUserDetails =
-          await commonServices.getUserDetails(userId: userId);
-      Analyst users =
-          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+      Locations locations = futures[0];
+      User loggedInUserDetails = futures[1];
+      Analyst users = futures[2];
+      EmployeeDepartments departments = futures[3];
+      dynamic responseLabels = futures[4];
+      Organisation? defaultLocation = futures[5];
+      GetDepositor emailUsers = futures[6];
+      QuantityUnits quantityUnits = futures[7];
 
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
@@ -102,37 +111,22 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         state.model.rejectedDate =
             Utils().formatUnixTimestamp(state.model.rejectedDate ?? '');
       }
-      EmployeeDepartments departments =
-          await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
-      dynamic responseLabels = await commonServices.getUiLabels(
-          language: 'en', moduleCode: Constants.materialMovementModuleCode);
-      // log('--default--${responseLabels.toString()}----//Getting Proper response as JSON------');
       MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
       log('--default--${labels.defaultLocale}----------');
 
-      GetDepositor emailUsers =
-          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+      if (state.model.location == null && defaultLocation != null) {
+        String moduleCode = isInward ?? false
+            ? Constants.materialMovementInwardReturnableModule
+            : Constants.materialMovementOutwardNonReturnableModule;
 
-      QuantityUnits quantityUnits = await commonServices.getQuantityUnits();
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: moduleCode,
+        );
 
-      if (state.model.location == null) {
-        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-        log('defaultLocation --$defaultLocation');
-
-        if (defaultLocation != null) {
-          String moduleCode = isInward ?? false
-              ? Constants.materialMovementInwardReturnableModule
-              : Constants.materialMovementOutwardNonReturnableModule;
-
-          SerialNumberModel slNo = await commonServices.getSlNo(
-            locationId: defaultLocation.id.toString(),
-            moduleCode: moduleCode,
-          );
-
-          state.model.location = defaultLocation;
-          state.model.slNo = slNo.serialNo;
-        }
+        state.model.location = defaultLocation;
+        state.model.slNo = slNo.serialNo;
       }
 
       state.model.entrySecurity = loggedInUserDetails;
@@ -141,21 +135,22 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       log('-emailUsers.atomStaticUser----init--${emailUsers.atomStaticUser?.length}---');
       emit(
         state.copyWith(
-            locations: locations,
-            loggedInUserDetails: loggedInUserDetails,
-            status: FormStatus.initial,
-            model: state.model,
-            users: users.t1Analyst,
-            loadAttachments: state.model.images,
-            emailUsers: emailUsers.atomStaticUser,
-            approver1Users: emailUsers.atomStaticUser,
-            approver2Users: emailUsers.atomStaticUser,
-            departments: departments.employeeDepartments,
-            quantityUnits: quantityUnits.units,
-            labels: labels),
+          locations: locations,
+          loggedInUserDetails: loggedInUserDetails,
+          status: FormStatus.initial,
+          model: state.model,
+          users: users.t1Analyst,
+          loadAttachments: state.model.images,
+          emailUsers: emailUsers.atomStaticUser,
+          approver1Users: emailUsers.atomStaticUser,
+          approver2Users: emailUsers.atomStaticUser,
+          departments: departments.employeeDepartments,
+          quantityUnits: quantityUnits.units,
+          labels: labels,
+        ),
       );
     } catch (e) {
-      log('initialization issue',
+      log('Initialization issue',
           error: e, name: 'Material Movement Details Cubit');
       emit(
         state.copyWith(

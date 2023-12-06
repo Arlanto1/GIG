@@ -101,7 +101,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
         }
       },
       builder: (context, state) {
-
         if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
           disableForm = true;
         }
@@ -198,7 +197,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             /// Status
                             CommonWidgets.textDisplay(
-                                Constants.status, Styles.textStyleBlack14,
+                                state.labels?.locale.status ??
+                                    state.labels?.defaultLocale.status ??
+                                    Constants.status,
+                                Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -235,14 +237,20 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             /// Location
                             CommonWidgets.textDisplay(
-                                Constants.location, Styles.textStyleBlack14,
+                                state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    Constants.location,
+                                Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             locationWidgetdislay(state),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Date of creation
-                            CommonWidgets.textDisplay(Constants.dateofcreation,
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.inputDate ??
+                                    state.labels?.defaultLocale.inputDate ??
+                                    Constants.dateofcreation,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -252,13 +260,19 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
-                                Constants.slno, state.model.slNo ?? '',
+                                state.labels?.locale.slNo ??
+                                    state.labels?.defaultLocale.slNo ??
+                                    Constants.slno,
+                                state.model.slNo ?? '',
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             ///  Is Annual Power Shutdown?
                             CommonWidgets.textDisplay(
-                                Constants.isAnnualPowerShutdown,
+                                state.labels?.locale.annualPowerShutdown ??
+                                    state.labels?.defaultLocale
+                                        .annualPowerShutdown ??
+                                    Constants.isAnnualPowerShutdown,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             RadioButtonsYesNo(
@@ -290,7 +304,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             /// Entity
                             CommonWidgets.textDisplay(
-                                Constants.entity, Styles.textStyleBlack14,
+                                state.labels?.locale.entity ??
+                                    state.labels?.defaultLocale.entity ??
+                                    Constants.entity,
+                                Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -310,7 +327,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Event Start Date
-                            CommonWidgets.textDisplay(Constants.eventStartDate,
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.eventStartDate ??
+                                    state
+                                        .labels?.defaultLocale.eventStartDate ??
+                                    Constants.eventStartDate,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -332,7 +353,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             /// Event End Date
                             CommonWidgets.textDisplay(
-                                Constants.eventEndDate, Styles.textStyleBlack14,
+                                state.labels?.locale.eventEndDate ??
+                                    state.labels?.defaultLocale.eventEndDate ??
+                                    Constants.eventEndDate,
+                                Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -353,7 +377,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             if (state.model.annualPowerShutdown) ...[
                               /// Sub Regional Head (SRH) 1
                               CommonWidgets.textDisplay(
-                                  Constants.subRegionalHead1,
+                                  state.labels?.locale.srh1 ??
+                                      state.labels?.defaultLocale.srh1 ??
+                                      Constants.subRegionalHead1,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextfieldAddButton(
@@ -377,7 +403,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               /// Sub Regional Head (SRH) 2
                               CommonWidgets.textDisplay(
-                                  Constants.subRegionalHead2,
+                                  state.labels?.locale.srh2 ??
+                                      state.labels?.defaultLocale.srh2 ??
+                                      Constants.subRegionalHead2,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextfieldAddButton(
@@ -402,7 +430,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             if (!state.model.annualPowerShutdown) ...[
                               /// Event Protection Manager 1
                               CommonWidgets.textDisplay(
-                                  Constants.eventProtectionManager1,
+                                  state.labels?.locale.epManager1 ??
+                                      state.labels?.defaultLocale.epManager1 ??
+                                      Constants.eventProtectionManager1,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextfieldAddButton(
@@ -427,7 +457,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               /// Event Protection Manager 2
                               CommonWidgets.textDisplay(
-                                  Constants.eventProtectionManager2,
+                                  state.labels?.locale.epManager2 ??
+                                      state.labels?.defaultLocale.epManager2 ??
+                                      Constants.eventProtectionManager2,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextfieldAddButton(
@@ -452,7 +484,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             /// Location Security  Manager 1
                             CommonWidgets.textDisplay(
-                                Constants.locationSecurityManager1,
+                                state.labels?.locale.lsm1 ??
+                                    state.labels?.defaultLocale.lsm1 ??
+                                    Constants.locationSecurityManager1,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextfieldAddButton(
@@ -475,7 +509,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             ///LSM 1 Contact No
-                            CommonWidgets.textDisplay(Constants.lsm1ContactNo,
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.lsm1ContactNo ??
+                                    state.labels?.defaultLocale.lsm1ContactNo ??
+                                    Constants.lsm1ContactNo,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -498,7 +535,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             /// Location Security  Manager 2
                             CommonWidgets.textDisplay(
-                                Constants.locationSecurityManager2,
+                                state.labels?.locale.lsm2 ??
+                                    state.labels?.defaultLocale.lsm2 ??
+                                    Constants.locationSecurityManager2,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextfieldAddButton(
@@ -521,7 +560,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             ///LSM 2 Contact No
-                            CommonWidgets.textDisplay(Constants.lsm2ContactNo,
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.lsm2ContactNo ??
+                                    state.labels?.defaultLocale.lsm2ContactNo ??
+                                    Constants.lsm2ContactNo,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -545,7 +587,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             ///Business POC 1
                             CommonWidgets.textDisplay(
-                                Constants.businessPoc1, Styles.textStyleBlack14,
+                                state.labels?.locale.bu1 ??
+                                    state.labels?.defaultLocale.bu1 ??
+                                    Constants.businessPoc1,
+                                Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextfieldAddButton(
                               title: state.model.bu1?.name,
@@ -568,7 +613,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             ///Business POC 1 Contact No
                             CommonWidgets.textDisplay(
-                                Constants.businessPoc1ContactNo,
+                                state.labels?.locale.bu1ContactNo ??
+                                    state.labels?.defaultLocale.bu1ContactNo ??
+                                    Constants.businessPoc1ContactNo,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -592,7 +639,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             ///Business POC 2
 
                             CommonWidgets.textDisplay(
-                                Constants.businessPoc2, Styles.textStyleBlack14,
+                                state.labels?.locale.bu2 ??
+                                    state.labels?.defaultLocale.bu2 ??
+                                    Constants.businessPoc2,
+                                Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextfieldAddButton(
                               title: state.model.bu2?.name,
@@ -615,7 +665,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             ///Business POC 2 Contact No
                             CommonWidgets.textDisplay(
-                                Constants.businessPoc2ContactNo,
+                                state.labels?.locale.bu2ContactNo ??
+                                    state.labels?.defaultLocale.bu2ContactNo ??
+                                    Constants.businessPoc2ContactNo,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -639,7 +691,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             if (state.model.annualPowerShutdown) ...[
                               ///Business POC 1Department
                               CommonWidgets.textDisplay(
-                                  Constants.businessPoc1Department,
+                                  state.labels?.locale.bu1Dept ??
+                                      state.labels?.defaultLocale.bu1Dept ??
+                                      Constants.businessPoc1Department,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextfieldAddButton(
@@ -661,7 +715,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///Business POC 2 Department
                               CommonWidgets.textDisplay(
-                                  Constants.businessPoc2Department,
+                                  state.labels?.locale.bu2Dept ??
+                                      state.labels?.defaultLocale.bu2Dept ??
+                                      Constants.businessPoc2Department,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextfieldAddButton(
@@ -685,7 +741,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             if (state.model.annualPowerShutdown) ...[
                               ///System Vendor 1 Email
                               CommonWidgets.textDisplay(
-                                  Constants.systemVendor1Email,
+                                  state.labels?.locale.systemVendor1 ??
+                                      state.labels?.defaultLocale
+                                          .systemVendor1 ??
+                                      Constants.systemVendor1Email,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -709,7 +768,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///Vendor 1 Contact No
                               CommonWidgets.textDisplay(
-                                  Constants.vendor1ContactNO,
+                                  state.labels?.locale.systemVendor1ContactNo ??
+                                      state.labels?.defaultLocale
+                                          .systemVendor1ContactNo ??
+                                      Constants.vendor1ContactNO,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -758,7 +820,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///System Vendor 2 Email
                               CommonWidgets.textDisplay(
-                                  Constants.systemVendor2Email,
+                                  state.labels?.locale.systemVendor2 ??
+                                      state.labels?.defaultLocale
+                                          .systemVendor2 ??
+                                      Constants.systemVendor2Email,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -782,7 +847,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///Vendor 2 Contact No
                               CommonWidgets.textDisplay(
-                                  Constants.vendor2ContactNO,
+                                  state.labels?.locale.systemVendor2ContactNo ??
+                                      state.labels?.defaultLocale
+                                          .systemVendor2ContactNo ??
+                                      Constants.vendor2ContactNO,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -831,7 +899,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///System Vendor 3 Email
                               CommonWidgets.textDisplay(
-                                  Constants.systemVendor3Email,
+                                  state.labels?.locale.systemVendor3 ??
+                                      state.labels?.defaultLocale
+                                          .systemVendor3 ??
+                                      Constants.systemVendor3Email,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -854,7 +925,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///Vendor 3 Contact No
                               CommonWidgets.textDisplay(
-                                  Constants.vendor3ContactNO,
+                                  state.labels?.locale.systemVendor3ContactNo ??
+                                      state.labels?.defaultLocale
+                                          .systemVendor3ContactNo ??
+                                      Constants.vendor3ContactNO,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -903,7 +977,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             ///Requester Department
                             CommonWidgets.textDisplay(
-                                Constants.requesterDepartment,
+                                state.labels?.locale.requesterDepartment ??
+                                    state.labels?.defaultLocale
+                                        .requesterDepartment ??
+                                    Constants.requesterDepartment,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextfieldAddButton(
@@ -927,7 +1004,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             ///Event Protection Officer
                             CommonWidgets.textDisplay(
-                                Constants.eventProtectionOfficers,
+                                state.labels?.locale.epOfficers ??
+                                    state.labels?.defaultLocale.epOfficers ??
+                                    Constants.eventProtectionOfficers,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             if (!disableForm) ...[
@@ -958,7 +1037,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .onCheckBoxChange(state.model);
-
                                     },
                                   );
                                 },
@@ -980,8 +1058,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 ),
                               ),
                             ],
-                              BasicWidgetFunctions().getStringText(
-                                  strings: state.model.epOfficers ?? []),
+                            BasicWidgetFunctions().getStringText(
+                                strings: state.model.epOfficers ?? []),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -989,7 +1067,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               ///Is Extra Security Deployment Required
                               Row(children: [
                                 CommonWidgets.textDisplay(
-                                  Constants.isExtraSecurityDeploymentRequired,
+                                  state.labels?.locale.extraSecurityDeployed ??
+                                      state.labels?.defaultLocale
+                                          .extraSecurityDeployed ??
+                                      Constants
+                                          .isExtraSecurityDeploymentRequired,
                                   Styles.textStyleBlack14,
                                 ),
                                 Checkbox(
@@ -1011,7 +1093,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 state.model.extraSecurityDeployed) ...[
                               ///Vendor Id
                               CommonWidgets.textDisplay(
-                                  Constants.guardingVendorId,
+                                  state.labels?.locale.vendorId ??
+                                      state.labels?.defaultLocale.vendorId ??
+                                      Constants.guardingVendorId,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -1034,7 +1118,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///Guarding Agency POC
                               CommonWidgets.textDisplay(
-                                  Constants.guardingAgencyPOC,
+                                  state.labels?.locale.guardingVendorPoc ??
+                                      state.labels?.defaultLocale
+                                          .guardingVendorPoc ??
+                                      Constants.guardingAgencyPOC,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -1058,7 +1145,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///No. Of Security Officers
                               CommonWidgets.textDisplay(
-                                Constants.numOfSecurityOfficers,
+                                state.labels?.locale.securityOfficerCount ??
+                                    state.labels?.defaultLocale
+                                        .securityOfficerCount ??
+                                    Constants.numOfSecurityOfficers,
                                 Styles.textStyleBlack14,
                               ),
                               FlutterInputField(
@@ -1083,7 +1173,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///Total Duty Hours
                               CommonWidgets.textDisplay(
-                                Constants.totalDutyHours,
+                                state.labels?.locale.securityOfficerCountHrs ??
+                                    state.labels?.defaultLocale
+                                        .securityOfficerCountHrs ??
+                                    Constants.totalDutyHours,
                                 Styles.textStyleBlack14,
                               ),
                               FlutterInputField(
@@ -1108,7 +1201,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///No. Of Security Supervisors
                               CommonWidgets.textDisplay(
-                                Constants.numOfSecuritySupervisor,
+                                state.labels?.locale.securitySupervisorCount ??
+                                    state.labels?.defaultLocale
+                                        .securitySupervisorCount ??
+                                    Constants.numOfSecuritySupervisor,
                                 Styles.textStyleBlack14,
                               ),
                               FlutterInputField(
@@ -1133,7 +1229,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///Total Duty Hours
                               CommonWidgets.textDisplay(
-                                Constants.totalDutyHours,
+                                state.labels?.locale
+                                        .securitySupervisorCountHrs ??
+                                    state.labels?.defaultLocale
+                                        .securitySupervisorCountHrs ??
+                                    Constants.totalDutyHours,
                                 Styles.textStyleBlack14,
                               ),
                               FlutterInputField(
@@ -1158,7 +1258,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///No. Of Security Guards
                               CommonWidgets.textDisplay(
-                                Constants.numOfSecurityGuards,
+                                state.labels?.locale.securityGuardCount ??
+                                    state.labels?.defaultLocale
+                                        .securityGuardCount ??
+                                    Constants.numOfSecurityGuards,
                                 Styles.textStyleBlack14,
                               ),
                               FlutterInputField(
@@ -1183,7 +1286,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///Total Duty Hours
                               CommonWidgets.textDisplay(
-                                Constants.totalDutyHours,
+                                state.labels?.locale.securityGuardCountHrs ??
+                                    state.labels?.defaultLocale
+                                        .securityGuardCountHrs ??
+                                    Constants.totalDutyHours,
                                 Styles.textStyleBlack14,
                               ),
                               FlutterInputField(
@@ -1208,7 +1314,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///No. Of Security Facilitators
                               CommonWidgets.textDisplay(
-                                Constants.numOfSecurityFacilitators,
+                                state.labels?.locale.securityFacilitatorCount ??
+                                    state.labels?.defaultLocale
+                                        .securityFacilitatorCount ??
+                                    Constants.numOfSecurityFacilitators,
                                 Styles.textStyleBlack14,
                               ),
                               FlutterInputField(
@@ -1233,7 +1342,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///Total Duty Hours
                               CommonWidgets.textDisplay(
-                                Constants.totalDutyHours,
+                                state.labels?.locale
+                                        .securityFacilitatorCountHrs ??
+                                    state.labels?.defaultLocale
+                                        .securityFacilitatorCountHrs ??
+                                    Constants.totalDutyHours,
                                 Styles.textStyleBlack14,
                               ),
                               FlutterInputField(
@@ -1279,7 +1392,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               // CommonWidgets.verticalSpacerWidget(height * 0.01),
                               /// Proposed Vendors
                               CommonWidgets.textDisplay(
-                                Constants.proposedVendors,
+                                state.labels?.locale.proposedVendors ??
+                                    state.labels?.defaultLocale
+                                        .proposedVendors ??
+                                    Constants.proposedVendors,
                                 Styles.textStyleBlack14,
                               ),
                               CommonWidgets.verticalSpacerWidget(
@@ -1303,7 +1419,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                               ///Budget Costs
                               CommonWidgets.textDisplay(
-                                  Constants.budget, Styles.textStyleBlack14),
+                                  state.labels?.locale.budget ??
+                                      state.labels?.defaultLocale.budget ??
+                                      Constants.budget,
+                                  Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(

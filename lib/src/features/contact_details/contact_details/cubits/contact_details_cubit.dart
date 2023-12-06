@@ -52,43 +52,45 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
-    //Show Loader and emit loading state
+    // Show Loader and emit loading state
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
+
     var userId = await SharedPrefs.getUserId();
     try {
-      Locations getLocationsData =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+      final futures = [
+        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getUserDetails(userId: userId),
+        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
+        commonServices.getUiLabels(
+            language: 'en', moduleCode: Constants.contactDetailsModule),
+        SharedPrefs.getDefaultLocation(),
+      ];
 
-      User loggedInUserDetails =
-          await commonServices.getUserDetails(userId: userId);
-      Analyst users =
-          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+      final results = await Future.wait(futures);
+
+      Locations getLocationsData = results[0];
+      User loggedInUserDetails = results[1];
+      Analyst users = results[2];
+      dynamic responseLabels = results[3];
+      Organisation? defaultLocation = results[4];
 
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
-      // state.model.inputDate =
-      //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
 
-      dynamic responseLabels = await commonServices.getUiLabels(
-          language: 'en', moduleCode: Constants.contactDetailsModule);
-      // log('--default--${responseLabels.toString()}----//Getting Proper response as JSON------');
       CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       log('--default--${labels.defaultLocale}----------');
 
-      if (state.model.location == null) {
-        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-        if (defaultLocation != null) {
-          SerialNumberModel slNo = await commonServices.getSlNo(
-            locationId: defaultLocation.id.toString(),
-            moduleCode: Constants.contactDetailsModule,
-          );
-          state.model.location = defaultLocation;
-          state.model.slNo = slNo.serialNo;
-        }
+      if (state.model.location == null && defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.contactDetailsModule,
+        );
+        state.model.location = defaultLocation;
+        state.model.slNo = slNo.serialNo;
       }
 
       state.model.entrySecurity = loggedInUserDetails;
@@ -103,12 +105,19 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
           labels: labels,
         ),
       );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
     } catch (e) {
-      log('initialization issue', error: e, name: 'Contact Details Cubit');
+      log('Initialization issue', error: e, name: 'Contact Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
-          // TODO: error message should be dynamic
           status: FormStatus.error,
         ),
       );
@@ -220,6 +229,14 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
         ),
       );
       return true;
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return false;
     } on Exception catch (e) {
       state.model.inputDate =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
