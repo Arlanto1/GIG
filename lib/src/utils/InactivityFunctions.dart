@@ -20,14 +20,13 @@ class InactivityFunctions {
 
       if (lastInteractionTime
           .isBefore(DateTime.now().subtract(inactivityDuration))) {
-        log('--logging out---');
         logoutUser(navigatorKey);
       }
     });
   }
 
   void logoutUser(GlobalKey<NavigatorState> navigatorKey) {
-    log('--logoutUser---');
+    log('Logging Out...');
     SharedPrefs.setUserId('');
     SharedPrefs.setEmail('');
     SharedPrefs.setToken('');
@@ -35,7 +34,7 @@ class InactivityFunctions {
     SharedPrefs.setSessionToken('');
     SharedPrefs.setLoggedIn(false);
     SharedPrefs.setFoundId(100);
-    SharedPrefs.clearSharedPreferences(); // Perform logout actions here
+    SharedPrefs.clearSharedPreferences();
     // Navigate to the login screen
     log('--logoutUser-${getCurrentRouteName(navigatorKey)}--');
     if (getCurrentRouteName(navigatorKey) != loginScreenRoute) {
