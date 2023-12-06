@@ -19,7 +19,7 @@ class SLAViolationPenaltyListState extends Equatable {
     List<SLAViolationPenaltyModel>? items,
     bool? hasReachedMax,
     FormStatus? status,
-    final SlaUiLabels? labels,
+    SlaUiLabels? labels,
     String? message,
   }) {
     return SLAViolationPenaltyListState(

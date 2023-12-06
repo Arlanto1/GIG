@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
@@ -7,7 +9,6 @@ import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -61,47 +62,41 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.cardBgColor,
-      floatingActionButton: Flutterfloatingbutton(
-        backgroundColor: AppColors.navigationSkybluecolor,
-        foregroundColor: AppColors.backgroundWhitecolor,
-        onPressed: () => {
-          Navigator.pushNamed(context, guardingMasterDataDetailsRoute,
-              arguments: {"title": Constants.createGuardingMasterData}),
-        },
-      ),
-      appBar: BaseAppBar().buildAppHeader(
-        context: context,
-        title: Constants.guardingMasterDataTitle,
-        showPopUp: true,
-        showSaveButton: false,
-        excelAPIName: 'exportGMDataExcel',
-        pdfAPIName: 'exportGMDataPDF',
-      ),
-      body: BlocConsumer<GuardingMasterDataBloc, GuardingMasterDataState>(
-        listener: (context, state) {
-          if (state.status == FormStatus.sessionExpired) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                backgroundColor: Colors.red,
-                content: Text(state.message ?? 'Session Expired...')));
-            Validator.logoutAction(context);
-          }
-        },
-        builder: (context, state) {
+        backgroundColor: AppColors.cardBgColor,
+        floatingActionButton: Flutterfloatingbutton(
+          backgroundColor: AppColors.navigationSkybluecolor,
+          foregroundColor: AppColors.backgroundWhitecolor,
+          onPressed: () => {
+            Navigator.pushNamed(context, guardingMasterDataDetailsRoute,
+                arguments: {"title": Constants.createGuardingMasterData}),
+          },
+        ),
+
+        appBar: BaseAppBar().buildAppHeader(
+          context: context,
+          title: Constants.guardingMasterDataTitle,
+          showPopUp: true,
+          showSaveButton: false,
+          excelAPIName: 'exportGMDataExcel',
+          pdfAPIName: 'exportGMDataPDF',
+        ),
+        body: BlocBuilder<GuardingMasterDataBloc, GuardingMasterDataState>(
+            builder: (context, state) {
           if (state.status == FormStatus.initial) {
             return const BaseLoader();
           }
           if (state.list.isEmptyOrNull) {
             return const NoRecordFoundWidget();
           }
+          log('--labels-${state.labels?.locale.locationRegion}');
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
-              color: AppColors.backgroundWhitecolor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-              ),
-            ),
+                color: AppColors.backgroundWhitecolor,
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(20.0)),
+                )),
             child: ListView.builder(
               controller: _scrollController,
               itemCount: state.hasReachedMax
@@ -111,10 +106,12 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                 List<Label> labels = [];
                 if (index < state.list.length) {
                   labels.add(Label(
-                      key: 'Region',
+                      key: state.labels?.locale.locationRegion ??
+                          state.labels?.defaultLocale.locationRegion ??'Region',
                       value: state.list[index].locationRegion?.name ?? ''));
                   labels.add(Label(
-                      key: 'Building Location ',
+                      key: state.labels?.locale.location ??
+                          state.labels?.defaultLocale.location ??'Building Location ',
                       value: state.list[index].location?.name ?? ''));
                 }
                 return index >= state.list.length
@@ -139,6 +136,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                                     state.list[selectedIndex].maritalStatus,
                                 labels: labels,
                                 isMaterGuard: true,
+                                //isEventProtectionStatus: false,
                                 status: state.list[selectedIndex].status,
                               );
                             },
@@ -163,6 +161,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                                 labels: labels,
                                 status: state.list[selectedIndex].status,
                                 isMaterGuard: true,
+                               // isEventProtectionStatus: false,
                               );
                             },
                           );
@@ -172,9 +171,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
               },
             ),
           );
-        },
-      ),
-    );
+        }));
   }
 
   getLawEnforcementId(int id) async {

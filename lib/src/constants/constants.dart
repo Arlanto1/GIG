@@ -27,6 +27,7 @@ class Constants {
   static const String contactDetailsModuleCode = 'CD';
   static const String guardingMasterModuleCode = 'GM';
   static const String eventProtectionModuleCode = 'EP';
+  static const String slaViolationPenaltyDetailsModuleCode = 'SVP';
 
 
 
