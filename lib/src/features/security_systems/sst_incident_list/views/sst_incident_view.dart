@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';

@@ -189,6 +189,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                           index: index,
                         );
                 }
+                return null;
               },
             ),
           );
