@@ -904,6 +904,69 @@ class Utils {
       ),
     );
   }
+
+  Widget buildSecuritySystemStatusRow(int status) {
+    String statusText;
+
+    switch (status) {
+      case 1:
+        statusText = 'Create';
+        break;
+      case 2:
+        statusText = 'Submit';
+        break;
+      case 3:
+        statusText = 'Acknowledge';
+        break;
+      case 4:
+        statusText = 'Hold';
+        break;
+      case 5:
+        statusText = 'Rework';
+        break;
+      case 6:
+        statusText = 'Review';
+        break;
+      case 7:
+        statusText = 'Solve Proposed';
+        break;
+      case 8:
+        statusText = 'Quotes Rejected';
+        break;
+        case 9:
+      statusText = 'Quotes Approved';
+      break;
+      case 10:
+        statusText = 'Po Raised';
+        break;
+      case 11:
+        statusText = 'Work Completed';
+        break;
+      case 12:
+        statusText = 'Invoice Requested';
+        break;
+      case 13:
+        statusText = 'Invoice Submit';
+        break;
+      case 14:
+        statusText = 'Closed';
+        break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
+
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
+
   Widget textHandling(String title, String desc) {
     return RichText(
       overflow: TextOverflow.ellipsis,
