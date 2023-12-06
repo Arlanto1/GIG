@@ -124,7 +124,7 @@ class _SstIncidentGeneralInfoViewState
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.isInternal
-                ? Constants.internalStaff
+                ? Constants.ticketLifeCycle
                 : Constants.externalVendor,
             showPopUp: false,
             showSaveButton: disableForm ? false : true,

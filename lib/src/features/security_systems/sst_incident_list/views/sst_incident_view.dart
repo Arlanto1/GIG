@@ -89,7 +89,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
               arguments: {
                 "isInternal": widget.isInternal,
                 "title": widget.isInternal
-                    ? Constants.internalStaff
+                    ? Constants.ticketLifeCycle
                     : Constants.externalVendor
               },
             )
@@ -98,7 +98,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: widget.isInternal
-              ? Constants.internalStaff
+              ? Constants.ticketLifeCycle
               : Constants.externalVendor,
           showPopUp: true,
           showSaveButton: false,
@@ -213,7 +213,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
         'isInternal': widget.isInternal,
         "title": widget.isInternal
             ? Constants.externalVendor
-            : Constants.internalStaff
+            : Constants.ticketLifeCycle
       },
     );
   }
