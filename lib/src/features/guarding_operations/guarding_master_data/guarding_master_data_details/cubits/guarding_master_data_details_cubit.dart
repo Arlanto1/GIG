@@ -128,7 +128,6 @@ class GuardingMasterDataDetailsCubit
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'ATOM_VENDORS');
       Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
-      state.model.entrySecurity = loggedInUserDetails;
 
       log('-departments-length-----${departments.employeeDepartments?.length}--');
       log('-guardRank--${state.model.guardRank}----');
@@ -153,6 +152,8 @@ class GuardingMasterDataDetailsCubit
           state.model.location = defaultLocation;
           state.model.slNo = slNo.serialNo;
         }
+        state.model.entrySecurity = loggedInUserDetails;
+
       }
       emit(
         state.copyWith(
