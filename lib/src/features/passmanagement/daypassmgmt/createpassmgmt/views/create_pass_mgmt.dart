@@ -978,24 +978,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.01),
 
                                 /// Reason for day pass
-                                // widget.passId == '3' || widget.passId == '1'
-                                //     ? Container()
-                                //     : CommonWidgets.textDisplay(
-                                //   widget.passId == "2"
-                                //       ? "Reason for Vendor Pass"
-                                //       : Constants.reasonfordaypass,
-                                //   isMandatory: true,
-                                //   Styles.textStyleBlack14,
-                                // ),
-                                // widget.passId == '3' || widget.passId == '1'
-                                //     ? Container()
-                                //     : CommonWidgets.verticalSpacerWidget(
-                                //     height * 0.001),
-                                // // articleaddButtonwidgetLoading(state),
-
-                                // TODO: Need to check in other features of Pass Management
-                                if (widget.passId != '3' ||
-                                    widget.passId != '1') ...[
+                                if (widget.passId == '0' ||
+                                    widget.passId == '2') ...[
                                   CommonWidgets.textDisplay(
                                     widget.passId == "2"
                                         ? "Reason for Vendor Pass"
@@ -1012,6 +996,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       height * 0.01),
                                 ],
 
+
+                                ///Exceptional approval for External auditors/regulators
                                 if (state.dayPasselementReason != null &&
                                     (state.dayPasselementReason!.name
                                         .equalsIgnoreCase('external auditors')||state.dayPasselementReason!.name
@@ -1020,25 +1006,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     children: [
                                       CommonWidgets.textDisplay(
                                         Constants.exceptionalApproval,
+                                         Styles.textStyleBlack14,
                                         isMandatory: true,
-                                        Styles.textStyleBlack14,
                                       ),
                                       radioButtonHandling(
-                                        state.exceptionalApproval ?? 1,
-                                        Constants.exceptionalApproval,
+                                        state.exceptionalApproval ?? 0,                                        Constants.exceptionalApproval,
                                       ),
                                     ],
                                   ),
                                 ],
-                                // widget.passId == '3' || widget.passId == '1'
-                                //     ? Container()
-                                //     : reasonforadaypassaddButtonwidgetLoading(
-                                //   state,
-                                // ),
-                                // widget.passId == '3' || widget.passId == '1'
-                                //     ? Container()
-                                //     : CommonWidgets.verticalSpacerWidget(
-                                //     height * 0.01),
 
                                 /// Day  pass no
                                 CommonWidgets.textDisplay(
@@ -1115,19 +1091,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
-                                ///Exceptional approval for External auditors
-                                widget.passId == '0'
-                                    ? CommonWidgets.textDisplay(
-                                    Constants.exceptionalApproval,
-                                    isMandatory: true,
-                                    Styles.textStyleBlack14)
-                                    : Container(),
-                                widget.passId == '0'
-                                    ? radioButtonHandling(
-                                  state.exceptionalApproval ?? 1,
-                                  Constants.exceptionalApproval,
-                                )
-                                    : Container(),
 
                                 /// Pass Valid From
                                 if (widget.passId != '3') ...[
@@ -1389,7 +1352,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
-          activeColor: widget.model?.status != 0
+          activeColor: widget.model?.status == 7
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
           focusColor: AppColors.navigationSkybluecolor,
@@ -1404,7 +1367,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         ),
         const Text(Constants.yes),
         Radio(
-          activeColor: widget.model?.status != 0
+          activeColor: widget.model?.status == 7
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
           value: 0,
@@ -1918,7 +1881,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         ?.name}-');
     log('-state.vendorPasselementReason?.name---${state.vendorPasselementReason
         ?.name}--');
-    log('state exceptional Approval -- ${widget.model?.escortedByHost}');
     return Column(
       children: [
         TextfieldAddButton(
@@ -2954,7 +2916,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         visitorComingFrom: visitorcomingfromTextController.text,
         visitingPurpose: visitorcomingfromTextController.text,
         escortedByHost: state.escortedbyhost == 0 ? true : false,
-        exceptionalApproval: state.exceptionalApproval == 1 ? true : false,
+        exceptionalApproval: state.exceptionalApproval == 0 ? true : false,
         idValidationType: idValidationType,
         //mifareNo: mtpapplicationnoTextController.text ?? '',
         category: category,
@@ -3009,7 +2971,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           visitorComingFrom: visitorcomingfromTextController.text,
           visitingPurpose: visitorcomingfromTextController.text,
           escortedByHost: state.escortedbyhost == 0 ? true : false,
-          exceptionalApproval: state.exceptionalApproval == 1 ? true : false,
+          exceptionalApproval: state.exceptionalApproval == 0 ? true : false,
           idValidationType: idValidationType,
           // mifareNo: mtpapplicationnoTextController.text ?? '',
           category: category,
