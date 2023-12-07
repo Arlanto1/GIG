@@ -261,8 +261,10 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           !widget.isMasterGuard &&
           !widget.isOccurrenceStatus &&
           !widget.isEventProtectionStatus &&
-          !widget.isSLAViolationStatus && !widget.isSecuritySystemSLAStatus &&
-          !widget.isIncident && !widget.isContactDetailsStatus) ...[
+          !widget.isSLAViolationStatus &&
+          !widget.isSecuritySystemSLAStatus &&
+          !widget.isIncident &&
+          !widget.isContactDetailsStatus) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
           children: [
@@ -637,7 +639,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().textHandling(
-                'Shift Taken By : ', widget.handOverSecurity.toString()),
+                'Shift Taken By : ', widget.handOverSecurity?.name ?? ''),
           ],
         ),
       ],
@@ -651,13 +653,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       CommonWidgets.verticalSpacerWidget(5),
-      if (widget.status != null && widget.isContactDetailsStatus ==true && widget.isEventProtectionStatus == false) ...[
+      if (widget.status != null &&
+          widget.isContactDetailsStatus == true &&
+          widget.isEventProtectionStatus == false) ...[
         CommonWidgets.horizontalSpacerWidget(5),
         Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-        Utils()
-            .contactDetailsStatus(widget.status ?? 0),],
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().contactDetailsStatus(widget.status ?? 0),
+          ],
         ),
       ],
       if (widget.incidentType != null) ...[
