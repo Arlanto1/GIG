@@ -76,8 +76,8 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
           title: Constants.slaViolationPenalty,
           showPopUp: true,
           showSaveButton: false,
-          excelAPIName: 'exportMMExcel',
-          pdfAPIName: 'exportMMPDF',
+          excelAPIName: 'exportSvpExcel',
+          pdfAPIName: 'exportSvpPDF',
         ),
         body: BlocBuilder<SLAViolationPenaltyListBloc, SLAViolationPenaltyListState>(
             builder: (context, state) {

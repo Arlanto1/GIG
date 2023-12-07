@@ -102,8 +102,8 @@ class _SstIncidentViewState extends State<SstIncidentView> {
               : Constants.externalVendor,
           showPopUp: true,
           showSaveButton: false,
-          excelAPIName: 'exportEPExcel',
-          pdfAPIName: 'exportEPPDF',
+          excelAPIName: 'exportSSSLAExcel',
+          pdfAPIName: 'exportSSSLAPDF',
         ),
         body: BlocBuilder<SstIncidentBloc, SstIncidentState>(
             builder: (context, state) {
