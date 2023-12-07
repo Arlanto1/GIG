@@ -83,7 +83,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                   context,
                   occurrenceDetailsRoute,
                   arguments: {
-                    'id': state.model.occurrence?.id,
+                    'id': state.model.occurrence?.id.toString(),
                     "title": Constants.editOccurrence,
                   },
                 );
