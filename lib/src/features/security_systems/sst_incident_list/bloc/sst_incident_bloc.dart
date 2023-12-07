@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -32,6 +33,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
     try {
       if (state.hasReachedMax) return;
 
+      log('-bloc-occId-$occId----');
       if (state.status == FormStatus.initial) {
         SstIncidentResponse response = await _services.get(
           startPosition: '${event.startPos}',

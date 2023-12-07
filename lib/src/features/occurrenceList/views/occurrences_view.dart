@@ -72,8 +72,8 @@ class _OccurrencesViewState extends State<OccurrencesView> {
           title: Constants.occurrence,
           showPopUp: true,
           showSaveButton: false,
-          excelAPIName: 'exportEPExcel',
-          pdfAPIName: 'exportEPPDF',
+          excelAPIName: 'exportOCCExcel',
+          pdfAPIName: 'exportOCCPDF',
         ),
         body: BlocBuilder<OccurrencesBloc, OccurrencesState>(
             builder: (context, state) {

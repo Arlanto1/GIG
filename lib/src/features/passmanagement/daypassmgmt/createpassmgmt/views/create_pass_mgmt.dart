@@ -94,7 +94,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   @override
   Widget build(BuildContext context) {
     log('--passId----${widget.passId}----');
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery
+        .of(context)
+        .size;
     final height = size.height;
     return Scaffold(
       appBar: AppHeader(
@@ -288,7 +290,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             "handed over"))) ...[
                                   InkWell(
                                     onTap: () {
-                                      log('-ontap-----statusTextController.text----${statusTextController.text}---');
+                                      log(
+                                          '-ontap-----statusTextController.text----${statusTextController
+                                              .text}---');
                                       if (statusTextController.text
                                           .toLowerCase() ==
                                           "created") {
@@ -373,7 +377,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     isMandatory: true,
                                     createdBy.isNotEmpty
                                         ? createdBy
-                                        : '${state.getUserDetailsResponse?.firstName ?? ''}  ${state.getUserDetailsResponse?.lastName ?? ''}'
+                                        : '${state.getUserDetailsResponse
+                                        ?.firstName ?? ''}  ${state
+                                        .getUserDetailsResponse?.lastName ??
+                                        ''}'
                                         ''),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
@@ -971,29 +978,43 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.01),
 
                                 /// Reason for day pass
-                                widget.passId == '3' || widget.passId == '1'
-                                    ? Container()
-                                    : CommonWidgets.textDisplay(
-                                  widget.passId == "2"
-                                      ? "Reason for Vendor Pass"
-                                      : Constants.reasonfordaypass,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14,
-                                ),
-                                widget.passId == '3' || widget.passId == '1'
-                                    ? Container()
-                                    : CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                // articleaddButtonwidgetLoading(state),
-                                widget.passId == '3' || widget.passId == '1'
-                                    ? Container()
-                                    : reasonforadaypassaddButtonwidgetLoading(
-                                  state,
-                                ),
-                                widget.passId == '3' || widget.passId == '1'
-                                    ? Container()
-                                    : CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                if (widget.passId == '0' ||
+                                    widget.passId == '2') ...[
+                                  CommonWidgets.textDisplay(
+                                    widget.passId == "2"
+                                        ? "Reason for Vendor Pass"
+                                        : Constants.reasonfordaypass,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  reasonforadaypassaddButtonwidgetLoading(
+                                    state,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
+                                ],
+
+
+                                ///Exceptional approval for External auditors/regulators
+                                if (state.dayPasselementReason != null &&
+                                    (state.dayPasselementReason!.name
+                                        .equalsIgnoreCase('external auditors')||state.dayPasselementReason!.name
+                                        .equalsIgnoreCase('external regulators'))) ...[
+                                  Column(
+                                    children: [
+                                      CommonWidgets.textDisplay(
+                                        Constants.exceptionalApproval,
+                                         Styles.textStyleBlack14,
+                                        isMandatory: true,
+                                      ),
+                                      radioButtonHandling(
+                                        state.exceptionalApproval ?? 0,                                        Constants.exceptionalApproval,
+                                      ),
+                                    ],
+                                  ),
+                                ],
 
                                 /// Day  pass no
                                 CommonWidgets.textDisplay(
@@ -1071,22 +1092,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.01),
 
 
-          if (widget.model?.dayPassReason?.name?.toLowerCase() == 'external auditors')...[
-          ///Exceptional approval for External auditors
-                                widget.passId == '0'
-                                    ? CommonWidgets.textDisplay(
-                                    Constants.exceptionalApproval,
-                                    isMandatory: true,
-                                    Styles.textStyleBlack14)
-                                    : Container(),
-                                widget.passId == '0'
-                                    ? radioButtonHandling(
-                                  state.exceptionalApproval ?? 1,
-                                  Constants.exceptionalApproval,
-                                )
-                                    : Container(),
-                        ],
-
                                 /// Pass Valid From
                                 if (widget.passId != '3') ...[
                                   CommonWidgets.textDisplay(
@@ -1131,7 +1136,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       ? true
                                       : false,
                                   onChange: (String value) {
-                                    log('--fr-value-${passvaliduntilTextController.text}------');
+                                    log(
+                                        '--fr-value-${passvaliduntilTextController
+                                            .text}------');
                                     passvaliduntilTextController.text =
                                         Utils().formatTime(value);
                                   },
@@ -1345,7 +1352,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
-          activeColor: widget.model?.status != 0
+          activeColor: widget.model?.status == 7
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
           focusColor: AppColors.navigationSkybluecolor,
@@ -1360,7 +1367,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         ),
         const Text(Constants.yes),
         Radio(
-          activeColor: widget.model?.status != 0
+          activeColor: widget.model?.status == 7
               ? AppColors.disabletextfieldBackground
               : AppColors.navigationSkybluecolor,
           value: 0,
@@ -1557,7 +1564,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           name: widget.model?.passInfo?.passNo ?? '');
       passCategoryTextController.text =
       widget.model?.category == 1 ? 'Temporary' : 'Permanent';
-      log('-passCategoryTextController.text----${passCategoryTextController.text}-');
+      log('-passCategoryTextController.text----${passCategoryTextController
+          .text}-');
 
       // daypassnoTextController.text =
       //     widget.dayPassItem?.category.toString() ?? '';
@@ -1603,8 +1611,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
       Organisation dep = widget.model?.department ?? Organisation();
       createPassMgmtCubit.selectedEmployeeDepartment(dep);
-      getAttachments =
-      widget.model?.evidenceDocuments != null ? widget.model?.evidenceDocuments ?? [] : [];
+      getAttachments = widget.model?.evidenceDocuments != null
+          ? widget.model?.evidenceDocuments ?? []
+          : [];
       // photogetAttachments =
       //     widget.model?.visitorImage != null ? widget.model?.visitorImage ?? [] : [];
 
@@ -1868,9 +1877,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 //   }
 
   Widget reasonforadaypassaddButtonwidgetLoading(CreatePassMgmtState state) {
-    log('-state.dayPasselementReason?.name---${state.dayPasselementReason?.name}-');
-    log('-state.vendorPasselementReason?.name---${state.vendorPasselementReason?.name}--');
-    log('state exceptional Approval -- ${widget.model?.escortedByHost}');
+    log('-state.dayPasselementReason?.name---${state.dayPasselementReason
+        ?.name}-');
+    log('-state.vendorPasselementReason?.name---${state.vendorPasselementReason
+        ?.name}--');
     return Column(
       children: [
         TextfieldAddButton(
@@ -1878,29 +1888,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? state.dayPasselementReason?.name ?? ''
               : state.vendorPasselementReason?.name ?? '',
           height: 60,
-          isDisableColor: widget.model?.status != 0 && widget.model != null ? true : false,
+          isDisableColor:
+          widget.model?.status != 0 && widget.model != null ? true : false,
           onTap: () {
             if (widget.model == null || widget.model?.status == 0) {
               if (widget.passId == '2') {
                 vendorPassReasonDialog(state);
               } else if (widget.passId == '0') {
                 reasondaypassDialog(state);
-
-                if (widget.model?.dayPassReason?.name?.toLowerCase() == 'external auditors' || widget.model?.dayPassReason?.name?.toLowerCase() == 'external regulators') {
-                  Column(
-                    children: [
-                      CommonWidgets.textDisplay(
-                        Constants.exceptionalApproval,
-                        isMandatory: true,
-                        Styles.textStyleBlack14,
-                      ),
-                      radioButtonHandling(
-                        state.exceptionalApproval ?? 1,
-                        Constants.exceptionalApproval,
-                      ),
-                    ],
-                  );
-                }
               }
             }
           },
@@ -1908,6 +1903,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       ],
     );
   }
+
   Widget datepickerWidgetLoading(TextEditingController textfiled) {
     return GestureDetector(
       onTap: () {
@@ -2049,12 +2045,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           : Container();
   }
 
-
   Widget getSpaceattchment(double height) {
     return getFiles.isNotEmpty || getAttachments.isNotEmpty
         ? CommonWidgets.verticalSpacerWidget(height * 0.01)
         : Container();
   }
+
   Widget getAttachement(double height) {
     return (getAttachments.isEmpty || widget.model == null)
         ? getFiles.isEmpty
@@ -2235,24 +2231,29 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     });
               }
             },
-            onTap: (Organisation list) {
-              log('reason for day pass list---${list.name}');
-              if ((list.name ?? '').toLowerCase() == 'external auditors'||(list.name ?? '').toLowerCase() == 'external regulators') {
-                Column(
-                  children: [
-                    CommonWidgets.textDisplay(
-                      Constants.exceptionalApproval,
-                      isMandatory: true,
-                      Styles.textStyleBlack14,
-                    ),
-                    radioButtonHandling(
-                      state.exceptionalApproval ?? 1,
-                      Constants.exceptionalApproval,
-                    ),
-                  ],
-                );
-              }
-              createPassMgmtCubit.getdaypassreasonResponseData(list);
+            onTap: (Organisation organisation) {
+              // setState(() {
+              //   log('reason for day pass list---${organisation.name}');
+              //   if (((organisation.name ?? '').toLowerCase() ==
+              //       'external auditors' ||
+              //       (organisation.name ?? '').toLowerCase() ==
+              //           'external regulators')) {
+              //     Column(
+              //       children: [
+              //         CommonWidgets.textDisplay(
+              //           Constants.exceptionalApproval,
+              //           isMandatory: true,
+              //           Styles.textStyleBlack14,
+              //         ),
+              //         radioButtonHandling(
+              //           state.exceptionalApproval ?? 1,
+              //           Constants.exceptionalApproval,
+              //         ),
+              //       ],
+              //     );
+              //   }
+              // });
+              createPassMgmtCubit.getdaypassreasonResponseData(organisation);
             },
           );
         });
@@ -2595,8 +2596,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   //     child: SelectedTileValueWidget(name: state.location?.name ?? ''),
   //   );
   // }
-  Future submitForm(
-      bool isSubmit, int isFoundId, CreatePassMgmtState state) async {
+  Future submitForm(bool isSubmit, int isFoundId,
+      CreatePassMgmtState state) async {
     if (widget.passId == '0') {
       if (daypassnoTextController.text.isEmptyOrNull) {
         Validator().showToast(
@@ -2664,19 +2665,29 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     passInfo.mifareNo = mtpApplicationNoTextController.text;
     log('-passtypeTextController-----${passtypeTextController.text}----');
     log('-sezpassinfoTextController-----${sezpassinfoTextController.text}----');
-    log('-mtpApplicationNoTextController-----${mtpApplicationNoTextController.text}----');
-    log('-passCategoryTextController111-----${passCategoryTextController.text}----');
+    log('-mtpApplicationNoTextController-----${mtpApplicationNoTextController
+        .text}----');
+    log('-passCategoryTextController111-----${passCategoryTextController
+        .text}----');
 
-    int passvalidfromdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    int passvalidfromdate = (DateTime
+        .now()
+        .millisecondsSinceEpoch ~/ 1000);
 
     int passValidUntilDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 12 * 3600; //Add
+        (DateTime
+            .now()
+            .millisecondsSinceEpoch ~/ 1000) + 12 * 3600; //Add
 
     int passValidUntilDatePermanent =
-    ((DateTime.now().millisecondsSinceEpoch ~/ 1000) +
+    ((DateTime
+        .now()
+        .millisecondsSinceEpoch ~/ 1000) +
         24 * 3600 * 1227); //Adding 1227 days
 
-    int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    int inputdate = (DateTime
+        .now()
+        .millisecondsSinceEpoch ~/ 1000);
 
     String dateString = passvaliduntilTextController.text;
     log('--dateString---$dateString----');
@@ -2727,7 +2738,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       updatestatusvalue = 1;
     }
 
-    log('-state.selectedEntities?.length--${state.selectedEntities?.length}---');
+    log('-state.selectedEntities?.length--${state.selectedEntities
+        ?.length}---');
     List<Organisation>? entities = state.selectedEntities;
     // if ((state.selectedEntities?.length ?? 0) > 0) {
     //   for (int i = 0; i < state.selectedEntities!.length; i++) {
@@ -2904,7 +2916,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         visitorComingFrom: visitorcomingfromTextController.text,
         visitingPurpose: visitorcomingfromTextController.text,
         escortedByHost: state.escortedbyhost == 0 ? true : false,
-        exceptionalApproval: state.exceptionalApproval == 1 ? true : false,
+        exceptionalApproval: state.exceptionalApproval == 0 ? true : false,
         idValidationType: idValidationType,
         //mifareNo: mtpapplicationnoTextController.text ?? '',
         category: category,
@@ -2959,7 +2971,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           visitorComingFrom: visitorcomingfromTextController.text,
           visitingPurpose: visitorcomingfromTextController.text,
           escortedByHost: state.escortedbyhost == 0 ? true : false,
-          exceptionalApproval: state.exceptionalApproval == 1 ? true : false,
+          exceptionalApproval: state.exceptionalApproval == 0 ? true : false,
           idValidationType: idValidationType,
           // mifareNo: mtpapplicationnoTextController.text ?? '',
           category: category,
@@ -3337,10 +3349,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   //   );
   // }
 
-  Widget attachmentListviews(
-      List<ImageContent>? attachmentListviews,
-      List<ImageContent>? attachmentListviews1,
-      ) {
+  Widget attachmentListviews(List<ImageContent>? attachmentListviews,
+      List<ImageContent>? attachmentListviews1,) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -3366,8 +3376,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             } else {
               imageData = attachmentListviews?[index];
             }
-            log('--attachmentListviews1?.length--${attachmentListviews1?.length}');
-            log('--attachmentListviews?.length--${attachmentListviews?.length}');
+            log('--attachmentListviews1?.length--${attachmentListviews1
+                ?.length}');
+            log('--attachmentListviews?.length--${attachmentListviews
+                ?.length}');
 
             return Column(
               children: <Widget>[
@@ -3397,11 +3409,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           }),
     );
   }
-  Widget textFieldWidgetLoad(
-      TextEditingController textController,
+
+  Widget textFieldWidgetLoad(TextEditingController textController,
       int index,
-      CreatePassMgmtState state,
-      ) {
+      CreatePassMgmtState state,) {
     return FlutterInputField(
       //lineHeight: textController == employeeidTextController ? 1 : 1,
       onTap: () {},
@@ -3468,6 +3479,6 @@ class CreatePassMngArguments {
   final bool isRegistry;
   final DayPassListElement? model;
 
-  CreatePassMngArguments(
-      this.passType, this.title, this.isRegistry, this.model);
+  CreatePassMngArguments(this.passType, this.title, this.isRegistry,
+      this.model);
 }

@@ -816,6 +816,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       emit(
         state.copyWith(
           escortedbyhost: value,
+          exceptionalApproval: value,
           radioButtonItem: radio,
           stateType: CreatePassMgmtStateType.success,
         ),
