@@ -647,7 +647,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                 GestureDetector(
                                   onTap: () => navigateToCreateIncident(
                                     state: state,
-                                    occId: 1,
+                                    occType: 1,
                                     isSSTIncident: false,
                                   ),
                                   child: Row(
@@ -666,17 +666,19 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
-                                      if (state.model.incidentItems != null &&
-                                          state.model.incidentItems!
-                                              .isNotEmpty) ...[
-                                        CommonWidgets.horizontalSpacerWidget(
-                                            height * 0.01),
-                                        showButtonDisplay(
-                                          occId: state.model.id.toString(),
-                                          occType: 1,
-                                          state: state,
-                                        ),
-                                      ],
+                                      // if (state.model.incidentItems != null &&
+                                      //     !state.model.incidentItems!.where(
+                                      //         (element) =>
+                                      //             element.incidentType ==
+                                      //             1).isEmptyOrNull) ...[
+                                      CommonWidgets.horizontalSpacerWidget(
+                                          height * 0.01),
+                                      showButtonDisplay(
+                                        occId: state.model.id.toString(),
+                                        occType: 1,
+                                        state: state,
+                                      ),
+                                      // ],
                                     ],
                                   ),
                                 ),
@@ -771,7 +773,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                 GestureDetector(
                                   onTap: () => navigateToCreateIncident(
                                     state: state,
-                                    occId: 2,
+                                    occType: 2,
                                     isSSTIncident: false,
                                   ),
                                   child: Row(
@@ -793,17 +795,17 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
-                                      if (state.model.incidentItems != null &&
-                                          state.model.incidentItems!
-                                              .isNotEmpty) ...[
-                                        CommonWidgets.horizontalSpacerWidget(
-                                            height * 0.01),
-                                        showButtonDisplay(
-                                          occId: state.model.id.toString(),
-                                          occType: 2,
-                                          state: state,
-                                        ),
-                                      ],
+                                      // if (state.model.incidentItems != null &&
+                                      //     state.model.incidentItems!
+                                      //         .isNotEmpty) ...[
+                                      CommonWidgets.horizontalSpacerWidget(
+                                          height * 0.01),
+                                      showButtonDisplay(
+                                        occId: state.model.id.toString(),
+                                        occType: 2,
+                                        state: state,
+                                      ),
+                                      // ],
                                     ],
                                   ),
                                 ),
@@ -1394,19 +1396,22 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
           orElse: () => const Label(key: '', value: ''),
         );
 
+        log('--state.model.id----${state.model.id}---');
         if (showListing) {
           // Navigate to Listing Page
           Navigator.pushNamed(context, sstIncidentListRoute, arguments: {
             "isInternal":
-                selectedLabel.value.equalsIgnoreCase('0') ? true : false
+                selectedLabel.value.equalsIgnoreCase('0') ? true : false,
+            "occId": state.model.id.toString(), // TODO: Need to check
           });
           return;
         }
 
         // Call navigateToCreateIncident here
         navigateToCreateIncident(
+
           state: state,
-          occId: 1,
+          occType: 1,
           isSSTIncident: true,
           isInternal: selectedLabel.value == '0' ? true : false,
         );
@@ -1445,7 +1450,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
 
   Future<void> navigateToCreateIncident({
     required OccurrenceGeneralInfoState state,
-    required int occId,
+    required int occType,
     required bool isSSTIncident,
     bool? isInternal,
   }) async {
@@ -1465,7 +1470,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     log('--state.model.id-----occId-------${state.model.id}-----');
     var map = {
       'occId': state.model.id.toString(),
-      'occType': occId,
+      'occType': occType,
     };
     if (isInternal ?? false) {
       map.putIfAbsent('isInternal', () => isInternal ?? false);

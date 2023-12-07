@@ -314,6 +314,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     state.model.inputDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
+
     state.model.occurrence ??= OccurrenceModel();
     state.model.occurrence?.id = occId.toIntOrNull();
     state.model.occType = occType;

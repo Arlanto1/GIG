@@ -78,9 +78,10 @@ import '../features/guarding_operations/sla_violation_penalty/services/sla_viola
 import '../features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart';
 import '../features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/views/sla_violation_penalty_details_view.dart';
 import '../features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/bloc/sla_violation_penalty_list_bloc.dart'
-as sla;
+    as sla;
 import '../features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/views/sla_violation_penalty_list_view.dart';
-import '../features/guarding_operations/sla_violation_penalty/violation_penalty_record/bloc/violation_penalty_record_bloc.dart' as vp;
+import '../features/guarding_operations/sla_violation_penalty/violation_penalty_record/bloc/violation_penalty_record_bloc.dart'
+    as vp;
 import '../features/guarding_operations/sla_violation_penalty/violation_penalty_record/views/violation_penalty_records_view.dart';
 import '../features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart';
 import '../features/incident_management/incident_details/general_info/views/incident_general_info_view.dart';
@@ -285,16 +286,19 @@ class RouteGenerator {
 
       case sstIncidentListRoute:
         bool isInternal = false;
+        String occId = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           isInternal = arguments['isInternal'];
+          occId = arguments['occId']??'';
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<sv.SstIncidentBloc>(
             create: (_) => sv.SstIncidentBloc(
               ticketType: 1,
               staffType: isInternal ? 1 : 2,
+              occId: occId,
             )..add(const sv.FetchData(startPos: 0, maxPos: 20)),
             child: SstIncidentView(isInternal: isInternal),
           ),
@@ -390,13 +394,12 @@ class RouteGenerator {
           ),
         );
 
-
       case slaViolationPenaltyDetailsRoute:
         SLAViolationPenaltyServices services = SLAViolationPenaltyServices();
         CommonServices commonServices = CommonServices();
         String title;
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         SLAViolationPenaltyModel? model = arguments["model"];
         return MaterialPageRoute(
@@ -443,19 +446,17 @@ class RouteGenerator {
         String violationDescription = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
-          violationDescription = arguments[ConstantsArgument.violationDescription] ?? '';
-
+          violationDescription =
+              arguments[ConstantsArgument.violationDescription] ?? '';
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<vp.ViolationPenaltyRecordBloc>(
-            create: (_) =>vp.ViolationPenaltyRecordBloc(
-               violationDescription: violationDescription,
-
-            )
-              ..add(vp.FetchData(
+            create: (_) => vp.ViolationPenaltyRecordBloc(
+              violationDescription: violationDescription,
+            )..add(vp.FetchData(
                 id: id,
                 startPos: 0,
                 maxPos: 100,
@@ -465,7 +466,7 @@ class RouteGenerator {
               title: title,
             ),
           ),
-         );
+        );
 
       case contactDetailsListRoute:
         return MaterialPageRoute(
@@ -515,8 +516,7 @@ class RouteGenerator {
           builder: (context) => BlocProvider<cr.ContactRecordBloc>(
             create: (_) => cr.ContactRecordBloc(
               rankType: rankType,
-            )
-              ..add(cr.FetchData(
+            )..add(cr.FetchData(
                 id: id,
                 type: type,
                 startPos: 0,

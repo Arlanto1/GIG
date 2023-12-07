@@ -168,7 +168,7 @@ class SstIncident {
     'id' : id,
     'slNo' : slNo,
     'location' : location?.toJson(),
-   // 'occurrence': occurrence?.toJson(),
+   'occurrence': occurrence?.toJson(),
     'region' : region?.toJson(),
     'vendor' : vendor?.toJson(),
     'vendorTicketNo' : vendorTicketNo,
