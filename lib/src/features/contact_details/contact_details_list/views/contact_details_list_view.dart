@@ -101,8 +101,8 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
         title: Constants.contactDetails,
         showPopUp: true,
         showSaveButton: false,
-        excelAPIName: 'exportMMExcel',
-        pdfAPIName: 'exportMMPDF',
+        excelAPIName: 'exportGcdExcel',
+        pdfAPIName: 'exportGcdPDF',
       ),
       body: BlocConsumer<ContactDetailsListBloc, ContactDetailsListState>(
         listener: (context, state) {
