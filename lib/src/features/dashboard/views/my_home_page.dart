@@ -11,14 +11,14 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class DashboardView extends StatefulWidget {
+  const DashboardView({super.key});
 
   @override
-  State<MyHomePage> createState() => MyHomePageState();
+  State<DashboardView> createState() => DashboardViewState();
 }
 
-class MyHomePageState extends State<MyHomePage> {
+class DashboardViewState extends State<DashboardView> {
   String userName = '';
   String email = '';
 

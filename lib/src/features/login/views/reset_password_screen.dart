@@ -83,7 +83,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
             dismissLoadingDialog(context);
             Navigator.pushNamedAndRemoveUntil(
               context,
-              homePageRoute,
+              dashboardViewRoute,
               (route) => false,
             );
             ScaffoldMessenger.of(context).showSnackBar(

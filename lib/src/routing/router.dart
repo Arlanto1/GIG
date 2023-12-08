@@ -1,13 +1,12 @@
-const String appRoute = '/approute';
+// const String appRoute = '/approute';
 
-const String splashScreenRoute = '/splashscreenRoute';
-
-const String loginScreenRoute = '/loginscreenRoute';
+const String splashScreenRoute = '/splashScreenRoute';
+const String loginScreenRoute = '/loginScreenRoute';
+const String dashboardViewRoute = '/dashboardViewRoute';
 
 const String createfoundScreenRoute = '/createfoundscreenRoute';
 const String articleFoundListRoute = '/articlefoundlistpage';
 
-const String homePageRoute = '/homepageroute';
 
 const String piechartRoute = '/piechartRoutepage';
 

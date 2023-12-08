@@ -2,18 +2,23 @@ import 'dart:developer';
 
 import 'package:db_atom/flavors.dart';
 import 'package:db_atom/initialize_providers.dart';
+import 'package:db_atom/main.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/localization/locale_supported.dart';
 import 'package:db_atom/src/routing/route_generator.dart';
 import 'package:db_atom/src/routing/router.dart';
+import 'package:db_atom/src/utils/InactivityFunctions.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 export 'package:flutter/material.dart';
 
-class MainConfig {
+class MainConfig with WidgetsBindingObserver {
+  // // Global key to track user activity
+  // static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   static environmentsChanging() {
     log('-environmentsChanging---main_config--');
     String environment = String.fromEnvironment(
@@ -21,10 +26,10 @@ class MainConfig {
       defaultValue: F.title == "DEV"
           ? Environment.DEV
           : F.title == "QA"
-          ? Environment.QA
-          : F.title == "UAT"
-          ? Environment.UAT
-          : Environment.PROD,
+              ? Environment.QA
+              : F.title == "UAT"
+                  ? Environment.UAT
+                  : Environment.PROD,
     );
 
     Environment().initConfig(environment);
@@ -40,17 +45,11 @@ class MainConfig {
     // Initialize SharedPrefs instance.
     await SharedPrefs.init();
 
-    // bool isLoggedIn = await SharedPrefs.getLoggedIn() ?? false;
-    // GlobalKey<ScaffoldState> _menuscaffoldKey = new GlobalKey<ScaffoldState>();
-    //  final _menuscaffoldKey = GlobalKey<ScaffoldState>();
     // Environment setup
     environmentsChanging();
 
-    // Update lastInteractionTime whenever the user interacts with the app
-    Future<void> updateUserInteraction() async {
-      log('Updating Last User Interaction Time: ${DateTime.now()}');
-      await SharedPrefs.setLastInteractionTime(DateTime.now().toString());
-    }
+    // Listen for app lifecycle changes
+    WidgetsBinding.instance.addObserver(MainConfig());
 
     runApp(
       InitializeProviders(
@@ -59,10 +58,6 @@ class MainConfig {
             disabledColor: AppColors.textgreyThemecolor,
             fontFamily: Constants.customFontFamily,
             primarySwatch: AppColors.colorCustom,
-            // inputDecorationTheme: const InputDecorationTheme(
-            // filled: true, //<-- SEE HERE
-            // fillColor: AppColors.textfilBbackGroundColor, //<-- SEE HERE
-            // ),
           ),
           navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
@@ -70,19 +65,41 @@ class MainConfig {
           onGenerateRoute: RouteGenerator.generateRoute,
           locale: locale,
           supportedLocales: LocaleSupportedMethod.supportedLocale,
-          localizationsDelegates: LocaleSupportedMethod.getLocalizationsDelegates(),
+          localizationsDelegates:
+              LocaleSupportedMethod.getLocalizationsDelegates(),
           localeResolutionCallback: (locale, supportedLocales) =>
               LocaleSupportedMethod.getLocale(locale, supportedLocales),
           // Add a builder to wrap your MaterialApp with a GestureDetector
           builder: (context, child) {
             return GestureDetector(
               // Trigger updateUserInteraction whenever the user interacts with the app
-              onTap: () => updateUserInteraction(),
+              onTap: () => InactivityFunctions().updateUserInteraction(),
               child: child!,
             );
           },
         ),
       ),
     );
+  }
+
+  // static void startInactivityTimer() {
+  //   // Start the inactivity timer
+  //   InactivityFunctions().startInactivityTimer(navigatorKey);
+  // }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    log('--state------${state.toString()}--');
+    // Check app lifecycle state and perform logout if minimized or closed
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.detached) {
+      logout(navigatorKey);
+    }
+  }
+
+  static void logout(GlobalKey<NavigatorState> navigatorKey) {
+    InactivityFunctions().logoutUser(navigatorKey);
   }
 }

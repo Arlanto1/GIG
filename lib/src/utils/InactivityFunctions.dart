@@ -8,7 +8,7 @@ import 'package:db_atom/src/utils/shared_preferences.dart';
 class InactivityFunctions {
   void startInactivityTimer(GlobalKey<NavigatorState> navigatorKey) {
     log('--startInactivityTimer---');
-    const inactivityDuration = Duration(minutes: 5);
+    const inactivityDuration = Duration(minutes: 10);
 
     Timer.periodic(inactivityDuration, (timer) async {
       log('--Timer.periodic---');
@@ -17,6 +17,7 @@ class InactivityFunctions {
 
       DateTime lastInteractionTime =
           DateTime.parse(await SharedPrefs.getLastInteractionTime());
+      log('----$lastInteractionTime---------${DateTime.now().subtract(inactivityDuration)}-------------');
 
       if (lastInteractionTime
           .isBefore(DateTime.now().subtract(inactivityDuration))) {
@@ -36,10 +37,17 @@ class InactivityFunctions {
     SharedPrefs.setFoundId(100);
     SharedPrefs.clearSharedPreferences();
     // Navigate to the login screen
-    log('--logoutUser-${getCurrentRouteName(navigatorKey)}--');
-    if (getCurrentRouteName(navigatorKey) != loginScreenRoute) {
+    // log('--logoutUser-${getCurrentRouteName(navigatorKey)}--');
+    // if (getCurrentRouteName(navigatorKey) != loginScreenRoute) {
       navigatorKey.currentState?.pushReplacementNamed(loginScreenRoute);
-    }
+    // }
+    updateUserInteraction();
+  }
+
+  // Update lastInteractionTime whenever the user interacts with the app
+  Future<void> updateUserInteraction() async {
+    log('Updating Last User Interaction Time: ${DateTime.now()}');
+    await SharedPrefs.setLastInteractionTime(DateTime.now().toString());
   }
 
   String getCurrentRouteName(GlobalKey<NavigatorState> navigatorKey) {
