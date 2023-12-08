@@ -1452,6 +1452,7 @@ class _CreateFoundState extends State<CreateFound> {
                                     : Container(),
 
                                 ///TODO: Need to work on signature
+                                if(isClaimantAcceptedtoSignSelected== 1)...[
                                 /// Claimant Signature
                                 buildSignature(
                                   controller: claimantSignatureController,
@@ -1459,7 +1460,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   spaceHeight: height,
                                   state: state,
                                 ),
-
+],
                                 // widget.model != null &&
                                 //         isClaimantAcceptedtoSignSelected == 1
                                 //     ? CommonWidgets.textDisplay(
