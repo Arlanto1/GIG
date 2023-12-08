@@ -16,6 +16,7 @@ class FoundListArticleDetails {
 
     int? id;
     String? slNo;
+    int? eventProtection;
     String? inputDate;
     Organisation? locationRegion;
     int? typeOfAsset;
