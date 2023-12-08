@@ -27,7 +27,7 @@ class NavigationDrawer1 extends StatelessWidget {
     initializeDrawerItems();
   }
 
-  late List<MenuItem> expansionTileDrawerItems;
+  late List<MenuItem> expansionTileDrawerItems = [];
 
   Future<void> initializeDrawerItems() async {
     expansionTileDrawerItems = await checkDisplayMenu();

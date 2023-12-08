@@ -58,10 +58,13 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     stateController.text = widget.model.state ?? '';
     contactNoController.text = widget.model.contactNo ?? '';
 
-    Label matchingLabel = escalationLevelDropDownValues.firstWhere(
-        (label) => label.value == widget.model.escalationLevel.toString());
+    if(widget.model.escalationLevel != null) {
+      Label matchingLabel = escalationLevelDropDownValues.firstWhere(
+              (label) =>
+          label.value == widget.model.escalationLevel.toString());
 
-    escalationLevelController.text = matchingLabel.key ?? '';
+      escalationLevelController.text = matchingLabel.key ?? '';
+    }
   }
 
   @override
