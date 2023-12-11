@@ -23,7 +23,7 @@ class App extends StatelessWidget {
         ),
       ),
       home: _flavorBanner(
-        child: const MyHomePage(),
+        child: const DashboardView(),
         //show: kReleaseMode,
       ),
     );

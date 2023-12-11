@@ -88,7 +88,7 @@ class _OtpVerifyState extends State<OtpVerify> {
             dismissLoadingDialog(context);
             Navigator.pushNamedAndRemoveUntil(
               context,
-              homePageRoute,
+              dashboardViewRoute,
               (route) => false,
             );
           } else if (state is UpdatePasswordState) {

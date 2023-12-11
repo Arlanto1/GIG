@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/app.dart';
 import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
 import 'package:db_atom/src/constants/constant_agruments.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -112,10 +111,10 @@ class RouteGenerator {
     // final args = settings.arguments;
     // ignore: non_constant_identifier_names
     switch (settings.name) {
-      case appRoute:
-        return MaterialPageRoute(builder: (context) => const App());
-      case homePageRoute:
-        return MaterialPageRoute(builder: (context) => const MyHomePage());
+      // case appRoute:
+      //   return MaterialPageRoute(builder: (context) => const App());
+      case dashboardViewRoute:
+        return MaterialPageRoute(builder: (context) => const DashboardView());
       case splashScreenRoute:
         return MaterialPageRoute(builder: (context) => const SplashScreen());
       case loginScreenRoute:
@@ -845,7 +844,7 @@ class RouteGenerator {
           ),
         );
       default:
-        return MaterialPageRoute(builder: (context) => const MyHomePage());
+        return MaterialPageRoute(builder: (context) => const DashboardView());
     }
   }
 }

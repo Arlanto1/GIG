@@ -72,13 +72,14 @@ FoundListArticleDetails _$FoundListArticleDetailsFromJson(
       location: json['location'] == null
           ? null
           : Organisation.fromJson(json['location'] as Map<String, dynamic>),
-    );
+    )..eventProtection = json['eventProtection'] as int?;
 
 Map<String, dynamic> _$FoundListArticleDetailsToJson(
         FoundListArticleDetails instance) =>
     <String, dynamic>{
       'id': instance.id,
       'slNo': instance.slNo,
+      'eventProtection': instance.eventProtection,
       'inputDate': instance.inputDate,
       'locationRegion': instance.locationRegion,
       'typeOfAsset': instance.typeOfAsset,

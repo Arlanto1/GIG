@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
+import 'package:db_atom/src/common_widgets/cutom_internatilization.dart';
 import 'package:db_atom/src/configurations/main_config.dart';
+import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/dashboard/views/charts/bar_chart.dart';
 import 'package:db_atom/src/features/dashboard/views/charts/pie_chart.dart';
@@ -11,14 +13,14 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class DashboardView extends StatefulWidget {
+  const DashboardView({super.key});
 
   @override
-  State<MyHomePage> createState() => MyHomePageState();
+  State<DashboardView> createState() => DashboardViewState();
 }
 
-class MyHomePageState extends State<MyHomePage> {
+class DashboardViewState extends State<DashboardView> {
   String userName = '';
   String email = '';
 
@@ -63,28 +65,28 @@ class MyHomePageState extends State<MyHomePage> {
         isTitleCenter: false,
         title: Constants.dashboard,
 
-        action: const [
-          // GestureDetector(
-          //   onTap: () {
-          //     showDialog(
-          //       context: context,
-          //       builder: (BuildContext dialogContext) {
-          //         return const CustomInternationalization(
-          //           title: Constants.internationalization,
-          //         );
-          //       },
-          //     );
-          //   },
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(10.0),
-          //     child: SvgPicture.asset(
-          //       AppIcon.vectoridentify,
-          //       color: AppColors.backgroundWhitecolor,
-          //       width: 20,
-          //       //key: const Key(Keys.userIcon),
-          //     ),
-          //   ),
-          // ),
+        action:  [
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext dialogContext) {
+                  return const CustomInternationalization(
+                    title: Constants.internationalization,
+                  );
+                },
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SvgPicture.asset(
+                AppIcon.vectoridentify,
+                color: AppColors.backgroundWhitecolor,
+                width: 20,
+                //key: const Key(Keys.userIcon),
+              ),
+            ),
+          ),
 
           // Icon(Icons.add),
 

@@ -12,11 +12,11 @@ class FoundListArticleDetails {
     factory FoundListArticleDetails.fromJson(Map<String, dynamic> json) =>
         _$FoundListArticleDetailsFromJson(json);
 
-    @override
     Map<String, dynamic> toJson() => _$FoundListArticleDetailsToJson(this);
 
     int? id;
     String? slNo;
+    int? eventProtection;
     String? inputDate;
     Organisation? locationRegion;
     int? typeOfAsset;

@@ -1,46 +1,8 @@
 import 'dart:developer';
 
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:db_atom/index.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../../main_DEV.dart';
-import '../../../../../common_widgets/app_button.dart';
-import '../../../../../common_widgets/base_widget/base_app_bar.dart';
-import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
-import '../../../../../common_widgets/base_widget/base_drop_down.dart';
-import '../../../../../common_widgets/base_widget/base_image_upload.dart';
-import '../../../../../common_widgets/base_widget/check_box.dart';
-import '../../../../../common_widgets/base_widget/date_picker_dialog.dart';
-import '../../../../../common_widgets/base_widget/multiple_selection_pop_up.dart';
-import '../../../../../common_widgets/base_widget/radio_buttons_yes_no.dart';
-import '../../../../../common_widgets/base_widget/record_locked_widget.dart';
-import '../../../../../common_widgets/base_widget/selected_tile_value_widget.dart';
-import '../../../../../common_widgets/basic_reusable_widgets.dart';
-import '../../../../../common_widgets/create_fields.dart';
-import '../../../../../common_widgets/custom_list_expansion_pop_up.dart';
-import '../../../../../common_widgets/image_download.dart';
-import '../../../../../common_widgets/new_search_textfield.dart';
-import '../../../../../common_widgets/textfiled_addbutton.dart';
-import '../../../../../constants/app_icon.dart';
-import '../../../../../constants/constants.dart';
-import '../../../../../enums/form_status.dart';
-import '../../../../../models/base_user.dart';
-import '../../../../../routing/router.dart';
-import '../../../../../utils/app_themes/colors/app_color.dart';
-import '../../../../../utils/app_themes/styles/app_styles.dart';
-import '../../../../../utils/customalert.dart';
-import '../../../../../utils/helpers/keys/keys.dart';
-import '../../../../../utils/util.dart';
-import '../../../../../utils/validators/validator.dart';
-import '../../../../createfound/models/user.dart';
-import '../../models/guarding_master_data_model.dart';
-import '../cubits/guarding_master_data_details_cubit.dart';
 import 'add_date_pop_up.dart';
 
 class GuardingMasterDataDetails extends StatefulWidget {

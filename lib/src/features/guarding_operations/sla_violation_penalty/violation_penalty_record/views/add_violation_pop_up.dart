@@ -1,23 +1,6 @@
 import 'dart:developer';
 
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
-import 'package:db_atom/src/common_widgets/pop_button.dart';
-import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/error_response_validation.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
-import 'package:flutter/material.dart';
-
-import '../../../../../common_widgets/base_widget/base_drop_down.dart';
-import '../../../../../common_widgets/base_widget/base_list_tile_item.dart';
-import '../../models/violation_penalty_model.dart';
+import 'package:db_atom/index.dart';
 
 class AddContactPopUp extends StatefulWidget {
   const AddContactPopUp({
