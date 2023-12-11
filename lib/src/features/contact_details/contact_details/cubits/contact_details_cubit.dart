@@ -228,6 +228,8 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
               : FormStatus.success,
         ),
       );
+      state.model.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
       return true;
     } on GenericResponse catch (e) {
       emit(
