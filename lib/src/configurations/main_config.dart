@@ -16,9 +16,6 @@ import 'package:flutter/material.dart';
 export 'package:flutter/material.dart';
 
 class MainConfig with WidgetsBindingObserver {
-  // // Global key to track user activity
-  // static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
   static environmentsChanging() {
     log('-environmentsChanging---main_config--');
     String environment = String.fromEnvironment(
@@ -82,20 +79,29 @@ class MainConfig with WidgetsBindingObserver {
     );
   }
 
-  // static void startInactivityTimer() {
-  //   // Start the inactivity timer
-  //   InactivityFunctions().startInactivityTimer(navigatorKey);
-  // }
-
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
 
     log('--state------${state.toString()}--');
     // Check app lifecycle state and perform logout if minimized or closed
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.detached) {
+    if (state == AppLifecycleState.paused) {
+      InactivityFunctions().updateUserInteraction();
+      // logout(navigatorKey);
+    }
+    // When app is closed
+    if (state == AppLifecycleState.detached) {
+      // InactivityFunctions().updateUserInteraction();
       logout(navigatorKey);
+    }
+
+    if (state == AppLifecycleState.resumed) {
+      DateTime lastUserInteractionTime =
+          await InactivityFunctions().getLastUserInteractionTime();
+      if (InactivityFunctions().isTimeExceeded(
+          lastUserInteractionTime, Constants.inactivityDuration)) {
+        logout(navigatorKey);
+      }
     }
   }
 
