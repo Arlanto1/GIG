@@ -619,7 +619,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         .toLowerCase() ==
                                         'cwr t1'
                                     ? CommonWidgets.textDisplay(Constants.email,
-                                    Styles.textStyleBlack14)
+                                    Styles.textStyleBlack14,isMandatory: true)
                                     : Container(),
 
                                 widget.passId == "0" &&
