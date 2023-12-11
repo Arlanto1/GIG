@@ -82,7 +82,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getUiLabels(
-            language: 'en', moduleCode: Constants.materialMovementModuleCode),
+            language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.materialMovementModuleCode),
         SharedPrefs.getDefaultLocation(),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
         commonServices.getQuantityUnits(),

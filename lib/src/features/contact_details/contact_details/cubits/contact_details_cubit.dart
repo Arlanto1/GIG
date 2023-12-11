@@ -66,7 +66,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
         commonServices.getUserDetails(userId: userId),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getUiLabels(
-            language: 'en', moduleCode: Constants.contactDetailsModule),
+            language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.contactDetailsModule),
         SharedPrefs.getDefaultLocation(),
       ];
 

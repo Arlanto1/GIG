@@ -107,7 +107,7 @@ class GuardingMasterDataDetailsCubit
         commonServices.getDepartments(name: 'ATOM_VENDORS'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUiLabels(
-            language: 'en', moduleCode: Constants.guardingMasterModuleCode),
+            language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.guardingMasterModuleCode),
         SharedPrefs.getDefaultLocation(),
       ]);
 

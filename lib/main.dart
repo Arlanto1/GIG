@@ -6,7 +6,7 @@ import 'package:db_atom/src/utils/InactivityFunctions.dart';
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
-  F.appFlavor = Flavor.prod;
+  F.appFlavor = Flavor.qa;
   //runApp(App());
   MainConfig.initialSetup(navigatorKey);
   InactivityFunctions().startInactivityTimer(navigatorKey);

@@ -84,7 +84,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         SharedPrefs.getDefaultLocation(),
         commonServices.getUserDetails(userId: userId),
         commonServices.getUiLabels(
-            language: 'en', moduleCode: Constants.eventProtectionModuleCode),
+            language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.eventProtectionModuleCode),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
