@@ -250,8 +250,9 @@ class CommonServices {
     BuildContext? context,
   }) async {
     final String url = "${Apis._createOrganisation}name=$name&orgName=$orgName";
-    final response = await BaseApiService().getRequest(
+    final response = await BaseApiService().postRequest(
       url: url,
+      requestedData: {}
     );
     return Organisation.fromJson(response);
   }
@@ -265,8 +266,9 @@ class CommonServices {
   }) async {
     final String url =
         "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
-    final response = await BaseApiService().getRequest(
+    final response = await BaseApiService().postRequest(
       url: url,
+      requestedData: {}
     );
     return CreateUserModel.fromJson(response);
   }
