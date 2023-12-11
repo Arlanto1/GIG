@@ -20,7 +20,7 @@ import 'package:db_atom/src/features/createfound/views/add_employee_deparment.da
 import 'package:db_atom/src/features/createfound/views/create_found.dart';
 import 'package:db_atom/src/features/createfound/views/create_found_attachment.dart';
 import 'package:db_atom/src/features/dashboard/views/charts/pie_chart.dart';
-import 'package:db_atom/src/features/dashboard/views/my_home_page.dart';
+import 'package:db_atom/src/features/dashboard/views/dashboard_view.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/cubits/contact_info_cubit.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/views/contact_info_view.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/event_info/views/event_info_view.dart';

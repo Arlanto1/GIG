@@ -84,24 +84,24 @@ class MainConfig with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
 
     log('--state------${state.toString()}--');
-    // Check app lifecycle state and perform logout if minimized or closed
-    if (state == AppLifecycleState.paused) {
-      InactivityFunctions().updateUserInteraction();
-      // logout(navigatorKey);
-    }
-    // When app is closed
-    if (state == AppLifecycleState.detached) {
-      // InactivityFunctions().updateUserInteraction();
-      logout(navigatorKey);
-    }
 
-    if (state == AppLifecycleState.resumed) {
-      DateTime lastUserInteractionTime =
-          await InactivityFunctions().getLastUserInteractionTime();
-      if (InactivityFunctions().isTimeExceeded(
-          lastUserInteractionTime, Constants.inactivityDuration)) {
+    switch (state) {
+      case AppLifecycleState.paused:
+        InactivityFunctions().updateUserInteraction();
+        break;
+      case AppLifecycleState.detached:
+        log('--calling logout------${state.toString()}--');
         logout(navigatorKey);
-      }
+        break;
+      case AppLifecycleState.resumed:
+        DateTime lastUserInteractionTime =
+            await InactivityFunctions().getLastUserInteractionTime();
+        if (InactivityFunctions().isTimeExceeded(
+            lastUserInteractionTime, Constants.inactivityDuration)) {
+          logout(navigatorKey);
+        }
+        break;
+      default:
     }
   }
 

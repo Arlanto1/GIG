@@ -4,7 +4,7 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 
 import 'flavors.dart';
-import 'src/features/dashboard/views/my_home_page.dart';
+import 'src/features/dashboard/views/dashboard_view.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
