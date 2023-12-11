@@ -49,7 +49,7 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
   TextEditingController ertCertificationDate = TextEditingController();
   TextEditingController firstAidTrainingCompletionDate =
       TextEditingController();
-  TextEditingController mSGBExemptionDate = TextEditingController();
+  TextEditingController mSGBExemptionDateController = TextEditingController();
 
   TextEditingController rankController = TextEditingController();
   TextEditingController dutyTypeController = TextEditingController();
@@ -146,6 +146,10 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
 
     dateOfJoiningController.text = Utils.timestamptoDateConversion(
         int.parse(widget.guardingMasterData?.dateOfJoining ?? '0'),
+        Constants.dateFormat);
+
+    mSGBExemptionDateController.text = Utils.timestamptoDateConversion(
+        int.parse(widget.guardingMasterData?.msgbExemptionDate ?? '0'),
         Constants.dateFormat);
 
     pvcIssuedDateController.text = Utils.timestamptoDateConversion(
@@ -1826,13 +1830,14 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
                                   height * 0.001),
 
                               BaseDate().datePickerWidgetLoading(
-                                textController: mSGBExemptionDate,
+                                onlyDate: true,
+                                textController: mSGBExemptionDateController,
                                 onChange: (String value) {
                                   state.model.msgbExemptionDate =
                                       Utils().formatTime(value);
-                                  BlocProvider.of<
-                                              GuardingMasterDataDetailsCubit>(
-                                          context)
+
+                                  BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                      context)
                                       .onModelValueChange(state.model);
                                 },
                                 context: context,
