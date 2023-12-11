@@ -1,5 +1,9 @@
 import '../../index.dart';
 
+const List<Label> languagesDropDownValues = [
+  Label(key: 'English', value: 'en'),
+  Label(key: 'German', value: 'de'),
+];
 const List<Label> statusDropDownValues = [
   Label(key: 'Active', value: '1'),
   Label(key: 'InActive', value: '2'),

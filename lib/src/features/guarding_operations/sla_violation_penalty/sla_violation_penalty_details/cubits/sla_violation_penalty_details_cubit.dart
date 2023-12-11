@@ -118,7 +118,7 @@ class SLAViolationPenaltyDetailsCubit
       // state.model.inputDate =
       //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
       dynamic responseLabels = await commonServices.getUiLabels(
-          language: 'en', moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+          language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
       log('--default--${labels.defaultLocale}----------');
 

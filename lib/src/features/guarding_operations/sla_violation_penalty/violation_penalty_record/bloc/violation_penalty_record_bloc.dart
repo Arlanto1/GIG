@@ -1,19 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/models/organisation.dart';
+import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../../constants/constants.dart';
-import '../../models/requestModels/violation_penalty_request.dart';
-import '../../models/sla_ui_labels.dart';
-import '../../models/violation_penalty_model.dart';
-import '../../services/sla_violation_penalty_services.dart';
 
 part 'violation_penalty_record_event.dart';
 
@@ -44,7 +37,7 @@ class ViolationPenaltyRecordBloc
           await commonServices.getOrganisations(name: violationDescription);
 
       dynamic responseLabels = await commonServices.getUiLabels(
-          language: 'en', moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+          language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
       log('--default--${responseLabels.toString()}----//Getting Proper response as JSON------');
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
       log('-items-----${items.length}-');

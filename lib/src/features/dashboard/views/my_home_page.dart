@@ -1,17 +1,6 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/common_widgets/app_bar.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/cutom_internatilization.dart';
-import 'package:db_atom/src/configurations/main_config.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/dashboard/views/charts/bar_chart.dart';
-import 'package:db_atom/src/features/dashboard/views/charts/pie_chart.dart';
-import 'package:db_atom/src/features/dashboard/views/drawer/drawer_reusable.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:flutter/material.dart';
+import 'package:db_atom/index.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -65,14 +54,15 @@ class DashboardViewState extends State<DashboardView> {
         isTitleCenter: false,
         title: Constants.dashboard,
 
-        action:  [
+        action: [
           GestureDetector(
             onTap: () {
               showDialog(
                 context: context,
-                builder: (BuildContext dialogContext) {
-                  return const CustomInternationalization(
-                    title: Constants.internationalization,
+                builder: (BuildContext context) {
+                  return const ArticleDialog(
+                    labels: languagesDropDownValues,
+                    title: 'Choose Language',
                   );
                 },
               );

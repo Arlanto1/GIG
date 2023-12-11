@@ -200,4 +200,12 @@ class SharedPrefs {
         DateTime.now().toString();
     return value; //Future<bool>.value(isLoggedIn);
   }
+
+  static Future<void> setLanguageCode(String value) async {
+    instance.setString(Constants.languageCode, value);
+  }
+
+  static Future<String> getLanguageCode() async {
+    return instance.getString(Constants.languageCode) ?? 'en';
+  }
 }
