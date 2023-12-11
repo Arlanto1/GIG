@@ -407,8 +407,8 @@ class _CreateFoundState extends State<CreateFound> {
         claimant: claimant,
         claimantDbEmp: isClaimDBEmployeeSelectedValue,
         claimantNoSign: isClaimSignSelectedValue,
-        // TODO: Need to uncomment the line for passing signature
-        // claimantSign: widget.model?.claimantSign,
+        // Passing signature
+        claimantSign: widget.model?.claimantSign,
         handoverSecurity: handoverSecurity,
         handoverDate: handoverDate,
         claimantEmployeeId: claimantEmpIdTextController.text.isEmpty
