@@ -2716,8 +2716,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       statusValue = 7;
     } else if (statusTextController.text.toLowerCase() == "returned damaged") {
       statusValue = 8;
-    } else {
+    } else if (statusTextController.text.toLowerCase() == "returned defaced") {
       statusValue = 9;
+    }
+    else{
+      statusValue = 1;
     }
 
     int updatestatusvalue = 0;
@@ -2734,8 +2737,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else if (updateStatusTextController.text.toLowerCase() ==
         "returned damaged") {
       updatestatusvalue = 8;
-    } else {
-      updatestatusvalue = 1;
+    } else if (updateStatusTextController.text.toLowerCase() ==
+        "returned defaced") {
+      updatestatusvalue = 9;
+    }
+    else{
+      updatestatusvalue =1;
     }
 
     log('-state.selectedEntities?.length--${state.selectedEntities
