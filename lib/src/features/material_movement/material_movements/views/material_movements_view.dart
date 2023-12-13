@@ -151,7 +151,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                             );
                           },
                           onEditTap: (selectedIndex) {
-                            getLawEnforcementId(state.items[index].id ?? 0);
+                            getById(state.items[index].id ?? 0);
                           },
                           onViewTap: (selectedIndex) {
                             showDialog(
@@ -187,7 +187,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
     );
   }
 
-  getLawEnforcementId(int id) async {
+  getById(int id) async {
     showLoadingDialog(context);
 
     MaterialMovementModel materialMovementModel =

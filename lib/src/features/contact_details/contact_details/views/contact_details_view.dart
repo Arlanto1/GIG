@@ -689,7 +689,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       validateTextField: (String? user) {},
     );
   }
-// getLawEnforcementId(int id, int type) async {
+// getById(int id, int type) async {
 //   showLoadingDialog(context);
 //
 //   ContactListResponseModel contactsModel =

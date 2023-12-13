@@ -107,8 +107,8 @@ class _PayRateViewState extends State<PayRateView> {
             title: widget.title,
             showPopUp: false,
             showSaveButton: false,
-            showAddButton: true,
-            onTapAddButton: () {
+            showCustomIcon: true,
+            onTapCustomIcon: () {
               addSecurityGuardPopUp(context: context, payRate: PayRate());
             }),
         body: BlocConsumer<PayRateCubit, PayRateState>(

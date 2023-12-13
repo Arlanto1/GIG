@@ -143,7 +143,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                           );
                         },
                         onEditTap: (selectedIndex) {
-                          getLawEnforcementId(state.list[index].id ?? 0);
+                          getById(state.list[index].id ?? 0);
                         },
                         showEditButton: true,
                         onViewTap: (selectedIndex) {
@@ -174,7 +174,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
         }));
   }
 
-  getLawEnforcementId(int id) async {
+  getById(int id) async {
     showLoadingDialog(context);
 
     GuardingMastersDataModel guardingMastersDataModel =
