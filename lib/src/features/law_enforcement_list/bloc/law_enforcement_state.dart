@@ -16,7 +16,7 @@ class LawEnforcementState extends Equatable {
     FormStatus? status,
   }) {
     return LawEnforcementState(
-      items: todos ?? this.items,
+      items: todos ?? items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
     );

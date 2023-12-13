@@ -82,7 +82,7 @@ class MainConfig with WidgetsBindingObserver {
     }
 
     // TODO: Set up foreground message handler
-    final _messageStreamController = BehaviorSubject<RemoteMessage>();
+    final messageStreamController = BehaviorSubject<RemoteMessage>();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (kDebugMode) {
         print('Handling a foreground message: ${message.messageId}');
@@ -91,12 +91,12 @@ class MainConfig with WidgetsBindingObserver {
         print('Message notification: ${message.notification?.body}');
       }
 
-      _messageStreamController.sink.add(message);
+      messageStreamController.sink.add(message);
     });
 
 
     // TODO: Set up background message handler
-    Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+    Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       await Firebase.initializeApp();
 
       if (kDebugMode) {
@@ -107,7 +107,7 @@ class MainConfig with WidgetsBindingObserver {
       }
     }
 
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
     runApp(
       InitializeProviders(
