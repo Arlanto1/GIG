@@ -1,38 +1,6 @@
 import 'dart:developer';
 
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_department_dialog.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
-import 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';
-import 'package:db_atom/src/common_widgets/textfiled_addbutton.dart';
-import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_cubit.dart';
-import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../../../main_DEV.dart';
-import '../../../../../common_widgets/app_button.dart';
-import '../../../../../common_widgets/base_widget/base_app_bar.dart';
-import '../../../../../common_widgets/base_widget/base_drop_down.dart';
-import '../../../../../common_widgets/base_widget/date_picker_dialog.dart';
-import '../../../../../common_widgets/base_widget/selected_tile_value_widget.dart';
-import '../../../../../common_widgets/basic_reusable_widgets.dart';
-import '../../../../../common_widgets/custom_list_expansion_pop_up.dart';
-import '../../../../../common_widgets/new_search_textfield.dart';
-import '../../../../../constants/app_icon.dart';
-import '../../../../../constants/constants.dart';
-import '../../../../../enums/form_status.dart';
-import '../../../../../routing/router.dart';
-import '../../../../../utils/app_themes/colors/app_color.dart';
-import '../../../../../utils/app_themes/styles/app_styles.dart';
-import '../../../../../utils/customalert.dart';
-import '../../../../../utils/helpers/keys/keys.dart';
-import '../../../../../utils/util.dart';
-import '../../../../../utils/validators/validator.dart';
-import '../../../../createfound/models/get_locations_model.dart';
-import '../../../../createfound/models/user.dart';
+import 'package:db_atom/index.dart';
 
 class OccurrenceDetails extends StatefulWidget {
   final String title;
@@ -647,7 +615,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                 GestureDetector(
                                   onTap: () => navigateToCreateIncident(
                                     state: state,
-                                    occId: 1,
+                                    occType: 1,
                                     isSSTIncident: false,
                                   ),
                                   child: Row(
@@ -666,17 +634,19 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
-                                      if (state.model.incidentItems != null &&
-                                          state.model.incidentItems!
-                                              .isNotEmpty) ...[
-                                        CommonWidgets.horizontalSpacerWidget(
-                                            height * 0.01),
-                                        showButtonDisplay(
-                                          occId: state.model.id.toString(),
-                                          occType: 1,
-                                          state: state,
-                                        ),
-                                      ],
+                                      // if (state.model.incidentItems != null &&
+                                      //     !state.model.incidentItems!.where(
+                                      //         (element) =>
+                                      //             element.incidentType ==
+                                      //             1).isEmptyOrNull) ...[
+                                      CommonWidgets.horizontalSpacerWidget(
+                                          height * 0.01),
+                                      showButtonDisplay(
+                                        occId: state.model.id.toString(),
+                                        occType: 1,
+                                        state: state,
+                                      ),
+                                      // ],
                                     ],
                                   ),
                                 ),
@@ -771,7 +741,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                 GestureDetector(
                                   onTap: () => navigateToCreateIncident(
                                     state: state,
-                                    occId: 2,
+                                    occType: 2,
                                     isSSTIncident: false,
                                   ),
                                   child: Row(
@@ -793,17 +763,17 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
-                                      if (state.model.incidentItems != null &&
-                                          state.model.incidentItems!
-                                              .isNotEmpty) ...[
-                                        CommonWidgets.horizontalSpacerWidget(
-                                            height * 0.01),
-                                        showButtonDisplay(
-                                          occId: state.model.id.toString(),
-                                          occType: 2,
-                                          state: state,
-                                        ),
-                                      ],
+                                      // if (state.model.incidentItems != null &&
+                                      //     state.model.incidentItems!
+                                      //         .isNotEmpty) ...[
+                                      CommonWidgets.horizontalSpacerWidget(
+                                          height * 0.01),
+                                      showButtonDisplay(
+                                        occId: state.model.id.toString(),
+                                        occType: 2,
+                                        state: state,
+                                      ),
+                                      // ],
                                     ],
                                   ),
                                 ),
@@ -1394,19 +1364,22 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
           orElse: () => const Label(key: '', value: ''),
         );
 
+        log('--state.model.id----${state.model.id}---');
         if (showListing) {
           // Navigate to Listing Page
           Navigator.pushNamed(context, sstIncidentListRoute, arguments: {
             "isInternal":
-                selectedLabel.value.equalsIgnoreCase('0') ? true : false
+                selectedLabel.value.equalsIgnoreCase('0') ? true : false,
+            "occId": state.model.id.toString(), // TODO: Need to check
           });
           return;
         }
 
         // Call navigateToCreateIncident here
         navigateToCreateIncident(
+
           state: state,
-          occId: 1,
+          occType: 1,
           isSSTIncident: true,
           isInternal: selectedLabel.value == '0' ? true : false,
         );
@@ -1445,7 +1418,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
 
   Future<void> navigateToCreateIncident({
     required OccurrenceGeneralInfoState state,
-    required int occId,
+    required int occType,
     required bool isSSTIncident,
     bool? isInternal,
   }) async {
@@ -1465,7 +1438,7 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
     log('--state.model.id-----occId-------${state.model.id}-----');
     var map = {
       'occId': state.model.id.toString(),
-      'occType': occId,
+      'occType': occType,
     };
     if (isInternal ?? false) {
       map.putIfAbsent('isInternal', () => isInternal ?? false);

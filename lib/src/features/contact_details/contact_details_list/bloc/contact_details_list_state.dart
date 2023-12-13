@@ -5,12 +5,14 @@ class ContactDetailsListState extends Equatable {
   final bool hasReachedMax;
   final FormStatus status;
   final CdUiLabels? labels;
+  final String? message;
 
   const ContactDetailsListState({
     this.items = const <ContactDetailModel>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
     this.labels,
+    this.message,
   });
 
   ContactDetailsListState copyWith({
@@ -18,12 +20,14 @@ class ContactDetailsListState extends Equatable {
     bool? hasReachedMax,
     FormStatus? status,
     CdUiLabels? labels,
+    String? message,
   }) {
     return ContactDetailsListState(
       items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
       labels: labels ?? this.labels,
+      message: message ?? this.message,
     );
   }
 

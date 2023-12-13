@@ -70,10 +70,7 @@ class GuardingMasterDataDetailsCubit
   }
 
   void onAddParticipationDate(String participationDate) {
-    log('-participationDate---$participationDate-');
-
     emit(state.copyWith(model: model, status: FormStatus.loading));
-    log('-state.participationDates---before---${state.participationDates}----');
     List<String>? dates = state.participationDates ?? [];
     dates.add(participationDate);
 
@@ -81,11 +78,7 @@ class GuardingMasterDataDetailsCubit
       participationDates: dates,
     );
 
-    log('-state.participationDates---after---${state.participationDates}----');
     state.model.csrParticipationDates = Utils().joinListWithComma(dates);
-
-    log('-state.guardingMasterData.csrParticipationDates---final---${state.model.csrParticipationDates}----');
-
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
@@ -94,67 +87,60 @@ class GuardingMasterDataDetailsCubit
   }
 
   Future<void> initializeValues() async {
-    log('-status-1-${state.status}--');
-    //Show Loader and emit loading state
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
+
     var userId = await SharedPrefs.getUserId();
     try {
-      Locations getLocationsData =
-          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+      // Use Future.wait to call API functions concurrently
+      final futures = await Future.wait([
+        commonServices.getLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getUserDetails(userId: userId),
+        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
+        commonServices.getEntities(name: 'ATOM_ENTITIES'),
+        commonServices.getUsers(),
+        commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
+        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getDepartments(name: 'ATOM_VENDORS'),
+        commonServices.getVendors(name: 'ATOM_VENDORS'),
+        commonServices.getUiLabels(
+            language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.guardingMasterModuleCode),
+        SharedPrefs.getDefaultLocation(),
+      ]);
 
-      User loggedInUserDetails =
-          await commonServices.getUserDetails(userId: userId);
-
-      Analyst users =
-          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-
+      Locations getLocationsData = futures[0];
+      User loggedInUserDetails = futures[1];
+      Analyst users = futures[2];
+      AddEntities entities = futures[3];
+      List<User> entrySecurities = futures[4];
+      AddQualifications qualifications = futures[5];
+      GetDepositor emailUsers = futures[6];
+      EmployeeDepartments departments = futures[7];
+      Vendors vendors = futures[8];
+      dynamic responseLabels = futures[9];
+      Organisation? defaultLocation = futures[10];
+      if (state.model.location == null && defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.contactDetailsModule,
+        );
+        state.model.location = defaultLocation;
+        state.model.slNo = slNo.serialNo;
+      }
+      state.model.entrySecurity = loggedInUserDetails;
       // Get Date of Creation
       state.model.inputDate = _getCurrentDate();
 
-      AddEntities entities =
-          await commonServices.getEntities(name: 'ATOM_ENTITIES');
-
-      List<User> entrySecurities = await commonServices.getUsers();
-      AddQualifications qualifications =
-          await commonServices.getQualification(name: 'GUARD_QUALIFICATIONS');
-
-      GetDepositor emailUsers =
-          await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
-
-      EmployeeDepartments departments =
-          await commonServices.getDepartments(name: 'ATOM_VENDORS');
-      Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
-
-      log('-departments-length-----${departments.employeeDepartments?.length}--');
-      log('-guardRank--${state.model.guardRank}----');
-
-      List<String> participationDates = Utils()
+      dynamic participationDates = Utils()
           .splitStringAfterComma(state.model.csrParticipationDates ?? '');
+
       log('-participationDates---${participationDates.toString()}---');
 
-      dynamic responseLabels = await commonServices.getUiLabels(
-          language: 'en', moduleCode: Constants.guardingMasterModuleCode);
-      // log('--default--${responseLabels.toString()}----//Getting Proper response as JSON------');
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
-      log('--default--${labels.defaultLocale}----------');
 
-      if (state.model.location == null) {
-        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-        if (defaultLocation != null) {
-          SerialNumberModel slNo = await commonServices.getSlNo(
-            locationId: defaultLocation.id.toString(),
-            moduleCode: Constants.guardingMasterDataModule,
-          );
-          state.model.location = defaultLocation;
-          state.model.slNo = slNo.serialNo;
-        }
-        state.model.entrySecurity = loggedInUserDetails;
-
-      }
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -173,39 +159,25 @@ class GuardingMasterDataDetailsCubit
           localAddressAttachments: state.model.localAddressProof != null
               ? [state.model.localAddressProof ?? ImageContent()]
               : null,
-
           bioDataAttachments: state.model.bopData != null
               ? [state.model.bopData ?? ImageContent()]
               : null,
-
-          // guardAttachments: state.guardingMasterData.pho !=
-          //     null
-          //     ? [state.guardingMasterData.bopData ?? CreateImage()]
-          //     : null,
-
           deploymentAttachments: state.model.deploymentOrders,
-
           permanentAddressAttachments: state.model.permanentAddressProof != null
               ? [state.model.permanentAddressProof ?? ImageContent()]
               : null,
-
           pVCAttachments: state.model.pvc,
-
           trainingAttachments: state.model.trainingCertificates,
-
-          // mSGBAttachments: state.guardingMasterData.m
-
           medicalAttachments: state.model.medicalCertificates,
           labels: labels,
         ),
       );
     } catch (e) {
-      log('initialization issue',
+      log('Initialization issue',
           error: e, name: 'Guarding Master Data Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
-          // TODO: error message should be dynamic
           status: FormStatus.error,
         ),
       );

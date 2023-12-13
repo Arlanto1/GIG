@@ -73,7 +73,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
   }
 
   Future<void> initializeValues() async {
-    log('-status-1-${state.status}--');
+    log('initializeValues--sst-incidentGeneralCubit-occId---$occId--');
     //Show Loader and emit loading state
     emit(
       state.copyWith(
@@ -124,13 +124,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         }
       }
 
-      if(isInternal == true) {
-        state.model.staffType= 1;
+      if (isInternal == true) {
+        state.model.staffType = 1;
         state.model.ticketType = 1;
-      }
-      else{
+      } else {
         state.model.staffType = 2;
-        state.model.ticketType =1;
+        state.model.ticketType = 1;
       }
 
       emit(
@@ -307,13 +306,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     if (state.model.status == 0 || state.model.status == null) {
       state.model.status = 1;
     }
-    if(isInternal == true) {
-      state.model.staffType= 1;
+    if (isInternal == true) {
+      state.model.staffType = 1;
       state.model.ticketType = 1;
-    }
-    else{
+    } else {
       state.model.staffType = 2;
-      state.model.ticketType =1;
+      state.model.ticketType = 1;
     }
     // Setting time in milliseconds
     state.model.createdDate =
@@ -349,7 +347,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           isSubmit: true,
         );
       }
-    }  on GenericResponse catch (e) {
+    } on GenericResponse catch (e) {
       emit(
         state.copyWith(
           message: e.message,

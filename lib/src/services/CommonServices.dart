@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:db_atom/main_DEV.dart';
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
@@ -14,6 +13,7 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/m
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/vendor_pass_reason_model.dart';
 import 'package:db_atom/src/models/organisation.dart';
+import 'package:flutter/material.dart';
 
 import '../features/createfound/models/create_user_model.dart';
 import '../features/createfound/models/get_depositor_model.dart';
@@ -249,8 +249,9 @@ class CommonServices {
     BuildContext? context,
   }) async {
     final String url = "${Apis._createOrganisation}name=$name&orgName=$orgName";
-    final response = await BaseApiService().getRequest(
+    final response = await BaseApiService().postRequest(
       url: url,
+      requestedData: {}
     );
     return Organisation.fromJson(response);
   }
@@ -264,8 +265,9 @@ class CommonServices {
   }) async {
     final String url =
         "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
-    final response = await BaseApiService().getRequest(
+    final response = await BaseApiService().postRequest(
       url: url,
+      requestedData: {}
     );
     return CreateUserModel.fromJson(response);
   }

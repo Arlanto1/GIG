@@ -1,120 +1,54 @@
 import 'dart:developer';
 
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/app.dart';
-import 'package:db_atom/src/common_widgets/custom_list_expansion_pop_up.dart';
-import 'package:db_atom/src/constants/constant_agruments.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/views/found_list_page.dart';
-import 'package:db_atom/src/features/contact_details/contact_details/cubits/contact_details_cubit.dart';
-import 'package:db_atom/src/features/contact_details/contact_details/views/contact_details_view.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/contact_details/contact_details_list/bloc/contact_details_list_bloc.dart'
     as cd;
-import 'package:db_atom/src/features/contact_details/contact_details_list/views/contact_details_list_view.dart';
 import 'package:db_atom/src/features/contact_details/contact_records/bloc/contact_record_bloc.dart'
     as cr;
-import 'package:db_atom/src/features/contact_details/contact_records/views/contact_record_view.dart';
-import 'package:db_atom/src/features/contact_details/models/contact_details_list_response_model.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
-import 'package:db_atom/src/features/createfound/views/add_employee_deparment.dart';
-import 'package:db_atom/src/features/createfound/views/create_found.dart';
-import 'package:db_atom/src/features/createfound/views/create_found_attachment.dart';
-import 'package:db_atom/src/features/dashboard/views/charts/pie_chart.dart';
-import 'package:db_atom/src/features/dashboard/views/my_home_page.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/cubits/contact_info_cubit.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/views/contact_info_view.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/event_info/views/event_info_view.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/cubits/guard_info_cubit.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/general_information/guard_info/views/guard_info_view.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/views/event_protection_details.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/views/gereral_info_tiles_view.dart';
-import 'package:db_atom/src/features/guarding_operations/drop_pick_up/bloc/female_drop_pick_up_bloc.dart';
-import 'package:db_atom/src/features/guarding_operations/drop_pick_up/views/female_drop_pick_up_view.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details.dart';
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/cubits/pay_rate_cubit.dart';
+import 'package:db_atom/src/features/dashboard/notifications/bloc/notifications_bloc.dart' as nb;
+import 'package:db_atom/src/features/event_protection/event_protections/bloc/event_protections_bloc.dart'
+    as ep;
+import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart'
     as guarding;
-import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/rates_response.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
+import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
+import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/bloc/sla_violation_penalty_list_bloc.dart'
+    as sla;
+import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/violation_penalty_record/bloc/violation_penalty_record_bloc.dart'
+    as vp;
 import 'package:db_atom/src/features/incident_management/incident_managements/bloc/incident_management_bloc.dart'
     as im;
 import 'package:db_atom/src/features/incident_management/services/incident_management_services.dart';
-import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_details.dart';
-import 'package:db_atom/src/features/law_enforcement_list/views/law_enforcements_view.dart';
-import 'package:db_atom/src/features/login/views/forgot_pwd_screen.dart';
-import 'package:db_atom/src/features/login/views/login_screen.dart';
-import 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
-import 'package:db_atom/src/features/login/views/reset_password_screen.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
-import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart';
-import 'package:db_atom/src/features/onboarding/views/splashscreen.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart';
-import 'package:db_atom/src/features/security_systems/sst_incident_details/general_info/views/sst_incident_general_info_view.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart';
-import '../features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart';
-import '../features/event_protection/event_protection_details/general_info/views/general_info_view.dart';
-import '../features/event_protection/event_protections/bloc/event_protections_bloc.dart'
-    as ep;
-import '../features/event_protection/event_protections/views/event_protections_view.dart';
-import '../features/event_protection/services/event_protection_services.dart';
-import '../features/guarding_operations/guarding_master_data/guarding_master_data/bloc/guarding_master_data_bloc.dart';
-import '../features/guarding_operations/guarding_master_data/guarding_master_data/views/guarding_master_data_view.dart';
-import '../features/guarding_operations/guarding_master_data/guarding_master_data_details/cubits/guarding_master_data_details_cubit.dart';
-import '../features/guarding_operations/guarding_master_data/models/guarding_master_data_model.dart';
-import '../features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
-import '../features/guarding_operations/guarding_master_reports/bloc/guarding_master_report_bloc.dart';
-import '../features/guarding_operations/guarding_master_reports/views/guarding_master_reports.dart';
-import '../features/guarding_operations/guarding_rate/guarding_rate_details/pay_rates/views/pay_rate_view.dart';
-import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/guarding_rate_details_view.dart';
-import '../features/guarding_operations/guarding_rate/guarding_rate_details/views/rates_info.dart';
-import '../features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates.dart';
-import '../features/guarding_operations/sla_violation_penalty/models/sla_violation_penalty_response_model.dart';
-import '../features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
-import '../features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart';
-import '../features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/views/sla_violation_penalty_details_view.dart';
-import '../features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/bloc/sla_violation_penalty_list_bloc.dart'
-as sla;
-import '../features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/views/sla_violation_penalty_list_view.dart';
-import '../features/guarding_operations/sla_violation_penalty/violation_penalty_record/bloc/violation_penalty_record_bloc.dart' as vp;
-import '../features/guarding_operations/sla_violation_penalty/violation_penalty_record/views/violation_penalty_records_view.dart';
-import '../features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart';
-import '../features/incident_management/incident_details/general_info/views/incident_general_info_view.dart';
-import '../features/incident_management/incident_managements/views/incident_managements_view.dart';
-import '../features/lawenforcement/views/law_enforcement_details_view.dart';
-import '../features/login/bloc/login_bloc.dart';
-import '../features/login/services/login_services.dart';
-import '../features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
-import '../features/material_movement/material_movement_details/views/material_movement_details_view.dart';
-import '../features/material_movement/material_movements/bloc/material_movement_bloc.dart';
-import '../features/material_movement/material_movements/views/material_movements_view.dart';
-import '../features/material_movement/services/material_movement_services.dart';
-import '../features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_cubit.dart';
-import '../features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
-import '../features/occurrenceList/bloc/occurrences_bloc.dart' as ocb;
-import '../features/occurrenceList/views/occurrences_view.dart';
-import '../features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart';
-import '../features/passmanagement/daypassregister/views/day_pass_info_list_page.dart';
-import '../features/security_systems/services/sst_incident_services.dart';
-import '../features/security_systems/sst_incident_details/general_info/cubits/sst_incident_general_info_cubit.dart';
-import '../features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart'
+import 'package:db_atom/src/features/login/services/login_services.dart';
+import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
+import 'package:db_atom/src/features/occurrenceList/bloc/occurrences_bloc.dart'
+    as ocb;
+import 'package:db_atom/src/features/security_systems/services/sst_incident_services.dart';
+import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart'
     as sv;
-import '../features/security_systems/sst_incident_list/views/sst_incident_view.dart';
-import '../services/CommonServices.dart';
+import 'package:db_atom/src/services/CommonServices.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // final args = settings.arguments;
     // ignore: non_constant_identifier_names
     switch (settings.name) {
-      case appRoute:
-        return MaterialPageRoute(builder: (context) => const App());
-      case homePageRoute:
-        return MaterialPageRoute(builder: (context) => const MyHomePage());
+      // case appRoute:
+      //   return MaterialPageRoute(builder: (context) => const App());
+      case dashboardViewRoute:
+        return MaterialPageRoute(builder: (context) => const DashboardView());
+
+      case notificationViewRoute:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<nb.NotificationsBloc>(
+            create: (_) => nb.NotificationsBloc()
+              ..add(const nb.FetchData(startPos: 0, maxPos: 20)),
+            child: const NotificationsView(),
+          ),
+        );
       case splashScreenRoute:
         return MaterialPageRoute(builder: (context) => const SplashScreen());
       case loginScreenRoute:
@@ -285,16 +219,19 @@ class RouteGenerator {
 
       case sstIncidentListRoute:
         bool isInternal = false;
+        String occId = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           isInternal = arguments['isInternal'];
+          occId = arguments['occId'] ?? '';
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<sv.SstIncidentBloc>(
             create: (_) => sv.SstIncidentBloc(
               ticketType: 1,
               staffType: isInternal ? 1 : 2,
+              occId: occId,
             )..add(const sv.FetchData(startPos: 0, maxPos: 20)),
             child: SstIncidentView(isInternal: isInternal),
           ),
@@ -390,13 +327,12 @@ class RouteGenerator {
           ),
         );
 
-
       case slaViolationPenaltyDetailsRoute:
         SLAViolationPenaltyServices services = SLAViolationPenaltyServices();
         CommonServices commonServices = CommonServices();
         String title;
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         SLAViolationPenaltyModel? model = arguments["model"];
         return MaterialPageRoute(
@@ -443,19 +379,17 @@ class RouteGenerator {
         String violationDescription = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
-          violationDescription = arguments[ConstantsArgument.violationDescription] ?? '';
-
+          violationDescription =
+              arguments[ConstantsArgument.violationDescription] ?? '';
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<vp.ViolationPenaltyRecordBloc>(
-            create: (_) =>vp.ViolationPenaltyRecordBloc(
-               violationDescription: violationDescription,
-
-            )
-              ..add(vp.FetchData(
+            create: (_) => vp.ViolationPenaltyRecordBloc(
+              violationDescription: violationDescription,
+            )..add(vp.FetchData(
                 id: id,
                 startPos: 0,
                 maxPos: 100,
@@ -465,7 +399,7 @@ class RouteGenerator {
               title: title,
             ),
           ),
-         );
+        );
 
       case contactDetailsListRoute:
         return MaterialPageRoute(
@@ -515,8 +449,7 @@ class RouteGenerator {
           builder: (context) => BlocProvider<cr.ContactRecordBloc>(
             create: (_) => cr.ContactRecordBloc(
               rankType: rankType,
-            )
-              ..add(cr.FetchData(
+            )..add(cr.FetchData(
                 id: id,
                 type: type,
                 startPos: 0,
@@ -845,7 +778,7 @@ class RouteGenerator {
           ),
         );
       default:
-        return MaterialPageRoute(builder: (context) => const MyHomePage());
+        return MaterialPageRoute(builder: (context) => const DashboardView());
     }
   }
 }

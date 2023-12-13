@@ -92,7 +92,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
         return SizedBox(
-          height: height / 2.8,
+          height: height / 2.92,
           width: width,
           child: Scaffold(
             body: Stack(
@@ -110,7 +110,6 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
                           style: Styles.textStyleBlack16,
                         ),
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         textFieldController: nameTextController,
                         textFormKey: Keys.nameTextController,
@@ -129,7 +128,6 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
                           style: Styles.textStyleBlack16,
                         ),
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         textFieldController: keyTextController,
                         textFormKey: Keys.keyTextController,

@@ -64,6 +64,7 @@ class BasePopUpItems extends StatefulWidget {
   final int? incidentType;
   final bool isIncident;
   final bool isContactDetailsStatus;
+  final bool isSecuritySystemSLAStatus;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -122,6 +123,7 @@ class BasePopUpItems extends StatefulWidget {
     this.materialMovement = false,
     this.leoVisit = false,
     this.isContactDetailsStatus = false,
+    this.isSecuritySystemSLAStatus = false,
     this.handOverSecurity,
     this.incidentType,
   });
@@ -260,7 +262,9 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           !widget.isOccurrenceStatus &&
           !widget.isEventProtectionStatus &&
           !widget.isSLAViolationStatus &&
-          !widget.isIncident && !widget.isContactDetailsStatus) ...[
+          !widget.isSecuritySystemSLAStatus &&
+          !widget.isIncident &&
+          !widget.isContactDetailsStatus) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
           children: [
@@ -364,6 +368,16 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         Row(
           children: [
             Utils().buildEventProtectionStatusRow(widget.status ?? 0),
+          ],
+        ),
+      ],
+      if (widget.status != null &&
+          !widget.isEventProtectionStatus &&
+          widget.isSecuritySystemSLAStatus == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          children: [
+            Utils().buildSecuritySystemStatusRow(widget.status ?? 0),
           ],
         ),
       ],
@@ -625,7 +639,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().textHandling(
-                'Shift Taken By : ', widget.handOverSecurity.toString()),
+                'Shift Taken By : ', widget.handOverSecurity?.name ?? ''),
           ],
         ),
       ],
@@ -639,13 +653,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       CommonWidgets.verticalSpacerWidget(5),
-      if (widget.status != null && widget.isContactDetailsStatus ==true && widget.isEventProtectionStatus == false) ...[
+      if (widget.status != null &&
+          widget.isContactDetailsStatus == true &&
+          widget.isEventProtectionStatus == false) ...[
         CommonWidgets.horizontalSpacerWidget(5),
         Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-        Utils()
-            .contactDetailsStatus(widget.status ?? 0),],
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().contactDetailsStatus(widget.status ?? 0),
+          ],
         ),
       ],
       if (widget.incidentType != null) ...[

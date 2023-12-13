@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
@@ -90,7 +89,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
               arguments: {
                 "isInternal": widget.isInternal,
                 "title": widget.isInternal
-                    ? Constants.internalStaff
+                    ? Constants.ticketLifeCycle
                     : Constants.externalVendor
               },
             )
@@ -99,12 +98,12 @@ class _SstIncidentViewState extends State<SstIncidentView> {
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: widget.isInternal
-              ? Constants.internalStaff
+              ? Constants.ticketLifeCycle
               : Constants.externalVendor,
           showPopUp: true,
           showSaveButton: false,
-          excelAPIName: 'exportEPExcel',
-          pdfAPIName: 'exportEPPDF',
+          excelAPIName: 'exportSSSLAExcel',
+          pdfAPIName: 'exportSSSLAPDF',
         ),
         body: BlocBuilder<SstIncidentBloc, SstIncidentState>(
             builder: (context, state) {
@@ -150,10 +149,10 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                           id: state.items[index].id,
                           labels: labels,
                           status: state.items[index].status,
-                          isMasterGuard: false,
-                          isEventProtectionStatus: false,
-                          isSLAViolationStatus: false,
-                          isOccurrenceStatus: true,
+                          // isMasterGuard: false,
+                           isEventProtectionStatus: false,
+                          // isSLAViolationStatus: false,
+                          isSecuritySystemSLA: true,
                           onTap: (selectedIndex) {
                             showDialog(
                               context: context,
@@ -165,7 +164,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                   status: state.items[selectedIndex].status,
                                   isMasterGuard: false,
                                   isEventProtectionStatus: false,
-                                  isOccurrenceStatus: true,
+                                  isSecuritySystemSLAStatus: true,
                                 );
                               },
                             );
@@ -185,8 +184,9 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                   labels: labels,
                                   slNo: state.items[selectedIndex].slNo,
                                   status: state.items[selectedIndex].status,
+                                  isMasterGuard: false,
                                   isEventProtectionStatus: false,
-                                  isOccurrenceStatus: true,
+                                  isSecuritySystemSLAStatus: true,
                                 );
                               },
                             );
@@ -213,7 +213,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
         'isInternal': widget.isInternal,
         "title": widget.isInternal
             ? Constants.externalVendor
-            : Constants.internalStaff
+            : Constants.ticketLifeCycle
       },
     );
   }

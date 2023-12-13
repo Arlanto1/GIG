@@ -1,11 +1,4 @@
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/util.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import '../../models/organisation.dart';
+import 'package:db_atom/index.dart';
 
 class BaseListTileItem extends StatefulWidget {
   final num? id;
@@ -38,6 +31,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool isOccurrenceStatus;
   final bool isSLAViolationStatus;
   final bool isContactDetailsStatus;
+  final bool isSecuritySystemSLA;
 
   const BaseListTileItem({
     super.key,
@@ -68,6 +62,7 @@ class BaseListTileItem extends StatefulWidget {
     this.isSLAViolationStatus = false,
     this.incidentType,
     this.isContactDetailsStatus = false,
+    this.isSecuritySystemSLA = false,
     this.onDeleteTap,
   });
 
@@ -184,6 +179,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               !widget.isEventProtectionStatus &&
                               !widget.isSLAViolationStatus &&
                               !widget.isIncident &&
+                              !widget.isSecuritySystemSLA &&
                               !widget.isContactDetailsStatus) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
                             Utils().buildStatusRow(widget.status ?? 0),
@@ -245,6 +241,13 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               widget.isEventProtectionStatus == false) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
                             Utils().contactDetailsStatus(widget.status ?? 0),
+                          ],
+                          if (widget.status != null &&
+                              widget.isEventProtectionStatus == false &&
+                              widget.isSecuritySystemSLA == true) ...[
+                            CommonWidgets.horizontalSpacerWidget(5),
+                            Utils().buildSecuritySystemStatusRow(
+                                widget.status ?? 0),
                           ],
                         ],
                       ),

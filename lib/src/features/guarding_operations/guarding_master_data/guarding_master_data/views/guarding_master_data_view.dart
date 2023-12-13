@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
@@ -69,6 +71,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                 arguments: {"title": Constants.createGuardingMasterData}),
           },
         ),
+
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.guardingMasterDataTitle,
@@ -85,6 +88,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
           if (state.list.isEmptyOrNull) {
             return const NoRecordFoundWidget();
           }
+          log('--labels-${state.labels?.locale.locationRegion}');
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
@@ -102,10 +106,12 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                 List<Label> labels = [];
                 if (index < state.list.length) {
                   labels.add(Label(
-                      key: 'Region',
+                      key: state.labels?.locale.locationRegion ??
+                          state.labels?.defaultLocale.locationRegion ??'Region',
                       value: state.list[index].locationRegion?.name ?? ''));
                   labels.add(Label(
-                      key: 'Building Location ',
+                      key: state.labels?.locale.location ??
+                          state.labels?.defaultLocale.location ??'Building Location ',
                       value: state.list[index].location?.name ?? ''));
                 }
                 return index >= state.list.length

@@ -1,8 +1,13 @@
 import 'package:db_atom/flavors.dart';
 import 'package:db_atom/src/configurations/main_config.dart';
+import 'package:db_atom/src/utils/InactivityFunctions.dart';
 
-void main() {
+// Global key to track user activity
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+Future<void> main() async {
   F.appFlavor = Flavor.qa;
   //runApp(App());
-  MainConfig.initialSetup();
+  MainConfig.initialSetup(navigatorKey);
+  InactivityFunctions().startInactivityTimer(navigatorKey);
 }

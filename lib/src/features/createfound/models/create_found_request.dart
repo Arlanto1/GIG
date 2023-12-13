@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final foundListArticleDetails = foundListArticleDetailsFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:db_atom/src/features/createfound/models/user.dart';
@@ -63,7 +59,7 @@ class Found {
   bool? claimantConfirmByEmail;
   int? claimantEmployeeId;
 
-  // ImageContent? claimantSign;
+  ImageContent? claimantSign;
 
   Found({
     this.slNo,
@@ -80,7 +76,7 @@ class Found {
     this.inputDate,
     this.foundDate,
     this.entrySecurity,
-    // this.claimantSign,
+    this.claimantSign,
     this.location,
     this.depositor,
     this.images,
@@ -179,7 +175,7 @@ class Found {
         "claimantName": claimantName,
         "employeeId": employeeId,
         "claimant": claimant?.toJson(),
-        // "claimantSign": claimantSign?.toJson(),
+        "claimantSign": claimantSign?.toJson(),
         "claimantDepartment": claimantDepartment?.toJson(),
         "handoverSecurity": handoverSecurity?.toJson(),
         "claimantConfirmByEmail": claimantConfirmByEmail

@@ -115,6 +115,12 @@ class SLAViolationPenaltyDetailsCubit
 
       // Get Date of Creation
       state.model.inputDate = Utils().getCurrentDate();
+      // state.model.inputDate =
+      //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+      SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
+      log('--default--${labels.defaultLocale}----------');
 
       if (state.model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
@@ -144,6 +150,7 @@ class SLAViolationPenaltyDetailsCubit
           vendors: vendors.items,
           typeOfServices: typeOfService.items,
           pocs: pocs,
+          labels: labels,
         ),
       );
     } catch (e) {
@@ -292,6 +299,8 @@ class SLAViolationPenaltyDetailsCubit
               : FormStatus.success,
         ),
       );
+      state.model.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
       return true;
     } on Exception catch (e) {
       state.model.inputDate =

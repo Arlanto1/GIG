@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -15,6 +17,7 @@ class Validator {
   }
 
   static logoutAction(BuildContext context) {
+    log('-will logout now----');
     SharedPrefs.setUserId('');
     SharedPrefs.setEmail('');
     SharedPrefs.setToken('');

@@ -1,23 +1,4 @@
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
-import 'package:db_atom/src/common_widgets/floating_button.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
-import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../enums/form_status.dart';
-import '../../../../utils/util.dart';
-import '../bloc/material_movement_bloc.dart';
+import 'package:db_atom/index.dart';
 
 class MaterialMovementsView extends StatefulWidget {
   const MaterialMovementsView({
@@ -64,33 +45,41 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
-          onPressed: () => {
-            Navigator.pushNamed(context, materialMovementInwardDetailsRoute,
-                arguments: {
-                  "isInward": widget.isInward,
-                  "isCreate": true,
-                  "title": widget.isInward
-                      ? Constants.materialMovementInwardCreate
-                      : Constants.materialMovementOutwardCreate,
-                })
-          },
-        ),
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: widget.isInward
-              ? Constants.materialMovementsInwardTitle
-              : Constants.materialMovementsOutwardTitle,
-          showPopUp: true,
-          showSaveButton: false,
-          excelAPIName: 'exportMMExcel',
-          pdfAPIName: 'exportMMPDF',
-        ),
-        body: BlocBuilder<MaterialMovementBloc, MaterialMovementState>(
-            builder: (context, state) {
+      backgroundColor: AppColors.cardBgColor,
+      floatingActionButton: Flutterfloatingbutton(
+        backgroundColor: AppColors.navigationSkybluecolor,
+        foregroundColor: AppColors.backgroundWhitecolor,
+        onPressed: () => {
+          Navigator.pushNamed(context, materialMovementInwardDetailsRoute,
+              arguments: {
+                "isInward": widget.isInward,
+                "isCreate": true,
+                "title": widget.isInward
+                    ? Constants.materialMovementInwardCreate
+                    : Constants.materialMovementOutwardCreate,
+              })
+        },
+      ),
+      appBar: BaseAppBar().buildAppHeader(
+        context: context,
+        title: widget.isInward
+            ? Constants.materialMovementsInwardTitle
+            : Constants.materialMovementsOutwardTitle,
+        showPopUp: true,
+        showSaveButton: false,
+        excelAPIName: 'exportMMExcel',
+        pdfAPIName: 'exportMMPDF',
+      ),
+      body: BlocConsumer<MaterialMovementBloc, MaterialMovementState>(
+        listener: (context, state) {
+          if (state.status == FormStatus.sessionExpired) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                backgroundColor: Colors.red,
+                content: Text(state.message ?? 'Session Expired...')));
+            Validator.logoutAction(context);
+          }
+        },
+        builder: (context, state) {
           if (state.status == FormStatus.initial) {
             return const BaseLoader();
           }
@@ -100,11 +89,11 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                )),
+              color: AppColors.backgroundWhitecolor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+              ),
+            ),
             child: ListView.builder(
               controller: _scrollController,
               itemCount: state.hasReachedMax
@@ -193,7 +182,9 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
               },
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 
   getLawEnforcementId(int id) async {

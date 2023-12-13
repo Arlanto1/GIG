@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    log('-SplashScreen---initState--');
+    log('-SplashScreen---initState---${DateTime.now()}-');
     initRouting();
   }
 
@@ -48,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
           navigatorState.pushNamed(resetPwdScreenRoute);
           return;
         }
-        navigatorState.pushReplacementNamed(homePageRoute);
+        navigatorState.pushReplacementNamed(dashboardViewRoute);
       } else {
         navigatorState.pushReplacementNamed(loginScreenRoute);
       }
