@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
 class Constants {
+
+  static const inactivityDuration = Duration(minutes: 500);
+
   /// Module Codes
   static const String materialMovementInwardReturnableModule = 'MMINN';
   static const String materialMovementOutwardReturnableModule = 'MMOUTY';
@@ -135,6 +138,8 @@ class Constants {
   static const String passmanagement = 'Non-Magnetic Pass Management';
   static const String guarding = 'Guarding Operations';
   static const String logout = 'Logout';
+
+  static const String notifications = 'Notifications';
 
   static const String materialMovementInward = 'Material Movement Inward';
   static const String materialMovementInwardCreate =

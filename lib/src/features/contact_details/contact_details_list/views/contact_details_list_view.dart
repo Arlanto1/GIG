@@ -179,7 +179,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                             );
                           },
                           onEditTap: (selectedIndex) {
-                            getLawEnforcementId(state.items[index].id ?? 0);
+                            getById(state.items[index].id ?? 0);
                           },
                           onViewTap: (selectedIndex) {
                             showDialog(
@@ -207,7 +207,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
     );
   }
 
-  getLawEnforcementId(int id) async {
+  getById(int id) async {
     showLoadingDialog(context);
 
     ContactDetailModel materialMovementModel =

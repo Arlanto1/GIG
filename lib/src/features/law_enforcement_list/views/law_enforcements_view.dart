@@ -171,7 +171,7 @@ class _LnPageState extends State<LnPage> {
                           //do the detail edit of user found
                         },
                         onEditTap: (selectedIndex) {
-                          getLawEnforcementId(state.items[index].id ?? 0);
+                          getById(state.items[index].id ?? 0);
                         },
                         onViewTap: (selectedIndex) {
                           showDialog(
@@ -195,7 +195,7 @@ class _LnPageState extends State<LnPage> {
     );
   }
 
-  getLawEnforcementId(int lawEnforcementId) async {
+  getById(int lawEnforcementId) async {
     showLoadingDialog(context);
     LawEnforcementDetails? model =
         await lawEnforcementListCubit.getById(lawEnforcementId, context);

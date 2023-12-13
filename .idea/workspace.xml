@@ -4,15 +4,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="Contact Details status handled">
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="WIP: improvements" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -24,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="slaViolationPenalty" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -49,6 +48,7 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/models/create_pass_mgmt_response.dart" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -65,28 +65,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cidr.known.project.marker": "true",
-    "com.android.tools.idea.streaming.emulator.frame.visible": "false",
-    "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
-    "dart.analysis.tool.window.visible": "false",
-    "io.flutter.reload.alreadyRun": "true",
-    "last_opened_file_path": "/home/anuragdhunna/AndroidStudioProjects/Arlanto-App-Codebase/lib/src/common_widgets/base_widget",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.keymap",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;com.android.tools.idea.streaming.emulator.frame.visible&quot;: &quot;false&quot;,
+    &quot;com.android.tools.idea.streaming.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;labels&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/anurag/AndroidStudioProjects/Arlanto-App-Codebase/lib/src/features/dashboard&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pathVariables&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/src/features/dashboard" />
       <recent name="$PROJECT_DIR$/lib/src/common_widgets/base_widget" />
+      <recent name="$PROJECT_DIR$/lib/src/models/responseModels" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/src/features/dashboard/notificaitons/views" />
+      <recent name="$PROJECT_DIR$/lib/src/features/dashboard" />
       <recent name="$PROJECT_DIR$/lib/src/features/material_movement" />
       <recent name="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views" />
     </key>
@@ -115,6 +121,41 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1690954965616</updated>
+    </task>
+    <task id="LOCAL-00040" summary="minor improvement">
+      <created>1700198443618</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1700198443618</updated>
+    </task>
+    <task id="LOCAL-00041" summary="default location, sl no issue">
+      <created>1700200626114</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1700200626114</updated>
+    </task>
+    <task id="LOCAL-00042" summary="article signature">
+      <created>1700202833406</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1700202833406</updated>
+    </task>
+    <task id="LOCAL-00043" summary="submit button issue fixed">
+      <created>1700204599402</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1700204599402</updated>
+    </task>
+    <task id="LOCAL-00044" summary="wip: article found signature&#10;images">
+      <created>1700367153581</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1700367153581</updated>
     </task>
     <task id="LOCAL-00045" summary="default location for incident management done">
       <created>1700371567648</created>
@@ -207,257 +248,222 @@
       <option name="project" value="LOCAL" />
       <updated>1700475333563</updated>
     </task>
-    <task id="LOCAL-00058" summary="ep officer dropdown in EP">
-      <created>1700541267698</created>
+    <task id="LOCAL-00058" summary="WIP: ui-labels for MM">
+      <created>1701236396398</created>
       <option name="number" value="00058" />
       <option name="presentableId" value="LOCAL-00058" />
       <option name="project" value="LOCAL" />
-      <updated>1700541267698</updated>
+      <updated>1701236396398</updated>
     </task>
-    <task id="LOCAL-00059" summary="show only permitted location for user">
-      <created>1700543961336</created>
+    <task id="LOCAL-00059" summary="WIP: ui-labels for MM">
+      <created>1701237379609</created>
       <option name="number" value="00059" />
       <option name="presentableId" value="LOCAL-00059" />
       <option name="project" value="LOCAL" />
-      <updated>1700543961336</updated>
+      <updated>1701237379609</updated>
     </task>
-    <task id="LOCAL-00060" summary="validation removed for escorted by field because field is also removed.">
-      <created>1700548356776</created>
+    <task id="LOCAL-00060" summary="DONE: Contact Details">
+      <created>1701247729862</created>
       <option name="number" value="00060" />
       <option name="presentableId" value="LOCAL-00060" />
       <option name="project" value="LOCAL" />
-      <updated>1700548356776</updated>
+      <updated>1701247729862</updated>
     </task>
-    <task id="LOCAL-00061" summary="passtype issue solved">
-      <created>1700550380412</created>
+    <task id="LOCAL-00061" summary="DONE: Contact Details">
+      <created>1701247870181</created>
       <option name="number" value="00061" />
       <option name="presentableId" value="LOCAL-00061" />
       <option name="project" value="LOCAL" />
-      <updated>1700550380412</updated>
+      <updated>1701247870181</updated>
     </task>
-    <task id="LOCAL-00062" summary="api error handled incident management">
-      <created>1700559064125</created>
+    <task id="LOCAL-00062" summary="DONE: Contact Details">
+      <created>1701330786326</created>
       <option name="number" value="00062" />
       <option name="presentableId" value="LOCAL-00062" />
       <option name="project" value="LOCAL" />
-      <updated>1700559064125</updated>
+      <updated>1701330786326</updated>
     </task>
-    <task id="LOCAL-00063" summary="api error handled MM">
-      <created>1700559337475</created>
+    <task id="LOCAL-00063" summary="WIP: SLA">
+      <created>1701332662612</created>
       <option name="number" value="00063" />
       <option name="presentableId" value="LOCAL-00063" />
       <option name="project" value="LOCAL" />
-      <updated>1700559337475</updated>
+      <updated>1701332662612</updated>
     </task>
-    <task id="LOCAL-00064" summary="api error handled">
-      <created>1700559762537</created>
+    <task id="LOCAL-00064" summary="WIP: SLA">
+      <created>1701405029950</created>
       <option name="number" value="00064" />
       <option name="presentableId" value="LOCAL-00064" />
       <option name="project" value="LOCAL" />
-      <updated>1700559762537</updated>
+      <updated>1701405029950</updated>
     </task>
-    <task id="LOCAL-00065" summary="common loader used">
-      <created>1700560375353</created>
+    <task id="LOCAL-00065" summary="WIP: Guarding Agency POC issue fixed">
+      <created>1701407458081</created>
       <option name="number" value="00065" />
       <option name="presentableId" value="LOCAL-00065" />
       <option name="project" value="LOCAL" />
-      <updated>1700560375353</updated>
+      <updated>1701407458081</updated>
     </task>
-    <task id="LOCAL-00066" summary="upload icon color changed">
-      <created>1700563593667</created>
+    <task id="LOCAL-00066" summary="WIP: Violation penalty dropdown issue fixed">
+      <created>1701408815828</created>
       <option name="number" value="00066" />
       <option name="presentableId" value="LOCAL-00066" />
       <option name="project" value="LOCAL" />
-      <updated>1700563593667</updated>
+      <updated>1701408815828</updated>
     </task>
-    <task id="LOCAL-00067" summary="improvement">
-      <created>1700564659082</created>
+    <task id="LOCAL-00067" summary="WIP: Violation penalty dropdown issue fixed">
+      <created>1701409385188</created>
       <option name="number" value="00067" />
       <option name="presentableId" value="LOCAL-00067" />
       <option name="project" value="LOCAL" />
-      <updated>1700564659082</updated>
+      <updated>1701409385188</updated>
     </task>
-    <task id="LOCAL-00068" summary="occurrence improvements">
-      <created>1700631825122</created>
+    <task id="LOCAL-00068" summary=" Violation penalty">
+      <created>1701419123460</created>
       <option name="number" value="00068" />
       <option name="presentableId" value="LOCAL-00068" />
       <option name="project" value="LOCAL" />
-      <updated>1700631825122</updated>
+      <updated>1701419123460</updated>
     </task>
-    <task id="LOCAL-00069" summary="loader changed">
-      <created>1700632475686</created>
+    <task id="LOCAL-00069" summary=" Violation penalty">
+      <created>1701441420483</created>
       <option name="number" value="00069" />
       <option name="presentableId" value="LOCAL-00069" />
       <option name="project" value="LOCAL" />
-      <updated>1700632475686</updated>
+      <updated>1701441420483</updated>
     </task>
-    <task id="LOCAL-00070" summary="models updated">
-      <created>1700633292350</created>
+    <task id="LOCAL-00070" summary="Bug Fixes">
+      <created>1701670407182</created>
       <option name="number" value="00070" />
       <option name="presentableId" value="LOCAL-00070" />
       <option name="project" value="LOCAL" />
-      <updated>1700633292350</updated>
+      <updated>1701670407182</updated>
     </task>
-    <task id="LOCAL-00071" summary="occurrence module improved">
-      <created>1700638825486</created>
+    <task id="LOCAL-00071" summary="SLA Violation DONE">
+      <created>1701675943823</created>
       <option name="number" value="00071" />
       <option name="presentableId" value="LOCAL-00071" />
       <option name="project" value="LOCAL" />
-      <updated>1700638825486</updated>
+      <updated>1701675943823</updated>
     </task>
-    <task id="LOCAL-00072" summary="improvements">
-      <created>1700639322659</created>
+    <task id="LOCAL-00072" summary="bug fixed">
+      <created>1701678671837</created>
       <option name="number" value="00072" />
       <option name="presentableId" value="LOCAL-00072" />
       <option name="project" value="LOCAL" />
-      <updated>1700639322659</updated>
+      <updated>1701678671837</updated>
     </task>
-    <task id="LOCAL-00073" summary="navigation for sst sla in occ">
-      <created>1700640421203</created>
+    <task id="LOCAL-00073" summary="labels added in contact detail listing page">
+      <created>1701769752183</created>
       <option name="number" value="00073" />
       <option name="presentableId" value="LOCAL-00073" />
       <option name="project" value="LOCAL" />
-      <updated>1700640421203</updated>
+      <updated>1701769752183</updated>
     </task>
-    <task id="LOCAL-00074" summary="improvements in occ">
-      <created>1700643320583</created>
+    <task id="LOCAL-00074" summary="labels">
+      <created>1701773750054</created>
       <option name="number" value="00074" />
       <option name="presentableId" value="LOCAL-00074" />
       <option name="project" value="LOCAL" />
-      <updated>1700643320583</updated>
+      <updated>1701773750054</updated>
     </task>
-    <task id="LOCAL-00075" summary="missing file">
-      <created>1700643623884</created>
+    <task id="LOCAL-00075" summary="improved the API loading time">
+      <created>1701799141681</created>
       <option name="number" value="00075" />
       <option name="presentableId" value="LOCAL-00075" />
       <option name="project" value="LOCAL" />
-      <updated>1700643623884</updated>
+      <updated>1701799141681</updated>
     </task>
-    <task id="LOCAL-00076" summary="WIP: contact listing">
-      <created>1700649099970</created>
+    <task id="LOCAL-00076" summary="minor improvements">
+      <created>1701839478495</created>
       <option name="number" value="00076" />
       <option name="presentableId" value="LOCAL-00076" />
       <option name="project" value="LOCAL" />
-      <updated>1700649099970</updated>
+      <updated>1701839478495</updated>
     </task>
-    <task id="LOCAL-00077" summary="WIP: contact listing">
-      <created>1700657604576</created>
+    <task id="LOCAL-00077" summary="auto logout &#10;expired token">
+      <created>1701857204563</created>
       <option name="number" value="00077" />
       <option name="presentableId" value="LOCAL-00077" />
       <option name="project" value="LOCAL" />
-      <updated>1700657604576</updated>
+      <updated>1701857204563</updated>
     </task>
-    <task id="LOCAL-00078" summary="List page improvements">
-      <created>1700659280565</created>
+    <task id="LOCAL-00078" summary="auto logout &#10;expired token">
+      <created>1701859551120</created>
       <option name="number" value="00078" />
       <option name="presentableId" value="LOCAL-00078" />
       <option name="project" value="LOCAL" />
-      <updated>1700659280565</updated>
+      <updated>1701859551120</updated>
     </task>
-    <task id="LOCAL-00079" summary="improvements">
-      <created>1700712457747</created>
+    <task id="LOCAL-00079" summary="pass mangaement">
+      <created>1701928750241</created>
       <option name="number" value="00079" />
       <option name="presentableId" value="LOCAL-00079" />
       <option name="project" value="LOCAL" />
-      <updated>1700712457747</updated>
+      <updated>1701928750241</updated>
     </task>
-    <task id="LOCAL-00080" summary="improvements">
-      <created>1700712581934</created>
+    <task id="LOCAL-00080" summary="occurrence sst issue fixed">
+      <created>1701946001689</created>
       <option name="number" value="00080" />
       <option name="presentableId" value="LOCAL-00080" />
       <option name="project" value="LOCAL" />
-      <updated>1700712581934</updated>
+      <updated>1701946001689</updated>
     </task>
-    <task id="LOCAL-00081" summary="empty list message for listing page">
-      <created>1700722585818</created>
+    <task id="LOCAL-00081" summary="contact details">
+      <created>1701951023179</created>
       <option name="number" value="00081" />
       <option name="presentableId" value="LOCAL-00081" />
       <option name="project" value="LOCAL" />
-      <updated>1700722585818</updated>
+      <updated>1701951023179</updated>
     </task>
-    <task id="LOCAL-00082" summary="done: delete contact record">
-      <created>1700735671508</created>
+    <task id="LOCAL-00082" summary="contact details">
+      <created>1701952554031</created>
       <option name="number" value="00082" />
       <option name="presentableId" value="LOCAL-00082" />
       <option name="project" value="LOCAL" />
-      <updated>1700735671508</updated>
+      <updated>1701952554031</updated>
     </task>
-    <task id="LOCAL-00083" summary="package name changed.">
-      <created>1700736005733</created>
+    <task id="LOCAL-00083" summary="minor fixes">
+      <created>1701952983860</created>
       <option name="number" value="00083" />
       <option name="presentableId" value="LOCAL-00083" />
       <option name="project" value="LOCAL" />
-      <updated>1700736005733</updated>
+      <updated>1701952983860</updated>
     </task>
-    <task id="LOCAL-00084" summary="model updated">
-      <created>1700736702775</created>
+    <task id="LOCAL-00084" summary="code improvements">
+      <created>1702011714051</created>
       <option name="number" value="00084" />
       <option name="presentableId" value="LOCAL-00084" />
       <option name="project" value="LOCAL" />
-      <updated>1700736702775</updated>
+      <updated>1702011714051</updated>
     </task>
-    <task id="LOCAL-00085" summary="image upload issue fixed">
-      <created>1700737218232</created>
+    <task id="LOCAL-00085" summary="article found sign">
+      <created>1702017576758</created>
       <option name="number" value="00085" />
       <option name="presentableId" value="LOCAL-00085" />
       <option name="project" value="LOCAL" />
-      <updated>1700737218232</updated>
+      <updated>1702017576758</updated>
     </task>
-    <task id="LOCAL-00086" summary="minor improvements">
-      <created>1700743122697</created>
+    <task id="LOCAL-00086" summary="article found sign">
+      <created>1702018831390</created>
       <option name="number" value="00086" />
       <option name="presentableId" value="LOCAL-00086" />
       <option name="project" value="LOCAL" />
-      <updated>1700743122698</updated>
+      <updated>1702018831390</updated>
     </task>
-    <task id="LOCAL-00087" summary="WIP: contact details improvements">
-      <created>1700802870921</created>
+    <task id="LOCAL-00087" summary="auto logout and etc">
+      <created>1702272181144</created>
       <option name="number" value="00087" />
       <option name="presentableId" value="LOCAL-00087" />
       <option name="project" value="LOCAL" />
-      <updated>1700802870921</updated>
+      <updated>1702272181144</updated>
     </task>
-    <task id="LOCAL-00088" summary="WIP: contact details api implementation">
-      <created>1700815926176</created>
+    <task id="LOCAL-00088" summary="imports organised">
+      <created>1702273235254</created>
       <option name="number" value="00088" />
       <option name="presentableId" value="LOCAL-00088" />
       <option name="project" value="LOCAL" />
-      <updated>1700815926176</updated>
-    </task>
-    <task id="LOCAL-00089" summary="WIP: Dynamic UI Labels for MM">
-      <created>1701063325855</created>
-      <option name="number" value="00089" />
-      <option name="presentableId" value="LOCAL-00089" />
-      <option name="project" value="LOCAL" />
-      <updated>1701063325855</updated>
-    </task>
-    <task id="LOCAL-00090" summary="WIP: Dynamic UI Labels for MM">
-      <created>1701078097889</created>
-      <option name="number" value="00090" />
-      <option name="presentableId" value="LOCAL-00090" />
-      <option name="project" value="LOCAL" />
-      <updated>1701078097889</updated>
-    </task>
-    <task id="LOCAL-00091" summary="WIP: Contact Details POP UP">
-      <created>1701145002189</created>
-      <option name="number" value="00091" />
-      <option name="presentableId" value="LOCAL-00091" />
-      <option name="project" value="LOCAL" />
-      <updated>1701145002189</updated>
-    </task>
-    <task id="LOCAL-00092" summary="WIP: Contact Details Base Functionality is complete. &#10;ONLY API response need to be changed from backend">
-      <created>1701153226133</created>
-      <option name="number" value="00092" />
-      <option name="presentableId" value="LOCAL-00092" />
-      <option name="project" value="LOCAL" />
-      <updated>1701153226133</updated>
-    </task>
-    <task id="LOCAL-00093" summary="Contact Details status handled">
-      <created>1701153921825</created>
-      <option name="number" value="00093" />
-      <option name="presentableId" value="LOCAL-00093" />
-      <option name="project" value="LOCAL" />
-      <updated>1701153921825</updated>
+      <updated>1702273235254</updated>
     </task>
     <option name="localTasksCounter" value="94" />
     <servers />
@@ -483,7 +489,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="pass_management" />
+                        <option value="origin/menu-item-role" />
                       </list>
                     </value>
                   </entry>
@@ -496,32 +502,32 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="common loader used" />
-    <MESSAGE value="upload icon color changed" />
-    <MESSAGE value="improvement" />
-    <MESSAGE value="occurrence improvements" />
-    <MESSAGE value="loader changed" />
-    <MESSAGE value="models updated" />
-    <MESSAGE value="occurrence module improved" />
-    <MESSAGE value="navigation for sst sla in occ" />
-    <MESSAGE value="improvements in occ" />
-    <MESSAGE value="missing file" />
-    <MESSAGE value="WIP: contact listing" />
-    <MESSAGE value="List page improvements" />
-    <MESSAGE value="improvements" />
-    <MESSAGE value="empty list message for listing page" />
-    <MESSAGE value="done: delete contact record" />
-    <MESSAGE value="package name changed." />
-    <MESSAGE value="model updated" />
-    <MESSAGE value="image upload issue fixed" />
+    <MESSAGE value="WIP: SLA" />
+    <MESSAGE value="WIP: Guarding Agency POC issue fixed" />
+    <MESSAGE value="WIP: Violation penalty dropdown issue fixed" />
+    <MESSAGE value=" Violation penalty" />
+    <MESSAGE value="Bug Fixes" />
+    <MESSAGE value="SLA Violation DONE" />
+    <MESSAGE value="bug fixed" />
+    <MESSAGE value="labels added in contact detail listing page" />
+    <MESSAGE value="labels" />
+    <MESSAGE value="improved the API loading time" />
     <MESSAGE value="minor improvements" />
-    <MESSAGE value="WIP: contact details improvements" />
-    <MESSAGE value="WIP: contact details api implementation" />
-    <MESSAGE value="WIP: Dynamic UI Labels for MM" />
-    <MESSAGE value="WIP: Contact Details POP UP" />
-    <MESSAGE value="WIP: Contact Details Base Functionality is complete. &#10;ONLY API response need to be changed from backend" />
-    <MESSAGE value="Contact Details status handled" />
-    <option name="LAST_COMMIT_MESSAGE" value="Contact Details status handled" />
+    <MESSAGE value="auto logout &#10;expired token" />
+    <MESSAGE value="pass mangaement" />
+    <MESSAGE value="occurrence sst issue fixed" />
+    <MESSAGE value="contact details" />
+    <MESSAGE value="minor fixes" />
+    <MESSAGE value="code improvements" />
+    <MESSAGE value="article found sign" />
+    <MESSAGE value="auto logout and etc" />
+    <MESSAGE value="imports organised" />
+    <MESSAGE value="Choose Language Done" />
+    <MESSAGE value="App Logout after 5 minutes" />
+    <MESSAGE value="WIP: App Logout after close" />
+    <MESSAGE value="WIP: APP notifications" />
+    <MESSAGE value="WIP: improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="WIP: improvements" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">

@@ -1,11 +1,4 @@
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/util.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import '../../models/organisation.dart';
+import 'package:db_atom/index.dart';
 
 class BaseListTileItem extends StatefulWidget {
   final num? id;
@@ -185,7 +178,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               !widget.isOccurrenceStatus &&
                               !widget.isEventProtectionStatus &&
                               !widget.isSLAViolationStatus &&
-                              !widget.isIncident && !widget.isSecuritySystemSLA &&
+                              !widget.isIncident &&
+                              !widget.isSecuritySystemSLA &&
                               !widget.isContactDetailsStatus) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
                             Utils().buildStatusRow(widget.status ?? 0),
@@ -252,7 +246,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               widget.isEventProtectionStatus == false &&
                               widget.isSecuritySystemSLA == true) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
-                            Utils().buildSecuritySystemStatusRow(widget.status ?? 0),
+                            Utils().buildSecuritySystemStatusRow(
+                                widget.status ?? 0),
                           ],
                         ],
                       ),

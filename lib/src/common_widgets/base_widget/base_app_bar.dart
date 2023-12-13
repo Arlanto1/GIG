@@ -15,10 +15,11 @@ class BaseAppBar {
     required bool showSaveButton,
     Function? onTapSave,
     void Function()? popAndReplace,
-    bool? showAddButton,
-    Function? onTapAddButton,
+    bool? showCustomIcon,
+    Function? onTapCustomIcon,
     String? excelAPIName,
     String? pdfAPIName,
+    IconData? customIcon,
   }) {
     return AppHeader(
       isTitleCenter: false,
@@ -70,16 +71,14 @@ class BaseAppBar {
             ),
           )
         ],
-        if (showAddButton ?? false) ...[
+        if (showCustomIcon ?? false) ...[
           GestureDetector(
             onTap: () {
-              onTapAddButton!();
+              onTapCustomIcon!();
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 20.0),
-              child: SvgPicture.asset(
-                AppIcon.addicon,
-              ),
+              child: Icon(customIcon ??Icons.add, color: Colors.white),
             ),
           )
         ],

@@ -19,7 +19,9 @@ import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
+import '../../../../../../index.dart';
 import '../../../../../constants/constants.dart';
 import '../../../../../enums/form_status.dart';
 import '../../../../../models/responseModels/error_response_validation.dart';
@@ -84,7 +86,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         SharedPrefs.getDefaultLocation(),
         commonServices.getUserDetails(userId: userId),
         commonServices.getUiLabels(
-            language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.eventProtectionModuleCode),
+            language: await SharedPrefs.getLanguageCode(),
+            moduleCode: Constants.eventProtectionModuleCode),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
@@ -105,15 +108,16 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       List<User> entrySecurities = results[8];
       EmployeeDepartments departments = results[9];
 
-      if (state.model.location == null && defaultLocation != null) {
-        String moduleCode = Constants.eventProtectionModuleCode;
+      model.inputDate =
+          DateFormat(Constants.fulldateFormat).format(DateTime.now());
+
+      if (model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
-          moduleCode: moduleCode,
+          moduleCode: Constants.eventProtectionModuleCode,
         );
-
-        state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
+        model.location = defaultLocation;
+        model.slNo = slNo.serialNo;
       }
 
       // Update the model and emit the updated state

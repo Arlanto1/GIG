@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
-import 'package:equatable/equatable.dart';
 
 import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';

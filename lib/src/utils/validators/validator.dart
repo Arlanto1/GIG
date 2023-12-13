@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/routing/router.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -15,14 +17,15 @@ class Validator {
   }
 
   static logoutAction(BuildContext context) {
-    // SharedPrefs.setUserId('');
-    // SharedPrefs.setEmail('');
-    // SharedPrefs.setToken('');
-    // SharedPrefs.setUsername('');
-    // SharedPrefs.setSessionToken('');
-    // SharedPrefs.setLoggedIn(false);
-    // SharedPrefs.setFoundId(100);
-    // SharedPrefs.clearSharedPreferences();
+    log('-will logout now----');
+    SharedPrefs.setUserId('');
+    SharedPrefs.setEmail('');
+    SharedPrefs.setToken('');
+    SharedPrefs.setUsername('');
+    SharedPrefs.setSessionToken('');
+    SharedPrefs.setLoggedIn(false);
+    SharedPrefs.setFoundId(100);
+    SharedPrefs.clearSharedPreferences();
     Navigator.of(context)
         .pushNamedAndRemoveUntil(loginScreenRoute, (route) => false);
   }
