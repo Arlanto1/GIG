@@ -291,19 +291,19 @@
     },
     {
       "name": "firebase_messaging",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/firebase_messaging-14.7.8",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/firebase_messaging-14.7.9",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "firebase_messaging_platform_interface",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/firebase_messaging_platform_interface-4.5.17",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/firebase_messaging_platform_interface-4.5.18",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "firebase_messaging_web",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/firebase_messaging_web-3.5.17",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/firebase_messaging_web-3.5.18",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -1022,7 +1022,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-12-13T04:59:42.961532Z",
+  "generated": "2023-12-13T07:45:47.079471Z",
   "generator": "pub",
-  "generatorVersion": "3.2.3"
+  "generatorVersion": "3.2.0"
 }
