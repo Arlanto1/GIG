@@ -7,6 +7,8 @@ import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
+import '../../index.dart';
+
 class DownloadImage {
   Future<void> saveImage(
     BuildContext context,

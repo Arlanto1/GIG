@@ -133,4 +133,15 @@ export 'package:flutter_bloc/flutter_bloc.dart';
 
 export 'package:flutter/services.dart';
 
-
+export 'package:db_atom/flavors.dart';
+export 'package:db_atom/initialize_providers.dart';
+export 'package:db_atom/main.dart';
+export 'package:db_atom/src/configurations/environment_config.dart';
+export 'package:db_atom/src/localization/locale_supported.dart';
+export 'package:db_atom/src/routing/route_generator.dart';
+export 'package:db_atom/src/utils/InactivityFunctions.dart';
+export 'package:flutter/foundation.dart';
+export 'package:firebase_core/firebase_core.dart';
+export 'package:db_atom/firebase_options.dart';
+export 'package:firebase_messaging/firebase_messaging.dart';
+export 'package:db_atom/src/configurations/fcm_handler.dart';

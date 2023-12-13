@@ -1,23 +1,7 @@
 import 'dart:developer';
 
-import 'package:db_atom/flavors.dart';
-import 'package:db_atom/initialize_providers.dart';
-import 'package:db_atom/main.dart';
-import 'package:db_atom/src/configurations/environment_config.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/localization/locale_supported.dart';
-import 'package:db_atom/src/routing/route_generator.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/InactivityFunctions.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:db_atom/firebase_options.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:db_atom/index.dart';
 export 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 
 class MainConfig with WidgetsBindingObserver {
   static environmentsChanging() {
@@ -51,63 +35,14 @@ class MainConfig with WidgetsBindingObserver {
 
     // Listen for app lifecycle changes
     WidgetsBinding.instance.addObserver(MainConfig());
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-
-    // TODO: Request permission
-    final messaging = FirebaseMessaging.instance;
-    await messaging.setAutoInitEnabled(true);
-
-    final settings = await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-
-    if (kDebugMode) {
-      print('Permission granted: ${settings.authorizationStatus}');
+    try {
+      await FCMHandler.initializeFCM();
+      FCMHandler.setupForegroundMessageHandler();
+      FCMHandler.setupBackgroundMessageHandler();
+    } catch (e) {
+      // Handle Firebase initialization error
+      print('Firebase initialization failed: $e');
     }
-    // TODO: Register with FCM
-    // It requests a registration token for sending messages to users from your App server or other trusted server environment.
-    String? token = await messaging.getToken();
-
-    if (kDebugMode) {
-      print('Registration Token=$token');
-    }
-
-    // TODO: Set up foreground message handler
-    final messageStreamController = BehaviorSubject<RemoteMessage>();
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      if (kDebugMode) {
-        print('Handling a foreground message: ${message.messageId}');
-        print('Message data: ${message.data}');
-        print('Message notification: ${message.notification?.title}');
-        print('Message notification: ${message.notification?.body}');
-      }
-
-      messageStreamController.sink.add(message);
-    });
-
-
-    // TODO: Set up background message handler
-    Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-      await Firebase.initializeApp();
-
-      if (kDebugMode) {
-        print("Handling a background message: ${message.messageId}");
-        print('Message data: ${message.data}');
-        print('Message notification: ${message.notification?.title}');
-        print('Message notification: ${message.notification?.body}');
-      }
-    }
-
-    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
     runApp(
       InitializeProviders(
