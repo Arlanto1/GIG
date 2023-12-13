@@ -7,7 +7,8 @@ import '../../../createfound/models/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 
-part 'guarding_master_data_model_g.dart';
+part 'guarding_master_data_model.g.dart';
+
 class GuardingMasterDataResponse {
   List<GuardingMastersDataModel>? items;
   int? totalCount;
@@ -30,16 +31,17 @@ class GuardingMasterDataResponse {
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
-  Map<String, dynamic> toJson() => {
-    'data': items?.map((e) => e.toJson()).toList(),
-    'totalCount': totalCount,
-    'currentPageNo': currentPageNo,
-    'totalPageCount': totalPageCount
-  };
+  Map<String, dynamic> toJson() =>
+      {
+        'data': items?.map((e) => e.toJson()).toList(),
+        'totalCount': totalCount,
+        'currentPageNo': currentPageNo,
+        'totalPageCount': totalPageCount
+      };
 }
 
 @JsonSerializable()
-class GuardingMastersDataModel extends BaseObject{
+class GuardingMastersDataModel extends BaseObject {
   int? id;
   String? slNo;
   Organisation? location;
@@ -194,7 +196,5 @@ class GuardingMastersDataModel extends BaseObject{
 
   @override
   Map<String, dynamic> toJson() => _$GuardingMastersDataModelToJson(this);
-
-
 
 }

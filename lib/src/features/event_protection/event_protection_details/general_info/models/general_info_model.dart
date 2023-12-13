@@ -5,7 +5,7 @@ import '../../../../../models/organisation.dart';
 import '../../../../createfound/models/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'general_info_model_g.dart';
+part 'general_info_model.g.dart';
 
 @JsonSerializable()
 class EventProtectionGi  extends BaseObject{
