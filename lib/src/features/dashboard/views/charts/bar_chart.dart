@@ -14,13 +14,6 @@ class BarChartApp extends StatefulWidget {
 }
 
 class BarChartAppState extends State<BarChartApp> {
-  // List<_SalesData> data = [
-  //   _SalesData('Jan', 35),
-  //   _SalesData('Feb', 28),
-  //   _SalesData('Mar', 34),
-  //   _SalesData('Apr', 32),
-  //   _SalesData('May', 40)
-  // ];
   final List<BarChartData> chartData = [
     BarChartData(1, 2, AppColors.lightgreenBackground),
     BarChartData(2, 2, AppColors.lightblueBackground),
@@ -30,9 +23,6 @@ class BarChartAppState extends State<BarChartApp> {
   @override
   Widget build(BuildContext context) {
     return
-        //Padding(
-        // padding: const EdgeInsets.all(20.0),
-        //child:
         Container(
             //height: 260,
             decoration: const ShapeDecoration(
@@ -76,7 +66,6 @@ class BarChartAppState extends State<BarChartApp> {
                                   top: Radius.circular(8.0),
                                   bottom: Radius.circular(8.0)),
                             )),
-                        // color: AppColors.backgroundWhitecolor,
                         child:
                             // Initialize the chart widget
                             // SfCartesianChart(
@@ -121,13 +110,6 @@ class BarChartAppState extends State<BarChartApp> {
                 )));
   }
 }
-
-// class _SalesData {
-//   _SalesData(this.year, this.sales);
-
-//   final String year;
-//   final double sales;
-// }
 class BarChartData {
   BarChartData(this.x, this.y, this.color);
 

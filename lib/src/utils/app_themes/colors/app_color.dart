@@ -22,6 +22,9 @@ class AppColors {
   static const Color gerylightBackground = Color(0xFFCACACA);
   static const Color enabletextfieldBackground = Color(0xFFFAFAFB);
   static const Color disabletextfieldBackground = Color(0xFFE6E6E9);
+  static const Color lightOrangeColor = Color(0xFFFF8C00);
+  static const Color lightPinkColor = Color(0xFFE75480);
+
 
   static MaterialColor colorCustom = MaterialColor(0xFF2CAAE0, color);
 
