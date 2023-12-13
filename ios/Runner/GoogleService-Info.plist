@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>150357996074-i0b8g5bompa8o9pe42b2vb2fkv7eajc8.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAZ2AkivPc6AuEfEDQVRYhyOAs4yxkrC40</string>
+	<key>GCM_SENDER_ID</key>
+	<string>150357996074</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.arlanto.atomedge.qa</string>
+	<key>PROJECT_ID</key>
+	<string>atomedge-29920</string>
+	<key>STORAGE_BUCKET</key>
+	<string>atomedge-29920.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:150357996074:ios:98f46466af5fd058a64953</string>
+</dict>
+</plist>

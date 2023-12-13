@@ -1,32 +1,39 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:db_atom/src/configurations/main_config.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
+import 'package:db_atom/index.dart';
 
 class InactivityFunctions {
-  void startInactivityTimer(GlobalKey<NavigatorState> navigatorKey) {
+  Future<void> startInactivityTimer(GlobalKey<NavigatorState> navigatorKey) async {
     log('--startInactivityTimer---');
-    const inactivityDuration = Duration(minutes: 10);
 
-    Timer.periodic(inactivityDuration, (timer) async {
+    // String token = await SharedPrefs.getToken();
+    // if(token.isEmptyOrNull) {
+    //   log('Logging out because token is null.');
+    //   logoutUser(navigatorKey);
+    // }
+
+    Timer.periodic(Constants.inactivityDuration, (timer) async {
       log('--Timer.periodic---');
       // Check user activity status, e.g., based on the last interaction time
       // For simplicity, we assume user activity is based on tapping the screen
 
-      DateTime lastInteractionTime =
-          DateTime.parse(await SharedPrefs.getLastInteractionTime());
-      log('----$lastInteractionTime---------${DateTime.now().subtract(inactivityDuration)}-------------');
+      DateTime lastInteractionTime = await getLastUserInteractionTime();
 
-      if (lastInteractionTime
-          .isBefore(DateTime.now().subtract(inactivityDuration))) {
+      if (isTimeExceeded(lastInteractionTime, Constants.inactivityDuration)) {
+        log('---logout now---');
         logoutUser(navigatorKey);
       }
     });
   }
 
-  void logoutUser(GlobalKey<NavigatorState> navigatorKey) {
+  bool isTimeExceeded(DateTime lastInteractionTime, Duration inactivityDuration) {
+    log('---isTimeExceeded--$lastInteractionTime----$inactivityDuration--');
+    return lastInteractionTime
+        .isBefore(DateTime.now().subtract(inactivityDuration));
+  }
+
+  Future<void> logoutUser(GlobalKey<NavigatorState> navigatorKey) async {
     log('Logging Out...');
     SharedPrefs.setUserId('');
     SharedPrefs.setEmail('');
@@ -39,9 +46,17 @@ class InactivityFunctions {
     // Navigate to the login screen
     // log('--logoutUser-${getCurrentRouteName(navigatorKey)}--');
     // if (getCurrentRouteName(navigatorKey) != loginScreenRoute) {
-      navigatorKey.currentState?.pushReplacementNamed(loginScreenRoute);
+    navigatorKey.currentState?.pushReplacementNamed(loginScreenRoute);
     // }
+
+    String token = await SharedPrefs.getToken();
+    log('-token----after logout-$token-');
     updateUserInteraction();
+  }
+
+  Future<DateTime> getLastUserInteractionTime() async {
+    log('Get Last User Interaction Time: ${DateTime.now()}');
+    return DateTime.parse(await SharedPrefs.getLastInteractionTime());
   }
 
   // Update lastInteractionTime whenever the user interacts with the app
