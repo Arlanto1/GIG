@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/cubits/charts_cubit.dart';
 
 import 'charts/base_pie_charts.dart';
 
@@ -19,6 +20,7 @@ class DashboardViewState extends State<DashboardView> {
   void initState() {
     log('-DashboardView---initState--');
     super.initState();
+    BlocProvider.of<ChartsCubit>(context).initializeValues();
     getUserDetails();
   }
 
@@ -34,114 +36,119 @@ class DashboardViewState extends State<DashboardView> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery
+        .of(context)
+        .size;
     final height = size.height;
-    return Scaffold(
-      // drawer: navigationDrawer(),
-      // appBar: AppBar(
-      //   title: Text(F.title),
-      //   backgroundColor: AppColors.navigationSkybluecolor,
-      // ),
-      key: scaffoldKey,
-      drawer: NavigationDrawer1(scaffoldKey, userName, email),
-      appBar: AppHeader(
-        isTitleCenter: false,
-        title: Constants.dashboard,
+    return BlocConsumer<ChartsCubit, ChartsState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return Scaffold(
+          key: scaffoldKey,
+          drawer: NavigationDrawer1(scaffoldKey, userName, email),
+          appBar: AppHeader(
+            isTitleCenter: false,
+            title: Constants.dashboard,
 
-        action: [
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return const ArticleDialog(
-                    labels: languagesDropDownValues,
-                    title: 'Choose Language',
+            action: [
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const ArticleDialog(
+                        labels: languagesDropDownValues,
+                        title: 'Choose Language',
+                      );
+                    },
                   );
                 },
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: SvgPicture.asset(
-                AppIcon.vectoridentify,
-                color: AppColors.backgroundWhitecolor,
-                width: 20,
-                //key: const Key(Keys.userIcon),
-              ),
-            ),
-          ),
-
-          // Icon(Icons.add),
-
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, notificationViewRoute);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: SvgPicture.asset(
-                AppIcon.notifications,
-                color: AppColors.backgroundWhitecolor,
-                width: 20,
-                //key: const Key(Keys.userIcon),
-              ),
-            ),
-          ),
-        ],
-        // backgroundColor: AppColors.navigationSkybluecolor,
-        backBtn: IconButton(
-          icon: const Icon(Icons.menu, color: AppColors.backgroundWhitecolor),
-          onPressed: () {
-            if (scaffoldKey.currentState!.isDrawerOpen) {
-              scaffoldKey.currentState!.closeDrawer();
-              //close drawer, if drawer is open
-            } else {
-              scaffoldKey.currentState!.openDrawer();
-              //open drawer, if drawer is closed
-            }
-          },
-        ),
-      ),
-      body: Container(
-        color: AppColors.navigationSkybluecolor,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(20.0),
-                  decoration: const ShapeDecoration(
-                      color: AppColors.backgroundWhitecolor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(20.0)),
-                      )),
-                  child: Column(
-                    children: [
-                      // PieChartApp(),
-                      // CommonWidgets.verticalSpacerWidget(height * 0.03),
-                      // BarChartApp(),
-                      // CommonWidgets.verticalSpacerWidget(height * 0.03),
-                      BasePieChart(
-                        chartTitle: Constants.lawEnforcementVisitsByEntity,
-                        moreIcon: SvgPicture.asset(AppIcon.moreicon),
-                      ),
-
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      BasePieChart(
-                        chartTitle: Constants.lawEnforcementVisitsByEntity,
-                        moreIcon: SvgPicture.asset(AppIcon.moreicon),
-                      ),
-                    ],
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: SvgPicture.asset(
+                    AppIcon.vectoridentify,
+                    color: AppColors.backgroundWhitecolor,
+                    width: 20,
+                    //key: const Key(Keys.userIcon),
                   ),
                 ),
-              ],
+              ),
+
+              // Icon(Icons.add),
+
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, notificationViewRoute);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: SvgPicture.asset(
+                    AppIcon.notifications,
+                    color: AppColors.backgroundWhitecolor,
+                    width: 20,
+                    //key: const Key(Keys.userIcon),
+                  ),
+                ),
+              ),
+            ],
+            // backgroundColor: AppColors.navigationSkybluecolor,
+            backBtn: IconButton(
+              icon: const Icon(
+                  Icons.menu, color: AppColors.backgroundWhitecolor),
+              onPressed: () {
+                if (scaffoldKey.currentState!.isDrawerOpen) {
+                  scaffoldKey.currentState!.closeDrawer();
+                  //close drawer, if drawer is open
+                } else {
+                  scaffoldKey.currentState!.openDrawer();
+                  //open drawer, if drawer is closed
+                }
+              },
             ),
           ),
-        ),
-      ),
+          body: Container(
+            color: AppColors.navigationSkybluecolor,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(20.0),
+                      decoration: const ShapeDecoration(
+                          color: AppColors.backgroundWhitecolor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(20.0)),
+                          )),
+                      child: Column(
+                        children: [
+                          // PieChartApp(),
+                          // CommonWidgets.verticalSpacerWidget(height * 0.03),
+                          // BarChartApp(),
+                          // CommonWidgets.verticalSpacerWidget(height * 0.03),
+                          BasePieChart(
+                            chartTitle: Constants.lawEnforcementVisitsByEntity,
+                            moreIcon: SvgPicture.asset(AppIcon.moreicon),
+                          ),
+
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          BasePieChart(
+                            chartTitle: Constants.lawEnforcementVisitsByEntity,
+                            moreIcon: SvgPicture.asset(AppIcon.moreicon),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

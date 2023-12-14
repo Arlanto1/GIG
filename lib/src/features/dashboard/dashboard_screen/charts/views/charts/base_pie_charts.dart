@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:db_atom/index.dart';
 
 class BasePieChart extends StatefulWidget {

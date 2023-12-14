@@ -1,97 +1,41 @@
 part of 'charts_cubit.dart';
 
-class ChartState extends Equatable {
-  final FormStatus status;
-  final ContactDetailModel model;
-  final Locations? locations;
-  final User? loggedInUserDetails;
-  final List<BaseUser>? users;
+class ChartsState extends Equatable {
+  final List<PieChartData>? pieCharts;
+  final FormStatus? status;
   final String? message;
-  final CdUiLabels? labels;
 
-  factory ChartState.initial({
-    required ContactDetailModel model,
-    required Locations locations,
-    required User loggedInUserDetails,
-    required List<BaseUser>? users,
-    final List<BaseUser>? emailUsers,
+  factory ChartsState.initial({
+    required List<PieChartData> pieCharts,
     required String errorMessage,
   }) {
-    return ChartState(
-      status: FormStatus.initial,
-      model: model,
-      locations: locations,
-      loggedInUserDetails: loggedInUserDetails,
-      users: users,
+    return ChartsState(
+      pieCharts: pieCharts,
       message: errorMessage,
     );
   }
 
-  ErrorResponse get isValidDraft {
-    if (model.status == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Status');
-    }
-    if (model.entrySecurity == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Entry Security');
-    }
-    if (model.inputDate == null) {
-      return const ErrorResponse(
-          status: false, message: 'Created Date is required');
-    }
-    if (model.location == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Location');
-    }
 
-    if (model.slNo.isEmptyOrNull) {
-      return const ErrorResponse(status: false, message: 'Please enter SL No');
-    }
-
-    return const ErrorResponse(status: true, message: 'Form is Valid');
-  }
-
-  ErrorResponse get isValid {
-    if (model.location == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Location');
-    }
-    return const ErrorResponse(status: true, message: 'Form is Valid');
-  }
 
   @override
-  List<Object?> get props => [model, status];
+  List<Object?> get props => [pieCharts];
 
-  const ChartState({
-    required this.status,
-    required this.model,
-    this.locations,
-    this.loggedInUserDetails,
-    this.users,
+
+  const ChartsState( {
+    this.status,
+    this.pieCharts,
     this.message,
-    this.labels,
-
   });
 
-  ChartState copyWith({
-    FormStatus? status,
-    ContactDetailModel? model,
-    Locations? locations,
-    User? loggedInUserDetails,
-    List<BaseUser>? users,
+  ChartsState copyWith({
+    List<PieChartData>? pieCharts,
     String? message,
-    final CdUiLabels? labels,
-
+    FormStatus? status,
   }) {
-    return ChartState(
-      status: status ?? this.status,
-      model: model ?? this.model,
-      locations: locations ?? this.locations,
-      loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
-      users: users ?? this.users,
+    return ChartsState(
+      pieCharts: pieCharts ?? this.pieCharts,
       message: message ?? this.message,
-      labels: labels ?? this.labels,
-
+      status: status?? this.status,
     );
   }
 }

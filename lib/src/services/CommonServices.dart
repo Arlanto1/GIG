@@ -265,7 +265,7 @@ class CommonServices {
     return CreateUserModel.fromJson(response);
   }
 
-  Future<List<PieChartData>> getDashboardChart(String module) async {
+  Future<List<PieChartData>> getDashboardChart({required String module}) async {
     String url = Apis._getDashboardChart + module;
     Map<String, dynamic> response = await BaseApiService().getRequest(
       isAuthenticated: true,
