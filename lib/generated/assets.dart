@@ -2,8 +2,10 @@
 class Assets {
   Assets._();
 
+  static const String appIconAppIcon = 'assets/app_icon/app_icon.jpg';
+  static const String assetsAtomSplash = 'assets/atom_splash.png';
   static const String assetsImagesDaypassreg = 'assets/images/daypassreg.svg';
-  static const String assetsSplash = 'assets/atom_splash.png';
+  static const String assetsSplash = 'assets/splash.png';
   static const String fontsOFL = 'assets/fonts/OFL.txt';
   static const String fontsPoppinsBlack = 'assets/fonts/Poppins-Black.ttf';
   static const String fontsPoppinsBlackItalic = 'assets/fonts/Poppins-BlackItalic.ttf';
@@ -23,11 +25,9 @@ class Assets {
   static const String fontsPoppinsSemiBoldItalic = 'assets/fonts/Poppins-SemiBoldItalic.ttf';
   static const String fontsPoppinsThin = 'assets/fonts/Poppins-Thin.ttf';
   static const String fontsPoppinsThinItalic = 'assets/fonts/Poppins-ThinItalic.ttf';
-  static const String images1684149197EveApple = 'assets/images/1684149197EveApple.svg';
   static const String imagesAdd = 'assets/images/add.svg';
-  // static const String imagesArlantoLogin = 'assets/images/arlanto_login.png';
-  static const String imagesArlantoLogin = 'assets/images/atom.png';
-  static const String imagesArlantologin = 'assets/images/atom_login.png';
+  static const String imagesAtom = 'assets/images/atom.png';
+  static const String imagesAtomLogin = 'assets/images/atom_login.png';
   static const String imagesBackicon = 'assets/images/backicon.svg';
   static const String imagesBg = 'assets/images/bg.png';
   static const String imagesCalendar = 'assets/images/calendar.svg';

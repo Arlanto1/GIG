@@ -269,7 +269,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             BaseEntitiesSelection().entityDropDownSelection(
                                 context: context,
                                 selectedValues: state.model.vendor ?? [],
-                                all: state.vendors ?? [],
+                                all: state.vendors,
                                 enabled: !isReadOnly,
                                 onTap: (List<Organisation> selectedVendors) {
                                   log('--selectedEntities----${selectedVendors.length}');
@@ -321,7 +321,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             BaseEntitiesSelection().entityDropDownSelection(
                               context: context,
                               selectedValues: state.model.typeOfService ?? [],
-                              all: state.typeOfServices ?? [],
+                              all: state.typeOfServices,
                               enabled: !isReadOnly,
                               onTap:
                                   (List<Organisation> selectedTypeOfVendors) {
@@ -677,7 +677,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       validateTextField: (String? user) {},
     );
   }
-// getLawEnforcementId(int id) async {
+// getById(int id) async {
 //   showLoadingDialog(context);
 //
 //   SLAViolationPenaltyModel contactsModel =

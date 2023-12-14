@@ -1,13 +1,7 @@
-import 'package:db_atom/src/models/base_object.dart';
+import 'package:db_atom/index.dart';
 
-import 'package:db_atom/src/models/image_content.dart';
+part 'guarding_master_data_model.g.dart';
 
-import '../../../../models/organisation.dart';
-import '../../../createfound/models/user.dart';
-import 'package:json_annotation/json_annotation.dart';
-
-
-part 'guarding_master_data_model_g.dart';
 class GuardingMasterDataResponse {
   List<GuardingMastersDataModel>? items;
   int? totalCount;
@@ -23,23 +17,23 @@ class GuardingMasterDataResponse {
 
   GuardingMasterDataResponse.fromJson(Map<String, dynamic> json)
       : items = (json['data'] as List?)
-      ?.map((dynamic e) =>
-      GuardingMastersDataModel.fromJson(e as Map<String, dynamic>))
-      .toList(),
+            ?.map((dynamic e) =>
+                GuardingMastersDataModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'data': items?.map((e) => e.toJson()).toList(),
-    'totalCount': totalCount,
-    'currentPageNo': currentPageNo,
-    'totalPageCount': totalPageCount
-  };
+        'data': items?.map((e) => e.toJson()).toList(),
+        'totalCount': totalCount,
+        'currentPageNo': currentPageNo,
+        'totalPageCount': totalPageCount
+      };
 }
 
 @JsonSerializable()
-class GuardingMastersDataModel extends BaseObject{
+class GuardingMastersDataModel extends BaseObject {
   int? id;
   String? slNo;
   Organisation? location;
@@ -188,13 +182,9 @@ class GuardingMastersDataModel extends BaseObject{
     this.guardingPOC,
   });
 
-
   factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) =>
       _$GuardingMastersDataModelFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$GuardingMastersDataModelToJson(this);
-
-
-
 }

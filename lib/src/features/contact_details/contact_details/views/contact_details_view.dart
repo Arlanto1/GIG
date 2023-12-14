@@ -173,9 +173,6 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
-
-    bool isQuantityDisabled =
-        (state.model.status == 6 || state.model.status == 1);
     return Container(
       color: AppColors.navigationSkybluecolor,
       child: SingleChildScrollView(
@@ -314,16 +311,17 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 }
                                 log('--state.model.id---${state.model.id}--');
 
+
                                 nav.pushNamed(
                                   contactRecordsRoute,
                                   arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.generalContact,
-                                    ConstantsArgument.type: 0,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.rankType:
-                                        Constants.contactGeneralRank,
-                                  },
+                                      ConstantsArgument.title:
+                                      Constants.generalContact,
+                                      ConstantsArgument.type: 0,
+                                      ConstantsArgument.id: state.model.id,
+                                      ConstantsArgument.rankType:
+                                      Constants.contactGeneralRank,
+                                    },
                                 );
                               },
                               child: Row(
@@ -691,7 +689,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       validateTextField: (String? user) {},
     );
   }
-// getLawEnforcementId(int id, int type) async {
+// getById(int id, int type) async {
 //   showLoadingDialog(context);
 //
 //   ContactListResponseModel contactsModel =
