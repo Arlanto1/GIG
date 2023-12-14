@@ -141,6 +141,7 @@ class Constants {
   static const String eventProtectionByRegion = 'Event Protection By Region';
   static const String eventProtectionByEntity = 'Event Protection By Entity';
   static const String lawEnforcementVisitsByEntity = 'Law Enforcement Visits By Entity';
+  static const String lawEnforcementVisitsByRegion = 'Law Enforcement Visits By Region';
   static const String eventProtectionAttendees = 'Event Protection Attendees';
   static const String eventProtectionBySupport = 'Event Protection By Support';
 

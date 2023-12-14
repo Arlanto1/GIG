@@ -36,7 +36,7 @@ class BasePieChartState extends State<BasePieChart> {
       children: [
         Container(
           height: 280,
-          width: double.infinity,
+          width: 400,
           decoration: const ShapeDecoration(
             color: AppColors.white,
             shape: RoundedRectangleBorder(

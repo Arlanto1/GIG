@@ -1,41 +1,50 @@
 part of 'charts_cubit.dart';
 
 class ChartsState extends Equatable {
-  final List<PieChartData>? pieCharts;
+  final List<PieChartData>? lawEnforcementVisitByEntity;
+  final List<PieChartData>? lawEnforcementVisitByRegion;
+  final List<PieChartData>? eventProtectionByRegion;
   final FormStatus? status;
   final String? message;
 
   factory ChartsState.initial({
-    required List<PieChartData> pieCharts,
+    required List<PieChartData> lawEnforcementVisitByEntity,
+    required List<PieChartData> lawEnforcementVisitByRegion,
+    required List<PieChartData> eventProtectionByRegion,
     required String errorMessage,
   }) {
     return ChartsState(
-      pieCharts: pieCharts,
+      lawEnforcementVisitByEntity: lawEnforcementVisitByEntity,
+      lawEnforcementVisitByRegion: lawEnforcementVisitByRegion,
+      eventProtectionByRegion: eventProtectionByRegion,
       message: errorMessage,
     );
   }
 
-
-
   @override
-  List<Object?> get props => [pieCharts];
+  List<Object?> get props => [lawEnforcementVisitByEntity];
 
-
-  const ChartsState( {
+  const ChartsState({
     this.status,
-    this.pieCharts,
+    this.lawEnforcementVisitByEntity,
+    this.lawEnforcementVisitByRegion,
+    this.eventProtectionByRegion,
     this.message,
   });
 
   ChartsState copyWith({
-    List<PieChartData>? pieCharts,
+    List<PieChartData>? lawEnforcementVisitByEntity,
+    List<PieChartData>? lawEnforcementVisitByRegion,
+    List<PieChartData>? eventProtectionByRegion,
     String? message,
     FormStatus? status,
   }) {
     return ChartsState(
-      pieCharts: pieCharts ?? this.pieCharts,
+      lawEnforcementVisitByEntity: lawEnforcementVisitByEntity ?? this.lawEnforcementVisitByEntity,
+      lawEnforcementVisitByRegion: lawEnforcementVisitByRegion ?? this.lawEnforcementVisitByRegion,
+      eventProtectionByRegion: eventProtectionByRegion ?? this.eventProtectionByRegion,
       message: message ?? this.message,
-      status: status?? this.status,
+      status: status ?? this.status,
     );
   }
 }

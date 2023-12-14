@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 
@@ -14,14 +13,15 @@ class ChartsCubit extends Cubit<ChartsState> {
     required this.commonServices,
   }) : super(
           ChartsState.initial(
-            pieCharts: const [],
+            lawEnforcementVisitByEntity: const [],
+            lawEnforcementVisitByRegion: const [],
+            eventProtectionByRegion: const [],
             errorMessage: '',
           ),
         );
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
-    // Show Loader and emit loading state
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -31,15 +31,21 @@ class ChartsCubit extends Cubit<ChartsState> {
     try {
       final futures = [
         commonServices.getDashboardChart(module: 'LEVE'),
+        commonServices.getDashboardChart(module: 'LEVR'),
+        commonServices.getDashboardChart(module: 'EPR'),
       ];
 
       final results = await Future.wait(futures);
 
-      List<PieChartData> pieCharts = results[0];
+      List<PieChartData> lawEnforcementVisitByEntity = results[0];
+      List<PieChartData> lawEnforcementVisitByRegion = results[1];
+      List<PieChartData> eventProtectionByRegion = results[2];
 
       emit(
         state.copyWith(
-          pieCharts: pieCharts,
+          lawEnforcementVisitByEntity: lawEnforcementVisitByEntity,
+          lawEnforcementVisitByRegion: lawEnforcementVisitByRegion,
+          eventProtectionByRegion: eventProtectionByRegion,
         ),
       );
     } on GenericResponse catch (e) {

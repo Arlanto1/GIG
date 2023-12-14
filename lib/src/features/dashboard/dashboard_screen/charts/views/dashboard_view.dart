@@ -45,7 +45,6 @@ class DashboardViewState extends State<DashboardView> {
       },
       bloc: chartsCubit,
       builder: (context, state) {
-
         return Scaffold(
           key: scaffoldKey,
           drawer: NavigationDrawer1(scaffoldKey, userName, email),
@@ -114,44 +113,58 @@ class DashboardViewState extends State<DashboardView> {
             child: Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(20.0),
-                      decoration: const ShapeDecoration(
-                          color: AppColors.backgroundWhitecolor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(20.0)),
-                          )),
-                      child: Column(
-                        children: [
-                          // PieChartApp(),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.03),
-                          // BarChartApp(),
-                          // CommonWidgets.verticalSpacerWidget(height * 0.03),
-                          BasePieChart(
-                            chartTitle: Constants.lawEnforcementVisitsByEntity,
-                            moreIcon: SvgPicture.asset(AppIcon.moreicon),
-                            chartData1: state.pieCharts ?? [],
-                          ),
-
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          BasePieChart(
-                            chartTitle: Constants.lawEnforcementVisitsByEntity,
-                            moreIcon: SvgPicture.asset(AppIcon.moreicon),
-                            chartData1: state.pieCharts ?? [],
-                          ),
-                        ],
-                      ),
+                // scrollDirection: Axis.horizontal,
+                child: Container(
+                  padding: const EdgeInsets.all(20.0),
+                  decoration: const ShapeDecoration(
+                    color: AppColors.backgroundWhitecolor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20.0)),
                     ),
-                  ],
+                  ),
+                  child: Column(
+                    children: [
+                      buildChartHorizontalWidget(
+                          title: Constants.lawEnforcementVisitsByEntity,
+                          chartValues: state.lawEnforcementVisitByEntity ?? []),
+                      buildChartHorizontalWidget(
+                          title: Constants.lawEnforcementVisitsByRegion,
+                          chartValues: state.lawEnforcementVisitByRegion ?? []),
+                      buildChartHorizontalWidget(
+                          title: Constants.eventProtectionByRegion,
+                          chartValues: state.eventProtectionByRegion ?? []),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         );
       },
+    );
+  }
+
+  SingleChildScrollView buildChartHorizontalWidget(
+      {required String title, required List<PieChartData> chartValues}) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          BasePieChart(
+            chartTitle: Constants.lawEnforcementVisitsByEntity,
+            moreIcon: SvgPicture.asset(AppIcon.moreicon),
+            chartData1: chartValues,
+          ),
+          // CommonWidgets.horizontalSpacerWidget(width * 0.03),
+          BasePieChart(
+            chartTitle: Constants.lawEnforcementVisitsByEntity,
+            moreIcon: SvgPicture.asset(AppIcon.moreicon),
+            chartData1: chartValues,
+          ),
+          // Add more charts as needed
+        ],
+      ),
     );
   }
 }
