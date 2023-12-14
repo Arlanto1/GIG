@@ -1,13 +1,14 @@
 import 'package:db_atom/index.dart';
 
 class BasePieChart extends StatefulWidget {
+  final List<PieChartData> chartData1;
   final String chartTitle;
   final Widget moreIcon;
 
   const BasePieChart({
     Key? key,
     required this.chartTitle,
-    required this.moreIcon,
+    required this.moreIcon, required this.chartData1,
   }) : super(key: key);
 
   @override
@@ -15,13 +16,13 @@ class BasePieChart extends StatefulWidget {
 }
 
 class BasePieChartState extends State<BasePieChart> {
-  List<PieChartData> chartData1 = [
-    PieChartData('DWS', 30, Colors.green),
-    PieChartData('DBC', 40, AppColors.lightblueBackground),
-    PieChartData('DIPL', 20, AppColors.ligtblackBackground),
-    PieChartData('DISPL', 10, AppColors.lightOrangeColor),
-    PieChartData('DB CIB', 35, AppColors.lightPinkColor),
-  ];
+  // List<PieChartData> chartData1 = [
+  //   PieChartData('DWS', 30, Colors.green),
+  //   PieChartData('DBC', 40, AppColors.lightblueBackground),
+  //   PieChartData('DIPL', 20, AppColors.ligtblackBackground),
+  //   PieChartData('DISPL', 10, AppColors.lightOrangeColor),
+  //   PieChartData('DB CIB', 35, AppColors.lightPinkColor),
+  // ];
 
   @override
   void initState() {
@@ -94,7 +95,7 @@ class BasePieChartState extends State<BasePieChart> {
                       radius: '70',
                       //cornerStyle: CornerStyle.bothCurve,
                       legendIconType: LegendIconType.seriesType,
-                      dataSource: chartData1,
+                      dataSource: widget.chartData1,
                       xValueMapper: (PieChartData data, _) => data.x,
                       yValueMapper: (PieChartData data, _) => data.y,
                       pointColorMapper: (PieChartData data, _) => data.color,
