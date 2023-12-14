@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 
+import 'charts/base_pie_charts.dart';
+
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
 
@@ -126,9 +128,20 @@ class DashboardViewState extends State<DashboardView> {
                       )),
                   child: Column(
                     children: [
-                      PieChartApp(),
-                      CommonWidgets.verticalSpacerWidget(height * 0.03),
-                      BarChartApp(),
+                      // PieChartApp(),
+                      // CommonWidgets.verticalSpacerWidget(height * 0.03),
+                      // BarChartApp(),
+                      // CommonWidgets.verticalSpacerWidget(height * 0.03),
+                      BasePieChart(
+                        chartTitle: Constants.lawEnforcementVisitsByEntity,
+                        moreIcon: SvgPicture.asset(AppIcon.moreicon),
+                      ),
+
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      BasePieChart(
+                        chartTitle: Constants.lawEnforcementVisitsByEntity,
+                        moreIcon: SvgPicture.asset(AppIcon.moreicon),
+                      ),
                     ],
                   ),
                 ),

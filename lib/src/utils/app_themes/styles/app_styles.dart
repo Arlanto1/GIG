@@ -93,6 +93,12 @@ class Styles {
     fontWeight: FontWeight.w600,
     color: AppColors.textgreyThemecolor,
   );
+  static const TextStyle textStyleSemiBold16Black = TextStyle(
+    fontSize: 16,
+    fontFamily: Constants.customFontSemiBoldFamily,
+    fontWeight: FontWeight.w600,
+    color: Colors.black54,
+  );
   static const TextStyle textStyleSemiBold16White = TextStyle(
     fontSize: 16,
     fontFamily: Constants.customFontSemiBoldFamily,
