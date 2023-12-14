@@ -1,24 +1,7 @@
 import 'dart:developer';
 
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../../common_widgets/floating_button.dart';
-import '../../../../../common_widgets/spinnerdialog.dart';
-import '../../../../../enums/form_status.dart';
-import '../../../../../routing/router.dart';
-import '../../models/guarding_master_data_model.dart';
-import '../../services/guarding_master_data_services.dart';
-import '../bloc/guarding_master_data_bloc.dart';
+import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 
 class GuardingMasterDataView extends StatefulWidget {
   const GuardingMasterDataView({

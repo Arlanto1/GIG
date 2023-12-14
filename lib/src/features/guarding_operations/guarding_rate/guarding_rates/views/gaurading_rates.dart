@@ -17,8 +17,8 @@ import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../enums/form_status.dart';
-import '../bloc/guarding_rates_bloc.dart';
+import 'package:db_atom/src/enums/form_status.dart';
+import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart';
 
 class GuardingRates extends StatefulWidget {
   const GuardingRates({
