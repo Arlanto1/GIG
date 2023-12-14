@@ -1,5 +1,3 @@
-// const String appRoute = '/approute';
-
 const String splashScreenRoute = '/splashScreenRoute';
 const String loginScreenRoute = '/loginScreenRoute';
 const String dashboardViewRoute = '/dashboardViewRoute';
@@ -7,9 +5,6 @@ const String notificationViewRoute = '/notificationViewRoute';
 
 const String createfoundScreenRoute = '/createfoundscreenRoute';
 const String articleFoundListRoute = '/articlefoundlistpage';
-
-
-const String piechartRoute = '/piechartRoutepage';
 
 const String customexpansionlisttextsRoute = '/customexpansionlisttextsRoute';
 const String createFoundAttachmentRoute = '/createfoundattachmentRoutepage';
@@ -64,6 +59,7 @@ const String contactDetailsRoute = '/contactDetailsRoute';
 const String contactRecordsRoute = '/contactRecordsRoute';
 
 const String slaViolationPenaltyListRoute = '/slaViolationPenaltyRoute';
-const String slaViolationPenaltyDetailsRoute = '/slaViolationPenaltyDetailsRoute';
-const String slaViolationPenaltyRecordsRoute = '/slaViolationPenaltyListingRoute';
-
+const String slaViolationPenaltyDetailsRoute =
+    '/slaViolationPenaltyDetailsRoute';
+const String slaViolationPenaltyRecordsRoute =
+    '/slaViolationPenaltyListingRoute';
