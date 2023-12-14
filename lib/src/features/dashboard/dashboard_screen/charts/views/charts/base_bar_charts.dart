@@ -63,6 +63,7 @@ class BaseBarChartState extends State<BaseBarChart> {
                   ],
                 ),
               ),
+              CommonWidgets.verticalSpacerWidget(0.1),
               Expanded(
                 child: SfCartesianChart(
                   primaryYAxis: NumericAxis(
