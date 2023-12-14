@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/cubits/charts_cubit.dart';
 
 import 'charts/base_pie_charts.dart';
@@ -20,7 +21,7 @@ class DashboardViewState extends State<DashboardView> {
   void initState() {
     log('-DashboardView---initState--');
     super.initState();
-    BlocProvider.of<ChartsCubit>(context).initializeValues();
+    chartsCubit.initializeValues();
     getUserDetails();
   }
 
@@ -36,15 +37,15 @@ class DashboardViewState extends State<DashboardView> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery
-        .of(context)
-        .size;
+    final size = MediaQuery.of(context).size;
     final height = size.height;
     return BlocConsumer<ChartsCubit, ChartsState>(
       listener: (context, state) {
         // TODO: implement listener
       },
+      bloc: chartsCubit,
       builder: (context, state) {
+
         return Scaffold(
           key: scaffoldKey,
           drawer: NavigationDrawer1(scaffoldKey, userName, email),
@@ -95,8 +96,8 @@ class DashboardViewState extends State<DashboardView> {
             ],
             // backgroundColor: AppColors.navigationSkybluecolor,
             backBtn: IconButton(
-              icon: const Icon(
-                  Icons.menu, color: AppColors.backgroundWhitecolor),
+              icon:
+                  const Icon(Icons.menu, color: AppColors.backgroundWhitecolor),
               onPressed: () {
                 if (scaffoldKey.currentState!.isDrawerOpen) {
                   scaffoldKey.currentState!.closeDrawer();
@@ -120,8 +121,8 @@ class DashboardViewState extends State<DashboardView> {
                       decoration: const ShapeDecoration(
                           color: AppColors.backgroundWhitecolor,
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(20.0)),
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20.0)),
                           )),
                       child: Column(
                         children: [
@@ -132,12 +133,14 @@ class DashboardViewState extends State<DashboardView> {
                           BasePieChart(
                             chartTitle: Constants.lawEnforcementVisitsByEntity,
                             moreIcon: SvgPicture.asset(AppIcon.moreicon),
+                            chartData1: state.pieCharts ?? [],
                           ),
 
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                           BasePieChart(
                             chartTitle: Constants.lawEnforcementVisitsByEntity,
                             moreIcon: SvgPicture.asset(AppIcon.moreicon),
+                            chartData1: state.pieCharts ?? [],
                           ),
                         ],
                       ),

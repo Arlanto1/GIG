@@ -8,14 +8,10 @@ import 'package:db_atom/src/services/CommonServices.dart';
 part 'charts_state.dart';
 
 class ChartsCubit extends Cubit<ChartsState> {
-  final ContactDetailsServices services;
-  final ContactDetailModel? model;
   final CommonServices commonServices;
 
   ChartsCubit({
-    required this.services,
     required this.commonServices,
-    this.model,
   }) : super(
           ChartsState.initial(
             pieCharts: const [],
