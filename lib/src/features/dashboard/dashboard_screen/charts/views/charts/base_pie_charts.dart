@@ -1,14 +1,15 @@
 import 'package:db_atom/index.dart';
 
 class BasePieChart extends StatefulWidget {
-  final List<PieChartData> chartData1;
+  final List<PieChartData> chartData;
   final String chartTitle;
   final Widget moreIcon;
 
   const BasePieChart({
     Key? key,
     required this.chartTitle,
-    required this.moreIcon, required this.chartData1,
+    required this.moreIcon,
+    required this.chartData,
   }) : super(key: key);
 
   @override
@@ -64,38 +65,25 @@ class BasePieChartState extends State<BasePieChart> {
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: AppColors.navigationSkybluecolor,
+                          fontSize: 20,
                         ),
                       ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.close_rounded),
-                      onPressed: () {
-                        // Handle close button pressed, e.g., Navigator.pop(context);
-                      },
                     ),
                   ],
                 ),
               ),
               Expanded(
                 child: SfCircularChart(
-                  // title: ChartTitle(
-                  //   text: widget.chartTitle,
-                  //   textStyle: const TextStyle(
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
-                  // borderColor: AppColors.navigationSkybluecolor,
-                  // borderWidth: 1.1,
                   legend: Legend(isVisible: true),
                   tooltipBehavior: TooltipBehavior(enable: true),
                   series: <CircularSeries>[
                     PieSeries<PieChartData, String>(
-                      name: 'DWS',
+                      // name: 'DWS',
                       //innerRadius: '40',
                       radius: '70',
                       //cornerStyle: CornerStyle.bothCurve,
                       legendIconType: LegendIconType.seriesType,
-                      dataSource: widget.chartData1,
+                      dataSource: widget.chartData,
                       xValueMapper: (PieChartData data, _) => data.x,
                       yValueMapper: (PieChartData data, _) => data.y,
                       pointColorMapper: (PieChartData data, _) => data.color,
@@ -115,73 +103,4 @@ class BasePieChartState extends State<BasePieChart> {
       ],
     );
   }
-
-// @override
-// Widget build(BuildContext context) {
-//   return Column(
-//     mainAxisAlignment: MainAxisAlignment.start,
-//     children: [
-//       Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         children: [
-//           Text(
-//             widget.chartTitle,
-//             style: TextStyle(
-//               fontWeight: FontWeight.bold,
-//             ),
-//           ),
-//           IconButton(
-//             icon: Icon(Icons.close),
-//             onPressed: () {
-//               // Add the logic to close the chart here
-//             },
-//           ),
-//         ],
-//       ),
-//       Container(
-//         height: 300,
-//         width: double.infinity,
-//         decoration: const ShapeDecoration(
-//           color: AppColors.white,
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.vertical(
-//               top: Radius.circular(0.0),
-//               bottom: Radius.circular(0.0),
-//             ),
-//           ),
-//         ),
-//         child: SfCircularChart(
-//           title: ChartTitle(
-//             text: widget.chartTitle,
-//             textStyle: const TextStyle(
-//               fontWeight: FontWeight.bold,
-//             ),
-//           ),
-//           borderColor: AppColors.navigationSkybluecolor,
-//           borderWidth: 1.1,
-//           legend: Legend(isVisible: true),
-//           tooltipBehavior: TooltipBehavior(enable: true),
-//           series: <CircularSeries>[
-//             DoughnutSeries<PieChartData, String>(
-//               innerRadius: '40',
-//               radius: '70',
-//               cornerStyle: CornerStyle.bothCurve,
-//               legendIconType: LegendIconType.seriesType,
-//               dataSource: chartData1,
-//               xValueMapper: (PieChartData data, _) => data.category,
-//               yValueMapper: (PieChartData data, _) => data.value,
-//               pointColorMapper: (PieChartData data, _) => data.color,
-//               dataLabelSettings: const DataLabelSettings(
-//                 isVisible: true,
-//               ),
-//               enableTooltip: true,
-//               explode: true,
-//             ),
-//           ],
-//         ),
-//       ),
-//     ],
-//   );
-// }
 }
-

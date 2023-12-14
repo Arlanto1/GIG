@@ -6,7 +6,8 @@ import 'package:db_atom/src/features/contact_details/contact_details_list/bloc/c
 import 'package:db_atom/src/features/contact_details/contact_records/bloc/contact_record_bloc.dart'
     as cr;
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
-import 'package:db_atom/src/features/dashboard/notifications/bloc/notifications_bloc.dart' as nb;
+import 'package:db_atom/src/features/dashboard/notifications/bloc/notifications_bloc.dart'
+    as nb;
 import 'package:db_atom/src/features/event_protection/event_protections/bloc/event_protections_bloc.dart'
     as ep;
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
@@ -122,8 +123,6 @@ class RouteGenerator {
       case createFoundAttachmentRoute:
         return MaterialPageRoute(
             builder: (context) => const CreateFoundAttachment());
-      case piechartRoute:
-        return MaterialPageRoute(builder: (context) => PieChartApp());
       case customexpansionlisttextsRoute:
         return MaterialPageRoute(
             builder: (context) => const CustomExpansionListTexts());

@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:db_atom/index.dart';
 
 class BaseBarChart extends StatefulWidget {
@@ -31,7 +29,7 @@ class BaseBarChartState extends State<BaseBarChart> {
       children: [
         Container(
           height: 280,
-          width: double.infinity,
+          width: 400,
           decoration: const ShapeDecoration(
             color: AppColors.white,
             shape: RoundedRectangleBorder(
@@ -45,20 +43,12 @@ class BaseBarChartState extends State<BaseBarChart> {
             children: [
               Container(
                 decoration: const BoxDecoration(
-                  color: AppColors.navigationSkybluecolor,
-                  border:  Border(
-                    top: BorderSide(color: AppColors.boldgreyBackground,),
-                    //bottom: BorderSide(color: AppColors.boldgreyBackground),
-                    right: BorderSide(color: AppColors.boldgreyBackground),
-                    left: BorderSide(color: AppColors.boldgreyBackground),
-                  ),
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(0.0),
                     bottom: Radius.circular(0.0),
                   ),
                 ),
                 child: Row(
-                  // textDirection: TextDirection.rtl,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
@@ -67,16 +57,10 @@ class BaseBarChartState extends State<BaseBarChart> {
                         widget.chartTitle,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.white,
-                          fontSize: 17,
+                          color: AppColors.navigationSkybluecolor,
+                          fontSize: 20,
                         ),
                       ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.close_rounded),
-                      onPressed: () {
-                        // Handle close button pressed, e.g., Navigator.pop(context);
-                      },
                     ),
                   ],
                 ),
@@ -85,10 +69,6 @@ class BaseBarChartState extends State<BaseBarChart> {
                 child: SfCartesianChart(
                   primaryYAxis: NumericAxis(
                     labelFormat: '',
-                    // axisLineStyle: AxisLineStyle(
-                    //   thickness: 1.0,
-                    //   color: AppColors.boldgreyBackground,
-                    // ),
                   ),
                   series: <ChartSeries>[
                     BarSeries<PieChartData, num>(

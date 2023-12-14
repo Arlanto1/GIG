@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:db_atom/index.dart';
 
 class BaseBubbleChart extends StatefulWidget {
-  final List<PieChartData> chartData1;
+  final List<PieChartData> chartData;
   final String chartTitle;
   final Widget moreIcon;
 
@@ -11,7 +9,7 @@ class BaseBubbleChart extends StatefulWidget {
     Key? key,
     required this.chartTitle,
     required this.moreIcon,
-    required this.chartData1,
+    required this.chartData,
   }) : super(key: key);
 
   @override
@@ -31,7 +29,7 @@ class BaseBubbleChartState extends State<BaseBubbleChart> {
       children: [
         Container(
           height: 280,
-          width: double.infinity,
+          width: 400,
           decoration: const ShapeDecoration(
             color: AppColors.white,
             shape: RoundedRectangleBorder(
@@ -58,14 +56,9 @@ class BaseBubbleChartState extends State<BaseBubbleChart> {
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: AppColors.navigationSkybluecolor,
+                          fontSize: 20,
                         ),
                       ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.close_rounded),
-                      onPressed: () {
-                        // Handle close button pressed, e.g., Navigator.pop(context);
-                      },
                     ),
                   ],
                 ),
@@ -75,12 +68,12 @@ class BaseBubbleChartState extends State<BaseBubbleChart> {
                   // Adjust the chart type to BubbleSeries
                   series: <CartesianSeries>[
                     BubbleSeries<PieChartData, num>(
-                      dataSource: widget.chartData1,
+                      dataSource: widget.chartData,
                       xValueMapper: (PieChartData data, _) =>
-                          widget.chartData1.indexOf(data),
+                          widget.chartData.indexOf(data),
                       yValueMapper: (PieChartData data, _) => data.y,
                       // sizeValueMapper: (PieChartData data, _) => data.size,
-                      // color: Colors.blue, // You can customize the color as needed
+                      pointColorMapper: (PieChartData data, _) => data.color,
                       dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
                       ),

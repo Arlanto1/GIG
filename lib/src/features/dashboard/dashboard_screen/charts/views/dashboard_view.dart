@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/cubits/charts_cubit.dart';
+import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_bar_charts.dart';
+import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_bubble_charts.dart';
 
 import 'charts/base_pie_charts.dart';
 
@@ -29,7 +31,6 @@ class DashboardViewState extends State<DashboardView> {
     userName = await SharedPrefs.getUsername();
     email = await SharedPrefs.getEmail();
     log('username : $userName email is : $email');
-    //await Future.delayed(Duration(seconds: 3));
     setState(() {});
   }
 
@@ -37,8 +38,6 @@ class DashboardViewState extends State<DashboardView> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final height = size.height;
     return BlocConsumer<ChartsCubit, ChartsState>(
       listener: (context, state) {
         // TODO: implement listener
@@ -65,30 +64,23 @@ class DashboardViewState extends State<DashboardView> {
                     },
                   );
                 },
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SvgPicture.asset(
-                    AppIcon.vectoridentify,
-                    color: AppColors.backgroundWhitecolor,
-                    width: 20,
-                    //key: const Key(Keys.userIcon),
+                child: const Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Icon(
+                    Icons.translate,
+                    color: Colors.white,
                   ),
                 ),
               ),
-
-              // Icon(Icons.add),
-
               GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, notificationViewRoute);
                 },
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SvgPicture.asset(
-                    AppIcon.notifications,
-                    color: AppColors.backgroundWhitecolor,
-                    width: 20,
-                    //key: const Key(Keys.userIcon),
+                child: const Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Icon(
+                    Icons.notifications,
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -152,15 +144,19 @@ class DashboardViewState extends State<DashboardView> {
       child: Row(
         children: [
           BasePieChart(
-            chartTitle: Constants.lawEnforcementVisitsByEntity,
+            chartTitle: title,
             moreIcon: SvgPicture.asset(AppIcon.moreicon),
-            chartData1: chartValues,
+            chartData: chartValues,
           ),
-          // CommonWidgets.horizontalSpacerWidget(width * 0.03),
-          BasePieChart(
-            chartTitle: Constants.lawEnforcementVisitsByEntity,
+          BaseBubbleChart(
+            chartTitle: title,
             moreIcon: SvgPicture.asset(AppIcon.moreicon),
-            chartData1: chartValues,
+            chartData: chartValues,
+          ),
+          BaseBarChart(
+            chartTitle: title,
+            moreIcon: SvgPicture.asset(AppIcon.moreicon),
+            chartData: chartValues,
           ),
           // Add more charts as needed
         ],
