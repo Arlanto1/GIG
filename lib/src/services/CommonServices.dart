@@ -1,10 +1,9 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/configurations/base_api_service.dart';
-import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
 import 'package:db_atom/src/features/createfound/models/get_articletype_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/models/type_of_service_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/addQualifications.dart';
@@ -12,12 +11,9 @@ import 'package:db_atom/src/features/material_movement/models/quantity_units.dar
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/vendor_pass_reason_model.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:flutter/material.dart';
 
 import '../features/createfound/models/create_user_model.dart';
 import '../features/createfound/models/get_depositor_model.dart';
-import '../features/createfound/models/user.dart';
 import '../features/createfound/models/vendors_model.dart';
 import '../features/lawenforcement/models/addentities.dart';
 import '../features/passmanagement/daypassmgmt/createpassmgmt/models/company_type_model.dart';
@@ -42,6 +38,7 @@ class Apis {
 
   static final String _createOrganisation = '$baseUrl/createOrganisation?';
   static final String _createUser = '$baseUrl/createUser?';
+  static final String _getDashboardChart = '$baseUrl/getDashboard?module=';
 }
 
 class CommonServices {
@@ -266,5 +263,24 @@ class CommonServices {
     final response =
         await BaseApiService().postRequest(url: url, requestedData: {});
     return CreateUserModel.fromJson(response);
+  }
+
+  Future<List<PieChartData>> getDashboardChart(String module) async {
+    String url = Apis._getDashboardChart + module;
+    Map<String, dynamic> response = await BaseApiService().getRequest(
+      isAuthenticated: true,
+      url: url,
+    );
+
+    // Convert response to List<PieChartData>
+    List<PieChartData> pieChartDataList = [];
+    response.forEach((key, value) {
+      double count = (value is int) ? value.toDouble() : 0.0;
+      pieChartDataList.add(
+        PieChartData(key, count, Utils().getRandomColor()),
+      );
+    });
+
+    return pieChartDataList;
   }
 }

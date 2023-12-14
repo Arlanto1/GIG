@@ -149,3 +149,5 @@ export 'package:db_atom/src/features/dashboard/navigation_drawer/cubits/drawer_c
 export 'package:db_atom/src/features/login/models/login_model.dart';
 export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/models/chart_data_model.dart';
 export 'package:syncfusion_flutter_charts/charts.dart';
+export 'package:db_atom/src/features/contact_details/models/requestModels/contact_details_gi_request.dart';
+export 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
