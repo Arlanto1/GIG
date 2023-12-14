@@ -43,11 +43,9 @@ class BaseBarChartState extends State<BaseBarChart> {
             children: [
               Container(
                 decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(0.0),
-                    bottom: Radius.circular(0.0),
-                  ),
-                ),
+                    border: Border(
+                        bottom:
+                        BorderSide(color: AppColors.boldgreyBackground))),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
