@@ -17,7 +17,7 @@ class DashboardViewState extends State<DashboardView> {
 
   @override
   void initState() {
-    log('-MyHomePage---initState--');
+    log('-DashboardView---initState--');
     super.initState();
     getUserDetails();
   }
@@ -30,14 +30,6 @@ class DashboardViewState extends State<DashboardView> {
     setState(() {});
   }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Placeholder();
-//   }
-// }
-
-  // final width = size.width;
-// class MyHomePage extends StatelessWidget {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override

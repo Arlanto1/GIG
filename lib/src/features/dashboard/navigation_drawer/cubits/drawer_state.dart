@@ -14,45 +14,45 @@ class DrawerInitial extends DrawerState {
 }
 
 class SetDrawerItemChange extends DrawerState {
-  SetDrawerItemChange(this.index) : super(index);
+  const SetDrawerItemChange(this.index) : super(index);
 
   @override
   final int index;
 }
 
 class GetDrawerItemChange extends DrawerState {
-  GetDrawerItemChange(super.index);
+  const GetDrawerItemChange(super.index);
 }
 
 class OperationsSetDrawerItemChange extends DrawerState {
-  OperationsSetDrawerItemChange(this.index) : super(index);
+  const OperationsSetDrawerItemChange(this.index) : super(index);
 
   @override
   final int index;
 }
 
 class OperationsGetDrawerItemChange extends DrawerState {
-  OperationsGetDrawerItemChange(super.index);
+  const OperationsGetDrawerItemChange(super.index);
 }
 
 class SecurityFunctionsSetDrawerItemChange extends DrawerState {
-  SecurityFunctionsSetDrawerItemChange(this.index) : super(index);
+  const SecurityFunctionsSetDrawerItemChange(this.index) : super(index);
 
   @override
   final int index;
 }
 
 class SecurityFunctionsGetDrawerItemChange extends DrawerState {
-  SecurityFunctionsGetDrawerItemChange(super.index);
+  const SecurityFunctionsGetDrawerItemChange(super.index);
 }
 
-class PassmgmtSetDrawerItemChange extends DrawerState {
-  PassmgmtSetDrawerItemChange(this.index) : super(index);
+class PassMgmtSetDrawerItemChange extends DrawerState {
+  const PassMgmtSetDrawerItemChange(this.index) : super(index);
 
   @override
   final int index;
 }
 
-class PassmgmtGetDrawerItemChange extends DrawerState {
-  PassmgmtGetDrawerItemChange(super.index);
+class PassMgmtGetDrawerItemChange extends DrawerState {
+  const PassMgmtGetDrawerItemChange(super.index);
 }
