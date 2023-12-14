@@ -1,5 +1,4 @@
 import 'package:db_atom/index.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class BasePieChart extends StatefulWidget {
   final String chartTitle;
@@ -96,8 +95,8 @@ class BasePieChartState extends State<BasePieChart> {
                       //cornerStyle: CornerStyle.bothCurve,
                       legendIconType: LegendIconType.seriesType,
                       dataSource: chartData1,
-                      xValueMapper: (PieChartData data, _) => data.category,
-                      yValueMapper: (PieChartData data, _) => data.value,
+                      xValueMapper: (PieChartData data, _) => data.x,
+                      yValueMapper: (PieChartData data, _) => data.y,
                       pointColorMapper: (PieChartData data, _) => data.color,
                       dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
@@ -185,10 +184,3 @@ class BasePieChartState extends State<BasePieChart> {
 // }
 }
 
-class PieChartData {
-  PieChartData(this.category, this.value, this.color);
-
-  final String category;
-  final double value;
-  final Color color;
-}

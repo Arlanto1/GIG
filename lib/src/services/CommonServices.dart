@@ -139,7 +139,6 @@ class CommonServices {
     return Vendors.fromJson(response);
   }
 
-
   Future<TypeOfServices> getTypeOfService({
     required String name,
   }) async {
@@ -149,6 +148,7 @@ class CommonServices {
     );
     return TypeOfServices.fromJson(response);
   }
+
   Future<GetArticleType> getArticleType({
     required String name,
     BuildContext? context,
@@ -249,10 +249,8 @@ class CommonServices {
     BuildContext? context,
   }) async {
     final String url = "${Apis._createOrganisation}name=$name&orgName=$orgName";
-    final response = await BaseApiService().postRequest(
-      url: url,
-      requestedData: {}
-    );
+    final response =
+        await BaseApiService().postRequest(url: url, requestedData: {});
     return Organisation.fromJson(response);
   }
 
@@ -265,10 +263,8 @@ class CommonServices {
   }) async {
     final String url =
         "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
-    final response = await BaseApiService().postRequest(
-      url: url,
-      requestedData: {}
-    );
+    final response =
+        await BaseApiService().postRequest(url: url, requestedData: {});
     return CreateUserModel.fromJson(response);
   }
 }

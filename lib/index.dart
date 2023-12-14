@@ -54,9 +54,9 @@ export 'package:db_atom/src/features/createfound/views/add_employee_deparment.da
 export 'package:db_atom/src/features/createfound/views/create_found.dart';
 export 'package:db_atom/src/features/createfound/views/create_found_attachment.dart';
 export 'package:db_atom/src/features/dashboard/notifications/views/notifications_view.dart';
-export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/bar_chart.dart';
-export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/pie_chart.dart';
-export 'package:db_atom/src/features/dashboard/dashboard_screen/dashboard_view.dart';
+export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/bar_chart.dart';
+export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/pie_chart.dart';
+export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart';
 export 'package:db_atom/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart';
 export 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/cubits/contact_info_cubit.dart';
 export 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/views/contact_info_view.dart';
@@ -147,3 +147,5 @@ export 'package:json_annotation/json_annotation.dart';
 export 'package:db_atom/src/models/base_object.dart';
 export 'package:db_atom/src/features/dashboard/navigation_drawer/cubits/drawer_cubit.dart';
 export 'package:db_atom/src/features/login/models/login_model.dart';
+export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/models/chart_data_model.dart';
+export 'package:syncfusion_flutter_charts/charts.dart';
