@@ -1,4 +1,3 @@
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:db_atom/index.dart';
 
 class BasePieChart extends StatefulWidget {
@@ -50,11 +49,9 @@ class BasePieChartState extends State<BasePieChart> {
             children: [
               Container(
                 decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: AppColors.boldgreyBackground)
-
-                  )
-                ),
+                    border: Border(
+                        bottom:
+                            BorderSide(color: AppColors.boldgreyBackground))),
                 child: Row(
                   // textDirection: TextDirection.rtl,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -98,8 +95,8 @@ class BasePieChartState extends State<BasePieChart> {
                       //cornerStyle: CornerStyle.bothCurve,
                       legendIconType: LegendIconType.seriesType,
                       dataSource: chartData1,
-                      xValueMapper: (PieChartData data, _) => data.category,
-                      yValueMapper: (PieChartData data, _) => data.value,
+                      xValueMapper: (PieChartData data, _) => data.x,
+                      yValueMapper: (PieChartData data, _) => data.y,
                       pointColorMapper: (PieChartData data, _) => data.color,
                       dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
@@ -118,79 +115,72 @@ class BasePieChartState extends State<BasePieChart> {
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Column(
-  //     mainAxisAlignment: MainAxisAlignment.start,
-  //     children: [
-  //       Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //         children: [
-  //           Text(
-  //             widget.chartTitle,
-  //             style: TextStyle(
-  //               fontWeight: FontWeight.bold,
-  //             ),
-  //           ),
-  //           IconButton(
-  //             icon: Icon(Icons.close),
-  //             onPressed: () {
-  //               // Add the logic to close the chart here
-  //             },
-  //           ),
-  //         ],
-  //       ),
-  //       Container(
-  //         height: 300,
-  //         width: double.infinity,
-  //         decoration: const ShapeDecoration(
-  //           color: AppColors.white,
-  //           shape: RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.vertical(
-  //               top: Radius.circular(0.0),
-  //               bottom: Radius.circular(0.0),
-  //             ),
-  //           ),
-  //         ),
-  //         child: SfCircularChart(
-  //           title: ChartTitle(
-  //             text: widget.chartTitle,
-  //             textStyle: const TextStyle(
-  //               fontWeight: FontWeight.bold,
-  //             ),
-  //           ),
-  //           borderColor: AppColors.navigationSkybluecolor,
-  //           borderWidth: 1.1,
-  //           legend: Legend(isVisible: true),
-  //           tooltipBehavior: TooltipBehavior(enable: true),
-  //           series: <CircularSeries>[
-  //             DoughnutSeries<PieChartData, String>(
-  //               innerRadius: '40',
-  //               radius: '70',
-  //               cornerStyle: CornerStyle.bothCurve,
-  //               legendIconType: LegendIconType.seriesType,
-  //               dataSource: chartData1,
-  //               xValueMapper: (PieChartData data, _) => data.category,
-  //               yValueMapper: (PieChartData data, _) => data.value,
-  //               pointColorMapper: (PieChartData data, _) => data.color,
-  //               dataLabelSettings: const DataLabelSettings(
-  //                 isVisible: true,
-  //               ),
-  //               enableTooltip: true,
-  //               explode: true,
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
+// @override
+// Widget build(BuildContext context) {
+//   return Column(
+//     mainAxisAlignment: MainAxisAlignment.start,
+//     children: [
+//       Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//         children: [
+//           Text(
+//             widget.chartTitle,
+//             style: TextStyle(
+//               fontWeight: FontWeight.bold,
+//             ),
+//           ),
+//           IconButton(
+//             icon: Icon(Icons.close),
+//             onPressed: () {
+//               // Add the logic to close the chart here
+//             },
+//           ),
+//         ],
+//       ),
+//       Container(
+//         height: 300,
+//         width: double.infinity,
+//         decoration: const ShapeDecoration(
+//           color: AppColors.white,
+//           shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.vertical(
+//               top: Radius.circular(0.0),
+//               bottom: Radius.circular(0.0),
+//             ),
+//           ),
+//         ),
+//         child: SfCircularChart(
+//           title: ChartTitle(
+//             text: widget.chartTitle,
+//             textStyle: const TextStyle(
+//               fontWeight: FontWeight.bold,
+//             ),
+//           ),
+//           borderColor: AppColors.navigationSkybluecolor,
+//           borderWidth: 1.1,
+//           legend: Legend(isVisible: true),
+//           tooltipBehavior: TooltipBehavior(enable: true),
+//           series: <CircularSeries>[
+//             DoughnutSeries<PieChartData, String>(
+//               innerRadius: '40',
+//               radius: '70',
+//               cornerStyle: CornerStyle.bothCurve,
+//               legendIconType: LegendIconType.seriesType,
+//               dataSource: chartData1,
+//               xValueMapper: (PieChartData data, _) => data.category,
+//               yValueMapper: (PieChartData data, _) => data.value,
+//               pointColorMapper: (PieChartData data, _) => data.color,
+//               dataLabelSettings: const DataLabelSettings(
+//                 isVisible: true,
+//               ),
+//               enableTooltip: true,
+//               explode: true,
+//             ),
+//           ],
+//         ),
+//       ),
+//     ],
+//   );
+// }
 }
 
-class PieChartData {
-  PieChartData(this.category, this.value, this.color);
-
-  final String category;
-  final double value;
-  final Color color;
-}

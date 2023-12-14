@@ -1,22 +1,21 @@
 import 'package:db_atom/index.dart';
-import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class BaseBarChart extends StatefulWidget {
   final String chartTitle;
   final Widget moreIcon;
 
-  BaseBarChart({
+  const BaseBarChart({
     Key? key,
     required this.chartTitle,
-    required this.moreIcon, required List chartData,
+    required this.moreIcon,
+    required List chartData,
   }) : super(key: key);
 
   @override
-  _BaseBarChartState createState() => _BaseBarChartState();
+  BaseBarChartState createState() => BaseBarChartState();
 }
 
-class _BaseBarChartState extends State<BaseBarChart> {
+class BaseBarChartState extends State<BaseBarChart> {
   List<BarChartData> chartData = [];
   List<BarChartData> chartData1 = [
     BarChartData(1, 1, AppColors.lightblueBackground),
@@ -52,12 +51,11 @@ class _BaseBarChartState extends State<BaseBarChart> {
       return chartData2;
     } else if (widget.chartTitle == Constants.lawEnforcementVisitsByEntity) {
       return chartData3;
-    }else if (widget.chartTitle == Constants.eventProtectionAttendees) {
+    } else if (widget.chartTitle == Constants.eventProtectionAttendees) {
       return chartData4;
-    }else if (widget.chartTitle == Constants.eventProtectionBySupport) {
+    } else if (widget.chartTitle == Constants.eventProtectionBySupport) {
       return chartData5;
-    }
-    else{
+    } else {
       return [];
     }
   }
@@ -114,7 +112,8 @@ class _BaseBarChartState extends State<BaseBarChart> {
               ),
               child: SfCartesianChart(
                 primaryXAxis: NumericAxis(
-                  isVisible: false, // Set isVisible to false to hide the y-axis labels
+                  isVisible:
+                      false, // Set isVisible to false to hide the y-axis labels
                 ),
                 series: <ChartSeries>[
                   BarSeries<BarChartData, double>(
@@ -127,23 +126,26 @@ class _BaseBarChartState extends State<BaseBarChart> {
                     xValueMapper: (BarChartData data, _) => data.x,
                     yValueMapper: (BarChartData data, _) => data.y,
                     pointColorMapper: (BarChartData data, _) => data.color,
-                    emptyPointSettings:  EmptyPointSettings(
+                    emptyPointSettings: EmptyPointSettings(
                       mode: EmptyPointMode.average,
                     ),
                     selectionBehavior: SelectionBehavior(enable: true),
-
                   ),
                 ],
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
-                  builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
+                  builder: (dynamic data, dynamic point, dynamic series,
+                      int pointIndex, int seriesIndex) {
                     return Container(
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5),
                         boxShadow: [
-                          BoxShadow(color: Colors.black.withOpacity(0.2), spreadRadius: 2, blurRadius: 5),
+                          BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              spreadRadius: 2,
+                              blurRadius: 5),
                         ],
                       ),
                       child: Text(
@@ -164,7 +166,7 @@ class _BaseBarChartState extends State<BaseBarChart> {
 
 class Styles {
   static const TextStyle textStyleSemiBold16White =
-  TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white);
+      TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white);
 }
 
 class BarChartData {

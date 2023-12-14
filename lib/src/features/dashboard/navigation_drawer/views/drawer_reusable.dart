@@ -1,20 +1,7 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/constants/app_icon.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/dashboard/controllers/cubit/drawer_cubit.dart';
-import 'package:db_atom/src/features/login/models/login_model.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/customalert.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:db_atom/index.dart';
 
-import '../../../passmanagement/daypassregister/views/day_pass_info_list_page.dart';
 
 class NavigationDrawer1 extends StatelessWidget {
   NavigationDrawer1(
@@ -33,9 +20,9 @@ class NavigationDrawer1 extends StatelessWidget {
     expansionTileDrawerItems = await checkDisplayMenu();
   }
 
-   Future<List<MenuItem>> checkDisplayMenu() async {
+  Future<List<MenuItem>> checkDisplayMenu() async {
     DisplayMenu? displayMenu = await SharedPrefs.getDisplayMenu();
-    if(displayMenu == null){
+    if (displayMenu == null) {
       return [];
     }
     List<MenuItem> expansionTileDrawerItems = [];
@@ -165,7 +152,7 @@ class NavigationDrawer1 extends StatelessWidget {
                 _opearationsLastSelectedItem = state.index;
               } else if (state is SecurityFunctionsGetDrawerItemChange) {
                 _securityfunfunctionslastSelectedItem = state.index;
-              } else if (state is PassmgmtGetDrawerItemChange) {
+              } else if (state is PassMgmtGetDrawerItemChange) {
                 _passlastSelectedItem = state.index;
               }
 
@@ -254,7 +241,7 @@ class NavigationDrawer1 extends StatelessWidget {
   _onMaterialMovementItemSelected(int index, BuildContext context) async {
     _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
-    context.read<DrawerCubit>().getPassmgmtindexChange(index);
+    context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
       Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
           arguments: {"isInward": true});
@@ -314,10 +301,10 @@ class NavigationDrawer1 extends StatelessWidget {
                         _lastSelectedItem = i;
                         context
                             .read<DrawerCubit>()
-                            .getindexChange(_lastSelectedItem);
+                            .getIndexChange(_lastSelectedItem);
                       } else {
                         _securityfunfunctionslastSelectedItem = 10;
-                        context.read<DrawerCubit>().getSecurityindexChange(10);
+                        context.read<DrawerCubit>().getSecurityIndexChange(10);
                       }
                     },
                     trailing: const SizedBox.shrink(),
@@ -406,10 +393,10 @@ class NavigationDrawer1 extends StatelessWidget {
                         _lastSelectedItem = i;
                         context
                             .read<DrawerCubit>()
-                            .getindexChange(_lastSelectedItem);
+                            .getIndexChange(_lastSelectedItem);
                       } else {
                         _securityfunfunctionslastSelectedItem = 10;
-                        context.read<DrawerCubit>().getSecurityindexChange(10);
+                        context.read<DrawerCubit>().getSecurityIndexChange(10);
                       }
                     },
                     trailing: const SizedBox.shrink(),
@@ -496,7 +483,7 @@ class NavigationDrawer1 extends StatelessWidget {
     _passlastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
-    context.read<DrawerCubit>().getPassmgmtindexChange(index);
+    context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
       Navigator.pushNamed(context, sstIncidentListRoute,
           arguments: {"isInternal": true});
@@ -511,7 +498,7 @@ class NavigationDrawer1 extends StatelessWidget {
     _passlastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
-    context.read<DrawerCubit>().getPassmgmtindexChange(index);
+    context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
       Navigator.pushNamed(context, guardingMasterDataRoute,
           arguments: {"Guarding Master Data": true});
@@ -629,12 +616,12 @@ class NavigationDrawer1 extends StatelessWidget {
                           //state = const DrawerInitial();
                           context
                               .read<DrawerCubit>()
-                              .getindexChange(_lastSelectedItem);
+                              .getIndexChange(_lastSelectedItem);
                         } else {
                           _securityfunfunctionslastSelectedItem = 10;
                           context
                               .read<DrawerCubit>()
-                              .getSecurityindexChange(10);
+                              .getSecurityIndexChange(10);
                         }
                       },
                       trailing: const SizedBox.shrink(),
@@ -720,11 +707,11 @@ class NavigationDrawer1 extends StatelessWidget {
                         _securityfunfunctionslastSelectedItem = i;
                         //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
                         //state = const DrawerInitial();
-                        context.read<DrawerCubit>().getSecurityindexChange(
+                        context.read<DrawerCubit>().getSecurityIndexChange(
                             _securityfunfunctionslastSelectedItem);
                       } else {
                         _securityfunfunctionslastSelectedItem = 10;
-                        context.read<DrawerCubit>().getSecurityindexChange(
+                        context.read<DrawerCubit>().getSecurityIndexChange(
                             _securityfunfunctionslastSelectedItem);
                       }
                     },
@@ -814,13 +801,13 @@ class NavigationDrawer1 extends StatelessWidget {
                         _opearationsLastSelectedItem = i;
                         //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
                         //state = const DrawerInitial();
-                        context.read<DrawerCubit>().getOperationsindexChange(
+                        context.read<DrawerCubit>().getOperationsIndexChange(
                             _opearationsLastSelectedItem);
                       } else {
                         _opearationsLastSelectedItem = 10;
                         context
                             .read<DrawerCubit>()
-                            .getOperationsindexChange(10);
+                            .getOperationsIndexChange(10);
                       }
                     },
                     trailing: const SizedBox.shrink(),
@@ -907,13 +894,13 @@ class NavigationDrawer1 extends StatelessWidget {
                         _opearationsLastSelectedItem = i;
                         //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
                         //state = const DrawerInitial();
-                        context.read<DrawerCubit>().getOperationsindexChange(
+                        context.read<DrawerCubit>().getOperationsIndexChange(
                             _opearationsLastSelectedItem);
                       } else {
                         _opearationsLastSelectedItem = 10;
                         context
                             .read<DrawerCubit>()
-                            .getOperationsindexChange(10);
+                            .getOperationsIndexChange(10);
                       }
                     },
                     trailing: const SizedBox.shrink(),
@@ -955,7 +942,7 @@ class NavigationDrawer1 extends StatelessWidget {
     _opearationsLastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
-    context.read<DrawerCubit>().getOperationsindexChange(index);
+    context.read<DrawerCubit>().getOperationsIndexChange(index);
     if (index == 0) {
       Navigator.pushNamed(context, articleFoundListRoute);
     } else if (index == 1) {
@@ -974,7 +961,7 @@ class NavigationDrawer1 extends StatelessWidget {
     _passlastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
-    context.read<DrawerCubit>().getPassmgmtindexChange(index);
+    context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
       //day pass mng = 0
       log('day pass mangement index0');
@@ -1037,7 +1024,7 @@ class NavigationDrawer1 extends StatelessWidget {
     _securityfunfunctionslastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
-    context.read<DrawerCubit>().getSecurityindexChange(index);
+    context.read<DrawerCubit>().getSecurityIndexChange(index);
     if (index == 0) {
       Navigator.pushNamed(context, articleFoundListRoute);
     } else if (index == 1) {
@@ -1058,7 +1045,7 @@ class NavigationDrawer1 extends StatelessWidget {
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
 
-    context.read<DrawerCubit>().getindexChange(index);
+    context.read<DrawerCubit>().getIndexChange(index);
     if (index != 2) {
       _opearationsLastSelectedItem = 10;
     }

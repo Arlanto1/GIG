@@ -2,15 +2,21 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/utils/customalert.dart';
-import 'package:flutter/material.dart';
+import 'package:db_atom/index.dart';
 import 'package:intl/intl.dart';
-
-import 'app_themes/styles/app_styles.dart';
 
 class Utils {
   static final math.Random _random = math.Random.secure();
+
+  Color getRandomColor() {
+    math.Random random = math.Random();
+    return Color.fromRGBO(
+      random.nextInt(256),
+      random.nextInt(256),
+      random.nextInt(256),
+      1.0,
+    );
+  }
 
   static String createCryptoRandomString([int length = 32]) {
     var values = List<int>.generate(length, (i) => _random.nextInt(256));
@@ -933,9 +939,9 @@ class Utils {
       case 8:
         statusText = 'Quotes Rejected';
         break;
-        case 9:
-      statusText = 'Quotes Approved';
-      break;
+      case 9:
+        statusText = 'Quotes Approved';
+        break;
       case 10:
         statusText = 'Po Raised';
         break;
