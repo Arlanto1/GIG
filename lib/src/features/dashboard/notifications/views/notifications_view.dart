@@ -1,9 +1,7 @@
-import 'dart:developer';
-
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
-
-import '../bloc/notifications_bloc.dart' as nb;
+import 'package:db_atom/src/features/dashboard/notifications/bloc/notifications_bloc.dart'
+    as nb;
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class NotificationsView extends StatefulWidget {
   const NotificationsView({
@@ -48,45 +46,17 @@ class _NotificationsViewState extends State<NotificationsView> {
   }
 
   @override
-  void didUpdateWidget(covariant oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    log('-----didUpdateWidget----------');
-    // This method is called when the widget is updated or rebuilt
-    // You can perform actions here when the state is resumed
-    setState(() {
-      // Fetch or update yourItemList here
-    });
-  }
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   log('-----didChangeDependencies----------');
-  //   // Fetch or update yourItemList here
-  //   _scrollController = ScrollController()..addListener(_onScroll);
-  //
-  // }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.cardBgColor,
-      // floatingActionButton: Flutterfloatingbutton(
-      //   backgroundColor: AppColors.navigationSkybluecolor,
-      //   foregroundColor: AppColors.backgroundWhitecolor,
-      //   onPressed: () => {
-      //     Navigator.pushNamed(context, contactDetailsRoute, arguments: {
-      //       "title": Constants.notifications,
-      //     })
-      //   },
-      // ),
       appBar: BaseAppBar().buildAppHeader(
         context: context,
         title: Constants.notifications,
-        showPopUp: true,
+        showPopUp: false,
         showSaveButton: false,
-        excelAPIName: 'exportGcdExcel',
-        pdfAPIName: 'exportGcdPDF',
+        showCustomIcon: true,
+        customIcon: Icons.clear_all,
+        onTapCustomIcon: () {},
       ),
       body: BlocConsumer<nb.NotificationsBloc, nb.NotificationsState>(
         listener: (context, state) {
@@ -131,51 +101,79 @@ class _NotificationsViewState extends State<NotificationsView> {
       ),
     );
   }
-
-  getLawEnforcementId(int id) async {
-    showLoadingDialog(context);
-
-    ContactDetailModel materialMovementModel =
-        await ContactDetailsServices().getGcdById(id);
-
-    editDataLoading(materialMovementModel);
-  }
-
-  void editDataLoading(ContactDetailModel? model) {
-    dismissLoadingDialog(context);
-    if (model != null) {
-      Navigator.pushNamed(
-        context,
-        contactDetailsRoute,
-        arguments: {
-          "model": model,
-          "title": Constants.contactDetails,
-        },
-      );
-    }
-  }
 }
 
 class NotificationTile extends StatelessWidget {
   const NotificationTile({
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(2.5),
-        child: Card(
-          elevation: 5,
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(
-                color: AppColors.searchBarBorder, width: 1,),
-            borderRadius: circularBorderRadius10,
+      padding: const EdgeInsets.all(2.5),
+      child: Card(
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(
+            color: Colors.grey,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Slidable(
+          key: key,
+          startActionPane: ActionPane(
+            // A motion is a widget used to control how the pane animates.
+            motion: const ScrollMotion(),
+
+            // A pane can dismiss the Slidable.
+            dismissible: DismissiblePane(onDismissed: () {}),
+
+            // All actions are defined in the children parameter.
+            children: [
+              // A SlidableAction can have an icon and/or a label.
+              SlidableAction(
+                onPressed: doNothing,
+                backgroundColor: const Color(0xFFFE4A49),
+                foregroundColor: Colors.white,
+                icon: Icons.delete,
+                label: 'Delete',
+              ),
+              SlidableAction(
+                onPressed: doNothing,
+                backgroundColor: const Color(0xFF21B7CA),
+                foregroundColor: Colors.white,
+                icon: Icons.share,
+                label: 'Share',
+              ),
+            ],
+          ),
+          // The end action pane is the one at the right or the bottom side.
+          endActionPane: ActionPane(
+            motion: const ScrollMotion(),
+            children: [
+              SlidableAction(
+                // An action can be bigger than the others.
+                flex: 2,
+                onPressed: doNothing,
+                backgroundColor: const Color(0xFF7BC043),
+                foregroundColor: Colors.white,
+                icon: Icons.archive,
+                label: 'Archive',
+              ),
+              SlidableAction(
+                onPressed: doNothing,
+                backgroundColor: const Color(0xFF0392CF),
+                foregroundColor: Colors.white,
+                icon: Icons.save,
+                label: 'Save',
+              ),
+            ],
           ),
           child: InkWell(
             onTap: () {
-              HapticFeedback.lightImpact();
-              // widget.onTap != null ? widget.onTap!(widget.index) : null;
+              // Your onTap logic here
             },
             borderRadius: BorderRadius.circular(8),
             child: const Padding(
@@ -204,6 +202,9 @@ class NotificationTile extends StatelessWidget {
             ),
           ),
         ),
-      );
+      ),
+    );
   }
+
+  void doNothing(BuildContext context) {}
 }

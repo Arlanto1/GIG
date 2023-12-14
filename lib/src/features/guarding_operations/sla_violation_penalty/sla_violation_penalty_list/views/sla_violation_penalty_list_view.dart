@@ -152,7 +152,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                         );
                       },
                       onEditTap: (selectedIndex) {
-                        getLawEnforcementId(state.items[index].id ?? 0);
+                        getById(state.items[index].id ?? 0);
                       },
                       onViewTap: (selectedIndex) {
                         showDialog(
@@ -175,7 +175,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
             }));
   }
 
-  getLawEnforcementId(int id) async {
+  getById(int id) async {
     showLoadingDialog(context);
 
     SLAViolationPenaltyModel model =
