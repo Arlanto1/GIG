@@ -6,24 +6,17 @@ class BasePieChart extends StatefulWidget {
   final Widget moreIcon;
 
   const BasePieChart({
-    Key? key,
+    super.key,
     required this.chartTitle,
     required this.moreIcon,
     required this.chartData,
-  }) : super(key: key);
+  });
 
   @override
   BasePieChartState createState() => BasePieChartState();
 }
 
 class BasePieChartState extends State<BasePieChart> {
-  // List<PieChartData> chartData1 = [
-  //   PieChartData('DWS', 30, Colors.green),
-  //   PieChartData('DBC', 40, AppColors.lightblueBackground),
-  //   PieChartData('DIPL', 20, AppColors.ligtblackBackground),
-  //   PieChartData('DISPL', 10, AppColors.lightOrangeColor),
-  //   PieChartData('DB CIB', 35, AppColors.lightPinkColor),
-  // ];
 
   @override
   void initState() {
@@ -49,38 +42,32 @@ class BasePieChartState extends State<BasePieChart> {
           ),
           child: Column(
             children: [
-              Container(
-                decoration: const BoxDecoration(
-                    border: Border(
-                        bottom:
-                            BorderSide(color: AppColors.boldgreyBackground))),
-                child: Row(
-                  // textDirection: TextDirection.rtl,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        widget.chartTitle,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.navigationSkybluecolor,
-                          fontSize: 20,
-                        ),
+              Row(
+                // textDirection: TextDirection.rtl,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      widget.chartTitle,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.navigationSkybluecolor,
+                        fontSize: 20,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               Expanded(
                 child: SfCircularChart(
-                  legend: Legend(isVisible: true),
+                  legend: const Legend(isVisible: true),
                   tooltipBehavior: TooltipBehavior(enable: true),
                   series: <CircularSeries>[
                     PieSeries<PieChartData, String>(
                       // name: 'DWS',
                       //innerRadius: '40',
-                      radius: '70',
+                      radius: '85',
                       //cornerStyle: CornerStyle.bothCurve,
                       legendIconType: LegendIconType.seriesType,
                       dataSource: widget.chartData,
@@ -90,7 +77,6 @@ class BasePieChartState extends State<BasePieChart> {
                       dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
                       ),
-
                       enableTooltip: true,
                       explode: true,
                     ),

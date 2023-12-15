@@ -4,8 +4,9 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/cubits/charts_cubit.dart';
 import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_bar_charts.dart';
-import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_bubble_charts.dart';
+import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_verticle_bar_charts.dart';
 
+import 'charts/base_pyramid_charts.dart';
 import 'charts/base_bar_charts.dart';
 import 'charts/base_pie_charts.dart';
 
@@ -156,12 +157,17 @@ class DashboardViewState extends State<DashboardView> {
             moreIcon: SvgPicture.asset(AppIcon.moreicon),
             chartData: chartValues,
           ),
-          BaseBubbleChart(
+          BaseVerticleBarCharts(
             chartTitle: title,
             moreIcon: SvgPicture.asset(AppIcon.moreicon),
             chartData: chartValues,
           ),
           BaseBarChart(
+            chartTitle: title,
+            moreIcon: SvgPicture.asset(AppIcon.moreicon),
+            chartData: chartValues,
+          ),
+          BasePyramidCharts(
             chartTitle: title,
             moreIcon: SvgPicture.asset(AppIcon.moreicon),
             chartData: chartValues,

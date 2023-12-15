@@ -6,22 +6,17 @@ class BaseBarChart extends StatefulWidget {
   final Widget moreIcon;
 
   const BaseBarChart({
-    Key? key,
+    super.key,
     required this.chartTitle,
     required this.moreIcon,
     required this.chartData,
-  }) : super(key: key);
+  });
 
   @override
   BaseBarChartState createState() => BaseBarChartState();
 }
 
 class BaseBarChartState extends State<BaseBarChart> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -41,41 +36,33 @@ class BaseBarChartState extends State<BaseBarChart> {
           ),
           child: Column(
             children: [
-              Container(
-                decoration: const BoxDecoration(
-                    border: Border(
-                        bottom:
-                        BorderSide(color: AppColors.boldgreyBackground))),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        widget.chartTitle,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.navigationSkybluecolor,
-                          fontSize: 20,
-                        ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      widget.chartTitle,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.navigationSkybluecolor,
+                        fontSize: 20,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               CommonWidgets.verticalSpacerWidget(0.1),
               Expanded(
                 child: SfCartesianChart(
-                  primaryYAxis: NumericAxis(
-                    labelFormat: '',
-                  ),
+                  // tooltipBehavior: TooltipBehavior(
+                  //   enable: true,
+                  //   format: 'point.y',
+                  // ),
                   series: <ChartSeries>[
                     BarSeries<PieChartData, num>(
                       dataSource: widget.chartData,
-                      enableTooltip: true,
-                      dataLabelSettings: const DataLabelSettings(
-                        isVisible: true,
-                      ),
+                      legendIconType: LegendIconType.seriesType,
                       width: 0.3,
                       xValueMapper: (PieChartData data, _) =>
                           widget.chartData.indexOf(data),
@@ -84,9 +71,36 @@ class BaseBarChartState extends State<BaseBarChart> {
                       emptyPointSettings: EmptyPointSettings(
                         mode: EmptyPointMode.average,
                       ),
-                      selectionBehavior: SelectionBehavior(enable: true),
+                      dataLabelSettings: const DataLabelSettings(
+                        isVisible: true,
+                      ),
+                      enableTooltip: true,
+                      //selectionBehavior: SelectionBehavior(enable: true),
                     ),
                   ],
+                  tooltipBehavior: TooltipBehavior(
+                    enable: true,
+                    builder: (dynamic data, dynamic point, dynamic series,
+                        int pointIndex, int seriesIndex) {
+                      return Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                spreadRadius: 2,
+                                blurRadius: 5),
+                          ],
+                        ),
+                        child: Text(
+                          '${data.x} : ${data.y}',
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
