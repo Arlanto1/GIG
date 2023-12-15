@@ -58,11 +58,11 @@ android {
             applicationId "com.arlanto.atomedge.qa"
             resValue "string", "app_name", "AtomEdge-QA"
         }
-        UAT {
-            dimension "flavor-type"
-            applicationId "com.arlanto.atomedge.uat"
-            resValue "string", "app_name", "AtomEdge-UAT"
-        }
+//        UAT {
+//            dimension "flavor-type"
+//            applicationId "com.arlanto.atomedge.uat"
+//            resValue "string", "app_name", "AtomEdge-UAT"
+//        }
         PROD {
             dimension "flavor-type"
             applicationId "com.arlanto.atomedge"
@@ -118,7 +118,7 @@ defaultConfig {
     minSdkVersion 26
     targetSdkVersion 33
     compileSdkVersion 33
-    versionCode flutterVersionCode.toInteger()
+    versionCode 2
     versionName flutterVersionName
     multiDexEnabled true
     resValue "string", "app_name", "AtomEdge"

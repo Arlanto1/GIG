@@ -146,18 +146,6 @@
       "languageVersion": "2.18"
     },
     {
-      "name": "connectivity_plus",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/connectivity_plus-5.0.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.18"
-    },
-    {
-      "name": "connectivity_plus_platform_interface",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/connectivity_plus_platform_interface-1.2.4",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "convert",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/convert-3.1.1",
       "packageUri": "lib/",
@@ -192,12 +180,6 @@
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/dart_style-2.3.4",
       "packageUri": "lib/",
       "languageVersion": "3.0"
-    },
-    {
-      "name": "dbus",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/dbus-0.7.10",
-      "packageUri": "lib/",
-      "languageVersion": "2.17"
     },
     {
       "name": "dotted_border",
@@ -542,6 +524,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "internet_connection_checker",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/internet_connection_checker-1.0.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "intl",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/intl-0.18.1",
       "packageUri": "lib/",
@@ -616,12 +604,6 @@
     {
       "name": "nested",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/nested-1.0.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "nm",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/nm-0.5.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -1052,7 +1034,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-12-15T04:15:26.474923Z",
+  "generated": "2023-12-15T09:33:16.843824Z",
   "generator": "pub",
   "generatorVersion": "3.2.0"
 }

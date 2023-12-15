@@ -4,15 +4,16 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="11" />
+        <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/app_settings-4.3.1/android" />
             <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/connectivity-3.0.6/android" />
             <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/file_picker-5.5.0/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_analytics-10.7.4/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-2.24.2/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging-14.7.8/android" />
             <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_file_dialog-3.0.2/android" />
             <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility-5.4.1/android" />
             <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.17/android" />
@@ -26,6 +27,7 @@
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
+        <option name="resolveExternalAnnotations" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

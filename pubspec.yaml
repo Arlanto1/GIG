@@ -88,14 +88,11 @@ dependencies:
   bloc:
   file_picker:
   syncfusion_flutter_charts:
-  connectivity_plus:
   equatable:
   http:
   flutter_file_dialog:
   path_provider:
   mime:
-  # cloud_firestore: ^4.8.3
-#  flutter_quill:
   quill_html_editor:
   bloc_concurrency:
   email_validator:
@@ -105,11 +102,12 @@ dependencies:
   json_annotation:
   otp_text_field:
   firebase_core:
-  firebase_messaging:
+  firebase_messaging: ^14.7.9
   firebase_analytics:
   rxdart:
   flutter_slidable:
   intl: ^0.18.1
+  internet_connection_checker: ^1.0.0+1
 
 dev_dependencies:
   flutter_launcher_icons:

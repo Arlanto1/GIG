@@ -54,6 +54,7 @@ class DefaultFirebaseOptions {
     appId: '1:150357996074:android:7cc0ba4ed7435177a64953',
     messagingSenderId: '150357996074',
     projectId: 'atomedge-29920',
+    databaseURL: 'https://atomedge-29920-default-rtdb.firebaseio.com',
     storageBucket: 'atomedge-29920.appspot.com',
   );
 
@@ -62,6 +63,7 @@ class DefaultFirebaseOptions {
     appId: '1:150357996074:ios:98f46466af5fd058a64953',
     messagingSenderId: '150357996074',
     projectId: 'atomedge-29920',
+    databaseURL: 'https://atomedge-29920-default-rtdb.firebaseio.com',
     storageBucket: 'atomedge-29920.appspot.com',
     androidClientId: '150357996074-i0b8g5bompa8o9pe42b2vb2fkv7eajc8.apps.googleusercontent.com',
     iosBundleId: 'com.arlanto.atomedge.qa',
