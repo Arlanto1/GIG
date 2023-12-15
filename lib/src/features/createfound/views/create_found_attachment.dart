@@ -490,7 +490,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
     }
     if (value == PermissionStatus.denied ||
         value == PermissionStatus.permanentlyDenied) {
-      AppSettings.openNotificationSettings();
+      AppSettings.openAppSettings(type: AppSettingsType.notification);
     }
   }
 

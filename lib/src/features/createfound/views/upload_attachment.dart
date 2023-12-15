@@ -265,7 +265,7 @@ class UploadAttachmentState extends State<UploadAttachment>
     }
     if (value == PermissionStatus.denied ||
         value == PermissionStatus.permanentlyDenied) {
-      AppSettings.openNotificationSettings();
+      AppSettings.openAppSettings(type: AppSettingsType.notification);
     }
   }
 

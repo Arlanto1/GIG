@@ -1,5 +1,5 @@
 // Created by Ramesh
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:db_atom/src/localization/app_localization_service.dart';
 import 'package:db_atom/src/localization/locale_supported.dart';
 import 'package:flutter/material.dart';

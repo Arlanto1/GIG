@@ -56,6 +56,14 @@ class ChartsCubit extends Cubit<ChartsState> {
         ),
       );
       return;
+    } on TokenExpiredException catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.sessionExpired,
+        ),
+      );
+      return;
     } catch (e) {
       log('Initialization issue', error: e, name: 'Charts Cubit');
       emit(

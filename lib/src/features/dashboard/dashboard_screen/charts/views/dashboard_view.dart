@@ -40,7 +40,12 @@ class DashboardViewState extends State<DashboardView> {
   Widget build(BuildContext context) {
     return BlocConsumer<ChartsCubit, ChartsState>(
       listener: (context, state) {
-        // TODO: implement listener
+        if (state.status == FormStatus.sessionExpired) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: Colors.red,
+              content: Text(state.message ?? 'Session Expired...')));
+          Validator.logoutAction(context);
+        }
       },
       bloc: chartsCubit,
       builder: (context, state) {
@@ -137,8 +142,10 @@ class DashboardViewState extends State<DashboardView> {
     );
   }
 
-  SingleChildScrollView buildChartHorizontalWidget(
-      {required String title, required List<PieChartData> chartValues}) {
+  SingleChildScrollView buildChartHorizontalWidget({
+    required String title,
+    required List<PieChartData> chartValues,
+  }) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
