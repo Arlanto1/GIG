@@ -4,7 +4,46 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="WIP: improvements" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="improvements related to release and plugins">
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/initialize_providers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/initialize_providers.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/app_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/app_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/app_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/app_button.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/multiple_selection_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/multiple_selection_pop_up.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/custom_list_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/custom_list_pop_up.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/custom_pop_menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/custom_pop_menu.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/floating_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/floating_button.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/image_download.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/image_download.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/loading_overlay.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/loading_overlay.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/new_search_textfield.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/new_search_textfield.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/pop_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/pop_button.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/search_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/search_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/signature/review_signature_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/signature/review_signature_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/signature/signature_func.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/signature/signature_func.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/signature/signature_homepage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/signature/signature_homepage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/textfiled_addbutton.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/textfiled_addbutton.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/views/found_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/views/found_list_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/views/found_list_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/views/found_list_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts/base_bar_charts.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts/base_bar_charts.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts/base_bubble_charts.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts/base_bubble_charts.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts/base_pie_charts.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts/base_pie_charts.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/views/notifications_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/views/notifications_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/views/law_enforcement_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/views/law_enforcement_list_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/views/le_custom_list_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/views/le_custom_list_pop_up.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/login/views/widgets/forgot_password_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/login/views/widgets/forgot_password_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/login/views/widgets/login_password_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/login/views/widgets/login_password_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_list_detail_popup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_list_detail_popup.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassregister/views/day_pass_info_detail_popup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassregister/views/day_pass_info_detail_popup.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassregister/views/day_pass_info_list_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassregister/views/day_pass_info_list_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassregister/views/day_pass_register_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassregister/views/day_pass_register_list_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/services/CommonServices.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/services/CommonServices.dart" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,7 +62,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="slaViolationPenalty" />
+        <entry key="$PROJECT_DIR$" value="labels" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -76,9 +115,9 @@
     &quot;com.android.tools.idea.streaming.emulator.frame.visible&quot;: &quot;false&quot;,
     &quot;com.android.tools.idea.streaming.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;labels&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;charts&quot;,
     &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/anurag/AndroidStudioProjects/Arlanto-App-Codebase/lib/src/features/dashboard&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/anurag/AndroidStudioProjects/Arlanto-App-Codebase/lib/src/features/dashboard/dashboard_screen/charts/cubits&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pathVariables&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
@@ -86,15 +125,17 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/cubits" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard" />
       <recent name="$PROJECT_DIR$/lib/src/common_widgets/base_widget" />
       <recent name="$PROJECT_DIR$/lib/src/models/responseModels" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts" />
+      <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views" />
+      <recent name="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/notificaitons/views" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard" />
-      <recent name="$PROJECT_DIR$/lib/src/features/material_movement" />
-      <recent name="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.qa">
@@ -108,9 +149,15 @@
       <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
       <method v="2" />
     </configuration>
+    <configuration name="uat" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="buildFlavor" value="UAT" />
+      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Flutter.main.dart" />
       <item itemvalue="Flutter.qa" />
+      <item itemvalue="Flutter.uat" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -465,7 +512,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <option name="localTasksCounter" value="103" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -502,14 +549,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="WIP: SLA" />
-    <MESSAGE value="WIP: Guarding Agency POC issue fixed" />
-    <MESSAGE value="WIP: Violation penalty dropdown issue fixed" />
-    <MESSAGE value=" Violation penalty" />
-    <MESSAGE value="Bug Fixes" />
-    <MESSAGE value="SLA Violation DONE" />
-    <MESSAGE value="bug fixed" />
-    <MESSAGE value="labels added in contact detail listing page" />
     <MESSAGE value="labels" />
     <MESSAGE value="improved the API loading time" />
     <MESSAGE value="minor improvements" />
@@ -527,7 +566,15 @@
     <MESSAGE value="WIP: App Logout after close" />
     <MESSAGE value="WIP: APP notifications" />
     <MESSAGE value="WIP: improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="WIP: improvements" />
+    <MESSAGE value="code organised for dashboard_view" />
+    <MESSAGE value="WIP: API calling for Charts" />
+    <MESSAGE value="WIP: Base setup done API calling for Charts" />
+    <MESSAGE value="WIP: Multiple Charts and Horizontal Scroll" />
+    <MESSAGE value="DONE: Dashboard Charts" />
+    <MESSAGE value="plugins upgraded and code improved" />
+    <MESSAGE value="plugin improvements" />
+    <MESSAGE value="improvements related to release and plugins" />
+    <option name="LAST_COMMIT_MESSAGE" value="improvements related to release and plugins" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">

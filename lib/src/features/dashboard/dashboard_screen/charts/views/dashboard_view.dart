@@ -6,7 +6,6 @@ import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/cubits/ch
 import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_bar_charts.dart';
 import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_bubble_charts.dart';
 
-import 'charts/base_bar_charts.dart';
 import 'charts/base_pie_charts.dart';
 
 class DashboardView extends StatefulWidget {

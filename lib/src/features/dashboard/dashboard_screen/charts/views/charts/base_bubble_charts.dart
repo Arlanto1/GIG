@@ -6,11 +6,11 @@ class BaseBubbleChart extends StatefulWidget {
   final Widget moreIcon;
 
   const BaseBubbleChart({
-    Key? key,
+    super.key,
     required this.chartTitle,
     required this.moreIcon,
     required this.chartData,
-  }) : super(key: key);
+  });
 
   @override
   BaseBubbleChartState createState() => BaseBubbleChartState();

@@ -27,7 +27,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FoundList extends StatefulWidget {
-  const FoundList({Key? key}) : super(key: key);
+  const FoundList({super.key});
 
   @override
   State<FoundList> createState() => _FoundListState();

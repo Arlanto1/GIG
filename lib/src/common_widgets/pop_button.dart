@@ -15,7 +15,7 @@ class PopButton extends StatelessWidget {
   final String? imageText;
 
   const PopButton({
-    Key? key,
+    super.key,
     this.buttonText,
     this.onTap,
     this.buttonKey,
@@ -26,7 +26,7 @@ class PopButton extends StatelessWidget {
     this.boarderColor,
     this.width,
     this.imageText
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

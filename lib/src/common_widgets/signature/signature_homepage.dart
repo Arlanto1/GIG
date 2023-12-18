@@ -8,7 +8,7 @@ import '../../constants/constants.dart';
 import '../base_widget/base_app_bar.dart';
 
 class SignatureHomePage extends StatefulWidget {
-  const SignatureHomePage({Key? key}) : super(key: key);
+  const SignatureHomePage({super.key});
 
   @override
   State<SignatureHomePage> createState() => _SignatureHomePageState();

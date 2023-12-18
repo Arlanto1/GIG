@@ -6,11 +6,11 @@ class BasePieChart extends StatefulWidget {
   final Widget moreIcon;
 
   const BasePieChart({
-    Key? key,
+    super.key,
     required this.chartTitle,
     required this.moreIcon,
     required this.chartData,
-  }) : super(key: key);
+  });
 
   @override
   BasePieChartState createState() => BasePieChartState();
@@ -74,7 +74,7 @@ class BasePieChartState extends State<BasePieChart> {
               ),
               Expanded(
                 child: SfCircularChart(
-                  legend: Legend(isVisible: true),
+                  legend: const Legend(isVisible: true),
                   tooltipBehavior: TooltipBehavior(enable: true),
                   series: <CircularSeries>[
                     PieSeries<PieChartData, String>(

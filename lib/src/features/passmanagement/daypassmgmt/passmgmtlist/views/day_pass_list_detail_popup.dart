@@ -11,8 +11,7 @@ class DayPassCustomPopUpList extends StatefulWidget {
   final DayPassListElement? userItem;
   String? passId = '0';
 
-  DayPassCustomPopUpList(this.userItem, this.passId, {Key? key})
-      : super(key: key);
+  DayPassCustomPopUpList(this.userItem, this.passId, {super.key});
 
   @override
   State<DayPassCustomPopUpList> createState() => _DayPassCustomPopUpListState();

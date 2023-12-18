@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 class DayPassInfoCustomPopUpList extends StatefulWidget {
   DaypassInfoListElement? userItem;
 
-  DayPassInfoCustomPopUpList(this.userItem, {Key? key}) : super(key: key);
+  DayPassInfoCustomPopUpList(this.userItem, {super.key});
 
   @override
   State<DayPassInfoCustomPopUpList> createState() =>

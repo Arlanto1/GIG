@@ -8,8 +8,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 class ReviewSignaturePage extends StatelessWidget {
   final Uint8List signature;
-  const ReviewSignaturePage({Key? key, required this.signature})
-      : super(key: key);
+  const ReviewSignaturePage({super.key, required this.signature});
 
   @override
   Widget build(BuildContext context) {

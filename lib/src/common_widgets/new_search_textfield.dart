@@ -29,7 +29,7 @@ class FlutterInputField extends StatelessWidget {
   final bool? showBorder;
 
   const FlutterInputField({
-    Key? key,
+    super.key,
     required this.hintText,
     required this.onChange,
     this.prefixWidget,
@@ -54,7 +54,7 @@ class FlutterInputField extends StatelessWidget {
     this.labelText,
     this.suffixIcon,
     this.showBorder,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -28,8 +28,7 @@ class DayPassInfoListPage extends StatefulWidget {
   bool isRegister;
 
   DayPassInfoListPage(
-      {Key? key, this.passId = '0', this.title = '', this.isRegister = false})
-      : super(key: key);
+      {super.key, this.passId = '0', this.title = '', this.isRegister = false});
 
   @override
   State<DayPassInfoListPage> createState() => _DayPassInfoListPageState();

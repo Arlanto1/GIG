@@ -15,13 +15,12 @@ class LoginPassword extends StatefulWidget {
   final TextInputAction? textInputAction;
 
   const LoginPassword(
-      {Key? key,
+      {super.key,
       required this.validatePassword,
       required this.onChange,
       this.passFocusNode,
       this.onFieldSubmitted,
-      this.textInputAction})
-      : super(key: key);
+      this.textInputAction});
 
   @override
   State<LoginPassword> createState() => _LoginPasswordState();

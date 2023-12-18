@@ -105,8 +105,8 @@ class _NotificationsViewState extends State<NotificationsView> {
 
 class NotificationTile extends StatelessWidget {
   const NotificationTile({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

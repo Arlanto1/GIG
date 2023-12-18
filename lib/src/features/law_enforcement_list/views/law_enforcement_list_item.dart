@@ -19,13 +19,13 @@ class LawEnforcementListItem extends StatefulWidget {
   final int? index;
 
   const LawEnforcementListItem({
-    Key? key,
+    super.key,
     this.onTap,
     this.onEditTap,
     this.onViewTap,
     required this.userItem,
     this.index,
-  }) : super(key: key);
+  });
 
   @override
   State<LawEnforcementListItem> createState() => _LawEnforcementListItemState();

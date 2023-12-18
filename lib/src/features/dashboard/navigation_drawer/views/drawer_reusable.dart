@@ -8,8 +8,8 @@ class NavigationDrawer1 extends StatelessWidget {
     this._menuScaffoldKey,
     this.username,
     this.email, {
-    Key? key,
-  }) : super(key: key) {
+    super.key,
+  }) {
     /// Initialize Display Menu
     initializeDrawerItems();
   }

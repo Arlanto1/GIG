@@ -17,13 +17,13 @@ class DayPassManagementListItem extends StatefulWidget {
   final int? index;
 
   const DayPassManagementListItem({
-    Key? key,
+    super.key,
     this.onTap,
     this.onEditTap,
     this.onViewTap,
     required this.userItem,
     this.index,
-  }) : super(key: key);
+  });
 
   @override
   State<DayPassManagementListItem> createState() =>

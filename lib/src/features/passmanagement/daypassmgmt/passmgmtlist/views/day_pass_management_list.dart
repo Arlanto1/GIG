@@ -30,7 +30,7 @@ class DayPassManagementList extends StatefulWidget {
   String? passId = '0';
   String? title;
 
-  DayPassManagementList({Key? key, this.passId, this.title}) : super(key: key);
+  DayPassManagementList({super.key, this.passId, this.title});
 
   @override
   State<DayPassManagementList> createState() => _DayPassManagementListState();
