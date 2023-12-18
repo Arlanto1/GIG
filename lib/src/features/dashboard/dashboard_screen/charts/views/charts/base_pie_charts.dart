@@ -17,7 +17,7 @@ class BasePieChart extends StatefulWidget {
 }
 
 class BasePieChartState extends State<BasePieChart> {
-
+  bool isChartVisible = true;
   @override
   void initState() {
     super.initState();
@@ -28,8 +28,10 @@ class BasePieChartState extends State<BasePieChart> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Container(
-          height: 280,
+      Visibility(
+      visible: isChartVisible,
+        child:Container(
+          height: 300,
           width: 400,
           decoration: const ShapeDecoration(
             color: AppColors.white,
@@ -53,9 +55,17 @@ class BasePieChartState extends State<BasePieChart> {
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: AppColors.navigationSkybluecolor,
-                        fontSize: 20,
+                        fontSize: 16,
                       ),
                     ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.cancel),
+                    onPressed: () {
+                      setState(() {
+                        isChartVisible = false;
+                      });
+                    },
                   ),
                 ],
               ),
@@ -86,6 +96,7 @@ class BasePieChartState extends State<BasePieChart> {
             ],
           ),
         ),
+      ),
       ],
     );
   }

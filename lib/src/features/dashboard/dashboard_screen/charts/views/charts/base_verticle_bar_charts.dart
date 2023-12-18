@@ -17,13 +17,16 @@ class BaseVerticleBarCharts extends StatefulWidget {
 }
 
 class BaseVerticleBarChartsState extends State<BaseVerticleBarCharts> {
+  bool isChartVisible = true;
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Container(
-          height: 280,
+      Visibility(
+      visible: isChartVisible,
+        child:Container(
+          height: 300,
           width: 400,
           decoration: const ShapeDecoration(
             color: AppColors.white,
@@ -46,9 +49,17 @@ class BaseVerticleBarChartsState extends State<BaseVerticleBarCharts> {
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: AppColors.navigationSkybluecolor,
-                        fontSize: 20,
+                        fontSize: 16,
                       ),
                     ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.cancel_rounded),
+                    onPressed: () {
+                      setState(() {
+                        isChartVisible = false;
+                      });
+                    },
                   ),
                 ],
               ),
@@ -102,6 +113,7 @@ class BaseVerticleBarChartsState extends State<BaseVerticleBarCharts> {
             ],
           ),
         ),
+      ),
       ],
     );
   }
