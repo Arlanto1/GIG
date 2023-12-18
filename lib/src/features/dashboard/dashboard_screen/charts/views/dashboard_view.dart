@@ -1,13 +1,8 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/cubits.dart';
-import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/cubits/charts_cubit.dart';
-import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_bar_charts.dart';
-import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_verticle_bar_charts.dart';
 
 import 'charts/base_pyramid_charts.dart';
-import 'charts/base_bar_charts.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
