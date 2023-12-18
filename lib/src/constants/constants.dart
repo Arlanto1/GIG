@@ -3,7 +3,7 @@ import 'package:quill_html_editor/quill_html_editor.dart';
 
 class Constants {
 
-  static const inactivityDuration = Duration(minutes: 5);
+  // static const inactivityDuration = Duration(minutes: 5);
 
   /// Module Codes
   static const String materialMovementInwardReturnableModule = 'MMINN';

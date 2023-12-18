@@ -12,4 +12,7 @@ class QaConfig implements BaseConfig {
 
   @override
   bool get useHttps => false;
+
+  @override
+  Duration get inactivityDuration => const Duration(minutes: 50);
 }

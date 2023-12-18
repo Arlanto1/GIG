@@ -4,45 +4,20 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="improvements related to release and plugins">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="import improvements">
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/version" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/initialize_providers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/initialize_providers.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/app_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/app_bar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/app_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/app_button.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/multiple_selection_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/multiple_selection_pop_up.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/custom_list_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/custom_list_pop_up.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/custom_pop_menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/custom_pop_menu.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/floating_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/floating_button.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/image_download.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/image_download.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/loading_overlay.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/loading_overlay.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/new_search_textfield.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/new_search_textfield.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/pop_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/pop_button.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/search_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/search_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/signature/review_signature_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/signature/review_signature_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/signature/signature_func.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/signature/signature_func.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/signature/signature_homepage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/signature/signature_homepage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/textfiled_addbutton.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/textfiled_addbutton.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/views/found_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/views/found_list_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/views/found_list_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/views/found_list_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts/base_bar_charts.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts/base_bar_charts.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts/base_bubble_charts.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts/base_bubble_charts.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts/base_pie_charts.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts/base_pie_charts.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/views/notifications_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/views/notifications_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/views/law_enforcement_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/views/law_enforcement_list_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/views/le_custom_list_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/views/le_custom_list_pop_up.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/login/views/widgets/forgot_password_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/login/views/widgets/forgot_password_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/login/views/widgets/login_password_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/login/views/widgets/login_password_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_list_detail_popup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_list_detail_popup.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassregister/views/day_pass_info_detail_popup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassregister/views/day_pass_info_detail_popup.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassregister/views/day_pass_info_list_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassregister/views/day_pass_info_list_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassregister/views/day_pass_register_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassregister/views/day_pass_register_list_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/services/CommonServices.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/services/CommonServices.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/base_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/base_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/dev_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/dev_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/main_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/main_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/prod_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/prod_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/qa_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/qa_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/uat_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/uat_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/constants/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/utils/InactivityFunctions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/utils/InactivityFunctions.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -512,7 +487,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="103" />
+    <option name="localTasksCounter" value="105" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -549,7 +524,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="labels" />
     <MESSAGE value="improved the API loading time" />
     <MESSAGE value="minor improvements" />
     <MESSAGE value="auto logout &#10;expired token" />
@@ -574,7 +548,8 @@
     <MESSAGE value="plugins upgraded and code improved" />
     <MESSAGE value="plugin improvements" />
     <MESSAGE value="improvements related to release and plugins" />
-    <option name="LAST_COMMIT_MESSAGE" value="improvements related to release and plugins" />
+    <MESSAGE value="import improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="import improvements" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
