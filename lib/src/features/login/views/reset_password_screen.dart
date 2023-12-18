@@ -1,24 +1,7 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/common_widgets/app_bar.dart';
-import 'package:db_atom/src/common_widgets/app_button.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/login/bloc/login_bloc.dart';
-import 'package:db_atom/src/features/login/models/login_request_model.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
-import 'package:db_atom/src/features/login/views/widgets/forgot_password_widget.dart';
-import 'package:db_atom/src/features/login/views/widgets/login_password_widget.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/customalert.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../models/update_password_request.dart';
 
@@ -69,8 +52,8 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                 ? Navigator.of(context).pop()
                 : Navigator.pushReplacementNamed(context, loginScreenRoute);
           },
-          icon: SvgPicture.asset(AppIcon.backIcon,
-              color: AppColors.backgroundWhitecolor),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined,
+              color: Colors.white),
         ),
       ),
       backgroundColor: AppColors.cardBgColor,

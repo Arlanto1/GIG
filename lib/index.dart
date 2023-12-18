@@ -112,6 +112,8 @@ export 'package:db_atom/src/features/login/views/forgot_pwd_screen.dart';
 export 'package:db_atom/src/features/login/views/login_screen.dart';
 export 'package:db_atom/src/features/login/views/otp_verify_screen.dart';
 export 'package:db_atom/src/features/login/views/reset_password_screen.dart';
+export 'package:db_atom/src/features/login/views/widgets/forgot_password_widget.dart';
+export 'package:db_atom/src/features/login/views/widgets/login_password_widget.dart';
 export 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 export 'package:db_atom/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart';
 export 'package:db_atom/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart';
@@ -154,3 +156,12 @@ export 'package:flutter/services.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:json_annotation/json_annotation.dart';
 export 'package:syncfusion_flutter_charts/charts.dart';
+
+export 'package:db_atom/src/common_widgets/custom_pop_menu.dart';
+export 'package:db_atom/src/common_widgets/search_widget.dart';
+export 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_item_model.dart';
+export 'package:db_atom/src/features/passmanagement/daypassregister/controllers/day_pass_info_cubit.dart';
+export 'package:db_atom/src/features/passmanagement/daypassregister/controllers/day_pass_info_state.dart';
+export 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pass_info_detail_popup.dart';
+export 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pass_register_list_item.dart';
+
