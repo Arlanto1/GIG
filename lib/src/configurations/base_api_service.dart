@@ -21,7 +21,7 @@ enum RequestType {
 }
 
 class BaseApiService {
-  Future<Map<String, String>> _getHeaders({bool? isAuthenticated}) async {
+  Future<Map<String, String>> getHeaders({bool? isAuthenticated}) async {
     Map<String, String> headers = {'Content-Type': 'application/json'};
 
     if (isAuthenticated != null && isAuthenticated) {
@@ -41,7 +41,7 @@ class BaseApiService {
   }) async {
     try {
       log('url--getData---$url');
-      var headers = await _getHeaders(
+      var headers = await getHeaders(
         isAuthenticated: isAuthenticated ?? true,
       );
       var response = await http.get(
@@ -140,7 +140,7 @@ class BaseApiService {
 
       var response = await http.post(
         Uri.parse(url),
-        headers: await _getHeaders(isAuthenticated: isAuthenticated ?? true),
+        headers: await getHeaders(isAuthenticated: isAuthenticated ?? true),
         body: json.encode(requestedData),
       );
 
@@ -200,7 +200,7 @@ class BaseApiService {
   }) async {
     try {
       log('url--delete---$url');
-      var headers = await _getHeaders(
+      var headers = await getHeaders(
         isAuthenticated: isAuthenticated ?? true,
       );
       var response = await http.delete(
