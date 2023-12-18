@@ -93,7 +93,7 @@ class MainConfig with WidgetsBindingObserver {
         DateTime lastUserInteractionTime =
             await InactivityFunctions().getLastUserInteractionTime();
         if (InactivityFunctions().isTimeExceeded(
-            lastUserInteractionTime, Constants.inactivityDuration)) {
+            lastUserInteractionTime, Environment().config.inactivityDuration)) {
           logout(navigatorKey);
         }
         break;
