@@ -68,6 +68,7 @@ class Constants {
   static const String isRequiredPasswordChangeKey = 'isRequiredPasswordChange';
   static const String lastInteractionTime = 'lastInteractionTime';
   static const String languageCode = 'languageCode';
+  static const String deviceToken = 'deviceToken';
 
   static const String isUserIdKey = 'isUserId';
   static const String isFoundIdKey = 'isFoundId';
