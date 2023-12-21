@@ -27,7 +27,7 @@ class BaseBarChartState extends State<BaseBarChart> {
       visible: isChartVisible,
        child: Container(
           height: 300,
-          width: 400,
+          width: 350,
           decoration: const ShapeDecoration(
             color: AppColors.white,
             shape: RoundedRectangleBorder(

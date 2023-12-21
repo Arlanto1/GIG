@@ -3,6 +3,8 @@ import 'package:db_atom/src/features/dashboard/notifications/bloc/notifications_
     as nb;
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import 'notification_popup.dart';
+
 class NotificationsView extends StatefulWidget {
   const NotificationsView({
     super.key,
@@ -174,6 +176,13 @@ class NotificationTile extends StatelessWidget {
           child: InkWell(
             onTap: () {
               // Your onTap logic here
+              showDialog(
+                context: context,
+                builder: (BuildContext dialogContext) {
+                  return const NotificationPopUpItems(
+                  );
+                },
+              );
             },
             borderRadius: BorderRadius.circular(8),
             child: const Padding(

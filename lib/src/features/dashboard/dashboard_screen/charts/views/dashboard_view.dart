@@ -51,7 +51,6 @@ class DashboardViewState extends State<DashboardView> {
           appBar: AppHeader(
             isTitleCenter: false,
             title: Constants.dashboard,
-
             action: [
               GestureDetector(
                 onTap: () {
@@ -66,7 +65,7 @@ class DashboardViewState extends State<DashboardView> {
                   );
                 },
                 child: const Padding(
-                  padding: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(5.0),
                   child: Icon(
                     Icons.translate,
                     color: Colors.white,
@@ -78,9 +77,21 @@ class DashboardViewState extends State<DashboardView> {
                   Navigator.pushNamed(context, notificationViewRoute);
                 },
                 child: const Padding(
-                  padding: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(5.0),
                   child: Icon(
                     Icons.notifications,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  _logout(context);
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(5.0),
+                  child: Icon(
+                    Icons.logout,
                     color: Colors.white,
                   ),
                 ),
@@ -136,6 +147,18 @@ class DashboardViewState extends State<DashboardView> {
         );
       },
     );
+  }
+
+  _logout(BuildContext context) {
+    var dialog = CustomAlertDialog(
+        title: Constants.logout,
+        message: Constants.logoutvalidation,
+        onPostivePressed: () {
+          Validator.logoutAction(context);
+        },
+        positiveBtnText: Constants.yes,
+        negativeBtnText: Constants.no);
+    showDialog(context: context, builder: (BuildContext context) => dialog);
   }
 
   SingleChildScrollView buildChartHorizontalWidget({
