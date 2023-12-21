@@ -63,3 +63,10 @@ const String slaViolationPenaltyDetailsRoute =
     '/slaViolationPenaltyDetailsRoute';
 const String slaViolationPenaltyRecordsRoute =
     '/slaViolationPenaltyListingRoute';
+
+const String annualPowerShutdownListRoute = '/annualPowerShutdownListRoute';
+const String annualPowerShutdownListDetailsRoute = '/annualPowerShutdownListDetailsRoute';
+
+
+const String keyManagementMasterListRoute = '/keyManagementMasterListRoute';
+const String keyManagementMasterDetailsRoute = '/keyManagementMasterDetailsRoute';

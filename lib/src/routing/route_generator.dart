@@ -1,6 +1,12 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list/bloc/annual_power_shutdown_list_bloc.dart'
+    as asp;
+import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list/views/annual_power_shutdown_list_view.dart';
+import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart';
+import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/views/annual_power_shutdown_list_details_view.dart';
+import 'package:db_atom/src/features/annual_power_shutdown_list/services/annual_power_shutdown_services.dart';
 import 'package:db_atom/src/features/contact_details/contact_details_list/bloc/contact_details_list_bloc.dart'
     as cd;
 import 'package:db_atom/src/features/contact_details/contact_records/bloc/contact_record_bloc.dart'
@@ -15,6 +21,9 @@ import 'package:db_atom/src/features/guarding_operations/guarding_master_data/se
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart'
     as guarding;
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/bloc/sla_violation_penalty_list_bloc.dart'
     as sla;
@@ -31,6 +40,10 @@ import 'package:db_atom/src/features/security_systems/services/sst_incident_serv
 import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart'
     as sv;
 import 'package:db_atom/src/services/CommonServices.dart';
+
+import '../features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
+import '../features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart';
+import '../features/guarding_operations/key_management_data/key_management_master/key_management_master_list/views/key_management_master_list_view.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -462,7 +475,6 @@ class RouteGenerator {
             ),
           ),
         );
-
       case eventProtectionListRoute:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ep.EventProtectionsBloc>(
@@ -776,6 +788,66 @@ class RouteGenerator {
             child: const FemaleDropPickUpView(),
           ),
         );
+
+      case annualPowerShutdownListRoute:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<asp.AnnualPowerShutdownListBloc>(
+            create: (_) => asp.AnnualPowerShutdownListBloc()
+              ..add(const asp.FetchData(startPos: 0, maxPos: 20)),
+            child: const AnnualPowerShutdownListView(),
+          ),
+        );
+
+      case annualPowerShutdownListDetailsRoute:
+        String id = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          id = arguments['id'];
+        }
+        return MaterialPageRoute(
+          builder: (context) =>
+              BlocProvider<AnnualPowerShutdownListDetailsCubit>(
+            create: (_) => AnnualPowerShutdownListDetailsCubit(
+              services: AnnualPowerShutdownListServices(),
+              commonServices: CommonServices(),
+              id: id,
+            ),
+            child: const AnnualPowerShutdownListDetailsView(),
+          ),
+        );
+
+      case keyManagementMasterListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<KeyManagementMasterListBloc>(
+                  create: (_) => KeyManagementMasterListBloc()
+                    ..add(const FetchKeyMasterList(startPos: 0, maxPos: 20)),
+                  child: const KeyManagementMasterListView(),
+                ));
+
+      case keyManagementMasterDetailsRoute:
+        KeyManagementMasterServices services = KeyManagementMasterServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        KeyManagementMasterModel? keyManagementMasterModel =
+            arguments["keyManagementMasterModel"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<KeyManagementMasterDetailsCubit>(
+            create: (_) => KeyManagementMasterDetailsCubit(
+              services: services,
+              model: keyManagementMasterModel,
+              commonServices: commonServices,
+            ),
+            child: KeyManagementMasterDetailsView(
+              model: keyManagementMasterModel,
+              title: title,
+            ),
+          ),
+        );
+
       default:
         return MaterialPageRoute(builder: (context) => const DashboardView());
     }

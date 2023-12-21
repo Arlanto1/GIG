@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
 class Constants {
-
   // static const inactivityDuration = Duration(minutes: 5);
 
   /// Module Codes
@@ -131,7 +130,11 @@ class Constants {
   static const String profile = 'Profile';
   static const String articlefoundregister = 'Article Found';
   static const String lawenforcementvisitslist = 'Law Enforcement Visits';
-  static const String eventprotectionlist = 'Event Protection';
+  static const String eventprotectionlist = 'Event Protection List';
+  static const String annualPowerShutdownList = 'Annual Power Shutdown List';
+  static const String annualPowerShutdownListDetails =
+      'Annual Power Shutdown List Details';
+
   static const String incidentManagement = 'Incident Management';
   static const String occurrence = 'Occurrence';
   static const String materialMovement = 'Material Movement';
@@ -140,11 +143,12 @@ class Constants {
   static const String logout = 'Logout';
   static const String eventProtectionByRegion = 'Event Protection By Region';
   static const String eventProtectionByEntity = 'Event Protection By Entity';
-  static const String lawEnforcementVisitsByEntity = 'Law Enforcement Visits By Entity';
-  static const String lawEnforcementVisitsByRegion = 'Law Enforcement Visits By Region';
+  static const String lawEnforcementVisitsByEntity =
+      'Law Enforcement Visits By Entity';
+  static const String lawEnforcementVisitsByRegion =
+      'Law Enforcement Visits By Region';
   static const String eventProtectionAttendees = 'Event Protection Attendees';
   static const String eventProtectionBySupport = 'Event Protection By Support';
-
 
   static const String notifications = 'Notifications';
 
@@ -218,6 +222,7 @@ class Constants {
   static const String cancel = 'Cancel';
   static const String showList = 'Show List';
   static const String add = 'Add';
+  static const String open = 'Open';
   static const String newuser = 'New User';
   static const String newuserdesc =
       'Provide the below data to create a new User.';
@@ -397,7 +402,7 @@ class Constants {
   static const String guardingRate = 'Guarding Rates';
   static const String contactDetails = 'Contact Details';
   static const String femaleDropPickUp = 'Female Drop PickUp';
-  static const String keyManagementList = 'Key Management List';
+  static const String keyManagementData = 'Key Management Data';
   static const String slaViolationPenalty = 'SLA Violation Penalty';
 
   static const String vendor = 'Vendor';
@@ -503,8 +508,8 @@ class Constants {
   static const String locationSecurityManager2 = 'Location Security Manager 2';
   static const String lsm1ContactNo = 'LSM 1 Contact No';
   static const String lsm2ContactNo = 'LSM 2 Contact No';
-  static const String businessPoc1 = 'Business POC 1';
-  static const String businessPoc2 = 'Business POC 2';
+  static const String businessPoc = 'Business POC';
+  static const String businessPocEscalation = 'Business POC Escalation';
   static const String pONumber = 'PO Number';
   static const String budget = 'Budget Costs (in INR)';
   static const String isExtraSecurityDeployed = 'Is Extra Security Deployed';
@@ -518,8 +523,9 @@ class Constants {
   static const String guardingAgencyPOC = 'Guarding Agency POC';
   static const String subRegionalHead1 = 'Sub Regional Head (SRH) 1';
   static const String subRegionalHead2 = 'Sub Regional Head (SRH) 2';
-  static const String businessPoc1ContactNo = 'Business POC 1 Contact No';
-  static const String businessPoc2ContactNo = 'Business POC 2 Contact No';
+  static const String businessPocContactNo = 'Business POC Contact No';
+  static const String businessPocEscalationContactNo =
+      'Business POC Escalation Contact No';
   static const String requesterDepartment = 'Requester Department';
   static const String isExtraSecurityDeploymentRequired =
       'Is Extra Security Deployment Required';
@@ -537,8 +543,9 @@ class Constants {
       'Primary Service Engineer Contact :';
   static const String secondaryServiceEngineerContact =
       'Secondary Service Engineer Contact :';
-  static const String businessPoc1Department = 'Business POC 1 Department';
-  static const String businessPoc2Department = 'Business POC 2 Department';
+  static const String businessPocDepartment = 'Business POC Department';
+  static const String businessPocEscalationDepartment =
+      'Business POC Escalation Department';
   static const String eventProtectionOfficers = 'Event protection Officer(s)';
   static const String proposedVendors = 'Proposed Vendors';
   static const String eventStartDate = 'Event Start Date';
@@ -633,6 +640,29 @@ class Constants {
   static const String staffCategory = 'Staff Category';
   static const String slaViolation = 'SLA_VIOLATION_DESCRIPTION';
   static const String addGuardingAgencyPOC = 'Add Guarding Agency POC';
+
+  ///KeyManagementData
+  static const String keyManagementMaster = 'Key Management Master';
+  static const String keyManagementIssuance = 'Key Management Issuance';
+  static const String keyReconciliationList = 'Key Reconciliation List';
+  static const String keyLossDestructionList = 'Key Loss Destruction List';
+
+  /// KeyManagementMaster
+  static const String editkeyManagementMaster = 'Edit Key Management Master';
+  static const String createkeyManagementMaster = 'Create Key Management Master';
+  static const String floor = 'Floor';
+  static const String keyType = 'Key Type';
+  static const String keyNo = 'Key No';
+  static const String totalKeys = 'Total Keys';
+  static const String noOfKeys = 'No.of Keys';
+  static const String noOfMasterKeys = 'Number of Master Keys';
+  static const String keyDescription = 'Key Description';
+  static const String keyTaggingDone = 'Key Tagging Done? (Numbered Matching with lock)';
+  static const String doorHasAccessControl = 'Door Has Access Control';
+  static const String doorHasLockAndKeyMechanism = 'Door Has Lock and Key Mechanism';
+  static const String howAndWhereTheKeysAreStored = 'How and Where The Keys are Stored';
+
+
 }
 
 //static const String height = 'Height(cm)';

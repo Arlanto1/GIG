@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 
-
 class NavigationDrawer1 extends StatelessWidget {
   NavigationDrawer1(
     this._menuScaffoldKey,
@@ -38,6 +37,10 @@ class NavigationDrawer1 extends StatelessWidget {
       expansionTileDrawerItems.add(
           const MenuItem(Constants.eventprotectionlist, AppIcon.tasklist, 0));
     }
+    // if (displayMenu.aps ?? false) {
+    expansionTileDrawerItems.add(
+        const MenuItem(Constants.annualPowerShutdownList, AppIcon.tasklist, 0));
+    //}
     if (displayMenu.iM ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.incidentManagement, AppIcon.materialMovement, 0));
@@ -63,8 +66,8 @@ class NavigationDrawer1 extends StatelessWidget {
   final drawerItems = [
     const MenuItem(Constants.dashboard, AppIcon.dashboardselect, 0),
     const MenuItem(Constants.securityfunctions, AppIcon.securityprotection, 1),
-    const MenuItem(Constants.administration, AppIcon.maninsuitandtie, 0),
-    const MenuItem(Constants.settings, AppIcon.settings, 0),
+    //  const MenuItem(Constants.administration, AppIcon.maninsuitandtie, 0),
+    //const MenuItem(Constants.settings, AppIcon.settings, 0),
     const MenuItem(Constants.logout, AppIcon.logout, 0),
   ];
   final securityItems = [
@@ -99,13 +102,24 @@ class NavigationDrawer1 extends StatelessWidget {
     const MenuItem(
         Constants.guardingMasterReport, AppIcon.guardingMasterReportIcon, 0),
     const MenuItem(Constants.guardingRate, AppIcon.guardingMasterRatesIcon, 0),
-    const MenuItem(Constants.femaleDropPickUp, AppIcon.femalePickUpDropIcon, 0),
+    //const MenuItem(Constants.femaleDropPickUp, AppIcon.femalePickUpDropIcon, 0),
     const MenuItem(
-        Constants.keyManagementList, AppIcon.keyManagementListIcon, 0),
+        Constants.keyManagementData, AppIcon.keyManagementListIcon, 1),
     const MenuItem(Constants.occurrence, AppIcon.occurence, 0),
     const MenuItem(Constants.slaViolationPenalty, AppIcon.occurence, 0),
     const MenuItem(
         Constants.contactDetails, AppIcon.guardingMasterRatesIcon, 0),
+  ];
+
+  final keyManagementDataItems = [
+    const MenuItem(
+        Constants.keyManagementMaster, AppIcon.guardingMasterDataIcon, 0),
+    const MenuItem(
+        Constants.keyManagementIssuance, AppIcon.guardingMasterReportIcon, 0),
+    const MenuItem(
+        Constants.keyReconciliationList, AppIcon.guardingMasterRatesIcon, 0),
+    const MenuItem(
+        Constants.keyLossDestructionList, AppIcon.femalePickUpDropIcon, 0),
   ];
 
   final passTileDrawerItems = [
@@ -249,6 +263,45 @@ class NavigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
           arguments: {"isInward": false});
     }
+  }
+
+  List<Widget> _keyManagementDataBuildDrawerChildren(
+      BuildContext context, DrawerState state) {
+    List<Widget> children = [];
+
+    for (int i = 0; i < keyManagementDataItems.length; i++) {
+      MenuItem drawerItem = keyManagementDataItems[i];
+      children.add(
+        Container(
+          decoration: const BoxDecoration(
+            border: Border(
+                bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+          ),
+          child: ListTile(
+            leading: SizedBox(
+                width: 20,
+                height: 20,
+                child: Image.asset(drawerItem.imageName,
+                    fit: BoxFit.scaleDown,
+                    color: (i == _passlastSelectedItem)
+                        ? AppColors.navigationSkybluecolor
+                        : AppColors.boldgreyBackground)),
+            title: Text(drawerItem.title,
+                //style: Styles.textStyleBlack16,
+                style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: Constants.customFontSemiBoldFamily,
+                    fontWeight: FontWeight.w600,
+                    color: (i == _passlastSelectedItem)
+                        ? AppColors.navigationSkybluecolor
+                        : AppColors.textgreyThemecolor)),
+            //selected: i == _lastSelectedItem,
+            onTap: () => _onKeyManagementDataItemSelected(i, context),
+          ),
+        ),
+      );
+    }
+    return children;
   }
 
   List<Widget> _buildDrawerChildrenIncident(
@@ -468,13 +521,12 @@ class NavigationDrawer1 extends StatelessWidget {
                         ? AppColors.navigationSkybluecolor
                         : AppColors.textgreyThemecolor)),
             onTap: () => title == Constants.guarding
-                ? _onGuardingOperationItemSelected(i, context)
+                ? _onGuardingOperationItemSelected(i, context, state)
                 : _onSecuritySystemIncidentItemSelected(i, context),
           ),
         ),
       );
     }
-
     return children;
   }
 
@@ -493,7 +545,8 @@ class NavigationDrawer1 extends StatelessWidget {
     }
   }
 
-  _onGuardingOperationItemSelected(int index, BuildContext context) async {
+  _onGuardingOperationItemSelected(
+      int index, BuildContext context, DrawerState state) async {
     _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
@@ -508,20 +561,43 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 2) {
       Navigator.pushNamed(context, guardingRatesRoute,
           arguments: {"Guarding Rates": true});
-    } else if (index == 3) {
-      // Navigator.pushNamed(context, femaleDropPickUpRoute,
-      //     arguments: {"Female Drop PickUp": false});
-    } else if (index == 4) {
-      Navigator.pushNamed(context, guardingRateDetailsRoute,
-          arguments: {"Key Management List": true});
-    } else if (index == 5) {
+    }
+    else if (index == 3) {
+    Navigator.pushNamed(context,keyManagementMasterListRoute ,
+        arguments: {"Key Management Master": false});
+    }
+    // else if (index == 3) {
+    //   return _keyManagementDataBuildDrawerChildren(context, state);
+    // }
+    else if (index == 4) {
       Navigator.pushNamed(context, occurrenceRoute);
-    } else if (index == 6) {
+    } else if (index == 5) {
       Navigator.pushNamed(context, slaViolationPenaltyListRoute,
           arguments: {"SLA Violation Penalty": false});
-    } else if (index == 7) {
+    } else if (index == 6) {
       Navigator.pushNamed(context, contactDetailsListRoute,
           arguments: {"Contact Details": true});
+    }
+  }
+
+  _onKeyManagementDataItemSelected(int index, BuildContext context) async {
+    _menuScaffoldKey.currentState!.closeDrawer();
+    _passlastSelectedItem = index;
+    //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
+    //state = const DrawerInitial();
+    context.read<DrawerCubit>().getPassMgmtIndexChange(index);
+    if (index == 0) {
+      Navigator.pushNamed(context, keyManagementMasterListRoute,
+          arguments: {"Key Management Master": true});
+    } else if (index == 1) {
+      Navigator.pushNamed(context, guardingMasterReportRoute,
+          arguments: {"Key Management Issuance": false});
+    } else if (index == 2) {
+      Navigator.pushNamed(context, guardingRatesRoute,
+          arguments: {"Key Reconciliation List": true});
+    } else if (index == 3) {
+      Navigator.pushNamed(context, keyManagementMasterListRoute,
+          arguments: {"Key Loss Destruction List": true});
     }
   }
 
@@ -950,10 +1026,13 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 2) {
       Navigator.pushNamed(context, eventProtectionListRoute);
     } else if (index == 3) {
-      Navigator.pushNamed(context, incidentManagementsRoute);
+      log('Index 3 -$index--- ');
+      Navigator.pushNamed(context, annualPowerShutdownListRoute);
     } else if (index == 4) {
+      Navigator.pushNamed(context, incidentManagementsRoute);
+    } else if (index == 5) {
       //
-    } else if (index == 5) {}
+    } else if (index == 6) {}
   }
 
   _onPassMgmtSelectItem(int index, BuildContext context) async {
@@ -1053,10 +1132,9 @@ class NavigationDrawer1 extends StatelessWidget {
     if (index == 0) {
     } else if (index == 1) {
     } else if (index == 2) {
-    } else if (index == 3) {
-    } else if (index == 4) {
       _logout(context);
-    }
+    } else if (index == 3) {
+    } else if (index == 4) {}
   }
 
   _logout(BuildContext context) {
