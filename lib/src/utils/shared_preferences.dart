@@ -208,4 +208,12 @@ class SharedPrefs {
   static Future<String> getLanguageCode() async {
     return instance.getString(Constants.languageCode) ?? 'en';
   }
+
+  static Future<void> setDeviceToken(String value) async {
+    instance.setString(Constants.deviceToken, value);
+  }
+
+  static Future<String> getDeviceToken() async {
+    return instance.getString(Constants.deviceToken) ?? '';
+  }
 }

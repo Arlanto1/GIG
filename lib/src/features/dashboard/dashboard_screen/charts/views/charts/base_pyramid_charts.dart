@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:db_atom/index.dart';
 
 class BasePyramidCharts extends StatefulWidget {
@@ -8,11 +6,11 @@ class BasePyramidCharts extends StatefulWidget {
   final Widget moreIcon;
 
   const BasePyramidCharts({
-    Key? key,
+    super.key,
     required this.chartTitle,
     required this.moreIcon,
     required this.chartData,
-  }) : super(key: key);
+  });
 
   @override
   BasePyramidChartsState createState() => BasePyramidChartsState();

@@ -7,7 +7,6 @@ import 'package:db_atom/src/features/law_enforcement_list/bloc/law_enforcement_b
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../../common_widgets/app_bar.dart';
 import '../../../common_widgets/cubits.dart';

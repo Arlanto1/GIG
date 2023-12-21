@@ -165,3 +165,7 @@ export 'package:db_atom/src/features/passmanagement/daypassregister/controllers/
 export 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pass_info_detail_popup.dart';
 export 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pass_register_list_item.dart';
 
+export 'package:db_atom/src/configurations/main_config.dart';
+
+export 'package:db_atom/src/models/responseModels/generic_response.dart';
+export 'package:db_atom/src/features/login/models/update_password_request.dart';
