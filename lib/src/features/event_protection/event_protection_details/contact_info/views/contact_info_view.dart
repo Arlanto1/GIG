@@ -370,7 +370,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
 
                           ///Business POC 1
                           CommonWidgets.textDisplay(
-                            Constants.businessPoc1,
+                            Constants.businessPoc,
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
@@ -394,7 +394,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
 
                           ///Business POC 1 Contact No
                           CommonWidgets.textDisplay(
-                              Constants.businessPoc1ContactNo,
+                              Constants.businessPocContactNo,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
@@ -425,7 +425,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                           ///Business POC 2
 
                           CommonWidgets.textDisplay(
-                            Constants.businessPoc2,
+                            Constants.businessPocEscalation,
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
@@ -449,7 +449,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
 
                           ///Business POC 2 Contact No
                           CommonWidgets.textDisplay(
-                              Constants.businessPoc2ContactNo,
+                              Constants.businessPocEscalationContactNo,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
@@ -479,7 +479,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
 
                           ///Business POC 1Department
                           CommonWidgets.textDisplay(
-                            Constants.businessPoc1Department,
+                            Constants.businessPocDepartment,
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(
@@ -503,7 +503,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
 
                           ///Business POC 2 Department
                           CommonWidgets.textDisplay(
-                            Constants.businessPoc2Department,
+                            Constants.businessPocEscalationDepartment,
                             Styles.textStyleBlack14,
                           ),
                           TextfieldAddButton(

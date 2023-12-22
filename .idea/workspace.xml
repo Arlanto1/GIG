@@ -4,7 +4,41 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="WIP: improvements" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="import improvements">
+      <change afterPath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/notification_details/cubits/notification_details_cubit.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/notification_details/cubits/notification_details_state.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/notification_details/models/notification_details_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/notification_details/views/notification_details_view.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/services/notifications_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/dartpad/web_plugin_registrant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/dartpad/web_plugin_registrant.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/generated/assets.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/generated/assets.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/index.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/index.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details/cubits/contact_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details/cubits/contact_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details/views/contact_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details/views/contact_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details_list/bloc/contact_details_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details_list/bloc/contact_details_list_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/bloc/notifications_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/bloc/notifications_event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/notification_list/bloc/notifications_event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/bloc/notifications_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/notification_list/bloc/notifications_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/views/notification_popup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/notification_list/views/notification_popup.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/views/notifications_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/notification_list/views/notifications_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data/bloc/guarding_master_data_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data/bloc/guarding_master_data_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/bloc/sla_violation_penalty_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/bloc/sla_violation_penalty_list_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/violation_penalty_record/bloc/violation_penalty_record_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/violation_penalty_record/bloc/violation_penalty_record_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/routing/router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/routing/router.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,7 +57,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="slaViolationPenalty" />
+        <entry key="$PROJECT_DIR$" value="labels" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -65,36 +99,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.android.tools.idea.streaming.emulator.frame.visible&quot;: &quot;false&quot;,
-    &quot;com.android.tools.idea.streaming.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;labels&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/anurag/AndroidStudioProjects/Arlanto-App-Codebase/lib/src/features/dashboard&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pathVariables&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "com.android.tools.idea.streaming.emulator.frame.visible": "false",
+    "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "charts",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/features/dashboard",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pathVariables",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard" />
+      <recent name="$PROJECT_DIR$/lib/src/features/dashboard/notifications/services" />
+      <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/cubits" />
       <recent name="$PROJECT_DIR$/lib/src/common_widgets/base_widget" />
       <recent name="$PROJECT_DIR$/lib/src/models/responseModels" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/src/features/dashboard/notifications" />
+      <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts" />
+      <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views" />
+      <recent name="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/notificaitons/views" />
-      <recent name="$PROJECT_DIR$/lib/src/features/dashboard" />
-      <recent name="$PROJECT_DIR$/lib/src/features/material_movement" />
-      <recent name="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.qa">
@@ -108,9 +145,15 @@
       <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
       <method v="2" />
     </configuration>
+    <configuration name="uat" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="buildFlavor" value="UAT" />
+      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Flutter.main.dart" />
       <item itemvalue="Flutter.qa" />
+      <item itemvalue="Flutter.uat" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -465,7 +508,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <option name="localTasksCounter" value="105" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -502,15 +545,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="WIP: SLA" />
-    <MESSAGE value="WIP: Guarding Agency POC issue fixed" />
-    <MESSAGE value="WIP: Violation penalty dropdown issue fixed" />
-    <MESSAGE value=" Violation penalty" />
-    <MESSAGE value="Bug Fixes" />
-    <MESSAGE value="SLA Violation DONE" />
-    <MESSAGE value="bug fixed" />
-    <MESSAGE value="labels added in contact detail listing page" />
-    <MESSAGE value="labels" />
     <MESSAGE value="improved the API loading time" />
     <MESSAGE value="minor improvements" />
     <MESSAGE value="auto logout &#10;expired token" />
@@ -527,18 +561,16 @@
     <MESSAGE value="WIP: App Logout after close" />
     <MESSAGE value="WIP: APP notifications" />
     <MESSAGE value="WIP: improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="WIP: improvements" />
+    <MESSAGE value="code organised for dashboard_view" />
+    <MESSAGE value="WIP: API calling for Charts" />
+    <MESSAGE value="WIP: Base setup done API calling for Charts" />
+    <MESSAGE value="WIP: Multiple Charts and Horizontal Scroll" />
+    <MESSAGE value="DONE: Dashboard Charts" />
+    <MESSAGE value="plugins upgraded and code improved" />
+    <MESSAGE value="plugin improvements" />
+    <MESSAGE value="improvements related to release and plugins" />
+    <MESSAGE value="import improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="import improvements" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/src/features/lawenforcement/views/lawencorcementcreate.dart</url>
-          <line>165</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

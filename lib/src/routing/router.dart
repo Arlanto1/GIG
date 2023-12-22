@@ -1,7 +1,8 @@
 const String splashScreenRoute = '/splashScreenRoute';
 const String loginScreenRoute = '/loginScreenRoute';
 const String dashboardViewRoute = '/dashboardViewRoute';
-const String notificationViewRoute = '/notificationViewRoute';
+const String notificationsViewRoute = '/notificationsViewRoute';
+const String notificationDetailsViewRoute = '/notificationDetailsViewRoute';
 
 const String createfoundScreenRoute = '/createfoundscreenRoute';
 const String articleFoundListRoute = '/articlefoundlistpage';
@@ -63,3 +64,10 @@ const String slaViolationPenaltyDetailsRoute =
     '/slaViolationPenaltyDetailsRoute';
 const String slaViolationPenaltyRecordsRoute =
     '/slaViolationPenaltyListingRoute';
+
+const String annualPowerShutdownListRoute = '/annualPowerShutdownListRoute';
+const String annualPowerShutdownListDetailsRoute = '/annualPowerShutdownListDetailsRoute';
+
+
+const String keyManagementMasterListRoute = '/keyManagementMasterListRoute';
+const String keyManagementMasterDetailsRoute = '/keyManagementMasterDetailsRoute';

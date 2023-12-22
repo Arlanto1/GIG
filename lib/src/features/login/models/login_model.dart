@@ -97,6 +97,7 @@ class DisplayMenu {
   final bool? lEO;
   final bool? gR;
   final bool? eP;
+  final bool? aps;
   final bool? dP;
   final bool? pM;
   final bool? oCC;
@@ -111,6 +112,7 @@ class DisplayMenu {
     this.lEO,
     this.gR,
     this.eP,
+    this.aps,
     this.dP,
     this.pM,
     this.oCC,
@@ -126,6 +128,7 @@ class DisplayMenu {
         lEO = json['LEO'] as bool?,
         gR = json['GR'] as bool?,
         eP = json['EP'] as bool?,
+        aps = json['APS'] as bool?,
         dP = json['DP'] as bool?,
         pM = json['PM'] as bool?,
         oCC = json['OCC'] as bool?;
@@ -140,6 +143,7 @@ class DisplayMenu {
         'LEO': lEO,
         'GR': gR,
         'EP': eP,
+        'APS': aps,
         'DP': dP,
         'PM': pM,
         'OCC': oCC

@@ -41,7 +41,7 @@ class MainConfig with WidgetsBindingObserver {
       FCMHandler.setupBackgroundMessageHandler();
     } catch (e) {
       // Handle Firebase initialization error
-      print('Firebase initialization failed: $e');
+      log('Firebase initialization failed: $e');
     }
 
     runApp(
@@ -73,6 +73,8 @@ class MainConfig with WidgetsBindingObserver {
         ),
       ),
     );
+    InactivityFunctions().startInactivityTimer(navigatorKey);
+
   }
 
   @override
@@ -93,7 +95,7 @@ class MainConfig with WidgetsBindingObserver {
         DateTime lastUserInteractionTime =
             await InactivityFunctions().getLastUserInteractionTime();
         if (InactivityFunctions().isTimeExceeded(
-            lastUserInteractionTime, Constants.inactivityDuration)) {
+            lastUserInteractionTime, Environment().config.inactivityDuration)) {
           logout(navigatorKey);
         }
         break;

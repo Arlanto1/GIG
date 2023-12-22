@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/custom_pop_menu.dart';
 import 'package:db_atom/src/common_widgets/floating_button.dart';
@@ -30,7 +29,7 @@ class DayPassManagementList extends StatefulWidget {
   String? passId = '0';
   String? title;
 
-  DayPassManagementList({Key? key, this.passId, this.title}) : super(key: key);
+  DayPassManagementList({super.key, this.passId, this.title});
 
   @override
   State<DayPassManagementList> createState() => _DayPassManagementListState();
@@ -160,13 +159,8 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: SvgPicture.asset(
-            AppIcon.backIcon,
-            colorFilter: const ColorFilter.mode(
-              AppColors.backgroundWhitecolor,
-              BlendMode.srcIn,
-            ),
-          ),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined,
+              color: Colors.white),
         ),
         action: [
           CustomPopmenu(

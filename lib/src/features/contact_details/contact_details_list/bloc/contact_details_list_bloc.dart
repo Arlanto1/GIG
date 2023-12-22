@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
@@ -27,7 +26,6 @@ class ContactDetailsListBloc
     try {
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.contactDetailsModuleCode);
-      log('--default--${responseLabels.toString()}----//Getting Proper response as JSON------');
       CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

@@ -1,5 +1,5 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/dashboard/notifications/bloc/notifications_bloc.dart'
+import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart'
     as nb;
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -75,7 +75,7 @@ class _NotificationsViewState extends State<NotificationsView> {
             return const NoRecordFoundWidget();
           }
           return Container(
-            margin: allMargin16,
+            margin: allMargin4,
             decoration: const ShapeDecoration(
               color: AppColors.backgroundWhitecolor,
               shape: RoundedRectangleBorder(
@@ -105,100 +105,103 @@ class _NotificationsViewState extends State<NotificationsView> {
 
 class NotificationTile extends StatelessWidget {
   const NotificationTile({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(2.5),
-      child: Card(
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          side: const BorderSide(
-            color: Colors.grey,
-            width: 1,
-          ),
-          borderRadius: BorderRadius.circular(10),
+      padding: const EdgeInsets.all(0.5),
+      child: Slidable(
+        key: key,
+        startActionPane: ActionPane(
+          // A motion is a widget used to control how the pane animates.
+          motion: const ScrollMotion(),
+
+          // A pane can dismiss the Slidable.
+          dismissible: DismissiblePane(onDismissed: () {}),
+
+          // All actions are defined in the children parameter.
+          children: [
+            // A SlidableAction can have an icon and/or a label.
+            SlidableAction(
+              onPressed: doNothing,
+              backgroundColor: const Color(0xFFFE4A49),
+              foregroundColor: Colors.white,
+              icon: Icons.delete,
+              label: 'Delete',
+            ),
+            SlidableAction(
+              onPressed: doNothing,
+              backgroundColor: const Color(0xFF21B7CA),
+              foregroundColor: Colors.white,
+              icon: Icons.share,
+              label: 'Share',
+            ),
+          ],
         ),
-        child: Slidable(
-          key: key,
-          startActionPane: ActionPane(
-            // A motion is a widget used to control how the pane animates.
-            motion: const ScrollMotion(),
-
-            // A pane can dismiss the Slidable.
-            dismissible: DismissiblePane(onDismissed: () {}),
-
-            // All actions are defined in the children parameter.
-            children: [
-              // A SlidableAction can have an icon and/or a label.
-              SlidableAction(
-                onPressed: doNothing,
-                backgroundColor: const Color(0xFFFE4A49),
-                foregroundColor: Colors.white,
-                icon: Icons.delete,
-                label: 'Delete',
-              ),
-              SlidableAction(
-                onPressed: doNothing,
-                backgroundColor: const Color(0xFF21B7CA),
-                foregroundColor: Colors.white,
-                icon: Icons.share,
-                label: 'Share',
-              ),
-            ],
-          ),
-          // The end action pane is the one at the right or the bottom side.
-          endActionPane: ActionPane(
-            motion: const ScrollMotion(),
-            children: [
-              SlidableAction(
-                // An action can be bigger than the others.
-                flex: 2,
-                onPressed: doNothing,
-                backgroundColor: const Color(0xFF7BC043),
-                foregroundColor: Colors.white,
-                icon: Icons.archive,
-                label: 'Archive',
-              ),
-              SlidableAction(
-                onPressed: doNothing,
-                backgroundColor: const Color(0xFF0392CF),
-                foregroundColor: Colors.white,
-                icon: Icons.save,
-                label: 'Save',
-              ),
-            ],
-          ),
-          child: InkWell(
-            onTap: () {
-              // Your onTap logic here
-            },
-            borderRadius: BorderRadius.circular(8),
-            child: const Padding(
-              padding: EdgeInsets.all(15),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Incoming Material Record Added.',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+        // The end action pane is the one at the right or the bottom side.
+        endActionPane: ActionPane(
+          motion: const ScrollMotion(),
+          children: [
+            SlidableAction(
+              // An action can be bigger than the others.
+              flex: 2,
+              onPressed: doNothing,
+              backgroundColor: const Color(0xFF7BC043),
+              foregroundColor: Colors.white,
+              icon: Icons.archive,
+              label: 'Archive',
+            ),
+            SlidableAction(
+              onPressed: doNothing,
+              backgroundColor: const Color(0xFF0392CF),
+              foregroundColor: Colors.white,
+              icon: Icons.save,
+              label: 'Save',
+            ),
+          ],
+        ),
+        child: InkWell(
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              notificationDetailsViewRoute,
+              arguments: {
+                ConstantsArgument.id: '3848',
+              },
+            );
+            // Your onTap logic here
+            // showDialog(
+            //   context: context,
+            //   builder: (BuildContext dialogContext) {
+            //     return const NotificationPopUpItems();
+            //   },
+            // );
+          },
+          borderRadius: BorderRadius.circular(8),
+          child: const Padding(
+            padding: EdgeInsets.all(15),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Incoming Material Record Added.',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
                       ),
-                      Spacer(),
-                      Text('1 hour ago'),
-                    ],
-                  ),
-                  Text(
-                    'Ashok has created the record for 5 items.',
-                  ),
-                ],
-              ),
+                    ),
+                    Spacer(),
+                    Text('1 hour ago'),
+                  ],
+                ),
+                Text(
+                  'Ashok has created the record for 5 items.',
+                ),
+              ],
             ),
           ),
         ),

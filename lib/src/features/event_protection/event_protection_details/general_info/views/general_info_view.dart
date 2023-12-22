@@ -26,7 +26,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common_widgets/base_widget/base_department_dialog.dart';
-import '../../../../../common_widgets/base_widget/radio_buttons_yes_no.dart';
 import '../../../../../common_widgets/base_widget/record_locked_widget.dart';
 import '../../../../../common_widgets/new_search_textfield.dart';
 import '../../../../../common_widgets/textfiled_addbutton.dart';
@@ -269,39 +268,39 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             ///  Is Annual Power Shutdown?
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.annualPowerShutdown ??
-                                    state.labels?.defaultLocale
-                                        .annualPowerShutdown ??
-                                    Constants.isAnnualPowerShutdown,
-                                Styles.textStyleBlack14,
-                                isMandatory: true),
-                            RadioButtonsYesNo(
-                                status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.annualPowerShutdown ? 1 : 0,
-                                onChangedYes: widget.model?.status == 0
-                                    ? null
-                                    : (val) {
-                                        state.model.annualPowerShutdown = true;
-                                        BlocProvider.of<GeneralInfoCubit>(
-                                                context)
-                                            .showFields(
-                                                annualPowerShutdown: true);
-                                        // .onModelValueChange(state.model
-                                        // );
-                                      },
-                                onChangedNo: widget.model?.status == 0
-                                    ? null
-                                    : (val) {
-                                        state.model.annualPowerShutdown = false;
-                                        BlocProvider.of<GeneralInfoCubit>(
-                                                context)
-                                            .showFields(
-                                                annualPowerShutdown: false);
-                                        // .onModelValueChange(state.model
-                                        //  );
-                                      }),
+                            // CommonWidgets.textDisplay(
+                            //     state.labels?.locale.annualPowerShutdown ??
+                            //         state.labels?.defaultLocale
+                            //             .annualPowerShutdown ??
+                            //         Constants.isAnnualPowerShutdown,
+                            //     Styles.textStyleBlack14,
+                            //     isMandatory: true),
+                            // RadioButtonsYesNo(
+                            //     status: state.model.status ?? 0,
+                            //     selectedValue:
+                            //         state.model.annualPowerShutdown ? 1 : 0,
+                            //     onChangedYes: widget.model?.status == 0
+                            //         ? null
+                            //         : (val) {
+                            //             state.model.annualPowerShutdown = true;
+                            //             BlocProvider.of<GeneralInfoCubit>(
+                            //                     context)
+                            //                 .showFields(
+                            //                     annualPowerShutdown: true);
+                            //             // .onModelValueChange(state.model
+                            //             // );
+                            //           },
+                            //     onChangedNo: widget.model?.status == 0
+                            //         ? null
+                            //         : (val) {
+                            //             state.model.annualPowerShutdown = false;
+                            //             BlocProvider.of<GeneralInfoCubit>(
+                            //                     context)
+                            //                 .showFields(
+                            //                     annualPowerShutdown: false);
+                            //             // .onModelValueChange(state.model
+                            //             //  );
+                            //           }),
 
                             /// Entity
                             CommonWidgets.textDisplay(
@@ -590,7 +589,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.bu1 ??
                                     state.labels?.defaultLocale.bu1 ??
-                                    Constants.businessPoc1,
+                                    Constants.businessPoc,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextfieldAddButton(
@@ -616,7 +615,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.bu1ContactNo ??
                                     state.labels?.defaultLocale.bu1ContactNo ??
-                                    Constants.businessPoc1ContactNo,
+                                    Constants.businessPocContactNo,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -642,7 +641,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.bu2 ??
                                     state.labels?.defaultLocale.bu2 ??
-                                    Constants.businessPoc2,
+                                    Constants.businessPocEscalation,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextfieldAddButton(
@@ -668,7 +667,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.bu2ContactNo ??
                                     state.labels?.defaultLocale.bu2ContactNo ??
-                                    Constants.businessPoc2ContactNo,
+                                    Constants.businessPocEscalationContactNo,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -694,7 +693,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.bu1Dept ??
                                       state.labels?.defaultLocale.bu1Dept ??
-                                      Constants.businessPoc1Department,
+                                      Constants.businessPocDepartment,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextfieldAddButton(
@@ -718,7 +717,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.bu2Dept ??
                                       state.labels?.defaultLocale.bu2Dept ??
-                                      Constants.businessPoc2Department,
+                                      Constants.businessPocEscalationDepartment,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextfieldAddButton(

@@ -1,0 +1,65 @@
+import 'dart:developer';
+
+import 'package:db_atom/index.dart';
+import 'package:db_atom/src/configurations/base_api_service.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_management_master_request.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
+
+
+class Apis {
+  static final String baseUrl = Environment().config.apiHost;
+
+  static final String _getGuardingMastersData = '$baseUrl/getGMData?';
+
+  static final String _getGuardingMasterData = '$baseUrl/getGMDataById';
+
+  static final String _createGuardingMasterData = '$baseUrl/createGMData?';
+}
+
+class KeyManagementMasterServices {
+
+  Future<String> getUserEmail() async {
+    String email =  await SharedPrefs.getEmail();
+    return email;
+  }
+
+  Future<KeyManagementMasterResponse> getList({
+    required String startPosition,
+    required String maximumRecords,
+    required String userId,
+    required String locationId,
+  }) async {
+    String url =
+        '${Apis._getGuardingMastersData}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return KeyManagementMasterResponse.fromJson(response);
+  }
+
+  Future<KeyManagementMasterModel> getById(int id) async {
+    final String url = '${Apis._getGuardingMasterData}/$id';
+    var response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return KeyManagementMasterModel.fromJson(response);
+  }
+
+  /// Create Services
+
+  Future<GenericResponse> createKeyManagementMaster({
+    required KeyManagementMasterRequest body,
+    required bool isSubmit,
+  }) async {
+    final String url =
+        "${Apis._createGuardingMasterData}userEmail=${await getUserEmail()}&isSubmit=$isSubmit";
+    log("API URL------2-2-2-2-2-: $url");
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return GenericResponse.fromJson(response);
+  }
+
+}

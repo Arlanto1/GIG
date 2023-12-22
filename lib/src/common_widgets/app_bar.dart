@@ -26,7 +26,7 @@ PreferredSizeWidget appBar(
 
 class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   const AppHeader({
-    Key? key,
+    super.key,
     this.action,
     this.title,
     this.backBtn,
@@ -34,7 +34,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
     this.isTitleCenter,
     this.isVisible,
     
-  }) : super(key: key);
+  });
 
   final String? title;
   final List<Widget>? action;

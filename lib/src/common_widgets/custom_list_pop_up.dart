@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 class CustomPopUpList extends StatefulWidget {
   FoundModel? userItem;
 
-  CustomPopUpList(this.userItem, {Key? key}) : super(key: key);
+  CustomPopUpList(this.userItem, {super.key});
 
   @override
   State<CustomPopUpList> createState() => _CustomPopUpListState();

@@ -3,4 +3,5 @@ abstract class BaseConfig {
   bool get useHttps;
   bool get trackEvents;
   bool get reportErrors;
+  Duration get inactivityDuration;
 }

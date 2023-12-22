@@ -4,7 +4,8 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 
 class InactivityFunctions {
-  Future<void> startInactivityTimer(GlobalKey<NavigatorState> navigatorKey) async {
+  Future<void> startInactivityTimer(
+      GlobalKey<NavigatorState> navigatorKey) async {
     log('--startInactivityTimer---');
 
     // String token = await SharedPrefs.getToken();
@@ -13,21 +14,23 @@ class InactivityFunctions {
     //   logoutUser(navigatorKey);
     // }
 
-    Timer.periodic(Constants.inactivityDuration, (timer) async {
-      log('--Timer.periodic---');
+    Timer.periodic(Environment().config.inactivityDuration, (timer) async {
+      log('--Timer.periodic--${Environment().config.inactivityDuration}-');
       // Check user activity status, e.g., based on the last interaction time
       // For simplicity, we assume user activity is based on tapping the screen
 
       DateTime lastInteractionTime = await getLastUserInteractionTime();
 
-      if (isTimeExceeded(lastInteractionTime, Constants.inactivityDuration)) {
+      if (isTimeExceeded(
+          lastInteractionTime, Environment().config.inactivityDuration)) {
         log('---logout now---');
         logoutUser(navigatorKey);
       }
     });
   }
 
-  bool isTimeExceeded(DateTime lastInteractionTime, Duration inactivityDuration) {
+  bool isTimeExceeded(
+      DateTime lastInteractionTime, Duration inactivityDuration) {
     log('---isTimeExceeded--$lastInteractionTime----$inactivityDuration--');
     return lastInteractionTime
         .isBefore(DateTime.now().subtract(inactivityDuration));

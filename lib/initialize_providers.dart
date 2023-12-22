@@ -5,9 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class InitializeProviders extends StatelessWidget {
   final Widget child;
   const InitializeProviders({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

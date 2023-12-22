@@ -10,11 +10,10 @@ class TextfieldAddButton extends StatelessWidget {
   final bool? isDisableColor;
 
   const TextfieldAddButton(
-      {Key? key, this.onTap, this.title, this.height, this.isDisableColor
+      {super.key, this.onTap, this.title, this.height, this.isDisableColor
 
       // required this.textfield,
-      })
-      : super(key: key);
+      });
 
   @override
   Widget build(BuildContext context) {

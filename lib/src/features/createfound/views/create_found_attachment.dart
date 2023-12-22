@@ -71,8 +71,8 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: SvgPicture.asset(AppIcon.backIcon,
-                color: AppColors.backgroundWhitecolor),
+            icon: const Icon(Icons.arrow_back_ios_new_outlined,
+                color: Colors.white),
           ),
           action: [
             CustomPopmenu(
@@ -490,7 +490,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
     }
     if (value == PermissionStatus.denied ||
         value == PermissionStatus.permanentlyDenied) {
-      AppSettings.openNotificationSettings();
+      AppSettings.openAppSettings(type: AppSettingsType.notification);
     }
   }
 

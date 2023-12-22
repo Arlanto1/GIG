@@ -19,13 +19,13 @@ class DayPassRegisterListItem extends StatefulWidget {
   int? index;
 
   DayPassRegisterListItem({
-    Key? key,
+    super.key,
     this.onTap,
     this.oneditTap,
     this.onviewTap,
     required this.userItem,
     this.index,
-  }) : super(key: key);
+  });
 
   @override
   State<DayPassRegisterListItem> createState() =>

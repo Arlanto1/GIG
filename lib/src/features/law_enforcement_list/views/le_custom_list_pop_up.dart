@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 class LawEnforcementCustomPopUpList extends StatefulWidget {
   LawEnforcementListElement? userItem;
 
-  LawEnforcementCustomPopUpList(this.userItem, {Key? key}) : super(key: key);
+  LawEnforcementCustomPopUpList(this.userItem, {super.key});
 
   @override
   State<LawEnforcementCustomPopUpList> createState() =>

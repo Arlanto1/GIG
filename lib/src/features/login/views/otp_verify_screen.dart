@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
@@ -55,8 +56,8 @@ class _OtpVerifyState extends State<OtpVerify> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: SvgPicture.asset(AppIcon.backIcon,
-              color: AppColors.backgroundWhitecolor),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined,
+              color: Colors.white),
         ),
       ),
       backgroundColor: AppColors.cardBgColor,
@@ -190,7 +191,9 @@ class _OtpVerifyState extends State<OtpVerify> {
                                     onTap: () {
                                       bloc.add(LoginVerifyEvent(
                                           requestModel: prepareLoginRequestBody(
-                                              widget.userName, widget.pwd, ''),
+                                              userName: widget.userName,
+                                              pwd: widget.pwd,
+                                              otp: ''),
                                           isFromLogin: true));
                                     },
                                     child: Container(
@@ -221,9 +224,16 @@ class _OtpVerifyState extends State<OtpVerify> {
                                             LoginVerifyEvent(
                                               requestModel:
                                                   prepareLoginRequestBody(
-                                                widget.userName,
-                                                widget.pwd,
-                                                otp,
+                                                userName: widget.userName,
+                                                pwd: widget.pwd,
+                                                otp: otp,
+                                                deviceToken: await SharedPrefs
+                                                    .getDeviceToken(),
+                                                deviceType: Platform.isIOS
+                                                    ? '1'
+                                                    : (Platform.isAndroid
+                                                        ? '0'
+                                                        : '-1'),
                                               ),
                                               isFromLogin: false,
                                             ),
@@ -257,10 +267,21 @@ class _OtpVerifyState extends State<OtpVerify> {
     );
   }
 
-  LoginRequestModel prepareLoginRequestBody(
-      String userName, String pwd, String otp) {
+  LoginRequestModel prepareLoginRequestBody({
+    required String userName,
+    required String pwd,
+    String? otp,
+    String? deviceToken,
+    String? deviceType,
+  }) {
     return LoginRequestModel(
-        request: Request(userName: userName, password: pwd, otp: otp));
+        request: Request(
+      userName: userName,
+      password: pwd,
+      otp: otp,
+      deviceToken: deviceToken,
+      deviceType: deviceType,
+    ));
   }
 
   _showCustomPop(BuildContext context, String msg) {

@@ -18,13 +18,13 @@ class FoundListItem extends StatefulWidget {
   final FoundModel userItem;
   final int? index;
   const FoundListItem({
-    Key? key,
+    super.key,
     this.onTap,
     this.onEditTap,
     this.onViewTap,
     required this.userItem,
     this.index,
-  }) : super(key: key);
+  });
 
   @override
   State<FoundListItem> createState() => _FoundListItemState();

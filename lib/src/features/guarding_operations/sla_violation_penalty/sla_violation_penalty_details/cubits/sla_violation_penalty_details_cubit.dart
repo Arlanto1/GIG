@@ -120,7 +120,6 @@ class SLAViolationPenaltyDetailsCubit
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
-      log('--default--${labels.defaultLocale}----------');
 
       if (state.model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();

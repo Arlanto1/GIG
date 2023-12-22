@@ -7,7 +7,6 @@ import 'package:db_atom/src/features/law_enforcement_list/bloc/law_enforcement_b
 import 'package:db_atom/src/models/organisation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../../common_widgets/app_bar.dart';
 import '../../../common_widgets/cubits.dart';
@@ -103,8 +102,8 @@ class _LnPageState extends State<LnPage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: SvgPicture.asset(AppIcon.backIcon,
-              color: AppColors.backgroundWhitecolor),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined,
+              color: Colors.white),
         ),
         action: [
           CustomPopmenu(

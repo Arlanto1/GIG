@@ -1,26 +1,5 @@
-import 'package:db_atom/src/common_widgets/app_bar.dart';
-import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/cubits.dart';
-import 'package:db_atom/src/common_widgets/custom_pop_menu.dart';
-import 'package:db_atom/src/common_widgets/image_download.dart';
-import 'package:db_atom/src/common_widgets/search_widget.dart';
-import 'package:db_atom/src/common_widgets/spinnerdialog.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_item_model.dart';
-import 'package:db_atom/src/features/passmanagement/daypassregister/controllers/day_pass_info_cubit.dart';
-import 'package:db_atom/src/features/passmanagement/daypassregister/controllers/day_pass_info_state.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/daypassregister/models/day_pass_info_response_model.dart';
-import 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pass_info_detail_popup.dart';
-import 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pass_register_list_item.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DayPassInfoListPage extends StatefulWidget {
   String passId = '0';
@@ -28,8 +7,7 @@ class DayPassInfoListPage extends StatefulWidget {
   bool isRegister;
 
   DayPassInfoListPage(
-      {Key? key, this.passId = '0', this.title = '', this.isRegister = false})
-      : super(key: key);
+      {super.key, this.passId = '0', this.title = '', this.isRegister = false});
 
   @override
   State<DayPassInfoListPage> createState() => _DayPassInfoListPageState();
@@ -115,11 +93,8 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: SvgPicture.asset(AppIcon.backIcon,
-            colorFilter: const ColorFilter.mode(
-              AppColors.backgroundWhitecolor,
-              BlendMode.srcIn,
-            ),          ),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined,
+              color: Colors.white),
         ),
         action: [
           CustomPopmenu(

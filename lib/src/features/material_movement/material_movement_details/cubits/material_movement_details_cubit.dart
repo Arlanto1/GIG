@@ -113,8 +113,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       }
 
       MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
-      log('--default--${labels.defaultLocale}----------');
-
       if (state.model.location == null && defaultLocation != null) {
         String moduleCode = isInward ?? false
             ? Constants.materialMovementInwardReturnableModule

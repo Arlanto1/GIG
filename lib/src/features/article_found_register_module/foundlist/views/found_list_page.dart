@@ -1,7 +1,6 @@
 import 'package:db_atom/src/common_widgets/app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_no_record_found_widget.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/custom_list_pop_up.dart';
 import 'package:db_atom/src/common_widgets/custom_pop_menu.dart';
@@ -27,7 +26,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FoundList extends StatefulWidget {
-  const FoundList({Key? key}) : super(key: key);
+  const FoundList({super.key});
 
   @override
   State<FoundList> createState() => _FoundListState();
@@ -132,8 +131,8 @@ class _FoundListState extends State<FoundList> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: SvgPicture.asset(AppIcon.backIcon,
-              color: AppColors.backgroundWhitecolor),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined,
+              color: Colors.white),
         ),
         action: [
           CustomPopmenu(

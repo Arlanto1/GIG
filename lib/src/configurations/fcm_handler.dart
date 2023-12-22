@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:db_atom/index.dart';
 import 'package:rxdart/rxdart.dart';
@@ -9,12 +10,17 @@ class FCMHandler {
 
   static Future<void> initializeFCM() async {
     try {
-      await Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform);
-
+      if (Platform.isAndroid) {
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
+      } else if (Platform.isIOS) {
+        await Firebase.initializeApp();
+      }
       final messaging = FirebaseMessaging.instance;
       await messaging.setAutoInitEnabled(true);
 
+      log('-will ask permission now-----');
       final settings = await messaging.requestPermission(
         alert: true,
         announcement: false,
@@ -26,17 +32,18 @@ class FCMHandler {
       );
 
       if (kDebugMode) {
-        print('Permission granted: ${settings.authorizationStatus}');
+        log('Permission granted: ${settings.authorizationStatus}');
       }
 
       String? token = await messaging.getToken();
+      SharedPrefs.setDeviceToken(token??'');
 
       if (kDebugMode) {
-        print('Registration Token=$token');
+        log('Registration Token=$token');
       }
     } catch (e) {
       // Handle Firebase initialization error
-      print('Firebase initialization failed: $e');
+      log('Firebase initialization failed: $e');
     }
   }
 
@@ -48,10 +55,10 @@ class FCMHandler {
 
   static void _handleForegroundMessage(RemoteMessage message) {
     if (kDebugMode) {
-      print('Handling a foreground message: ${message.messageId}');
-      print('Message data: ${message.data}');
-      print('Message notification: ${message.notification?.title}');
-      print('Message notification: ${message.notification?.body}');
+      log('Handling a foreground message: ${message.messageId}');
+      log('Message data: ${message.data}');
+      log('Message notification: ${message.notification?.title}');
+      log('Message notification: ${message.notification?.body}');
     }
 
     _messageStreamController.sink.add(message);
@@ -69,14 +76,14 @@ class FCMHandler {
       log('---firebaseMessagingBackgroundHandler----');
 
       if (kDebugMode) {
-        print("Handling a background message: ${message.messageId}");
-        print('Message data: ${message.data}');
-        print('Message notification: ${message.notification?.title}');
-        print('Message notification: ${message.notification?.body}');
+        log("Handling a background message: ${message.messageId}");
+        log('Message data: ${message.data}');
+        log('Message notification: ${message.notification?.title}');
+        log('Message notification: ${message.notification?.body}');
       }
     } catch (e) {
       // Handle Firebase initialization error
-      print('Firebase initialization failed: $e');
+      log('Firebase initialization failed: $e');
     }
   }
 

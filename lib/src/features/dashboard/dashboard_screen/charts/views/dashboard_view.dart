@@ -1,12 +1,8 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/cubits.dart';
-import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/cubits/charts_cubit.dart';
-import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_bar_charts.dart';
-import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_bubble_charts.dart';
 
-import 'charts/base_pie_charts.dart';
+import 'charts/base_pyramid_charts.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -40,7 +36,12 @@ class DashboardViewState extends State<DashboardView> {
   Widget build(BuildContext context) {
     return BlocConsumer<ChartsCubit, ChartsState>(
       listener: (context, state) {
-        // TODO: implement listener
+        if (state.status == FormStatus.sessionExpired) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: Colors.red,
+              content: Text(state.message ?? 'Session Expired...')));
+          Validator.logoutAction(context);
+        }
       },
       bloc: chartsCubit,
       builder: (context, state) {
@@ -50,7 +51,6 @@ class DashboardViewState extends State<DashboardView> {
           appBar: AppHeader(
             isTitleCenter: false,
             title: Constants.dashboard,
-
             action: [
               GestureDetector(
                 onTap: () {
@@ -65,7 +65,7 @@ class DashboardViewState extends State<DashboardView> {
                   );
                 },
                 child: const Padding(
-                  padding: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(5.0),
                   child: Icon(
                     Icons.translate,
                     color: Colors.white,
@@ -74,12 +74,24 @@ class DashboardViewState extends State<DashboardView> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, notificationViewRoute);
+                  Navigator.pushNamed(context, notificationsViewRoute);
                 },
                 child: const Padding(
-                  padding: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(5.0),
                   child: Icon(
                     Icons.notifications,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  _logout(context);
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(5.0),
+                  child: Icon(
+                    Icons.logout,
                     color: Colors.white,
                   ),
                 ),
@@ -107,7 +119,7 @@ class DashboardViewState extends State<DashboardView> {
               child: SingleChildScrollView(
                 // scrollDirection: Axis.horizontal,
                 child: Container(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(10.0),
                   decoration: const ShapeDecoration(
                     color: AppColors.backgroundWhitecolor,
                     shape: RoundedRectangleBorder(
@@ -137,8 +149,22 @@ class DashboardViewState extends State<DashboardView> {
     );
   }
 
-  SingleChildScrollView buildChartHorizontalWidget(
-      {required String title, required List<PieChartData> chartValues}) {
+  _logout(BuildContext context) {
+    var dialog = CustomAlertDialog(
+        title: Constants.logout,
+        message: Constants.logoutvalidation,
+        onPostivePressed: () {
+          Validator.logoutAction(context);
+        },
+        positiveBtnText: Constants.yes,
+        negativeBtnText: Constants.no);
+    showDialog(context: context, builder: (BuildContext context) => dialog);
+  }
+
+  SingleChildScrollView buildChartHorizontalWidget({
+    required String title,
+    required List<PieChartData> chartValues,
+  }) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -148,12 +174,17 @@ class DashboardViewState extends State<DashboardView> {
             moreIcon: SvgPicture.asset(AppIcon.moreicon),
             chartData: chartValues,
           ),
-          BaseBubbleChart(
+          BaseVerticleBarCharts(
             chartTitle: title,
             moreIcon: SvgPicture.asset(AppIcon.moreicon),
             chartData: chartValues,
           ),
           BaseBarChart(
+            chartTitle: title,
+            moreIcon: SvgPicture.asset(AppIcon.moreicon),
+            chartData: chartValues,
+          ),
+          BasePyramidCharts(
             chartTitle: title,
             moreIcon: SvgPicture.asset(AppIcon.moreicon),
             chartData: chartValues,

@@ -11,11 +11,10 @@ class CustomPopmenu extends StatelessWidget {
   final String popupimagename;
 
   const CustomPopmenu(
-      {Key? key,
+      {super.key,
       required this.itemList,
       required this.itemTap,
-      required this.popupimagename})
-      : super(key: key);
+      required this.popupimagename});
 
   @override
   Widget build(BuildContext context) {

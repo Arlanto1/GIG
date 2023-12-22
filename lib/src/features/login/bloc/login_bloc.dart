@@ -1,17 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
-import 'package:bloc/bloc.dart';
-import 'package:db_atom/src/features/login/models/login_model.dart';
-import 'package:db_atom/src/features/login/models/login_request_model.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:meta/meta.dart';
-
-import '../../../models/responseModels/generic_response.dart';
-import '../models/update_password_request.dart';
-import '../services/login_services.dart';
+import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/login/services/login_services.dart';
 
 part 'login_event.dart';
+
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
@@ -35,6 +30,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       userName = data.request?.userName ?? '';
       password = data.request?.password ?? '';
 
+      /// Verify OTP
       if (!event.isFromLogin) {
         log('email address is ${loginData.user?.email}');
         await SharedPrefs.setUsername(userName);

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -43,7 +45,7 @@ class BaseAppBar {
             ],
             itemTap: (value) async {
               String userid = await SharedPrefs.getUserId();
-              print(value);
+              log('value--$value');
               if (value == 0) {
                 DownloadImage().exportExcel(context, int.parse(userid),
                     'export.xslx', 0, 20, '/$excelAPIName');
