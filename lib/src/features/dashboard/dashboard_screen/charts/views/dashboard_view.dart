@@ -74,7 +74,7 @@ class DashboardViewState extends State<DashboardView> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, notificationViewRoute);
+                  Navigator.pushNamed(context, notificationsViewRoute);
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(5.0),

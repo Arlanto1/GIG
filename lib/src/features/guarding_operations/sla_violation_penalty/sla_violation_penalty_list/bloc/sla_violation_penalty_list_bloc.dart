@@ -29,7 +29,6 @@ class SLAViolationPenaltyListBloc
     try {
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
-      log('--default--${responseLabels.toString()}----//Getting Proper response as JSON------');
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
 
       return emit(

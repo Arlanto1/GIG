@@ -5,7 +5,6 @@ class Assets {
   static const String appIconAppIcon = 'assets/app_icon/app_icon.jpg';
   static const String assetsAtomSplash = 'assets/atom_splash.png';
   static const String assetsImagesDaypassreg = 'assets/images/daypassreg.svg';
-  static const String assetsSplash = 'assets/splash.png';
   static const String fontsOFL = 'assets/fonts/OFL.txt';
   static const String fontsPoppinsBlack = 'assets/fonts/Poppins-Black.ttf';
   static const String fontsPoppinsBlackItalic = 'assets/fonts/Poppins-BlackItalic.ttf';

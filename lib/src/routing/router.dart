@@ -1,7 +1,8 @@
 const String splashScreenRoute = '/splashScreenRoute';
 const String loginScreenRoute = '/loginScreenRoute';
 const String dashboardViewRoute = '/dashboardViewRoute';
-const String notificationViewRoute = '/notificationViewRoute';
+const String notificationsViewRoute = '/notificationsViewRoute';
+const String notificationDetailsViewRoute = '/notificationDetailsViewRoute';
 
 const String createfoundScreenRoute = '/createfoundscreenRoute';
 const String articleFoundListRoute = '/articlefoundlistpage';

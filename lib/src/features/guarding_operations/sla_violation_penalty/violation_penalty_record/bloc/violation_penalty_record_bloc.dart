@@ -1,14 +1,10 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
-import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 
-
 part 'violation_penalty_record_event.dart';
-
 part 'violation_penalty_record_state.dart';
 
 class ViolationPenaltyRecordBloc
@@ -37,9 +33,7 @@ class ViolationPenaltyRecordBloc
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
-      log('--default--${responseLabels.toString()}----//Getting Proper response as JSON------');
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
-      log('-items-----${items.length}-');
       Map<String, dynamic> staffCategoriesValues =
           await SLAViolationPenaltyServices().getStaffCategoriesValues();
       return emit(

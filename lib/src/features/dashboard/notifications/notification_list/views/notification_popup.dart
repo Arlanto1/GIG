@@ -1,4 +1,4 @@
-import '../../../../../index.dart';
+import 'package:db_atom/index.dart';
 
 class NotificationPopUpItems extends StatefulWidget {
   final List<Label>? labels;

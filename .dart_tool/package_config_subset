@@ -106,6 +106,10 @@ crypto
 2.19
 file:///Users/anurag/.pub-cache/hosted/pub.dev/crypto-3.0.3/
 file:///Users/anurag/.pub-cache/hosted/pub.dev/crypto-3.0.3/lib/
+csslib
+2.19
+file:///Users/anurag/.pub-cache/hosted/pub.dev/csslib-0.17.3/
+file:///Users/anurag/.pub-cache/hosted/pub.dev/csslib-0.17.3/lib/
 cupertino_icons
 2.19
 file:///Users/anurag/.pub-cache/hosted/pub.dev/cupertino_icons-1.0.6/
@@ -214,6 +218,10 @@ flutter_flavorizr
 3.0
 file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_flavorizr-2.2.1/
 file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_flavorizr-2.2.1/lib/
+flutter_html
+2.17
+file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_html-3.0.0-beta.2/
+file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_html-3.0.0-beta.2/lib/
 flutter_keyboard_visibility
 2.12
 file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility-5.4.1/
@@ -278,6 +286,10 @@ graphs
 2.18
 file:///Users/anurag/.pub-cache/hosted/pub.dev/graphs-2.3.1/
 file:///Users/anurag/.pub-cache/hosted/pub.dev/graphs-2.3.1/lib/
+html
+2.19
+file:///Users/anurag/.pub-cache/hosted/pub.dev/html-0.15.4/
+file:///Users/anurag/.pub-cache/hosted/pub.dev/html-0.15.4/lib/
 http
 3.2
 file:///Users/anurag/.pub-cache/hosted/pub.dev/http-1.1.2/
@@ -358,6 +370,10 @@ lints
 3.0
 file:///Users/anurag/.pub-cache/hosted/pub.dev/lints-3.0.0/
 file:///Users/anurag/.pub-cache/hosted/pub.dev/lints-3.0.0/lib/
+list_counter
+2.18
+file:///Users/anurag/.pub-cache/hosted/pub.dev/list_counter-1.0.2/
+file:///Users/anurag/.pub-cache/hosted/pub.dev/list_counter-1.0.2/lib/
 local_session_timeout
 2.17
 file:///Users/anurag/.pub-cache/hosted/pub.dev/local_session_timeout-2.3.2/
@@ -662,10 +678,6 @@ yaml
 2.19
 file:///Users/anurag/.pub-cache/hosted/pub.dev/yaml-3.1.2/
 file:///Users/anurag/.pub-cache/hosted/pub.dev/yaml-3.1.2/lib/
-db_atom
-2.19
-file:///Users/anurag/AndroidStudioProjects/Arlanto-App-Codebase/
-file:///Users/anurag/AndroidStudioProjects/Arlanto-App-Codebase/lib/
 sky_engine
 3.2
 file:///Users/anurag/Downloads/flutter/bin/cache/pkg/sky_engine/
@@ -686,4 +698,8 @@ flutter_web_plugins
 3.2
 file:///Users/anurag/Downloads/flutter/packages/flutter_web_plugins/
 file:///Users/anurag/Downloads/flutter/packages/flutter_web_plugins/lib/
+db_atom
+2.19
+file:///Users/anurag/StudioProjects/Arlanto-App-Codebase/
+file:///Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/
 2

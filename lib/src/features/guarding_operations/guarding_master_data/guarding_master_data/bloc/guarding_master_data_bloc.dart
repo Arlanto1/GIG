@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/gm_ui_labels.dart';
-
-import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
+import 'package:db_atom/src/services/CommonServices.dart';
 
 part 'guarding_master_data_event.dart';
 part 'guarding_master_data_state.dart';
@@ -28,7 +26,6 @@ class GuardingMasterDataBloc
     try {
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(), moduleCode: Constants.guardingMasterModuleCode);
-      log('--default--${responseLabels.toString()}----//Getting Proper response as JSON------');
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

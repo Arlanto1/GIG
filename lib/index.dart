@@ -64,7 +64,6 @@ export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/cha
 export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart';
 export 'package:db_atom/src/features/dashboard/navigation_drawer/cubits/drawer_cubit.dart';
 export 'package:db_atom/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart';
-export 'package:db_atom/src/features/dashboard/notifications/views/notifications_view.dart';
 export 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/cubits/contact_info_cubit.dart';
 export 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/views/contact_info_view.dart';
 export 'package:db_atom/src/features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart';
@@ -168,4 +167,6 @@ export 'package:db_atom/src/features/passmanagement/daypassregister/views/day_pa
 export 'package:db_atom/src/configurations/main_config.dart';
 
 export 'package:db_atom/src/models/responseModels/generic_response.dart';
+export 'package:db_atom/src/configurations/base_api_service.dart';
 export 'package:db_atom/src/features/login/models/update_password_request.dart';
+export 'package:db_atom/src/common_widgets/signature/signature_controller.dart';

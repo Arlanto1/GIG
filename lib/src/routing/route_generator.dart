@@ -12,8 +12,11 @@ import 'package:db_atom/src/features/contact_details/contact_details_list/bloc/c
 import 'package:db_atom/src/features/contact_details/contact_records/bloc/contact_record_bloc.dart'
     as cr;
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
-import 'package:db_atom/src/features/dashboard/notifications/bloc/notifications_bloc.dart'
-    as nb;
+import 'package:db_atom/src/features/dashboard/notifications/notification_details/cubits/notification_details_cubit.dart';
+import 'package:db_atom/src/features/dashboard/notifications/notification_details/views/notification_details_view.dart';
+import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart' as nb;
+import 'package:db_atom/src/features/dashboard/notifications/notification_list/views/notifications_view.dart';
+import 'package:db_atom/src/features/dashboard/notifications/services/notifications_services.dart';
 import 'package:db_atom/src/features/event_protection/event_protections/bloc/event_protections_bloc.dart'
     as ep;
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
@@ -33,6 +36,7 @@ import 'package:db_atom/src/features/incident_management/incident_managements/bl
     as im;
 import 'package:db_atom/src/features/incident_management/services/incident_management_services.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
+import 'package:db_atom/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart' as mm;
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:db_atom/src/features/occurrenceList/bloc/occurrences_bloc.dart'
     as ocb;
@@ -41,9 +45,10 @@ import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst
     as sv;
 import 'package:db_atom/src/services/CommonServices.dart';
 
-import '../features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
-import '../features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart';
-import '../features/guarding_operations/key_management_data/key_management_master/key_management_master_list/views/key_management_master_list_view.dart';
+import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/views/key_management_master_list_view.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -55,12 +60,32 @@ class RouteGenerator {
       case dashboardViewRoute:
         return MaterialPageRoute(builder: (context) => const DashboardView());
 
-      case notificationViewRoute:
+      case notificationsViewRoute:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<nb.NotificationsBloc>(
-            create: (_) => nb.NotificationsBloc()
+            create: (_) => NotificationsBloc()
               ..add(const nb.FetchData(startPos: 0, maxPos: 20)),
             child: const NotificationsView(),
+          ),
+        );
+      case notificationDetailsViewRoute:
+        String id = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          id = arguments['id'] ?? '';
+        }
+        NotificationServices services = NotificationServices();
+        CommonServices commonServices = CommonServices();
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<NotificationDetailsCubit>(
+            create: (_) => NotificationDetailsCubit(
+              id: id,
+              services: services,
+              commonServices: commonServices,
+            ),
+            child: const NotificationDetailsView(
+            ),
           ),
         );
       case splashScreenRoute:
@@ -602,9 +627,9 @@ class RouteGenerator {
           }
         }
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<MaterialMovementBloc>(
-                  create: (_) => MaterialMovementBloc(isInward: isInward)
-                    ..add(const FetchData(startPos: 0, maxPos: 20)),
+            builder: (context) => BlocProvider<mm.MaterialMovementBloc>(
+                  create: (_) => mm.MaterialMovementBloc(isInward: isInward)
+                    ..add(const mm.FetchData(startPos: 0, maxPos: 20)),
                   child: MaterialMovementsView(
                     isInward: isInward,
                   ),

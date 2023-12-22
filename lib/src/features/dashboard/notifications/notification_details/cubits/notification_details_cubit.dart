@@ -1,0 +1,64 @@
+import 'dart:developer';
+
+import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/dashboard/notifications/notification_details/models/notification_details_model.dart';
+import 'package:db_atom/src/features/dashboard/notifications/services/notifications_services.dart';
+import 'package:db_atom/src/services/CommonServices.dart';
+
+part 'notification_details_state.dart';
+
+class NotificationDetailsCubit extends Cubit<NotificationDetailsState> {
+  final NotificationServices services;
+  final String id;
+  final CommonServices commonServices;
+
+  NotificationDetailsCubit({
+    required this.services,
+    required this.commonServices,
+    required this.id,
+  }) : super(
+          NotificationDetailsState.initial(
+            model: NotificationDetailsModel(),
+            locations: Locations(),
+            loggedInUserDetails: User(),
+            users: const [],
+            emailUsers: const [],
+            errorMessage: '',
+          ),
+        );
+
+
+  Future<void> initializeValues() async {
+    log('--initializeValues-Notification-');
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    try {
+      NotificationDetailsModel model = NotificationDetailsModel();
+      log('--1111--$model');
+
+      if (!id.isEmptyOrNull) {
+        model = await services.getById(int.parse(id));
+      }
+
+      emit(
+        state.copyWith(
+            status: FormStatus.initial,
+            model: model,
+        ),
+      );
+    } catch (e) {
+      log('initialization issue', error: e, name: (NotificationDetailsCubit).toString());
+      emit(
+        state.copyWith(
+          message: Constants.errorText,
+          // TODO: error message should be dynamic
+          status: FormStatus.error,
+        ),
+      );
+    }
+  }
+
+}

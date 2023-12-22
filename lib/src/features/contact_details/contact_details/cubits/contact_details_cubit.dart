@@ -66,8 +66,6 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       state.model.inputDate = Utils().getCurrentDate();
 
       CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
-      log('--default--${labels.defaultLocale}----------');
-
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),

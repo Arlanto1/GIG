@@ -164,6 +164,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "csslib",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/csslib-0.17.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "cupertino_icons",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/cupertino_icons-1.0.6",
       "packageUri": "lib/",
@@ -332,6 +338,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "flutter_html",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_html-3.0.0-beta.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "flutter_keyboard_visibility",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility-5.4.1",
       "packageUri": "lib/",
@@ -444,6 +456,12 @@
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/graphs-2.3.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
+    },
+    {
+      "name": "html",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/html-0.15.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
     },
     {
       "name": "http",
@@ -564,6 +582,12 @@
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/lints-3.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "list_counter",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/list_counter-1.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
     },
     {
       "name": "local_session_timeout",
@@ -1034,7 +1058,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-12-18T05:11:21.852902Z",
+  "generated": "2023-12-22T08:07:35.510213Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }
