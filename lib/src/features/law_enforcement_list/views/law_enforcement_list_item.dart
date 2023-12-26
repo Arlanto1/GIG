@@ -76,31 +76,6 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           textHandling('ID : ', widget.userItem.id.toString()),
-                          Container(
-                            alignment: Alignment.topCenter,
-                            child: Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    //do action on view
-                                    widget.onEditTap != null
-                                        ? widget.onEditTap!(widget.index)
-                                        : null;
-                                  },
-                                  icon: SvgPicture.asset(AppIcon.editIcon),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    //do action on view
-                                    widget.onViewTap != null
-                                        ? widget.onViewTap!(widget.index)
-                                        : null;
-                                  },
-                                  icon: SvgPicture.asset(AppIcon.viewIcon),
-                                ),
-                              ],
-                            ),
-                          ),
                         ],
                       ),
                       Row(
@@ -134,6 +109,27 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                         children: [
                           Utils().buildLeoStatusRow(widget.userItem.status ?? 0)
                         ],
+                      ),
+                      Container(
+                        alignment: Alignment.topCenter,
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                //do action on view
+                                widget.onEditTap != null ? widget.onEditTap!(widget.index) : null;
+                              },
+                              icon: const Icon(Icons.edit),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                //do action on view
+                                widget.onViewTap != null ? widget.onViewTap!(widget.index) : null;
+                              },
+                              icon: const Icon(Icons.remove_red_eye),
+                            ),
+                          ],
+                        ),
                       ),
                     ])))),
         CommonWidgets.verticalSpacerWidget(5),
