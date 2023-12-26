@@ -46,6 +46,7 @@ class ChartsCubit extends Cubit<ChartsState> {
           lawEnforcementVisitByEntity: lawEnforcementVisitByEntity,
           lawEnforcementVisitByRegion: lawEnforcementVisitByRegion,
           eventProtectionByRegion: eventProtectionByRegion,
+          status: FormStatus.initial
         ),
       );
     } on GenericResponse catch (e) {
