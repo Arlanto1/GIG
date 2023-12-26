@@ -1,11 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/routing/router.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:db_atom/index.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -41,16 +37,23 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(milliseconds: 500), () async {
       var navigatorState = Navigator.of(context);
       String userName = await SharedPrefs.getUserId();
-      if (userName.isNotEmpty) {
+      String token = await SharedPrefs.getToken();
+      if (!userName.isEmptyOrNull && !token.isEmptyOrNull) {
         bool requirePasswordChange =
             await SharedPrefs.getIsRequiredPasswordChange();
         if (requirePasswordChange) {
           navigatorState.pushNamed(resetPwdScreenRoute);
           return;
         }
-        navigatorState.pushReplacementNamed(dashboardViewRoute);
+        navigatorState.pushNamedAndRemoveUntil(
+          dashboardViewRoute,
+          (route) => false,
+        );
       } else {
-        navigatorState.pushReplacementNamed(loginScreenRoute);
+        navigatorState.pushNamedAndRemoveUntil(
+          loginScreenRoute,
+          (route) => false,
+        );
       }
     });
   }
