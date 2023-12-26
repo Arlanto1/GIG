@@ -122,12 +122,6 @@
       "languageVersion": "2.19"
     },
     {
-      "name": "cli_util",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/cli_util-0.4.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.19"
-    },
-    {
       "name": "clock",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/clock-1.1.1",
       "packageUri": "lib/",
@@ -378,12 +372,6 @@
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_windows-1.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
-    },
-    {
-      "name": "flutter_launcher_icons",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_launcher_icons-0.13.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.18"
     },
     {
       "name": "flutter_lints",
@@ -1058,7 +1046,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-12-22T08:07:35.510213Z",
+  "generated": "2023-12-26T05:31:14.814989Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }
