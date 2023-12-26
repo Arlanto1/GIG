@@ -8,6 +8,11 @@ class BaseLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator(color: AppColors.navigationSkybluecolor,));
+    return const Center(
+        child: CircularProgressIndicator(
+
+      color: AppColors.navigationSkybluecolor,
+          backgroundColor: Colors.white,
+    ));
   }
 }

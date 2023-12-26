@@ -112,41 +112,48 @@ class DashboardViewState extends State<DashboardView> {
               },
             ),
           ),
-          body: Container(
-            color: AppColors.navigationSkybluecolor,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: SingleChildScrollView(
-                // scrollDirection: Axis.horizontal,
-                child: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  decoration: const ShapeDecoration(
-                    color: AppColors.backgroundWhitecolor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20.0)),
-                    ),
+          body: getBody(state),
+        );
+      },
+    );
+  }
+
+  Widget getBody(ChartsState state) {
+    if (state.status == FormStatus.loading) {
+      return const BaseLoader();
+    }
+    return Container(
+          color: AppColors.navigationSkybluecolor,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: SingleChildScrollView(
+              // scrollDirection: Axis.horizontal,
+              child: Container(
+                padding: const EdgeInsets.all(10.0),
+                decoration: const ShapeDecoration(
+                  color: AppColors.backgroundWhitecolor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20.0)),
                   ),
-                  child: Column(
-                    children: [
-                      buildChartHorizontalWidget(
-                          title: Constants.lawEnforcementVisitsByEntity,
-                          chartValues: state.lawEnforcementVisitByEntity ?? []),
-                      buildChartHorizontalWidget(
-                          title: Constants.lawEnforcementVisitsByRegion,
-                          chartValues: state.lawEnforcementVisitByRegion ?? []),
-                      buildChartHorizontalWidget(
-                          title: Constants.eventProtectionByRegion,
-                          chartValues: state.eventProtectionByRegion ?? []),
-                    ],
-                  ),
+                ),
+                child: Column(
+                  children: [
+                    buildChartHorizontalWidget(
+                        title: Constants.lawEnforcementVisitsByEntity,
+                        chartValues: state.lawEnforcementVisitByEntity ?? []),
+                    buildChartHorizontalWidget(
+                        title: Constants.lawEnforcementVisitsByRegion,
+                        chartValues: state.lawEnforcementVisitByRegion ?? []),
+                    buildChartHorizontalWidget(
+                        title: Constants.eventProtectionByRegion,
+                        chartValues: state.eventProtectionByRegion ?? []),
+                  ],
                 ),
               ),
             ),
           ),
         );
-      },
-    );
   }
 
   _logout(BuildContext context) {
