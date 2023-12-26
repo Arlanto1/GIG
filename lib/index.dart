@@ -115,7 +115,6 @@ export 'package:db_atom/src/features/login/views/widgets/forgot_password_widget.
 export 'package:db_atom/src/features/login/views/widgets/login_password_widget.dart';
 export 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 export 'package:db_atom/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart';
-export 'package:db_atom/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart';
 export 'package:db_atom/src/features/material_movement/material_movements/views/material_movements_view.dart';
 export 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
 export 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
@@ -170,3 +169,9 @@ export 'package:db_atom/src/models/responseModels/generic_response.dart';
 export 'package:db_atom/src/configurations/base_api_service.dart';
 export 'package:db_atom/src/features/login/models/update_password_request.dart';
 export 'package:db_atom/src/common_widgets/signature/signature_controller.dart';
+
+export 'package:db_atom/src/common_widgets/base_widget/add_button_widget.dart';
+export 'package:db_atom/src/common_widgets/custom_pop_list_texts.dart';
+export 'package:db_atom/src/common_widgets/signature/signature_func.dart';
+export 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
+export 'package:db_atom/src/common_widgets/base_widget/base_filter_widget.dart';

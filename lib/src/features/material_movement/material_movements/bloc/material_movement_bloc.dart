@@ -1,14 +1,8 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
-import 'package:db_atom/src/features/material_movement/services/material_movement_services.dart';
-import 'package:db_atom/src/models/responseModels/token_expired.dart';
-import 'package:equatable/equatable.dart';
-
-import '../../../../enums/form_status.dart';
+import 'package:db_atom/src/services/CommonServices.dart';
 
 part 'material_movement_event.dart';
 
@@ -20,6 +14,7 @@ class MaterialMovementBloc
 
   MaterialMovementBloc({required this.isInward})
       : super(const MaterialMovementState()) {
+    on<InitializeValuesMM>(_initializeValues);
     on<FetchData>(
       _fetchMaterialMovements,
       transformer: droppable(),
@@ -27,6 +22,29 @@ class MaterialMovementBloc
   }
 
   final MaterialMovementServices services = MaterialMovementServices();
+
+  final CommonServices commonServices = CommonServices();
+
+  FutureOr<void> _initializeValues(
+      InitializeValuesMM event, Emitter<MaterialMovementState> emit) async {
+    try {
+      Locations locations =
+          await commonServices.getLocations(name: 'ATOM_LOCATIONS');
+
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.contactDetailsModuleCode);
+      CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
+      return emit(
+        state.copyWith(
+          locations: locations,
+          hasReachedMax: false,
+        ),
+      );
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
 
   FutureOr<void> _fetchMaterialMovements(
       FetchData event, Emitter<MaterialMovementState> emit) async {
