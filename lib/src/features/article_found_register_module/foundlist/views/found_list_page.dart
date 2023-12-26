@@ -79,7 +79,7 @@ class _FoundListState extends State<FoundList> {
     //     await foundListArticleCubit.getArticleById(articleId, context);
     final FoundListServices foundListServices = FoundListServices();
     FoundListArticleDetails foundArticleDetailsResponse =
-        await foundListServices.getArticleById(articleId, context);
+    await foundListServices.getArticleById(articleId, context);
     editDataLoading(foundArticleDetailsResponse);
   }
 
@@ -239,14 +239,14 @@ class _FoundListState extends State<FoundList> {
                   color: AppColors.backgroundWhitecolor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
+                    BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: Column(
                 children: [
                   // searchWidget(),
                   (foundList != null)
                       ? _userFoundListWidget(
-                          foundList, context, scrollController, state)
+                      foundList, context, scrollController, state)
                       : const SizedBox()
                 ],
               ),
@@ -290,12 +290,18 @@ class _FoundListState extends State<FoundList> {
       ScrollController? scrollController, FoundListState state) {
     return Container(
       padding: allMargin16,
+      decoration: const ShapeDecoration(
+          color: AppColors.backgroundWhitecolor,
+          shape: RoundedRectangleBorder(
+            borderRadius:
+            BorderRadius.vertical(top: Radius.circular(20.0)),
+          )),
       child: Visibility(
         visible: userList!.isNotEmpty,
         child: ListView.builder(
           //controller: scrollController,
           itemCount:
-              isPaginationLoading ? userList.length + 1 : userList.length,
+          isPaginationLoading ? userList.length + 1 : userList.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {

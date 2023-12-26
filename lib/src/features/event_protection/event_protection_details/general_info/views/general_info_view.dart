@@ -339,6 +339,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             BaseDate().datePickerWidgetLoading(
                               textController: eventStartDateController,
                               onlyDate: false,
+                              showPastDate: false,
                               onChange: (String value) {
                                 log('---value-$value------');
                                 state.model.eventStartDate =
