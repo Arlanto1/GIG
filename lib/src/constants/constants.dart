@@ -345,6 +345,7 @@ class Constants {
   static const String returnedQuantity = 'Returned Quantity';
   static const String outwardMaterialMovementType = 'Outward';
   static const String id = 'ID';
+  static const String date = 'Date';
   static const String challan = 'Challan/ Invoice Nos/ Gate Pass';
   static const String poNumber = 'PO Number';
   static const String materialBriefDescription = 'Material Brief Description';

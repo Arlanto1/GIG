@@ -38,12 +38,13 @@ class BaseDate {
       onTap: () async {
         if (!isDisabled) {
           textController.text = await BaseDate().datePickerDialog(
-              textController: textController,
-              showPastDate: showPastDate,
-              showFutureDate: showFutureDate,
-              onChange: onChange,
-              context: context,
-              onlyDate: onlyDate);
+            textController: textController,
+            showPastDate: showPastDate,
+            showFutureDate: showFutureDate,
+            onChange: onChange,
+            context: context,
+            onlyDate: onlyDate,
+          );
           log('--textController.text-2--1--${textController.text}----');
         }
       },
@@ -60,20 +61,6 @@ class BaseDate {
         // Pass the onChange callback to FlutterInputField
         validateTextField: (String? user) {},
         suffixWidget: GestureDetector(
-          // onTap: () async {
-          //
-          //   log('--textController.text---1--${textController.text}----');
-          //
-          //   if (textController.text.isEmpty) {
-          //     textController.text = await BaseDate().datePickerDialog(
-          //       textController: textController,
-          //       showBackDate: showBackDate,
-          //       onChange: onChange,
-          //       context: context,
-          //     );
-          //     log('--textController.text---2--${textController.text}----');
-          //   }
-          // },
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: SvgPicture.asset(
@@ -99,19 +86,34 @@ class BaseDate {
     bool? showFutureDate = true,
     bool onlyDate = false,
   }) async {
-    DateTime? pickedDate = await showDateTimePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: showPastDate! ? DateTime(1900) : DateTime.now(),
-      lastDate: showFutureDate! ? DateTime(2101) : DateTime.now(),
-    );
+    DateTime? pickedDate;
+    if (onlyDate) {
+      pickedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: showPastDate! ? DateTime(1900) : DateTime.now(),
+        lastDate: showFutureDate! ? DateTime(2101) : DateTime.now(),
+      );
+    } else {
+      pickedDate = await showDateTimePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: showPastDate! ? DateTime(1900) : DateTime.now(),
+        lastDate: showFutureDate! ? DateTime(2101) : DateTime.now(),
+      );
+    }
 
-    String formattedDate =
-        DateFormat(onlyDate ? Constants.dateFormat : Constants.fulldateFormat)
-            .format(pickedDate ?? DateTime.now());
+    if (pickedDate != null) {
+      String formattedDate = DateFormat(
+        onlyDate ? Constants.dateFormat : Constants.fulldateFormat,
+      ).format(pickedDate);
 
-    textController.text = formattedDate;
-    onChange(formattedDate);
-    return formattedDate;
+      textController.text = formattedDate;
+      onChange(formattedDate);
+      return formattedDate;
+    } else {
+      // Handle the case where the user cancels the picker
+      return ''; // You can modify the return value accordingly
+    }
   }
 }

@@ -8,8 +8,6 @@ class BaseFilterWidget {
     required final Locations locations,
     required final Function(String) applyFilters,
   }) {
-    final size = MediaQuery.of(context).size;
-    double height = size.height;
     return Container(
       margin: const EdgeInsets.only(right: 9),
       decoration: BoxDecoration(
@@ -22,7 +20,6 @@ class BaseFilterWidget {
           onTap: () {
             showFilters(
               context: context,
-              height: height,
               locations: locations,
               applyFilters: applyFilters,
             );
@@ -47,12 +44,16 @@ class BaseFilterWidget {
 
   void showFilters({
     required BuildContext context,
-    required double height,
     required final Locations locations,
     required final Function(String) applyFilters,
   }) {
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     TextEditingController idController = TextEditingController();
+    TextEditingController dateController = TextEditingController();
 
+    double textFieldWidth = width * 0.45;
     showModalBottomSheet(
       isScrollControlled: true, // Make the bottom sheet scrollable
       context: context,
@@ -70,52 +71,118 @@ class BaseFilterWidget {
                 ),
                 const SizedBox(height: 16),
 
-                /// ID
+                Row(
+                  children: [
+                    /// ID
+                    Column(
+                      children: [
+                        CommonWidgets.textDisplay(
+                          Constants.id,
+                          Styles.textStyleBlack14,
+                          isMandatory: false,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        SizedBox(
+                          width: textFieldWidth,
+                          child: FlutterInputField(
+                            keyboardType: TextInputType.name,
+                            textFormKey: Keys.idKey,
+                            // initialValue: state.model.challanNo,
+                            textFieldController: idController,
+                            hintText: '',
+                            isEnable: true,
+                            isDisableColor: false,
+                            onChange: (String value) {},
+                            validateTextField: (String? user) {},
+                          ),
+                        ),
+                      ],
+                    ),
+                    CommonWidgets.horizontalSpacerWidget(height * 0.01),
+
+                    /// SL No
+                    Column(
+                      children: [
+                        CommonWidgets.textDisplay(
+                          Constants.slno,
+                          Styles.textStyleBlack14,
+                          isMandatory: false,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        SizedBox(
+                          width: textFieldWidth,
+                          child: FlutterInputField(
+                            keyboardType: TextInputType.name,
+                            textFormKey: Keys.slNoKey,
+                            // initialValue: state.model.challanNo,
+                            textFieldController: idController,
+                            hintText: '',
+                            isEnable: true,
+                            isDisableColor: false,
+                            onChange: (String value) {},
+                            validateTextField: (String? user) {},
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                /// Date
                 CommonWidgets.textDisplay(
-                  Constants.id,
+                  Constants.date,
                   Styles.textStyleBlack14,
                   isMandatory: false,
                 ),
-                CommonWidgets.verticalSpacerWidget(height * 0.001),
-                FlutterInputField(
-                  keyboardType: TextInputType.name,
-                  textFormKey: Keys.challanKey,
-                  // initialValue: state.model.challanNo,
-                  textFieldController: idController,
-                  hintText: '',
-                  isEnable: true,
-                  isDisableColor: false,
-                  onChange: (String value) {},
-                  validateTextField: (String? user) {},
-                ),
-                CommonWidgets.verticalSpacerWidget(height * 0.01),
-                _buildFilterField(
-                  'Date',
-                  InkWell(
-                    onTap: () {
-                      // Open DatePicker
-                    },
-                    child: TextFormField(
-                      enabled: false,
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(Icons.calendar_today),
-                      ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: SizedBox(
+                    width: textFieldWidth,
+                    child: BaseDate().datePickerWidgetLoading(
+                      textController: dateController,
+                      onlyDate: true,
+                      onChange: (String value) {},
+                      context: context,
                     ),
                   ),
                 ),
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
                 Row(
                   children: [
-                    CommonWidgets.textDisplay(
-                      Constants.location,
-                      Styles.textStyleBlack14,
-                      isMandatory: false,
+                    _buildFilterField(
+                      'Location',
+                      SizedBox(
+                        width: textFieldWidth,
+                        child: DropdownButton<String>(
+                          value: 'Created', // Set the default selected value
+                          isDense: false,
+                          // isExpanded: true,
+                          items: const [
+                            DropdownMenuItem<String>(
+                              value: 'Created',
+                              child: Text('Created'),
+                            ),
+                            DropdownMenuItem<String>(
+                              value: 'Completed',
+                              child: Text('Completed'),
+                            ),
+                            DropdownMenuItem<String>(
+                              value: 'Approved',
+                              child: Text('Approved'),
+                            ),
+                          ],
+                          onChanged: (String? value) {
+                            // Handle the selected value
+                            log('Selected status: $value');
+                          },
+                        ),
+                      ),
                     ),
-                    CommonWidgets.verticalSpacerWidget(height * 0.001),
-                    locationWidget(context: context, locations: locations),
                     CommonWidgets.verticalSpacerWidget(height * 0.01),
                     const Spacer(),
                     _buildFilterField(
-                      'Status',
+                      'Region',
                       DropdownButton<String>(
                         value: 'Created', // Set the default selected value
                         isDense: true,
@@ -141,6 +208,32 @@ class BaseFilterWidget {
                       ),
                     ),
                   ],
+                ),
+                _buildFilterField(
+                  'Status',
+                  DropdownButton<String>(
+                    value: 'Created', // Set the default selected value
+                    isDense: true,
+                    // isExpanded: true,
+                    items: const [
+                      DropdownMenuItem<String>(
+                        value: 'Created',
+                        child: Text('Created'),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: 'Completed',
+                        child: Text('Completed'),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: 'Approved',
+                        child: Text('Approved'),
+                      ),
+                    ],
+                    onChanged: (String? value) {
+                      // Handle the selected value
+                      log('Selected status: $value');
+                    },
+                  ),
                 ),
                 _buildFilterField(
                   'Type',

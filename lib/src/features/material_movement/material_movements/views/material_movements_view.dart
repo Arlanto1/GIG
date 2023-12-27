@@ -243,5 +243,6 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
 
   void applyFilters(String name, ) {
     log('Applying Filters'); // this log is not getting printed
+    log('name-------$name'); // this log is not getting printed
   }
 }
