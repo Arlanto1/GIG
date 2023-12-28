@@ -428,46 +428,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
-                                  //
-                                  // // name
-                                  // CommonWidgets.textDisplay(
-                                  //     Constants.name, Styles.textStyleBlack14),
-                                  // CommonWidgets.verticalSpacerWidget(
-                                  //     height * 0.001),
-                                  // textfieldWidgetLoad(
-                                  //     nameTextController2, 0, state),
-                                  // // Designation
-                                  // CommonWidgets.textDisplay(
-                                  //     Constants.designation,
-                                  //     Styles.textStyleBlack14),
-                                  // CommonWidgets.verticalSpacerWidget(
-                                  //     height * 0.001),
-                                  // textfieldWidgetLoad(
-                                  //     designationTextController2, 0, state),
-                                  // // Office Address
-                                  // CommonWidgets.textDisplay(
-                                  //     Constants.officeAddress,
-                                  //     Styles.textStyleBlack14),
-                                  // CommonWidgets.verticalSpacerWidget(
-                                  //     height * 0.001),
-                                  // textfieldWidgetLoad(
-                                  //     officeaddressTextController2, 0, state),
-                                  //
-                                  // // Email Id
-                                  // CommonWidgets.textDisplay(Constants.emailid,
-                                  //     Styles.textStyleBlack14),
-                                  // CommonWidgets.verticalSpacerWidget(
-                                  //     height * 0.001),
-                                  // textfieldWidgetLoad(
-                                  //     emailidTextController2, 0, state),
-                                  // // Contact Number
-                                  // CommonWidgets.textDisplay(Constants.contactno,
-                                  //     Styles.textStyleBlack14),
-                                  // CommonWidgets.verticalSpacerWidget(
-                                  //     height * 0.001),
-                                  // textfieldWidgetLoad(
-                                  //     contactnoTextController2, 0, state),
-                                  //
 
                                   (state.getVisitsCount) > 0
                                       ? listVisitingOfficialDetails(

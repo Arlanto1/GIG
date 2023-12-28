@@ -14,7 +14,8 @@ import 'package:db_atom/src/features/contact_details/contact_records/bloc/contac
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/cubits/notification_details_cubit.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/views/notification_details_view.dart';
-import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart' as nb;
+import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart'
+    as nb;
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/views/notifications_view.dart';
 import 'package:db_atom/src/features/dashboard/notifications/services/notifications_services.dart';
 import 'package:db_atom/src/features/event_protection/event_protections/bloc/event_protections_bloc.dart'
@@ -24,9 +25,22 @@ import 'package:db_atom/src/features/guarding_operations/guarding_master_data/se
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart'
     as guarding;
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/key_management_issuance_model.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance/views/attendance_view.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/cubits/duty_post_master_details_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/views/duty_post_master_details_view.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_list/bloc/duty_post_master_list_bloc.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_list/views/duty_post_master_list_view.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_master_model.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/bloc/shift_schedule_list_bloc.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/views/shift_schedule_list_view.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/bloc/sla_violation_penalty_list_bloc.dart'
     as sla;
@@ -36,7 +50,8 @@ import 'package:db_atom/src/features/incident_management/incident_managements/bl
     as im;
 import 'package:db_atom/src/features/incident_management/services/incident_management_services.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
-import 'package:db_atom/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart' as mm;
+import 'package:db_atom/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart'
+    as mm;
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:db_atom/src/features/occurrenceList/bloc/occurrences_bloc.dart'
     as ocb;
@@ -49,6 +64,22 @@ import 'package:db_atom/src/features/dashboard/notifications/notification_list/b
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/views/key_management_master_list_view.dart';
+
+import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
+import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/views/key_loss_destruction_list_view.dart';
+import '../features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart' as kip;
+import '../features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/views/key_issuance_process_record_view.dart';
+import '../features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart';
+import '../features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/views/key_management_issuance_details_view.dart';
+import '../features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_list/bloc/key_management_issuance_list_bloc.dart';
+import '../features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_list/views/key_management_issuance_list_view.dart';
+import '../features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/bloc/key_reconciliation_list_bloc.dart';
+import '../features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/views/key_reconciliation_list_view.dart';
+import '../features/guarding_operations/shift_scheduling/attendance/attendance/bloc/attendance_bloc.dart';
+import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/cubits/duty_post_name_master_details_cubit.dart';
+import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/views/duty_post_name_master_details_view.dart';
+import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_list/bloc/duty_post_name_master_list_bloc.dart';
+import '../features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_list/views/duty_post_name_master_list_view.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -72,7 +103,7 @@ class RouteGenerator {
         String id = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
+              settings.arguments as Map<String, dynamic>;
           id = arguments['id'] ?? '';
         }
         NotificationServices services = NotificationServices();
@@ -84,8 +115,7 @@ class RouteGenerator {
               services: services,
               commonServices: commonServices,
             ),
-            child: const NotificationDetailsView(
-            ),
+            child: const NotificationDetailsView(),
           ),
         );
       case splashScreenRoute:
@@ -873,6 +903,159 @@ class RouteGenerator {
           ),
         );
 
+      case keyReconciliationListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<KeyReconciliationListBloc>(
+                  create: (_) => KeyReconciliationListBloc()
+                    ..add(const FetchKeyReconciliationList(
+                        startPos: 0, maxPos: 20)),
+                  child: const KeyReconciliationListView(),
+                ));
+
+      case keyLossDestructionListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<KeyLossDestructionListBloc>(
+                  create: (_) => KeyLossDestructionListBloc()
+                    ..add(const FetchKeyLossList(startPos: 0, maxPos: 20)),
+                  child: const KeyLossDestructionListView(),
+                ));
+
+      case keyManagementIssuanceListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<KeyManagementIssuanceListBloc>(
+                  create: (_) => KeyManagementIssuanceListBloc()
+                    ..add(const FetchKeyIssuanceList(startPos: 0, maxPos: 20)),
+                  child: const KeyManagementIssuanceListView(),
+                ));
+
+      case keyManagementIssuanceDetailsRoute:
+        KeyManagementIssuanceServices services = KeyManagementIssuanceServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        KeyManagementIssuanceModel? model = arguments["model"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<KeyManagementIssuanceDetailsCubit>(
+            create: (_) => KeyManagementIssuanceDetailsCubit(
+              services: services,
+              model: model,
+              commonServices: commonServices,
+            ),
+            child: KeyManagementIssuanceDetailsView(
+              model: model,
+              title: title,
+            ),
+          ),
+        );
+
+      case keyManagementIssuanceProcessRecordsRoute:
+        String title = '';
+        int id = 0;
+        String violationDescription = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id];
+          title = arguments[ConstantsArgument.title];
+          violationDescription =
+              arguments[ConstantsArgument.violationDescription] ?? '';
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<kip.KeyIssuanceProcessRecordBloc>(
+            create: (_) => kip.KeyIssuanceProcessRecordBloc(
+              violationDescription: violationDescription,
+            )..add(kip.FetchData(
+              id: id,
+              startPos: 0,
+              maxPos: 100,
+            )),
+            child: KeyIssuanceProcessRecordsView(
+              id: id,
+              title: title,
+            ),
+          ),
+        );
+
+
+      case dutyPostMasterListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<DutyPostMasterListBloc>(
+              create: (_) => DutyPostMasterListBloc()
+                ..add(const FetchDutyPostMasterList(startPos: 0, maxPos: 20)),
+              child: const DutyPostMasterListView(),
+            ));
+
+      case dutyPostMasterDetailsRoute:
+        DutyPostMasterServices services = DutyPostMasterServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        DutyPostMasterModel? dutyPostMasterModel =
+        arguments["dutyPostMasterModel"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<DutyPostMasterDetailsCubit>(
+            create: (_) => DutyPostMasterDetailsCubit(
+              services: services,
+              model: dutyPostMasterModel,
+              commonServices: commonServices,
+            ),
+            child: DutyPostMasterDetailsView(
+              model: dutyPostMasterModel,
+              title: title,
+            ),
+          ),
+        );
+
+      case dutyPostNameMasterListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<DutyPostNameMasterListBloc>(
+              create: (_) => DutyPostNameMasterListBloc()
+                ..add(const FetchDutyPostNameMasterList(startPos: 0, maxPos: 20)),
+              child: const DutyPostNameMasterListView(),
+            ));
+
+      case dutyPostNameMasterDetailsRoute:
+        DutyPostNameMasterServices services = DutyPostNameMasterServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        DutyPostNameMasterModel? dutyPostNameMasterModel =
+        arguments["dutyPostNameMasterModel"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<DutyPostNameMasterDetailsCubit>(
+            create: (_) => DutyPostNameMasterDetailsCubit(
+              services: services,
+              model: dutyPostNameMasterModel,
+              commonServices: commonServices,
+            ),
+            child: DutyPostNameMasterDetailsView(
+              model: dutyPostNameMasterModel,
+              title: title,
+            ),
+          ),
+        );
+
+      case attendanceListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<AttendanceBloc>(
+              create: (_) => AttendanceBloc()
+                ..add(const FetchAttendanceList(startPos: 0, maxPos: 20)),
+              child: const AttendanceView(),
+            ));
+
+      case shiftScheduleListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<ShiftScheduleListBloc>(
+              create: (_) => ShiftScheduleListBloc()
+                ..add(const FetchShiftScheduleList(startPos: 0, maxPos: 20)),
+              child: const ShiftScheduleListView(),
+            ));
       default:
         return MaterialPageRoute(builder: (context) => const DashboardView());
     }

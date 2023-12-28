@@ -663,6 +663,50 @@ class Constants {
   static const String doorHasLockAndKeyMechanism = 'Door Has Lock and Key Mechanism';
   static const String howAndWhereTheKeysAreStored = 'How and Where The Keys are Stored';
 
+///KeyManagementIssuance
+  static const String createKeyManagementIssuance = 'Create Key Management Issuance';
+  static const String editKeyManagementIssuance = 'Edit Key Management Issuance';
+  static const String handedOverTo = 'Handed Over To';
+  static const String keyReturnDueDate = 'Key Return Due Date';
+  static const String employeeType = 'Employee Type';
+  static const String keyHandingOverDuration = 'Key Handing Over Duration';
+  static const String dbSponsorOfCWRT2 = 'DB Sponsor of CWR T2';
+  static const String keyIssuanceProcess = 'Key Issuance Process';
+  static const String keys = 'Keys';
+  static const String keysAvailable = 'Keys Available';
+  static const String alreadyIssuedKeys = 'Already Issued Keys';
+  static const String keysReturned = 'Keys Returned';
+  static const String keysNotReturned = 'Keys Not Returned';
+  static const String keysLost = 'Keys Lost';
+  static const String keysDamaged = 'Keys Damaged';
+  static const String noKeysIssued = 'No. Keys Issued';
+
+/// Duty Post Master
+   static const String dutyPostMaster ='Duty Post Master';
+  static const String editDutyPostMaster = 'Edit Duty Post Master';
+  static const String createDutyPostMaster = 'Create Duty Post Master';
+  static const String dutyPostName = 'Duty Post Name';
+  static const String aShift = 'A Shift(7AM-3PM)';
+  static const String bShift = 'B Shift(3PM-11PM)';
+  static const String cShift = 'C Shift(11PM-7AM)';
+  static const String gShift = 'G Shift(9AM-6PM)';
+  static const String total = 'Total';
+
+  /// Duty Post Name Master
+  static const String dutyPostNameMaster ='Duty Post Name Master';
+  static const String editDutyPostNameMaster = 'Edit Duty Post Name Master';
+  static const String createDutyPostNameMaster = 'Create Duty Post Name Master';
+  static const String dutyPostLocationName = 'Duty Post Location Name';
+  static const String region = 'Region';
+
+  ///Attendance
+  static const String attendance = 'Attendance';
+
+
+  ///Shift Schedule
+  static const String shiftSchedule = 'Shift Schedule';
+  static const String editShiftSchedule = 'Edit Shift Schedule';
+  static const String createShiftSchedule = 'Create Shift Schedule';
 
 }
 
