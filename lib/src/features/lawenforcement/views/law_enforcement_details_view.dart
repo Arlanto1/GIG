@@ -436,6 +436,19 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                     setState(() {});
                                   },
                                   validateTextField: (String? user) {},
+                                  onfieldSubmitted: (String value) {
+                                    additionalInformationTextController.value =
+                                        TextEditingValue(
+                                      text:
+                                          '${additionalInformationTextController.text}\n',
+                                      selection: TextSelection.collapsed(
+                                        offset:
+                                            additionalInformationTextController
+                                                    .text.length +
+                                                1,
+                                      ),
+                                    );
+                                  },
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
