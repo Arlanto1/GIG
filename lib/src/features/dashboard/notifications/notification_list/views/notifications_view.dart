@@ -1,5 +1,4 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/dashboard/notifications/notification_details/models/notifications_response_model.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart'
     as nb;
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -46,6 +45,11 @@ class _NotificationsViewState extends State<NotificationsView> {
     }
   }
 
+  void deleteAllNotification(BuildContext context) {
+    BlocProvider.of<nb.NotificationsBloc>(context)
+        .add(const nb.DeleteAllRecords());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +62,7 @@ class _NotificationsViewState extends State<NotificationsView> {
         showSubmitButton: false,
         showCustomIcon: true,
         customIcon: Icons.delete_sweep,
-        onTapCustomIcon: () {},
+        onTapCustomIcon: deleteAllNotification,
       ),
       body: BlocConsumer<nb.NotificationsBloc, nb.NotificationsState>(
         listener: (context, state) {
@@ -173,7 +177,7 @@ class NotificationTile extends StatelessWidget {
               context,
               notificationDetailsViewRoute,
               arguments: {
-                ConstantsArgument.id: '3848',
+                ConstantsArgument.id: item.id.toString(),
               },
             );
             // Your onTap logic here
@@ -186,7 +190,7 @@ class NotificationTile extends StatelessWidget {
           },
           borderRadius: BorderRadius.circular(8),
           child: Padding(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,7 +204,7 @@ class NotificationTile extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    Text('1 hour ago'),
+                    // const Text('1 hour ago'),
                   ],
                 ),
                 Text(

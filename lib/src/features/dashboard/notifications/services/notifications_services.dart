@@ -1,6 +1,4 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/dashboard/notifications/notification_details/models/notification_details_model.dart';
-import 'package:db_atom/src/features/dashboard/notifications/notification_details/models/notifications_response_model.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -9,6 +7,7 @@ class Apis {
 
   static final String _getNotificationById = '$baseUrl/getNotificationById';
   static final String _deleteById = '$baseUrl/deleteNotification';
+  static final String _deleteAll = '$baseUrl/deleteAllNotifications';
 }
 
 class NotificationServices {
@@ -25,16 +24,24 @@ class NotificationServices {
     return NotificationsResponseModel.fromJson(response);
   }
 
-  Future<NotificationDetailsModel> getById(int id) async {
+  Future<NotificationModel> getById(int id) async {
     final String url = '${Apis._getNotificationById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    return NotificationDetailsModel.fromJson(response);
+    return NotificationModel.fromJson(response);
   }
 
   Future<GenericResponse> deleteById(int id) async {
     final String url = '${Apis._deleteById}/$id';
+    final response = await BaseApiService().deleteRequest(
+      url: url,
+    );
+    return GenericResponse.fromJson(response);
+  }
+
+  Future<GenericResponse> deleteAll() async {
+    final String url = Apis._deleteAll;
     final response = await BaseApiService().deleteRequest(
       url: url,
     );

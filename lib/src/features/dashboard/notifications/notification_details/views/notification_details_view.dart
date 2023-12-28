@@ -35,24 +35,21 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
         log('--NN-state.status-${state.status}-------');
 
         if (state.status == FormStatus.success) {
-          var dialog = CustomAlertDialog(
-            title: 'Material Movement',
-            message: state.message ?? '',
-            positiveBtnText: Constants.ok,
-            onPostivePressed: () {
-              // TODO: Need to improve this code
-              Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.popAndPushNamed(
-                context,
-                contactDetailsListRoute,
-              );
-            },
-          );
-          showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (BuildContext context) => dialog);
+          Navigator.pop(context);
+
+          // var dialog = CustomAlertDialog(
+          //   title: 'Material Movement',
+          //   message: state.message ?? '',
+          //   positiveBtnText: Constants.ok,
+          //   onPostivePressed: () {
+          //     // TODO: Need to improve this code
+          //     Navigator.pop(context);
+          //   },
+          // );
+          // showDialog(
+          //     context: context,
+          //     barrierDismissible: false,
+          //     builder: (BuildContext context) => dialog);
 
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
@@ -73,12 +70,19 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
             showSaveButton: false,
             showSubmitButton: false,
             onTapSave: () {},
+            showCustomIcon: true,
+            customIcon: Icons.delete,
+            onTapCustomIcon: deleteNotification,
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
           body: getBodybuilder(state, height),
         );
       },
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
+  }
+
+  void deleteNotification() {
+    BlocProvider.of<NotificationDetailsCubit>(context).deleteNotification();
   }
 
   getBodybuilder(NotificationDetailsState state, height) {
@@ -114,7 +118,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                         Container(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            '${state.model.subject}',
+                            '${state.model.content?.subject}',
                             style: Styles.styleHeaderGreyText30,
                           ),
                         ),

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/dashboard/notifications/notification_details/models/notifications_response_model.dart';
 import 'package:db_atom/src/features/dashboard/notifications/services/notifications_services.dart';
 import 'package:db_atom/src/services/CommonServices.dart';
 
@@ -12,6 +11,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   NotificationsBloc() : super(const NotificationsState()) {
     on<InitializeValues>(_initializeValues);
     on<DeleteRecord>(_deleteRecord);
+    on<DeleteAllRecords>(_deleteAllRecords);
     on<FetchData>(
       _fetchMaterialMovements,
       transformer: droppable(),
@@ -102,6 +102,31 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
       return emit(
         state.copyWith(items: updatedItems, status: FormStatus.success),
+      );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    } on Exception {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
+  FutureOr<void> _deleteAllRecords(
+      DeleteAllRecords event, Emitter<NotificationsState> emit) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    try {
+      await NotificationServices().deleteAll();
+      return emit(
+        state.copyWith(items: [], status: FormStatus.success),
       );
     } on GenericResponse catch (e) {
       emit(
