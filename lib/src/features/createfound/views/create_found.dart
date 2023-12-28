@@ -388,15 +388,6 @@ class _CreateFoundState extends State<CreateFound> {
       log('---state?.loggedInUser-${state?.loggedInUser}--');
       handoverSecurity = state?.loggedInUser;
     }
-    // int statusValue = 0;
-    // if (statusTextController.text.toLowerCase() == "found") {
-    //   statusValue = 0;
-    // } else if (statusTextController.text.toLowerCase() ==
-    //     "under security custody") {
-    //   statusValue = 0;
-    // } else {
-    //   statusValue = 2;
-    // }
 
     log('-assettypeTextController.text---${assettypeTextController.text}----');
     log('---condition type assest---${!assettypeTextController.text.isEmptyOrNull ? ((assettypeTextController.text.toLowerCase()) == 'company' ? 1 : 0) : null}----');
@@ -498,7 +489,7 @@ class _CreateFoundState extends State<CreateFound> {
     });
   }
 
-  createFoundValidations(BuildContext context, CreateFoundState state) {
+  createFoundValidations(BuildContext context) {
     if (statusTextController.text.isEmpty &&
         createdByValue.isEmpty &&
         (locationSelectedlist?.name ?? "").isEmpty &&
@@ -619,10 +610,10 @@ class _CreateFoundState extends State<CreateFound> {
             Validator().showToast(context, "Please enter claim");
           }
         } else {
-          submitForm(true, widget.model?.id ?? 0, state: state);
+          submitForm(true, widget.model?.id ?? 0);
         }
       } else {
-        submitForm(true, widget.model?.id ?? 0, state: state);
+        submitForm(true, widget.model?.id ?? 0);
       }
     }
   }
@@ -806,7 +797,30 @@ class _CreateFoundState extends State<CreateFound> {
                 ),
               ),
             ),
+            Visibility(
+              visible: widget.model?.status != 2,
+              child: GestureDetector(
+                onTap: () async {
+                  //loginFormKey.currentState!.validate();
+                  FocusScope.of(context).unfocus();
+                  createFoundValidations(context);
+                },
+                child: const Padding(
+                  padding: EdgeInsets.only(right: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(
+                        Icons.send,
+                        color: AppColors.white,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
+
           //backgroundColor: AppColors.navigationSkybluecolor,
         ),
         backgroundColor: AppColors.backgroundWhitecolor,
@@ -1076,12 +1090,24 @@ class _CreateFoundState extends State<CreateFound> {
                                     ? false
                                     : true,
                                 onChange: (String username) {
-                                  //this.username = username;
+                                  // additionalinformationTextController.text += '\n';
                                   setState(() {});
                                 },
                                 validateTextField: (String? user) {},
+                                onfieldSubmitted: (String value) {
+                                  additionalinformationTextController.value =
+                                      TextEditingValue(
+                                    text:
+                                        '${additionalinformationTextController.text}\n',
+                                    selection: TextSelection.collapsed(
+                                      offset:
+                                          additionalinformationTextController
+                                                  .text.length +
+                                              1,
+                                    ),
+                                  );
+                                },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// quantitiy
                               CommonWidgets.textDisplay(
@@ -1418,24 +1444,6 @@ class _CreateFoundState extends State<CreateFound> {
                                         height * 0.01)
                                     : Container(),
 
-                                /// is claimant accepted by email
-
-                                widget.model != null &&
-                                        isClaimantDBEmployeeSelected == 1
-                                    ? CommonWidgets.textDisplay(
-                                        Constants.isclaimantacceptedbyemail,
-                                        Styles.textStyleBlack14,
-                                        isMandatory: true)
-                                    : Container(),
-                                widget.model != null &&
-                                        isClaimantDBEmployeeSelected == 1
-                                    ? radioButtonHandling(
-                                        isClaimantAcceptedByemail,
-                                        Constants.isclaimantacceptedbyemail,
-                                        isDisableColor: isDisabled,
-                                      )
-                                    : Container(),
-
                                 /// is claimant accepted to sign
                                 widget.model != null
                                     ? CommonWidgets.textDisplay(
@@ -1452,59 +1460,34 @@ class _CreateFoundState extends State<CreateFound> {
                                     : Container(),
 
                                 ///TODO: Need to work on signature
-                                if(isClaimantAcceptedtoSignSelected== 1)...[
-                                /// Claimant Signature
-                                buildSignature(
-                                  controller: claimantSignatureController,
-                                  label: Constants.claimantSignature,
-                                  spaceHeight: height,
-                                  state: state,
-                                ),
-],
-                                // widget.model != null &&
-                                //         isClaimantAcceptedtoSignSelected == 1
-                                //     ? CommonWidgets.textDisplay(
-                                //         Constants.claimantsignature,
-                                //         Styles.textStyleBlack14,
-                                //         isMandatory: true)
-                                //     : Container(),
-                                // widget.model != null &&
-                                //         isClaimantAcceptedtoSignSelected == 1
-                                //     ? CommonWidgets.verticalSpacerWidget(
-                                //         height * 0.001)
-                                //     : Container(),
-                                // widget.model != null &&
-                                //         isClaimantAcceptedtoSignSelected == 1
-                                //     ? FlutterInputField(
-                                //         lineHeight: 6,
-                                //         textFieldController:
-                                //             claimantsignatureTextController,
-                                //         isEnable: false,
-                                //         textFormKey:
-                                //             Keys.claimantsignatureTextController,
-                                //         isDisableColor: true,
-                                //         hintText: '',
-                                //         onChange: (String username) {
-                                //           //this.username = username;
-                                //           setState(() {});
-                                //         },
-                                //         validateTextField: (String? user) {},
-                                //       )
-                                //     : Container(),
-                                // widget.model != null
-                                //     ? CommonWidgets.verticalSpacerWidget(
-                                //         height * 0.01)
-                                //     : Container(),
+                                if (isClaimantAcceptedtoSignSelected == 1) ...[
+                                  /// Claimant Signature
+                                  buildSignature(
+                                    controller: claimantSignatureController,
+                                    label: Constants.claimantSignature,
+                                    spaceHeight: height,
+                                    state: state,
+                                  ),
+                                ],
+
+                                /// is claimant accepted by email
+
+                                widget.model != null &&
+                                        isClaimantAcceptedtoSignSelected == 0
+                                    ? CommonWidgets.textDisplay(
+                                        Constants.isclaimantacceptedbyemail,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true)
+                                    : Container(),
+                                widget.model != null &&
+                                        isClaimantAcceptedtoSignSelected == 0
+                                    ? radioButtonHandling(
+                                        isClaimantAcceptedByemail,
+                                        Constants.isclaimantacceptedbyemail,
+                                        isDisableColor: !isDisabled,
+                                      )
+                                    : Container(),
                               ],
-                              // if (widget.model?.status == 1 ||
-                              //     widget.model?.status == 2) ...[
-                              //  buildSignature(
-                              //    controller: claimantSignature,
-                              //    label: Constants.claimantsignature,
-                              //    spaceHeight: height,
-                              //    state: state,
-                              //  ),
-                              //],
 
                               /// Item Handover By
                               if (widget.model?.status == 2) ...[
@@ -1524,16 +1507,6 @@ class _CreateFoundState extends State<CreateFound> {
                                     height * 0.001),
                                 datepickerWidgetLoading(
                                     handedoverdatedateTextController),
-                                // BaseDate().datePickerWidgetLoading(
-                                //   showAfterDate: false,
-                                //   textController:
-                                //       handedoverdatedateTextController,
-                                //   onChange: (String value) {
-                                //     widget.model?.handoverDate =
-                                //         Utils().formatTime(value);
-                                //   },
-                                //   context: context,
-                                // ),
                               ],
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -1563,9 +1536,6 @@ class _CreateFoundState extends State<CreateFound> {
                                                       .navigationSkybluecolor,
                                                 ),
                                                 onPressed: () {
-                                                  // Navigator.pushNamed(context,
-                                                  //     createFoundAttachmentRoute);
-                                                  //UploadAttachment();
                                                   showDialog(
                                                       context: context,
                                                       builder: (BuildContext
@@ -1785,7 +1755,7 @@ class _CreateFoundState extends State<CreateFound> {
       onTap: () async {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
-        createFoundValidations(context, state);
+        createFoundValidations(context);
       },
     );
   }
@@ -1899,10 +1869,12 @@ class _CreateFoundState extends State<CreateFound> {
             if (name == Constants.isclaimantacceptedtosign &&
                 widget.model?.status != 2) {
               isClaimantAcceptedtoSignSelected = selectedValue;
-            } else if (name == Constants.isclaimantacceptedbyemail &&
-                widget.model?.status != 2) {
-              isClaimantAcceptedByemail = selectedValue;
-            } else if (name == Constants.isclaimantdbemployee &&
+            }
+            // else if (name == Constants.isclaimantacceptedbyemail &&
+            //     widget.model?.status != 2) {
+            //   isClaimantAcceptedByemail = selectedValue;
+            // }
+            else if (name == Constants.isclaimantdbemployee &&
                 widget.model?.status != 2) {
               isClaimantDBEmployeeSelected = selectedValue;
             } else if (name == Constants.isdepositordbemployee &&
