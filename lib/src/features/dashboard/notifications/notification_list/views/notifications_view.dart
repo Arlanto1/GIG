@@ -1,4 +1,5 @@
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/dashboard/notifications/notification_details/models/notifications_response_model.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart'
     as nb;
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -55,7 +56,7 @@ class _NotificationsViewState extends State<NotificationsView> {
         showPopUp: false,
         showSaveButton: false,
         showCustomIcon: true,
-        customIcon: Icons.clear_all,
+        customIcon: Icons.delete_sweep,
         onTapCustomIcon: () {},
       ),
       body: BlocConsumer<nb.NotificationsBloc, nb.NotificationsState>(
@@ -91,7 +92,7 @@ class _NotificationsViewState extends State<NotificationsView> {
                 if (index < state.items.length) {
                   return index >= state.items.length
                       ? const BaseLoader()
-                      : const NotificationTile();
+                      : NotificationTile(item: state.items[index]);
                 }
                 return null;
               },
@@ -106,7 +107,10 @@ class _NotificationsViewState extends State<NotificationsView> {
 class NotificationTile extends StatelessWidget {
   const NotificationTile({
     super.key,
+    required this.item,
   });
+
+  final NotificationModel item;
 
   @override
   Widget build(BuildContext context) {
@@ -114,51 +118,51 @@ class NotificationTile extends StatelessWidget {
       padding: const EdgeInsets.all(0.5),
       child: Slidable(
         key: key,
-        startActionPane: ActionPane(
-          // A motion is a widget used to control how the pane animates.
-          motion: const ScrollMotion(),
-
-          // A pane can dismiss the Slidable.
-          dismissible: DismissiblePane(onDismissed: () {}),
-
-          // All actions are defined in the children parameter.
-          children: [
-            // A SlidableAction can have an icon and/or a label.
-            SlidableAction(
-              onPressed: doNothing,
-              backgroundColor: const Color(0xFFFE4A49),
-              foregroundColor: Colors.white,
-              icon: Icons.delete,
-              label: 'Delete',
-            ),
-            SlidableAction(
-              onPressed: doNothing,
-              backgroundColor: const Color(0xFF21B7CA),
-              foregroundColor: Colors.white,
-              icon: Icons.share,
-              label: 'Share',
-            ),
-          ],
-        ),
+        // startActionPane: ActionPane(
+        //   // A motion is a widget used to control how the pane animates.
+        //   motion: const ScrollMotion(),
+        //
+        //   // A pane can dismiss the Slidable.
+        //   dismissible: DismissiblePane(onDismissed: () {}),
+        //
+        //   // All actions are defined in the children parameter.
+        //   children: [
+        //     // A SlidableAction can have an icon and/or a label.
+        //     SlidableAction(
+        //       onPressed: deleteNotification,
+        //       backgroundColor: const Color(0xFFFE4A49),
+        //       foregroundColor: Colors.white,
+        //       icon: Icons.delete,
+        //       label: 'Delete',
+        //     ),
+        //     SlidableAction(
+        //       onPressed: deleteNotification,
+        //       backgroundColor: const Color(0xFF21B7CA),
+        //       foregroundColor: Colors.white,
+        //       icon: Icons.share,
+        //       label: 'Share',
+        //     ),
+        //   ],
+        // ),
         // The end action pane is the one at the right or the bottom side.
         endActionPane: ActionPane(
           motion: const ScrollMotion(),
           children: [
+            // SlidableAction(
+            //   // An action can be bigger than the others.
+            //   flex: 2,
+            //   onPressed: deleteNotification,
+            //   backgroundColor: const Color(0xFF7BC043),
+            //   foregroundColor: Colors.white,
+            //   icon: Icons.archive,
+            //   label: 'Archive',
+            // ),
             SlidableAction(
-              // An action can be bigger than the others.
-              flex: 2,
-              onPressed: doNothing,
-              backgroundColor: const Color(0xFF7BC043),
-              foregroundColor: Colors.white,
-              icon: Icons.archive,
-              label: 'Archive',
-            ),
-            SlidableAction(
-              onPressed: doNothing,
-              backgroundColor: const Color(0xFF0392CF),
+              onPressed: deleteNotification,
+              backgroundColor: const Color(0xFFFE4A49),
               foregroundColor: Colors.white,
               icon: Icons.save,
-              label: 'Save',
+              label: 'Remove',
             ),
           ],
         ),
@@ -180,7 +184,7 @@ class NotificationTile extends StatelessWidget {
             // );
           },
           borderRadius: BorderRadius.circular(8),
-          child: const Padding(
+          child: Padding(
             padding: EdgeInsets.all(15),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -189,17 +193,17 @@ class NotificationTile extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Incoming Material Record Added.',
-                      style: TextStyle(
+                      '${item.content?.subject}',
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text('1 hour ago'),
                   ],
                 ),
                 Text(
-                  'Ashok has created the record for 5 items.',
+                  '${item.email}',
                 ),
               ],
             ),
@@ -209,5 +213,8 @@ class NotificationTile extends StatelessWidget {
     );
   }
 
-  void doNothing(BuildContext context) {}
+  void deleteNotification(BuildContext context) {
+    BlocProvider.of<nb.NotificationsBloc>(context)
+        .add(nb.DeleteRecord(item.id!));
+  }
 }

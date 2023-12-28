@@ -16,3 +16,9 @@ class FetchData extends NotificationsEvent {
 class InitializeValues extends NotificationsEvent {
   const InitializeValues();
 }
+
+class DeleteRecord extends NotificationsEvent {
+  final int id;
+
+  const DeleteRecord(this.id);
+}
