@@ -60,6 +60,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
           title: Constants.guardingMasterDataTitle,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
           excelAPIName: 'exportGMDataExcel',
           pdfAPIName: 'exportGMDataPDF',
         ),

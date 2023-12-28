@@ -101,10 +101,16 @@ class _SstIncidentGeneralInfoViewState
                 : Constants.externalVendor,
             showPopUp: false,
             showSaveButton: disableForm ? false : true,
+            showSubmitButton: disableForm ? false : true,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
                   .submitForm(isSaveOnly: true);
+            },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
+                  .submitForm(isSaveOnly: false);
             },
           ),
           backgroundColor: AppColors.backgroundWhitecolor,

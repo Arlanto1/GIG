@@ -92,6 +92,7 @@ class _AnnualPowerShutdownListViewState
         title: Constants.annualPowerShutdownList,
         showPopUp: true,
         showSaveButton: false,
+        showSubmitButton: false,
         excelAPIName: 'exportEPExcel',
         pdfAPIName: 'exportEPPDF',
       ),

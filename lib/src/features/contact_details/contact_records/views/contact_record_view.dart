@@ -102,6 +102,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
           title: Constants.contactDetails,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
           excelAPIName: 'exportMMExcel',
           pdfAPIName: 'exportMMPDF',
         ),

@@ -114,6 +114,11 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                     !isReadOnly
                 ? true
                 : false,
+            showSubmitButton: state.model.status != 6 &&
+                // state.model.status != 1 &&
+                !isReadOnly
+                ? true
+                : false,
             popAndReplace: () {
               log('--popAndReplace-----');
               // Navigator.pop(context);
@@ -128,6 +133,13 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
               BlocProvider.of<ContactDetailsCubit>(context).submitForm(
                 isSaveOnly: true,
                 navigateToNextScreen: false,
+              );
+            },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<ContactDetailsCubit>(context).submitForm(
+                isSaveOnly: false,
+                navigateToNextScreen: true,
               );
             },
           ),

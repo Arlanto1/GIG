@@ -29,6 +29,7 @@ class GeneralInfoTilesView extends StatelessWidget {
         title: Constants.generalInformation,
         showPopUp: true,
         showSaveButton: false,
+        showSubmitButton: false,
       ),
       body: SingleChildScrollView(
         child: Align(

@@ -102,6 +102,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
               : Constants.externalVendor,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
           excelAPIName: 'exportSSSLAExcel',
           pdfAPIName: 'exportSSSLAPDF',
         ),
