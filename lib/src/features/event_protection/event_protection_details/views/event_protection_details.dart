@@ -29,6 +29,7 @@ class EventProtectionDetails extends StatelessWidget {
         title: Constants.eventProtectionTitle,
         showPopUp: true,
         showSaveButton: false,
+        showSubmitButton: false,
       ),
       body: SingleChildScrollView(
         child: Align(

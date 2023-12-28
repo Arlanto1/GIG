@@ -101,6 +101,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
         title: Constants.contactDetails,
         showPopUp: true,
         showSaveButton: false,
+        showSubmitButton: false,
         excelAPIName: 'exportGcdExcel',
         pdfAPIName: 'exportGcdPDF',
       ),

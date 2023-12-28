@@ -51,6 +51,7 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
         title: widget.title,
         showPopUp: false,
         showSaveButton: false,
+        showSubmitButton: false,
       ),
       body: BlocConsumer<PayRateCubit, PayRateState>(
         listener: (context, state) {

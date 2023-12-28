@@ -98,10 +98,16 @@ class _EventInfoViewState extends State<EventInfoView> {
             title: widget.title,
             showPopUp: false,
             showSaveButton: state.model.status != 4 ? true : false,
+            showSubmitButton: state.model.status != 4 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<EventInfoCubit>(context)
                   .submitForm(isSaveOnly: true);
+            },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<EventInfoCubit>(context)
+                  .submitForm(isSaveOnly: false);
             },
           ),
           backgroundColor: AppColors.backgroundWhitecolor,

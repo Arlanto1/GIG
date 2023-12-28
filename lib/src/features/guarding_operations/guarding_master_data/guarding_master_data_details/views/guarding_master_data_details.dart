@@ -126,10 +126,16 @@ class _GuardingMasterDataDetailsState extends State<GuardingMasterDataDetails> {
             title: widget.title,
             showPopUp: false,
             showSaveButton: state.model.status != 5 ? true : false,
+            showSubmitButton: state.model.status != 5 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
                   .submitForm(isSaveOnly: true);
+            },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+                  .submitForm(isSaveOnly: false);
             },
           ),
           backgroundColor: AppColors.backgroundWhitecolor,

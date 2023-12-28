@@ -80,10 +80,16 @@ class _GuardingMasterDataDetailsState extends State<OccurrenceDetails> {
             //title: widget.title,
             showPopUp: false,
             showSaveButton: state.model.status != 1 ? true : false,
+            showSubmitButton: state.model.status != 1 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
                   .submitForm(isSaveOnly: true);
+            },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
+                  .submitForm(isSaveOnly: false);
             },
             title: Constants.createOccurrence,
           ),

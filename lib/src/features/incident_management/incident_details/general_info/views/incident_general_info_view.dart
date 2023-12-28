@@ -91,6 +91,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
             title: Constants.generalInformation,
             showPopUp: false,
             showSaveButton: disableForm ? false : true,
+            showSubmitButton: disableForm ? false : true,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<IncidentGeneralInfoCubit>(context)

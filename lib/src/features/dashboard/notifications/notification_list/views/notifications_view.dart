@@ -55,6 +55,7 @@ class _NotificationsViewState extends State<NotificationsView> {
         title: Constants.notifications,
         showPopUp: false,
         showSaveButton: false,
+        showSubmitButton: false,
         showCustomIcon: true,
         customIcon: Icons.delete_sweep,
         onTapCustomIcon: () {},

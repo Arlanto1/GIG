@@ -115,7 +115,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           if (widget.model?.status == null ||
               widget.model?.status == 0 ||
               widget.model?.status == 1 ||
-              widget.model?.status == 2 ||
+              widget.model?.status != 2 ||
               widget.model?.status == 3) ...[
             GestureDetector(
               onTap: () {
@@ -128,21 +128,21 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 ),
               ),
             ),
-            // GestureDetector(
-            //   onTap: () {
-            //     passValidations(context, globalState);
-            //   },
-            //   child: const Padding(
-            //     padding: EdgeInsets.only(right: 20.0),
-            //     child: Icon(
-            //       Icons.send,
-            //       color: AppColors.backgroundWhitecolor,
-            //     ),
-            //     // SvgPicture.asset(
-            //     //   AppIcon.createfoundsaveicon,
-            //     //),
-            //   ),
-            // ),
+            GestureDetector(
+              onTap: () {
+                passValidations(context, globalState);
+              },
+              child: const Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: Icon(
+                  Icons.send,
+                  color: AppColors.backgroundWhitecolor,
+                ),
+                // SvgPicture.asset(
+                //   AppIcon.createfoundsaveicon,
+                //),
+              ),
+            ),
           ],
         ],
         //backgroundColor: AppColors.navigationSkybluecolor,
@@ -1029,7 +1029,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     height * 0.001),
                                 GestureDetector(
                                   onTap: () {
-                                    if(widget.model == null ||widget.model?.status == 0){
+                                    if (widget.model == null ||
+                                        widget.model?.status == 0) {
                                       if (!isDisabled) {
                                         //daypassNoDialog();
                                         //passnumberaddButtonwidgetLoading(state);
@@ -1045,7 +1046,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       isEnable: false,
                                       isDisableColor: widget.model == null ||
                                               passCategoryTextController
-                                                  .text.isEmpty || widget.model?.status ==0
+                                                  .text.isEmpty ||
+                                              widget.model?.status == 0
                                           ? false
                                           : true,
                                       textFieldController: widget.passId == '3'
@@ -1060,7 +1062,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       onTap: () {
                                         if (widget.model == null ||
                                             daypassnoTextController
-                                                .text.isEmpty || widget.model?.status == 0) {
+                                                .text.isEmpty ||
+                                            widget.model?.status == 0) {
                                           //passnumberaddButtonwidgetLoading(state);
                                           if (widget.passId == '3') {
                                             passCategoryDialog();
@@ -1079,8 +1082,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           onPressed: () {
                                             print('suffixIcon pressed');
                                             if (widget.model == null ||
-                                            daypassnoTextController
-                                                .text.isEmpty || widget.model?.status == 0) {
+                                                daypassnoTextController
+                                                    .text.isEmpty ||
+                                                widget.model?.status == 0) {
                                               //passnumberaddButtonwidgetLoading(state);
                                               if (widget.passId == '3') {
                                                 passCategoryDialog();
@@ -1782,8 +1786,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             final currentDate = DateTime.now();
             if (value.equalsIgnoreCase('Permanent')) {
               String nextFormattedDate = DateFormat(Constants.dateFormat)
-                  .format(currentDate.add(const Duration(days: 1227)));
+                  .format(currentDate.add(const Duration(days: 1189)));
               passvaliduntilTextController.text = nextFormattedDate;
+              companynameTextController.text = "Deutsche Bank";
+              isFTECompanyNameEditable = false;
             } else {
               final currentDate = DateTime.now();
               String nextformattedDate = DateFormat(Constants.fulldateFormat)
@@ -2157,7 +2163,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget companytypeaddButtonwidgetLoading(CreatePassMgmtState state) {
     return TextfieldAddButton(
-      title: state.selectedCompanyType?.name ?? '',
+      title: passCategoryTextController.text == 'Permanent'
+          ? "FTE"
+          : state.selectedCompanyType?.name ?? '',
       height: 60,
       isDisableColor:
           widget.model?.status != 0 && widget.model != null ? true : false,
