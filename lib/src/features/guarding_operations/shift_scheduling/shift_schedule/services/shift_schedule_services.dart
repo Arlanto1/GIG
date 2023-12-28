@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/models/requestModel/duty_post_master_request.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/requestModel/shift_schedule_request.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
 
 
@@ -47,7 +48,7 @@ class ShiftScheduleServices {
   /// Create Services
 
   Future<GenericResponse> createShiftSchedule({
-    required DutyPostMasterRequest body,
+    required ShiftScheduleRequest body,
     required bool isSubmit,
   }) async {
     final String url =

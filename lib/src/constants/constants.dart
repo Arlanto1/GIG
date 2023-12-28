@@ -707,7 +707,7 @@ class Constants {
   static const String shiftSchedule = 'Shift Schedule';
   static const String editShiftSchedule = 'Edit Shift Schedule';
   static const String createShiftSchedule = 'Create Shift Schedule';
-
+  static const String dutyType = 'Duty Type';
 }
 
 //static const String height = 'Height(cm)';

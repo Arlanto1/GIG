@@ -88,3 +88,4 @@ const String dutyPostNameMasterDetailsRoute = '/dutyPostNameMasterDetailsRoute';
 const String attendanceListRoute = '/attendanceListRoute';
 
 const String shiftScheduleListRoute = '/shiftScheduleListRoute';
+const String shiftScheduleDetailsRoute = '/shiftScheduleDetailsRoute';

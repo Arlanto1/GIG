@@ -39,6 +39,10 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_p
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/duty_post_name_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/shift_schedule_model.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/cubits/shift_schedule_details_cubit.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/bloc/shift_schedule_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/views/shift_schedule_list_view.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
@@ -1056,6 +1060,30 @@ class RouteGenerator {
                 ..add(const FetchShiftScheduleList(startPos: 0, maxPos: 20)),
               child: const ShiftScheduleListView(),
             ));
+
+      case shiftScheduleDetailsRoute:
+        ShiftScheduleServices services = ShiftScheduleServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        ShiftScheduleModel? shiftScheduleModel =
+        arguments["shiftScheduleModel"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<ShiftScheduleDetailsCubit>(
+            create: (_) => ShiftScheduleDetailsCubit(
+              services: services,
+              model: shiftScheduleModel,
+              commonServices: commonServices,
+            ),
+            child: ShiftScheduleDetailsView(
+              model: shiftScheduleModel,
+              title: title,
+            ),
+          ),
+        );
+
       default:
         return MaterialPageRoute(builder: (context) => const DashboardView());
     }

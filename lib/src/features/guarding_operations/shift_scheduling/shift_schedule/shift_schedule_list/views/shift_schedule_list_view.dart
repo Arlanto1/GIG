@@ -50,7 +50,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
           backgroundColor: AppColors.navigationSkybluecolor,
           foregroundColor: AppColors.backgroundWhitecolor,
           onPressed: () => {
-            Navigator.pushNamed(context, dutyPostMasterDetailsRoute,
+            Navigator.pushNamed(context, shiftScheduleDetailsRoute,
                 arguments: {"title": Constants.createShiftSchedule}),
           },
         ),

@@ -193,3 +193,8 @@ const List<Label> keysDropDownValues = [
   Label(key: 'Keys', value: '1'),
   Label(key: 'Master Keys', value: '2'),
 ];
+
+const List<Label> shiftDutyTypeDropDownValues = [
+  Label(key: 'Transport', value: '1'),
+  Label(key: 'Building', value: '2'),
+];
