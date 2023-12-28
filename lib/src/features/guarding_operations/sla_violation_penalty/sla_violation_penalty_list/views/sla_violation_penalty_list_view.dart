@@ -76,6 +76,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
           title: Constants.slaViolationPenalty,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
           excelAPIName: 'exportSvpExcel',
           pdfAPIName: 'exportSvpPDF',
         ),

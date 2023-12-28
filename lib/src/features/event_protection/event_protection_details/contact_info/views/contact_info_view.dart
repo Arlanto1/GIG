@@ -106,11 +106,17 @@ class _ContactInfoViewState extends State<ContactInfoView> {
             title: Constants.generalInformation,
             showPopUp: false,
             showSaveButton: true,
+            showSubmitButton: true,
             // showSaveButton: state.model.status != 4 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<ContactInfoCubit>(context)
                   .submitForm(isSaveOnly: true);
+            },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<ContactInfoCubit>(context)
+                  .submitForm(isSaveOnly: false);
             },
           ),
           backgroundColor: AppColors.backgroundWhitecolor,

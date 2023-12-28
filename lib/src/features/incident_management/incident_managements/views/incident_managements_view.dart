@@ -107,6 +107,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
               title: Constants.incidentManagement,
               showPopUp: true,
               showSaveButton: false,
+              showSubmitButton: false,
               excelAPIName: 'exportIMExcel',
               pdfAPIName: 'exportIMPdf',
             ),

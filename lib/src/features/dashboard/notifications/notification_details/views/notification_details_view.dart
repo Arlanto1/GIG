@@ -71,6 +71,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
             title: Constants.notifications,
             showPopUp: false,
             showSaveButton: false,
+            showSubmitButton: false,
             onTapSave: () {},
           ),
           backgroundColor: AppColors.backgroundWhitecolor,

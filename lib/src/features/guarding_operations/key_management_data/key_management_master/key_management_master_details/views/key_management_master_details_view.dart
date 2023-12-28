@@ -93,10 +93,16 @@ class _KeyManagementMasterDetailsViewState
             title: widget.title,
             showPopUp: false,
             showSaveButton: state.model.status != 5 ? true : false,
+            showSubmitButton: state.model.status != 5 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
                   .submitForm(isSaveOnly: true);
+            },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
+                  .submitForm(isSaveOnly: false);
             },
           ),
           backgroundColor: AppColors.backgroundWhitecolor,

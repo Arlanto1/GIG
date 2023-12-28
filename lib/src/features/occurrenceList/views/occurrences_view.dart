@@ -72,6 +72,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
           title: Constants.occurrence,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
           excelAPIName: 'exportOCCExcel',
           pdfAPIName: 'exportOCCPDF',
         ),

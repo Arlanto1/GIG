@@ -4,6 +4,7 @@ import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../index.dart';
 import '../../constants/app_icon.dart';
 import '../app_bar.dart';
 import '../custom_pop_menu.dart';
@@ -15,6 +16,8 @@ class BaseAppBar {
     required String title,
     required bool showPopUp,
     required bool showSaveButton,
+    required bool showSubmitButton,
+    Function? onTapSubmit,
     Function? onTapSave,
     void Function()? popAndReplace,
     bool? showCustomIcon,
@@ -73,6 +76,20 @@ class BaseAppBar {
             ),
           )
         ],
+        if (showSubmitButton) ...[
+          GestureDetector(
+            onTap: () {
+              onTapSubmit!();
+            },
+            child: const Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: Icon(
+                Icons.send,
+                color: AppColors.white,
+              ),
+            ),
+          )
+        ],
         if (showCustomIcon ?? false) ...[
           GestureDetector(
             onTap: () {
@@ -80,7 +97,7 @@ class BaseAppBar {
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 20.0),
-              child: Icon(customIcon ??Icons.add, color: Colors.white),
+              child: Icon(customIcon ?? Icons.add, color: Colors.white),
             ),
           )
         ],

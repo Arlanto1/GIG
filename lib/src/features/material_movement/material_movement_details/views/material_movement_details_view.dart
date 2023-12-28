@@ -158,10 +158,23 @@ class _MaterialMovementDetailsViewState
                     !isReadOnly
                 ? true
                 : false,
+            showSubmitButton: state.model.status != 6 &&
+                state.model.status != 1 &&
+                !isReadOnly
+                ? true
+                : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
                 isSaveOnly: true,
+                receiverSignatureController: receiverSignatureController,
+                securitySignatureController: securitySignatureController,
+              );
+            },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
+                isSaveOnly: false,
                 receiverSignatureController: receiverSignatureController,
                 securitySignatureController: securitySignatureController,
               );
@@ -1999,10 +2012,8 @@ class _MaterialMovementDetailsViewState
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CommonWidgets.textDisplay(
-              label,
-              Styles.textStyleBlack14,
-            ),
+            CommonWidgets.textDisplay(label, Styles.textStyleBlack14,
+                isMandatory: true),
             Row(
               children: [
                 IconButton(
