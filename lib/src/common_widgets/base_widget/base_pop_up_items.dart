@@ -268,7 +268,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         CommonWidgets.verticalSpacerWidget(5),
         Row(
           children: [
-            Utils().buildStatusRow(widget.status ?? 0),
+            Utils().buildMaterialMovementStatusRow(widget.status ?? 0),
           ],
         ),
       ],

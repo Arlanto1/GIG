@@ -2,7 +2,7 @@ part of 'notification_details_cubit.dart';
 
 class NotificationDetailsState extends Equatable {
   final FormStatus status;
-  final NotificationDetailsModel model;
+  final NotificationModel model;
   final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -10,7 +10,7 @@ class NotificationDetailsState extends Equatable {
   final CdUiLabels? labels;
 
   factory NotificationDetailsState.initial({
-    required NotificationDetailsModel model,
+    required NotificationModel model,
     required Locations locations,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
@@ -43,13 +43,12 @@ class NotificationDetailsState extends Equatable {
 
   NotificationDetailsState copyWith({
     FormStatus? status,
-    NotificationDetailsModel? model,
+    NotificationModel? model,
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
     String? message,
     final CdUiLabels? labels,
-
   }) {
     return NotificationDetailsState(
       status: status ?? this.status,

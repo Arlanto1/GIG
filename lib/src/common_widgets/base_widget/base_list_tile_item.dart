@@ -182,7 +182,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               !widget.isSecuritySystemSLA &&
                               !widget.isContactDetailsStatus) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
-                            Utils().buildStatusRow(widget.status ?? 0),
+                            Utils().buildMaterialMovementStatusRow(
+                                widget.status ?? 0),
                           ],
                           if (widget.guardRank != 0 &&
                               widget.isMasterGuard) ...[

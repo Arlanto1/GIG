@@ -209,7 +209,7 @@ class Utils {
     );
   }
 
-  Widget buildStatusRow(int status) {
+  Widget buildMaterialMovementStatusRow(int status) {
     String statusText;
 
     switch (status) {
