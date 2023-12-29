@@ -10,6 +10,7 @@ part 'notifications_state.dart';
 class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   NotificationsBloc() : super(const NotificationsState()) {
     on<InitializeValues>(_initializeValues);
+    on<ReadRecord>(_readRecord);
     on<DeleteRecord>(_deleteRecord);
     on<DeleteAllRecords>(_deleteAllRecords);
     on<FetchData>(
@@ -83,6 +84,35 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       );
       return;
     } catch (e) {
+      return emit(state.copyWith(status: FormStatus.failure));
+    }
+  }
+
+  FutureOr<void> _readRecord(
+      ReadRecord event, Emitter<NotificationsState> emit) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    try {
+      await NotificationServices().readRecord(event.id);
+
+      final updatedItems =
+          state.items.where((item) => item.id != event.id).toList();
+
+      return emit(
+        state.copyWith(items: updatedItems, status: FormStatus.success),
+      );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.error,
+        ),
+      );
+      return;
+    } on Exception {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

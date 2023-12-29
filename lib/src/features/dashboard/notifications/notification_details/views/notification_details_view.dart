@@ -72,7 +72,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
             onTapSave: () {},
             showCustomIcon: true,
             customIcon: Icons.delete,
-            onTapCustomIcon: deleteNotification,
+            onTapCustomIcon: () => deleteNotification(state.model.id!),
           ),
           backgroundColor: AppColors.backgroundWhitecolor,
           body: getBodybuilder(state, height),
@@ -81,8 +81,8 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-  void deleteNotification() {
-    BlocProvider.of<NotificationDetailsCubit>(context).deleteNotification();
+  void deleteNotification(int id) {
+    BlocProvider.of<NotificationDetailsCubit>(context).deleteNotification(id);
   }
 
   getBodybuilder(NotificationDetailsState state, height) {
@@ -126,14 +126,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         SingleChildScrollView(
                           child: Html(
-                            data: """
-                <div>Follow<a class='sup'><sup>pl</sup></a> 
-                  Below hr
-                    <b>Bold</b>
-                <h1>Sample Notification Detail.</h1>, 
-                and do not follow other guardians apart from Him. Little do 
-                <span class='h'>you remind yourselves</span><a class='f'><sup f=2437>1</sup></a></div>
-                """,
+                            data: state.model.content?.text ?? '',
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.04),

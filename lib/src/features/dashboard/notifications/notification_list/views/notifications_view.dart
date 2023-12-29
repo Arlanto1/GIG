@@ -45,7 +45,7 @@ class _NotificationsViewState extends State<NotificationsView> {
     }
   }
 
-  void deleteAllNotification(BuildContext context) {
+  void deleteAllNotification() {
     BlocProvider.of<nb.NotificationsBloc>(context)
         .add(const nb.DeleteAllRecords());
   }
@@ -173,6 +173,8 @@ class NotificationTile extends StatelessWidget {
         ),
         child: InkWell(
           onTap: () {
+            // Mark Notification as Read
+            // BlocProvider.of<nb.NotificationsBloc>(context).add(nb.ReadRecord(item.id!));
             Navigator.pushNamed(
               context,
               notificationDetailsViewRoute,
@@ -189,28 +191,37 @@ class NotificationTile extends StatelessWidget {
             // );
           },
           borderRadius: BorderRadius.circular(8),
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      '${item.content?.subject}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
+          child: ColoredBox(
+            color: item.status == 0
+                ? AppColors.white
+                : AppColors.disabletextfieldBackground,
+            child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        '${item.content?.subject}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const Spacer(),
-                    // const Text('1 hour ago'),
-                  ],
-                ),
-                Text(
-                  '${item.email}',
-                ),
-              ],
+                      const Spacer(),
+                      Text(
+                        Utils.timestamptoDateConversion(
+                            int.tryParse(item.createdDate ?? ''),
+                            Constants.fulldateFormat),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    '${item.email}',
+                  ),
+                ],
+              ),
             ),
           ),
         ),

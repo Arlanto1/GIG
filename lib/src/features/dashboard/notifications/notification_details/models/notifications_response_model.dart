@@ -33,7 +33,7 @@ class NotificationModel {
   final String? email;
   final Content? content;
   final int? status;
-  final int? createdDate;
+  final String? createdDate;
 
   NotificationModel({
     this.id,
@@ -50,7 +50,7 @@ class NotificationModel {
             ? Content.fromJson(json['content'] as Map<String, dynamic>)
             : null,
         status = json['status'] as int?,
-        createdDate = json['createdDate'] as int?;
+        createdDate = json['createdDate'] as String?;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -64,26 +64,26 @@ class NotificationModel {
 class Content {
   final int? id;
   final String? subject;
-  final String? text;
   final int? transferDate;
+  final String? text;
 
   Content({
     this.id,
-    this.subject,
     this.text,
+    this.subject,
     this.transferDate,
   });
 
   Content.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
-        subject = json['subject'] as String?,
         text = json['text'] as String?,
+        subject = json['subject'] as String?,
         transferDate = json['transferDate'] as int?;
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'subject': subject,
         'text': text,
-        'transferDate': transferDate,
+        'subject': subject,
+        'transferDate': transferDate
       };
 }

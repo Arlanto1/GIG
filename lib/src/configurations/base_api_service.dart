@@ -194,6 +194,55 @@ class BaseApiService {
     }
   }
 
+  Future<dynamic> patchRequest({
+    required String url,
+    bool? isAuthenticated,
+  }) async {
+    try {
+      log('url--delete---$url');
+      var headers = await getHeaders(
+        isAuthenticated: isAuthenticated ?? true,
+      );
+      var response = await http.patch(
+        Uri.parse(url),
+        headers: headers,
+      );
+      log('response.statusCode----${response.statusCode}');
+      final responseBody = json.decode(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        return responseBody;
+      } else {
+        log("$url DELETE response is NOT OK:${response.statusCode}");
+        log("$response DELETE response is NOT OK:${response.toString()}");
+
+        /// If Token is Expired
+        if (response.statusCode == 449) {
+          var response = await _refreshTokenAndRetry(
+              originalUrl: url, requestType: RequestType.delete);
+          log('---response---449----');
+          return response;
+        }
+        if (response.statusCode == 400) {
+          final responseBody = json.decode(response.body);
+          log("User is unauthorized. Logging out...");
+          log("------responseBody.toString()-------------${responseBody.runtimeType.toString()}");
+          throw GenericResponse.fromJson(responseBody);
+        }
+        if (response.statusCode.toString() == "401") {
+          log("will log out now${response.statusCode}");
+          // TODO: Need to handle the logout case
+          throw GenericResponse.fromJson(responseBody);
+        }
+        throw json.decode(response.body);
+      }
+    } on SocketException {
+      throw json.decode('{"errorMessage":"Network Lost"}');
+    } catch (e) {
+      log('$e');
+      rethrow;
+    }
+  }
+
   Future<dynamic> deleteRequest({
     required String url,
     bool? isAuthenticated,
