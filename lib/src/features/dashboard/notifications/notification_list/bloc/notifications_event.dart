@@ -18,6 +18,12 @@ class InitializeValues extends NotificationsEvent {
   const InitializeValues();
 }
 
+class ReadRecord extends NotificationsEvent {
+  final int id;
+
+  const ReadRecord(this.id);
+}
+
 class DeleteRecord extends NotificationsEvent {
   final int id;
 

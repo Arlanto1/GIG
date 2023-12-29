@@ -6,6 +6,7 @@ class Apis {
   static final String _getNotificationList = '$baseUrl/getNotificationList?';
 
   static final String _getNotificationById = '$baseUrl/getNotificationById';
+  static final String _readRecord = '$baseUrl/markNotificationAsRead';
   static final String _deleteById = '$baseUrl/deleteNotification';
   static final String _deleteAll = '$baseUrl/deleteAllNotifications';
 }
@@ -30,6 +31,14 @@ class NotificationServices {
       url: url,
     );
     return NotificationModel.fromJson(response);
+  }
+
+  Future<GenericResponse> readRecord(int id) async {
+    final String url = '${Apis._readRecord}/$id';
+    final response = await BaseApiService().deleteRequest(
+      url: url,
+    );
+    return GenericResponse.fromJson(response);
   }
 
   Future<GenericResponse> deleteById(int id) async {

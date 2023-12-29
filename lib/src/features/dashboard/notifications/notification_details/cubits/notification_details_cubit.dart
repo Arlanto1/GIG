@@ -60,7 +60,7 @@ class NotificationDetailsCubit extends Cubit<NotificationDetailsState> {
     }
   }
 
-  Future<void> deleteNotification() async {
+  Future<void> deleteNotification(int id) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -68,7 +68,7 @@ class NotificationDetailsCubit extends Cubit<NotificationDetailsState> {
     );
 
     try {
-      GenericResponse response = await NotificationServices().deleteAll();
+      GenericResponse response = await NotificationServices().deleteById(id);
       emit(
         state.copyWith(
           message: response.message,
