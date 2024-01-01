@@ -24,6 +24,7 @@ import 'package:db_atom/src/features/guarding_operations/guarding_master_data/se
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart'
     as guarding;
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/services/guarding_services.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/views/key_loss_destruction_list_view.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
@@ -49,6 +50,8 @@ import 'package:db_atom/src/features/dashboard/notifications/notification_list/b
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/views/key_management_master_list_view.dart';
+
+import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -844,10 +847,10 @@ class RouteGenerator {
 
       case keyManagementMasterListRoute:
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<KeyManagementMasterListBloc>(
-                  create: (_) => KeyManagementMasterListBloc()
-                    ..add(const FetchKeyMasterList(startPos: 0, maxPos: 20)),
-                  child: const KeyManagementMasterListView(),
+            builder: (context) => BlocProvider<KeyLossDestructionListBloc>(
+                  create: (_) => KeyLossDestructionListBloc()
+                    ..add(const FetchKeyLossList(startPos: 0, maxPos: 20)),
+                  child: const KeyLossDestructionListView(),
                 ));
 
       case keyManagementMasterDetailsRoute:

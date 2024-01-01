@@ -37,10 +37,10 @@ class NavigationDrawer1 extends StatelessWidget {
       expansionTileDrawerItems.add(
           const MenuItem(Constants.eventprotectionlist, AppIcon.tasklist, 0));
     }
-    // if (displayMenu.aps ?? false) {
+    if (displayMenu.aps ?? false) {
     expansionTileDrawerItems.add(
         const MenuItem(Constants.annualPowerShutdownList, AppIcon.tasklist, 0));
-    //}
+    }
     if (displayMenu.iM ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.incidentManagement, AppIcon.materialMovement, 0));
@@ -305,7 +305,10 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   List<Widget> _buildDrawerChildrenIncident(
-      BuildContext context, DrawerState state, List items) {
+    BuildContext context,
+    DrawerState state,
+    List items,
+  ) {
     List<Widget> children = [];
 
     for (int i = 0; i < items.length; i++) {
@@ -561,10 +564,9 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 2) {
       Navigator.pushNamed(context, guardingRatesRoute,
           arguments: {"Guarding Rates": true});
-    }
-    else if (index == 3) {
-    Navigator.pushNamed(context,keyManagementMasterListRoute ,
-        arguments: {"Key Management Master": false});
+    } else if (index == 3) {
+      Navigator.pushNamed(context, keyManagementMasterListRoute,
+          arguments: {"Key Management Master": false});
     }
     // else if (index == 3) {
     //   return _keyManagementDataBuildDrawerChildren(context, state);
@@ -1151,6 +1153,7 @@ class NavigationDrawer1 extends StatelessWidget {
 
   List<Widget> buildDrawerChildren(
       BuildContext context, DrawerState state, String title) {
+    log('--title--$title--');
     if (title == Constants.materialMovement) {
       return _materialMovementBuildDrawerChildren(context, state);
     } else if (title == Constants.securitySystemsTickets) {
@@ -1166,6 +1169,9 @@ class NavigationDrawer1 extends StatelessWidget {
         guardingOperationDrawerItems,
         title,
       );
+    } else if (title == Constants.keyManagementData) {
+      log('--title-keyManagementData---$title--');
+      return _keyManagementDataBuildDrawerChildren(context, state);
     } else {
       return _passmgmtbuildDrawerChildren(context, state);
     }
