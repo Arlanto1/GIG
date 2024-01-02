@@ -358,6 +358,56 @@ class Utils {
     );
   }
 
+  Widget buildKeyType(int keyType) {
+    String keyTypeText;
+
+    switch (keyType) {
+      case 1:
+        keyTypeText = 'Normal';
+        break;
+      case 2:
+        keyTypeText = 'Master';
+        break;
+      default:
+        keyTypeText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Key Type : ', keyTypeText),
+        ],
+      ),
+    );
+  }
+
+  Widget buildType(int type) {
+    String typeText;
+
+    switch (type) {
+      case 0:
+        typeText = 'Has Lock Change';
+        break;
+      case 1:
+        typeText = 'Has Key Lost';
+        break;
+      case 2:
+        typeText = 'Key Damage';
+        break;
+      case 3:
+        typeText = 'Key Destruction';
+        break;
+      default:
+        typeText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Type : ', typeText),
+        ],
+      ),
+    );
+  }
+
   Widget buildGender(int gender) {
     String genderText;
 
@@ -620,6 +670,24 @@ class Utils {
     );
   }
 
+  Widget keyLossDestructionStatus(int status) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Created';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status: ', statusText),
+        ],
+      ),
+    );
+  }
   Widget buildIncidentStatus(int status) {
     String statusText;
 

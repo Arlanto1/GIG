@@ -22,6 +22,7 @@ class BaseListTileItem extends StatefulWidget {
   final int? incidentType;
   final bool isIncident;
 
+
   // final Item userItem;
   final int? index;
   final bool? showEditButton;
@@ -32,6 +33,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool isSLAViolationStatus;
   final bool isContactDetailsStatus;
   final bool isSecuritySystemSLA;
+  final bool isKeyLossStatus;
 
   const BaseListTileItem({
     super.key,
@@ -63,6 +65,7 @@ class BaseListTileItem extends StatefulWidget {
     this.incidentType,
     this.isContactDetailsStatus = false,
     this.isSecuritySystemSLA = false,
+    this.isKeyLossStatus = false,
     this.onDeleteTap,
   });
 
@@ -178,7 +181,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               !widget.isOccurrenceStatus &&
                               !widget.isEventProtectionStatus &&
                               !widget.isSLAViolationStatus &&
-                              !widget.isIncident &&
+                              !widget.isIncident && !widget.isKeyLossStatus &&
                               !widget.isSecuritySystemSLA &&
                               !widget.isContactDetailsStatus) ...[
                             CommonWidgets.horizontalSpacerWidget(5),
@@ -212,6 +215,13 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                                     .buildOccurrenceStatus(widget.status ?? 0),
                               ],
                             ),
+                          ],
+
+                          if (widget.status != null &&
+                              widget.isKeyLossStatus == true) ...[
+                            CommonWidgets.horizontalSpacerWidget(5),
+                                Utils()
+                                    .keyLossDestructionStatus(widget.status ?? 0),
                           ],
                           if (widget.status != null &&
                               widget.isSLAViolationStatus == true) ...[
