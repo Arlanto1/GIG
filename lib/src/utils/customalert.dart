@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
@@ -9,7 +11,7 @@ class CustomAlertDialog extends StatelessWidget {
   final String? message;
   final String? positiveBtnText;
   final String? negativeBtnText;
-  final Function? onPostivePressed;
+  final void Function()? onPositivePressed;
   final Function? onNegativePressed;
   final double? circularBorderRadius;
 
@@ -21,7 +23,7 @@ class CustomAlertDialog extends StatelessWidget {
     this.bgColor = Colors.white,
     this.positiveBtnText,
     this.negativeBtnText,
-    this.onPostivePressed,
+    this.onPositivePressed,
     this.onNegativePressed,
   })  : assert(bgColor != null),
         assert(circularBorderRadius != null);
@@ -71,11 +73,7 @@ class CustomAlertDialog extends StatelessWidget {
                         FontWeight.normal,
                         Constants.customFontMediumFamily)),
                 //  textColor: Theme.of(context).colorScheme.secondary,
-                onPressed: () {
-                  if (onPostivePressed != null) {
-                    onPostivePressed!();
-                  }
-                },
+          onPressed:  onPositivePressed,
               )
             : Container(),
       ],

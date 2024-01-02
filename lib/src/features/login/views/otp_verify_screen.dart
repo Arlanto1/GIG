@@ -288,7 +288,7 @@ class _OtpVerifyState extends State<OtpVerify> {
     var dialog = CustomAlertDialog(
         title: Constants.appname,
         message: msg,
-        onPostivePressed: () {
+        onPositivePressed: () {
           //Validator.logoutAction(context);
           Navigator.of(context).pop();
         },

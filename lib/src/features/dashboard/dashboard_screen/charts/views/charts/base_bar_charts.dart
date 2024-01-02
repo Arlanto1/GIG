@@ -70,7 +70,7 @@ class BaseBarChartState extends State<BaseBarChart> {
                   //   enable: true,
                   //   format: 'point.y',
                   // ),
-                  series: <ChartSeries>[
+                  series: <CartesianSeries>[
                     BarSeries<PieChartData, num>(
                       dataSource: widget.chartData,
                       legendIconType: LegendIconType.seriesType,

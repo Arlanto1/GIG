@@ -160,7 +160,7 @@ class DashboardViewState extends State<DashboardView> {
     var dialog = CustomAlertDialog(
         title: Constants.logout,
         message: Constants.logoutvalidation,
-        onPostivePressed: () {
+        onPositivePressed: () {
           Validator.logoutAction(context);
         },
         positiveBtnText: Constants.yes,

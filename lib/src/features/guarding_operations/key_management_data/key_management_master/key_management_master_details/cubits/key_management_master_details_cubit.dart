@@ -13,7 +13,6 @@ import 'package:db_atom/src/services/CommonServices.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
-import '../../../../../../models/responseModels/generic_response.dart';
 import '../../../../../createfound/models/emplyee_departments_model.dart';
 import '../../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 

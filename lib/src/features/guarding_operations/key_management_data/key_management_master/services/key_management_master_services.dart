@@ -1,16 +1,14 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/models/requestModels/key_management_master_request.dart';
-import 'package:db_atom/src/models/responseModels/generic_response.dart';
 
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getGuardingMastersData = '$baseUrl/getGMData?';
+  static final String _getList = '$baseUrl/getKemMgmtList?';
 
   static final String _getGuardingMasterData = '$baseUrl/getGMDataById';
 
@@ -31,7 +29,7 @@ class KeyManagementMasterServices {
     required String locationId,
   }) async {
     String url =
-        '${Apis._getGuardingMastersData}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
+        '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId&locationId=$locationId';
     final response = await BaseApiService().getRequest(
       url: url,
     );

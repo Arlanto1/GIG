@@ -1795,6 +1795,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               String nextformattedDate = DateFormat(Constants.fulldateFormat)
                   .format(currentDate.add(const Duration(hours: 12)));
               passvaliduntilTextController.text = nextformattedDate;
+              companynameTextController.text =widget.model?.companyName.toString() ?? "" ;
+              isFTECompanyNameEditable = true;
             }
             // }
 

@@ -70,7 +70,7 @@ class _LoginState extends State<Login> {
             var dialog = CustomAlertDialog(
               title: Constants.appname,
               message: state.message,
-              onPostivePressed: () {
+              onPositivePressed: () {
                 //Validator.logoutAction(context);
                 Navigator.of(context).pop();
               },
@@ -292,7 +292,7 @@ class _LoginState extends State<Login> {
     var dialog = CustomAlertDialog(
         title: Constants.appname,
         message: title,
-        onPostivePressed: () {
+        onPositivePressed: () {
           //Validator.logoutAction(context);
           //Navigator.of(context).pop();
         },

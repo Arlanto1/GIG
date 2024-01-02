@@ -362,7 +362,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
     var dialog = CustomAlertDialog(
         title: Constants.appname,
         message: title,
-        onPostivePressed: () {
+        onPositivePressed: () {
           //Validator.logoutAction(context);
           //Navigator.of(context).pop();
         },

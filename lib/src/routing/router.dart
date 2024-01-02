@@ -71,3 +71,21 @@ const String annualPowerShutdownListDetailsRoute = '/annualPowerShutdownListDeta
 
 const String keyManagementMasterListRoute = '/keyManagementMasterListRoute';
 const String keyManagementMasterDetailsRoute = '/keyManagementMasterDetailsRoute';
+
+const String keyManagementIssuanceListRoute = '/keyManagementIssuanceListRoute';
+const String keyManagementIssuanceDetailsRoute = '/keyManagementIssuanceDetailsRoute';
+const String keyManagementIssuanceProcessRecordsRoute = '/keyManagementIssuanceProcessRecordsRoute';
+
+const String keyReconciliationListRoute = '/keyReconciliationListRoute';
+const String keyLossDestructionListRoute = '/keyLossDestructionListRoute';
+
+const String dutyPostMasterListRoute = '/dutyPostMasterListRoute';
+const String dutyPostMasterDetailsRoute = '/dutyPostMasterDetailsRoute';
+
+const String dutyPostNameMasterListRoute = '/dutyPostNameMasterListRoute';
+const String dutyPostNameMasterDetailsRoute = '/dutyPostNameMasterDetailsRoute';
+
+const String attendanceListRoute = '/attendanceListRoute';
+
+const String shiftScheduleListRoute = '/shiftScheduleListRoute';
+const String shiftScheduleDetailsRoute = '/shiftScheduleDetailsRoute';

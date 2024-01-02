@@ -51,7 +51,7 @@
     },
     {
       "name": "bloc_concurrency",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/bloc_concurrency-0.2.2",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/bloc_concurrency-0.2.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -129,7 +129,7 @@
     },
     {
       "name": "code_builder",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/code_builder-4.8.0",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/code_builder-4.9.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -657,9 +657,9 @@
     },
     {
       "name": "path_provider_android",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/path_provider_android-2.2.1",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/path_provider_android-2.2.2",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.0"
     },
     {
       "name": "path_provider_foundation",
@@ -909,13 +909,13 @@
     },
     {
       "name": "syncfusion_flutter_charts",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/syncfusion_flutter_charts-23.2.7",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/syncfusion_flutter_charts-24.1.43+1",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "syncfusion_flutter_core",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/syncfusion_flutter_core-23.2.7",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/syncfusion_flutter_core-24.1.43",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
@@ -999,21 +999,21 @@
     },
     {
       "name": "webview_flutter_android",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter_android-3.13.0",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter_android-3.13.1",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "webview_flutter_platform_interface",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter_platform_interface-2.8.0",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter_platform_interface-2.9.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "webview_flutter_wkwebview",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.9.4",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.10.0",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.0"
     },
     {
       "name": "win32",
@@ -1046,7 +1046,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-12-26T05:31:14.814989Z",
+  "generated": "2024-01-02T04:04:55.995097Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

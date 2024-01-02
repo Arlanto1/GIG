@@ -1,5 +1,6 @@
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
 
 class KeyLossDestructionListView extends StatefulWidget {
@@ -38,8 +39,8 @@ class _KeyLossDestructionListViewState
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context
-          .read<GuardingMasterDataBloc>()
-          .add(FetchDataList(startPos: pageNumber, maxPos: 20));
+          .read<KeyLossDestructionListBloc>()
+          .add(FetchKeyLossList(startPos: pageNumber, maxPos: 20));
     }
   }
 
@@ -49,15 +50,15 @@ class _KeyLossDestructionListViewState
         backgroundColor: AppColors.cardBgColor,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.keyManagementMaster,
+          title: Constants.keyLossDestructionList,
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,
           excelAPIName: 'exportGMDataExcel',
           pdfAPIName: 'exportGMDataPDF',
         ),
-        body: BlocBuilder<KeyManagementMasterListBloc,
-            KeyManagementMasterListState>(builder: (context, state) {
+        body: BlocBuilder<KeyLossDestructionListBloc,
+            KeyLossDestructionListState>(builder: (context, state) {
           if (state.status == FormStatus.initial) {
             return const BaseLoader();
           }

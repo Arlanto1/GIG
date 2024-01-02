@@ -75,7 +75,7 @@ class Utils {
       title: title,
       message: messgae,
       positiveBtnText: Constants.ok,
-      onPostivePressed: () {
+      onPositivePressed: () {
         if (error.isNotEmpty) {
           Navigator.pop(context);
         } else {
@@ -99,7 +99,7 @@ class Utils {
     var dialog = CustomAlertDialog(
       title: Constants.appname,
       message: message,
-      onPostivePressed: () {
+      onPositivePressed: () {
         //ValidatorlogoutAction(context);
         Navigator.of(context).pop();
       },

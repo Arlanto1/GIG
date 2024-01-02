@@ -177,3 +177,24 @@ const List<Label> incidentTypeValues = [
   Label(key: 'Negligence', value: '3'),
   Label(key: 'General', value: '4'),
 ];
+
+const List<Label> employeeTypeDropDownValues = [
+  Label(key: 'FTE', value: '1'),
+  Label(key: 'CWR T1', value: '2'),
+  Label(key: 'CWR T2', value: '3'),
+];
+
+const List<Label> keyHandingOverDuration = [
+  Label(key: 'Daily', value: '1'),
+  Label(key: 'More than One Day', value: '2'),
+];
+
+const List<Label> keysDropDownValues = [
+  Label(key: 'Keys', value: '1'),
+  Label(key: 'Master Keys', value: '2'),
+];
+
+const List<Label> shiftDutyTypeDropDownValues = [
+  Label(key: 'Transport', value: '1'),
+  Label(key: 'Building', value: '2'),
+];

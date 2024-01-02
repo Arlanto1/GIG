@@ -37,10 +37,10 @@ class NavigationDrawer1 extends StatelessWidget {
       expansionTileDrawerItems.add(
           const MenuItem(Constants.eventprotectionlist, AppIcon.tasklist, 0));
     }
-    // if (displayMenu.aps ?? false) {
-    expansionTileDrawerItems.add(
-        const MenuItem(Constants.annualPowerShutdownList, AppIcon.tasklist, 0));
-    //}
+    if (displayMenu.aps ?? false) {
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.annualPowerShutdownList, AppIcon.tasklist, 0));
+    }
     if (displayMenu.iM ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.incidentManagement, AppIcon.materialMovement, 0));
@@ -104,11 +104,22 @@ class NavigationDrawer1 extends StatelessWidget {
     const MenuItem(Constants.guardingRate, AppIcon.guardingMasterRatesIcon, 0),
     //const MenuItem(Constants.femaleDropPickUp, AppIcon.femalePickUpDropIcon, 0),
     const MenuItem(
-        Constants.keyManagementData, AppIcon.keyManagementListIcon, 1),
+        Constants.keyManagementMaster, AppIcon.keyManagementListIcon, 0),
     const MenuItem(Constants.occurrence, AppIcon.occurence, 0),
     const MenuItem(Constants.slaViolationPenalty, AppIcon.occurence, 0),
     const MenuItem(
         Constants.contactDetails, AppIcon.guardingMasterRatesIcon, 0),
+    const MenuItem(
+        Constants.keyReconciliationList, AppIcon.keyManagementListIcon, 0),
+    const MenuItem(
+        Constants.keyLossDestructionList, AppIcon.keyManagementListIcon, 0),
+    const MenuItem(
+        Constants.keyManagementIssuance, AppIcon.keyManagementListIcon, 0),
+    const MenuItem(Constants.dutyPostMaster, AppIcon.keyManagementListIcon, 0),
+    const MenuItem(
+        Constants.dutyPostNameMaster, AppIcon.keyManagementListIcon, 0),
+    const MenuItem(Constants.attendance, AppIcon.keyManagementListIcon, 0),
+    const MenuItem(Constants.shiftSchedule, AppIcon.keyManagementListIcon, 0)
   ];
 
   final keyManagementDataItems = [
@@ -305,7 +316,10 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   List<Widget> _buildDrawerChildrenIncident(
-      BuildContext context, DrawerState state, List items) {
+    BuildContext context,
+    DrawerState state,
+    List items,
+  ) {
     List<Widget> children = [];
 
     for (int i = 0; i < items.length; i++) {
@@ -561,15 +575,31 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 2) {
       Navigator.pushNamed(context, guardingRatesRoute,
           arguments: {"Guarding Rates": true});
-    }
-    else if (index == 3) {
-    Navigator.pushNamed(context,keyManagementMasterListRoute ,
-        arguments: {"Key Management Master": false});
-    }
-    // else if (index == 3) {
-    //   return _keyManagementDataBuildDrawerChildren(context, state);
-    // }
-    else if (index == 4) {
+    } else if (index == 3) {
+      Navigator.pushNamed(context, keyManagementMasterListRoute,
+          arguments: {"Key Management Master": false});
+    } else if (index == 7) {
+      Navigator.pushNamed(context, keyReconciliationListRoute,
+          arguments: {"Key Reconciliation List": false});
+    } else if (index == 8) {
+      Navigator.pushNamed(context, keyLossDestructionListRoute,
+          arguments: {"Key Loss Destruction List": false});
+    } else if (index == 9) {
+      Navigator.pushNamed(context, keyManagementIssuanceListRoute,
+          arguments: {"Key Management Issuance List": false});
+    } else if (index == 10) {
+      Navigator.pushNamed(context, dutyPostMasterListRoute,
+          arguments: {"Duty Post Master list": false});
+    } else if (index == 11) {
+      Navigator.pushNamed(context, dutyPostNameMasterListRoute,
+          arguments: {"Duty Post Name Master list": false});
+    } else if (index == 12) {
+      Navigator.pushNamed(context, attendanceListRoute,
+          arguments: {"Attendance list": false});
+    } else if (index == 13) {
+      Navigator.pushNamed(context, shiftScheduleListRoute,
+          arguments: {"Shift Schedule": false});
+    } else if (index == 4) {
       Navigator.pushNamed(context, occurrenceRoute);
     } else if (index == 5) {
       Navigator.pushNamed(context, slaViolationPenaltyListRoute,
@@ -596,7 +626,7 @@ class NavigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, guardingRatesRoute,
           arguments: {"Key Reconciliation List": true});
     } else if (index == 3) {
-      Navigator.pushNamed(context, keyManagementMasterListRoute,
+      Navigator.pushNamed(context, keyLossDestructionListRoute,
           arguments: {"Key Loss Destruction List": true});
     }
   }
@@ -1119,7 +1149,7 @@ class NavigationDrawer1 extends StatelessWidget {
       _menuScaffoldKey.currentState!.closeDrawer();
     }
     _lastSelectedItem = index;
-    var lastindex = await SharedPrefs.setIdentifymenuindex(index);
+    // var lastindex = await SharedPrefs.setIdentifymenuindex(index);
 
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
@@ -1131,6 +1161,7 @@ class NavigationDrawer1 extends StatelessWidget {
     //SetState(){}
     if (index == 0) {
     } else if (index == 1) {
+      // _logout(context);
     } else if (index == 2) {
       _logout(context);
     } else if (index == 3) {
@@ -1141,7 +1172,7 @@ class NavigationDrawer1 extends StatelessWidget {
     var dialog = CustomAlertDialog(
         title: Constants.logout,
         message: Constants.logoutvalidation,
-        onPostivePressed: () {
+        onPositivePressed: () {
           Validator.logoutAction(context);
         },
         positiveBtnText: Constants.yes,
@@ -1151,6 +1182,7 @@ class NavigationDrawer1 extends StatelessWidget {
 
   List<Widget> buildDrawerChildren(
       BuildContext context, DrawerState state, String title) {
+    log('--title--$title--');
     if (title == Constants.materialMovement) {
       return _materialMovementBuildDrawerChildren(context, state);
     } else if (title == Constants.securitySystemsTickets) {
@@ -1166,6 +1198,9 @@ class NavigationDrawer1 extends StatelessWidget {
         guardingOperationDrawerItems,
         title,
       );
+    } else if (title == Constants.keyManagementData) {
+      log('--title-keyManagementData---$title--');
+      return _keyManagementDataBuildDrawerChildren(context, state);
     } else {
       return _passmgmtbuildDrawerChildren(context, state);
     }
