@@ -65,6 +65,11 @@ class BasePopUpItems extends StatefulWidget {
   final bool isIncident;
   final bool isContactDetailsStatus;
   final bool isSecuritySystemSLAStatus;
+  final bool isKeyLossStatus;
+  final User? srh;
+  final User? securityManager;
+  final int? keyType;
+  final int? type;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -124,8 +129,13 @@ class BasePopUpItems extends StatefulWidget {
     this.leoVisit = false,
     this.isContactDetailsStatus = false,
     this.isSecuritySystemSLAStatus = false,
+    this.isKeyLossStatus = false,
     this.handOverSecurity,
     this.incidentType,
+    this.srh,
+    this.keyType,
+    this.type,
+    this.securityManager,
   });
 }
 
@@ -222,6 +232,44 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           children: [
             Utils().textHandling('Challan/Invoice Nos/Gate Pass : ',
                 widget.challanNo.toString()),
+          ],
+        ),
+      ],
+      if (widget.keyType != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().buildKeyType(widget.keyType ?? 0),
+          ],
+        ),
+      ],
+      if (widget.type != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().buildType(widget.type ?? 0),
+          ],
+        ),
+      ],
+      if (widget.srh != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Srh : ', widget.srh?.name ?? ''),
+          ],
+        ),
+      ],
+      if (widget.securityManager != null) ...[
+        CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling(
+                'Security Manager : ', widget.securityManager?.name ?? ''),
           ],
         ),
       ],
@@ -380,6 +428,14 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             Utils().buildSecuritySystemStatusRow(widget.status ?? 0),
           ],
         ),
+      ],
+      if (widget.status != null && widget.isKeyLossStatus == true) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          children: [
+            Utils().keyLossDestructionStatus(widget.status ?? 0),
+          ],
+        )
       ],
       if (widget.guardCount != null) ...[
         CommonWidgets.verticalSpacerWidget(8),

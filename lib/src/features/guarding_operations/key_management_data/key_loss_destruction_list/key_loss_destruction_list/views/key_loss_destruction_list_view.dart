@@ -1,7 +1,7 @@
-
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
+import 'package:intl/intl.dart';
 
 class KeyLossDestructionListView extends StatefulWidget {
   const KeyLossDestructionListView({
@@ -72,7 +72,7 @@ class _KeyLossDestructionListViewState
                 color: AppColors.backgroundWhitecolor,
                 shape: RoundedRectangleBorder(
                   borderRadius:
-                  BorderRadius.vertical(top: Radius.circular(20.0)),
+                      BorderRadius.vertical(top: Radius.circular(20.0)),
                 )),
             child: ListView.builder(
               controller: _scrollController,
@@ -82,70 +82,73 @@ class _KeyLossDestructionListViewState
               itemBuilder: (context, index) {
                 List<Label> labels = [];
                 if (index < state.list.length) {
-                  //labels.add(Label(
-                  // key: state.labels?.locale.locationRegion ??
-                  //  state.labels?.defaultLocale.locationRegion ??
-                  //'Region',
-                  // value: state.list[index].locationRegion?.name ?? ''));
                   // labels.add(Label(
-                  //key: state.labels?.locale.location ??
-                  //     state.labels?.defaultLocale.location ??'Building Location ',
-                  // value: state.list[index].location?.name ?? ''));
+                  //     key:
+                  //     // state.labels?.locale.location ??
+                  //     //state.labels?.defaultLocale.location ??
+                  //     'Status',
+                  //     value: state.list[index].status?.name ?? ''));
+                  labels.add(Label(
+                      key: 'Date of Creation',
+                      value: DateFormat('dd-MM-yyyy').format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                              state.list[index].createdDate ?? 0 * 1000))));
+                  labels.add(Label(
+                      key:
+                          // state.labels?.locale.location ??
+                          //state.labels?.defaultLocale.location ??
+                          'Created By',
+                      value: state.list[index].createdBy?.name ?? ''));
                 }
                 return index >= state.list.length
                     ? const BaseLoader()
                     : BaseListTileItem(
-                  id: state.list[index].id,
-                  labels: labels,
-                  status: state.list[index].status,
-                  isMasterGuard: true,
-                  guardRank: state.list[index].guardRank,
-                  onTap: (selectedIndex) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext dialogContext) {
-                        return BasePopUpItems(
-                          id: state.list[selectedIndex].id.toString(),
-                          slNo: state.list[selectedIndex].slNo,
-                          guardRank: state.list[selectedIndex].guardRank,
-                          gender: state.list[selectedIndex].gender,
-                          dutyType: state.list[selectedIndex].dutyType,
-                          maritalStatus:
-                          state.list[selectedIndex].maritalStatus,
-                          labels: labels,
-                          isMaterGuard: true,
-                          //isEventProtectionStatus: false,
-                          status: state.list[selectedIndex].status,
-                        );
-                      },
-                    );
-                  },
-                  // onEditTap: (selectedIndex) {
-                  //   getById(state.list[index].id ?? 0);
-                  // },
-                  showEditButton: false,
-                  onViewTap: (selectedIndex) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext dialogContext) {
-                        return BasePopUpItems(
-                          id: state.list[selectedIndex].id.toString(),
-                          slNo: state.list[selectedIndex].slNo,
-                          guardRank: state.list[selectedIndex].guardRank,
-                          gender: state.list[selectedIndex].gender,
-                          dutyType: state.list[selectedIndex].dutyType,
-                          maritalStatus:
-                          state.list[selectedIndex].maritalStatus,
-                          labels: labels,
-                          status: state.list[selectedIndex].status,
-                          isMaterGuard: true,
-                          // isEventProtectionStatus: false,
-                        );
-                      },
-                    );
-                  },
-                  index: index,
-                );
+                        id: state.list[index].id,
+                        labels: labels,
+                        status: state.list[index].status,
+                        isKeyLossStatus: true,
+                        isEventProtectionStatus: false,
+                        onTap: (selectedIndex) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext dialogContext) {
+                              return BasePopUpItems(
+                                id: state.list[selectedIndex].id.toString(),
+                                slNo: state.list[selectedIndex].slNo,
+                                labels: labels,
+                                isKeyLossStatus: true,
+                                status: state.list[selectedIndex].status,
+                                keyType: state.list[selectedIndex].keyType,
+                                type: state.list[selectedIndex].type,
+                                srh: state.list[selectedIndex].srh,
+                                securityManager: state.list[selectedIndex].securityManager,
+
+                              );
+                            },
+                          );
+                        },
+
+                        showEditButton: false,
+                        onViewTap: (selectedIndex) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext dialogContext) {
+                              return BasePopUpItems(
+                                id: state.list[selectedIndex].id.toString(),
+                                slNo: state.list[selectedIndex].slNo,
+                                labels: labels,
+                                status: state.list[selectedIndex].status,
+                                isKeyLossStatus: true,
+                                keyType: state.list[selectedIndex].keyType,
+                                type: state.list[selectedIndex].type,
+                                srh: state.list[selectedIndex].srh,
+                                securityManager: state.list[selectedIndex].securityManager,
+                              );
+                            },
+                          );
+                        },
+                        index: index,
+                      );
               },
             ),
           );

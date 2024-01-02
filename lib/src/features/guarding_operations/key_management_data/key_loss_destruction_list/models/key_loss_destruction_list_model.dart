@@ -34,152 +34,48 @@ class KeyLossDestructionListResponse {
 
 @JsonSerializable()
 class KeyLossDestructionListModel extends BaseObject {
-  int? id;
-  String? slNo;
-  Organisation? location;
-  Organisation? locationRegion;
-  Organisation? vendor;
-  User? entrySecurity;
-  User? guard;
-  ImageContent? localAddressProof;
-  ImageContent? permanentAddressProof;
-  ImageContent? bopData;
-  ImageContent? photoGraph;
-  Organisation? entity;
-  String? inputDate;
-  String? msgbExemptionDate;
-  String? csrParticipationDates;
-  String? medicalCertificateValidUntil;
-  String? covidFirstDoseDate;
-  String? covidSecondDoseDate;
-  String? covidPrecautionaryDoseDate;
-  String? ertCertificationDate;
-  String? firstAidTrainingCompletionDate;
-  String? pvcIssuedDate;
-  String? pvcExpiryDate;
-  String? dateOfBirth;
-  String? dateOfJoining;
-  int? status;
-  num? height;
-  num? weight;
-  num? chest;
-  int? guardRank;
-  String? employeeCode;
-  String? dbEmployeeId;
-  int? dutyType;
-  int? gender;
-  String? contactNo;
-  int? dependentsNo;
-  int? maritalStatus;
-  int? typeOfDeployment;
-  bool deploymentOrderSubmitted;
-  List<ImageContent>? deploymentOrders;
-  bool physicallyFit;
-  String? localLanguage;
-  bool? localLangProficiencyR;
-  bool? hindiLangProficiencyR;
-  bool? englishLangProficiencyR;
-  bool? localLangProficiencyW;
-  bool? hindiLangProficiencyW;
-  bool? englishLangProficiencyW;
-  bool? localLangProficiencyS;
-  bool? hindiLangProficiencyS;
-  bool? englishLangProficiencyS;
-  String? securityExperience;
-  String? permanentAddress;
-  String? localAddress;
-  List<Organisation>? qualifications;
-  List<ImageContent>? pvc;
-  bool trainingCertificateProvided;
-  List<ImageContent>? trainingCertificates;
-  List<ImageContent>? medicalCertificates;
-  int? systemAccess;
-  bool onboarded;
-  String? esicNo;
-  String? uanNo;
-  bool msgbExempted;
-  int? msgbFormBSubmitted;
-  int? staffMsgbCompliant;
-  bool csrParticipation;
-  bool specialAchievement;
-  String? specialAchievementText;
-  String? additionalInitiatives;
-  List<dynamic>? history;
-  String? guardingPOC;
+   final String? keyManagementId;
+   final int? id;
+   final dynamic slNo;
+   final int? type;
+   final int? keyType;
+   final bool? hasLockChanged;
+   final dynamic keyDestructionProcess;
+   final dynamic hasKeyLost;
+   final  dynamic srh;
+   final dynamic securityManager;
+   final bool? investigationRequired;
+   final String? lostKeyDetails;
+   final String? additionalInformation;
+   final dynamic destructionReason;
+   final int? status;
+   final int? noOfKeys;
+   final User? createdBy;
+   final int? createdDate;
+   final int? modifiedDate;
+   final String? modifiedBy;
 
   KeyLossDestructionListModel({
-    this.id,
-    this.slNo,
-    this.location,
-    this.locationRegion,
-    this.entrySecurity,
-    this.guard,
-    this.localAddressProof,
-    this.permanentAddressProof,
-    this.bopData,
-    this.photoGraph,
-    this.entity,
-    this.inputDate,
-    this.msgbExemptionDate,
-    this.csrParticipationDates,
-    this.medicalCertificateValidUntil,
-    this.covidFirstDoseDate,
-    this.covidSecondDoseDate,
-    this.covidPrecautionaryDoseDate,
-    this.ertCertificationDate,
-    this.firstAidTrainingCompletionDate,
-    this.pvcExpiryDate,
-    this.pvcIssuedDate,
-    this.dateOfBirth,
-    this.dateOfJoining,
-    this.status,
-    this.height,
-    this.weight,
-    this.chest,
-    this.guardRank,
-    this.employeeCode,
-    this.dbEmployeeId,
-    this.vendor,
-    this.dutyType,
-    this.gender,
-    this.contactNo,
-    this.dependentsNo,
-    this.maritalStatus,
-    this.typeOfDeployment,
-    this.deploymentOrderSubmitted = false,
-    this.deploymentOrders,
-    this.physicallyFit = false,
-    this.localLanguage,
-    this.localLangProficiencyR,
-    this.hindiLangProficiencyR,
-    this.englishLangProficiencyR,
-    this.localLangProficiencyW,
-    this.hindiLangProficiencyW,
-    this.englishLangProficiencyW,
-    this.localLangProficiencyS,
-    this.hindiLangProficiencyS,
-    this.englishLangProficiencyS,
-    this.securityExperience,
-    this.permanentAddress,
-    this.localAddress,
-    this.qualifications,
-    this.pvc,
-    this.trainingCertificateProvided = false,
-    this.trainingCertificates,
-    this.medicalCertificates,
-    this.systemAccess,
-    this.onboarded = false,
-    this.esicNo,
-    this.uanNo,
-    this.msgbExempted = false,
-    this.msgbFormBSubmitted,
-    this.staffMsgbCompliant,
-    this.csrParticipation = false,
-    this.specialAchievement = false,
-    this.specialAchievementText,
-    this.additionalInitiatives,
-    this.history,
-    this.guardingPOC,
+  this.keyManagementId,
+  this.id,
+  this.slNo,
+  this.type,
+  this.keyType,
+  this.hasLockChanged,
+  this.keyDestructionProcess,
+  this.hasKeyLost,
+  this.srh,
+  this.securityManager,
+  this.investigationRequired,
+  this.lostKeyDetails,
+  this.additionalInformation,
+  this.destructionReason,
+  this.status,
+  this.noOfKeys,
+  this.createdBy,
+  this.createdDate,
+  this.modifiedDate,
+  this.modifiedBy,
   });
 
   factory KeyLossDestructionListModel.fromJson(Map<String, dynamic> json) =>
@@ -188,3 +84,4 @@ class KeyLossDestructionListModel extends BaseObject {
   @override
   Map<String, dynamic> toJson() => _$KeyLossDestructionListModelToJson(this);
 }
+
