@@ -96,6 +96,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
             title: widget.title,
             showPopUp: false,
             showSaveButton: state.model.status != 5 ? true : false,
+              showSubmitButton: state.model.status != 5 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<ShiftScheduleDetailsCubit>(context)

@@ -1174,6 +1174,7 @@ class NavigationDrawer1 extends StatelessWidget {
     //SetState(){}
     if (index == 0) {
     } else if (index == 1) {
+     // _logout(context);
     } else if (index == 2) {
       _logout(context);
     } else if (index == 3) {

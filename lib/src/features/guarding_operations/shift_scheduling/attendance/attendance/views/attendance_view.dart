@@ -49,6 +49,7 @@ class _AttendanceViewState extends State<AttendanceView> {
           title: Constants.attendance,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
           excelAPIName: 'exportGMDataExcel',
           pdfAPIName: 'exportGMDataPDF',
         ),

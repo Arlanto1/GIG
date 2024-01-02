@@ -67,6 +67,7 @@ class _DutyPostNameMasterListViewState
           title: Constants.dutyPostNameMaster,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
           excelAPIName: 'exportGMDataExcel',
           pdfAPIName: 'exportGMDataPDF',
         ),

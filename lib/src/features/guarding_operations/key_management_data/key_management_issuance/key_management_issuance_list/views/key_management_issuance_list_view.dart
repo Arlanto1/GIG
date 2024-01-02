@@ -61,6 +61,7 @@ class _KeyManagementIssuanceListViewState
           title: Constants.keyManagementIssuance,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
           excelAPIName: 'exportGMDataExcel',
           pdfAPIName: 'exportGMDataPDF',
         ),

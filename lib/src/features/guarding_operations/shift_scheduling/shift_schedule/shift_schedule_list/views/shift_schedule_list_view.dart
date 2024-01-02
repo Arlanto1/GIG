@@ -59,6 +59,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
           title: Constants.shiftSchedule,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
           excelAPIName: 'exportGMDataExcel',
           pdfAPIName: 'exportGMDataPDF',
         ),

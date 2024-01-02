@@ -100,7 +100,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           showPopUp: true,
           showSaveButton: false,
           excelAPIName: 'exportMMExcel',
-          pdfAPIName: 'exportMMPDF',
+          pdfAPIName: 'exportMMPDF', showSubmitButton: false,
         ),
         body: getBody(state),
       );

@@ -94,6 +94,7 @@ class _DutyPostNameMasterDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
+            showSubmitButton:  state.model.status != 5 ? true : false,
             showSaveButton: state.model.status != 5 ? true : false,
             onTapSave: () {
               FocusScope.of(context).unfocus();

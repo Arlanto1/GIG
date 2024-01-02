@@ -59,6 +59,7 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
           title: Constants.dutyPostMaster,
           showPopUp: true,
           showSaveButton: false,
+          showSubmitButton: false,
           excelAPIName: 'exportGMDataExcel',
           pdfAPIName: 'exportGMDataPDF',
         ),
