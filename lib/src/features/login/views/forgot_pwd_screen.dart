@@ -193,7 +193,7 @@ class _ForgotPwdWidgetState extends State<ForgotPwdWidget> {
     var dialog = CustomAlertDialog(
         title: Constants.appname,
         message: msg,
-        onPostivePressed: () {
+        onPositivePressed: () {
           //Validator.logoutAction(context);
           Navigator.of(context).pop();
           Navigator.of(context).pop();

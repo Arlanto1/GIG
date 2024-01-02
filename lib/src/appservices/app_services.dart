@@ -185,7 +185,7 @@ class AppServices {
     var dialog = CustomAlertDialog(
       title: Constants.appname,
       message: message,
-      onPostivePressed: () {
+      onPositivePressed: () {
         //ValidatorlogoutAction(context);
         Navigator.of(context).pop();
       },

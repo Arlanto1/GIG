@@ -49,12 +49,12 @@ class _SstIncidentGeneralInfoViewState
             title: Constants.generalInformation,
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
-            onPostivePressed: () {
+            onPositivePressed: () {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
               if (widget.viaOccurrence) {
-                return Navigator.pushNamed(
+                 Navigator.pushNamed(
                   context,
                   occurrenceDetailsRoute,
                   arguments: {
@@ -62,6 +62,7 @@ class _SstIncidentGeneralInfoViewState
                     "title": Constants.editOccurrence,
                   },
                 );
+                 return;
               }
               Navigator.popAndPushNamed(
                 context,

@@ -54,7 +54,7 @@ class _DutyPostNameMasterDetailsViewState
             title: 'Duty Post Master',
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
-            onPostivePressed: () {
+            onPositivePressed: () {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);

@@ -59,7 +59,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             title: 'SLA Violation Penalty',
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
-            onPostivePressed: () {
+            onPositivePressed: () {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
