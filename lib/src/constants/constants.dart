@@ -129,7 +129,7 @@ class Constants {
   static const String settings = "Settings";
   static const String administration = "Administration";
   static const String profile = 'Profile';
-  static const String articlefoundregister = 'Article Found';
+  static const String articlefoundregister = 'Article Found Register';
   static const String lawenforcementvisitslist = 'Law Enforcement Visits';
   static const String eventprotectionlist = 'Event Protection List';
   static const String annualPowerShutdownList = 'Annual Power Shutdown List';
