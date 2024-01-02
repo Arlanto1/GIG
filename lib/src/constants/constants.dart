@@ -122,7 +122,7 @@ class Constants {
   //Dashboard
   static const String home = 'Home';
   static const String dashboard = 'Dashboard';
-  static const String securityfunctions = 'Security functions';
+  static const String securityFunctions = 'Security Functions';
   static const String operations = "Operations";
   static const String securitySystems = "Security System";
   static const String securitySystemsTickets = "Security System Tickets";

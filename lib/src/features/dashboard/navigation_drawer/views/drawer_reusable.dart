@@ -63,9 +63,9 @@ class NavigationDrawer1 extends StatelessWidget {
   final String? username;
   final String? email;
   final GlobalKey<ScaffoldState> _menuScaffoldKey;
-  final drawerItems = [
+  final mainDrawerItems = [
     const MenuItem(Constants.dashboard, AppIcon.dashboardselect, 0),
-    const MenuItem(Constants.securityfunctions, AppIcon.securityprotection, 1),
+    const MenuItem(Constants.securityFunctions, AppIcon.securityprotection, 1),
     //  const MenuItem(Constants.administration, AppIcon.maninsuitandtie, 0),
     //const MenuItem(Constants.settings, AppIcon.settings, 0),
     const MenuItem(Constants.logout, AppIcon.logout, 0),
@@ -104,7 +104,7 @@ class NavigationDrawer1 extends StatelessWidget {
     const MenuItem(Constants.guardingRate, AppIcon.guardingMasterRatesIcon, 0),
     //const MenuItem(Constants.femaleDropPickUp, AppIcon.femalePickUpDropIcon, 0),
     const MenuItem(
-        Constants.keyManagementMaster, AppIcon.keyManagementListIcon, 0),
+        Constants.keyManagementMaster, AppIcon.keyManagementListIcon, 1),
     const MenuItem(Constants.occurrence, AppIcon.occurence, 0),
     const MenuItem(Constants.slaViolationPenalty, AppIcon.occurence, 0),
     const MenuItem(
@@ -223,12 +223,15 @@ class NavigationDrawer1 extends StatelessWidget {
     ); //
   }
 
-  List<Widget> _materialMovementBuildDrawerChildren(
-      BuildContext context, DrawerState state) {
+  List<Widget> _genericExpandableDrawer(
+    BuildContext context,
+    List items,
+    String title,
+  ) {
     List<Widget> children = [];
 
-    for (int i = 0; i < materialMovementDrawerItems.length; i++) {
-      MenuItem drawerItem = materialMovementDrawerItems[i];
+    for (int i = 0; i < items.length; i++) {
+      MenuItem drawerItem = items[i];
       children.add(
         Container(
           decoration: const BoxDecoration(
@@ -254,7 +257,39 @@ class NavigationDrawer1 extends StatelessWidget {
                         ? AppColors.navigationSkybluecolor
                         : AppColors.textgreyThemecolor)),
             //selected: i == _lastSelectedItem,
-            onTap: () => _onMaterialMovementItemSelected(i, context),
+            onTap: () {
+              switch (title) {
+                /// 2nd Level Menu
+                case Constants.materialMovement:
+                  _onMaterialMovementItemSelected(i, context);
+                  break;
+                case Constants.passmanagement:
+                  _onPassMgmtSelectItem(i, context);
+                  break;
+
+                /// 3nd Level Menu
+                case Constants.guarding:
+                  _onGuardingOperationItemSelected(
+                    i,
+                    context,
+                  );
+                  break;
+                case Constants.securitySystemsTickets:
+                  _onSecuritySystemIncidentItemSelected(i, context);
+                  break;
+
+                case Constants.securitySystemsTickets:
+                  _buildDrawerChildrenIncidentChild(
+                    context,
+                    securitySystemTicketsItems,
+                  );
+                  break;
+                // Add more cases for other titles as needed
+                default:
+                  _onSecuritySystemIncidentItemSelected(i, context);
+              // Default case if title doesn't match any specific condition
+              }
+            },
           ),
         ),
       );
@@ -317,11 +352,9 @@ class NavigationDrawer1 extends StatelessWidget {
 
   List<Widget> _buildDrawerChildrenIncident(
     BuildContext context,
-    DrawerState state,
     List items,
   ) {
     List<Widget> children = [];
-
     for (int i = 0; i < items.length; i++) {
       MenuItem drawerItem = items[i];
       children.add(
@@ -350,7 +383,10 @@ class NavigationDrawer1 extends StatelessWidget {
                               ? AppColors.navigationSkybluecolor
                               : AppColors.textgreyThemecolor)),
                   //selected: i == _lastSelectedItem,
-                  onTap: () => _onSelectItem(i, context, state),
+                  onTap: () => _onSelectItem(
+                    i,
+                    context,
+                  ),
                 ),
               )
             : Theme(
@@ -376,7 +412,7 @@ class NavigationDrawer1 extends StatelessWidget {
                     },
                     trailing: const SizedBox.shrink(),
                     title: Text(
-                      Constants.securityfunctions,
+                      Constants.securityFunctions,
                       style: TextStyle(
                           fontSize: 16,
                           fontFamily: Constants.customFontSemiBoldFamily,
@@ -398,7 +434,6 @@ class NavigationDrawer1 extends StatelessWidget {
                     //children padding
                     children: _buildDrawerChildrenIncidentChild(
                       context,
-                      state,
                       securitySystemTicketsItems,
                     ),
                   ),
@@ -411,11 +446,13 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   List<Widget> _buildDrawerChildrenIncidentChild(
-      BuildContext context, DrawerState state, List items) {
+      BuildContext context, List items) {
     List<Widget> children = [];
 
     for (int i = 0; i < items.length; i++) {
       MenuItem drawerItem = items[i];
+      log('-_buildDrawerChildren-----drawerItem.title- ${drawerItem.title}--');
+
       children.add(
         drawerItem.numberOfChildren == 0
             ? Container(
@@ -442,7 +479,10 @@ class NavigationDrawer1 extends StatelessWidget {
                               ? AppColors.navigationSkybluecolor
                               : AppColors.textgreyThemecolor)),
                   //selected: i == _lastSelectedItem,
-                  onTap: () => _onSelectItem(i, context, state),
+                  onTap: () => _onSelectItem(
+                    i,
+                    context,
+                  ),
                 ),
               )
             : Theme(
@@ -488,9 +528,8 @@ class NavigationDrawer1 extends StatelessWidget {
                                 : AppColors.textgreyThemecolor)),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     //children padding
-                    children: _genericBuildDrawerChildren(
+                    children: _genericExpandableDrawer(
                       context,
-                      state,
                       securitySystemTicketsIncidentItems,
                       Constants.incident,
                     ),
@@ -503,46 +542,62 @@ class NavigationDrawer1 extends StatelessWidget {
     return children;
   }
 
-  List<Widget> _genericBuildDrawerChildren(
-      BuildContext context, DrawerState state, List items, String title) {
-    List<Widget> children = [];
-
-    for (int i = 0; i < items.length; i++) {
-      MenuItem drawerItem = items[i];
-
-      children.add(
-        Container(
-          decoration: const BoxDecoration(
-            border: Border(
-                bottom: BorderSide(color: AppColors.dividelineGreycolor)),
-          ),
-          child: ListTile(
-            leading: SizedBox(
-                width: 20,
-                height: 20,
-                child: Image.asset(drawerItem.imageName,
-                    fit: BoxFit.scaleDown,
-                    color: (i == _passlastSelectedItem)
-                        ? AppColors.navigationSkybluecolor
-                        : AppColors.boldgreyBackground)),
-            title: Text(drawerItem.title,
-                //style: Styles.textStyleBlack16,
-                style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: Constants.customFontSemiBoldFamily,
-                    fontWeight: FontWeight.w600,
-                    color: (i == _passlastSelectedItem)
-                        ? AppColors.navigationSkybluecolor
-                        : AppColors.textgreyThemecolor)),
-            onTap: () => title == Constants.guarding
-                ? _onGuardingOperationItemSelected(i, context, state)
-                : _onSecuritySystemIncidentItemSelected(i, context),
-          ),
-        ),
-      );
-    }
-    return children;
-  }
+  // List<Widget> _genericBuildDrawerChildren(
+  //   BuildContext context,
+  //   List items,
+  //   String title,
+  // ) {
+  //   List<Widget> children = [];
+  //
+  //   for (int i = 0; i < items.length; i++) {
+  //     MenuItem drawerItem = items[i];
+  //
+  //     children.add(
+  //       Container(
+  //         decoration: const BoxDecoration(
+  //           border: Border(
+  //               bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+  //         ),
+  //         child: ListTile(
+  //           leading: SizedBox(
+  //               width: 20,
+  //               height: 20,
+  //               child: Image.asset(drawerItem.imageName,
+  //                   fit: BoxFit.scaleDown,
+  //                   color: (i == _passlastSelectedItem)
+  //                       ? AppColors.navigationSkybluecolor
+  //                       : AppColors.boldgreyBackground)),
+  //           title: Text(drawerItem.title,
+  //               //style: Styles.textStyleBlack16,
+  //               style: TextStyle(
+  //                   fontSize: 16,
+  //                   fontFamily: Constants.customFontSemiBoldFamily,
+  //                   fontWeight: FontWeight.w600,
+  //                   color: (i == _passlastSelectedItem)
+  //                       ? AppColors.navigationSkybluecolor
+  //                       : AppColors.textgreyThemecolor)),
+  //           onTap: () {
+  //             switch (title) {
+  //               case Constants.guarding:
+  //                 _onGuardingOperationItemSelected(
+  //                   i,
+  //                   context,
+  //                 );
+  //                 break;
+  //               case Constants.securitySystemsTickets:
+  //                 _onSecuritySystemIncidentItemSelected(i, context);
+  //                 break;
+  //               // Add more cases for other conditions as needed
+  //               default:
+  //                 _onSecuritySystemIncidentItemSelected(i, context);
+  //             }
+  //           },
+  //         ),
+  //       ),
+  //     );
+  //   }
+  //   return children;
+  // }
 
   _onSecuritySystemIncidentItemSelected(int index, BuildContext context) async {
     _menuScaffoldKey.currentState!.closeDrawer();
@@ -559,8 +614,7 @@ class NavigationDrawer1 extends StatelessWidget {
     }
   }
 
-  _onGuardingOperationItemSelected(
-      int index, BuildContext context, DrawerState state) async {
+  _onGuardingOperationItemSelected(int index, BuildContext context) async {
     _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
@@ -576,8 +630,16 @@ class NavigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(context, guardingRatesRoute,
           arguments: {"Guarding Rates": true});
     } else if (index == 3) {
-      Navigator.pushNamed(context, keyManagementMasterListRoute,
-          arguments: {"Key Management Master": false});
+      // TODO: Show Dropdown
+
+      log('--keyManagementDataItems--_genericBuildDrawerChildren--');
+      return _genericExpandableDrawer(
+        context,
+        keyManagementDataItems,
+        'title',
+      );
+      // Navigator.pushNamed(context, keyManagementMasterListRoute,
+      //     arguments: {"Key Management Master": false});
     } else if (index == 7) {
       Navigator.pushNamed(context, keyReconciliationListRoute,
           arguments: {"Key Reconciliation List": false});
@@ -631,51 +693,56 @@ class NavigationDrawer1 extends StatelessWidget {
     }
   }
 
-  List<Widget> _passmgmtbuildDrawerChildren(
-      BuildContext context, DrawerState state) {
-    List<Widget> children = [];
-
-    for (int i = 0; i < passTileDrawerItems.length; i++) {
-      MenuItem drawerItem = passTileDrawerItems[i];
-      children.add(
-        Container(
-          decoration: const BoxDecoration(
-            border: Border(
-                bottom: BorderSide(color: AppColors.dividelineGreycolor)),
-          ),
-          child: ListTile(
-            leading: SizedBox(
-                width: 18,
-                height: 18,
-                child: Image.asset(drawerItem.imageName,
-                    fit: BoxFit.scaleDown,
-                    color: (i == _passlastSelectedItem)
-                        ? AppColors.navigationSkybluecolor
-                        : AppColors.boldgreyBackground)),
-            title: Text(drawerItem.title,
-                //style: Styles.textStyleBlack16,
-                style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: Constants.customFontSemiBoldFamily,
-                    fontWeight: FontWeight.w600,
-                    color: (i == _passlastSelectedItem)
-                        ? AppColors.navigationSkybluecolor
-                        : AppColors.textgreyThemecolor)),
-            // selected: i == _lastSelectedItem,
-            onTap: () => _onPassMgmtSelectItem(i, context),
-          ),
-        ),
-      );
-    }
-
-    return children;
-  }
+  // List<Widget> _passmgmtbuildDrawerChildren(
+  //   BuildContext context,
+  //   List items,
+  //   String title,
+  // ) {
+  //   List<Widget> children = [];
+  //
+  //   for (int i = 0; i < items.length; i++) {
+  //     MenuItem drawerItem = items[i];
+  //     children.add(
+  //       Container(
+  //         decoration: const BoxDecoration(
+  //           border: Border(
+  //               bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+  //         ),
+  //         child: ListTile(
+  //           leading: SizedBox(
+  //               width: 18,
+  //               height: 18,
+  //               child: Image.asset(drawerItem.imageName,
+  //                   fit: BoxFit.scaleDown,
+  //                   color: (i == _passlastSelectedItem)
+  //                       ? AppColors.navigationSkybluecolor
+  //                       : AppColors.boldgreyBackground)),
+  //           title: Text(drawerItem.title,
+  //               //style: Styles.textStyleBlack16,
+  //               style: TextStyle(
+  //                   fontSize: 16,
+  //                   fontFamily: Constants.customFontSemiBoldFamily,
+  //                   fontWeight: FontWeight.w600,
+  //                   color: (i == _passlastSelectedItem)
+  //                       ? AppColors.navigationSkybluecolor
+  //                       : AppColors.textgreyThemecolor)),
+  //           // selected: i == _lastSelectedItem,
+  //           onTap: () => _onPassMgmtSelectItem(i, context),
+  //         ),
+  //       ),
+  //     );
+  //   }
+  //
+  //   return children;
+  // }
 
   List<Widget> _buildDrawerChildren(BuildContext context, DrawerState state) {
     List<Widget> children = [];
 
-    for (int i = 0; i < drawerItems.length; i++) {
-      MenuItem drawerItem = drawerItems[i];
+    for (int i = 0; i < mainDrawerItems.length; i++) {
+      MenuItem drawerItem = mainDrawerItems[i];
+      log('-_buildDrawerChildren-----drawerItem.title- ${drawerItem.title}--');
+
       children.add(
         drawerItem.numberOfChildren == 0
             ? Container(
@@ -702,7 +769,10 @@ class NavigationDrawer1 extends StatelessWidget {
                               ? AppColors.navigationSkybluecolor
                               : AppColors.textgreyThemecolor)),
                   //selected: i == _lastSelectedItem,
-                  onTap: () => _onSelectItem(i, context, state),
+                  onTap: () => _onSelectItem(
+                    i,
+                    context,
+                  ),
                 ),
               )
             : Theme(
@@ -732,7 +802,7 @@ class NavigationDrawer1 extends StatelessWidget {
                       },
                       trailing: const SizedBox.shrink(),
                       title: Text(
-                        Constants.securityfunctions,
+                        'SSSS',
                         style: TextStyle(
                             fontSize: 16,
                             fontFamily: Constants.customFontSemiBoldFamily,
@@ -767,6 +837,7 @@ class NavigationDrawer1 extends StatelessWidget {
 
     for (int i = 0; i < securityItems.length; i++) {
       MenuItem drawerItem = securityItems[i];
+      log('---drawerItem.title- ${drawerItem.title}--');
       children.add(
         drawerItem.numberOfChildren == 0
             ? Container(
@@ -845,9 +916,8 @@ class NavigationDrawer1 extends StatelessWidget {
                     childrenPadding: const EdgeInsets.only(left: 20),
                     //children padding
                     children: drawerItem.title == Constants.operations
-                        ? _expansionBuildDrawerChildren(context, state)
-                        : _securitySystemExpansionBuildDrawerChildren(
-                            context, state),
+                        ? _expansionBuildDrawerChildren(context)
+                        : _securitySystemExpansionBuildDrawerChildren(context),
                   ),
                 ),
               ),
@@ -858,7 +928,8 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   List<Widget> _securitySystemExpansionBuildDrawerChildren(
-      BuildContext context, DrawerState state) {
+    BuildContext context,
+  ) {
     List<Widget> children = [];
 
     for (int i = 0; i < securitySystemExpansionTileDrawerItems.length; i++) {
@@ -939,8 +1010,7 @@ class NavigationDrawer1 extends StatelessWidget {
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     //children padding
-                    children:
-                        buildDrawerChildren(context, state, drawerItem.title),
+                    children: buildDrawerChildren(context, drawerItem.title),
                   ),
                 ),
               ),
@@ -950,8 +1020,7 @@ class NavigationDrawer1 extends StatelessWidget {
     return children;
   }
 
-  List<Widget> _expansionBuildDrawerChildren(
-      BuildContext context, DrawerState state) {
+  List<Widget> _expansionBuildDrawerChildren(BuildContext context) {
     List<Widget> children = [];
 
     for (int i = 0; i < expansionTileDrawerItems.length; i++) {
@@ -1032,8 +1101,7 @@ class NavigationDrawer1 extends StatelessWidget {
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     //children padding
-                    children:
-                        buildDrawerChildren(context, state, drawerItem.title),
+                    children: buildDrawerChildren(context, drawerItem.title),
                   ),
                 ),
               ),
@@ -1143,7 +1211,10 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 5) {}
   }
 
-  _onSelectItem(int index, BuildContext context, DrawerState state) async {
+  _onSelectItem(
+    int index,
+    BuildContext context,
+  ) async {
     //Navigator.pop(context)
     if (index != 4) {
       _menuScaffoldKey.currentState!.closeDrawer();
@@ -1181,28 +1252,26 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   List<Widget> buildDrawerChildren(
-      BuildContext context, DrawerState state, String title) {
+    BuildContext context,
+    String title,
+  ) {
     log('--title--$title--');
     if (title == Constants.materialMovement) {
-      return _materialMovementBuildDrawerChildren(context, state);
+      return _genericExpandableDrawer(
+          context, materialMovementDrawerItems, title);
     } else if (title == Constants.securitySystemsTickets) {
       return _buildDrawerChildrenIncident(
         context,
-        state,
         securitySystemExpansionTileDrawerItems,
       );
     } else if (title == Constants.guarding) {
-      return _genericBuildDrawerChildren(
+      return _genericExpandableDrawer(
         context,
-        state,
         guardingOperationDrawerItems,
         title,
       );
-    } else if (title == Constants.keyManagementData) {
-      log('--title-keyManagementData---$title--');
-      return _keyManagementDataBuildDrawerChildren(context, state);
     } else {
-      return _passmgmtbuildDrawerChildren(context, state);
+      return _genericExpandableDrawer(context, passTileDrawerItems, title);
     }
   }
 }
